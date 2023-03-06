@@ -57,6 +57,7 @@ orientationHomeInfoDecoder =
                         (Json.Decode.field "count" Json.Decode.int)
                     )
                 )
+
         beneficiaryWithoutReferentParser =
             Json.Decode.field "data"
                 (Json.Decode.field "beneficiaryWithoutReferentCount"
@@ -64,6 +65,7 @@ orientationHomeInfoDecoder =
                         (Json.Decode.field "count" Json.Decode.int)
                     )
                 )
+
         beneficiaryWithoutStructureParser =
             Json.Decode.field "data"
                 (Json.Decode.field "beneficiaryWithoutStructureCount"
@@ -80,7 +82,6 @@ orientationHomeInfoDecoder =
                     )
                 )
 
-
         otherBeneficiaryWithReferentParser =
             Json.Decode.field "data"
                 (Json.Decode.field "otherBeneficiaryWithReferentCount"
@@ -88,6 +89,7 @@ orientationHomeInfoDecoder =
                         (Json.Decode.field "count" Json.Decode.int)
                     )
                 )
+
         otherBeneficiaryWithoutReferentParser =
             Json.Decode.field "data"
                 (Json.Decode.field "otherBeneficiaryWithoutReferentCount"
@@ -95,6 +97,7 @@ orientationHomeInfoDecoder =
                         (Json.Decode.field "count" Json.Decode.int)
                     )
                 )
+
         otherBeneficiaryWithoutStructureParser =
             Json.Decode.field "data"
                 (Json.Decode.field "otherBeneficiaryWithoutStructureCount"
@@ -147,7 +150,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
     where: {
       notebook: {
         _and: [
-          { members: { accountId: { _eq: $id } } }
+          { members: { accountId: { _eq: $id }, active: { _eq: true } } }
           { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
         ]
       }
@@ -160,7 +163,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
   beneficiaryWithoutReferentCount: beneficiary_aggregate(
     where: {
       notebook: {
-        members: { accountId: { _eq: $id } }
+          members: { accountId: { _eq: $id }, active: { _eq: true } }
         _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
 
       }
@@ -174,7 +177,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
   beneficiaryWithoutStructureCount: beneficiary_aggregate(
     where: {
       notebook: {
-        members: { accountId: { _eq: $id } }
+        members: { accountId: { _eq: $id }, active: { _eq: true } }
         _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
 
       }
@@ -187,7 +190,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
   }
   orientationRequestCount: beneficiary_aggregate(
     where: {
-      notebook: { members: { accountId: { _eq: $id } } }
+      notebook: { members: { accountId: { _eq: $id }, active: { _eq: true } } }
       orientationRequest: { decidedAt: { _is_null: true } }
     }
   ) {
@@ -198,7 +201,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
   otherBeneficiaryWithReferentCount: beneficiary_aggregate(
     where: {
       notebook: {
-        _not: { members: { accountId: { _eq: $id } } }
+        _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } }
         members: { memberType: { _eq: "referent" }, active: { _eq: true } }
       }
     }
@@ -211,7 +214,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
     where: {
       notebook: {
         _and: [
-          { _not: { members: { accountId: { _eq: $id } } } }
+          { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
           { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
         ]
       }
@@ -226,7 +229,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
     where: {
       notebook: {
         _and: [
-          { _not: { members: { accountId: { _eq: $id } } } }
+          { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
           { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
         ]
       }
@@ -239,7 +242,7 @@ query GetBeneficiaryDashboard($id: uuid!) {
   }
   otherOrientationRequestCount: beneficiary_aggregate(
     where: {
-      notebook: { _not: { members: { accountId: { _eq: $id } } } }
+      notebook: { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
       orientationRequest: { decidedAt: { _is_null: true } }
     }
   ) {
