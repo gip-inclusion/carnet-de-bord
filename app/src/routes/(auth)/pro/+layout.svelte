@@ -2,6 +2,7 @@
 	import type { MenuItem } from '$lib/types';
 	import Header from '$lib/ui/base/Header.svelte';
 	import Footer from '$lib/ui/base/Footer.svelte';
+	import NPSRating from '$lib/ui/NPSRating/NPSRating.svelte';
 	import { baseUrlForRole, homeForRole } from '$lib/routes';
 	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 
@@ -21,6 +22,7 @@
 	<div class="flex flex-col gap-8">
 		<slot />
 	</div>
+	<NPSRating />
 </div>
 
 <Footer />

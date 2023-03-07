@@ -1,0 +1,107 @@
+table:
+  name: nps_rating_dismissal
+  schema: public
+configuration:
+  column_config:
+    account_id:
+      custom_name: accountId
+    dismissed_at:
+      custom_name: dismissedAt
+  custom_column_names:
+    account_id: accountId
+    dismissed_at: dismissedAt
+  custom_root_fields: {}
+computed_fields:
+  - name: dismissed_at_posix_ms
+    definition:
+      function:
+        name: nps_rating_dismissal_dismissed_at_posix
+        schema: public
+    comment: The dismissed_at field, in Time.Posix format, for Elm.
+insert_permissions:
+  - role: admin_cdb
+    permission:
+      check:
+        account_id:
+          _eq: X-Hasura-User-Id
+      set:
+        account_id: x-hasura-User-Id
+      columns: []
+  - role: admin_structure
+    permission:
+      check:
+        account_id:
+          _eq: X-Hasura-User-Id
+      set:
+        account_id: x-hasura-User-Id
+      columns: []
+  - role: manager
+    permission:
+      check:
+        account_id:
+          _eq: X-Hasura-User-Id
+      set:
+        account_id: x-hasura-User-Id
+      columns: []
+  - role: orientation_manager
+    permission:
+      check:
+        account_id:
+          _eq: X-Hasura-User-Id
+      set:
+        account_id: x-hasura-User-Id
+      columns: []
+  - role: professional
+    permission:
+      check:
+        account_id:
+          _eq: X-Hasura-User-Id
+      set:
+        account_id: x-hasura-User-Id
+      columns: []
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - dismissed_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - dismissed_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: manager
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - dismissed_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - dismissed_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: professional
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - dismissed_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id

@@ -1,0 +1,66 @@
+table:
+  name: nps_rating
+  schema: public
+configuration:
+  column_config:
+    account_id:
+      custom_name: accountId
+    created_at:
+      custom_name: createdAt
+  custom_column_names:
+    account_id: accountId
+    created_at: createdAt
+  custom_root_fields: {}
+computed_fields:
+  - name: created_at_posix_ms
+    definition:
+      function:
+        name: nps_rating_created_at_posix
+        schema: public
+    comment: The created_at field, in Time.Posix format, for Elm.
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - created_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - created_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: manager
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - created_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - created_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
+  - role: professional
+    permission:
+      columns:
+        - id
+      computed_fields:
+        - created_at_posix_ms
+      filter:
+        account_id:
+          _eq: X-Hasura-User-Id
