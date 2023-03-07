@@ -33,9 +33,9 @@ jobs:
     needs: [scalingo-link]
     steps:
       - name: Add review app URL
-        uses: blablacar/action-sticky-description@df5650c838f2bbc860ab8edd059b6e255fd7bb82
+        uses: thollander/actions-comment-pull-request@a78d1ddb11c87ee75a43e5c7697e2feeabc32718
         with:
-          issue_number: ${{ github.event.number }}
-          marker: "## emplacement de l'URL de la review app ##"
+          pr_number: ${{ github.event.number }}
           message: |
-            Se rendre sur la [review app](https://cdb-app-review-pr${{ github.event.number }}.osc-fr1.scalingo.io).
+            La _review app_ a été déployée : https://cdb-app-review-pr${{ github.event.number }}.osc-fr1.scalingo.io.
+          comment_tag: reviewapp
