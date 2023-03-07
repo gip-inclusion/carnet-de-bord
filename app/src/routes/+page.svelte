@@ -117,23 +117,3 @@
 </div>
 
 <Footer />
-
-<style>
-	:global(.align-text-top
-			.font-normal
-			.grid
-			.grid-cols-3
-			.leading-10
-			.odd:bg-gray-100
-			.p-4
-			.pl-2
-			.pr-4
-			.pr-8
-			.pt-10
-			.pt-4
-			.py-3
-			.py-8
-			.rounded-lg
-			.shadow-dsfr) {
-	}
-</style>
