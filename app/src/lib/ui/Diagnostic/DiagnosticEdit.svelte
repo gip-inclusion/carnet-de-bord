@@ -7,12 +7,7 @@
 	import { goto } from '$app/navigation';
 	import { homeForRole } from '$lib/routes';
 	import { displayFullName } from '$lib/ui/format';
-	import { connectedUser, token, graphqlAPI } from '$lib/stores';
-	import { afterUpdate } from 'svelte';
-	import {
-		Elm as DiagnosticEditElm,
-		ProfessionalProjectOut,
-	} from '../../../../elm/DiagnosticEdit/Main.elm';
+	import { connectedUser } from '$lib/stores';
 
 	export let notebookId: string;
 	$: notebookPath =
@@ -40,50 +35,6 @@
 	$: beneficiary = publicNotebook?.beneficiary;
 	$: refSituations = $getNotebook.data?.refSituations;
 
-	let selectedSituations: string[] = [];
-	$: professionalProjects =
-		notebook?.professionalProjects?.map((professionalProject) => {
-			return {
-				id: professionalProject.id,
-				mobilityRadius: professionalProject.mobilityRadius,
-				romeId: professionalProject.rome_code?.id,
-			};
-		}) ?? [];
-
-	let elmNode: HTMLElement;
-	afterUpdate(() => {
-		if (!elmNode || !elmNode.parentNode) return;
-
-		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
-			node: elmNode,
-			flags: {
-				token: $token,
-				serverUrl: $graphqlAPI,
-				refSituations,
-				situations: notebook.situations,
-				professionalProjects: notebook.professionalProjects.map(
-					({ id, createdAt, updatedAt, mobilityRadius, rome_code }) => ({
-						id,
-						createdAt,
-						updatedAt,
-						mobilityRadius,
-						rome: rome_code,
-					})
-				),
-			},
-		});
-
-		app.ports.sendSelectedSituations.subscribe((updatedSelection: string[]) => {
-			selectedSituations = updatedSelection;
-		});
-
-		app.ports.sendUpdatedProfessionalProjects.subscribe(
-			(updatedProfessionalProjects: ProfessionalProjectOut[]) => {
-				professionalProjects = updatedProfessionalProjects;
-			}
-		);
-	});
-
 	function goToNotebook() {
 		goto(notebookPath);
 	}
@@ -92,19 +43,7 @@
 <LoaderIndicator result={$getNotebook}>
 	<Breadcrumbs segments={breadcrumbs} />
 	<div class="flex flex-col space-y-6">
-		<ProNotebookSocioProUpdate
-			{notebook}
-			{selectedSituations}
-			{professionalProjects}
-			onClose={goToNotebook}
-		>
-			{#key refSituations}
-				<div class="elm-node">
-					<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
-					<div bind:this={elmNode} />
-				</div>
-			{/key}
-		</ProNotebookSocioProUpdate>
+		<ProNotebookSocioProUpdate {notebook} {refSituations} onClose={goToNotebook} />
 	</div>
 </LoaderIndicator>
 

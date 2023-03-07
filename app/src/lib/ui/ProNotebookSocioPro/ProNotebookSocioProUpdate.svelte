@@ -4,6 +4,7 @@
 		GetNotebookQuery,
 		ProfessionalProjectInsertInput,
 		ProfessionalProjectUpdates,
+		RefSituation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { trackEvent } from '$lib/tracking/matomo';
@@ -17,8 +18,13 @@
 	} from './ProNotebookSocioPro.schema';
 	import { Checkbox, Form, Input, Select } from '$lib/ui/forms';
 	import { captureException } from '$lib/utils/sentry';
-	import type { ProfessionalProjectOut } from 'elm/DiagnosticEdit/Main.elm';
+	import {
+		Elm as DiagnosticEditElm,
+		type ProfessionalProjectOut,
+	} from '../../../../elm/DiagnosticEdit/Main.elm';
 	import type { GraphQLError } from 'graphql';
+	import { token, graphqlAPI } from '$lib/stores';
+	import { afterUpdate } from 'svelte';
 
 	export let onClose: () => void;
 	export let notebook: Pick<
@@ -34,9 +40,18 @@
 		| 'situations'
 		| 'professionalProjects'
 	>;
-	export let selectedSituations: string[];
-	export let professionalProjects: ProfessionalProjectOut[];
+	export let refSituations: RefSituation[];
+
+	let selectedSituations: string[] = [];
 	$: errorMessage = '';
+	$: professionalProjects =
+		notebook?.professionalProjects?.map((professionalProject) => {
+			return {
+				id: professionalProject.id,
+				mobilityRadius: professionalProject.mobilityRadius,
+				romeId: professionalProject.rome_code?.id,
+			};
+		}) ?? [];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument);
 	const updateSocioPro = mutation(updateSocioProStore);
@@ -158,6 +173,41 @@
 		}
 		return initialDate;
 	}
+
+	let elmNode: HTMLElement;
+
+	afterUpdate(() => {
+		if (!elmNode || !elmNode.parentNode) return;
+
+		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
+			node: elmNode,
+			flags: {
+				token: $token,
+				serverUrl: $graphqlAPI,
+				refSituations,
+				situations: notebook.situations,
+				professionalProjects: notebook.professionalProjects.map(
+					({ id, createdAt, updatedAt, mobilityRadius, rome_code }) => ({
+						id,
+						createdAt,
+						updatedAt,
+						mobilityRadius,
+						rome: rome_code,
+					})
+				),
+			},
+		});
+
+		app.ports.sendSelectedSituations.subscribe((updatedSelection: string[]) => {
+			selectedSituations = updatedSelection;
+		});
+
+		app.ports.sendUpdatedProfessionalProjects.subscribe(
+			(updatedProfessionalProjects: ProfessionalProjectOut[]) => {
+				professionalProjects = updatedProfessionalProjects;
+			}
+		);
+	});
 </script>
 
 <section class="flex flex-col w-full">
@@ -277,7 +327,12 @@
 			/>
 		</div>
 
-		<slot />
+		{#key refSituations}
+			<div class="elm-node">
+				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
+				<div bind:this={elmNode} />
+			</div>
+		{/key}
 
 		{#if errorMessage}
 			<div class="mb-4">
