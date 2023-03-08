@@ -16,6 +16,7 @@ import Json.Encode
 import List.Extra
 import Select
 import Set exposing (Set)
+import W3.Aria.Attributes exposing (expanded)
 
 
 type RomeData
@@ -75,6 +76,17 @@ toProfessionalProjectOut state =
 inputmode : String -> Attribute msg
 inputmode name =
     attribute "inputmode" name
+
+
+ariaExpanded : Bool -> Attribute Msg
+ariaExpanded value =
+    attribute "aria-expanded"
+        (if value then
+            "true"
+
+         else
+            "false"
+        )
 
 
 main : Program Flags Model Msg
@@ -196,6 +208,11 @@ init flags =
     )
 
 
+romeSelectorKey : String
+romeSelectorKey =
+    "RomeSelector"
+
+
 
 -- UPDATE
 
@@ -222,7 +239,7 @@ update msg model =
                                      , mobilityRadius = Nothing
                                      , romeData = NotAsked
                                      , selectedRome = Nothing
-                                     , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt (List.length model.professionalProjects)))
+                                     , selectState = Select.initState (Select.selectIdentifier (romeSelectorKey ++ String.fromInt (List.length model.professionalProjects)))
                                      }
                                    ]
                     }
@@ -518,7 +535,7 @@ view model =
     div [ class "pt-12" ]
         [ h2
             [ class "text-france-blue" ]
-            [ text "Projet(s) Professionnel(s)" ]
+            [ text "Projet(s) professionnel(s)" ]
         , div []
             (model.professionalProjects
                 |> List.indexedMap
@@ -532,6 +549,7 @@ view model =
                                             [ class "fr-select text-left"
                                             , type_ "button"
                                             , onClick (OpenRomeSearch index)
+                                            , ariaExpanded (Select.isMenuOpen project.selectState)
                                             ]
                                             [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> text
                                             ]
@@ -546,18 +564,31 @@ view model =
                                                             _ ->
                                                                 Select.loading False
                                                 in
-                                                Html.map
-                                                    (SelectMsg index)
-                                                    (Styled.toUnstyled <|
-                                                        Select.view
-                                                            (Select.menu
-                                                                |> Select.state project.selectState
-                                                                |> Select.menuItems (romeDataToMenuItems project.romeData)
-                                                                |> Select.placeholder "Recherchez un métier ou un code ROME"
-                                                                |> Select.loadingMessage "Chargement..."
-                                                                |> showloading
-                                                            )
-                                                    )
+                                                div []
+                                                    [ Html.map
+                                                        (SelectMsg index)
+                                                        (Styled.toUnstyled <|
+                                                            Select.view
+                                                                (Select.menu
+                                                                    |> Select.state project.selectState
+                                                                    |> Select.menuItems (romeDataToMenuItems project.romeData)
+                                                                    |> Select.placeholder "Rechercher un métier ou un code ROME"
+                                                                    |> Select.loadingMessage "Chargement..."
+                                                                    |> Select.ariaDescribedBy ("select-usage-" ++ String.fromInt index)
+                                                                    |> showloading
+                                                                )
+                                                        )
+                                                    , if project.selectState |> Select.isMenuOpen then
+                                                        p [ class "sr-only", id ("select-usage-" ++ String.fromInt index) ] [ text "Utilisez les touches flèches pour naviguer dans la liste des suggestions" ]
+
+                                                      else
+                                                        text ""
+                                                    , if project.selectState |> Select.isMenuOpen then
+                                                        label [ class "sr-only", for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ text "Rechercher un métier ou un code ROME" ]
+
+                                                      else
+                                                        text ""
+                                                    ]
 
                                             _ ->
                                                 text ""
