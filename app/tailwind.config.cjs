@@ -1,5 +1,5 @@
 const config = {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
+	content: ['./src/**/*.{html,js,svelte,ts}', './elm/**/*.elm'],
 	theme: {
 		extend: {
 			boxShadow: { dsfr: '0px 2px 6px rgba(0, 0, 18, 0.16)' },
