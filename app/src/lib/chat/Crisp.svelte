@@ -8,9 +8,11 @@
 	let unsubscribe: () => void;
 
 	onMount(async () => {
-		window.$crisp = [];
-		window.CRISP_WEBSITE_ID = websiteId;
-		window.CRISP_COOKIE_DOMAIN = window.location.hostname;
+		Object.assign(window, {
+			$crisp: [],
+			CRISP_WEBSITE_ID: websiteId,
+			CRISP_COOKIE_DOMAIN: window.location.hostname,
+		});
 
 		(function () {
 			const d = document;
