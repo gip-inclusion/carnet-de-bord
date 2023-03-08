@@ -14,7 +14,7 @@ Fonctionnalité: Modification des dispositifs d'accompagnement d'une structure
 		Quand je clique sur "Enregistrer les modifications"
 		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
 		Alors l'option "Social" est sélectionnée
-		Quand un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Structures"
 		Quand je clique sur "Éditer la structure Groupe NS"
     Alors je décoche "Social"
@@ -35,7 +35,7 @@ Fonctionnalité: Modification des dispositifs d'accompagnement d'une structure
 		Quand je clique sur "Enregistrer les modifications"
 		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
 		Alors l'option "Social" est sélectionnée
-		Quand un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Quand un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Structures"
 		Quand je clique sur "Éditer la structure Interlogement 93"
     Alors je décoche "Social"

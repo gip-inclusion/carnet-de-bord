@@ -6,7 +6,7 @@ Fonctionnalité: Import structures
 	Je veux pouvoir importer une liste de structures
 
 	Scénario: Import de structures
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Alors je vois "État du territoire"
 		Quand je clique sur "Importer des structures"
 		Alors je vois "Importer des structures"

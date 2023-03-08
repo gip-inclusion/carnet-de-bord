@@ -5,12 +5,12 @@ const assert = require('assert');
 async function importOrientationFile(filename) {
 	await onBoardingSetup(
 		'administrateur de territoire',
-		'support.carnet-de-bord+cd93@fabrique.social.gouv.fr',
+		'contact+cd93@carnetdebord.inclusion.beta.gouv.fr',
 		true
 	);
 	const uuid = await loginStub(
 		'administrateur de territoire',
-		'support.carnet-de-bord+cd93@fabrique.social.gouv.fr'
+		'contact+cd93@carnetdebord.inclusion.beta.gouv.fr'
 	);
 	I.amOnPage(`/auth/jwt/${uuid}`);
 	I.click('Continuer sur Carnet de bord');

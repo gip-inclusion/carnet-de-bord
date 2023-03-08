@@ -6,7 +6,7 @@ Fonctionnalité: Modification d'une structure
 	Je veux pouvoir modifier à les informations d'une structure
 
 	Scénario: Mise à jour d'une structure
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd51@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd51@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Structures"
 		Alors je vois "Interlogement 51" dans le tableau "Liste des structures"
 		Quand je clique sur "Éditer la structure Interlogement 51"
@@ -17,7 +17,7 @@ Fonctionnalité: Modification d'une structure
 		Alors je vois "Châlons-en-Champagne" sur la ligne "Interlogement 51"
 
 	Scénario: Mise à jour des dispositifs d'accompagnement d'une structure
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd51@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd51@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Structures"
 		Alors je vois "Interlogement 51" dans le tableau "Liste des structures"
 		Alors je vois "PE (Professionnel)" sur la ligne "Interlogement 51"

@@ -6,7 +6,7 @@ Fonctionnalité: Suppression d'un manager
 	Je veux pouvoir supprimer un manager d'un déploiement
 
 	Scénario: Suppression d'un manager
-		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
+		Soit un "administrateur cdb" authentifié avec l'email "contact+admin@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "expérimentation 51"
 		Alors je vois "Déploiement expérimentation 51"
 		Quand je clique sur "Supprimer Gérard Manvol"

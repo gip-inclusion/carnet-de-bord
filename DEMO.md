@@ -11,7 +11,7 @@ Il existe plusieurs roles dans l'application Carnet de bord. Chacun correspondan
 ## Compte Administrateur (role: admin_cdb)
 | username | email |
 | --- | --- |
-| admin | support.carnet-de-bord+admin@fabrique.social.gouv.fr |
+| admin | contact+admin@carnetdebord.inclusion.beta.gouv.fr |
 
 Ce compte permet de créer un déploiement et d'y assigner un administrateur de structure.
 Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la base de données.
@@ -19,8 +19,8 @@ Il existe 2 déploiement dans le jeu de données de test qui sert à peupler la 
 ## Compte admin de territoire (role: manager)
 | username | email |
 | --- | --- |
-| manager.cd93 | support.carnet-de-bord+cd93@fabrique.social.gouv.fr |
-| manager.cd51 | support.carnet-de-bord+cd51@fabrique.social.gouv.fr |
+| manager.cd93 | contact+cd93@carnetdebord.inclusion.beta.gouv.fr |
+| manager.cd51 | contact+cd51@carnetdebord.inclusion.beta.gouv.fr |
 
 ## Compte admin de structure (role: admin_structure)
 | username | email | structure | onboarding |
