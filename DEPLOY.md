@@ -20,7 +20,7 @@ Préambule : Pour lancer les commandes de l'outils en ligne de commande hasura, 
 Lorsque suite à une mise en production, le modèle de données évolue, il est utile de vérifier que les migrations ont été appliquées. En local, lancer:
 
 ```
-hasura migrate status --endpoint https://hasura-carnet-de-bord.fabrique.social.gouv.fr --project=./hasura
+hasura migrate status --endpoint https://hasura.carnetdebord.inclusion.beta.gouv.fr --project=./hasura
 ```
 
 qui permet de voir les migrations de la production et leur état d'application
@@ -32,7 +32,7 @@ Dans le cas d'une migration qui a échoué, consulter les logs sur Scalingo.
 Soit l'erreur est liée à des données et dans ce cas il faut corriger les données depuis l'admin `hasura`
 
 ```
-hasura console --endpoint https://hasura-carnet-de-bord.fabrique.social.gouv.fr --project=./hasura
+hasura console --endpoint https://hasura.carnetdebord.inclusion.beta.gouv.fr --project=./hasura
 ```
 
 et relancer l'application Scalingo Hasura (`cdb-hasura-production`).

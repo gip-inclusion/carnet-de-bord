@@ -1,6 +1,6 @@
 # Carnet de bord
 
-[Carnet de bord](https://carnet-de-bord.fabrique.social.gouv.fr/) est un service public dont l'objectif est de faciliter la coordination des échanges entre acteurs et simplifier la lecture des parcours d’insertion.
+[Carnet de bord](https://carnetdebord.inclusion.beta.gouv.fr/) est un service public dont l'objectif est de faciliter la coordination des échanges entre acteurs et simplifier la lecture des parcours d’insertion.
 
 ![Page d'accueil du site Carnet de bord](./docs/screenshot_cdb_20220819.png)
 
@@ -17,7 +17,7 @@ Développé dans le cadre du volet numérique du projet de [Service Public de l�
 
 La plateforme est développée, maintenue et supervisée par l'équipe "Carnet de bord" issue de l'incubateur d'état [BetaGouv](https://beta.gouv.fr), au sein du [GIP de la Plateforme de l'inclusion](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045614680), dont les principaux membres sont le Ministère du Travail, du Plein emploi et de l'Insertion et Pôle emploi.
 
-La plateforme est hébergée et opérée en production par les équipes et au sein de l'infrastructure de [la Fabrique numérique des Ministères Sociaux](https://www.fabrique.social.gouv.fr/).
+La plateforme est hébergée et opérée en production par les équipes sur Scalingo (https://scalingo.com).
 
 ## Architecture
 

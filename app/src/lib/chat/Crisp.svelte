@@ -51,6 +51,9 @@
 				],
 			],
 		]);
+
+		// disable warning about shimmed JS methods (caused by Sentry)
+		crisp.push(['safe', true]);
 	});
 	onDestroy(unsubscribe);
 </script>
