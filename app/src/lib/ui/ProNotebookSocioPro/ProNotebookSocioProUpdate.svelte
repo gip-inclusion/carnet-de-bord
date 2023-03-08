@@ -3,7 +3,6 @@
 	import type {
 		GetNotebookQuery,
 		ProfessionalProjectInsertInput,
-		ProfessionalProjectUpdates,
 		RefSituation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
@@ -94,29 +93,15 @@
 			.map(({ id }) => id)
 			.filter((id) => !professionalProjectIds.includes(id));
 
-		const professionalProjectsToAdd: ProfessionalProjectInsertInput[] = professionalProjects
-			.filter(({ id }) => !id)
-			.map((project) => {
+		const professionalProjectsToAdd: ProfessionalProjectInsertInput[] = professionalProjects.map(
+			(project) => {
 				return {
 					notebookId: notebook.id,
 					mobilityRadius: project.mobilityRadius,
 					romeCodeId: project.romeId,
 				};
-			});
-
-		const professionalProjectsToUpdate: ProfessionalProjectUpdates[] = professionalProjects
-			.filter(({ id }) => id)
-			.map((project) => {
-				return {
-					where: {
-						id: { _eq: project.id },
-					},
-					_set: {
-						mobilityRadius: project.mobilityRadius,
-						romeCodeId: project.romeId,
-					},
-				};
-			});
+			}
+		);
 
 		const payload = {
 			id: notebook.id,
@@ -128,7 +113,6 @@
 			lastJobEndedAt: values.lastJobEndedAt.toString() || null,
 			professionalProjectsToAdd,
 			professionalProjectIdsToDelete,
-			professionalProjectsToUpdate,
 			situationsToAdd,
 			situationIdsToDelete,
 		};
@@ -148,7 +132,10 @@
 				if (/professional_project_notebook_id_rome_code_id_key/.test(error.message)) {
 					return "Il n'est pas possible de créer deux projets professionnels pour le même emploi.";
 				}
-				return '';
+				if (/notebook_id_rome_code_id_null_idx/.test(error.message)) {
+					return "Il n'est pas possible d'avoir plusieurs projets professionnels en construction.";
+				}
+				return error.message;
 			})
 			.join('\n');
 	}
@@ -351,3 +338,10 @@
 		</div>
 	</Form>
 </section>
+
+<style>
+	/* this rules overrides the tailwind box shadow that mimic the outline on focus */
+	:global(.elm-select input[type='text']) {
+		box-shadow: none;
+	}
+</style>

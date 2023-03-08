@@ -8,7 +8,6 @@ mutation UpdateSocioPro(
   $lastJobEndedAt: date
   $professionalProjectsToAdd: [professional_project_insert_input!]!
   $professionalProjectIdsToDelete: [uuid!]!
-  $professionalProjectsToUpdate: [professional_project_updates!]!
   $situationsToAdd: [notebook_situation_insert_input!]!
   $situationIdsToDelete: [uuid!]!
 ) {
@@ -28,10 +27,13 @@ mutation UpdateSocioPro(
   delete_professional_project(where: { id: { _in: $professionalProjectIdsToDelete } }) {
     affected_rows
   }
-  insert_professional_project(objects: $professionalProjectsToAdd) {
-    affected_rows
-  }
-  update_professional_project_many(updates: $professionalProjectsToUpdate) {
+  insert_professional_project(
+    objects: $professionalProjectsToAdd
+    on_conflict: {
+      constraint: notebook_id_rome_code_id_null_idx
+      update_columns: [mobilityRadius, romeCodeId]
+    }
+  ) {
     affected_rows
   }
   update_notebook_situation(

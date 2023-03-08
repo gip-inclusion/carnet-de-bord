@@ -46,10 +46,3 @@
 		<ProNotebookSocioProUpdate {notebook} {refSituations} onClose={goToNotebook} />
 	</div>
 </LoaderIndicator>
-
-<style>
-	/* this rules overrides the tailwind box shadow that mimic the outline on focus */
-	:global(.elm-select input[type='text']) {
-		box-shadow: none;
-	}
-</style>

@@ -10289,9 +10289,9 @@ export type ProfessionalProject = {
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
-	romeCodeId: Scalars['uuid'];
+	romeCodeId?: Maybe<Scalars['uuid']>;
 	/** An object relationship */
-	rome_code: RomeCode;
+	rome_code?: Maybe<RomeCode>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -10385,8 +10385,8 @@ export type ProfessionalProjectBoolExp = {
 
 /** unique or primary key constraints on table "professional_project" */
 export enum ProfessionalProjectConstraint {
-	/** unique or primary key constraint on columns "rome_code_id", "notebook_id" */
-	ProfessionalProjectNotebookIdRomeCodeIdKey = 'professional_project_notebook_id_rome_code_id_key',
+	/** unique or primary key constraint on columns "notebook_id" */
+	NotebookIdRomeCodeIdNullIdx = 'notebook_id_rome_code_id_null_idx',
 	/** unique or primary key constraint on columns "id" */
 	ProfessionalProjectPkey = 'professional_project_pkey',
 }
@@ -15438,7 +15438,6 @@ export type UpdateSocioProMutationVariables = Exact<{
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	professionalProjectsToAdd: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
 	professionalProjectIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
-	professionalProjectsToUpdate: Array<ProfessionalProjectUpdates> | ProfessionalProjectUpdates;
 	situationsToAdd: Array<NotebookSituationInsertInput> | NotebookSituationInsertInput;
 	situationIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
@@ -15454,10 +15453,6 @@ export type UpdateSocioProMutation = {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
-	update_professional_project_many?: Array<{
-		__typename?: 'professional_project_mutation_response';
-		affected_rows: number;
-	} | null> | null;
 	update_notebook_situation?: {
 		__typename?: 'notebook_situation_mutation_response';
 		affected_rows: number;
@@ -15726,7 +15721,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			mobilityRadius?: number | null;
 			updatedAt?: string | null;
 			createdAt?: string | null;
-			rome_code: { __typename?: 'rome_code'; id: string; label: string };
+			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -15919,7 +15914,7 @@ export type GetNotebookByIdQuery = {
 			mobilityRadius?: number | null;
 			updatedAt?: string | null;
 			createdAt?: string | null;
-			rome_code: { __typename?: 'rome_code'; id: string; label: string };
+			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -16105,7 +16100,7 @@ export type NotebookFragmentFragment = {
 		mobilityRadius?: number | null;
 		updatedAt?: string | null;
 		createdAt?: string | null;
-		rome_code: { __typename?: 'rome_code'; id: string; label: string };
+		rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 	}>;
 	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 	beneficiary: {
@@ -16786,7 +16781,7 @@ export type GetNotebookQuery = {
 				mobilityRadius?: number | null;
 				createdAt?: string | null;
 				updatedAt?: string | null;
-				rome_code: { __typename?: 'rome_code'; id: string; label: string };
+				rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 			}>;
 			situations: Array<{
 				__typename?: 'notebook_situation';
@@ -23792,26 +23787,6 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: {
-						kind: 'Variable',
-						name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
-					},
-					type: {
-						kind: 'NonNullType',
-						type: {
-							kind: 'ListType',
-							type: {
-								kind: 'NonNullType',
-								type: {
-									kind: 'NamedType',
-									name: { kind: 'Name', value: 'professional_project_updates' },
-								},
-							},
-						},
-					},
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situationsToAdd' } },
 					type: {
 						kind: 'NonNullType',
@@ -23963,22 +23938,29 @@ export const UpdateSocioProDocument = {
 									name: { kind: 'Name', value: 'professionalProjectsToAdd' },
 								},
 							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_professional_project_many' },
-						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'updates' },
+								name: { kind: 'Name', value: 'on_conflict' },
 								value: {
-									kind: 'Variable',
-									name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'constraint' },
+											value: { kind: 'EnumValue', value: 'notebook_id_rome_code_id_null_idx' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'update_columns' },
+											value: {
+												kind: 'ListValue',
+												values: [
+													{ kind: 'EnumValue', value: 'mobilityRadius' },
+													{ kind: 'EnumValue', value: 'romeCodeId' },
+												],
+											},
+										},
+									],
 								},
 							},
 						],
