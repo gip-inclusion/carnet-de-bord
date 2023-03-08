@@ -621,7 +621,7 @@ view model =
                     )
             )
         , button
-            [ class "fr-btn"
+            [ class "fr-btn fr-btn--secondary"
             , type_ "button"
             , onClick AddEmptyProfessionalProject
             , disabled model.professionalProjectsMaxCountReached

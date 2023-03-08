@@ -1,6 +1,5 @@
 #language: fr
 
-# TODO : à adapter
 Fonctionnalité: Ajout de projet professionnel dans le carnet d'un bénéficiaire
 	En tant que pro
 	Je veux pouvoir modifier le code ROME d'un carnet

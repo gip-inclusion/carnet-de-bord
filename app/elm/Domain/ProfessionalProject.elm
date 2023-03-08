@@ -35,12 +35,6 @@ type alias ProfessionalProject =
     , mobilityRadius : Maybe Int
     , createdAt : Maybe Date
     , updatedAt : Maybe Date
-
-    -- , minimumHourlyWage : Float
-    -- , workingTime : Maybe WorkingTime
-    -- , createdBy : String
-    -- , updatedBy : String
-    -- , themes : List Theme
     }
 
 

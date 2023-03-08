@@ -24,7 +24,7 @@
 	import type { GraphQLError } from 'graphql';
 	import { token, graphqlAPI } from '$lib/stores';
 	import { afterUpdate } from 'svelte';
-
+	import { sticky } from '$lib/actions/sticky';
 	export let onClose: () => void;
 	export let notebook: Pick<
 		GetNotebookQuery['notebook_public_view'][0]['notebook'],
@@ -40,6 +40,14 @@
 		| 'professionalProjects'
 	>;
 	export let refSituations: RefSituation[];
+
+	let stuck = false;
+	const stickToTop = false;
+	let formBottom: HTMLElement;
+
+	function handleStuck(e: CustomEvent<{ isStuck: boolean }>) {
+		stuck = e.detail.isStuck;
+	}
 
 	let selectedSituations: string[] = [];
 	$: errorMessage = '';
@@ -121,6 +129,7 @@
 		await updateSocioPro(payload);
 		if ($updateSocioProStore.error) {
 			errorMessage = formatErrors($updateSocioProStore.error.graphQLErrors);
+			formBottom.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
 		} else {
 			close();
 		}
@@ -331,17 +340,37 @@
 			</div>
 		{/if}
 
-		<div class="flex flex-row gap-6 pt-4 pb-12">
-			<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}>Enregistrer</Button
-			>
-			<Button outline on:click={close}>Annuler</Button>
+		<div
+			class="flex flex-row gap-6 pt-4 pb-4 bg-white sticky bottom-0"
+			use:sticky={{ stickToTop }}
+			on:stuck={handleStuck}
+			class:bottom-banner-container={stuck}
+		>
+			<div class:bottom-banner={stuck} class:fr-container={stuck}>
+				<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}
+					>Enregistrer le diagnostic</Button
+				>
+				<Button outline on:click={close}>Annuler</Button>
+			</div>
 		</div>
+		<div bind:this={formBottom} />
 	</Form>
 </section>
 
 <style>
-	/* this rules overrides the tailwind box shadow that mimic the outline on focus */
+	/* this rule overrides the tailwind box shadow that mimic the outline on focus */
 	:global(.elm-select input[type='text']) {
 		box-shadow: none;
+	}
+	.bottom-banner-container {
+		position: fixed !important;
+		left: 0;
+		right: 0;
+		box-shadow: 1px 1px 4px;
+		padding-left: 0px;
+	}
+
+	.bottom-banner-container > .fr-container {
+		padding-left: 8px;
 	}
 </style>
