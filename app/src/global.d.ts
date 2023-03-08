@@ -4,6 +4,7 @@
 interface Window {
 	$crisp: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 	CRISP_WEBSITE_ID: string;
+	CRISP_COOKIE_DOMAIN: string;
 	dsfr: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 

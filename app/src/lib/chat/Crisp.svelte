@@ -10,6 +10,7 @@
 	onMount(async () => {
 		window.$crisp = [];
 		window.CRISP_WEBSITE_ID = websiteId;
+		window.CRISP_COOKIE_DOMAIN = window.location.hostname;
 
 		(function () {
 			const d = document;
