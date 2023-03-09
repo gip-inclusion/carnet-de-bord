@@ -16,7 +16,6 @@ import Json.Encode
 import List.Extra
 import Select
 import Set exposing (Set)
-import W3.Aria.Attributes exposing (expanded)
 
 
 type RomeData
