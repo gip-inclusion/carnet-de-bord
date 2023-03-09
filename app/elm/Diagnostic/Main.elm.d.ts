@@ -1,6 +1,23 @@
+import type { RomeCode, ProfessionalProject } from '$lib/graphql/_gen/typed-document-nodes';
+
 export type Creator = {
 	professional?: { firstname?: string; lastname?: string; structure: { name: string } };
 	orientation_manager?: { firstname?: string; lastname?: string };
+};
+
+export type RefSituation = { id: string; theme: string; description: string };
+
+export type ProfessionalProjectElm = Pick<
+	ProfessionalProject,
+	| 'id'
+	| 'updatedAt'
+	| 'createdAt'
+	| 'mobilityRadius'
+	| 'hourlyRate'
+	| 'contract_type'
+	| 'employment_type'
+> & {
+	rome?: Pick<RomeCode, 'id' | 'label'>;
 };
 
 export type Flags = {
@@ -12,20 +29,10 @@ export type Flags = {
 		educationLevel: string | undefined;
 		lastJobEndedAt: string | undefined;
 	};
-	professionalProjects: {
-		id: string;
-		rome: { id: string; label: string };
-		createdAt: string;
-		updatedAt: string;
-		mobilityRadius: Number | undefined;
-	}[];
+	professionalProjects: ProfessionalProjectElm[];
 	peGeneralData: { [name: string]: string };
 	personalSituations: {
-		refSituation?: {
-			id: string;
-			description: string;
-			theme: string;
-		};
+		refSituation?: RefSituation;
 		createdAt: string;
 		creator?: Creator;
 	}[];

@@ -22,8 +22,8 @@ CREATE TABLE "public"."employment_type" (
   PRIMARY KEY ("id")
 );
 
-INSERT INTO "public"."employment_type"("id", "label") VALUES (E'full-time', E'Temps plein');
-INSERT INTO "public"."employment_type"("id", "label") VALUES (E'part-time', E'Temps partiel');
+INSERT INTO "public"."employment_type"("id", "label") VALUES (E'full_time', E'Temps plein');
+INSERT INTO "public"."employment_type"("id", "label") VALUES (E'part_time', E'Temps partiel');
 
 alter table "public"."professional_project" add column "contract_type_id" text null;
 alter table "public"."professional_project" add column "employment_type_id" text null;

@@ -2448,6 +2448,173 @@ export type CitextComparisonExp = {
 	_similar?: InputMaybe<Scalars['citext']>;
 };
 
+/** columns and relationships of "contract_type" */
+export type ContractType = {
+	__typename?: 'contract_type';
+	id: Scalars['String'];
+	label: Scalars['String'];
+};
+
+/** aggregated selection of "contract_type" */
+export type ContractTypeAggregate = {
+	__typename?: 'contract_type_aggregate';
+	aggregate?: Maybe<ContractTypeAggregateFields>;
+	nodes: Array<ContractType>;
+};
+
+/** aggregate fields of "contract_type" */
+export type ContractTypeAggregateFields = {
+	__typename?: 'contract_type_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ContractTypeMaxFields>;
+	min?: Maybe<ContractTypeMinFields>;
+};
+
+/** aggregate fields of "contract_type" */
+export type ContractTypeAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<ContractTypeSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "contract_type". All fields are combined with a logical 'AND'. */
+export type ContractTypeBoolExp = {
+	_and?: InputMaybe<Array<ContractTypeBoolExp>>;
+	_not?: InputMaybe<ContractTypeBoolExp>;
+	_or?: InputMaybe<Array<ContractTypeBoolExp>>;
+	id?: InputMaybe<StringComparisonExp>;
+	label?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "contract_type" */
+export enum ContractTypeConstraint {
+	/** unique or primary key constraint on columns "id" */
+	ContractTypePkey = 'contract_type_pkey',
+}
+
+export enum ContractTypeEnum {
+	/** Apprentissage */
+	Apprentissage = 'apprentissage',
+	/** CDD */
+	Cdd = 'cdd',
+	/** CDI */
+	Cdi = 'cdi',
+	/** Contrat de professionnalisation */
+	ContratProfessionnalisation = 'contrat_professionnalisation',
+	/** Intermi */
+	Interim = 'interim',
+	/** Libérale */
+	Liberale = 'liberale',
+	/** Portage salarial */
+	PortageSalarial = 'portage_salarial',
+	/** Saisonnier */
+	Saisonnier = 'saisonnier',
+}
+
+/** Boolean expression to compare columns of type "contract_type_enum". All fields are combined with logical 'AND'. */
+export type ContractTypeEnumComparisonExp = {
+	_eq?: InputMaybe<ContractTypeEnum>;
+	_in?: InputMaybe<Array<ContractTypeEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<ContractTypeEnum>;
+	_nin?: InputMaybe<Array<ContractTypeEnum>>;
+};
+
+/** input type for inserting data into table "contract_type" */
+export type ContractTypeInsertInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type ContractTypeMaxFields = {
+	__typename?: 'contract_type_max_fields';
+	id?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type ContractTypeMinFields = {
+	__typename?: 'contract_type_min_fields';
+	id?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "contract_type" */
+export type ContractTypeMutationResponse = {
+	__typename?: 'contract_type_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<ContractType>;
+};
+
+/** input type for inserting object relation for remote table "contract_type" */
+export type ContractTypeObjRelInsertInput = {
+	data: ContractTypeInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<ContractTypeOnConflict>;
+};
+
+/** on_conflict condition type for table "contract_type" */
+export type ContractTypeOnConflict = {
+	constraint: ContractTypeConstraint;
+	update_columns?: Array<ContractTypeUpdateColumn>;
+	where?: InputMaybe<ContractTypeBoolExp>;
+};
+
+/** Ordering options when selecting data from "contract_type". */
+export type ContractTypeOrderBy = {
+	id?: InputMaybe<OrderBy>;
+	label?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: contract_type */
+export type ContractTypePkColumnsInput = {
+	id: Scalars['String'];
+};
+
+/** select columns of table "contract_type" */
+export enum ContractTypeSelectColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
+/** input type for updating data in table "contract_type" */
+export type ContractTypeSetInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "contract_type" */
+export type ContractTypeStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ContractTypeStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ContractTypeStreamCursorValueInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "contract_type" */
+export enum ContractTypeUpdateColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
+export type ContractTypeUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ContractTypeSetInput>;
+	where: ContractTypeBoolExp;
+};
+
 /** ordering argument of a cursor */
 export enum CursorOrdering {
 	/** ascending ordering of the cursor */
@@ -2836,6 +3003,161 @@ export type DeploymentUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<DeploymentSetInput>;
 	where: DeploymentBoolExp;
+};
+
+/** columns and relationships of "employment_type" */
+export type EmploymentType = {
+	__typename?: 'employment_type';
+	id: Scalars['String'];
+	label: Scalars['String'];
+};
+
+/** aggregated selection of "employment_type" */
+export type EmploymentTypeAggregate = {
+	__typename?: 'employment_type_aggregate';
+	aggregate?: Maybe<EmploymentTypeAggregateFields>;
+	nodes: Array<EmploymentType>;
+};
+
+/** aggregate fields of "employment_type" */
+export type EmploymentTypeAggregateFields = {
+	__typename?: 'employment_type_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<EmploymentTypeMaxFields>;
+	min?: Maybe<EmploymentTypeMinFields>;
+};
+
+/** aggregate fields of "employment_type" */
+export type EmploymentTypeAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<EmploymentTypeSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "employment_type". All fields are combined with a logical 'AND'. */
+export type EmploymentTypeBoolExp = {
+	_and?: InputMaybe<Array<EmploymentTypeBoolExp>>;
+	_not?: InputMaybe<EmploymentTypeBoolExp>;
+	_or?: InputMaybe<Array<EmploymentTypeBoolExp>>;
+	id?: InputMaybe<StringComparisonExp>;
+	label?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "employment_type" */
+export enum EmploymentTypeConstraint {
+	/** unique or primary key constraint on columns "id" */
+	EmploymentTypePkey = 'employment_type_pkey',
+}
+
+export enum EmploymentTypeEnum {
+	/** Temps plein */
+	FullTime = 'full_time',
+	/** Temps partiel */
+	PartTime = 'part_time',
+}
+
+/** Boolean expression to compare columns of type "employment_type_enum". All fields are combined with logical 'AND'. */
+export type EmploymentTypeEnumComparisonExp = {
+	_eq?: InputMaybe<EmploymentTypeEnum>;
+	_in?: InputMaybe<Array<EmploymentTypeEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<EmploymentTypeEnum>;
+	_nin?: InputMaybe<Array<EmploymentTypeEnum>>;
+};
+
+/** input type for inserting data into table "employment_type" */
+export type EmploymentTypeInsertInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type EmploymentTypeMaxFields = {
+	__typename?: 'employment_type_max_fields';
+	id?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type EmploymentTypeMinFields = {
+	__typename?: 'employment_type_min_fields';
+	id?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "employment_type" */
+export type EmploymentTypeMutationResponse = {
+	__typename?: 'employment_type_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<EmploymentType>;
+};
+
+/** input type for inserting object relation for remote table "employment_type" */
+export type EmploymentTypeObjRelInsertInput = {
+	data: EmploymentTypeInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<EmploymentTypeOnConflict>;
+};
+
+/** on_conflict condition type for table "employment_type" */
+export type EmploymentTypeOnConflict = {
+	constraint: EmploymentTypeConstraint;
+	update_columns?: Array<EmploymentTypeUpdateColumn>;
+	where?: InputMaybe<EmploymentTypeBoolExp>;
+};
+
+/** Ordering options when selecting data from "employment_type". */
+export type EmploymentTypeOrderBy = {
+	id?: InputMaybe<OrderBy>;
+	label?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: employment_type */
+export type EmploymentTypePkColumnsInput = {
+	id: Scalars['String'];
+};
+
+/** select columns of table "employment_type" */
+export enum EmploymentTypeSelectColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
+/** input type for updating data in table "employment_type" */
+export type EmploymentTypeSetInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "employment_type" */
+export type EmploymentTypeStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: EmploymentTypeStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type EmploymentTypeStreamCursorValueInput = {
+	id?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "employment_type" */
+export enum EmploymentTypeUpdateColumn {
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Label = 'label',
+}
+
+export type EmploymentTypeUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<EmploymentTypeSetInput>;
+	where: EmploymentTypeBoolExp;
 };
 
 /** columns and relationships of "external_data" */
@@ -3833,10 +4155,18 @@ export type MutationRoot = {
 	delete_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
 	/** delete single row from the table: "beneficiary_structure" */
 	delete_beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
+	/** delete data from the table: "contract_type" */
+	delete_contract_type?: Maybe<ContractTypeMutationResponse>;
+	/** delete single row from the table: "contract_type" */
+	delete_contract_type_by_pk?: Maybe<ContractType>;
 	/** delete data from the table: "deployment" */
 	delete_deployment?: Maybe<DeploymentMutationResponse>;
 	/** delete single row from the table: "deployment" */
 	delete_deployment_by_pk?: Maybe<Deployment>;
+	/** delete data from the table: "employment_type" */
+	delete_employment_type?: Maybe<EmploymentTypeMutationResponse>;
+	/** delete single row from the table: "employment_type" */
+	delete_employment_type_by_pk?: Maybe<EmploymentType>;
 	/** delete data from the table: "external_data" */
 	delete_external_data?: Maybe<ExternalDataMutationResponse>;
 	/** delete single row from the table: "external_data" */
@@ -3975,10 +4305,18 @@ export type MutationRoot = {
 	insert_beneficiary_structure?: Maybe<BeneficiaryStructureMutationResponse>;
 	/** insert a single row into the table: "beneficiary_structure" */
 	insert_beneficiary_structure_one?: Maybe<BeneficiaryStructure>;
+	/** insert data into the table: "contract_type" */
+	insert_contract_type?: Maybe<ContractTypeMutationResponse>;
+	/** insert a single row into the table: "contract_type" */
+	insert_contract_type_one?: Maybe<ContractType>;
 	/** insert data into the table: "deployment" */
 	insert_deployment?: Maybe<DeploymentMutationResponse>;
 	/** insert a single row into the table: "deployment" */
 	insert_deployment_one?: Maybe<Deployment>;
+	/** insert data into the table: "employment_type" */
+	insert_employment_type?: Maybe<EmploymentTypeMutationResponse>;
+	/** insert a single row into the table: "employment_type" */
+	insert_employment_type_one?: Maybe<EmploymentType>;
 	/** insert data into the table: "external_data" */
 	insert_external_data?: Maybe<ExternalDataMutationResponse>;
 	/** insert data into the table: "external_data_info" */
@@ -4133,12 +4471,24 @@ export type MutationRoot = {
 	update_beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
 	/** update multiples rows of table: "beneficiary_structure" */
 	update_beneficiary_structure_many?: Maybe<Array<Maybe<BeneficiaryStructureMutationResponse>>>;
+	/** update data of the table: "contract_type" */
+	update_contract_type?: Maybe<ContractTypeMutationResponse>;
+	/** update single row of the table: "contract_type" */
+	update_contract_type_by_pk?: Maybe<ContractType>;
+	/** update multiples rows of table: "contract_type" */
+	update_contract_type_many?: Maybe<Array<Maybe<ContractTypeMutationResponse>>>;
 	/** update data of the table: "deployment" */
 	update_deployment?: Maybe<DeploymentMutationResponse>;
 	/** update single row of the table: "deployment" */
 	update_deployment_by_pk?: Maybe<Deployment>;
 	/** update multiples rows of table: "deployment" */
 	update_deployment_many?: Maybe<Array<Maybe<DeploymentMutationResponse>>>;
+	/** update data of the table: "employment_type" */
+	update_employment_type?: Maybe<EmploymentTypeMutationResponse>;
+	/** update single row of the table: "employment_type" */
+	update_employment_type_by_pk?: Maybe<EmploymentType>;
+	/** update multiples rows of table: "employment_type" */
+	update_employment_type_many?: Maybe<Array<Maybe<EmploymentTypeMutationResponse>>>;
 	/** update data of the table: "external_data" */
 	update_external_data?: Maybe<ExternalDataMutationResponse>;
 	/** update single row of the table: "external_data" */
@@ -4384,6 +4734,16 @@ export type MutationRootDeleteBeneficiaryStructureByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteContractTypeArgs = {
+	where: ContractTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteContractTypeByPkArgs = {
+	id: Scalars['String'];
+};
+
+/** mutation root */
 export type MutationRootDeleteDeploymentArgs = {
 	where: DeploymentBoolExp;
 };
@@ -4391,6 +4751,16 @@ export type MutationRootDeleteDeploymentArgs = {
 /** mutation root */
 export type MutationRootDeleteDeploymentByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteEmploymentTypeArgs = {
+	where: EmploymentTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteEmploymentTypeByPkArgs = {
+	id: Scalars['String'];
 };
 
 /** mutation root */
@@ -4751,6 +5121,18 @@ export type MutationRootInsertBeneficiaryStructureOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertContractTypeArgs = {
+	objects: Array<ContractTypeInsertInput>;
+	on_conflict?: InputMaybe<ContractTypeOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertContractTypeOneArgs = {
+	object: ContractTypeInsertInput;
+	on_conflict?: InputMaybe<ContractTypeOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertDeploymentArgs = {
 	objects: Array<DeploymentInsertInput>;
 	on_conflict?: InputMaybe<DeploymentOnConflict>;
@@ -4760,6 +5142,18 @@ export type MutationRootInsertDeploymentArgs = {
 export type MutationRootInsertDeploymentOneArgs = {
 	object: DeploymentInsertInput;
 	on_conflict?: InputMaybe<DeploymentOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertEmploymentTypeArgs = {
+	objects: Array<EmploymentTypeInsertInput>;
+	on_conflict?: InputMaybe<EmploymentTypeOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertEmploymentTypeOneArgs = {
+	object: EmploymentTypeInsertInput;
+	on_conflict?: InputMaybe<EmploymentTypeOnConflict>;
 };
 
 /** mutation root */
@@ -5221,6 +5615,23 @@ export type MutationRootUpdateBeneficiaryStructureManyArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateContractTypeArgs = {
+	_set?: InputMaybe<ContractTypeSetInput>;
+	where: ContractTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateContractTypeByPkArgs = {
+	_set?: InputMaybe<ContractTypeSetInput>;
+	pk_columns: ContractTypePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateContractTypeManyArgs = {
+	updates: Array<ContractTypeUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateDeploymentArgs = {
 	_append?: InputMaybe<DeploymentAppendInput>;
 	_delete_at_path?: InputMaybe<DeploymentDeleteAtPathInput>;
@@ -5245,6 +5656,23 @@ export type MutationRootUpdateDeploymentByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateDeploymentManyArgs = {
 	updates: Array<DeploymentUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateEmploymentTypeArgs = {
+	_set?: InputMaybe<EmploymentTypeSetInput>;
+	where: EmploymentTypeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateEmploymentTypeByPkArgs = {
+	_set?: InputMaybe<EmploymentTypeSetInput>;
+	pk_columns: EmploymentTypePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateEmploymentTypeManyArgs = {
+	updates: Array<EmploymentTypeUpdates>;
 };
 
 /** mutation root */
@@ -10283,7 +10711,15 @@ export type ProfessionalPkColumnsInput = {
 /** Stores the jobs wanted for a notebook beneficiary */
 export type ProfessionalProject = {
 	__typename?: 'professional_project';
+	/** An object relationship */
+	contract_type?: Maybe<ContractType>;
+	contract_type_id?: Maybe<ContractTypeEnum>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	/** An object relationship */
+	employment_type?: Maybe<EmploymentType>;
+	employment_type_id?: Maybe<EmploymentTypeEnum>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Int']>;
 	id: Scalars['uuid'];
 	mobilityRadius?: Maybe<Scalars['Int']>;
 	/** An object relationship */
@@ -10360,11 +10796,15 @@ export type ProfessionalProjectArrRelInsertInput = {
 /** aggregate avg on columns */
 export type ProfessionalProjectAvgFields = {
 	__typename?: 'professional_project_avg_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "professional_project" */
 export type ProfessionalProjectAvgOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
@@ -10373,7 +10813,12 @@ export type ProfessionalProjectBoolExp = {
 	_and?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
 	_not?: InputMaybe<ProfessionalProjectBoolExp>;
 	_or?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
+	contract_type?: InputMaybe<ContractTypeBoolExp>;
+	contract_type_id?: InputMaybe<ContractTypeEnumComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	employment_type?: InputMaybe<EmploymentTypeBoolExp>;
+	employment_type_id?: InputMaybe<EmploymentTypeEnumComparisonExp>;
+	hourlyRate?: InputMaybe<IntComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	mobilityRadius?: InputMaybe<IntComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
@@ -10393,12 +10838,20 @@ export enum ProfessionalProjectConstraint {
 
 /** input type for incrementing numeric columns in table "professional_project" */
 export type ProfessionalProjectIncInput = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<Scalars['Int']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
 };
 
 /** input type for inserting data into table "professional_project" */
 export type ProfessionalProjectInsertInput = {
+	contract_type?: InputMaybe<ContractTypeObjRelInsertInput>;
+	contract_type_id?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	employment_type?: InputMaybe<EmploymentTypeObjRelInsertInput>;
+	employment_type_id?: InputMaybe<EmploymentTypeEnum>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
@@ -10412,6 +10865,8 @@ export type ProfessionalProjectInsertInput = {
 export type ProfessionalProjectMaxFields = {
 	__typename?: 'professional_project_max_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
 	mobilityRadius?: Maybe<Scalars['Int']>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -10422,6 +10877,8 @@ export type ProfessionalProjectMaxFields = {
 /** order by max() on columns of table "professional_project" */
 export type ProfessionalProjectMaxOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
@@ -10433,6 +10890,8 @@ export type ProfessionalProjectMaxOrderBy = {
 export type ProfessionalProjectMinFields = {
 	__typename?: 'professional_project_min_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
 	mobilityRadius?: Maybe<Scalars['Int']>;
 	notebookId?: Maybe<Scalars['uuid']>;
@@ -10443,6 +10902,8 @@ export type ProfessionalProjectMinFields = {
 /** order by min() on columns of table "professional_project" */
 export type ProfessionalProjectMinOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
@@ -10468,7 +10929,12 @@ export type ProfessionalProjectOnConflict = {
 
 /** Ordering options when selecting data from "professional_project". */
 export type ProfessionalProjectOrderBy = {
+	contract_type?: InputMaybe<ContractTypeOrderBy>;
+	contract_type_id?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	employment_type?: InputMaybe<EmploymentTypeOrderBy>;
+	employment_type_id?: InputMaybe<OrderBy>;
+	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
@@ -10486,7 +10952,13 @@ export type ProfessionalProjectPkColumnsInput = {
 /** select columns of table "professional_project" */
 export enum ProfessionalProjectSelectColumn {
 	/** column name */
+	ContractTypeId = 'contract_type_id',
+	/** column name */
 	CreatedAt = 'createdAt',
+	/** column name */
+	EmploymentTypeId = 'employment_type_id',
+	/** column name */
+	HourlyRate = 'hourlyRate',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -10501,7 +10973,11 @@ export enum ProfessionalProjectSelectColumn {
 
 /** input type for updating data in table "professional_project" */
 export type ProfessionalProjectSetInput = {
+	contract_type_id?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	employment_type_id?: InputMaybe<EmploymentTypeEnum>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
@@ -10512,33 +10988,45 @@ export type ProfessionalProjectSetInput = {
 /** aggregate stddev on columns */
 export type ProfessionalProjectStddevFields = {
 	__typename?: 'professional_project_stddev_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "professional_project" */
 export type ProfessionalProjectStddevOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_pop on columns */
 export type ProfessionalProjectStddevPopFields = {
 	__typename?: 'professional_project_stddev_pop_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "professional_project" */
 export type ProfessionalProjectStddevPopOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** aggregate stddev_samp on columns */
 export type ProfessionalProjectStddevSampFields = {
 	__typename?: 'professional_project_stddev_samp_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "professional_project" */
 export type ProfessionalProjectStddevSampOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
@@ -10552,7 +11040,11 @@ export type ProfessionalProjectStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type ProfessionalProjectStreamCursorValueInput = {
+	contract_type_id?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	employment_type_id?: InputMaybe<EmploymentTypeEnum>;
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
@@ -10563,18 +11055,28 @@ export type ProfessionalProjectStreamCursorValueInput = {
 /** aggregate sum on columns */
 export type ProfessionalProjectSumFields = {
 	__typename?: 'professional_project_sum_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Int']>;
 	mobilityRadius?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "professional_project" */
 export type ProfessionalProjectSumOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** update columns of table "professional_project" */
 export enum ProfessionalProjectUpdateColumn {
 	/** column name */
+	ContractTypeId = 'contract_type_id',
+	/** column name */
 	CreatedAt = 'createdAt',
+	/** column name */
+	EmploymentTypeId = 'employment_type_id',
+	/** column name */
+	HourlyRate = 'hourlyRate',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -10598,33 +11100,45 @@ export type ProfessionalProjectUpdates = {
 /** aggregate var_pop on columns */
 export type ProfessionalProjectVarPopFields = {
 	__typename?: 'professional_project_var_pop_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "professional_project" */
 export type ProfessionalProjectVarPopOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** aggregate var_samp on columns */
 export type ProfessionalProjectVarSampFields = {
 	__typename?: 'professional_project_var_samp_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "professional_project" */
 export type ProfessionalProjectVarSampOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
 /** aggregate variance on columns */
 export type ProfessionalProjectVarianceFields = {
 	__typename?: 'professional_project_variance_fields';
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "professional_project" */
 export type ProfessionalProjectVarianceOrderBy = {
+	/** in cents (multiply by 100 for the EUR value) */
+	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
 
@@ -10754,12 +11268,24 @@ export type QueryRoot = {
 	beneficiary_structure_aggregate: BeneficiaryStructureAggregate;
 	/** fetch data from the table: "beneficiary_structure" using primary key columns */
 	beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
+	/** fetch data from the table: "contract_type" */
+	contract_type: Array<ContractType>;
+	/** fetch aggregated fields from the table: "contract_type" */
+	contract_type_aggregate: ContractTypeAggregate;
+	/** fetch data from the table: "contract_type" using primary key columns */
+	contract_type_by_pk?: Maybe<ContractType>;
 	/** fetch data from the table: "deployment" */
 	deployment: Array<Deployment>;
 	/** fetch aggregated fields from the table: "deployment" */
 	deployment_aggregate: DeploymentAggregate;
 	/** fetch data from the table: "deployment" using primary key columns */
 	deployment_by_pk?: Maybe<Deployment>;
+	/** fetch data from the table: "employment_type" */
+	employment_type: Array<EmploymentType>;
+	/** fetch aggregated fields from the table: "employment_type" */
+	employment_type_aggregate: EmploymentTypeAggregate;
+	/** fetch data from the table: "employment_type" using primary key columns */
+	employment_type_by_pk?: Maybe<EmploymentType>;
 	/** An array relationship */
 	external_data: Array<ExternalData>;
 	/** An aggregate relationship */
@@ -11086,6 +11612,26 @@ export type QueryRootBeneficiaryStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootContractTypeArgs = {
+	distinct_on?: InputMaybe<Array<ContractTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ContractTypeOrderBy>>;
+	where?: InputMaybe<ContractTypeBoolExp>;
+};
+
+export type QueryRootContractTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ContractTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ContractTypeOrderBy>>;
+	where?: InputMaybe<ContractTypeBoolExp>;
+};
+
+export type QueryRootContractTypeByPkArgs = {
+	id: Scalars['String'];
+};
+
 export type QueryRootDeploymentArgs = {
 	distinct_on?: InputMaybe<Array<DeploymentSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -11104,6 +11650,26 @@ export type QueryRootDeploymentAggregateArgs = {
 
 export type QueryRootDeploymentByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootEmploymentTypeArgs = {
+	distinct_on?: InputMaybe<Array<EmploymentTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<EmploymentTypeOrderBy>>;
+	where?: InputMaybe<EmploymentTypeBoolExp>;
+};
+
+export type QueryRootEmploymentTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<EmploymentTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<EmploymentTypeOrderBy>>;
+	where?: InputMaybe<EmploymentTypeBoolExp>;
+};
+
+export type QueryRootEmploymentTypeByPkArgs = {
+	id: Scalars['String'];
 };
 
 export type QueryRootExternalDataArgs = {
@@ -13291,6 +13857,14 @@ export type SubscriptionRoot = {
 	beneficiary_structure_by_pk?: Maybe<BeneficiaryStructure>;
 	/** fetch data from the table in a streaming manner: "beneficiary_structure" */
 	beneficiary_structure_stream: Array<BeneficiaryStructure>;
+	/** fetch data from the table: "contract_type" */
+	contract_type: Array<ContractType>;
+	/** fetch aggregated fields from the table: "contract_type" */
+	contract_type_aggregate: ContractTypeAggregate;
+	/** fetch data from the table: "contract_type" using primary key columns */
+	contract_type_by_pk?: Maybe<ContractType>;
+	/** fetch data from the table in a streaming manner: "contract_type" */
+	contract_type_stream: Array<ContractType>;
 	/** fetch data from the table: "deployment" */
 	deployment: Array<Deployment>;
 	/** fetch aggregated fields from the table: "deployment" */
@@ -13299,6 +13873,14 @@ export type SubscriptionRoot = {
 	deployment_by_pk?: Maybe<Deployment>;
 	/** fetch data from the table in a streaming manner: "deployment" */
 	deployment_stream: Array<Deployment>;
+	/** fetch data from the table: "employment_type" */
+	employment_type: Array<EmploymentType>;
+	/** fetch aggregated fields from the table: "employment_type" */
+	employment_type_aggregate: EmploymentTypeAggregate;
+	/** fetch data from the table: "employment_type" using primary key columns */
+	employment_type_by_pk?: Maybe<EmploymentType>;
+	/** fetch data from the table in a streaming manner: "employment_type" */
+	employment_type_stream: Array<EmploymentType>;
 	/** An array relationship */
 	external_data: Array<ExternalData>;
 	/** An aggregate relationship */
@@ -13725,6 +14307,32 @@ export type SubscriptionRootBeneficiaryStructureStreamArgs = {
 	where?: InputMaybe<BeneficiaryStructureBoolExp>;
 };
 
+export type SubscriptionRootContractTypeArgs = {
+	distinct_on?: InputMaybe<Array<ContractTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ContractTypeOrderBy>>;
+	where?: InputMaybe<ContractTypeBoolExp>;
+};
+
+export type SubscriptionRootContractTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ContractTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ContractTypeOrderBy>>;
+	where?: InputMaybe<ContractTypeBoolExp>;
+};
+
+export type SubscriptionRootContractTypeByPkArgs = {
+	id: Scalars['String'];
+};
+
+export type SubscriptionRootContractTypeStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ContractTypeStreamCursorInput>>;
+	where?: InputMaybe<ContractTypeBoolExp>;
+};
+
 export type SubscriptionRootDeploymentArgs = {
 	distinct_on?: InputMaybe<Array<DeploymentSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -13749,6 +14357,32 @@ export type SubscriptionRootDeploymentStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<DeploymentStreamCursorInput>>;
 	where?: InputMaybe<DeploymentBoolExp>;
+};
+
+export type SubscriptionRootEmploymentTypeArgs = {
+	distinct_on?: InputMaybe<Array<EmploymentTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<EmploymentTypeOrderBy>>;
+	where?: InputMaybe<EmploymentTypeBoolExp>;
+};
+
+export type SubscriptionRootEmploymentTypeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<EmploymentTypeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<EmploymentTypeOrderBy>>;
+	where?: InputMaybe<EmploymentTypeBoolExp>;
+};
+
+export type SubscriptionRootEmploymentTypeByPkArgs = {
+	id: Scalars['String'];
+};
+
+export type SubscriptionRootEmploymentTypeStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<EmploymentTypeStreamCursorInput>>;
+	where?: InputMaybe<EmploymentTypeBoolExp>;
 };
 
 export type SubscriptionRootExternalDataArgs = {
@@ -15723,10 +16357,13 @@ export type GetNotebookByBeneficiaryIdQuery = {
 		professionalProjects: Array<{
 			__typename?: 'professional_project';
 			id: string;
+			hourlyRate?: number | null;
 			mobilityRadius?: number | null;
 			updatedAt?: string | null;
 			createdAt?: string | null;
 			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
+			contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
+			employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -15916,10 +16553,13 @@ export type GetNotebookByIdQuery = {
 		professionalProjects: Array<{
 			__typename?: 'professional_project';
 			id: string;
+			hourlyRate?: number | null;
 			mobilityRadius?: number | null;
 			updatedAt?: string | null;
 			createdAt?: string | null;
 			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
+			contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
+			employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -16102,10 +16742,13 @@ export type NotebookFragmentFragment = {
 	professionalProjects: Array<{
 		__typename?: 'professional_project';
 		id: string;
+		hourlyRate?: number | null;
 		mobilityRadius?: number | null;
 		updatedAt?: string | null;
 		createdAt?: string | null;
 		rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
+		contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
+		employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
 	}>;
 	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 	beneficiary: {
@@ -16783,10 +17426,13 @@ export type GetNotebookQuery = {
 			professionalProjects: Array<{
 				__typename?: 'professional_project';
 				id: string;
+				hourlyRate?: number | null;
 				mobilityRadius?: number | null;
-				createdAt?: string | null;
 				updatedAt?: string | null;
+				createdAt?: string | null;
 				rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
+				contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
+				employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
 			}>;
 			situations: Array<{
 				__typename?: 'notebook_situation';
@@ -17466,6 +18112,29 @@ export const NotebookFragmentFragmentDoc = {
 										],
 									},
 								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'contract_type' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'employment_type' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+										],
+									},
+								},
+								{ kind: 'Field', name: { kind: 'Name', value: 'hourlyRate' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
@@ -28016,9 +28685,6 @@ export const GetNotebookDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
-														{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
 														{
 															kind: 'Field',
 															name: { kind: 'Name', value: 'rome_code' },
@@ -28030,6 +28696,32 @@ export const GetNotebookDocument = {
 																],
 															},
 														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'contract_type' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'employment_type' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+																	{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
+																],
+															},
+														},
+														{ kind: 'Field', name: { kind: 'Name', value: 'hourlyRate' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
 													],
 												},
 											},

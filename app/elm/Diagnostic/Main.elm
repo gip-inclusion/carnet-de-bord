@@ -4,7 +4,7 @@ import Browser
 import Date exposing (Date, fromIsoString)
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
-import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
+import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeKeyToType, contractTypeToString, workingTimeKeyToType, workingTimeToString)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html exposing (..)
@@ -24,6 +24,9 @@ type alias ProfessionalProjectFlags =
     { id : String
     , rome : Maybe Rome
     , mobilityRadius : Maybe Int
+    , contractType : Maybe ContractTypeFlags
+    , employmentType : Maybe WorkingTimeFlags
+    , hourlyRate : Maybe Int
     , createdAt : String
     , updatedAt : String
     }
@@ -46,6 +49,14 @@ type alias ProfessionalSituationFlags =
     , educationLevel : Maybe String
     , lastJobEndedAt : Maybe String
     }
+
+
+type alias ContractTypeFlags =
+    { id : String }
+
+
+type alias WorkingTimeFlags =
+    { id : String }
 
 
 type alias PersonalSituation =
@@ -202,9 +213,22 @@ extractProfessionalProjectFromFlags flags =
     { rome = flags.rome
     , id = flags.id
     , mobilityRadius = flags.mobilityRadius
+    , hourlyRate = flags.hourlyRate |> Maybe.map (toFloat >> (\val -> val / 100))
+    , contractType = extractContractType flags.contractType
+    , workingTimeType = extractWorkingTimeType flags.employmentType
     , updatedAt = fromIsoString flags.updatedAt |> Result.toMaybe
     , createdAt = fromIsoString flags.createdAt |> Result.toMaybe
     }
+
+
+extractContractType : Maybe ContractTypeFlags -> Maybe ContractType
+extractContractType contractTypeFlag =
+    Maybe.andThen (.id >> contractTypeKeyToType) contractTypeFlag
+
+
+extractWorkingTimeType : Maybe WorkingTimeFlags -> Maybe WorkingTime
+extractWorkingTimeType workingTimeFlag =
+    Maybe.andThen (.id >> workingTimeKeyToType) workingTimeFlag
 
 
 
@@ -388,14 +412,38 @@ professionalProjectView { professionalProjects } =
                     |> List.map
                         (\professionalProject ->
                             div [ class "fr-container shadow-dsfr rounded-lg" ]
-                                [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                                    [ div [ class "fr-col-6" ]
-                                        [ situationElement "Emploi recherché"
-                                            (Maybe.map .label professionalProject.rome |> Maybe.map text)
-                                            "Projet en construction"
+                                [ h4 [ class "text-france-bleu pt-8" ]
+                                    [ text (Maybe.withDefault "Project en construction" (Maybe.map .label professionalProject.rome)) ]
+                                , div
+                                    [ class "fr-grid-row fr-grid-row--gutters" ]
+                                    [ div [ class "fr-col-4" ]
+                                        [ situationElement "Type de contrat"
+                                            (professionalProject.contractType
+                                                |> Maybe.map contractTypeToString
+                                                |> Maybe.map text
+                                            )
+                                            (unfilled Masculine)
+                                            Nothing
+                                        , situationElement "Durée de temps de travail"
+                                            (professionalProject.workingTimeType
+                                                |> Maybe.map workingTimeToString
+                                                |> Maybe.map text
+                                            )
+                                            (unfilled Masculine)
                                             Nothing
                                         ]
-                                    , div [ class "fr-col-6" ]
+                                    , div
+                                        [ class "fr-col-4" ]
+                                        [ situationElement "Salaire minimum brut/horraire"
+                                            (professionalProject.hourlyRate
+                                                |> Maybe.map String.fromFloat
+                                                |> Maybe.map addMoneyUnit
+                                                |> Maybe.map text
+                                            )
+                                            (unfilled Masculine)
+                                            Nothing
+                                        ]
+                                    , div [ class "fr-col-4" ]
                                         [ situationElement "Zone de mobilité"
                                             (professionalProject.mobilityRadius
                                                 |> Maybe.map String.fromInt
@@ -414,7 +462,17 @@ professionalProjectView { professionalProjects } =
 
 addDistanceUnit : String -> String
 addDistanceUnit distance =
-    distance ++ " km"
+    distance ++ String.fromChar nonbreakableSpaceChar ++ "km"
+
+
+addMoneyUnit : String -> String
+addMoneyUnit distance =
+    distance ++ String.fromChar nonbreakableSpaceChar ++ "€"
+
+
+nonbreakableSpaceChar : Char
+nonbreakableSpaceChar =
+    '\u{00A0}'
 
 
 personalSituationView : Model -> Html msg
@@ -471,7 +529,7 @@ personalSituationView { personalSituations } =
 
 situationElement : String -> Maybe (Html msg) -> String -> Maybe (Html msg) -> Html msg
 situationElement label someValue defaultText someHint =
-    p []
+    p [ class "text-sm" ]
         [ span [ class "block" ] [ text label ]
         , span [ class "block font-bold" ]
             [ Maybe.withDefault (text defaultText) someValue ]

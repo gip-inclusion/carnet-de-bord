@@ -193,12 +193,24 @@
 				refSituations,
 				situations: notebook.situations,
 				professionalProjects: notebook.professionalProjects.map(
-					({ id, createdAt, updatedAt, mobilityRadius, rome_code }) => ({
+					({
+						id,
+						createdAt,
+						updatedAt,
+						mobilityRadius,
+						rome_code,
+						hourlyRate,
+						employment_type,
+						contract_type,
+					}) => ({
 						id,
 						createdAt,
 						updatedAt,
 						mobilityRadius,
 						rome: rome_code,
+						hourlyRate,
+						contractType: contract_type,
+						employmentType: employment_type,
 					})
 				),
 			},

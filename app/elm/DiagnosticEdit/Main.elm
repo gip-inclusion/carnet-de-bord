@@ -3,7 +3,7 @@ port module DiagnosticEdit.Main exposing (..)
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
-import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
+import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
@@ -51,6 +51,9 @@ type alias ProfessionalProjectState =
     { id : Maybe String
     , rome : Maybe Rome
     , mobilityRadius : Maybe Int
+    , hourlyRate : Maybe Float
+    , contractType : Maybe ContractType
+    , workingTimeType : Maybe WorkingTime
     , romeData : RomeData
     , selectedRome : Maybe Rome
     , selectState : Select.State
@@ -169,6 +172,7 @@ initProfessionalProjectState professionalProject =
     { id = Just professionalProject.id
     , rome = professionalProject.rome
     , mobilityRadius = professionalProject.mobilityRadius
+    , hourlyRate = professionalProject.hourlyRate
     , romeData = Maybe.withDefault NotAsked (Maybe.map (\value -> Success [ value ]) professionalProject.rome)
     , selectedRome = professionalProject.rome
     , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ professionalProject.id))
