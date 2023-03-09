@@ -15438,6 +15438,7 @@ export type UpdateSocioProMutationVariables = Exact<{
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
 	professionalProjectsToAdd: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
 	professionalProjectIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
+	professionalProjectsToUpdate: Array<ProfessionalProjectUpdates> | ProfessionalProjectUpdates;
 	situationsToAdd: Array<NotebookSituationInsertInput> | NotebookSituationInsertInput;
 	situationIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
@@ -15453,6 +15454,10 @@ export type UpdateSocioProMutation = {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
+	update_professional_project_many?: Array<{
+		__typename?: 'professional_project_mutation_response';
+		affected_rows: number;
+	} | null> | null;
 	update_notebook_situation?: {
 		__typename?: 'notebook_situation_mutation_response';
 		affected_rows: number;
@@ -23787,6 +23792,26 @@ export const UpdateSocioProDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
+					variable: {
+						kind: 'Variable',
+						name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
+					},
+					type: {
+						kind: 'NonNullType',
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: {
+									kind: 'NamedType',
+									name: { kind: 'Name', value: 'professional_project_updates' },
+								},
+							},
+						},
+					},
+				},
+				{
+					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'situationsToAdd' } },
 					type: {
 						kind: 'NonNullType',
@@ -23938,29 +23963,22 @@ export const UpdateSocioProDocument = {
 									name: { kind: 'Name', value: 'professionalProjectsToAdd' },
 								},
 							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+						},
+					},
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'update_professional_project_many' },
+						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'on_conflict' },
+								name: { kind: 'Name', value: 'updates' },
 								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'constraint' },
-											value: { kind: 'EnumValue', value: 'notebook_id_rome_code_id_null_idx' },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'update_columns' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{ kind: 'EnumValue', value: 'mobilityRadius' },
-													{ kind: 'EnumValue', value: 'romeCodeId' },
-												],
-											},
-										},
-									],
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
 								},
 							},
 						],

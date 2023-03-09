@@ -3,6 +3,7 @@
 	import type {
 		GetNotebookQuery,
 		ProfessionalProjectInsertInput,
+		ProfessionalProjectUpdates,
 		RefSituation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
@@ -101,15 +102,29 @@
 			.map(({ id }) => id)
 			.filter((id) => !professionalProjectIds.includes(id));
 
-		const professionalProjectsToAdd: ProfessionalProjectInsertInput[] = professionalProjects.map(
-			(project) => {
+		const professionalProjectsToAdd: ProfessionalProjectInsertInput[] = professionalProjects
+			.filter(({ id }) => !id)
+			.map((project) => {
 				return {
 					notebookId: notebook.id,
 					mobilityRadius: project.mobilityRadius,
 					romeCodeId: project.romeId,
 				};
-			}
-		);
+			});
+
+		const professionalProjectsToUpdate: ProfessionalProjectUpdates[] = professionalProjects
+			.filter(({ id }) => id)
+			.map((project) => {
+				return {
+					where: {
+						id: { _eq: project.id },
+					},
+					_set: {
+						mobilityRadius: project.mobilityRadius,
+						romeCodeId: project.romeId,
+					},
+				};
+			});
 
 		const payload = {
 			id: notebook.id,
@@ -121,6 +136,7 @@
 			lastJobEndedAt: values.lastJobEndedAt.toString() || null,
 			professionalProjectsToAdd,
 			professionalProjectIdsToDelete,
+			professionalProjectsToUpdate,
 			situationsToAdd,
 			situationIdsToDelete,
 		};
