@@ -15,7 +15,7 @@
 	}
 
 	export let id: string | null = `button-${counter}`;
-	export let type: string | null = 'button';
+	export let type: 'button' | 'submit' | 'reset' | null = 'button';
 	export let action = type === 'button' ? click : null;
 	export let disabled: boolean | null = false;
 	export let classNames: string | null = '';

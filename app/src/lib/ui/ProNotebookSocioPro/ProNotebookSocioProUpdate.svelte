@@ -41,7 +41,7 @@
 	>;
 	export let refSituations: RefSituation[];
 
-	let stuck = false;
+	let stuck = true;
 	const stickToTop = false;
 	let formBottom: HTMLElement;
 

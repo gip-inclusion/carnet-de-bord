@@ -99,7 +99,6 @@
 						{/if}
 					{:else}
 						<button
-							href="#"
 							class="fr-tag fr-tag-sm fr-tag--purple-glycine"
 							on:click={() => openEditLayer(beneficiary)}
 						>

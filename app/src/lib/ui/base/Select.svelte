@@ -80,7 +80,7 @@
 	>
 		<option value={selectHintOption} disabled>{selectHint || 'Sélectionner...'}</option>
 		{#each options as option (option.name)}
-			<option name={option.name} value={option.name}>{option.label}</option>
+			<option value={option.name}>{option.label}</option>
 		{/each}
 	</select>
 
