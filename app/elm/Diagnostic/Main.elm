@@ -392,7 +392,7 @@ professionalProjectView { professionalProjects } =
                                     [ div [ class "fr-col-6" ]
                                         [ situationElement "Emploi recherché"
                                             (Maybe.map .label professionalProject.rome |> Maybe.map text)
-                                            (unfilled Masculine)
+                                            "Projet en construction"
                                             Nothing
                                         ]
                                     , div [ class "fr-col-6" ]
