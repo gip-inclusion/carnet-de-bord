@@ -24,7 +24,7 @@
 	} from '../../../../elm/DiagnosticEdit/Main.elm';
 	import type { GraphQLError } from 'graphql';
 	import { token, graphqlAPI } from '$lib/stores';
-	import { afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 	import { sticky } from '$lib/actions/sticky';
 	export let onClose: () => void;
 	export let notebook: Pick<
@@ -154,11 +154,8 @@
 	function formatErrors(errors: GraphQLError[]): string {
 		return errors
 			.map((error) => {
-				if (/professional_project_notebook_id_rome_code_id_key/.test(error.message)) {
-					return "Il n'est pas possible de créer deux projets professionnels pour le même emploi.";
-				}
 				if (/notebook_id_rome_code_id_null_idx/.test(error.message)) {
-					return "Il n'est pas possible d'avoir plusieurs projets professionnels en construction.";
+					return "Il n'est pas possible de créer deux projets professionnels pour le même emploi ni plusieurs projets professionnels en construction.";
 				}
 				return error.message;
 			})
@@ -188,7 +185,7 @@
 
 	let elmNode: HTMLElement;
 
-	afterUpdate(() => {
+	onMount(() => {
 		if (!elmNode || !elmNode.parentNode) return;
 
 		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
