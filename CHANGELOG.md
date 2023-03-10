@@ -1,3 +1,10 @@
+# [1.205.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.204.4...v1.205.0) (2023-03-10)
+
+
+### Features
+
+* **diagnostic:** Pouvoir gérer plusieurs projets professionnel par bénéficiaire. ([#1575](https://github.com/gip-inclusion/carnet-de-bord/issues/1575)) ([b8efd92](https://github.com/gip-inclusion/carnet-de-bord/commit/b8efd921a7eb4c1466b8748c259c294791ea017b))
+
 ## [1.204.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.204.3...v1.204.4) (2023-03-08)
 
 ## [1.204.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.204.2...v1.204.3) (2023-03-08)
