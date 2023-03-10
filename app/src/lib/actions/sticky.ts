@@ -9,7 +9,7 @@ export function sticky(node, { stickToTop }) {
 		const entry = entries[0];
 
 		let isStuck = false;
-		if (!entry.isIntersecting && isValidYPosition(entry)) {
+		if (!entry.isIntersecting) {
 			isStuck = true;
 		}
 
@@ -20,13 +20,14 @@ export function sticky(node, { stickToTop }) {
 		);
 	};
 
-	const isValidYPosition = function ({ target, boundingClientRect }) {
-		if (target === stickySentinelTop) {
-			return boundingClientRect.y < 0;
-		} else {
-			return boundingClientRect.y > 0;
-		}
-	};
+	// Seems to be not useful
+	// const isValidYPosition = function ({ target, boundingClientRect }) {
+	// 	if (target === stickySentinelTop) {
+	// 		return boundingClientRect.y < 0;
+	// 	} else {
+	// 		return boundingClientRect.y > 0;
+	// 	}
+	// };
 
 	const mutationCallback = function (mutations) {
 		// If something changes and the sentinel nodes are no longer first and last child, put them back in position
@@ -42,8 +43,7 @@ export function sticky(node, { stickToTop }) {
 			}
 		});
 	};
-
-	const intersectionObserver = new IntersectionObserver(intersectionCallback, {});
+	const intersectionObserver = new IntersectionObserver(intersectionCallback);
 	const mutationObserver = new MutationObserver(mutationCallback);
 
 	// we insert and observe a sentinel node immediately after the target

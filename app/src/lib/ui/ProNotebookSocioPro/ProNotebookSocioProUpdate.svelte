@@ -386,4 +386,9 @@
 	.bottom-banner-container > .fr-container {
 		padding-left: 8px;
 	}
+
+	:global(.elm-node button, .elm-node input) {
+		scroll-margin-bottom: 6rem;
+		scroll-margin-top: 2rem;
+	}
 </style>
