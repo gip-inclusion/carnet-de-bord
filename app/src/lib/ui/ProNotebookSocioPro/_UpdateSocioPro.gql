@@ -28,10 +28,10 @@ mutation UpdateSocioPro(
   delete_professional_project(where: { id: { _in: $professionalProjectIdsToDelete } }) {
     affected_rows
   }
-  insert_professional_project(objects: $professionalProjectsToAdd) {
+  update_professional_project_many(updates: $professionalProjectsToUpdate) {
     affected_rows
   }
-  update_professional_project_many(updates: $professionalProjectsToUpdate) {
+  insert_professional_project(objects: $professionalProjectsToAdd) {
     affected_rows
   }
   update_notebook_situation(

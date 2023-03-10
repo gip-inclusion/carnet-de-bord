@@ -15450,14 +15450,14 @@ export type UpdateSocioProMutation = {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
-	insert_professional_project?: {
-		__typename?: 'professional_project_mutation_response';
-		affected_rows: number;
-	} | null;
 	update_professional_project_many?: Array<{
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null> | null;
+	insert_professional_project?: {
+		__typename?: 'professional_project_mutation_response';
+		affected_rows: number;
+	} | null;
 	update_notebook_situation?: {
 		__typename?: 'notebook_situation_mutation_response';
 		affected_rows: number;
@@ -23953,14 +23953,14 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_professional_project' },
+						name: { kind: 'Name', value: 'update_professional_project_many' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
+								name: { kind: 'Name', value: 'updates' },
 								value: {
 									kind: 'Variable',
-									name: { kind: 'Name', value: 'professionalProjectsToAdd' },
+									name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
 								},
 							},
 						],
@@ -23971,14 +23971,14 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'update_professional_project_many' },
+						name: { kind: 'Name', value: 'insert_professional_project' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'updates' },
+								name: { kind: 'Name', value: 'objects' },
 								value: {
 									kind: 'Variable',
-									name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
+									name: { kind: 'Name', value: 'professionalProjectsToAdd' },
 								},
 							},
 						],

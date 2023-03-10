@@ -48,9 +48,9 @@
 		stuck = e.detail.isStuck;
 	}
 
-	let selectedSituations: string[] = [];
 	$: errorMessage = '';
-	$: professionalProjects =
+	let selectedSituations: string[] = notebook.situations.map(({ refSituation }) => refSituation.id);
+	let professionalProjects =
 		notebook?.professionalProjects?.map((professionalProject) => {
 			return {
 				id: professionalProject.id,
