@@ -334,18 +334,21 @@ update msg model =
                     in
                     case maybeAction of
                         Just (Select.Select someRome) ->
-                            ( { newModel
-                                | professionalProjects =
+                            let
+                                newProfessionalProject =
                                     newModel.professionalProjects
                                         |> List.Extra.updateAt indexToUpdate
                                             (\professionalProjectState ->
                                                 { professionalProjectState | selectedRome = Just someRome }
                                             )
+                            in
+                            ( { newModel
+                                | professionalProjects = newProfessionalProject
                                 , activeRomeSearchIndex = Nothing
                               }
                             , Cmd.batch
                                 [ newCmds
-                                , newModel.professionalProjects
+                                , newProfessionalProject
                                     |> List.map toProfessionalProjectOut
                                     |> sendUpdatedProfessionalProjects
                                 ]
