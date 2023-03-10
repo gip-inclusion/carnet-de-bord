@@ -44,8 +44,6 @@
 
 	let stuck = true;
 	const stickToTop = false;
-	let formBottom: HTMLElement;
-
 	function handleStuck(e: CustomEvent<{ isStuck: boolean }>) {
 		stuck = e.detail.isStuck;
 	}
@@ -145,7 +143,6 @@
 		await updateSocioPro(payload);
 		if ($updateSocioProStore.error) {
 			errorMessage = formatErrors($updateSocioProStore.error.graphQLErrors);
-			formBottom.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
 		} else {
 			close();
 		}
@@ -343,16 +340,6 @@
 			</div>
 		{/key}
 
-		{#if errorMessage}
-			<div class="mb-4">
-				<Alert
-					type="error"
-					title={"Impossible d'enregistrer les modifications."}
-					description={errorMessage}
-				/>
-			</div>
-		{/if}
-
 		<div
 			class="flex flex-row gap-6 pt-4 pb-4 bg-white sticky bottom-0"
 			use:sticky={{ stickToTop }}
@@ -360,13 +347,21 @@
 			class:bottom-banner-container={stuck}
 		>
 			<div class:bottom-banner={stuck} class:fr-container={stuck}>
+				{#if errorMessage}
+					<div class="mb-4">
+						<Alert
+							type="error"
+							title={"Impossible d'enregistrer les modifications."}
+							description={errorMessage}
+						/>
+					</div>
+				{/if}
 				<Button type="submit" disabled={isSubmitting || (isSubmitted && !isValid)}
 					>Enregistrer le diagnostic</Button
 				>
 				<Button outline on:click={close}>Annuler</Button>
 			</div>
 		</div>
-		<div bind:this={formBottom} />
 	</Form>
 </section>
 
