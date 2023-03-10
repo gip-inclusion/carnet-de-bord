@@ -122,7 +122,6 @@ async def notebook_to_out(
             created_at=notebook.created_at,
             updated_at=notebook.updated_at,
             right_rqth=notebook.right_rqth,
-            geographical_area=notebook.geographical_area,
             education_level=notebook.education_level,
             work_situation_date=notebook.work_situation_date,
             contract_type=notebook.contract_type,

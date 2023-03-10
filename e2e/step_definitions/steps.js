@@ -119,6 +119,18 @@ Quand('je renseigne {string} dans le champ {string}', (text, input) => {
 	I.fillField(input, text);
 });
 
+Quand(
+	'je renseigne {string} dans le champ {string} après le texte {string}',
+	(text, inputLabel, matcher) => {
+		const inputLocator = locate('input').after(locate('label').withText(inputLabel));
+		const input = locate('*')
+			.withDescendant(inputLocator)
+			.after(locate('*').withDescendant(locate('*').withText(matcher)))
+			.find(inputLocator);
+		I.fillField(input.toXPath(), text);
+	}
+);
+
 Quand('je renseigne la date {string} dans le champ {string}', async (date, input) => {
 	I.fillField(input, date);
 });
@@ -302,6 +314,14 @@ Alors('je vois {string} sous le titre {string}', async (text, title) => {
 		.find(`//*[text()[contains(.,'${text}')]]`);
 
 	I.see(text, item);
+});
+
+Alors('je vois {string} après le texte {string}', async (text, matcher) => {
+	const node = locate('*')
+		.withDescendant(locate('*').withText(text))
+		.after(locate('*').withDescendant(locate('*').withText(matcher)))
+		.find(locate('*').withText(text));
+	I.see(text, node);
 });
 
 Alors('je vois {string} sous {string}', async (text, title) => {

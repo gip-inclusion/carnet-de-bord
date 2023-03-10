@@ -2,14 +2,6 @@
 @import url('./tailwind.css');
 @import url('./dsfr.css');
 
-.custom-svelecte .inputBox {
-	height: auto !important;
-	--tw-ring-shadow: unset;
-}
-
-.custom-svelecte .sv-item-btn {
-	box-shadow: unset;
-}
 
 .--bg-blue-france-975 {
 	background: #f5f5fe !important;

@@ -2,7 +2,7 @@
 	import { pluck } from '$lib/helpers';
 	export let icon: string;
 	export let title: string;
-	export let type = 'button';
+	export let type: 'button' | 'reset' | 'submit' = 'button';
 
 	$: buttonProps = pluck(['icon', 'title', 'class', 'type'], $$props);
 </script>

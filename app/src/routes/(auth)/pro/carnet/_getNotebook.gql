@@ -99,7 +99,6 @@ query GetNotebook(
       workSituationEndDate
       workSituation
       rightRqth
-      geographicalArea
       educationLevel
       contractType
       contractSignDate
@@ -110,6 +109,10 @@ query GetNotebook(
         needOrientation
       }
       professionalProjects {
+        id
+        mobilityRadius
+        createdAt
+        updatedAt
         rome_code {
           id
           label

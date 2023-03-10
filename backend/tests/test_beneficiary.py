@@ -187,7 +187,6 @@ def test_beneficiary_model_notebook_filled_keys(
     editable_keys = beneficiary_import_alain_die.get_notebook_editable_keys()
     editable_keys.sort()
     assert editable_keys == [
-        "geographical_area",
         "work_situation",
     ]
 
@@ -200,7 +199,6 @@ def test_beneficiary_get_values_for_keys(
     beneficiary_import_alain_die.right_bonus = True
     values = beneficiary_import_alain_die.get_values_for_keys(
         [
-            "geographical_area",
             "right_are",
             "right_ass",
             "right_bonus",
@@ -209,7 +207,6 @@ def test_beneficiary_get_values_for_keys(
         ]
     )
     assert values == [
-        30,
         True,
         True,
         True,

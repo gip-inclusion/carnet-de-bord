@@ -164,9 +164,6 @@ async def test_insert_beneficiary_check_all_fields(
     assert beneficiary_in_db.right_are == True
     assert beneficiary_in_db.right_ass == False
     assert beneficiary_in_db.right_bonus == False
-    assert (
-        beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
-    )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
     professional_projects = [
@@ -208,9 +205,6 @@ async def test_update_beneficiary_check_all_fields(
     assert beneficiary_in_db.right_are == True
     assert beneficiary_in_db.right_ass == False
     assert beneficiary_in_db.right_bonus == False
-    assert (
-        beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
-    )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
     professional_projects = [
         await get_rome_code_by_id(db_connection, wj.rome_code_id)
@@ -249,9 +243,6 @@ async def test_dont_update_beneficiary_with_empty_fields(
     assert beneficiary_in_db.right_are == True
     assert beneficiary_in_db.right_ass == False
     assert beneficiary_in_db.right_bonus == False
-    assert (
-        beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
-    )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
 
@@ -283,9 +274,6 @@ async def test_only_update_beneficiary_with_not_null_fields(
     assert beneficiary_in_db.right_are == True
     assert beneficiary_in_db.right_ass == False
     assert beneficiary_in_db.right_bonus == False
-    assert (
-        beneficiary_in_db.notebook.geographical_area == harry_covert.geographical_area
-    )
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
 
@@ -534,7 +522,6 @@ harry_covert = BeneficiaryImport(
     right_ass="Non",
     right_bonus="Non",
     right_rqth="Non",
-    geographical_area=30,
     rome_code_description="Pontier élingueur / Pontière élingueuse (N1104)",
     education_level="NV1",
     structure_name="Pole Emploi Agence Livry-Gargnan",
@@ -562,7 +549,6 @@ harry_covert_reimport = BeneficiaryImport(
     right_ass=None,
     right_bonus=None,
     right_rqth=None,
-    geographical_area=None,
     rome_code_description=None,
     education_level=None,
     structure_name=None,

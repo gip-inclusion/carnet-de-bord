@@ -94,7 +94,6 @@ class BeneficiaryImport(BaseModel):
     right_are: bool | None = Field(None, alias="Droits ARE")
     right_ass: bool | None = Field(None, alias="Droits ASS")
     right_bonus: bool | None = Field(None, alias="Prime d'activité")
-    geographical_area: int | None = Field(None, alias="Zone de mobilité")
     rome_code_description: str | None = Field(
         None, alias="Emploi recherché (code ROME)"
     )
@@ -208,7 +207,6 @@ class BeneficiaryImport(BaseModel):
             "right_rqth",
             "work_situation",
             "education_level",
-            "geographical_area",
         ]
         return self._filter_updatable_field_keys(NOTEBOOK_EDITABLE_FIELDS)
 

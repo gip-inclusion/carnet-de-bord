@@ -30,13 +30,15 @@ type alias Theme =
 
 
 type alias ProfessionalProject =
-    { professionalProjects : String
-    , minimumHourlyWage : Float
-    , geopgraphicalArea : Int
-    , workingTime : Maybe WorkingTime
-    , createdAt : Date
-    , updatedAt : Date
-    , createdBy : String
-    , updatedBy : String
-    , themes : List Theme
+    { id : String
+    , rome : Maybe Rome
+    , mobilityRadius : Maybe Int
+    , createdAt : Maybe Date
+    , updatedAt : Maybe Date
+    }
+
+
+type alias Rome =
+    { id : String
+    , label : String
     }

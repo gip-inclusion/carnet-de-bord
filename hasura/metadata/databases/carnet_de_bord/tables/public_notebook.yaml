@@ -17,8 +17,6 @@ configuration:
       custom_name: createdAt
     education_level:
       custom_name: educationLevel
-    geographical_area:
-      custom_name: geographicalArea
     last_job_ended_at:
       custom_name: lastJobEndedAt
     right_rqth:
@@ -39,7 +37,6 @@ configuration:
     contract_type: contractType
     created_at: createdAt
     education_level: educationLevel
-    geographical_area: geographicalArea
     last_job_ended_at: lastJobEndedAt
     right_rqth: rightRqth
     updated_at: updatedAt
@@ -122,7 +119,6 @@ insert_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - right_rqth
         - work_situation
@@ -142,7 +138,6 @@ insert_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
@@ -160,7 +155,6 @@ insert_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - right_rqth
         - work_situation
         - work_situation_date
@@ -176,7 +170,6 @@ select_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
@@ -198,7 +191,6 @@ select_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
@@ -237,7 +229,6 @@ select_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
@@ -260,7 +251,6 @@ select_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
@@ -285,7 +275,6 @@ select_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
@@ -310,7 +299,6 @@ select_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
@@ -337,13 +325,11 @@ update_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - id
         - last_job_ended_at
         - right_rqth
         - contract_type
         - education_level
-        - geographical_area
         - work_situation
         - work_situation_date
         - work_situation_end_date
@@ -357,7 +343,6 @@ update_permissions:
         - contract_start_date
         - contract_type
         - education_level
-        - geographical_area
         - last_job_ended_at
         - right_rqth
         - work_situation
@@ -380,7 +365,6 @@ update_permissions:
         - contract_type
         - created_at
         - education_level
-        - geographical_area
         - last_job_ended_at
         - right_rqth
         - work_situation

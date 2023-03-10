@@ -690,7 +690,7 @@ async def check_and_insert_professional_project(
     connection: Connection, notebook: Notebook, rome_code: str, rome_label: str
 ) -> ProfessionalProject | None:
     """
-    Returns the inserted WantedJob or None if the job was not inserted
+    Returns the inserted ProfessionalProject or None if the project was not inserted
     """
 
     professional_project: ProfessionalProject | None = (

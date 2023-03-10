@@ -7,3 +7,9 @@ declare namespace App {
 	// interface Error {}
 	// interface Platform {}
 }
+declare namespace svelteHTML {
+	// enhance attributes
+	interface HTMLAttributes<_> {
+		'on:stuck'?: (event: CustomEvent<{ isStuck: boolean }>) => void;
+	}
+}
