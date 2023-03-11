@@ -3,8 +3,12 @@ table:
   schema: public
 configuration:
   column_config:
+    contract_type_id:
+      custom_name: contractTypeId
     created_at:
       custom_name: createdAt
+    employment_type_id:
+      custom_name: employmentTypeId
     hourly_rate:
       custom_name: hourlyRate
     mobility_radius:
@@ -16,7 +20,9 @@ configuration:
     updated_at:
       custom_name: updatedAt
   custom_column_names:
+    contract_type_id: contractTypeId
     created_at: createdAt
+    employment_type_id: employmentTypeId
     hourly_rate: hourlyRate
     mobility_radius: mobilityRadius
     notebook_id: notebookId
@@ -145,12 +151,15 @@ select_permissions:
   - role: beneficiary
     permission:
       columns:
-        - mobility_radius
+        - contract_type_id
         - created_at
-        - updated_at
+        - employment_type_id
+        - hourly_rate
         - id
+        - mobility_radius
         - notebook_id
         - rome_code_id
+        - updated_at
       filter:
         notebook:
           beneficiary_id:
@@ -212,6 +221,9 @@ update_permissions:
   - role: orientation_manager
     permission:
       columns:
+        - contract_type_id
+        - employment_type_id
+        - hourly_rate
         - mobility_radius
         - rome_code_id
       filter:
@@ -226,6 +238,9 @@ update_permissions:
   - role: professional
     permission:
       columns:
+        - contract_type_id
+        - employment_type_id
+        - hourly_rate
         - mobility_radius
         - rome_code_id
       filter:

@@ -2500,10 +2500,10 @@ export enum ContractTypeEnum {
 	Cdi = 'cdi',
 	/** Contrat de professionnalisation */
 	ContratProfessionnalisation = 'contrat_professionnalisation',
-	/** Intermi */
+	/** Interim */
 	Interim = 'interim',
-	/** Libérale */
-	Liberale = 'liberale',
+	/** Libéral */
+	Liberal = 'liberal',
 	/** Portage salarial */
 	PortageSalarial = 'portage_salarial',
 	/** Saisonnier */
@@ -10711,13 +10711,13 @@ export type ProfessionalPkColumnsInput = {
 /** Stores the jobs wanted for a notebook beneficiary */
 export type ProfessionalProject = {
 	__typename?: 'professional_project';
+	contractTypeId?: Maybe<ContractTypeEnum>;
 	/** An object relationship */
 	contract_type?: Maybe<ContractType>;
-	contract_type_id?: Maybe<ContractTypeEnum>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	employmentTypeId?: Maybe<EmploymentTypeEnum>;
 	/** An object relationship */
 	employment_type?: Maybe<EmploymentType>;
-	employment_type_id?: Maybe<EmploymentTypeEnum>;
 	/** in cents (multiply by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id: Scalars['uuid'];
@@ -10813,11 +10813,11 @@ export type ProfessionalProjectBoolExp = {
 	_and?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
 	_not?: InputMaybe<ProfessionalProjectBoolExp>;
 	_or?: InputMaybe<Array<ProfessionalProjectBoolExp>>;
+	contractTypeId?: InputMaybe<ContractTypeEnumComparisonExp>;
 	contract_type?: InputMaybe<ContractTypeBoolExp>;
-	contract_type_id?: InputMaybe<ContractTypeEnumComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	employmentTypeId?: InputMaybe<EmploymentTypeEnumComparisonExp>;
 	employment_type?: InputMaybe<EmploymentTypeBoolExp>;
-	employment_type_id?: InputMaybe<EmploymentTypeEnumComparisonExp>;
 	hourlyRate?: InputMaybe<IntComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	mobilityRadius?: InputMaybe<IntComparisonExp>;
@@ -10845,11 +10845,11 @@ export type ProfessionalProjectIncInput = {
 
 /** input type for inserting data into table "professional_project" */
 export type ProfessionalProjectInsertInput = {
+	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	contract_type?: InputMaybe<ContractTypeObjRelInsertInput>;
-	contract_type_id?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	employment_type?: InputMaybe<EmploymentTypeObjRelInsertInput>;
-	employment_type_id?: InputMaybe<EmploymentTypeEnum>;
 	/** in cents (multiply by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
@@ -10929,11 +10929,11 @@ export type ProfessionalProjectOnConflict = {
 
 /** Ordering options when selecting data from "professional_project". */
 export type ProfessionalProjectOrderBy = {
+	contractTypeId?: InputMaybe<OrderBy>;
 	contract_type?: InputMaybe<ContractTypeOrderBy>;
-	contract_type_id?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	employmentTypeId?: InputMaybe<OrderBy>;
 	employment_type?: InputMaybe<EmploymentTypeOrderBy>;
-	employment_type_id?: InputMaybe<OrderBy>;
 	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
@@ -10952,11 +10952,11 @@ export type ProfessionalProjectPkColumnsInput = {
 /** select columns of table "professional_project" */
 export enum ProfessionalProjectSelectColumn {
 	/** column name */
-	ContractTypeId = 'contract_type_id',
+	ContractTypeId = 'contractTypeId',
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
-	EmploymentTypeId = 'employment_type_id',
+	EmploymentTypeId = 'employmentTypeId',
 	/** column name */
 	HourlyRate = 'hourlyRate',
 	/** column name */
@@ -10973,9 +10973,9 @@ export enum ProfessionalProjectSelectColumn {
 
 /** input type for updating data in table "professional_project" */
 export type ProfessionalProjectSetInput = {
-	contract_type_id?: InputMaybe<ContractTypeEnum>;
+	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	employment_type_id?: InputMaybe<EmploymentTypeEnum>;
+	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	/** in cents (multiply by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
@@ -11040,9 +11040,9 @@ export type ProfessionalProjectStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type ProfessionalProjectStreamCursorValueInput = {
-	contract_type_id?: InputMaybe<ContractTypeEnum>;
+	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	employment_type_id?: InputMaybe<EmploymentTypeEnum>;
+	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	/** in cents (multiply by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
@@ -11070,11 +11070,11 @@ export type ProfessionalProjectSumOrderBy = {
 /** update columns of table "professional_project" */
 export enum ProfessionalProjectUpdateColumn {
 	/** column name */
-	ContractTypeId = 'contract_type_id',
+	ContractTypeId = 'contractTypeId',
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
-	EmploymentTypeId = 'employment_type_id',
+	EmploymentTypeId = 'employmentTypeId',
 	/** column name */
 	HourlyRate = 'hourlyRate',
 	/** column name */

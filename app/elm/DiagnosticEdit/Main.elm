@@ -3,12 +3,12 @@ port module DiagnosticEdit.Main exposing (..)
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
-import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime)
+import Domain.ProfessionalProject exposing (ContractType(..), ProfessionalProject, Rome, WorkingTime(..), contractTypeStringToType, contractTypeToKey, contractTypeToLabel, workingTimeStringToType, workingTimeToKey, workingTimeToLabel)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
-import Html.Attributes exposing (attribute, checked, class, disabled, for, id, name, type_, value)
-import Html.Events exposing (onClick, onInput)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Html.Styled as Styled
 import Http
 import Json.Decode
@@ -53,7 +53,7 @@ type alias ProfessionalProjectState =
     , mobilityRadius : Maybe Int
     , hourlyRate : Maybe Float
     , contractType : Maybe ContractType
-    , workingTimeType : Maybe WorkingTime
+    , workingTime : Maybe WorkingTime
     , romeData : RomeData
     , selectedRome : Maybe Rome
     , selectState : Select.State
@@ -63,7 +63,10 @@ type alias ProfessionalProjectState =
 type alias ProfessionalProjectOut =
     { id : Maybe String
     , mobilityRadius : Maybe Int
-    , romeId : Maybe String
+    , romeCodeId : Maybe String
+    , hourlyRate : Maybe Int
+    , contractTypeId : Maybe String
+    , employmentTypeId : Maybe String
     }
 
 
@@ -71,7 +74,10 @@ toProfessionalProjectOut : ProfessionalProjectState -> ProfessionalProjectOut
 toProfessionalProjectOut state =
     { id = state.id
     , mobilityRadius = state.mobilityRadius
-    , romeId = Maybe.map .id state.selectedRome
+    , romeCodeId = Maybe.map .id state.selectedRome
+    , hourlyRate = Maybe.map ((\val -> val * 100) >> truncate) state.hourlyRate
+    , contractTypeId = Maybe.map contractTypeToKey state.contractType
+    , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
     }
 
 
@@ -117,6 +123,9 @@ type Msg
     | AddEmptyProfessionalProject
     | RemoveProject Int
     | UpdateMobilityRadius Int String
+    | UpdateWorkingTime Int (Maybe WorkingTime)
+    | UpdateContractType Int (Maybe ContractType)
+    | UpdateHourlyRate Int String
     | OpenRomeSearch Int
     | SelectMsg Int (Select.Msg Rome)
     | MsgFetchJobTitlesDebouncer (Debouncer.Msg Msg)
@@ -173,6 +182,8 @@ initProfessionalProjectState professionalProject =
     , rome = professionalProject.rome
     , mobilityRadius = professionalProject.mobilityRadius
     , hourlyRate = professionalProject.hourlyRate
+    , contractType = professionalProject.contractType
+    , workingTime = professionalProject.workingTimeType
     , romeData = Maybe.withDefault NotAsked (Maybe.map (\value -> Success [ value ]) professionalProject.rome)
     , selectedRome = professionalProject.rome
     , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ professionalProject.id))
@@ -242,6 +253,9 @@ update msg model =
                                      , mobilityRadius = Nothing
                                      , romeData = NotAsked
                                      , selectedRome = Nothing
+                                     , hourlyRate = Nothing
+                                     , workingTime = Nothing
+                                     , contractType = Nothing
                                      , selectState = Select.initState (Select.selectIdentifier (romeSelectorKey ++ String.fromInt (List.length model.professionalProjects)))
                                      }
                                    ]
@@ -251,6 +265,60 @@ update msg model =
                 | professionalProjectsMaxCountReached =
                     newModel.professionalProjects |> hasReachedProfessionalProjectMaxCount
               }
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
+            )
+
+        UpdateContractType indexToUpdate contract ->
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt indexToUpdate
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | contractType = contract }
+                                    )
+                    }
+            in
+            ( newModel
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
+            )
+
+        UpdateHourlyRate indexToUpdate rate ->
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt indexToUpdate
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | hourlyRate = String.toFloat rate }
+                                    )
+                    }
+            in
+            ( newModel
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
+            )
+
+        UpdateWorkingTime indexToUpdate workingTime ->
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt indexToUpdate
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | workingTime = workingTime }
+                                    )
+                    }
+            in
+            ( newModel
             , newModel.professionalProjects
                 |> List.map toProfessionalProjectOut
                 |> sendUpdatedProfessionalProjects
@@ -547,57 +615,97 @@ view model =
                 |> List.indexedMap
                     (\index project ->
                         div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
-                            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                                [ div [ class "fr-col-8" ]
-                                    [ div [ class "fr-input-group elm-select" ]
-                                        [ label [ class "fr-label", for ("job" ++ String.fromInt index) ] [ text "Métier recherché" ]
-                                        , button
-                                            [ class "fr-select text-left"
-                                            , type_ "button"
-                                            , onClick (OpenRomeSearch index)
-                                            , ariaExpanded (Select.isMenuOpen project.selectState)
-                                            ]
-                                            [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> text
-                                            ]
-                                        , case model.activeRomeSearchIndex of
-                                            Just _ ->
-                                                let
-                                                    showloading =
-                                                        case project.romeData of
-                                                            Loading ->
-                                                                Select.loading True
+                            [ div [ class "fr-input-group elm-select" ]
+                                [ label [ class "fr-label", for ("job" ++ String.fromInt index) ] [ text "Métier recherché" ]
+                                , button
+                                    [ class "fr-select text-left"
+                                    , type_ "button"
+                                    , onClick (OpenRomeSearch index)
+                                    , ariaExpanded (Select.isMenuOpen project.selectState)
+                                    ]
+                                    [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> text
+                                    ]
+                                , case model.activeRomeSearchIndex of
+                                    Just _ ->
+                                        let
+                                            showloading =
+                                                case project.romeData of
+                                                    Loading ->
+                                                        Select.loading True
 
-                                                            _ ->
-                                                                Select.loading False
-                                                in
-                                                div []
-                                                    [ Html.map
-                                                        (SelectMsg index)
-                                                        (Styled.toUnstyled <|
-                                                            Select.view
-                                                                (Select.menu
-                                                                    |> Select.state project.selectState
-                                                                    |> Select.menuItems (romeDataToMenuItems project.romeData)
-                                                                    |> Select.placeholder "Rechercher un métier ou un code ROME"
-                                                                    |> Select.loadingMessage "Chargement..."
-                                                                    |> Select.ariaDescribedBy ("select-usage-" ++ String.fromInt index)
-                                                                    |> showloading
-                                                                )
+                                                    _ ->
+                                                        Select.loading False
+                                        in
+                                        div []
+                                            [ Html.map
+                                                (SelectMsg index)
+                                                (Styled.toUnstyled <|
+                                                    Select.view
+                                                        (Select.menu
+                                                            |> Select.state project.selectState
+                                                            |> Select.menuItems (romeDataToMenuItems project.romeData)
+                                                            |> Select.placeholder "Rechercher un métier ou un code ROME"
+                                                            |> Select.loadingMessage "Chargement..."
+                                                            |> Select.ariaDescribedBy ("select-usage-" ++ String.fromInt index)
+                                                            |> showloading
                                                         )
-                                                    , if project.selectState |> Select.isMenuOpen then
-                                                        p [ class "sr-only", id ("select-usage-" ++ String.fromInt index) ] [ text "Utilisez les touches flèches pour naviguer dans la liste des suggestions" ]
+                                                )
+                                            , if project.selectState |> Select.isMenuOpen then
+                                                p [ class "sr-only", id ("select-usage-" ++ String.fromInt index) ] [ text "Utilisez les touches flèches pour naviguer dans la liste des suggestions" ]
 
-                                                      else
-                                                        text ""
-                                                    , if project.selectState |> Select.isMenuOpen then
-                                                        label [ class "sr-only", for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ text "Rechercher un métier ou un code ROME" ]
-
-                                                      else
-                                                        text ""
-                                                    ]
-
-                                            _ ->
+                                              else
                                                 text ""
+                                            , if project.selectState |> Select.isMenuOpen then
+                                                label [ class "sr-only", for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ text "Rechercher un métier ou un code ROME" ]
+
+                                              else
+                                                text ""
+                                            ]
+
+                                    _ ->
+                                        text ""
+                                ]
+                            , div
+                                [ class "fr-grid-row fr-grid-row--gutters " ]
+                                [ div [ class "fr-col-4" ]
+                                    [ div [ class "fr-input-group" ]
+                                        [ label
+                                            [ class "fr-label", for ("contractType" ++ String.fromInt index) ]
+                                            [ text "Type de contrat" ]
+                                        , select
+                                            [ class "fr-select"
+                                            , id ("contract-type" ++ String.fromInt index)
+                                            , name "contract-type[]"
+                                            , onInput (\val -> UpdateContractType index (contractTypeStringToType val))
+                                            ]
+                                            [ option [ value "", disabled True, selected (project.contractType == Nothing) ] [ text "Sélectionner un type de contrat" ]
+                                            , contractTypeOption CDI project.contractType
+                                            , contractTypeOption CDD project.contractType
+                                            , contractTypeOption Interim project.contractType
+                                            , contractTypeOption Seasonal project.contractType
+                                            , contractTypeOption Liberal project.contractType
+                                            , contractTypeOption Professionalization project.contractType
+                                            , contractTypeOption Apprenticeship project.contractType
+                                            , contractTypeOption Portage project.contractType
+                                            ]
+                                        ]
+                                    ]
+                                , div
+                                    [ class "fr-col-4" ]
+                                    [ div [ class "fr-input-group" ]
+                                        [ label
+                                            [ class "fr-label", for ("contractType" ++ String.fromInt index) ]
+                                            [ text "Durée du temps de travail" ]
+                                        , select
+                                            [ class "fr-select"
+                                            , id ("working-type" ++ String.fromInt index)
+                                            , name "working-type[]"
+                                            , onInput (\val -> UpdateWorkingTime index (workingTimeStringToType val))
+                                            ]
+                                            [ option [ value "", disabled True, selected (project.workingTime == Nothing) ] [ text "Sélectionner une durée de temps de travail" ]
+                                            , workingTimeTypeOption FullTime project.workingTime
+                                            , workingTimeTypeOption PartTime project.workingTime
+                                            ]
                                         ]
                                     ]
                                 , div [ class "fr-col-4" ]
@@ -612,6 +720,25 @@ view model =
                                             , id ("mobility-radius" ++ String.fromInt index)
                                             , name "mobility-radius[]"
                                             , value (Maybe.map String.fromInt project.mobilityRadius |> Maybe.withDefault "")
+                                            , inputmode "numeric"
+                                            ]
+                                            []
+                                        ]
+                                    ]
+                                , div [ class "fr-col-4" ]
+                                    [ div [ class "fr-input-group" ]
+                                        [ label
+                                            [ class "fr-label", for ("hourlyRate" ++ String.fromInt index) ]
+                                            [ text "Salaire minimum brut/horaire (€)"
+                                            , span [ class "fr-hint-text" ] [ text "SMIC horaire brut au 1er janvier 2023 = 11,27 €" ]
+                                            ]
+                                        , input
+                                            [ class "fr-input"
+                                            , type_ "text"
+                                            , id ("hourly-rate" ++ String.fromInt index)
+                                            , name "hourly-rate[]"
+                                            , onInput (UpdateHourlyRate index)
+                                            , value (Maybe.map String.fromFloat project.hourlyRate |> Maybe.withDefault "")
                                             , inputmode "numeric"
                                             ]
                                             []
@@ -655,6 +782,24 @@ view model =
                     )
             )
         ]
+
+
+contractTypeOption : ContractType -> Maybe ContractType -> Html Msg
+contractTypeOption contractType selectedContractType =
+    option
+        [ value <| contractTypeToLabel contractType
+        , selected (Just contractType == selectedContractType)
+        ]
+        [ text <| contractTypeToLabel contractType ]
+
+
+workingTimeTypeOption : WorkingTime -> Maybe WorkingTime -> Html Msg
+workingTimeTypeOption workingTimeType selectedworkingTimeType =
+    option
+        [ value <| workingTimeToLabel workingTimeType
+        , selected (Just workingTimeType == selectedworkingTimeType)
+        ]
+        [ text <| workingTimeToLabel workingTimeType ]
 
 
 situationCheckboxView : Set String -> Situation -> Html Msg

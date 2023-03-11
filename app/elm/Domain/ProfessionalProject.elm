@@ -58,39 +58,8 @@ type alias Rome =
     }
 
 
-contractTypeKeyToType : String -> Maybe ContractType
-contractTypeKeyToType key =
-    case key of
-        "cdi" ->
-            Just CDI
-
-        "cdd" ->
-            Just CDD
-
-        "interim" ->
-            Just Interim
-
-        "saisonnier" ->
-            Just Seasonal
-
-        "liberale" ->
-            Just Liberal
-
-        "contrat_professionnalisation" ->
-            Just Professionalization
-
-        "apprentissage" ->
-            Just Apprenticeship
-
-        "portage_salarial" ->
-            Just Portage
-
-        _ ->
-            Nothing
-
-
-contractTypeToString : ContractType -> String
-contractTypeToString contractType =
+contractTypeToLabel : ContractType -> String
+contractTypeToLabel contractType =
     case contractType of
         CDI ->
             "CDI"
@@ -117,8 +86,91 @@ contractTypeToString contractType =
             "Portage salarial"
 
 
-workingTimeKeyToType : String -> Maybe WorkingTime
-workingTimeKeyToType key =
+contractTypeToKey : ContractType -> String
+contractTypeToKey contractType =
+    case contractType of
+        CDI ->
+            "cdi"
+
+        CDD ->
+            "cdd"
+
+        Interim ->
+            "interim"
+
+        Seasonal ->
+            "saisonnier"
+
+        Liberal ->
+            "liberale"
+
+        Professionalization ->
+            "contrat_professionnalisation"
+
+        Apprenticeship ->
+            "apprentissage"
+
+        Portage ->
+            "portage_salarial"
+
+
+contractTypeStringToType : String -> Maybe ContractType
+contractTypeStringToType contractType =
+    case contractType of
+        "CDI" ->
+            Just CDI
+
+        "cdi" ->
+            Just CDI
+
+        "CDD" ->
+            Just CDD
+
+        "cdd" ->
+            Just CDD
+
+        "Intérim" ->
+            Just Interim
+
+        "interim" ->
+            Just Interim
+
+        "Saisonier" ->
+            Just Seasonal
+
+        "saisonnier" ->
+            Just Seasonal
+
+        "Libéral" ->
+            Just Liberal
+
+        "liberale" ->
+            Just Liberal
+
+        "Contrat de professionnalisation" ->
+            Just Professionalization
+
+        "contrat_professionnalisation" ->
+            Just Professionalization
+
+        "Apprentissage" ->
+            Just Apprenticeship
+
+        "apprentissage" ->
+            Just Apprenticeship
+
+        "Portage salarial" ->
+            Just Portage
+
+        "portage_salarial" ->
+            Just Portage
+
+        _ ->
+            Nothing
+
+
+workingTimeStringToType : String -> Maybe WorkingTime
+workingTimeStringToType key =
     case key of
         "full_time" ->
             Just FullTime
@@ -126,15 +178,31 @@ workingTimeKeyToType key =
         "part_time" ->
             Just PartTime
 
+        "Temps plein" ->
+            Just FullTime
+
+        "Temps partiel" ->
+            Just PartTime
+
         _ ->
             Nothing
 
 
-workingTimeToString : WorkingTime -> String
-workingTimeToString workingTime =
+workingTimeToLabel : WorkingTime -> String
+workingTimeToLabel workingTime =
     case workingTime of
         FullTime ->
             "Temps plein"
 
         PartTime ->
             "Temps partiel"
+
+
+workingTimeToKey : WorkingTime -> String
+workingTimeToKey workingTime =
+    case workingTime of
+        FullTime ->
+            "full_time"
+
+        PartTime ->
+            "part_time"

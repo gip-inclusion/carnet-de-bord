@@ -1,3 +1,4 @@
+import type { ContractTypeEnum, EmploymentTypeEnum } from '$lib/graphql/_gen/typed-document-nodes';
 import type { ProfessionalProjectElm, RefSituation } from 'elm/Diagnostic/Main.elm';
 
 export type Situation = { id: string; refSituation?: RefSituation };
@@ -5,7 +6,10 @@ export type Situation = { id: string; refSituation?: RefSituation };
 export type ProfessionalProjectOut = {
 	id: string?;
 	mobilityRadius: number?;
-	romeId: string?;
+	romeCodeId: string?;
+	employmentTypeId: EmploymentTypeEnum?;
+	contractTypeId: ContractTypeEnum?;
+	hourlyRate: number?;
 };
 
 export type Flags = {

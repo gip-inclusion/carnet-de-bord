@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { educationLevelKeys, workSituationKeys } from '$lib/constants/keys';
 	import type {
+		ContractTypeEnum,
+		EmploymentTypeEnum,
 		GetNotebookQuery,
 		ProfessionalProjectInsertInput,
 		ProfessionalProjectUpdates,
@@ -50,12 +52,18 @@
 
 	$: errorMessage = '';
 	let selectedSituations: string[] = notebook.situations.map(({ refSituation }) => refSituation.id);
-	let professionalProjects =
+	let professionalProjects: Pick<
+		ProfessionalProjectInsertInput,
+		'id' | 'mobilityRadius' | 'contractTypeId' | 'romeCodeId' | 'hourlyRate' | 'employmentTypeId'
+	>[] =
 		notebook?.professionalProjects?.map((professionalProject) => {
 			return {
 				id: professionalProject.id,
 				mobilityRadius: professionalProject.mobilityRadius,
-				romeId: professionalProject.rome_code?.id,
+				romeCodeId: professionalProject.rome_code?.id,
+				hourlyRate: professionalProject.hourlyRate,
+				employmentTypeId: professionalProject?.employment_type?.id as EmploymentTypeEnum,
+				contractTypeId: professionalProject?.contract_type?.id as ContractTypeEnum,
 			};
 		}) ?? [];
 
@@ -79,7 +87,7 @@
 		trackEvent('pro', 'notebook', 'update socio pro info');
 		const { educationLevel, rightRqth, workSituation } =
 			proNotebookSocioproSchema.validateSync(values);
-
+		console.log({ professionalProjects });
 		const currentSituationIds = notebook.situations.map(({ refSituation }) => refSituation.id);
 
 		const situationsToAdd = selectedSituations
@@ -105,8 +113,11 @@
 			.map((project) => {
 				return {
 					notebookId: notebook.id,
+					romeCodeId: project.romeCodeId,
+					hourlyRate: project.hourlyRate,
 					mobilityRadius: project.mobilityRadius,
-					romeCodeId: project.romeId,
+					contractTypeId: project.contractTypeId,
+					employmentTypeId: project.employmentTypeId,
 				};
 			});
 
@@ -119,11 +130,14 @@
 					},
 					_set: {
 						mobilityRadius: project.mobilityRadius,
-						romeCodeId: project.romeId,
+						romeCodeId: project.romeCodeId,
+						contractTypeId: project.contractTypeId,
+						employmentTypeId: project.employmentTypeId,
+						hourlyRate: project.hourlyRate,
 					},
 				};
 			});
-
+		console.log({ professionalProjectsToUpdate });
 		const payload = {
 			id: notebook.id,
 			educationLevel,

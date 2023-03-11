@@ -4,7 +4,7 @@ import Browser
 import Date exposing (Date, fromIsoString)
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
-import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeKeyToType, contractTypeToString, workingTimeKeyToType, workingTimeToString)
+import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html exposing (..)
@@ -223,12 +223,12 @@ extractProfessionalProjectFromFlags flags =
 
 extractContractType : Maybe ContractTypeFlags -> Maybe ContractType
 extractContractType contractTypeFlag =
-    Maybe.andThen (.id >> contractTypeKeyToType) contractTypeFlag
+    Maybe.andThen (.id >> contractTypeStringToType) contractTypeFlag
 
 
 extractWorkingTimeType : Maybe WorkingTimeFlags -> Maybe WorkingTime
 extractWorkingTimeType workingTimeFlag =
-    Maybe.andThen (.id >> workingTimeKeyToType) workingTimeFlag
+    Maybe.andThen (.id >> workingTimeStringToType) workingTimeFlag
 
 
 
@@ -419,14 +419,14 @@ professionalProjectView { professionalProjects } =
                                     [ div [ class "fr-col-4" ]
                                         [ situationElement "Type de contrat"
                                             (professionalProject.contractType
-                                                |> Maybe.map contractTypeToString
+                                                |> Maybe.map contractTypeToLabel
                                                 |> Maybe.map text
                                             )
                                             (unfilled Masculine)
                                             Nothing
                                         , situationElement "Durée de temps de travail"
                                             (professionalProject.workingTimeType
-                                                |> Maybe.map workingTimeToString
+                                                |> Maybe.map workingTimeToLabel
                                                 |> Maybe.map text
                                             )
                                             (unfilled Masculine)
