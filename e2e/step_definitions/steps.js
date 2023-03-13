@@ -219,6 +219,18 @@ Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select
 	I.selectOption(select, option);
 });
 
+Quand(
+	"je selectionne l'option {string} dans la liste {string} après le texte {string}",
+	(option, inputLabel, matcher) => {
+		const inputLocator = locate('select').after(locate('label').withText(inputLabel));
+		const select = locate('*')
+			.withDescendant(inputLocator)
+			.after(locate('*').withDescendant(locate('*').withText(matcher)))
+			.find(inputLocator);
+		I.selectOption(select, option);
+	}
+);
+
 Quand("j'appuie sur Entrée", () => {
 	I.pressKey('Enter');
 });
