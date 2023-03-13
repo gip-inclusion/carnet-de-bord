@@ -759,8 +759,8 @@ view model =
                                       div [ class "fr-input-group" ]
                                         [ label
                                             attrlist
-                                            [ text "Salaire minimum brut/horaire (€)"
-                                            , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 = " ++ addMoneyUnit (String.fromFloat smicHourlyValue)) ]
+                                            [ text "Salaire minimum brut horaire (€)"
+                                            , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 : " ++ String.fromFloat smicHourlyValue |> addMoneyUnit) ]
                                             ]
                                         , input
                                             [ class "fr-input"

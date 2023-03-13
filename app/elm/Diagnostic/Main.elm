@@ -429,12 +429,12 @@ professionalProjectView { professionalProjects } =
                                                 |> Maybe.map workingTimeToLabel
                                                 |> Maybe.map text
                                             )
-                                            (unfilled Masculine)
+                                            (unfilled Feminine)
                                             Nothing
                                         ]
                                     , div
                                         [ class "fr-col-4" ]
-                                        [ situationElement "Salaire minimum brut/horraire"
+                                        [ situationElement "Salaire minimum brut horaire"
                                             (professionalProject.hourlyRate
                                                 |> Maybe.map String.fromFloat
                                                 |> Maybe.map addMoneyUnit

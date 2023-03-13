@@ -19,14 +19,14 @@ Scénario: Recherche de métier même avec des trous
 Scénario: Ajout de plusieurs projet pro
 	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
 	Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel" de niveau 2
-	Quand je renseigne "15" dans le champ "Rayon de mobilité" après le texte "Formateur / Formatrice (K2111)"
+	Quand je renseigne "15" dans le champ "Zone de mobilité (km)" après le texte "Formateur / Formatrice (K2111)"
 	Quand je clique sur "Ajouter un projet professionnel"
 	Quand je clique sur "Projet en construction"
 	Quand je renseigne "dev info" dans le champ "Rechercher un métier ou un code ROME"
 	Alors je vois "Développeur / Développeuse informatique (M1805)"
 	Quand je clique sur le texte "Développeur / Développeuse informatique (M1805)"
-	Quand je renseigne "100" dans le champ "Rayon de mobilité" après le texte "Développeur / Développeuse informatique (M1805)"
-	Quand je renseigne "10" dans le champ "Salaire minimum brut/horaire (€)" après le texte "Développeur / Développeuse informatique (M1805)"
+	Quand je renseigne "100" dans le champ "Zone de mobilité (km)" après le texte "Développeur / Développeuse informatique (M1805)"
+	Quand je renseigne "10" dans le champ "Salaire minimum brut horaire (€)" après le texte "Développeur / Développeuse informatique (M1805)"
 	Alors je vois "Attention, la valeur est inférieure au SMIC."
 	Quand je renseigne "14.95" dans le champ "Salaire minimum brut/horaire (€)" après le texte "Développeur / Développeuse informatique (M1805)"
 	Quand je selectionne l'option "Temps plein" dans la liste "Durée du temps de travail" après le texte "Développeur / Développeuse informatique (M1805)"
