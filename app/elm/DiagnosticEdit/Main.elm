@@ -684,8 +684,8 @@ view model =
                                             [ text "Type de contrat" ]
                                         , select
                                             [ class "fr-select"
-                                            , id ("contract-type" ++ String.fromInt index)
-                                            , name "contract-type[]"
+                                            , id ("contract-type-" ++ String.fromInt index)
+                                            , name ("contract-type-" ++ String.fromInt index)
                                             , onInput (\val -> UpdateContractType index (contractTypeStringToType val))
                                             ]
                                             [ option [ value "", disabled True, selected (project.contractType == Nothing) ] [ text "Sélectionner un type de contrat" ]
@@ -708,8 +708,8 @@ view model =
                                             [ text "Durée du temps de travail" ]
                                         , select
                                             [ class "fr-select"
-                                            , id ("working-type" ++ String.fromInt index)
-                                            , name "working-type[]"
+                                            , id ("working-type-" ++ String.fromInt index)
+                                            , name ("working-type" ++ String.fromInt index)
                                             , onInput (\val -> UpdateWorkingTime index (workingTimeStringToType val))
                                             ]
                                             [ option [ value "", disabled True, selected (project.workingTime == Nothing) ] [ text "Sélectionner une durée de temps de travail" ]
@@ -722,13 +722,13 @@ view model =
                                     [ div [ class "fr-input-group" ]
                                         [ label
                                             [ class "fr-label", for ("mobility-radius" ++ String.fromInt index) ]
-                                            [ text "Rayon de mobilité" ]
+                                            [ text "Zone de mobilité (km)" ]
                                         , input
                                             [ class "fr-input"
                                             , onInput (UpdateMobilityRadius index)
                                             , type_ "text"
-                                            , id ("mobility-radius" ++ String.fromInt index)
-                                            , name "mobility-radius[]"
+                                            , id ("mobility-radius-" ++ String.fromInt index)
+                                            , name ("mobility-radius-" ++ String.fromInt index)
                                             , value (Maybe.map String.fromInt project.mobilityRadius |> Maybe.withDefault "")
                                             , inputmode "numeric"
                                             ]
@@ -765,11 +765,11 @@ view model =
                                         , input
                                             [ class "fr-input"
                                             , type_ "text"
-                                            , id ("hourly-rate" ++ String.fromInt index)
-                                            , name "hourly-rate[]"
+                                            , id ("hourly-rate-" ++ String.fromInt index)
+                                            , name ("hourly-rate-" ++ String.fromInt index)
                                             , onInput (UpdateHourlyRate index)
                                             , value (Maybe.map String.fromFloat project.hourlyRate |> Maybe.withDefault "")
-                                            , inputmode "numeric"
+                                            , inputmode "decimal"
                                             ]
                                             []
                                         , if showSmicNotice then
