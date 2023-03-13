@@ -2,7 +2,7 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
-import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
+import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ContractType(..), ProfessionalProject, Rome, WorkingTime(..), contractTypeStringToType, contractTypeToKey, contractTypeToLabel, workingTimeStringToType, workingTimeToKey, workingTimeToLabel)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
@@ -97,6 +97,11 @@ ariaExpanded value =
         )
 
 
+ariaDescribedBy : String -> Attribute msg
+ariaDescribedBy value =
+    attribute "aria-described-by" value
+
+
 main : Program Flags Model Msg
 main =
     Browser.element
@@ -136,6 +141,11 @@ type Msg
 professionalProjetsMaxCount : Int
 professionalProjetsMaxCount =
     5
+
+
+smicHourlyValue : Float
+smicHourlyValue =
+    11.27
 
 
 
@@ -726,11 +736,31 @@ view model =
                                         ]
                                     ]
                                 , div [ class "fr-col-4" ]
-                                    [ div [ class "fr-input-group" ]
+                                    [ let
+                                        showSmicNotice =
+                                            case project.hourlyRate of
+                                                Just value ->
+                                                    if value < smicHourlyValue then
+                                                        True
+
+                                                    else
+                                                        False
+
+                                                Nothing ->
+                                                    False
+
+                                        attrlist =
+                                            if showSmicNotice then
+                                                [ class "fr-label", for ("hourlyRate" ++ String.fromInt index), ariaDescribedBy ("smicNotice" ++ String.fromInt index) ]
+
+                                            else
+                                                [ class "fr-label", for ("hourlyRate" ++ String.fromInt index) ]
+                                      in
+                                      div [ class "fr-input-group" ]
                                         [ label
-                                            [ class "fr-label", for ("hourlyRate" ++ String.fromInt index) ]
+                                            attrlist
                                             [ text "Salaire minimum brut/horaire (€)"
-                                            , span [ class "fr-hint-text" ] [ text "SMIC horaire brut au 1er janvier 2023 = 11,27 €" ]
+                                            , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 = " ++ addMoneyUnit (String.fromFloat smicHourlyValue)) ]
                                             ]
                                         , input
                                             [ class "fr-input"
@@ -742,6 +772,11 @@ view model =
                                             , inputmode "numeric"
                                             ]
                                             []
+                                        , if showSmicNotice then
+                                            p [ id ("smicNotice" ++ String.fromInt index), class "fr-error-text" ] [ text "Attention, la valeur est inférieure au SMIC." ]
+
+                                          else
+                                            text ""
                                         ]
                                     ]
                                 ]
