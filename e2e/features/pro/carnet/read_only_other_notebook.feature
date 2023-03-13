@@ -22,7 +22,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 		Alors je clique sur "Non"
 		Alors je clique sur "Se rattacher" dans la modale
-		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
+		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi" de niveau 2
 		Alors je ne vois pas "référent"
 		Alors je vois "Plan d'action"
 		Alors je vois "Diagnostic socioprofessionnel"
@@ -35,7 +35,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 		Alors je clique sur "Oui"
 		Alors je clique sur "Se rattacher" dans la modale
-		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
+		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi" de niveau 2
 		Alors je vois "référent"
 		Alors je vois "Plan d'action"
 		Alors je vois "Diagnostic socioprofessionnel"

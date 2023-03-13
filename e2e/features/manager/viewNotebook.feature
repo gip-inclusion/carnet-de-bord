@@ -30,7 +30,7 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Quand je clique sur "Voir le carnet de Payne Bennett"
 		Quand je vais sur l'onglet suivant
 		Alors j'attends que le texte "Payne Bennett" apparaisse
-		Quand je clique sur "Mettre à jour" sous le titre "Informations personnelles"
+		Quand je clique sur "Mettre à jour" sous le titre "Informations personnelles" de niveau 2
 		Quand je renseigne "Bennaytte" dans le champ "Prénom"
 		Alors je vois "Informations personnelles"
 		Quand je clique sur "Enregistrer"

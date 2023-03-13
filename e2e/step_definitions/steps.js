@@ -97,13 +97,16 @@ Quand('je navigue vers la page précédente', async () => {
 	I.executeScript('window.history.back();');
 });
 
-Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
-	const item = locate('*')
-		.after(locate('h2').withText(header))
-		.find(`//*[text()[contains(.,'${target}')]]`);
+Quand(
+	'je clique sur {string} sous le titre {string} de niveau {int}',
+	async (target, header, heading) => {
+		const item = locate('*')
+			.after(locate('h' + heading).withText(header))
+			.find(`//*[text()[contains(.,'${target}')]]`);
 
-	I.click(item);
-});
+		I.click(item);
+	}
+);
 
 Quand('je clique sur la ligne du tableau contenant le texte {string}', (text) => {
 	I.click(locate('table tr').withText(text));
@@ -275,12 +278,15 @@ Alors('je vois {string} dans la tuile {string}', (text, tileText) => {
 	I.see(text, locator);
 });
 
-Alors('je vois {string} dans la tuile {string} sous le titre {string}', (nb, tileText, title) => {
-	const locator = locate('.fr-card')
-		.withDescendant(locate('*').withText(tileText))
-		.inside(locate('*').after(locate('h2').withText(title)));
-	I.see(nb, locator);
-});
+Alors(
+	'je vois {int} dans la tuile {string} sous le titre {string} de niveau {int}',
+	(nb, tileText, title, heading) => {
+		const locator = locate('.fr-card')
+			.withDescendant(locate('*').withText(tileText))
+			.inside(locate('*').after(locate('h' + heading).withText(title)));
+		I.see(nb, locator);
+	}
+);
 
 Alors('je vois {string} sur la ligne {string}', (text, ligneText) => {
 	const locator = locate('tr').withChild(locate('td').withText(ligneText));
@@ -314,9 +320,9 @@ Alors('je ne vois pas {string}', (text) => {
 	I.dontSee(text);
 });
 
-Alors('je vois {string} sous le titre {string}', async (text, title) => {
+Alors('je vois {string} sous le titre {string} de niveau {int}', async (text, title, heading) => {
 	const item = locate('*')
-		.after(locate('h2').withText(title))
+		.after(locate('h' + heading).withText(title))
 		.find(`//*[text()[contains(.,'${text}')]]`);
 
 	I.see(text, item);

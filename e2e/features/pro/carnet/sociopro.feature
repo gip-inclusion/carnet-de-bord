@@ -5,7 +5,7 @@ Fonctionnalité: Informations sur le bénéficaire
 
 	Scénario: Saisie des informations personnelles par un pro
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
-		Quand je clique sur "Mettre à jour" sous le titre "Informations personnelles"
+		Quand je clique sur "Mettre à jour" sous le titre "Informations personnelles" de niveau 2
 		Alors je vois "Informations personnelles"
 		Quand je renseigne "0601234567" dans le champ "Téléphone"
 		Quand je choisis "Droit ouvert et suspendu"
@@ -19,7 +19,7 @@ Fonctionnalité: Informations sur le bénéficaire
 
 	Scénario: Saisie des informations socioprofessionnelles par un pro
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
-		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
+		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel" de niveau 2
 		Alors je vois "Situation actuelle"
 		Quand je renseigne la date "20/06/2020" dans le champ "Depuis le"
 		Quand je clique sur le texte "12 mois"
@@ -31,7 +31,7 @@ Fonctionnalité: Informations sur le bénéficaire
 
 	Scénario: Saisie des informations socioprofessionnelles (Situation)
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
-		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
+		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel" de niveau 2
 		Alors je vois "Situation Personnelle"
 		Quand je coche "Contrainte horaires"
 		Quand je coche "Attend un enfant ou plus"
@@ -48,7 +48,7 @@ Fonctionnalité: Informations sur le bénéficaire
 
 	Scénario: Saisie des informations socioprofessionnelles 2 ans
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
-		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel"
+		Quand je clique sur "Mettre à jour" sous le titre "Diagnostic socioprofessionnel" de niveau 2
 		Alors je vois "Situation actuelle"
 		Quand je renseigne la date "20/06/2020" dans le champ "Depuis le"
 		Quand je clique sur le texte "24 mois"
