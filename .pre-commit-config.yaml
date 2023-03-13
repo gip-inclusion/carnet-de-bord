@@ -78,11 +78,12 @@ repos:
         pass_filenames: false
         files: |
           (?x)^(
-            hasura/Dockerfile|
+            docker-compose.yaml|
+            docker-compose-test.yaml|
             hasura/.hasura_version|
           )
         entry: |
-          ./scripts/check-hasura-version.sh
+          ./scripts/check-hasura-version
 
       - id: check-app-codegen
         name: check if app codegen needs to be ran
