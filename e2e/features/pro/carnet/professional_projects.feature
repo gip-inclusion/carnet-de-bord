@@ -28,7 +28,7 @@ Scénario: Ajout de plusieurs projet pro
 	Quand je renseigne "100" dans le champ "Zone de mobilité (km)" après le texte "Développeur / Développeuse informatique (M1805)"
 	Quand je renseigne "10" dans le champ "Salaire minimum brut horaire (€)" après le texte "Développeur / Développeuse informatique (M1805)"
 	Alors je vois "Attention, la valeur est inférieure au SMIC."
-	Quand je renseigne "14.95" dans le champ "Salaire minimum brut/horaire (€)" après le texte "Développeur / Développeuse informatique (M1805)"
+	Quand je renseigne "14.95" dans le champ "Salaire minimum brut horaire (€)" après le texte "Développeur / Développeuse informatique (M1805)"
 	Quand je selectionne l'option "Temps plein" dans la liste "Durée du temps de travail" après le texte "Développeur / Développeuse informatique (M1805)"
 	Quand je selectionne l'option "CDI" dans la liste "Type de contrat" après le texte "Développeur / Développeuse informatique (M1805)"
 	Quand je clique sur "Enregistrer"

@@ -51,7 +51,7 @@ type alias ProfessionalProjectState =
     { id : Maybe String
     , rome : Maybe Rome
     , mobilityRadius : Maybe Int
-    , hourlyRate : Maybe Float
+    , hourlyRate : Maybe String
     , contractType : Maybe ContractType
     , workingTime : Maybe WorkingTime
     , romeData : RomeData
@@ -75,7 +75,10 @@ toProfessionalProjectOut state =
     { id = state.id
     , mobilityRadius = state.mobilityRadius
     , romeCodeId = Maybe.map .id state.selectedRome
-    , hourlyRate = Maybe.map ((\val -> val * 100) >> truncate) state.hourlyRate
+    , hourlyRate =
+        state.hourlyRate
+            |> Maybe.andThen String.toFloat
+            |> Maybe.map ((\val -> val * 100) >> truncate)
     , contractTypeId = Maybe.map contractTypeToKey state.contractType
     , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
     }
@@ -148,6 +151,20 @@ smicHourlyValue =
     11.27
 
 
+inputIsLowerThanSmic : String -> Bool
+inputIsLowerThanSmic input =
+    case String.toFloat input of
+        Just value ->
+            if value < smicHourlyValue then
+                True
+
+            else
+                False
+
+        _ ->
+            False
+
+
 
 -- MODEL
 
@@ -191,7 +208,7 @@ initProfessionalProjectState professionalProject =
     { id = Just professionalProject.id
     , rome = professionalProject.rome
     , mobilityRadius = professionalProject.mobilityRadius
-    , hourlyRate = professionalProject.hourlyRate
+    , hourlyRate = Maybe.map String.fromFloat professionalProject.hourlyRate
     , contractType = professionalProject.contractType
     , workingTime = professionalProject.workingTimeType
     , romeData = Maybe.withDefault NotAsked (Maybe.map (\value -> Success [ value ]) professionalProject.rome)
@@ -306,7 +323,7 @@ update msg model =
                             model.professionalProjects
                                 |> List.Extra.updateAt indexToUpdate
                                     (\professionalProjectState ->
-                                        { professionalProjectState | hourlyRate = String.toFloat rate }
+                                        { professionalProjectState | hourlyRate = Just rate }
                                     )
                     }
             in
@@ -740,11 +757,7 @@ view model =
                                         showSmicNotice =
                                             case project.hourlyRate of
                                                 Just value ->
-                                                    if value < smicHourlyValue then
-                                                        True
-
-                                                    else
-                                                        False
+                                                    inputIsLowerThanSmic value
 
                                                 Nothing ->
                                                     False
@@ -768,8 +781,8 @@ view model =
                                             , id ("hourly-rate-" ++ String.fromInt index)
                                             , name ("hourly-rate-" ++ String.fromInt index)
                                             , onInput (UpdateHourlyRate index)
-                                            , value (Maybe.map String.fromFloat project.hourlyRate |> Maybe.withDefault "")
-                                            , inputmode "decimal"
+                                            , value (Maybe.withDefault "" project.hourlyRate)
+                                            , inputmode "numeric"
                                             ]
                                             []
                                         , if showSmicNotice then
