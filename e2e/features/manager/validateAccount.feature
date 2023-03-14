@@ -11,11 +11,12 @@ Fonctionnalité: Gestion de professionnels d'un déploiement
 		Quand j'attends que le tableau "Liste des professionnels" apparaisse
 		Alors je vois "1" sur la ligne "Giulia Diaby"
 		Alors je vois "0" sur la ligne "Blaise Alaise"
+		Alors je vois "DÉSACTIVÉ" sur la ligne "Sarah Vigote"
 
 	Scénario: Validation d'un professionnel
 		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
 		Quand je clique sur "Professionnels"
 		Quand j'attends que le tableau "Liste des professionnels" apparaisse
-		Quand je clique sur "Activer"
+		Quand je clique sur "Valider"
 		Quand j'attends 1 secondes
-		Alors je vois "Actif" sur la ligne "Lejeune Bienvenu"
+		Alors je vois "VALIDÉ" sur la ligne "Lejeune Bienvenu"
