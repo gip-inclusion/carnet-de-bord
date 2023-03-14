@@ -5,7 +5,7 @@ Fonctionnalité: Modale de séléction du NPS
 	Je veux répondre au sondage de satisfaction NPS
 
 	Scénario: Réponse au sondage NPS
-		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
+		Soit un "chargé d'orientation" authentifié avec l'email "laure.loge@cd51.fr"
 		Alors je vois "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?"
 		Quand je clique sur "10"
         Quand je clique sur "Envoyer ma réponse"

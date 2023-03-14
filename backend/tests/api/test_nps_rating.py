@@ -1,15 +1,15 @@
 from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
-pro_uuid = UUID("d0b8f314-5e83-4535-9360-60f29dcfb5c8")
+pro_uuid = UUID("f29ca78a-4719-4658-8d19-48d3df9178b5")
 
 
-async def test_nps_rating(test_client, db_connection, get_professional_jwt):
+async def test_nps_rating(test_client, db_connection, laure_loge_jwt):
     request_start = datetime.now(tz=timezone.utc)
     response = test_client.post(
         "/v1/nps-rating/create",
         json={"score": 0},
-        headers={"jwt-token": get_professional_jwt},
+        headers={"jwt-token": laure_loge_jwt},
     )
     request_end = datetime.now(tz=timezone.utc)
     assert response.status_code == 201
@@ -21,9 +21,7 @@ async def test_nps_rating(test_client, db_connection, get_professional_jwt):
     assert request_start < row["created_at"] < request_end
 
 
-async def test_nps_rating_with_existing(
-    test_client, db_connection, get_professional_jwt
-):
+async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_jwt):
     await db_connection.execute(
         "INSERT INTO nps_rating (account_id, created_at, score) VALUES ($1, $2, $3)",
         pro_uuid,
@@ -34,7 +32,7 @@ async def test_nps_rating_with_existing(
     response = test_client.post(
         "/v1/nps-rating/create",
         json={"score": 10},
-        headers={"jwt-token": get_professional_jwt},
+        headers={"jwt-token": laure_loge_jwt},
     )
     request_end = datetime.now(tz=timezone.utc)
     assert response.status_code == 201
@@ -50,13 +48,11 @@ async def test_nps_rating_with_existing(
     assert request_start < row["created_at"] < request_end
 
 
-async def test_nps_rating_invalid_score(
-    test_client, db_connection, get_professional_jwt
-):
+async def test_nps_rating_invalid_score(test_client, db_connection, laure_loge_jwt):
     response = test_client.post(
         "/v1/nps-rating/create",
         json={"score": 9001},  # Over-promoter.
-        headers={"jwt-token": get_professional_jwt},
+        headers={"jwt-token": laure_loge_jwt},
     )
     assert response.status_code == 422
     assert response.json() == {
@@ -75,9 +71,7 @@ async def test_nps_rating_invalid_score(
     assert row["count"] == 0
 
 
-async def test_nps_rating_double_submission(
-    test_client, db_connection, get_professional_jwt
-):
+async def test_nps_rating_double_submission(test_client, db_connection, laure_loge_jwt):
     row = await db_connection.fetchrow(
         "INSERT INTO nps_rating (account_id, score) VALUES ($1, $2) RETURNING id, created_at",
         pro_uuid,
@@ -88,7 +82,7 @@ async def test_nps_rating_double_submission(
     response = test_client.post(
         "/v1/nps-rating/create",
         json={"score": 0},
-        headers={"jwt-token": get_professional_jwt},
+        headers={"jwt-token": laure_loge_jwt},
     )
     assert response.status_code == 403
     assert response.json() == {

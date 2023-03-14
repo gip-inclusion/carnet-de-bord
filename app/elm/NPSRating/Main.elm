@@ -312,63 +312,58 @@ scoreButton model n =
 
 view : Model -> Html Msg
 view model =
-    let
-        openAttribute =
-            if model.isOpen then
-                [ attribute "open" "" ]
-
-            else
-                []
-    in
-    Html.node "dialog"
-        ([ id "nps-rating-dialog"
-         , attribute "aria-modal" "true"
-         , attribute "role" "dialog"
-         , class "fixed bottom-0 z-10 p-0 m-0 fr-col-12 fr-col-md-10 fr-col-lg-8 fr-col-xl-6"
-         ]
-            ++ openAttribute
-        )
-        [ form [ method "dialog", preventDefaultOn "submit" (Decode.succeed ( DoNothing, True )) ]
-            [ div
-                [ class "fr-modal__body" ]
-                [ div [ class "fr-modal__header" ]
-                    [ button
-                        [ class "fr-link fr-link--close"
-                        , title "Fermer la fenêtre de recueil de la satisfaction"
-                        , type_ "button"
-                        , attribute "aria-controls" "nps-rating-dialog"
-                        , onClick Close
-                        ]
-                        [ text "Fermer" ]
-                    ]
-                , div [ class "fr-modal__content" ]
-                    ((if String.isEmpty model.errorText then
-                        []
-
-                      else
-                        [ div [ class "fr-alert fr-alert--error fr-alert--sm mb-2", attribute "role" "alert" ]
-                            [ p [] [ text model.errorText ]
+    if model.isOpen then
+        Html.node "dialog"
+            [ id "nps-rating-dialog"
+            , attribute "aria-modal" "true"
+            , attribute "open" ""
+            , attribute "role" "dialog"
+            , class "fixed bottom-0 z-10 p-0 m-0 fr-col-12 fr-col-md-10 fr-col-lg-8 fr-col-xl-6"
+            ]
+            [ form [ method "dialog", preventDefaultOn "submit" (Decode.succeed ( DoNothing, True )) ]
+                [ div
+                    [ class "fr-modal__body" ]
+                    [ div [ class "fr-modal__header" ]
+                        [ button
+                            [ class "fr-link fr-link--close"
+                            , title "Fermer la fenêtre de recueil de la satisfaction"
+                            , type_ "button"
+                            , attribute "aria-controls" "nps-rating-dialog"
+                            , onClick Close
                             ]
+                            [ text "Fermer" ]
                         ]
-                     )
-                        ++ [ fieldset []
-                                [ legend [] [ strong [] [ text "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?" ] ]
-                                , div [ class "fr-btns-group--inline fr-btns-group--center fr-btns-group--sm mt-4 mb-2" ]
-                                    (List.range 0 10
-                                        |> List.map (scoreButton model)
-                                        |> List.concat
-                                    )
-                                , span [] [ text "Peu probable" ]
-                                , span [ class "float-right" ] [ text "Très probable" ]
+                    , div [ class "fr-modal__content" ]
+                        ((if String.isEmpty model.errorText then
+                            []
+
+                          else
+                            [ div [ class "fr-alert fr-alert--error fr-alert--sm mb-2", attribute "role" "alert" ]
+                                [ p [] [ text model.errorText ]
                                 ]
-                           ]
-                    )
-                , div [ class "fr-modal__footer" ]
-                    [ ul
-                        [ class "fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left" ]
-                        [ li [] [ button [ class "fr-btn", disabled model.disableSubmit, onClick Submit ] [ text "Envoyer ma réponse" ] ]
+                            ]
+                         )
+                            ++ [ fieldset []
+                                    [ legend [] [ strong [] [ text "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?" ] ]
+                                    , div [ class "fr-btns-group--inline fr-btns-group--center fr-btns-group--sm mt-4 mb-2" ]
+                                        (List.range 0 10
+                                            |> List.map (scoreButton model)
+                                            |> List.concat
+                                        )
+                                    , span [] [ text "Peu probable" ]
+                                    , span [ class "float-right" ] [ text "Très probable" ]
+                                    ]
+                               ]
+                        )
+                    , div [ class "fr-modal__footer" ]
+                        [ ul
+                            [ class "fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left" ]
+                            [ li [] [ button [ class "fr-btn", disabled model.disableSubmit, onClick Submit ] [ text "Envoyer ma réponse" ] ]
+                            ]
                         ]
                     ]
                 ]
             ]
-        ]
+
+    else
+        text ""
