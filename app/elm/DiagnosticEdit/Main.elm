@@ -77,11 +77,18 @@ toProfessionalProjectOut state =
     , romeCodeId = Maybe.map .id state.selectedRome
     , hourlyRate =
         state.hourlyRate
-            |> Maybe.andThen String.toFloat
+            |> parseHourlyRate
             |> Maybe.map ((\val -> val * 100) >> truncate)
     , contractTypeId = Maybe.map contractTypeToKey state.contractType
     , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
     }
+
+
+parseHourlyRate : Maybe String -> Maybe Float
+parseHourlyRate hourlyRate =
+    hourlyRate
+        |> Maybe.map (String.replace "," ".")
+        |> Maybe.andThen String.toFloat
 
 
 inputmode : String -> Attribute msg
@@ -762,31 +769,56 @@ view model =
                                                 Nothing ->
                                                     False
 
-                                        attrlist =
-                                            if showSmicNotice then
-                                                [ class "fr-label", for ("hourlyRate" ++ String.fromInt index), ariaDescribedBy ("smicNotice" ++ String.fromInt index) ]
+                                        showInvalidValue =
+                                            case ( project.hourlyRate, project.hourlyRate |> parseHourlyRate ) of
+                                                ( Just "", _ ) ->
+                                                    False
 
-                                            else
-                                                [ class "fr-label", for ("hourlyRate" ++ String.fromInt index) ]
+                                                ( Just _, Nothing ) ->
+                                                    True
+
+                                                _ ->
+                                                    False
+
+                                        attrlist =
+                                            [ case ( showInvalidValue, showSmicNotice ) of
+                                                ( True, _ ) ->
+                                                    ariaDescribedBy ("hourlyRateErrorMessage" ++ String.fromInt index)
+
+                                                ( False, True ) ->
+                                                    ariaDescribedBy ("smicNotice" ++ String.fromInt index)
+
+                                                _ ->
+                                                    classList []
+                                            , class "fr-input"
+                                            , for ("hourlyRate" ++ String.fromInt index)
+                                            ]
                                       in
                                       div [ class "fr-input-group" ]
                                         [ label
-                                            attrlist
+                                            [ class "fr-label" ]
                                             [ text "Salaire minimum brut horaire (€)"
                                             , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 : " ++ String.fromFloat smicHourlyValue |> addMoneyUnit) ]
                                             ]
                                         , input
-                                            [ class "fr-input"
-                                            , type_ "text"
-                                            , id ("hourly-rate-" ++ String.fromInt index)
-                                            , name ("hourly-rate-" ++ String.fromInt index)
-                                            , onInput (UpdateHourlyRate index)
-                                            , value (Maybe.withDefault "" project.hourlyRate)
-                                            , inputmode "numeric"
-                                            ]
+                                            (List.append
+                                                attrlist
+                                                [ type_ "text"
+                                                , id ("hourly-rate-" ++ String.fromInt index)
+                                                , name ("hourly-rate-" ++ String.fromInt index)
+                                                , onInput (UpdateHourlyRate index)
+                                                , value (Maybe.withDefault "" project.hourlyRate)
+                                                , inputmode "numeric"
+                                                ]
+                                            )
                                             []
                                         , if showSmicNotice then
                                             p [ id ("smicNotice" ++ String.fromInt index), class "fr-error-text" ] [ text "Attention, la valeur est inférieure au SMIC." ]
+
+                                          else
+                                            text ""
+                                        , if showInvalidValue then
+                                            p [ id ("hourlyRateErrorMessage" ++ String.fromInt index), class "fr-error-text" ] [ text "Attention, la valeur doit être un nombre." ]
 
                                           else
                                             text ""
