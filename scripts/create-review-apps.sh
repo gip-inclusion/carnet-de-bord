@@ -140,6 +140,9 @@ function deploy_app() {
   local branch="$(scalingo -a "$app" integration-link | awk -F: '/Auto/{print $3}')"
 
   scalingo -a "$app" integration-link-manual-deploy "$branch"
+
+  # disable auto-deploy as we now have our own deployment script (./scripts/update-review-apps.sh)
+  scalingo -a "$app" integration-link-update --no-auto-deploy
 }
 
 function deploy_apps() {
