@@ -1,0 +1,28 @@
+name: Update review app
+
+on:
+  pull_request:
+    types: ["synchronize"]
+
+concurrency:
+  cancel-in-progress: true
+  group: update-review-app-scalingo-${{ github.ref }}
+
+jobs:
+  scalingo-deploy:
+    name: Deploy Scalingo review apps
+    runs-on: ubuntu-latest
+    # run only for local PRs, since we need secrets access anyway
+    if: github.event.pull_request.head.repo.id == github.event.pull_request.base.repo.id
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Scalingo CLI
+        uses: ./.github/actions/scalingo-cli
+
+      - name: Run deployment script
+        env:
+          SCALINGO_API_TOKEN: ${{ secrets.SCALINGO_API_TOKEN }}
+        run: |
+          ./scripts/deploy-review-apps.sh "${{ github.event.number }}" "${{ github.head_ref }}"
