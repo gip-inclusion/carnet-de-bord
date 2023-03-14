@@ -88,7 +88,7 @@ async def import_beneficiary(
                 logger.info("inserted new beneficiary %s", beneficiary_id)
                 return BeneficiaryCsvRowResponse(valid=True, data=beneficiary)
 
-            elif one_matching_beneficiary(records, beneficiary):
+            elif one_matching_beneficiary(records, beneficiary, deployment_id):
                 beneficiary_id = await update_beneficiary(
                     db, beneficiary, records[0].id
                 )
@@ -110,7 +110,9 @@ async def import_beneficiary(
                     valid=True, update=True, data=beneficiary
                 )
 
-            elif same_si_id_but_different_user_info(records, beneficiary):
+            elif same_si_id_but_different_user_info(
+                records, beneficiary, deployment_id
+            ):
                 logger.info(
                     "block beneficiary creation as it is conflicting with existing beneficiaries(same id): %s",
                     [beneficiary.id for beneficiary in records],
@@ -181,7 +183,7 @@ def no_matching_beneficiary(records: list[Beneficiary]) -> bool:
 
 
 def one_matching_beneficiary(
-    records: list[Beneficiary], beneficiary: BeneficiaryImport
+    records: list[Beneficiary], beneficiary: BeneficiaryImport, deployment_id: UUID
 ) -> bool:
     if len(records) != 1:
         return False
@@ -196,17 +198,24 @@ def one_matching_beneficiary(
         )
         and matching_beneficiary.date_of_birth == beneficiary.date_of_birth
         and matching_beneficiary.internal_id == beneficiary.internal_id
+        and matching_beneficiary.deployment_id == deployment_id
     )
 
 
-def same_si_id_but_different_user_info(records, beneficiary: BeneficiaryImport) -> bool:
+def same_si_id_but_different_user_info(
+    records: list[Beneficiary], beneficiary: BeneficiaryImport, deployment_id: UUID
+) -> bool:
     matching_beneficiary = records[0]
-    return matching_beneficiary.internal_id == beneficiary.internal_id and not (
-        is_same_name(
-            matching_beneficiary.firstname,
-            beneficiary.firstname,
-            matching_beneficiary.lastname,
-            beneficiary.lastname,
+    return (
+        matching_beneficiary.internal_id == beneficiary.internal_id
+        and matching_beneficiary.deployment_id == deployment_id
+        and not (
+            is_same_name(
+                matching_beneficiary.firstname,
+                beneficiary.firstname,
+                matching_beneficiary.lastname,
+                beneficiary.lastname,
+            )
+            and matching_beneficiary.date_of_birth == beneficiary.date_of_birth
         )
-        and matching_beneficiary.date_of_birth == beneficiary.date_of_birth
     )
