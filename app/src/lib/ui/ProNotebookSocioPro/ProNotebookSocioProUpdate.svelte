@@ -136,6 +136,7 @@
 					},
 				};
 			});
+
 		const payload = {
 			id: notebook.id,
 			educationLevel,
