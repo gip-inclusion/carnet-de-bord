@@ -35,14 +35,14 @@ async def test_insert_in_db(
     test_client,
     db_connection: Connection,
     orientation_manager_csv_filepath,
-    get_manager_jwt,
+    get_manager_jwt_93,
 ):
 
     with open(orientation_manager_csv_filepath, "rb") as f:
         test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
-            headers={"jwt-token": get_manager_jwt},
+            headers={"jwt-token": get_manager_jwt_93},
         )
         orientation_managers = await get_orientation_managers(db_connection)
         assert len(orientation_managers) == 5
@@ -69,14 +69,14 @@ async def test_validation_error(
     mock_send_invitation_email: mock.Mock,
     test_client,
     orientation_manager_csv_filepath,
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
 ):
 
     with open(orientation_manager_csv_filepath, "rb") as f:
         response = test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "text/plain")},
-            headers={"jwt-token": get_manager_jwt},
+            headers={"jwt-token": get_manager_jwt_93},
         )
         json = response.json()
 
@@ -93,13 +93,13 @@ async def test_handle_xls(
     mock_send_invitation_email: mock.Mock,
     test_client,
     orientation_manager_xls_filepath,
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
 ):
     with open(orientation_manager_xls_filepath, "rb") as f:
         response = test_client.post(
             ENDPOINT_PATH,
             files={"upload_file": ("filename", f, "application/vnd.ms-excel")},
-            headers={"jwt-token": get_manager_jwt},
+            headers={"jwt-token": get_manager_jwt_93},
         )
         assert response.status_code == 200
         json = response.json()
@@ -113,7 +113,7 @@ async def test_handle_xlsx(
     mock_send_invitation_email: mock.Mock,
     test_client,
     orientation_manager_xlsx_filepath,
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
 ):
     with open(orientation_manager_xlsx_filepath, "rb") as f:
         response = test_client.post(
@@ -125,7 +125,7 @@ async def test_handle_xlsx(
                     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
                 )
             },
-            headers={"jwt-token": get_manager_jwt},
+            headers={"jwt-token": get_manager_jwt_93},
         )
         assert response.status_code == 200
         json = response.json()

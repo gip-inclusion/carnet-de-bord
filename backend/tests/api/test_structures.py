@@ -14,14 +14,14 @@ async def test_structure_import_json(
     mock_send_invitation_mail: mock.Mock,
     test_client,
     import_structures_json: list[dict],
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
     db_connection: Connection,
 ):
 
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json, "sendAccountEmail": True},
-        headers={"jwt-token": get_manager_jwt},
+        headers={"jwt-token": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -52,14 +52,14 @@ async def test_structure_with_buggy_import_json(
     mock_send_invitation_mail: mock.Mock,
     test_client,
     import_structures_json_with_errors: list[dict],
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
     db_connection: Connection,
 ):
 
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json_with_errors},
-        headers={"jwt-token": get_manager_jwt},
+        headers={"jwt-token": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -71,13 +71,13 @@ async def test_structure_with_fail_structure_insert(
     mock_insert_structure: mock.Mock,
     test_client,
     import_structures_json: list[dict],
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
 ):
 
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt},
+        headers={"jwt-token": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -101,13 +101,13 @@ async def test_structure_with_fail_admin_insert(
     mock_create_admin_structure_with_account: mock.Mock,
     test_client,
     import_structures_json: list[dict],
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
 ):
 
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt},
+        headers={"jwt-token": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -133,13 +133,13 @@ async def test_structure_with_fail_admin_structure_structure_insert(
     mock_send_invitation_email: mock.Mock,
     test_client,
     import_structures_json: list[dict],
-    get_manager_jwt: str,
+    get_manager_jwt_93: str,
 ):
 
     response = test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt},
+        headers={"jwt-token": get_manager_jwt_93},
     )
 
     data = response.json()
