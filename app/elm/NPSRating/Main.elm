@@ -103,11 +103,17 @@ lastRatingDatesDecoder =
     Decode.map2 LastRatingDates
         (Decode.at
             [ "data", "nps_rating" ]
-            (Decode.maybe (Decode.index 0 (Decode.field "created_at_posix_ms" Decode.float)))
+            (Decode.field "created_at_posix_ms" Decode.float
+                |> Decode.index 0
+                |> Decode.maybe
+            )
         )
         (Decode.at
             [ "data", "nps_rating_dismissal" ]
-            (Decode.maybe (Decode.index 0 (Decode.field "dismissed_at_posix_ms" Decode.float)))
+            (Decode.field "dismissed_at_posix_ms" Decode.float
+                |> Decode.index 0
+                |> Decode.maybe
+            )
         )
 
 
@@ -117,7 +123,7 @@ submitRating model =
         Just score ->
             Http.request
                 { method = "POST"
-                , url = model.backendAPI ++ "/v1/nps-rating/create"
+                , url = model.backendAPI ++ "/v1/nps-rating"
                 , headers = [ Http.header "jwt-token" model.token ]
                 , body =
                     Http.jsonBody
@@ -154,16 +160,14 @@ dismiss model =
 
 lastAnsweredAt : LastRatingDates -> Maybe Float
 lastAnsweredAt lastRatingDates =
-    case lastRatingDates.created_at_posix_ms of
-        Just createdAt ->
-            case lastRatingDates.dismissed_at_posix_ms of
-                Just dismissedAt ->
-                    Just (max createdAt dismissedAt)
+    case ( lastRatingDates.created_at_posix_ms, lastRatingDates.dismissed_at_posix_ms ) of
+        ( Just createdAt, Just dismissedAt ) ->
+            Just (max createdAt dismissedAt)
 
-                Nothing ->
-                    Just createdAt
+        ( Just createdAt, _ ) ->
+            Just createdAt
 
-        Nothing ->
+        _ ->
             lastRatingDates.dismissed_at_posix_ms
 
 

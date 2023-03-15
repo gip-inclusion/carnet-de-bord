@@ -7,7 +7,7 @@ pro_uuid = UUID("f29ca78a-4719-4658-8d19-48d3df9178b5")
 async def test_nps_rating(test_client, db_connection, laure_loge_jwt):
     request_start = datetime.now(tz=timezone.utc)
     response = test_client.post(
-        "/v1/nps-rating/create",
+        "/v1/nps-rating",
         json={"score": 0},
         headers={"jwt-token": laure_loge_jwt},
     )
@@ -30,7 +30,7 @@ async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_j
     )
     request_start = datetime.now(tz=timezone.utc)
     response = test_client.post(
-        "/v1/nps-rating/create",
+        "/v1/nps-rating",
         json={"score": 10},
         headers={"jwt-token": laure_loge_jwt},
     )
@@ -50,7 +50,7 @@ async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_j
 
 async def test_nps_rating_invalid_score(test_client, db_connection, laure_loge_jwt):
     response = test_client.post(
-        "/v1/nps-rating/create",
+        "/v1/nps-rating",
         json={"score": 9001},  # Over-promoter.
         headers={"jwt-token": laure_loge_jwt},
     )
@@ -80,7 +80,7 @@ async def test_nps_rating_double_submission(test_client, db_connection, laure_lo
     rating_id = row["id"]
     created_at = row["created_at"]
     response = test_client.post(
-        "/v1/nps-rating/create",
+        "/v1/nps-rating",
         json={"score": 0},
         headers={"jwt-token": laure_loge_jwt},
     )
