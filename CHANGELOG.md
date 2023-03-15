@@ -1,3 +1,12 @@
+# [1.206.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.205.2...v1.206.0) (2023-03-14)
+
+
+### Features
+
+* Afficher le statut de chaque compte (supprimé / confirmé / non-confirmé) pour l'administrateur de territoire. ([#1588](https://github.com/gip-inclusion/carnet-de-bord/issues/1588)) ([20afdb2](https://github.com/gip-inclusion/carnet-de-bord/commit/20afdb2beb63a0ce97b8ad3d71250479e49dc135))
+
+## [1.205.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.205.1...v1.205.2) (2023-03-14)
+
 ## [1.205.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.205.0...v1.205.1) (2023-03-13)
 
 # [1.205.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.204.4...v1.205.0) (2023-03-10)

@@ -87,6 +87,7 @@ docker compose up --build
 
 ## Pratiques de l'équipe
 
+### Git
 Les modifications apportées au code doivent passer par des PR qui seront validées avant de pouvoir être versées dans la branche principale. On n'assigne pas forcément de relecteur, tout le monde est libre de relire la PR d'une autre personne.
 
 Dans le cas où une personne de l'équipe de dev est seule, elle peut valider sa PR elle-même pour pouvoir avancer.
@@ -94,6 +95,10 @@ Dans le cas où une personne de l'équipe de dev est seule, elle peut valider sa
 Lorsque la PR est validée, on laisse le soin à l'auteur de la PR de faire le merge.
 
 L'équipe privilégie les "squash and merge" avec un message de commit qui suit le formalisme [conventional commit](https://www.conventionalcommits.org/en/v1.0.0-beta.2/) de manière à pouvoir générer le fichier [CHANGELOG.md](./CHANGELOG.md) automatiquement.
+
+### Prise de décision
+
+Les décisions structurantes sont expliquées dans des _Architecture Decision Records_ (ADR), situées dans [le dossier docs/adr](./docs/adr).
 
 ## Gestion des mails sur les environnements de développement (review / preprod)
 

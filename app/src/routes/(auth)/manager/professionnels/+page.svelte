@@ -40,6 +40,7 @@
 		onboardingDone: boolean;
 		phoneNumber: string;
 		nbBeneficiaries: number;
+		deletedAt: string;
 	};
 
 	function toList(account: GetAccountsSummaryQuery['accounts'][0]): AccountSummary {
@@ -54,6 +55,7 @@
 				phoneNumber: mobileNumber,
 				type: account.type,
 				confirmed: account.confirmed,
+				deletedAt: account.deletedAt,
 				onboardingDone: account.onboardingDone,
 				nbBeneficiaries: account.notebookCount.aggregate.count,
 			};
@@ -68,6 +70,7 @@
 				phoneNumber: phoneNumbers,
 				type: account.type,
 				confirmed: account.confirmed,
+				deletedAt: account.deletedAt,
 				onboardingDone: account.onboardingDone,
 				nbBeneficiaries: account.notebookCount.aggregate.count,
 			};
@@ -160,10 +163,12 @@
 						<td class="text-center">
 							{#if !account.confirmed}
 								<Button classNames="fr-btn--sm" on:click={() => confirmAccount(account.id)}
-									>Activer</Button
+									>Valider</Button
 								>
+							{:else if account.deletedAt}
+								<p class="fr-badge fr-badge--warning fr-badge--no-icon fr-badge--sm">désactivé</p>
 							{:else}
-								Actif
+								<p class="fr-badge fr-badge--new fr-badge--no-icon fr-badge--sm">validé</p>
 							{/if}
 						</td>
 						<td class="text-center">
