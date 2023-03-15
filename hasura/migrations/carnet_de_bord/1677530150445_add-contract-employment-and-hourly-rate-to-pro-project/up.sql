@@ -1,5 +1,5 @@
 alter table "public"."professional_project" add column "hourly_rate" integer null;
-comment on column "public"."professional_project"."hourly_rate" is E'in cents (multiply by 100 for the EUR value)';
+comment on column "public"."professional_project"."hourly_rate" is E'in cents (divide by 100 for the EUR value)';
 
 CREATE TABLE "public"."contract_type" (
   "id" text NOT NULL,
