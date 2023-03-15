@@ -24,7 +24,7 @@ type alias Model =
     , backendAPI : String
     , serverUrl : String
     , token : String
-    , errorText : String
+    , errorText : Maybe String
     , disableSubmit : Bool
     }
 
@@ -36,7 +36,7 @@ init flags =
       , backendAPI = flags.backendAPI
       , serverUrl = flags.serverUrl
       , token = flags.token
-      , errorText = ""
+      , errorText = Nothing
       , disableSubmit = False
       }
     , getLastRatingDates flags.serverUrl flags.token
@@ -55,7 +55,7 @@ type Msg
     | Open
     | SelectNPS Int
     | Submit
-    | CloseModal (Result Http.Error ())
+    | RatingSent (Result Http.Error ())
     | LastRatingDatesFetched (Result Http.Error LastRatingDates)
     | TimeAvailable LastRatingDates Time.Posix
 
@@ -128,7 +128,7 @@ submitRating model =
                 , body =
                     Http.jsonBody
                         (Encode.object [ ( "score", Encode.int score ) ])
-                , expect = Http.expectWhatever CloseModal
+                , expect = Http.expectWhatever RatingSent
                 , timeout = Nothing
                 , tracker = Nothing
                 }
@@ -152,7 +152,7 @@ dismiss model =
         , url = model.serverUrl
         , headers = [ Http.header "Authorization" ("Bearer " ++ model.token) ]
         , body = Http.jsonBody (Encode.object [ ( "query", Encode.string query ) ])
-        , expect = Http.expectWhatever CloseModal
+        , expect = Http.expectWhatever RatingSent
         , timeout = Nothing
         , tracker = Nothing
         }
@@ -206,7 +206,7 @@ update msg model =
         Submit ->
             ( { model | disableSubmit = True }, submitRating model )
 
-        CloseModal result ->
+        RatingSent result ->
             case result of
                 Ok _ ->
                     ( { model | isOpen = False }, Cmd.none )
@@ -241,7 +241,7 @@ update msg model =
                                 _ ->
                                     oops
                     in
-                    ( { model | errorText = errorText, disableSubmit = False }, Cmd.none )
+                    ( { model | errorText = Just errorText, disableSubmit = False }, Cmd.none )
 
         LastRatingDatesFetched lastRatingDates ->
             case lastRatingDates of
@@ -338,14 +338,14 @@ view model =
                             [ text "Fermer" ]
                         ]
                     , div [ class "fr-modal__content" ]
-                        ((if String.isEmpty model.errorText then
-                            []
-
-                          else
-                            [ div [ class "fr-alert fr-alert--error fr-alert--sm mb-2", attribute "role" "alert" ]
-                                [ p [] [ text model.errorText ]
+                        ((case model.errorText of
+                            Just error ->
+                                [ div [ class "fr-alert fr-alert--error fr-alert--sm mb-2", attribute "role" "alert" ]
+                                    [ p [] [ text error ] ]
                                 ]
-                            ]
+
+                            Nothing ->
+                                []
                          )
                             ++ [ fieldset []
                                     [ legend [] [ strong [] [ text "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?" ] ]

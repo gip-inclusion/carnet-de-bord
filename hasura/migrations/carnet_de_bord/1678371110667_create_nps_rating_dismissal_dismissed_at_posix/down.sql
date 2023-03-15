@@ -1,1 +1,0 @@
-DROP FUNCTION public.nps_rating_dismissal_dismissed_at_posix;

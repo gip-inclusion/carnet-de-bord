@@ -1,1 +1,0 @@
-DROP FUNCTION public.nps_rating_created_at_posix;
