@@ -2,6 +2,7 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
+import Decimal exposing (Decimal)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ContractType(..), ProfessionalProject, Rome, WorkingTime(..), contractTypeStringToType, contractTypeToKey, contractTypeToLabel, workingTimeStringToType, workingTimeToKey, workingTimeToLabel)
 import Domain.Situation exposing (Situation)
@@ -78,18 +79,20 @@ toProfessionalProjectOut state =
     , hourlyRate =
         state.hourlyRate
             |> parseHourlyRate
-            |> Maybe.map (\val -> val * 100)
-            |> Maybe.map truncate
+            |> Maybe.map (Decimal.fromInt 100 |> Decimal.mul)
+            |> Maybe.map (Decimal.truncate 0)
+            |> Maybe.map Decimal.toString
+            |> Maybe.andThen String.toInt
     , contractTypeId = Maybe.map contractTypeToKey state.contractType
     , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
     }
 
 
-parseHourlyRate : Maybe String -> Maybe Float
+parseHourlyRate : Maybe String -> Maybe Decimal
 parseHourlyRate hourlyRate =
     hourlyRate
         |> Maybe.map (String.replace "," ".")
-        |> Maybe.andThen String.toFloat
+        |> Maybe.andThen Decimal.fromString
 
 
 inputmode : String -> Attribute msg
@@ -154,16 +157,17 @@ professionalProjetsMaxCount =
     5
 
 
-smicHourlyValue : Float
+smicHourlyValue : Decimal
 smicHourlyValue =
-    11.27
+    Decimal.fromInt 1127
+        |> Decimal.mul (Decimal.fromIntWithExponent 1 -2)
 
 
 inputIsLowerThanSmic : String -> Bool
 inputIsLowerThanSmic input =
-    case String.toFloat input of
+    case parseHourlyRate (Just input) of
         Just value ->
-            value < smicHourlyValue
+            Decimal.lt value smicHourlyValue
 
         _ ->
             False
@@ -212,7 +216,7 @@ initProfessionalProjectState professionalProject =
     { id = Just professionalProject.id
     , rome = professionalProject.rome
     , mobilityRadius = professionalProject.mobilityRadius
-    , hourlyRate = Maybe.map String.fromFloat professionalProject.hourlyRate
+    , hourlyRate = Maybe.map Decimal.toString professionalProject.hourlyRate
     , contractType = professionalProject.contractType
     , workingTime = professionalProject.workingTimeType
     , romeData = Maybe.withDefault NotAsked (Maybe.map (\value -> Success [ value ]) professionalProject.rome)
@@ -795,7 +799,7 @@ view model =
                                         [ label
                                             [ class "fr-label", for ("hourly-rate-" ++ String.fromInt index) ]
                                             [ text "Salaire minimum brut horaire (€)"
-                                            , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 : " ++ String.fromFloat smicHourlyValue |> addMoneyUnit) ]
+                                            , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 : " ++ Decimal.toString smicHourlyValue |> addMoneyUnit) ]
                                             ]
                                         , input
                                             (attrlist

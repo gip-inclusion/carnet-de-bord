@@ -2,6 +2,7 @@ module Diagnostic.Main exposing (..)
 
 import Browser
 import Date exposing (Date, fromIsoString)
+import Decimal
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
@@ -213,7 +214,10 @@ extractProfessionalProjectFromFlags flags =
     { rome = flags.rome
     , id = flags.id
     , mobilityRadius = flags.mobilityRadius
-    , hourlyRate = flags.hourlyRate |> Maybe.map (toFloat >> (\val -> val / 100))
+    , hourlyRate =
+        flags.hourlyRate
+            |> Maybe.map Decimal.fromInt
+            |> Maybe.map (Decimal.mul (Decimal.fromIntWithExponent 1 -2))
     , contractType = extractContractType flags.contractType
     , workingTimeType = extractWorkingTimeType flags.employmentType
     , updatedAt = fromIsoString flags.updatedAt |> Result.toMaybe
@@ -436,7 +440,7 @@ professionalProjectView { professionalProjects } =
                                         [ class "fr-col-4" ]
                                         [ situationElement "Salaire minimum brut horaire"
                                             (professionalProject.hourlyRate
-                                                |> Maybe.map String.fromFloat
+                                                |> Maybe.map Decimal.toString
                                                 |> Maybe.map addMoneyUnit
                                                 |> Maybe.map text
                                             )

@@ -1,6 +1,7 @@
 module Domain.ProfessionalProject exposing (..)
 
 import Date exposing (Date)
+import Decimal exposing (Decimal)
 
 
 type WorkingTime
@@ -46,7 +47,7 @@ type alias ProfessionalProject =
     , mobilityRadius : Maybe Int
     , createdAt : Maybe Date
     , updatedAt : Maybe Date
-    , hourlyRate : Maybe Float
+    , hourlyRate : Maybe Decimal
     , contractType : Maybe ContractType
     , workingTimeType : Maybe WorkingTime
     }
