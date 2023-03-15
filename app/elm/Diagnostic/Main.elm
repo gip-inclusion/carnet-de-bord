@@ -413,7 +413,7 @@ professionalProjectView { professionalProjects } =
                         (\professionalProject ->
                             div [ class "fr-container shadow-dsfr rounded-lg" ]
                                 [ h4 [ class "text-france-bleu pt-8" ]
-                                    [ text (Maybe.withDefault "Project en construction" (Maybe.map .label professionalProject.rome)) ]
+                                    [ text (Maybe.withDefault "Projet en construction" (Maybe.map .label professionalProject.rome)) ]
                                 , div
                                     [ class "fr-grid-row fr-grid-row--gutters" ]
                                     [ div [ class "fr-col-4" ]

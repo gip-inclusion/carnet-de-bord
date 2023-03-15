@@ -87,7 +87,6 @@
 		trackEvent('pro', 'notebook', 'update socio pro info');
 		const { educationLevel, rightRqth, workSituation } =
 			proNotebookSocioproSchema.validateSync(values);
-		console.log({ professionalProjects });
 		const currentSituationIds = notebook.situations.map(({ refSituation }) => refSituation.id);
 
 		const situationsToAdd = selectedSituations
@@ -137,7 +136,6 @@
 					},
 				};
 			});
-		console.log({ professionalProjectsToUpdate });
 		const payload = {
 			id: notebook.id,
 			educationLevel,
@@ -236,6 +234,7 @@
 
 		app.ports.sendUpdatedProfessionalProjects.subscribe(
 			(updatedProfessionalProjects: ProfessionalProjectOut[]) => {
+				console.log({ updatedProfessionalProjects });
 				professionalProjects = updatedProfessionalProjects;
 			}
 		);

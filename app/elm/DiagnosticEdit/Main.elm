@@ -78,7 +78,8 @@ toProfessionalProjectOut state =
     , hourlyRate =
         state.hourlyRate
             |> parseHourlyRate
-            |> Maybe.map ((\val -> val * 100) >> truncate)
+            |> Maybe.map (\val -> val * 100)
+            |> Maybe.map truncate
     , contractTypeId = Maybe.map contractTypeToKey state.contractType
     , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
     }
@@ -162,11 +163,7 @@ inputIsLowerThanSmic : String -> Bool
 inputIsLowerThanSmic input =
     case String.toFloat input of
         Just value ->
-            if value < smicHourlyValue then
-                True
-
-            else
-                False
+            value < smicHourlyValue
 
         _ ->
             False
@@ -650,7 +647,7 @@ view model =
                     (\index project ->
                         div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
                             [ div [ class "fr-input-group elm-select" ]
-                                [ label [ class "fr-label", for ("job" ++ String.fromInt index) ] [ text "Métier recherché" ]
+                                [ span [ class "fr-label" ] [ text "Métier recherché" ]
                                 , button
                                     [ class "fr-select text-left"
                                     , type_ "button"
@@ -704,15 +701,15 @@ view model =
                                 [ div [ class "fr-col-4" ]
                                     [ div [ class "fr-input-group" ]
                                         [ label
-                                            [ class "fr-label", for ("contractType" ++ String.fromInt index) ]
+                                            [ class "fr-label", for ("contract-type-" ++ String.fromInt index) ]
                                             [ text "Type de contrat" ]
                                         , select
                                             [ class "fr-select"
                                             , id ("contract-type-" ++ String.fromInt index)
-                                            , name ("contract-type-" ++ String.fromInt index)
                                             , onInput (\val -> UpdateContractType index (contractTypeStringToType val))
                                             ]
                                             [ option [ value "", disabled True, selected (project.contractType == Nothing) ] [ text "Sélectionner un type de contrat" ]
+                                            , option [ value "" ] [ text "Non renseigné" ]
                                             , contractTypeOption CDI project.contractType
                                             , contractTypeOption CDD project.contractType
                                             , contractTypeOption Interim project.contractType
@@ -728,15 +725,15 @@ view model =
                                     [ class "fr-col-4" ]
                                     [ div [ class "fr-input-group" ]
                                         [ label
-                                            [ class "fr-label", for ("contractType" ++ String.fromInt index) ]
+                                            [ class "fr-label", for ("working-type-" ++ String.fromInt index) ]
                                             [ text "Durée du temps de travail" ]
                                         , select
                                             [ class "fr-select"
                                             , id ("working-type-" ++ String.fromInt index)
-                                            , name ("working-type" ++ String.fromInt index)
                                             , onInput (\val -> UpdateWorkingTime index (workingTimeStringToType val))
                                             ]
                                             [ option [ value "", disabled True, selected (project.workingTime == Nothing) ] [ text "Sélectionner une durée de temps de travail" ]
+                                            , option [ value "" ] [ text "Non renseigné" ]
                                             , workingTimeTypeOption FullTime project.workingTime
                                             , workingTimeTypeOption PartTime project.workingTime
                                             ]
@@ -796,20 +793,18 @@ view model =
                                       in
                                       div [ class "fr-input-group" ]
                                         [ label
-                                            [ class "fr-label" ]
+                                            [ class "fr-label", for ("hourly-rate-" ++ String.fromInt index) ]
                                             [ text "Salaire minimum brut horaire (€)"
                                             , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 : " ++ String.fromFloat smicHourlyValue |> addMoneyUnit) ]
                                             ]
                                         , input
-                                            (List.append
-                                                attrlist
-                                                [ type_ "text"
-                                                , id ("hourly-rate-" ++ String.fromInt index)
-                                                , name ("hourly-rate-" ++ String.fromInt index)
-                                                , onInput (UpdateHourlyRate index)
-                                                , value (Maybe.withDefault "" project.hourlyRate)
-                                                , inputmode "numeric"
-                                                ]
+                                            (attrlist
+                                                ++ [ type_ "text"
+                                                   , id ("hourly-rate-" ++ String.fromInt index)
+                                                   , onInput (UpdateHourlyRate index)
+                                                   , value (Maybe.withDefault "" project.hourlyRate)
+                                                   , inputmode "numeric"
+                                                   ]
                                             )
                                             []
                                         , if showSmicNotice then
