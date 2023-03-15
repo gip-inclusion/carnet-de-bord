@@ -1,3 +1,10 @@
+## [1.206.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.206.0...v1.206.1) (2023-03-15)
+
+
+### Bug Fixes
+
+* Limiter la contrainte d'unicité `internalId` au sein d'un déploiement. ([#1589](https://github.com/gip-inclusion/carnet-de-bord/issues/1589)) ([400bd94](https://github.com/gip-inclusion/carnet-de-bord/commit/400bd94247a4d18f88dff1edf7acfa4335f0b942))
+
 # [1.206.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.205.2...v1.206.0) (2023-03-14)
 
 
