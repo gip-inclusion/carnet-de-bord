@@ -71,6 +71,4 @@ log "Deploying review apps for PR #${PR}"
 
 deploy_apps
 
-log "Linking apps with suffix: ${SUFFIX?}"
-
 wait_for_apps_status 'running'
