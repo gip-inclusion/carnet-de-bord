@@ -119,8 +119,11 @@ function create_apps() {
   log "* Creating apps..."
 
   scalingo -a "$(get_parent_app_name hasura)" integration-link-manual-review-app "$PR"
+  scalingo -a "$(get_parent_app_name hasura)" integration-link-update --no-auto-deploy
   scalingo -a "$(get_parent_app_name backend)" integration-link-manual-review-app "$PR"
+  scalingo -a "$(get_parent_app_name backend)" integration-link-update --no-auto-deploy
   scalingo -a "$(get_parent_app_name app)" integration-link-manual-review-app "$PR"
+  scalingo -a "$(get_parent_app_name app)" integration-link-update --no-auto-deploy
 
   wait_for_addons_running "$(get_review_app_name hasura)"
 }
@@ -140,9 +143,6 @@ function deploy_app() {
   local branch="$(scalingo -a "$app" integration-link | awk -F: '/Auto/{print $3}')"
 
   scalingo -a "$app" integration-link-manual-deploy "$branch"
-
-  # disable auto-deploy as we now have our own deployment script (./scripts/update-review-apps.sh)
-  scalingo -a "$app" integration-link-update --no-auto-deploy
 }
 
 function deploy_apps() {
