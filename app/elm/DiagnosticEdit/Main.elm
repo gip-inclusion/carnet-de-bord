@@ -159,8 +159,7 @@ professionalProjetsMaxCount =
 
 smicHourlyValue : Decimal
 smicHourlyValue =
-    Decimal.fromInt 1127
-        |> Decimal.mul (Decimal.fromIntWithExponent 1 -2)
+    Decimal.fromIntWithExponent 1127 -2
 
 
 inputIsLowerThanSmic : String -> Bool
@@ -712,8 +711,7 @@ view model =
                                             , id ("contract-type-" ++ String.fromInt index)
                                             , onInput (\val -> UpdateContractType index (contractTypeStringToType val))
                                             ]
-                                            [ option [ value "", disabled True, selected (project.contractType == Nothing) ] [ text "Sélectionner un type de contrat" ]
-                                            , option [ value "" ] [ text "Non renseigné" ]
+                                            [ option [ value "" ] [ text "Non renseigné" ]
                                             , contractTypeOption CDI project.contractType
                                             , contractTypeOption CDD project.contractType
                                             , contractTypeOption Interim project.contractType
@@ -736,8 +734,7 @@ view model =
                                             , id ("working-type-" ++ String.fromInt index)
                                             , onInput (\val -> UpdateWorkingTime index (workingTimeStringToType val))
                                             ]
-                                            [ option [ value "", disabled True, selected (project.workingTime == Nothing) ] [ text "Sélectionner une durée de temps de travail" ]
-                                            , option [ value "" ] [ text "Non renseigné" ]
+                                            [ option [ value "" ] [ text "Non renseigné" ]
                                             , workingTimeTypeOption FullTime project.workingTime
                                             , workingTimeTypeOption PartTime project.workingTime
                                             ]
@@ -746,14 +743,13 @@ view model =
                                 , div [ class "fr-col-4" ]
                                     [ div [ class "fr-input-group" ]
                                         [ label
-                                            [ class "fr-label", for ("mobility-radius" ++ String.fromInt index) ]
+                                            [ class "fr-label", for ("mobility-radius-" ++ String.fromInt index) ]
                                             [ text "Zone de mobilité (km)" ]
                                         , input
                                             [ class "fr-input"
                                             , onInput (UpdateMobilityRadius index)
                                             , type_ "text"
                                             , id ("mobility-radius-" ++ String.fromInt index)
-                                            , name ("mobility-radius-" ++ String.fromInt index)
                                             , value (Maybe.map String.fromInt project.mobilityRadius |> Maybe.withDefault "")
                                             , inputmode "numeric"
                                             ]
@@ -891,7 +887,6 @@ situationCheckboxView selectedSituationSet situation =
         [ input
             [ type_ "checkbox"
             , id checkboxId
-            , name "checkbox-radio-group"
             , value situation.description
             , checked <| Set.member situation.id selectedSituationSet
             , onClick <| ToggleSelectedSituation { id = situation.id, description = situation.description, theme = situation.theme }

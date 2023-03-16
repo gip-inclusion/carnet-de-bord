@@ -165,6 +165,12 @@
 		return errors
 			.map((error) => {
 				if (/notebook_id_rome_code_id_null_idx/.test(error.message)) {
+					return "Il n'est pas possible de saisir un salaire horaire inférieur ou égal à 0.";
+				}
+				if (/mobility-radius-ge-zero/.test(error.message)) {
+					return "Il n'est pas possible de saisir une zone de mobilité négative.";
+				}
+				if (/notebook_id_rome_code_id_null_idx/.test(error.message)) {
 					return "Il n'est pas possible de créer deux projets professionnels pour le même emploi ni plusieurs projets professionnels en construction.";
 				}
 				return error.message;
@@ -235,7 +241,6 @@
 
 		app.ports.sendUpdatedProfessionalProjects.subscribe(
 			(updatedProfessionalProjects: ProfessionalProjectOut[]) => {
-				console.log({ updatedProfessionalProjects });
 				professionalProjects = updatedProfessionalProjects;
 			}
 		);
