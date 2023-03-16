@@ -259,8 +259,8 @@ update msg model =
             ( model, Cmd.none )
 
 
-scoreButton : Model -> Int -> List (Html Msg)
-scoreButton model n =
+scoreRadio : Model -> Int -> List (Html Msg)
+scoreRadio model n =
     let
         nAsText =
             String.fromInt n
@@ -359,7 +359,7 @@ view model =
                                     [ legend [] [ strong [] [ text "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?" ] ]
                                     , div [ class "fr-btns-group--inline fr-btns-group--center fr-btns-group--sm mt-4 mb-2" ]
                                         (List.range 0 10
-                                            |> List.map (scoreButton model)
+                                            |> List.map (scoreRadio model)
                                             |> List.concat
                                         )
                                     , span [] [ text "Peu probable" ]
