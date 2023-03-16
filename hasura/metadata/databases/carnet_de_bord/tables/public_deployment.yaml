@@ -5,10 +5,13 @@ configuration:
   column_config:
     created_at:
       custom_name: createdAt
+    department_code:
+      custom_name: departmentCode
     updated_at:
       custom_name: updatedAt
   custom_column_names:
     created_at: createdAt
+    department_code: departmentCode
     updated_at: updatedAt
   custom_root_fields: {}
 array_relationships:
