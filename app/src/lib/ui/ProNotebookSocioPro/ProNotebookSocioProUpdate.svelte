@@ -164,6 +164,12 @@
 	function formatErrors(errors: GraphQLError[]): string {
 		return errors
 			.map((error) => {
+				if (/hourly-rate-gt-zero/.test(error.message)) {
+					return "Il n'est pas possible de saisir un salaire horaire inférieur ou égal à 0.";
+				}
+				if (/mobility-radius-ge-zero/.test(error.message)) {
+					return "Il n'est pas possible de saisir une zone de mobilité négative.";
+				}
 				if (/notebook_id_rome_code_id_null_idx/.test(error.message)) {
 					return "Il n'est pas possible de saisir un salaire horaire inférieur ou égal à 0.";
 				}

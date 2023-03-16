@@ -788,7 +788,6 @@ view model =
                                                 _ ->
                                                     classList []
                                             , class "fr-input"
-                                            , for ("hourlyRate" ++ String.fromInt index)
                                             ]
                                       in
                                       div [ class "fr-input-group" ]
