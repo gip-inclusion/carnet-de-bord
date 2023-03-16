@@ -6,6 +6,7 @@ from cdb.api.v1.routers import (
     csv2json,
     managers,
     notebooks,
+    nps_rating,
     orientation_requests,
     orientations,
     structures,
@@ -39,3 +40,5 @@ api_router.include_router(
 )
 
 api_router.include_router(notebooks.router, prefix="/notebooks", tags=["Notebooks"])
+
+api_router.include_router(nps_rating.router, prefix="/nps-rating", tags=["NPS ratings"])

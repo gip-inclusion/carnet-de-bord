@@ -5,6 +5,7 @@
 	import type { MenuItem } from '$lib/types';
 	import Footer from '$lib/ui/base/Footer.svelte';
 	import Header from '$lib/ui/base/Header.svelte';
+	import NPSRating from '$lib/ui/NPSRating/NPSRating.svelte';
 
 	const menuItems: MenuItem[] = [
 		{
@@ -23,6 +24,7 @@
 <Header {menuItems} />
 <div class="fr-container">
 	<slot />
+	<NPSRating />
 </div>
 
 <Footer />

@@ -18,6 +18,8 @@ TRUNCATE public.notebook_appointment CASCADE;
 TRUNCATE public.external_data_info CASCADE;
 TRUNCATE public.external_data CASCADE;
 
+TRUNCATE public.nps_rating CASCADE;
+TRUNCATE public.nps_rating_dismissal CASCADE;
 
 TRUNCATE public.admin_cdb CASCADE;
 TRUNCATE public.manager CASCADE;
@@ -37,6 +39,7 @@ SET check_function_bodies = false;
 -- Admin account
 INSERT INTO public.admin_cdb (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'contact+admin@carnetdebord.inclusion.beta.gouv.fr', 'Carnet de Bord', 'Administrateur');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', 'admin', 'admin_cdb', NULL, NULL, '2021-09-21 12:25:55.822+00', NULL, NULL, 'a81bc81a-dead-4e5d-abff-90865d1e13b7', true, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76');
 
 -- Deployments
 INSERT INTO public.deployment (id, label) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93');
@@ -90,14 +93,17 @@ INSERT INTO structure_orientation_system(structure_id, orientation_system_id)
 -- Vincent Timaitre
 INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('c2a346cd-b3dd-4892-a33d-7ada82654f97', 'vincent.timaitre@groupe-ns.fr', 'Vincent', 'Timaitre', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('1a19d72c-7fb1-4cdb-aa47-853b83239c98', 'vincent.timaitre', 'admin_structure', 'c2a346cd-b3dd-4892-a33d-7ada82654f97', true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('1a19d72c-7fb1-4cdb-aa47-853b83239c98');
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('3b1082e7-7ccd-4857-a4ae-924b5314b2e4', 'c2a346cd-b3dd-4892-a33d-7ada82654f97', '8b71184c-6479-4440-aa89-15da704cc792');
 -- Jacques Celaire
 INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('2b4b773a-a9e5-11ec-b909-0242ac120002', 'jacques.celaire@livry-gargan.fr', 'Jacques', 'Célaire', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('18f06321-3c45-4490-9c67-36277d4a828d', 'jacques.celaire', 'admin_structure', '2b4b773a-a9e5-11ec-b909-0242ac120002', true, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('18f06321-3c45-4490-9c67-36277d4a828d');
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('1e502686-0df9-48ac-85fc-909f464fc0d4', '2b4b773a-a9e5-11ec-b909-0242ac120002', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
 -- Lara Pafromage
 INSERT INTO public.admin_structure (id, email, firstname, lastname, phone_numbers, deployment_id) VALUES ('04e185b0-07b6-4dbf-a248-5f1d9989c133', 'lara.pafromage@cd93.fr', 'Lara', 'Pafromage', '0102030405', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, admin_structure_id, confirmed, onboarding_done) VALUES ('ecc81586-12c0-46e9-bb65-e19ba419506d', 'lara.pafromage', 'admin_structure', '04e185b0-07b6-4dbf-a248-5f1d9989c133', true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('ecc81586-12c0-46e9-bb65-e19ba419506d');
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('d105193c-f4a8-470e-9575-91297edb9e6c', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '1c52e5ad-e0b9-48b9-a490-105a4effaaea');
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('7ca0d376-3b3e-472b-ad71-ef615d1313d5', '04e185b0-07b6-4dbf-a248-5f1d9989c133', '8b71184c-6479-4440-aa89-15da704cc792');
 INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_id) VALUES ('62856d54-1a9c-49e8-96ef-e8a387c52da3', '04e185b0-07b6-4dbf-a248-5f1d9989c133', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf');
@@ -106,14 +112,17 @@ INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_
 -- Manager cd93
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'contact+cd93@carnetdebord.inclusion.beta.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94', 'manager.cd93', 'manager', '01a3d906-70d9-42e6-9b61-2ccf030e5d8f', true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94');
 -- Manager cd51
 INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'contact+cd51@carnetdebord.inclusion.beta.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('3f4c5d95-b25c-4e18-a2c6-b394b8221c8f', 'manager.cd51', 'manager', 'cc32124d-f810-4193-a855-db76915ae7e4', true, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('3f4c5d95-b25c-4e18-a2c6-b394b8221c8f');
 
 -- Pros:
 -- Pierre Chevalier
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('1a5b817b-6b81-4a4d-9953-26707a54e0e9', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pierre.chevalier@livry-gargan.fr', 'Chevalier', 'Pierre', 'Conseiller en insertion', '01 41 70 88 00');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8172-40160958a33d', 'pierre.chevalier', 'professional', NULL, NULL, '2021-09-27 14:08:02.222+00', NULL, '1a5b817b-6b81-4a4d-9953-26707a54e0e9', NULL, true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('17434464-5f69-40cc-8172-40160958a33d');
 
 
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('a5aa7ade-6df2-43fa-896f-d71a6532093c', '2021-09-21 13:06:45.076+00', '1a5b817b-6b81-4a4d-9953-26707a54e0e9', 'fc48d848-33bf-437a-9533-881e16ffa666');
@@ -123,9 +132,11 @@ INSERT INTO public.professional_orientation_system (id, created_at, professional
 -- Paul Camara
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', 'e578237f-6167-4012-b457-7c4f36fb079d', 'pcamara@seinesaintdenis.fr', 'Camara', 'Paul', 'Assistant de service social', '01 71 29 43 80');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('d0b8f314-5e83-4535-9360-60f29dcfb5c8', 'pcamara', 'professional', NULL, NULL, NULL, NULL, 'e1fdb7a8-7d0e-4b2e-b28c-89a662d090a3', NULL, true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('d0b8f314-5e83-4535-9360-60f29dcfb5c8');
 -- Simon Anka
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('74323049-eae6-4ccd-b596-e95514a32781', '8b71184c-6479-4440-aa89-15da704cc792', 'sanka@groupe-ns.fr', 'Anka', 'Simon', 'Conseiller en Insertion Professionnel', NULL);
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('a501db53-1b79-4a60-860b-5972bd184f98', 'sanka', 'professional', NULL, NULL, NULL, NULL, '74323049-eae6-4ccd-b596-e95514a32781', NULL, true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('a501db53-1b79-4a60-860b-5972bd184f98');
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('8b50c44d-d6b5-4598-854e-a585cd7b916e', '2021-09-21 13:06:45.076+00', '74323049-eae6-4ccd-b596-e95514a32781', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('fecb0f38-efd8-45f1-a89d-8e58ec8195fd', '2021-09-21 13:06:45.076+00', '74323049-eae6-4ccd-b596-e95514a32781', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
 
@@ -134,12 +145,14 @@ INSERT INTO public.professional_orientation_system (id, created_at, professional
 -- Thierry Dunord
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('a81bc81b-dead-4e5d-abff-90865d1e13b3', 'a81bc81b-dead-4e5d-abff-90865d1e13b2', 'dunord@pole-emploi.fr', 'Dunord', 'Thierry', 'Conseiller pôle emploi', '');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('17434464-5f69-40cc-8173-40160958a33d', 'thierry.dunord', 'professional', NULL, NULL, '2021-08-23 07:59:48.689+00', NULL, 'a81bc81b-dead-4e5d-abff-90865d1e13b3', NULL, true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('17434464-5f69-40cc-8173-40160958a33d');
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('1447db6c-5221-4b3e-a082-dbefa1b6c093', '2021-09-21 13:06:45.076+00', 'a81bc81b-dead-4e5d-abff-90865d1e13b3', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
 
 
 -- Jean Poiret
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('9b5f4863-dd2e-4680-af40-46258c457654', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'jeanpoiret@mission-locale.fr', 'Poiret', 'Jean', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf', 'jean.poiret', 'professional', '9b5f4863-dd2e-4680-af40-46258c457654', true, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('db78bfd9-aedb-4220-bf0a-f62b0528e5bf');
 
 
 
@@ -151,6 +164,7 @@ INSERT INTO public.professional_orientation_system (id, created_at, professional
 -- Sandie Manchet
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('d211a3b8-346c-4f77-a570-bc1c9240e744', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'sandie.manchet@livry-gargan.fr', 'Manchet', 'Sandie', 'Conseillere sociale', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('6338f969-c881-41d7-9af8-9f5c92f7ac67', 'sandie.manchet', 'professional', 'd211a3b8-346c-4f77-a570-bc1c9240e744', true, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('6338f969-c881-41d7-9af8-9f5c92f7ac67');
 
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('71e79d5b-4518-43f2-8024-78792fb6c3fa', '2021-09-21 13:06:45.076+00', 'd211a3b8-346c-4f77-a570-bc1c9240e744', 'fc48d848-33bf-437a-9533-881e16ffa666');
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('f4be40f1-b9ea-474d-9ae3-d7ce6403b89b', '2021-09-21 13:06:45.076+00', 'd211a3b8-346c-4f77-a570-bc1c9240e744', 'cc92714c-db2c-4d49-a877-571ecc6138c2');
@@ -159,21 +173,26 @@ INSERT INTO public.professional_orientation_system (id, created_at, professional
 -- Blaise Alaise
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('3de46574-311a-462c-88d4-e2e89d2bd136', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'pro@pe.fr', 'Alaise', 'Blaise', 'Conseiller Logement', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('1b45defb-d1d1-4c07-af47-b1062cb9b5f5', 'alaise.blaise', 'professional', '3de46574-311a-462c-88d4-e2e89d2bd136', true, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('1b45defb-d1d1-4c07-af47-b1062cb9b5f5');
 -- Lejeune Bienvenu
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('b7f75b75-8a3f-4143-a7fa-cefec88634a6', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'bienvenu.lejeune@mission-locale.fr', 'Bienvenu', 'Lejeune', '', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('32609be3-2282-4303-9ebd-4f419cf558d9', 'bienvenu.lejeune', 'professional', 'b7f75b75-8a3f-4143-a7fa-cefec88634a6', false, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('32609be3-2282-4303-9ebd-4f419cf558d9');
 -- Orial Edith
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position", mobile_number) VALUES ('db09d6b1-8891-4638-b483-5eb917e8098d', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'edith.orial@interlogement93.fr', 'Edith', 'Orial', '', '');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('521a2983-17e2-43a9-abf6-7ed9f93cf7f9', 'edith.orial', 'professional', 'db09d6b1-8891-4638-b483-5eb917e8098d', false, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('521a2983-17e2-43a9-abf6-7ed9f93cf7f9');
 --  Sarah Vigote (compte supprimé)
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname ) VALUES ('44785e77-752d-4cc7-8454-37aeb2186678', 'dfaaa6e3-4c5a-4079-a191-e8611d573acf', 'sarahvigote@interlogement93.fr',  'Vigote', 'Sarah' );
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done, deleted_at) VALUES ('2c53c66b-09a3-4e44-a142-f2cf084680ce', 'sarah.vigote', 'professional', '44785e77-752d-4cc7-8454-37aeb2186678', true, true, '2022-03-24 17:22:38.219997+00');
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('2c53c66b-09a3-4e44-a142-f2cf084680ce');
 
 
 
 -- Hélène Arbol
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position") VALUES ('1540e75d-75da-4048-b442-0d1d4e65f104', '3b299bcb-445c-48db-bc61-e30cd52d65b6', 'helene.arbol@afpa.fr', 'Arbol', 'Hélène', 'Conseillere pro');
 INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('fd325e20-35a7-40e7-a03e-97c1792f89eb', 'helene.arbol', 'professional', '1540e75d-75da-4048-b442-0d1d4e65f104', true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('fd325e20-35a7-40e7-a03e-97c1792f89eb');
 
 
 INSERT INTO public.professional_orientation_system (id, created_at, professional_id, orientation_system_id) VALUES ('96d80594-ecff-4a43-82d4-a2bf6a04c66e', '2021-09-21 13:06:45.076+00', '1540e75d-75da-4048-b442-0d1d4e65f104', 'f26ea5ba-e8a1-48ad-a031-f42d7f861008');
@@ -190,9 +209,11 @@ INSERT INTO professional_orientation_system(professional_id, orientation_system_
 -- Giulia Diaby
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('607cb6f8-9e33-4ce8-98b1-38e60c9dda99', 'giulia.diaby@cd93.fr', 'Diaby', 'Giulia', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f', 'giulia.diaby', 'orientation_manager', '607cb6f8-9e33-4ce8-98b1-38e60c9dda99', true, false);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f');
 -- Samy Rouate
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('3f82fc22-12f0-4c0b-85d5-57ae054a2ee3', 'samy.rouate@cd93.fr', 'Rouate', 'Samy', '0912345678, 0612345678', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('23e910a6-0b3d-4147-ac6f-9efbcecaab70', 'samy.rouate', 'orientation_manager', '3f82fc22-12f0-4c0b-85d5-57ae054a2ee3', true, true);
+INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('23e910a6-0b3d-4147-ac6f-9efbcecaab70');
 -- Laure Loge
 INSERT INTO public.orientation_manager (id, email, lastname, firstname, phone_numbers, deployment_id) VALUES ('3dbb610e-916f-49e0-8860-b5dc39decd49', 'laure.loge@cd51.fr', 'Loge', 'Laure', '0987654321, 0687654321', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.account (id, username, type, orientation_manager_id, confirmed, onboarding_done) VALUES ('f29ca78a-4719-4658-8d19-48d3df9178b5', 'laure.loge', 'orientation_manager', '3dbb610e-916f-49e0-8860-b5dc39decd49', true, false);

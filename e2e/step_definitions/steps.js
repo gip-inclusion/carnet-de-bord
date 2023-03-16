@@ -27,6 +27,12 @@ function plainGoto(url) {
 	});
 }
 
+Soit('je rafraichis la page', async () => {
+	return I.usePlaywrightTo('reload page', async ({ page }) => {
+		return await page.reload();
+	});
+});
+
 Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
 	await onBoardingSetup(userType, email, true);
 	const uuid = await loginStub(userType, email);
