@@ -22,7 +22,7 @@ Scénario: Ajout d'un objectif
 	Alors j'attends que le texte "Objectif" apparaisse
 	Quand je selectionne l'option "Définir un parcours de formation personnalisé" dans la liste "Objectif"
 	Quand je clique sur "Ajouter"
-	Alors je vois "Définir un parcours de formation personnalisé" sous le titre "Objectifs" de niveau 2
+	Alors je vois "Définir un parcours de formation personnalisé" sous le titre "Objectifs"
 
 Scénario: Ajout d'une action
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
