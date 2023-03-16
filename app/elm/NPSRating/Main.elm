@@ -2,7 +2,7 @@ module NPSRating.Main exposing (..)
 
 import Browser
 import Html exposing (..)
-import Html.Attributes exposing (attribute, class, disabled, for, id, method, name, required, title, type_, value)
+import Html.Attributes exposing (attribute, checked, class, disabled, for, id, method, name, required, title, type_, value)
 import Html.Events exposing (onCheck, onClick, onSubmit, preventDefaultOn)
 import Http
 import Json.Decode as Decode
@@ -298,6 +298,14 @@ scoreButton model n =
             [ type_ "radio"
             , id idText
             , name "nps"
+            , checked
+                (case model.nps of
+                    Just nps ->
+                        nps == n
+
+                    Nothing ->
+                        False
+                )
             , class
                 (btnClasses
                     -- Let the parent label be styled, the input covers the label
