@@ -97,14 +97,6 @@ Quand('je navigue vers la page précédente', async () => {
 	I.executeScript('window.history.back();');
 });
 
-Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
-	const item = locate('*')
-		.after(locate('//h1|//h2|//h3|//h4|//h5|//h6').withText(header))
-		.find(`//*[text()[contains(.,'${target}')]]`);
-
-	I.click(item);
-});
-
 Quand('je clique sur la ligne du tableau contenant le texte {string}', (text) => {
 	I.click(locate('table tr').withText(text));
 });

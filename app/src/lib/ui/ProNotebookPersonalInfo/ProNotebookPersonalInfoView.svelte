@@ -115,6 +115,11 @@
 		{/key}
 	</div>
 	{#if displayEditButton}
-		<Button classNames="self-start" on:click={() => edit()} outline>Mettre à jour</Button>
+		<Button
+			classNames="self-start"
+			on:click={() => edit()}
+			outline
+			title="Mettre à jour les informations personnelles">Mettre à jour</Button
+		>
 	{/if}
 </div>

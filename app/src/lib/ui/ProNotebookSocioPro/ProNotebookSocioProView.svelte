@@ -12,5 +12,10 @@
 <div class="flex flex-col space-y-6">
 	<SocioProView {notebook} {externalDataDetail} />
 
-	<Button classNames="self-start" on:click outline>Mettre à jour</Button>
+	<Button
+		classNames="self-start"
+		on:click
+		outline
+		title="Mettre à jour le diagnostic socioprofessionnel">Mettre à jour</Button
+	>
 </div>
