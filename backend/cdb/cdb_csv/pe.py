@@ -80,7 +80,6 @@ FORMATION_DOMAINE_SUIVANT_LABEL = "UNE FORMATION DANS LE DOMAINE SUIVANT"
 class ParseActionEnum(StrEnum):
     IMPORT_BENEFICIARIES = "import_beneficiaries"
     IMPORT_ACTIONS = "import_actions"
-    MATCH_BENEFICIARIES_AND_PROS = "match_beneficiaries_and_pros"
 
 
 async def map_principal_row(row: Series) -> PrincipalCsvRow:
@@ -91,84 +90,7 @@ async def map_action_row(row: Series) -> ActionCsvRow:
     return ActionCsvRow.parse_obj(row)
 
 
-async def match_beneficiaries_and_pros(connection: Connection, principal_csv: str):
-    df = dd.read_csv(  # type: ignore
-        principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
-    )
-
-    row: Series
-    for _, row in df.iterrows():
-        pe_unique_id: str = row["identifiant_unique_de"]
-
-        logging.info(
-            "%(pe_unique_id)s => Trying to match beneficiary and pro of main row "
-            "%(pe_unique_id)s",
-            {"pe_unique_id": pe_unique_id},
-        )
-
-        csv_row: PrincipalCsvRow = await map_principal_row(row)
-
-        if csv_row.brsa:
-            beneficiary: Beneficiary | None = (
-                await get_beneficiary_from_personal_information(
-                    connection,
-                    firstname=csv_row.prenom,
-                    lastname=csv_row.nom,
-                    birth_date=csv_row.date_naissance,
-                )
-            )
-
-            if beneficiary and beneficiary.notebook is not None:
-
-                logging.info(
-                    "%s - Found matching beneficiary for pro %s",
-                    pe_unique_id,
-                    beneficiary.id,
-                )
-
-                account: AccountDB | None = await get_account_by_professional_email(
-                    connection, csv_row.referent_mail
-                )
-
-                if account:
-                    logging.info(
-                        "%s - Found professional account for %s",
-                        pe_unique_id,
-                        csv_row.referent_mail,
-                    )
-
-                    notebook_member: NotebookMember | None = (
-                        await get_notebook_member_by_notebook_id_and_account_id(
-                            connection, beneficiary.notebook.id, account.id
-                        )
-                    )
-                    if notebook_member:
-                        logging.info(
-                            "%s - Pro is already a member of the notebook. Skipping.",
-                            pe_unique_id,
-                        )
-                    else:
-                        logging.info(
-                            "%s - Pro is not a member of the notebook. Adding it.",
-                            pe_unique_id,
-                        )
-
-                        await add_account_to_notebook_members(
-                            connection,
-                            beneficiary.notebook.id,
-                            account.id,
-                            pe_unique_id,
-                        )
-                else:
-                    logging.info(
-                        "%s - No professional account found for %s",
-                        pe_unique_id,
-                        csv_row.referent_mail,
-                    )
-
-
 async def import_beneficiaries(connection: Connection, principal_csv: str):
-
     df = dd.read_csv(  # type: ignore
         principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
     )
@@ -176,7 +98,6 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
     row: Series
     for _, row in df.iterrows():
         try:
-
             logging.info(
                 "{id} => Trying to import main row {id}".format(
                     id=row["identifiant_unique_de"]
@@ -237,7 +158,6 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
 
 
 async def import_actions(connection: Connection, action_csv_path: str):
-
     logging.info("Running 'import_actions' on pe actions file")
 
     df = dd.read_csv(  # type: ignore
@@ -265,7 +185,6 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 csv_row.lblaction == FORMATION_DOMAINE_SUIVANT_LABEL
                 and csv_row.formation is None
             ):
-
                 logging.error(
                     "%s => Line '{FORMATION_DOMAINE_SUIVANT_LABEL}' "
                     "with empty 'formation' column. Skipping row.",
@@ -371,7 +290,6 @@ def compute_action_date(
     date_fin: datetime | None,
     label: str,
 ) -> datetime:
-
     if (
         label != FORMATION_DOMAINE_SUIVANT_LABEL
         and date_fin is not None
@@ -391,7 +309,6 @@ async def import_pe_referent(
     deployment_id: UUID,
     notebook_id: UUID,
 ) -> Professional | None:
-
     structure: Structure | None = await get_structure_by_name(
         connection, csv_row.struct_principale
     )
@@ -455,7 +372,6 @@ async def import_pe_referent(
         )
 
         if professional:
-
             logging.info(
                 "{} - Professional {} inserted and attached to structure {}".format(
                     pe_unique_id, csv_row.referent_mail, structure.name
@@ -487,7 +403,6 @@ async def import_pe_referent(
         )
 
         if account:
-
             notebook_member: NotebookMember | None = (
                 await get_notebook_member_by_notebook_id_and_account_id(
                     connection, notebook_id, account.id
@@ -509,7 +424,6 @@ async def import_pe_referent(
 
 
 def net_email_to_fr_email(net_email: str) -> str | None:
-
     match: None | re.Match = re.search(r"^[0-9]*(.*)\.net$", net_email)
 
     if match:
@@ -550,7 +464,6 @@ async def import_beneficiary(
     pe_unique_id: str,
     hash_result: str,
 ) -> Beneficiary | None:
-
     beneficiary: Beneficiary | None = await get_beneficiary_from_personal_information(
         connection,
         firstname=csv_row.prenom,
@@ -559,7 +472,6 @@ async def import_beneficiary(
     )
 
     if beneficiary and beneficiary.notebook is not None:
-
         if beneficiary.pe_unique_import_id != pe_unique_id:
             beneficiary_uuid: UUID | None = await update_beneficiary_field(
                 connection, "pe_unique_import_id", pe_unique_id, beneficiary.id
@@ -613,7 +525,6 @@ async def save_external_data(
     hash_result: str,
     professional: Professional | None = None,
 ) -> ExternalData | None:
-
     # Do we already have some external data for this beneficiary?
     external_data: ExternalData | None = (
         await get_last_external_data_by_beneficiary_id_and_source(
@@ -667,8 +578,7 @@ async def parse_pe_csv(
                     await import_actions(connection, principal_csv)
                 case ParseActionEnum.IMPORT_BENEFICIARIES:
                     await import_beneficiaries(connection, principal_csv)
-                case ParseActionEnum.MATCH_BENEFICIARIES_AND_PROS:
-                    await match_beneficiaries_and_pros(connection, principal_csv)
+
                 case _:
                     logging.error(f"Action '{action}' not found")
         await pool.close()
@@ -682,8 +592,7 @@ async def insert_professional_projects_for_csv_row_and_notebook(
     notebook: Notebook,
     unique_identifier: str,
 ) -> Notebook:
-
-    for (rome_code, rome_label) in [
+    for rome_code, rome_label in [
         (csv_row.rome_1, csv_row.appelation_rome_1),
         (csv_row.rome_2, csv_row.appelation_rome_2),
     ]:
