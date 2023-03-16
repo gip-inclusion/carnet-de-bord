@@ -92,15 +92,13 @@
 				label="Se rattacher"
 				on:confirm={addCurrentAccountToNotebookMembers}
 			>
-				<div class="fr-form-group">
-					<Radio
-						caption="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
-						name="memberType"
-						{options}
-						selected={memberType}
-						on:input={setSelectedMemberType}
-					/>
-				</div>
+				<Radio
+					caption="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+					name="memberType"
+					{options}
+					selected={memberType}
+					on:input={setSelectedMemberType}
+				/>
 			</Dialog>
 		</div>
 	{/if}
