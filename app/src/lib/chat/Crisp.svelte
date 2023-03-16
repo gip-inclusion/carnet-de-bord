@@ -8,8 +8,11 @@
 	let unsubscribe: () => void;
 
 	onMount(async () => {
-		window.$crisp = [];
-		window.CRISP_WEBSITE_ID = websiteId;
+		Object.assign(window, {
+			$crisp: [],
+			CRISP_WEBSITE_ID: websiteId,
+			CRISP_COOKIE_DOMAIN: window.location.hostname,
+		});
 
 		(function () {
 			const d = document;
@@ -51,6 +54,9 @@
 				],
 			],
 		]);
+
+		// disable warning about shimmed JS methods (caused by Sentry)
+		crisp.push(['safe', true]);
 	});
 	onDestroy(unsubscribe);
 </script>

@@ -5,7 +5,7 @@ Fonctionnalité: Consultation d'un carnet par un manager
 	Je veux voir le carnet d'un bénéficiaire
 
 	Scénario: voir un carnet par un manager
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je clique sur "Voir le carnet de Lindsay Aguilar"
@@ -14,7 +14,7 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Alors je vois "lindsay.aguilar@nisi.fr"
 
 	Scénario: voir l'information RQTH
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je clique sur "Voir le carnet de Katharine Chandler"
@@ -24,7 +24,7 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Alors je vois "Oui"
 
 	Scénario: Mettre à jour les informations personnelles
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je clique sur "Voir le carnet de Payne Bennett"

@@ -35,7 +35,7 @@ TRUNCATE public.account CASCADE;
 SET check_function_bodies = false;
 
 -- Admin account
-INSERT INTO public.admin_cdb (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'support.carnet-de-bord+admin@fabrique.social.gouv.fr', 'Carnet de Bord', 'Administrateur');
+INSERT INTO public.admin_cdb (id, email, firstname, lastname) VALUES ('a81bc81a-dead-4e5d-abff-90865d1e13b7', 'contact+admin@carnetdebord.inclusion.beta.gouv.fr', 'Carnet de Bord', 'Administrateur');
 INSERT INTO public.account (id, username, type, access_key, access_key_date, last_login, beneficiary_id, professional_id, admin_id, confirmed, onboarding_done) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76', 'admin', 'admin_cdb', NULL, NULL, '2021-09-21 12:25:55.822+00', NULL, NULL, 'a81bc81a-dead-4e5d-abff-90865d1e13b7', true, false);
 
 -- Deployments
@@ -104,10 +104,10 @@ INSERT INTO public.admin_structure_structure (id, admin_structure_id, structure_
 
 -- Deployment managers:
 -- Manager cd93
-INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'support.carnet-de-bord+cd93@fabrique.social.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
+INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('01a3d906-70d9-42e6-9b61-2ccf030e5d8f', 'contact+cd93@carnetdebord.inclusion.beta.gouv.fr', 'Agathe', 'DeBlouze', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('96cb6e09-81fa-44e9-9b3f-75c93ad96f94', 'manager.cd93', 'manager', '01a3d906-70d9-42e6-9b61-2ccf030e5d8f', true, true);
 -- Manager cd51
-INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'support.carnet-de-bord+cd51@fabrique.social.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
+INSERT INTO public.manager (id, email, firstname, lastname, deployment_id) VALUES ('cc32124d-f810-4193-a855-db76915ae7e4', 'contact+cd51@carnetdebord.inclusion.beta.gouv.fr', 'Gérard', 'Manvol', 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
 INSERT INTO public.account (id, username, type, manager_id, confirmed, onboarding_done) VALUES ('3f4c5d95-b25c-4e18-a2c6-b394b8221c8f', 'manager.cd51', 'manager', 'cc32124d-f810-4193-a855-db76915ae7e4', true, false);
 
 -- Pros:

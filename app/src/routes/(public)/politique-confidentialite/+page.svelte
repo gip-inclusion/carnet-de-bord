@@ -1,3 +1,7 @@
+<script lang="ts">
+	import { getMatomoUrl } from '$lib/config/variables/public';
+</script>
+
 <svelte:head>
 	<title>Politique de confidentialité - Carnet de bord</title>
 </svelte:head>
@@ -451,7 +455,7 @@
 	<iframe
 		title="matomo optout"
 		class="w-full border-0"
-		src="https://matomo.fabrique.social.gouv.fr/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=2f3b6c&fontSize=16px&fontFamily=sans-serif"
+		src={`${getMatomoUrl()}/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=2f3b6c&fontSize=16px&fontFamily=sans-serif`}
 	/>
 
 	<p>

@@ -6,7 +6,7 @@ Fonctionnalité: Modification d'une structure
 	Je veux pouvoir modifier à les informations d'une structure
 
 	Scénario: Mise à jour d'une structure par l'administrateur CdB
-		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
+		Soit un "administrateur cdb" authentifié avec l'email "contact+admin@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "expérimentation 51"
 		Alors je vois "1" dans la tuile "Structures"
 		Quand je clique sur "1 structures"
@@ -19,7 +19,7 @@ Fonctionnalité: Modification d'une structure
 		Alors je vois "Châlons-en-Champagne" sur la ligne "Interlogement 51"
 
 	Scénario: Mise à jour des dispositifs d'accompagnement d'une structure par l'administrateur CdB
-		Soit un "administrateur cdb" authentifié avec l'email "support.carnet-de-bord+admin@fabrique.social.gouv.fr"
+		Soit un "administrateur cdb" authentifié avec l'email "contact+admin@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "expérimentation 93"
 		Alors je vois "9" dans la tuile "Structures"
 		Quand je clique sur "9 structures"

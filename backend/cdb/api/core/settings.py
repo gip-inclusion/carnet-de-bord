@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     PE_CLIENT_SECRET: str = "CLIENT_SECRET"
 
     V1_PREFIX: str = "/v1"
-    MAIL_FROM: str = "support.carnet-de-bord@fabrique.social.gouv.fr"
+    MAIL_FROM: str = "contact@carnetdebord.inclusion.beta.gouv.fr"
     LOG_FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
     LOG_LEVEL: str = "INFO"
     LOG_AS_JSON: bool = True

@@ -6,7 +6,7 @@ Fonctionnalité: Import de bénéficiaires
 	Je veux pouvoir importer une liste de bénéficiaires
 
 	Scénario: Import de bénéficiaires
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
 		Quand je clique sur "Importer des nouveaux bénéficiaires"
 		Alors le lien "consulter la notice de remplissage" pointe sur "https://pad.incubateur.net/s/vJr-H7wEf#"
@@ -21,7 +21,7 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je vois "Un bénéficiaire existe déjà avec ce nom/prénom/date de naissance sur le territoire." sur la ligne "charlie"
 
 	Scénario: Import de bénéficiaires avec différents formats de date
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
 		Quand je clique sur "Importer des nouveaux bénéficiaires"
 		Quand je téléverse le fichier "/resources/import_beneficiaires_with_all_date_formats.csv"
@@ -30,7 +30,7 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je ne vois pas d'alerte
 
 	Scénario: Import de bénéficiaires avec un fichier partiel (identifiant, nom, prenom, date de naissance et nir)
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
 		Quand je clique sur "Importer des nouveaux bénéficiaires"
  		Quand je téléverse le fichier "/resources/import_beneficiaires_partial.csv"
@@ -40,7 +40,7 @@ Fonctionnalité: Import de bénéficiaires
 		Alors je vois "2 bénéficiaires importés sur 2 demandés."
 
 	Scénario: Ré-Import de bénéficiaires
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
 		Quand je clique sur "Importer des nouveaux bénéficiaires"
 		Quand je téléverse le fichier "/resources/re_import_beneficiaires.csv"
@@ -52,7 +52,7 @@ Fonctionnalité: Import de bénéficiaires
 
 
 	Scénario: Import de nouveaux bénéficiaires
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Importer des bénéficiaires"
 		Quand je clique sur "Importer des nouveaux bénéficiaires"
  		Quand je téléverse le fichier "/resources/import_beneficiaires.csv"

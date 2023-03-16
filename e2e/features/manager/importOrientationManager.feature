@@ -6,7 +6,7 @@ Fonctionnalité: Import des chargés d'orientation
 	Je veux pouvoir importer une liste de chargés d'orientation
 
 	Scénario: Import de chargés d'orientation
-		Soit un "administrateur de territoire" authentifié avec l'email "support.carnet-de-bord+cd93@fabrique.social.gouv.fr"
+		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Importer une liste de chargés d'orientation"
 		Alors je vois "Importer des chargés d'orientation"
 		Alors le lien "consulter la notice de remplissage" pointe sur "https://pad.incubateur.net/s/EchGdpy8h"
