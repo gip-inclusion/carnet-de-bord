@@ -3,7 +3,7 @@ module NPSRating.Main exposing (..)
 import Browser
 import Html exposing (..)
 import Html.Attributes exposing (attribute, class, disabled, for, id, method, name, required, title, type_, value)
-import Html.Events exposing (onCheck, onClick, onSubmit, preventDefaultOn)
+import Html.Events exposing (onCheck, onClick, onSubmit)
 import Http
 import Json.Decode as Decode
 import Json.Encode as Encode
@@ -324,7 +324,7 @@ view model =
             , attribute "role" "dialog"
             , class "fixed bottom-0 z-10 p-0 m-0 fr-col-12 fr-col-md-10 fr-col-lg-8 fr-col-xl-6"
             ]
-            [ form [ method "dialog", preventDefaultOn "submit" (Decode.succeed ( DoNothing, True )) ]
+            [ form [ method "dialog" ]
                 [ div
                     [ class "fr-modal__body" ]
                     [ div [ class "fr-modal__header" ]
@@ -362,7 +362,15 @@ view model =
                     , div [ class "fr-modal__footer" ]
                         [ ul
                             [ class "fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left" ]
-                            [ li [] [ button [ class "fr-btn", disabled model.disableSubmit, onClick Submit ] [ text "Envoyer ma réponse" ] ]
+                            [ li []
+                                [ button
+                                    [ class "fr-btn"
+                                    , type_ "button"
+                                    , disabled model.disableSubmit
+                                    , onClick Submit
+                                    ]
+                                    [ text "Envoyer ma réponse" ]
+                                ]
                             ]
                         ]
                     ]
