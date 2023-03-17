@@ -126,6 +126,19 @@ query GetNotebook(
         mobilityRadius
         updatedAt
         createdAt
+        updater {
+          orientation_manager {
+            firstname
+            lastname
+          }
+          professional {
+            firstname
+            lastname
+            structure {
+              name
+            }
+          }
+        }
       }
       situations(where: { deletedAt: { _is_null: true } }, order_by: { createdAt: desc }) {
         id

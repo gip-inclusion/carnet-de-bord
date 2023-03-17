@@ -19,6 +19,8 @@ configuration:
       custom_name: romeCodeId
     updated_at:
       custom_name: updatedAt
+    updated_by:
+      custom_name: updatedBy
   custom_column_names:
     contract_type_id: contractTypeId
     created_at: createdAt
@@ -28,6 +30,7 @@ configuration:
     notebook_id: notebookId
     rome_code_id: romeCodeId
     updated_at: updatedAt
+    updated_by: updatedBy
   custom_root_fields: {}
 object_relationships:
   - name: contract_type
@@ -54,6 +57,15 @@ object_relationships:
   - name: rome_code
     using:
       foreign_key_constraint_on: rome_code_id
+  - name: updater
+    using:
+      manual_configuration:
+        column_mapping:
+          updated_by: id
+        insertion_order: null
+        remote_table:
+          name: account
+          schema: public
 insert_permissions:
   - role: manager
     permission:
@@ -118,6 +130,7 @@ select_permissions:
         - notebook_id
         - rome_code_id
         - updated_at
+        - updated_by
       filter: {}
   - role: admin_structure
     permission:
@@ -127,10 +140,11 @@ select_permissions:
         - employment_type_id
         - hourly_rate
         - id
-        - notebook_id
         - mobility_radius
+        - notebook_id
         - rome_code_id
         - updated_at
+        - updated_by
       filter:
         notebook:
           _or:
@@ -160,6 +174,7 @@ select_permissions:
         - notebook_id
         - rome_code_id
         - updated_at
+        - updated_by
       filter:
         notebook:
           beneficiary_id:
@@ -177,6 +192,7 @@ select_permissions:
         - notebook_id
         - rome_code_id
         - updated_at
+        - updated_by
       filter:
         notebook:
           beneficiary:
@@ -195,6 +211,7 @@ select_permissions:
         - notebook_id
         - rome_code_id
         - updated_at
+        - updated_by
       filter:
         notebook:
           beneficiary:
@@ -212,6 +229,7 @@ select_permissions:
         - notebook_id
         - rome_code_id
         - updated_at
+        - updated_by
       filter:
         notebook:
           members:
@@ -235,6 +253,8 @@ update_permissions:
               - active:
                   _eq: true
       check: null
+      set:
+        updated_by: x-hasura-User-Id
   - role: professional
     permission:
       columns:
@@ -252,6 +272,8 @@ update_permissions:
               - active:
                   _eq: true
       check: null
+      set:
+        updated_by: x-hasura-User-Id
 delete_permissions:
   - role: orientation_manager
     permission:

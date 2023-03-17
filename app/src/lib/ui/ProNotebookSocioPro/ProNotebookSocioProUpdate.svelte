@@ -227,6 +227,7 @@
 						hourlyRate,
 						employment_type,
 						contract_type,
+						updater,
 					}) => ({
 						id,
 						createdAt,
@@ -236,6 +237,7 @@
 						hourlyRate,
 						contractType: contract_type,
 						employmentType: employment_type,
+						updater,
 					})
 				),
 			},

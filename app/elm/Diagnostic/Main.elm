@@ -2,6 +2,7 @@ module Diagnostic.Main exposing (..)
 
 import Browser
 import Date exposing (Date, fromIsoString)
+import DateFormat
 import Decimal
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
@@ -10,7 +11,10 @@ import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLe
 import Domain.Theme exposing (themeKeyStringToString)
 import Html exposing (..)
 import Html.Attributes exposing (class, rowspan)
+import Iso8601
 import List.Extra
+import Time
+import TimeZone
 
 
 type alias Flags =
@@ -30,6 +34,7 @@ type alias ProfessionalProjectFlags =
     , hourlyRate : Maybe Int
     , createdAt : String
     , updatedAt : String
+    , updater : Maybe Account
     }
 
 
@@ -136,22 +141,26 @@ extractPersonalSituationFromFlags flags =
     { theme = flags.refSituation.theme
     , description = flags.refSituation.description
     , createdAt = flags.createdAt
-    , creator =
-        flags.creator
-            |> Maybe.map
-                (\creator ->
-                    case ( creator.professional, creator.orientation_manager ) of
-                        ( Just p, _ ) ->
-                            p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
-
-                        ( _, Just o ) ->
-                            o.firstname ++ " " ++ o.lastname
-
-                        _ ->
-                            ""
-                )
-            |> Maybe.withDefault ""
+    , creator = formatAccount flags.creator
     }
+
+
+formatAccount : Maybe Account -> String
+formatAccount account =
+    account
+        |> Maybe.map
+            (\creator ->
+                case ( creator.professional, creator.orientation_manager ) of
+                    ( Just p, _ ) ->
+                        p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
+
+                    ( _, Just o ) ->
+                        o.firstname ++ " " ++ o.lastname
+
+                    _ ->
+                        ""
+            )
+        |> Maybe.withDefault ""
 
 
 extractPersonalSituationsToPersonalSituationsByTheme : ( PersonalSituation, List PersonalSituation ) -> PersonalSituationsByTheme
@@ -220,8 +229,9 @@ extractProfessionalProjectFromFlags flags =
             |> Maybe.map (Decimal.mul (Decimal.fromIntWithExponent 1 -2))
     , contractType = extractContractType flags.contractType
     , workingTimeType = extractWorkingTimeType flags.employmentType
-    , updatedAt = fromIsoString flags.updatedAt |> Result.toMaybe
-    , createdAt = fromIsoString flags.createdAt |> Result.toMaybe
+    , updatedAt = Iso8601.toTime flags.updatedAt |> Result.toMaybe
+    , createdAt = Iso8601.toTime flags.createdAt |> Result.toMaybe
+    , updater = formatAccount flags.updater
     }
 
 
@@ -242,6 +252,11 @@ extractWorkingTimeType workingTimeFlag =
 dateFormat : String
 dateFormat =
     "dd/MM/yyyy"
+
+
+parisZone : Time.Zone
+parisZone =
+    TimeZone.europe__paris ()
 
 
 unfilled : GenderType -> String
@@ -401,6 +416,27 @@ peInformationsView peGeneralData =
         ]
 
 
+formatLastUpdateInformation : ProfessionalProject -> String
+formatLastUpdateInformation professionalProject =
+    let
+        updater =
+            if professionalProject.updater == "" then
+                ""
+
+            else
+                " par " ++ professionalProject.updater
+
+        updatedAt =
+            case professionalProject.updatedAt |> Maybe.map (DateFormat.format "dd/MM/yyyy" parisZone) of
+                Nothing ->
+                    ""
+
+                Just date ->
+                    " le " ++ date
+    in
+    "Mis à jour" ++ updater ++ updatedAt
+
+
 professionalProjectView : Model -> Html msg
 professionalProjectView { professionalProjects } =
     div [ class "pt-10 flex flex-col" ]
@@ -416,8 +452,11 @@ professionalProjectView { professionalProjects } =
                     |> List.map
                         (\professionalProject ->
                             div [ class "fr-container shadow-dsfr rounded-lg" ]
-                                [ h4 [ class "text-france-bleu pt-8" ]
-                                    [ text (Maybe.withDefault "Projet en construction" (Maybe.map .label professionalProject.rome)) ]
+                                [ div [ class "pt-8 mb-8" ]
+                                    [ h4 [ class "text-france-bleu mb-0" ]
+                                        [ text (Maybe.withDefault "Projet en construction" (Maybe.map .label professionalProject.rome)) ]
+                                    , div [ class "text-sm" ] [ professionalProject |> formatLastUpdateInformation |> text ]
+                                    ]
                                 , div
                                     [ class "fr-grid-row fr-grid-row--gutters" ]
                                     [ div [ class "fr-col-4" ]

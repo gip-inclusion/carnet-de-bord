@@ -8699,6 +8699,7 @@ export type NotebookSituation = {
 	/** An object relationship */
 	refSituation?: Maybe<RefSituation>;
 	situationId: Scalars['uuid'];
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregated selection of "notebook_situation" */
@@ -8763,6 +8764,7 @@ export type NotebookSituationBoolExp = {
 	notebookId?: InputMaybe<UuidComparisonExp>;
 	refSituation?: InputMaybe<RefSituationBoolExp>;
 	situationId?: InputMaybe<UuidComparisonExp>;
+	updatedBy?: InputMaybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_situation" */
@@ -8786,6 +8788,7 @@ export type NotebookSituationInsertInput = {
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	refSituation?: InputMaybe<RefSituationObjRelInsertInput>;
 	situationId?: InputMaybe<Scalars['uuid']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
@@ -8798,6 +8801,7 @@ export type NotebookSituationMaxFields = {
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "notebook_situation" */
@@ -8809,6 +8813,7 @@ export type NotebookSituationMaxOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
@@ -8821,6 +8826,7 @@ export type NotebookSituationMinFields = {
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "notebook_situation" */
@@ -8832,6 +8838,7 @@ export type NotebookSituationMinOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_situation" */
@@ -8863,6 +8870,7 @@ export type NotebookSituationOrderBy = {
 	notebookId?: InputMaybe<OrderBy>;
 	refSituation?: InputMaybe<RefSituationOrderBy>;
 	situationId?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_situation */
@@ -8886,6 +8894,8 @@ export enum NotebookSituationSelectColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	SituationId = 'situationId',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 /** input type for updating data in table "notebook_situation" */
@@ -8897,6 +8907,7 @@ export type NotebookSituationSetInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** Streaming cursor of the table "notebook_situation" */
@@ -8916,6 +8927,7 @@ export type NotebookSituationStreamCursorValueInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "notebook_situation" */
@@ -8934,6 +8946,8 @@ export enum NotebookSituationUpdateColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	SituationId = 'situationId',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 export type NotebookSituationUpdates = {
@@ -11222,6 +11236,9 @@ export type ProfessionalProject = {
 	/** An object relationship */
 	rome_code?: Maybe<RomeCode>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
+	/** An object relationship */
+	updater?: Maybe<Account>;
 };
 
 /** aggregated selection of "professional_project" */
@@ -11319,6 +11336,8 @@ export type ProfessionalProjectBoolExp = {
 	romeCodeId?: InputMaybe<UuidComparisonExp>;
 	rome_code?: InputMaybe<RomeCodeBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+	updatedBy?: InputMaybe<UuidComparisonExp>;
+	updater?: InputMaybe<AccountBoolExp>;
 };
 
 /** unique or primary key constraints on table "professional_project" */
@@ -11352,6 +11371,8 @@ export type ProfessionalProjectInsertInput = {
 	romeCodeId?: InputMaybe<Scalars['uuid']>;
 	rome_code?: InputMaybe<RomeCodeObjRelInsertInput>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
+	updater?: InputMaybe<AccountObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
@@ -11365,6 +11386,7 @@ export type ProfessionalProjectMaxFields = {
 	notebookId?: Maybe<Scalars['uuid']>;
 	romeCodeId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "professional_project" */
@@ -11377,6 +11399,7 @@ export type ProfessionalProjectMaxOrderBy = {
 	notebookId?: InputMaybe<OrderBy>;
 	romeCodeId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
@@ -11390,6 +11413,7 @@ export type ProfessionalProjectMinFields = {
 	notebookId?: Maybe<Scalars['uuid']>;
 	romeCodeId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "professional_project" */
@@ -11402,6 +11426,7 @@ export type ProfessionalProjectMinOrderBy = {
 	notebookId?: InputMaybe<OrderBy>;
 	romeCodeId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "professional_project" */
@@ -11435,6 +11460,8 @@ export type ProfessionalProjectOrderBy = {
 	romeCodeId?: InputMaybe<OrderBy>;
 	rome_code?: InputMaybe<RomeCodeOrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
+	updater?: InputMaybe<AccountOrderBy>;
 };
 
 /** primary key columns input for table: professional_project */
@@ -11462,6 +11489,8 @@ export enum ProfessionalProjectSelectColumn {
 	RomeCodeId = 'romeCodeId',
 	/** column name */
 	UpdatedAt = 'updatedAt',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 /** input type for updating data in table "professional_project" */
@@ -11476,6 +11505,7 @@ export type ProfessionalProjectSetInput = {
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	romeCodeId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
@@ -11543,6 +11573,7 @@ export type ProfessionalProjectStreamCursorValueInput = {
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	romeCodeId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate sum on columns */
@@ -11580,6 +11611,8 @@ export enum ProfessionalProjectUpdateColumn {
 	RomeCodeId = 'romeCodeId',
 	/** column name */
 	UpdatedAt = 'updatedAt',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 export type ProfessionalProjectUpdates = {
@@ -16977,6 +17010,20 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 			contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 			employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+			updater?: {
+				__typename?: 'account';
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			} | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -17173,6 +17220,20 @@ export type GetNotebookByIdQuery = {
 			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 			contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 			employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+			updater?: {
+				__typename?: 'account';
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			} | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -17362,6 +17423,20 @@ export type NotebookFragmentFragment = {
 		rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 		contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 		employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+		updater?: {
+			__typename?: 'account';
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				firstname?: string | null;
+				lastname?: string | null;
+			} | null;
+			professional?: {
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				structure: { __typename?: 'structure'; name: string };
+			} | null;
+		} | null;
 	}>;
 	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 	beneficiary: {
@@ -18046,6 +18121,20 @@ export type GetNotebookQuery = {
 				rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 				contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 				employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+				updater?: {
+					__typename?: 'account';
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						firstname?: string | null;
+						lastname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name: string };
+					} | null;
+				} | null;
 			}>;
 			situations: Array<{
 				__typename?: 'notebook_situation';
@@ -18751,6 +18840,47 @@ export const NotebookFragmentFragmentDoc = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'updater' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
 							],
 						},
 					},
@@ -29335,6 +29465,62 @@ export const GetNotebookDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'updater' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'structure' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'name' },
+																							},
+																						],
+																					},
+																				},
+																			],
+																		},
+																	},
+																],
+															},
+														},
 													],
 												},
 											},

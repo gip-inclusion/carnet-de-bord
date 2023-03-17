@@ -1,7 +1,7 @@
 module Domain.ProfessionalProject exposing (..)
 
-import Date exposing (Date)
 import Decimal exposing (Decimal)
+import Time
 
 
 type WorkingTime
@@ -41,12 +41,20 @@ type alias Theme =
     }
 
 
+type alias Account =
+    { firstname : String
+    , lastname : String
+    , structureName : Maybe String
+    }
+
+
 type alias ProfessionalProject =
     { id : String
     , rome : Maybe Rome
     , mobilityRadius : Maybe Int
-    , createdAt : Maybe Date
-    , updatedAt : Maybe Date
+    , createdAt : Maybe Time.Posix
+    , updatedAt : Maybe Time.Posix
+    , updater : String
     , hourlyRate : Maybe Decimal
     , contractType : Maybe ContractType
     , workingTimeType : Maybe WorkingTime
