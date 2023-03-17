@@ -97,14 +97,6 @@ Quand('je navigue vers la page précédente', async () => {
 	I.executeScript('window.history.back();');
 });
 
-Quand('je clique sur {string} sous le titre {string}', async (target, header) => {
-	const item = locate('*')
-		.after(locate('h2').withText(header))
-		.find(`//*[text()[contains(.,'${target}')]]`);
-
-	I.click(item);
-});
-
 Quand('je clique sur la ligne du tableau contenant le texte {string}', (text) => {
 	I.click(locate('table tr').withText(text));
 });
@@ -216,6 +208,18 @@ Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select
 	I.selectOption(select, option);
 });
 
+Quand(
+	"je selectionne l'option {string} dans la liste {string} après le texte {string}",
+	(option, inputLabel, matcher) => {
+		const inputLocator = locate('select').after(locate('label').withText(inputLabel));
+		const select = locate('*')
+			.withDescendant(inputLocator)
+			.after(locate('*').withDescendant(locate('*').withText(matcher)))
+			.find(inputLocator);
+		I.selectOption(select, option);
+	}
+);
+
 Quand("j'appuie sur Entrée", () => {
 	I.pressKey('Enter');
 });
@@ -275,10 +279,10 @@ Alors('je vois {string} dans la tuile {string}', (text, tileText) => {
 	I.see(text, locator);
 });
 
-Alors('je vois {string} dans la tuile {string} sous le titre {string}', (nb, tileText, title) => {
+Alors('je vois {int} dans la tuile {string} sous le titre {string}', (nb, tileText, title) => {
 	const locator = locate('.fr-card')
 		.withDescendant(locate('*').withText(tileText))
-		.inside(locate('*').after(locate('h2').withText(title)));
+		.inside(locate('*').after(locate('//h1|//h2|//h3|//h4|//h5|//h6').withText(title)));
 	I.see(nb, locator);
 });
 
@@ -316,7 +320,7 @@ Alors('je ne vois pas {string}', (text) => {
 
 Alors('je vois {string} sous le titre {string}', async (text, title) => {
 	const item = locate('*')
-		.after(locate('h2').withText(title))
+		.after(locate('//h1|//h2|//h3|//h4|//h5|//h6').withText(title))
 		.find(`//*[text()[contains(.,'${text}')]]`);
 
 	I.see(text, item);

@@ -1,17 +1,15 @@
-import type { RomeCode, ProfessionalProject } from '$lib/graphql/_gen/typed-document-nodes';
+import type { ContractTypeEnum, EmploymentTypeEnum } from '$lib/graphql/_gen/typed-document-nodes';
+import type { ProfessionalProjectElm, RefSituation } from 'elm/Diagnostic/Main.elm';
 
-export type RefSituation = { id: string; theme: string; description: string };
 export type Situation = { id: string; refSituation?: RefSituation };
-
-export type ProfessionalProjectElm = Pick<
-	ProfessionalProject,
-	'id' | 'updatedAt' | 'createdAt' | 'mobilityRadius'
-> & { rome?: Pick<RomeCode, 'id' | 'label'> };
 
 export type ProfessionalProjectOut = {
 	id: string?;
 	mobilityRadius: number?;
-	romeId: string?;
+	romeCodeId: string?;
+	employmentTypeId: EmploymentTypeEnum?;
+	contractTypeId: ContractTypeEnum?;
+	hourlyRate: number?;
 };
 
 export type Flags = {

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { educationLevelKeys, workSituationKeys } from '$lib/constants/keys';
 	import type {
+		ContractTypeEnum,
+		EmploymentTypeEnum,
 		GetNotebookQuery,
 		ProfessionalProjectInsertInput,
 		ProfessionalProjectUpdates,
@@ -50,12 +52,18 @@
 
 	$: errorMessage = '';
 	let selectedSituations: string[] = notebook.situations.map(({ refSituation }) => refSituation.id);
-	let professionalProjects =
+	let professionalProjects: Pick<
+		ProfessionalProjectInsertInput,
+		'id' | 'mobilityRadius' | 'contractTypeId' | 'romeCodeId' | 'hourlyRate' | 'employmentTypeId'
+	>[] =
 		notebook?.professionalProjects?.map((professionalProject) => {
 			return {
 				id: professionalProject.id,
 				mobilityRadius: professionalProject.mobilityRadius,
-				romeId: professionalProject.rome_code?.id,
+				romeCodeId: professionalProject.rome_code?.id,
+				hourlyRate: professionalProject.hourlyRate,
+				employmentTypeId: professionalProject?.employment_type?.id as EmploymentTypeEnum,
+				contractTypeId: professionalProject?.contract_type?.id as ContractTypeEnum,
 			};
 		}) ?? [];
 
@@ -79,7 +87,6 @@
 		trackEvent('pro', 'notebook', 'update socio pro info');
 		const { educationLevel, rightRqth, workSituation } =
 			proNotebookSocioproSchema.validateSync(values);
-
 		const currentSituationIds = notebook.situations.map(({ refSituation }) => refSituation.id);
 
 		const situationsToAdd = selectedSituations
@@ -105,8 +112,11 @@
 			.map((project) => {
 				return {
 					notebookId: notebook.id,
+					romeCodeId: project.romeCodeId,
+					hourlyRate: project.hourlyRate,
 					mobilityRadius: project.mobilityRadius,
-					romeCodeId: project.romeId,
+					contractTypeId: project.contractTypeId,
+					employmentTypeId: project.employmentTypeId,
 				};
 			});
 
@@ -119,7 +129,10 @@
 					},
 					_set: {
 						mobilityRadius: project.mobilityRadius,
-						romeCodeId: project.romeId,
+						romeCodeId: project.romeCodeId,
+						contractTypeId: project.contractTypeId,
+						employmentTypeId: project.employmentTypeId,
+						hourlyRate: project.hourlyRate,
 					},
 				};
 			});
@@ -151,6 +164,18 @@
 	function formatErrors(errors: GraphQLError[]): string {
 		return errors
 			.map((error) => {
+				if (/hourly-rate-gt-zero/.test(error.message)) {
+					return "Il n'est pas possible de saisir un salaire horaire inférieur ou égal à 0.";
+				}
+				if (/mobility-radius-ge-zero/.test(error.message)) {
+					return "Il n'est pas possible de saisir une zone de mobilité négative.";
+				}
+				if (/notebook_id_rome_code_id_null_idx/.test(error.message)) {
+					return "Il n'est pas possible de saisir un salaire horaire inférieur ou égal à 0.";
+				}
+				if (/mobility-radius-ge-zero/.test(error.message)) {
+					return "Il n'est pas possible de saisir une zone de mobilité négative.";
+				}
 				if (/notebook_id_rome_code_id_null_idx/.test(error.message)) {
 					return "Il n'est pas possible de créer deux projets professionnels pour le même emploi ni plusieurs projets professionnels en construction.";
 				}
@@ -193,12 +218,24 @@
 				refSituations,
 				situations: notebook.situations,
 				professionalProjects: notebook.professionalProjects.map(
-					({ id, createdAt, updatedAt, mobilityRadius, rome_code }) => ({
+					({
+						id,
+						createdAt,
+						updatedAt,
+						mobilityRadius,
+						rome_code,
+						hourlyRate,
+						employment_type,
+						contract_type,
+					}) => ({
 						id,
 						createdAt,
 						updatedAt,
 						mobilityRadius,
 						rome: rome_code,
+						hourlyRate,
+						contractType: contract_type,
+						employmentType: employment_type,
 					})
 				),
 			},

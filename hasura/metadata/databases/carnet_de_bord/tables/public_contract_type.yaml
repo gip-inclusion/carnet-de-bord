@@ -1,0 +1,41 @@
+table:
+  name: contract_type
+  schema: public
+is_enum: true
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: manager
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: orientation_manager
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}
+  - role: professional
+    permission:
+      columns:
+        - id
+        - label
+      filter: {}

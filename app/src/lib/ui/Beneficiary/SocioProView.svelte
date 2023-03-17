@@ -46,12 +46,24 @@
 					lastJobEndedAt: notebook.lastJobEndedAt,
 				},
 				professionalProjects: notebook.professionalProjects.map(
-					({ rome_code, id, mobilityRadius, createdAt, updatedAt }) => ({
+					({
+						rome_code,
+						id,
+						mobilityRadius,
+						createdAt,
+						updatedAt,
+						contract_type,
+						employment_type,
+						hourlyRate,
+					}) => ({
 						id,
 						createdAt,
 						updatedAt,
 						mobilityRadius,
 						rome: rome_code,
+						hourlyRate,
+						contractType: contract_type,
+						employmentType: employment_type,
 					})
 				),
 				peGeneralData: externalDataDetail?.data?.source || null,

@@ -29,6 +29,15 @@ fragment notebookFragment on notebook {
       id
       label
     }
+    contract_type {
+      id
+      label
+    }
+    employment_type {
+      id
+      label
+    }
+    hourlyRate
     mobilityRadius
     updatedAt
     createdAt

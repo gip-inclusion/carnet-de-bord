@@ -110,13 +110,22 @@ query GetNotebook(
       }
       professionalProjects {
         id
-        mobilityRadius
-        createdAt
-        updatedAt
         rome_code {
           id
           label
         }
+        contract_type {
+          id
+          label
+        }
+        employment_type {
+          id
+          label
+        }
+        hourlyRate
+        mobilityRadius
+        updatedAt
+        createdAt
       }
       situations(where: { deletedAt: { _is_null: true } }, order_by: { createdAt: desc }) {
         id

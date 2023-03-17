@@ -2,13 +2,14 @@ port module DiagnosticEdit.Main exposing (..)
 
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
-import Diagnostic.Main exposing (ProfessionalProjectFlags, extractProfessionalProjectFromFlags)
-import Domain.ProfessionalProject exposing (ProfessionalProject, Rome)
+import Decimal exposing (Decimal)
+import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
+import Domain.ProfessionalProject exposing (ContractType(..), ProfessionalProject, Rome, WorkingTime(..), contractTypeStringToType, contractTypeToKey, contractTypeToLabel, workingTimeStringToType, workingTimeToKey, workingTimeToLabel)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
 import Html exposing (..)
-import Html.Attributes exposing (attribute, checked, class, disabled, for, id, name, type_, value)
-import Html.Events exposing (onClick, onInput)
+import Html.Attributes exposing (..)
+import Html.Events exposing (..)
 import Html.Styled as Styled
 import Http
 import Json.Decode
@@ -51,6 +52,9 @@ type alias ProfessionalProjectState =
     { id : Maybe String
     , rome : Maybe Rome
     , mobilityRadius : Maybe Int
+    , hourlyRate : Maybe String
+    , contractType : Maybe ContractType
+    , workingTime : Maybe WorkingTime
     , romeData : RomeData
     , selectedRome : Maybe Rome
     , selectState : Select.State
@@ -60,7 +64,10 @@ type alias ProfessionalProjectState =
 type alias ProfessionalProjectOut =
     { id : Maybe String
     , mobilityRadius : Maybe Int
-    , romeId : Maybe String
+    , romeCodeId : Maybe String
+    , hourlyRate : Maybe Int
+    , contractTypeId : Maybe String
+    , employmentTypeId : Maybe String
     }
 
 
@@ -68,8 +75,24 @@ toProfessionalProjectOut : ProfessionalProjectState -> ProfessionalProjectOut
 toProfessionalProjectOut state =
     { id = state.id
     , mobilityRadius = state.mobilityRadius
-    , romeId = Maybe.map .id state.selectedRome
+    , romeCodeId = Maybe.map .id state.selectedRome
+    , hourlyRate =
+        state.hourlyRate
+            |> parseHourlyRate
+            |> Maybe.map (Decimal.fromInt 100 |> Decimal.mul)
+            |> Maybe.map (Decimal.truncate 0)
+            |> Maybe.map Decimal.toString
+            |> Maybe.andThen String.toInt
+    , contractTypeId = Maybe.map contractTypeToKey state.contractType
+    , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
     }
+
+
+parseHourlyRate : Maybe String -> Maybe Decimal
+parseHourlyRate hourlyRate =
+    hourlyRate
+        |> Maybe.map (String.replace "," ".")
+        |> Maybe.andThen Decimal.fromString
 
 
 inputmode : String -> Attribute msg
@@ -86,6 +109,11 @@ ariaExpanded value =
          else
             "false"
         )
+
+
+ariaDescribedBy : String -> Attribute msg
+ariaDescribedBy value =
+    attribute "aria-described-by" value
 
 
 main : Program Flags Model Msg
@@ -114,6 +142,9 @@ type Msg
     | AddEmptyProfessionalProject
     | RemoveProject Int
     | UpdateMobilityRadius Int String
+    | UpdateWorkingTime Int (Maybe WorkingTime)
+    | UpdateContractType Int (Maybe ContractType)
+    | UpdateHourlyRate Int String
     | OpenRomeSearch Int
     | SelectMsg Int (Select.Msg Rome)
     | MsgFetchJobTitlesDebouncer (Debouncer.Msg Msg)
@@ -124,6 +155,21 @@ type Msg
 professionalProjetsMaxCount : Int
 professionalProjetsMaxCount =
     5
+
+
+smicHourlyValue : Decimal
+smicHourlyValue =
+    Decimal.fromIntWithExponent 1127 -2
+
+
+inputIsLowerThanSmic : String -> Bool
+inputIsLowerThanSmic input =
+    case parseHourlyRate (Just input) of
+        Just value ->
+            Decimal.lt value smicHourlyValue
+
+        _ ->
+            False
 
 
 
@@ -169,6 +215,9 @@ initProfessionalProjectState professionalProject =
     { id = Just professionalProject.id
     , rome = professionalProject.rome
     , mobilityRadius = professionalProject.mobilityRadius
+    , hourlyRate = Maybe.map Decimal.toString professionalProject.hourlyRate
+    , contractType = professionalProject.contractType
+    , workingTime = professionalProject.workingTimeType
     , romeData = Maybe.withDefault NotAsked (Maybe.map (\value -> Success [ value ]) professionalProject.rome)
     , selectedRome = professionalProject.rome
     , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ professionalProject.id))
@@ -238,6 +287,9 @@ update msg model =
                                      , mobilityRadius = Nothing
                                      , romeData = NotAsked
                                      , selectedRome = Nothing
+                                     , hourlyRate = Nothing
+                                     , workingTime = Nothing
+                                     , contractType = Nothing
                                      , selectState = Select.initState (Select.selectIdentifier (romeSelectorKey ++ String.fromInt (List.length model.professionalProjects)))
                                      }
                                    ]
@@ -247,6 +299,60 @@ update msg model =
                 | professionalProjectsMaxCountReached =
                     newModel.professionalProjects |> hasReachedProfessionalProjectMaxCount
               }
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
+            )
+
+        UpdateContractType indexToUpdate contract ->
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt indexToUpdate
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | contractType = contract }
+                                    )
+                    }
+            in
+            ( newModel
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
+            )
+
+        UpdateHourlyRate indexToUpdate rate ->
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt indexToUpdate
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | hourlyRate = Just rate }
+                                    )
+                    }
+            in
+            ( newModel
+            , newModel.professionalProjects
+                |> List.map toProfessionalProjectOut
+                |> sendUpdatedProfessionalProjects
+            )
+
+        UpdateWorkingTime indexToUpdate workingTime ->
+            let
+                newModel =
+                    { model
+                        | professionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt indexToUpdate
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | workingTime = workingTime }
+                                    )
+                    }
+            in
+            ( newModel
             , newModel.professionalProjects
                 |> List.map toProfessionalProjectOut
                 |> sendUpdatedProfessionalProjects
@@ -543,74 +649,173 @@ view model =
                 |> List.indexedMap
                     (\index project ->
                         div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
-                            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                                [ div [ class "fr-col-8" ]
-                                    [ div [ class "fr-input-group elm-select" ]
-                                        [ label [ class "fr-label", for ("job" ++ String.fromInt index) ] [ text "Métier recherché" ]
-                                        , button
-                                            [ class "fr-select text-left"
-                                            , type_ "button"
-                                            , onClick (OpenRomeSearch index)
-                                            , ariaExpanded (Select.isMenuOpen project.selectState)
-                                            ]
-                                            [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> text
-                                            ]
-                                        , case model.activeRomeSearchIndex of
-                                            Just _ ->
-                                                let
-                                                    showloading =
-                                                        case project.romeData of
-                                                            Loading ->
-                                                                Select.loading True
+                            [ div [ class "fr-input-group elm-select" ]
+                                [ span [ class "fr-label" ] [ text "Métier recherché" ]
+                                , button
+                                    [ class "fr-select text-left"
+                                    , type_ "button"
+                                    , onClick (OpenRomeSearch index)
+                                    , ariaExpanded (Select.isMenuOpen project.selectState)
+                                    ]
+                                    [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> text
+                                    ]
+                                , case model.activeRomeSearchIndex of
+                                    Just _ ->
+                                        let
+                                            showloading =
+                                                case project.romeData of
+                                                    Loading ->
+                                                        Select.loading True
 
-                                                            _ ->
-                                                                Select.loading False
-                                                in
-                                                div []
-                                                    [ Html.map
-                                                        (SelectMsg index)
-                                                        (Styled.toUnstyled <|
-                                                            Select.view
-                                                                (Select.menu
-                                                                    |> Select.state project.selectState
-                                                                    |> Select.menuItems (romeDataToMenuItems project.romeData)
-                                                                    |> Select.placeholder "Rechercher un métier ou un code ROME"
-                                                                    |> Select.loadingMessage "Chargement..."
-                                                                    |> Select.ariaDescribedBy ("select-usage-" ++ String.fromInt index)
-                                                                    |> showloading
-                                                                )
+                                                    _ ->
+                                                        Select.loading False
+                                        in
+                                        div []
+                                            [ Html.map
+                                                (SelectMsg index)
+                                                (Styled.toUnstyled <|
+                                                    Select.view
+                                                        (Select.menu
+                                                            |> Select.state project.selectState
+                                                            |> Select.menuItems (romeDataToMenuItems project.romeData)
+                                                            |> Select.placeholder "Rechercher un métier ou un code ROME"
+                                                            |> Select.loadingMessage "Chargement..."
+                                                            |> Select.ariaDescribedBy ("select-usage-" ++ String.fromInt index)
+                                                            |> showloading
                                                         )
-                                                    , if project.selectState |> Select.isMenuOpen then
-                                                        p [ class "sr-only", id ("select-usage-" ++ String.fromInt index) ] [ text "Utilisez les touches flèches pour naviguer dans la liste des suggestions" ]
+                                                )
+                                            , if project.selectState |> Select.isMenuOpen then
+                                                p [ class "sr-only", id ("select-usage-" ++ String.fromInt index) ] [ text "Utilisez les touches flèches pour naviguer dans la liste des suggestions" ]
 
-                                                      else
-                                                        text ""
-                                                    , if project.selectState |> Select.isMenuOpen then
-                                                        label [ class "sr-only", for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ text "Rechercher un métier ou un code ROME" ]
-
-                                                      else
-                                                        text ""
-                                                    ]
-
-                                            _ ->
+                                              else
                                                 text ""
+                                            , if project.selectState |> Select.isMenuOpen then
+                                                label [ class "sr-only", for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ text "Rechercher un métier ou un code ROME" ]
+
+                                              else
+                                                text ""
+                                            ]
+
+                                    _ ->
+                                        text ""
+                                ]
+                            , div
+                                [ class "fr-grid-row fr-grid-row--gutters " ]
+                                [ div [ class "fr-col-4" ]
+                                    [ div [ class "fr-input-group" ]
+                                        [ label
+                                            [ class "fr-label", for ("contract-type-" ++ String.fromInt index) ]
+                                            [ text "Type de contrat" ]
+                                        , select
+                                            [ class "fr-select"
+                                            , id ("contract-type-" ++ String.fromInt index)
+                                            , onInput (\val -> UpdateContractType index (contractTypeStringToType val))
+                                            ]
+                                            [ option [ value "" ] [ text "Non renseigné" ]
+                                            , contractTypeOption CDI project.contractType
+                                            , contractTypeOption CDD project.contractType
+                                            , contractTypeOption Interim project.contractType
+                                            , contractTypeOption Seasonal project.contractType
+                                            , contractTypeOption Liberal project.contractType
+                                            , contractTypeOption Professionalization project.contractType
+                                            , contractTypeOption Apprenticeship project.contractType
+                                            , contractTypeOption Portage project.contractType
+                                            ]
+                                        ]
+                                    ]
+                                , div
+                                    [ class "fr-col-4" ]
+                                    [ div [ class "fr-input-group" ]
+                                        [ label
+                                            [ class "fr-label", for ("working-type-" ++ String.fromInt index) ]
+                                            [ text "Durée du temps de travail" ]
+                                        , select
+                                            [ class "fr-select"
+                                            , id ("working-type-" ++ String.fromInt index)
+                                            , onInput (\val -> UpdateWorkingTime index (workingTimeStringToType val))
+                                            ]
+                                            [ option [ value "" ] [ text "Non renseigné" ]
+                                            , workingTimeTypeOption FullTime project.workingTime
+                                            , workingTimeTypeOption PartTime project.workingTime
+                                            ]
                                         ]
                                     ]
                                 , div [ class "fr-col-4" ]
                                     [ div [ class "fr-input-group" ]
                                         [ label
-                                            [ class "fr-label", for ("mobility-radius" ++ String.fromInt index) ]
-                                            [ text "Rayon de mobilité" ]
+                                            [ class "fr-label", for ("mobility-radius-" ++ String.fromInt index) ]
+                                            [ text "Zone de mobilité (km)" ]
                                         , input
                                             [ class "fr-input"
                                             , onInput (UpdateMobilityRadius index)
                                             , type_ "text"
-                                            , id ("mobility-radius" ++ String.fromInt index)
-                                            , name "mobility-radius[]"
+                                            , id ("mobility-radius-" ++ String.fromInt index)
                                             , value (Maybe.map String.fromInt project.mobilityRadius |> Maybe.withDefault "")
                                             , inputmode "numeric"
                                             ]
                                             []
+                                        ]
+                                    ]
+                                , div [ class "fr-col-4" ]
+                                    [ let
+                                        showSmicNotice =
+                                            case project.hourlyRate of
+                                                Just value ->
+                                                    inputIsLowerThanSmic value
+
+                                                Nothing ->
+                                                    False
+
+                                        showInvalidValue =
+                                            case ( project.hourlyRate, project.hourlyRate |> parseHourlyRate ) of
+                                                ( Just "", _ ) ->
+                                                    False
+
+                                                ( Just _, Nothing ) ->
+                                                    True
+
+                                                _ ->
+                                                    False
+
+                                        attrlist =
+                                            [ case ( showInvalidValue, showSmicNotice ) of
+                                                ( True, _ ) ->
+                                                    ariaDescribedBy ("hourlyRateErrorMessage" ++ String.fromInt index)
+
+                                                ( False, True ) ->
+                                                    ariaDescribedBy ("smicNotice" ++ String.fromInt index)
+
+                                                _ ->
+                                                    classList []
+                                            , class "fr-input"
+                                            ]
+                                      in
+                                      div [ class "fr-input-group" ]
+                                        [ label
+                                            [ class "fr-label", for ("hourly-rate-" ++ String.fromInt index) ]
+                                            [ text "Salaire minimum brut horaire (€)"
+                                            , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 : " ++ Decimal.toString smicHourlyValue |> addMoneyUnit) ]
+                                            ]
+                                        , input
+                                            (attrlist
+                                                ++ [ type_ "text"
+                                                   , id ("hourly-rate-" ++ String.fromInt index)
+                                                   , onInput (UpdateHourlyRate index)
+                                                   , value (Maybe.withDefault "" project.hourlyRate)
+                                                   , inputmode "numeric"
+                                                   ]
+                                            )
+                                            []
+                                        , if showSmicNotice then
+                                            p [ id ("smicNotice" ++ String.fromInt index), class "fr-error-text" ] [ text "Attention, la valeur est inférieure au SMIC." ]
+
+                                          else
+                                            text ""
+                                        , if showInvalidValue then
+                                            p [ id ("hourlyRateErrorMessage" ++ String.fromInt index), class "fr-error-text" ] [ text "Attention, la valeur doit être un nombre." ]
+
+                                          else
+                                            text ""
                                         ]
                                     ]
                                 ]
@@ -653,6 +858,24 @@ view model =
         ]
 
 
+contractTypeOption : ContractType -> Maybe ContractType -> Html Msg
+contractTypeOption contractType selectedContractType =
+    option
+        [ value <| contractTypeToLabel contractType
+        , selected (Just contractType == selectedContractType)
+        ]
+        [ text <| contractTypeToLabel contractType ]
+
+
+workingTimeTypeOption : WorkingTime -> Maybe WorkingTime -> Html Msg
+workingTimeTypeOption workingTimeType selectedworkingTimeType =
+    option
+        [ value <| workingTimeToLabel workingTimeType
+        , selected (Just workingTimeType == selectedworkingTimeType)
+        ]
+        [ text <| workingTimeToLabel workingTimeType ]
+
+
 situationCheckboxView : Set String -> Situation -> Html Msg
 situationCheckboxView selectedSituationSet situation =
     let
@@ -663,7 +886,6 @@ situationCheckboxView selectedSituationSet situation =
         [ input
             [ type_ "checkbox"
             , id checkboxId
-            , name "checkbox-radio-group"
             , value situation.description
             , checked <| Set.member situation.id selectedSituationSet
             , onClick <| ToggleSelectedSituation { id = situation.id, description = situation.description, theme = situation.theme }
