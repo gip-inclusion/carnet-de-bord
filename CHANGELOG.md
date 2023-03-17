@@ -1,3 +1,10 @@
+# [1.208.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.207.0...v1.208.0) (2023-03-17)
+
+
+### Features
+
+* Ajouter le salaire minimum, la durée du temps de travail et le type de contrat recherchés dans le projet professionnel. ([#1569](https://github.com/gip-inclusion/carnet-de-bord/issues/1569)) ([40972c5](https://github.com/gip-inclusion/carnet-de-bord/commit/40972c50eca0bf099a8622f4fb7f5f8d54afca90))
+
 # [1.207.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.206.3...v1.207.0) (2023-03-16)
 
 
