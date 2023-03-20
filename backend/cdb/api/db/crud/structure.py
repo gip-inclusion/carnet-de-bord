@@ -71,7 +71,7 @@ async def get_structure_by_name(connection: Connection, name: str) -> Structure 
     return await get_structure_with_query(
         connection,
         """
-        WHERE trim(lower(name))=trim(lower($1))
+        WHERE trim(lower(unaccent(name)))=trim(lower(unaccent($1)))
         """,
         name,
     )
@@ -122,7 +122,8 @@ async def create_structure_from_agences_list(
         agence for agence in agences if agence.libelle == label
     ]
 
-    if len(matching_agences) == 0:
+    if len(matching_agences) != 1:
+        logging.warning("Too many agences found '%s'.", matching_agences)
         agence = None
     else:
         agence = matching_agences[0]

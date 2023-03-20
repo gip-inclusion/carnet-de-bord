@@ -191,7 +191,6 @@ async def test_insert_professional_projects_for_csv_row_and_notebook(
             db_connection,
             csv_row,
             beneficiary_sophie_tifour.notebook,
-            row["identifiant_unique_de"],
         )
 
         assert len(updated_notebook.professional_projects) == 3
