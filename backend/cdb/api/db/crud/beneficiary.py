@@ -24,6 +24,7 @@ from cdb.api.db.models.beneficiary import (
     BeneficiaryStructure,
     BeneficiaryWithAdminStructureEmail,
 )
+from cdb.api.db.models.deployment import parse_deployment_from_beneficiary_record
 from cdb.api.db.models.notebook_member import NotebookMemberInsert
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
@@ -31,11 +32,15 @@ from cdb.api.db.models.professional import Professional
 logger = logging.getLogger(__name__)
 
 BENEFICIARY_BASE_QUERY = (
-    """SELECT b.*, acc.id as account_id,"""
+    """
+    SELECT b.*, acc.id as account_id,
+    dep.id as dep_id, dep.label as dep_label, dep.department_code as dep_code,
+    """
     + NOTEBOOK_BASE_FIELDS
     + """
     FROM public.beneficiary b
     LEFT JOIN notebook n ON n.beneficiary_id = b.id
+    LEFT JOIN deployment dep on dep.id = b.deployment_id
     """
     + NOTEBOOK_BASE_JOINS
     + """
@@ -163,9 +168,11 @@ async def get_beneficiary_with_query(
         )
 
         for beneficiary_record in beneficiary_records:
-
             if beneficiary is None:
                 beneficiary = Beneficiary.parse_obj(beneficiary_record)
+                beneficiary.deployment = parse_deployment_from_beneficiary_record(
+                    beneficiary_record
+                )
             if beneficiary_record["n_id"] is not None:
                 beneficiary.notebook = await parse_notebook_from_record(
                     beneficiary_record,

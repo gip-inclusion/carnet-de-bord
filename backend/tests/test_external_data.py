@@ -100,9 +100,10 @@ async def test_check_existing_external_data(
     assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Newname"
     assert external_data.data["parsed"]["professional"]["lastname"] == "Newlastname"
     assert external_data.data["source"]["nom"] == "Newname"
+
     assert (
         external_data.hash
-        == "beaae517011c2204b5425c6eb58388cb9b370a71223000bf192964245182a6d6"
+        == "c288c50fec100107b74cc58090e4d682800fabbc0be456eb80b1aab23a820bc9"
     )
 
     datas = await get_all_external_datas_by_beneficiary_id_and_source(

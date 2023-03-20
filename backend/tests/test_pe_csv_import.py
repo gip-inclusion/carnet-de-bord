@@ -19,6 +19,7 @@ from cdb.api.db.crud.notebook import (
 from cdb.api.db.crud.professional import get_professional_by_email
 from cdb.api.db.crud.structure import get_structures
 from cdb.api.db.models.beneficiary import Beneficiary
+from cdb.api.db.models.deployment import Deployment
 from cdb.api.db.models.external_data import ExternalSource
 from cdb.api.db.models.notebook import NotebookMember
 from cdb.api.db.models.professional import Professional
@@ -115,7 +116,7 @@ async def test_parse_principal_csv(
     assert external_data.info.beneficiary_id == beneficiary_edwina_skinner.id
     assert (
         external_data.hash
-        == "7ae664ec9134a62371c75c32f0a91a7162eac396a7f3db4119ea0b5eda88e380"
+        == "e6b66369ffecc417265e83b1675ac3199977e713e883929bf0e9b70208a8e4b1"
     )
 
     sophie_tifour = await get_beneficiary_by_id(
@@ -246,8 +247,11 @@ async def test_import_pe_referent(
     professional: Professional | None = await import_pe_referent(
         db_connection,
         csv_row,
-        csv_row.identifiant_unique_de,
-        UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
+        Deployment(
+            id=UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
+            label="expérimentation 93",
+            department_code="93",
+        ),
         UUID("9c0e5236-a03d-4e5f-b945-c6bc556cf9f3"),
     )
 

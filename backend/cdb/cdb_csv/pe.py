@@ -46,6 +46,7 @@ from cdb.api.db.crud.structure import (
 )
 from cdb.api.db.models.account import AccountDB
 from cdb.api.db.models.beneficiary import Beneficiary
+from cdb.api.db.models.deployment import Deployment
 from cdb.api.db.models.external_data import (
     ExternalData,
     ExternalSource,
@@ -113,7 +114,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                 )
 
                 # Keep track of the data we want to insert
-                if beneficiary:
+                if beneficiary and beneficiary.deployment:
                     professional = None
 
                     if beneficiary.notebook:
@@ -121,7 +122,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                             connection,
                             csv_row,
                             row["identifiant_unique_de"],
-                            beneficiary.deployment_id,
+                            beneficiary.deployment,
                             beneficiary.notebook.id,
                         )
                     else:
@@ -305,8 +306,7 @@ def compute_action_date(
 async def import_pe_referent(
     connection: Connection,
     csv_row: PrincipalCsvRow,
-    pe_unique_id: str,
-    deployment_id: UUID,
+    deployment: Deployment,
     notebook_id: UUID,
 ) -> Professional | None:
     structure: Structure | None = await get_structure_by_name(
@@ -322,12 +322,14 @@ async def import_pe_referent(
             scope=settings.PE_SCOPE,
         )
 
+        # Attention On recherche les agences depuis le département d'habitation
+        # on devrait plutot utilisé le département du déploiement
         agences: list[Agence] = client.recherche_agences_pydantic(
-            csv_row.departement, horaire=False, zonecompetence=False
+            deployment.department_code or "", horaire=False, zonecompetence=False
         )
 
         structure: Structure | None = await create_structure_from_agences_list(
-            connection, agences, csv_row.struct_principale, deployment_id
+            connection, agences, csv_row.struct_principale, deployment.id
         )
 
     if not structure:

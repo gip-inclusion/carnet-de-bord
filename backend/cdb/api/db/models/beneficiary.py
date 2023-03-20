@@ -5,6 +5,7 @@ from pandas.core.series import Series
 from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 
 from cdb.api.db.models.csv import CsvFieldError
+from cdb.api.db.models.deployment import Deployment
 from cdb.api.db.models.nir import nir_format
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_system import OrientationSystem
@@ -37,6 +38,7 @@ class Beneficiary(BaseModel):
     date_of_birth: date
     place_of_birth: str | None
     deployment_id: UUID
+    deployment: Deployment | None
     created_at: datetime
     updated_at: datetime
     internal_id: str | None
