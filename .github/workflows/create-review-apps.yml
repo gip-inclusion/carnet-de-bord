@@ -1,4 +1,4 @@
-name: Review
+name: Create review apps
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 concurrency:
   cancel-in-progress: true
-  group: review-scalingo-${{ github.ref }}
+  group: create-review-apps-scalingo-${{ github.ref }}
 
 jobs:
   scalingo-link:
