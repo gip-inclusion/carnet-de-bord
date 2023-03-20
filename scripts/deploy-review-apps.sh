@@ -19,38 +19,40 @@ function get_review_app_name() {
   echo cdb-$service$SUFFIX
 }
 
-function wait_for_service_status() {
+function wait_for_app_deployment() {
   local service=$1
-  local status_re=$2
-
   local appname=$(get_review_app_name $service)
+  inProgressStatuses='queued|building|pushing|starting'
 
-  log "* Waiting for $appname to be $status_re..."
+  log "* Waiting for $appname to be deployed..."
 
   local waited=0
   local status
 
   while [[ $waited -lt $TIMEOUT ]]; do
-    status=$(scalingo -a $appname apps-info 2>/dev/null|awk '/Status/{print $4}' || true)
-    log "  - $appname is now: $status"
-    if [[ "$status" =~ $status_re ]]; then
+    status=$(scalingo --app $appname deployments 2> /dev/null | awk -F' *[|] *' 'NR == 4 {print $7;}')
+    log "  - $appname deployment status is now: $status"
+    if [[ "$status" == success ]]; then
       return
+    fi
+    if [[ ! "$status" =~ $inProgressStatuses ]]; then
+      scalingo --app $appname deployment-logs
+      log "ERROR: $appname deployment ended with $status"
+      exit 2
     fi
     sleep 5
     waited=$((waited + 5))
   done
 
-  log "ERROR: $appname was not $status_re after $TIMEOUT seconds"
+  log "ERROR: $appname was not deployed after $TIMEOUT seconds"
   exit 1
 }
 
 
-function wait_for_apps_status() {
-  local status_re=$1
-
-  wait_for_service_status app "$status_re"
-  wait_for_service_status backend "$status_re"
-  wait_for_service_status hasura "$status_re"
+function wait_for_apps_deployment() {
+  wait_for_app_deployment app
+  wait_for_app_deployment backend
+  wait_for_app_deployment hasura
 }
 
 function deploy_app() {
@@ -71,4 +73,4 @@ log "Deploying review apps for PR #${PR}"
 
 deploy_apps
 
-wait_for_apps_status 'running'
+wait_for_apps_deployment
