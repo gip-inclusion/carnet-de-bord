@@ -413,16 +413,20 @@ async def import_pe_referent(
 
             if not notebook_member:
                 await add_account_to_notebook_members(
-                    connection, notebook_id, account.id, pe_unique_id
+                    connection, notebook_id, account.id, csv_row.identifiant_unique_de
                 )
             else:
                 logging.info(
                     "{} - Professional is already a member of the notebook".format(
-                        pe_unique_id
+                        csv_row.identifiant_unique_de
                     )
                 )
         else:
-            logging.error("{} - No account found for Professional".format(pe_unique_id))
+            logging.error(
+                "{} - No account found for Professional".format(
+                    csv_row.identifiant_unique_de
+                )
+            )
 
 
 def net_email_to_fr_email(net_email: str) -> str | None:

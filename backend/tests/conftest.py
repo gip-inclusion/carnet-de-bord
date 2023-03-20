@@ -217,7 +217,6 @@ def csv_beneficiary_with_all_date_formats_filepath() -> str:
 
 @pytest.fixture
 def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
-
     return dd.read_csv(  # type: ignore
         pe_principal_csv_filepath,
         sep=";",
@@ -229,7 +228,6 @@ def pe_principal_csv_series(pe_principal_csv_filepath) -> DataFrame:
 
 @pytest.fixture
 def pe_action_csv_series(pe_action_csv_filepath) -> DataFrame:
-
     return dd.read_csv(  # type: ignore
         pe_action_csv_filepath,
         sep=";",

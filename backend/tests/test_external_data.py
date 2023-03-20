@@ -50,7 +50,6 @@ async def test_check_existing_external_data(
     professional_pierre_chevalier: Professional,
     pe_principal_csv_series,
 ):
-
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
         db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
     )

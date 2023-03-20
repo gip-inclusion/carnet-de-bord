@@ -88,7 +88,6 @@ async def update_beneficiary_field(
     field_value: str,
     beneficiary_id: UUID,
 ) -> UUID | None:
-
     result: Record | None = await connection.fetchrow(
         f"""
 UPDATE beneficiary SET {field_name} = $2
@@ -107,7 +106,6 @@ async def update_beneficiary(
     beneficiary: BeneficiaryImport,
     beneficiary_id: UUID,
 ) -> UUID | None:
-
     keys_to_update = beneficiary.get_beneficiary_editable_keys()
 
     if len(keys_to_update) == 0:
@@ -157,9 +155,7 @@ async def insert_beneficiary(
 async def get_beneficiary_with_query(
     connection: Connection, query: str, *args
 ) -> Beneficiary | None:
-
     async with connection.transaction():
-
         beneficiary = None
 
         beneficiary_records: List[Record] = await connection.fetch(
@@ -185,7 +181,6 @@ async def get_beneficiary_with_query(
 async def get_beneficiary_from_personal_information(
     connection: Connection, firstname: str, lastname: str, birth_date: date
 ) -> Beneficiary | None:
-
     return await get_beneficiary_with_query(
         connection,
         # We use LOWER(BTRIM(field)) here to match the index so postgres
@@ -246,7 +241,6 @@ WHERE b_struct.beneficiary_id = $1
 async def get_beneficiary_by_id(
     connection: Connection, beneficiary_id: UUID
 ) -> Beneficiary | None:
-
     return await get_beneficiary_with_query(
         connection, "WHERE b.id = $1", beneficiary_id
     )
@@ -258,7 +252,6 @@ async def create_beneficiary_with_notebook_and_referent(
     deployment_id: UUID,
     need_orientation: bool,
 ) -> UUID:
-
     beneficiary_id: UUID | None = await insert_beneficiary(
         connection, beneficiary, deployment_id
     )

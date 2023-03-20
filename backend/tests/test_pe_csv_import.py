@@ -45,7 +45,6 @@ async def test_parse_principal_csv(
     beneficiary_edwina_skinner: Beneficiary,
     caplog,
 ):
-
     client = PoleEmploiApiClient(
         auth_base_url=settings.PE_AUTH_BASE_URL,
         base_url=settings.PE_BASE_URL,
@@ -180,7 +179,6 @@ async def test_insert_professional_projects_for_csv_row_and_notebook(
     pe_principal_csv_series,
     beneficiary_sophie_tifour: Beneficiary,
 ):
-
     assert beneficiary_sophie_tifour.notebook is not None
     assert len(beneficiary_sophie_tifour.notebook.professional_projects) == 2
 
