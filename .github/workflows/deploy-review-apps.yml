@@ -1,4 +1,4 @@
-name: Update review app
+name: Deploy review apps
 
 on:
   pull_request:
@@ -6,7 +6,7 @@ on:
 
 concurrency:
   cancel-in-progress: true
-  group: update-review-app-scalingo-${{ github.ref }}
+  group: deploy-review-apps-scalingo-${{ github.ref }}
 
 jobs:
   scalingo-deploy:
