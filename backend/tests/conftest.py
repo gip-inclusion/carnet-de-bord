@@ -22,13 +22,9 @@ from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
-
-
-@pytest.fixture
-def seed_filepath() -> str:
-    return os.path.join(
-        test_dir, "..", "..", "hasura", "seeds", "carnet_de_bord", "seed-data.sql"
-    )
+seed_filepath = os.path.join(
+    test_dir, "..", "..", "hasura", "seeds", "carnet_de_bord", "seed-data.sql"
+)
 
 
 @pytest.fixture
@@ -38,7 +34,7 @@ def test_directory() -> str:
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def fastapi_app(seed_filepath: str):
+async def fastapi_app():
     # @TODO: read it from the root .env file
     settings.database_url = os.getenv(
         "DATABASE_URL", "postgres://cdb:test@localhost:5433/carnet_de_bord"
@@ -348,7 +344,7 @@ async def orientation_system_pro(
 
 @pytest.fixture
 @pytest.mark.asyncio
-async def db_connection(db_pool, seed_filepath):
+async def db_connection(db_pool):
     # Take a connection from the pool.
     if db_pool:
 
