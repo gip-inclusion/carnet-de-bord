@@ -58,10 +58,13 @@ async def get_beneficiaries_like(
 ) -> list[Beneficiary]:
     matching_beneficiaries: list[Record] = await connection.fetch(
         """
-SELECT *
-FROM beneficiary
-WHERE (lower(trim(firstname)) = lower(trim($1)) AND lower(trim(lastname)) = lower(trim($2)) AND date_of_birth = $3 AND deployment_id = $5)
-OR (internal_id = $4 AND deployment_id = $5)
+        SELECT *
+        FROM beneficiary
+        WHERE (
+            lower(trim(firstname)) = lower(trim($1))
+            AND lower(trim(lastname)) = lower(trim($2))
+            AND date_of_birth = $3 AND deployment_id = $5
+        ) OR (internal_id = $4 AND deployment_id = $5)
         """,
         beneficiary.firstname,
         beneficiary.lastname,
@@ -285,9 +288,9 @@ async def add_referent_and_structure_to_beneficiary(
     if beneficiary.structure_name:
         structure = await get_structure_by_name(connection, beneficiary.structure_name)
         if structure is None:
-            # Si une structure est fournie dans l'import mais n'existe pas, on ne fait rien.
             logger.info(
-                'Trying to associate structure with beneficiary: structure "%s" does not exist',
+                "Trying to associate structure with beneficiary: "
+                'structure "%s" does not exist',
                 beneficiary.structure_name,
             )
             return

@@ -13,15 +13,15 @@ def get_insert_notebook_member_mutation(
     member_type: MemberTypeEnum,
 ):
     return {
-        "create_notebook_member_row": dsl_schema.mutation_root.insert_notebook_member_one.args(
-            object={
-                "notebookId": str(notebook_id),
-                "accountId": str(new_referent_account_id),
-                "memberType": member_type.value,
-            },
-        ).select(
-            dsl_schema.notebook_member.id
-        )
+        "create_notebook_member_row": (
+            dsl_schema.mutation_root.insert_notebook_member_one.args(
+                object={
+                    "notebookId": str(notebook_id),
+                    "accountId": str(new_referent_account_id),
+                    "memberType": member_type.value,
+                },
+            ).select(dsl_schema.notebook_member.id)
+        ),
     }
 
 
@@ -31,15 +31,15 @@ def get_insert_former_referent_notebook_member_mutation(
     former_referent_account_id: UUID,
 ) -> dict[str, DSLField]:
     return {
-        "create_former_referent_row": dsl_schema.mutation_root.insert_notebook_member_one.args(
-            object={
-                "notebookId": str(notebook_id),
-                "accountId": str(former_referent_account_id),
-                "memberType": "no_referent",
-            },
-        ).select(
-            dsl_schema.notebook_member.id
-        )
+        "create_former_referent_row": (
+            dsl_schema.mutation_root.insert_notebook_member_one.args(
+                object={
+                    "notebookId": str(notebook_id),
+                    "accountId": str(former_referent_account_id),
+                    "memberType": "no_referent",
+                },
+            ).select(dsl_schema.notebook_member.id)
+        ),
     }
 
 
@@ -63,13 +63,13 @@ def get_deactivate_notebook_members_mutation(
         )
 
     return {
-        "deactivate_changed_member_rows": dsl_schema.mutation_root.update_notebook_member.args(
-            where={"_or": deactivation_clause},
-            _set={
-                "active": False,
-                "membershipEndedAt": datetime.now().isoformat(),
-            },
-        ).select(
-            dsl_schema.notebook_member_mutation_response.affected_rows
-        )
+        "deactivate_changed_member_rows": (
+            dsl_schema.mutation_root.update_notebook_member.args(
+                where={"_or": deactivation_clause},
+                _set={
+                    "active": False,
+                    "membershipEndedAt": datetime.now().isoformat(),
+                },
+            ).select(dsl_schema.notebook_member_mutation_response.affected_rows)
+        ),
     }

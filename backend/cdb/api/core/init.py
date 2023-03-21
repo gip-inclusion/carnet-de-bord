@@ -48,7 +48,7 @@ def create_app() -> FastAPI:
         return get_status()
 
     @app.get("/healthz")
-    async def read_root():
+    async def read_health():
         return get_status()
 
     def get_version() -> str:

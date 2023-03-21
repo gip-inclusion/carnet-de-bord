@@ -39,9 +39,9 @@ async def test_get_beneficiary_with_professional_projects(
         assert beneficiary.lastname == "Tifour"
         assert beneficiary.firstname == "Sophie"
         assert beneficiary.date_of_birth == date(1982, 2, 1)
-        assert beneficiary.right_ass == False
-        assert beneficiary.right_are == False
-        assert beneficiary.right_bonus == False
+        assert beneficiary.right_ass is False
+        assert beneficiary.right_are is False
+        assert beneficiary.right_bonus is False
         assert beneficiary.right_rsa == "rsa_droit_ouvert_et_suspendu"
         assert beneficiary.notebook is not None
         assert len(beneficiary.notebook.professional_projects) == 2
@@ -78,9 +78,9 @@ async def test_get_beneficiary_without_professional_projects(
                 assert beneficiary.lastname == "Dorsey"
                 assert beneficiary.firstname == "Hendrix"
                 assert beneficiary.date_of_birth == date(1976, 12, 18)
-                assert beneficiary.right_ass == False
-                assert beneficiary.right_are == False
-                assert beneficiary.right_bonus == False
+                assert beneficiary.right_ass is False
+                assert beneficiary.right_are is False
+                assert beneficiary.right_bonus is False
                 assert beneficiary.right_rsa is None
                 assert beneficiary.notebook is not None
                 assert len(beneficiary.notebook.professional_projects) == 0
@@ -140,9 +140,9 @@ async def test_get_beneficiary_with_unknown_rome_code(
                 assert beneficiary.lastname == "Skinner"
                 assert beneficiary.firstname == "Edwina"
                 assert beneficiary.date_of_birth == date(1973, 5, 14)
-                assert beneficiary.right_ass == True
-                assert beneficiary.right_are == True
-                assert beneficiary.right_bonus == False
+                assert beneficiary.right_ass is True
+                assert beneficiary.right_are is True
+                assert beneficiary.right_bonus is False
                 assert beneficiary.right_rsa is None
                 assert beneficiary.notebook is not None
                 assert len(beneficiary.notebook.professional_projects) == 0
@@ -222,8 +222,8 @@ async def test_get_beneficiaries_without_referent(
         BeneficiaryWithAdminStructureEmail
     ] = await get_beneficiaries_without_referent(db_connection)
 
-    # Bennet n'a pas de référent et est affecté a une structure 'outdated'( interlogement 93)
-    # et à la structure Groupe NS.
+    # Bennet n'a pas de référent et est affecté a une structure 'outdated'
+    # (interlogement 93) et à la structure Groupe NS.
     # On valide donc qu'on ne notifie bien que les 2 admin de la structure Groupe NS
     assert (
         len(

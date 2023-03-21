@@ -7,7 +7,6 @@ from fastapi.testclient import TestClient
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
-from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest

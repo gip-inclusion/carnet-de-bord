@@ -68,13 +68,13 @@ async def test_insert_admin_structure_with_structure_in_db(
 
     record = await db_connection.fetchrow(
         """
-            SELECT firstname, lastname, admin_structure.email as adm_email, confirmed, access_key, name
-            FROM public.admin_structure, admin_structure_structure, structure, account
-            WHERE admin_structure.id = admin_structure_structure.admin_structure_id
+        SELECT firstname, lastname, admin_structure.email as adm_email, confirmed, access_key, name
+        FROM public.admin_structure, admin_structure_structure, structure, account
+        WHERE admin_structure.id = admin_structure_structure.admin_structure_id
             AND admin_structure_structure.structure_id = structure.id
             AND account.admin_structure_id = admin_structure.id
             AND admin_structure.email LIKE $1
-         """,
+        """,  # noqa: E501
         sender_email,
     )
 
@@ -184,8 +184,12 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
             UPDATE admin_structure_structure SET deleted_at = 'now()'
             FROM admin_structure
             WHERE admin_structure_structure.admin_structure_id = admin_structure.id
-            AND admin_structure_structure.structure_id = $1 AND admin_structure.email = $2
-            RETURNING admin_structure_structure.id, admin_structure_structure.structure_id, admin_structure_structure.admin_structure_id
+                AND admin_structure_structure.structure_id = $1
+                AND admin_structure.email = $2
+            RETURNING
+                admin_structure_structure.id,
+                admin_structure_structure.structure_id,
+                admin_structure_structure.admin_structure_id
         """,
         structure_id_pe_livry,
         "vincent.timaitre@groupe-ns.fr",

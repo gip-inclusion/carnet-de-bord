@@ -42,10 +42,10 @@ async def insert_admin_structure(
 ) -> AdminStructure | None:
     record = await connection.fetchrow(
         """
-            INSERT INTO public.admin_structure(deployment_id, email, firstname, lastname, phone_numbers, position)
-            VALUES ($1, $2, $3, $4, $5, $6)
-            RETURNING id, firstname, lastname, email, phone_numbers, position, deployment_id, created_at, updated_at
-            """,
+        INSERT INTO public.admin_structure(deployment_id, email, firstname, lastname, phone_numbers, position)
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING id, firstname, lastname, email, phone_numbers, position, deployment_id, created_at, updated_at
+        """,  # noqa: E501
         data.deployment_id,
         data.email.lower(),
         data.firstname,
@@ -65,12 +65,12 @@ async def insert_admin_structure_structure(
 ) -> UUID | None:
     record = await connection.fetchrow(
         """
-            INSERT INTO public.admin_structure_structure(admin_structure_id, structure_id)
-            VALUES ($1, $2)
-            ON CONFLICT ON CONSTRAINT admin_structure_structure_admin_structure_id_structure_id_key
-            DO UPDATE SET deleted_at = NULL
-            RETURNING id
-            """,
+        INSERT INTO public.admin_structure_structure(admin_structure_id, structure_id)
+        VALUES ($1, $2)
+        ON CONFLICT ON CONSTRAINT admin_structure_structure_admin_structure_id_structure_id_key
+        DO UPDATE SET deleted_at = NULL
+        RETURNING id
+        """,  # noqa: E501
         admin_structure_id,
         structure_id,
     )

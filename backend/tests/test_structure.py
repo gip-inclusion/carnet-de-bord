@@ -1,4 +1,4 @@
-from pydantic import EmailStr, HttpUrl, parse_obj_as
+from pydantic import EmailStr, HttpUrl
 
 from cdb.api.db.crud.structure import get_structure_by_name, insert_structure
 from cdb.api.db.models.structure import Structure, StructureInsert
@@ -48,7 +48,8 @@ async def test_get_structure_does_not_validate_email_nor_website(db_connection):
 
     await db_connection.fetchrow(
         """
-        INSERT INTO public.structure (siret, name, phone, email, postal_code, city, website, deployment_id)
+        INSERT INTO public.structure
+            (siret, name, phone, email, postal_code, city, website, deployment_id)
         VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
         """,
         *{

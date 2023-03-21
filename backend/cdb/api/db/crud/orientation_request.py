@@ -27,15 +27,17 @@ def get_accept_orientation_request_mutation(
     orientation_system_id: UUID,
 ) -> dict[str, DSLField]:
     return {
-        "accept_orientation_request": dsl_schema.mutation_root.update_orientation_request_by_pk.args(
-            pk_columns={"id": str(orientation_request_id)},
-            _set={
-                "decidedAt": "now",
-                "status": "accepted",
-                "decidedOrientationSystemId": str(orientation_system_id),
-            },
-        ).select(
-            dsl_schema.orientation_request.id,
-            dsl_schema.orientation_request.createdAt,
+        "accept_orientation_request": (
+            dsl_schema.mutation_root.update_orientation_request_by_pk.args(
+                pk_columns={"id": str(orientation_request_id)},
+                _set={
+                    "decidedAt": "now",
+                    "status": "accepted",
+                    "decidedOrientationSystemId": str(orientation_system_id),
+                },
+            ).select(
+                dsl_schema.orientation_request.id,
+                dsl_schema.orientation_request.createdAt,
+            )
         ),
     }

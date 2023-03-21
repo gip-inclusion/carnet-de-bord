@@ -25,7 +25,7 @@ class TestNotifyAdminStructure:
 
         mock_send_email.assert_not_called()
 
-    async def test_notify_admin_structures_when_one_beneficiary_without_referent_with_one_admin_structure(
+    async def test_notify_admin_structures_when_one_beneficiary_without_referent_with_one_admin_structure(  # noqa: E501
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
@@ -53,7 +53,7 @@ class TestNotifyAdminStructure:
         assert mock_send_email.call_args_list[0].kwargs["to"] == "admin@structure.cdb"
         assert snapshot == mock_send_email.call_args_list[0].kwargs["message"]
 
-    async def test_notify_admin_structures_when_one_beneficiary_without_referent_with_two_admin_structures(
+    async def test_notify_admin_structures_when_one_beneficiary_without_referent_with_two_admin_structures(  # noqa: E501
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
@@ -101,7 +101,7 @@ class TestNotifyAdminStructure:
             mock_send_email.call_args_list[1].kwargs["message"],
         ]
 
-    async def test_notify_admin_structures_when_two_beneficiaries_without_referent_with_one_admin_structure_and_two_structures(
+    async def test_notify_admin_structures_when_two_beneficiaries_without_referent_with_one_admin_structure_and_two_structures(  # noqa: E501
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,

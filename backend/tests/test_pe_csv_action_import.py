@@ -98,7 +98,9 @@ async def test_compute_action_date():
 
     assert event_date == now
 
-    # pour celle qui ont un date de fin et de réalisation en plus de la date de prescription = afficher la date de réalisation (sauf UNE FORMATION DANS LE DOMAINE SUIVANT)
+    # pour celle qui ont un date de fin et de réalisation en plus de la date de
+    # prescription = afficher la date de réalisation (sauf UNE FORMATION DANS LE DOMAINE
+    # SUIVANT)
     event_date = compute_action_date(
         date_prescription=now,
         date_realisation_action=one_month_later,
@@ -108,7 +110,8 @@ async def test_compute_action_date():
 
     assert event_date == one_month_later
 
-    # Pour "UNE FORMATION DANS LE DOMAINE SUIVANT" si date de fin plus date de réalisation + libellé formation dans colonne "formation" = afficher la date de fin
+    # Pour "UNE FORMATION DANS LE DOMAINE SUIVANT" si date de fin plus date de
+    # réalisation + libellé formation dans colonne "formation" = afficher la date de fin
     event_date = compute_action_date(
         date_prescription=now,
         date_realisation_action=None,

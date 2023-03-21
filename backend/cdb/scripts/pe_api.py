@@ -11,11 +11,12 @@ logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 """
     Script qui récupère toutes les agences / relais pôle emploi d'un département
     et sort le résultat en json
-    Couplé à jq, on peut ainsi facilement récupérer un json avec le code safir et le libellé
-    du département 08
+    Couplé à jq, on peut ainsi facilement récupérer un json avec le code safir et le
+    libellé du département 08
     ex
     ```
-    DEPARTEMENT=08 poetry run python scripts/pe_api.py | jq '.[] | {codeSafir: .codeSafir, libelle:.libelleEtendu}'
+    DEPARTEMENT=08 poetry run python scripts/pe_api.py |\
+        jq '.[] | {codeSafir: .codeSafir, libelle:.libelleEtendu}'
     ```
     on peut aussi récupérer tous les libellés étendus du département 08
     DEPARTEMENT=08 poetry run python scripts/pe_api.py | jq '.[].libelleEtendu'

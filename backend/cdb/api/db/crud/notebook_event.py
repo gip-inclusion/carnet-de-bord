@@ -65,7 +65,7 @@ async def insert_notebook_event(
         INSERT INTO public.notebook_event (notebook_id, event_date, creator_id, event, event_type)
         VALUES ($1, $2, $3, $4, $5)
         RETURNING id, notebook_id, creation_date, event_date, creator_id, event, event_type
-        """,
+        """,  # noqa: E501
         notebook_event.notebook_id,
         notebook_event.event_date,
         notebook_event.creator_id,

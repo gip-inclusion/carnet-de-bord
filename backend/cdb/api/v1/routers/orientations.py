@@ -105,7 +105,10 @@ async def change_beneficiary_orientation(
             if orientation_system is None:
                 raise HTTPException(
                     status_code=400,
-                    detail=f"Orientation system with id '{data.orientationt_system_id}' not found.",
+                    detail=(
+                        f"Orientation system with id '{data.orientation_system_id}' "
+                        "not found."
+                    ),
                 )
 
         dsl_schema = DSLSchema(schema=schema)
@@ -233,5 +236,6 @@ def raise_if_orientation_request_not_match_notebook(
 
     if orientation_request_id != beneficiary_request_id:
         raise Exception(
-            f"orientation_request_id {orientation_request_id} does not match beneficiary_request_id {beneficiary_request_id}"
+            f"orientation_request_id {orientation_request_id} does not match "
+            f"beneficiary_request_id {beneficiary_request_id}"
         )

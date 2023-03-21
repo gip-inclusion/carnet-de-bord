@@ -21,8 +21,35 @@ async def insert_structure(
 
     record = await connection.fetchrow(
         """
-        INSERT INTO public.structure (siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) returning id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id, created_at, updated_at
+        INSERT INTO public.structure (
+            siret,
+            name,
+            short_desc,
+            phone,
+            email,
+            postal_code,
+            city,
+            address1,
+            address2,
+            website,
+            deployment_id
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
+        RETURNING
+            id,
+            siret,
+            name,
+            short_desc,
+            phone,
+            email,
+            postal_code,
+            city,
+            address1,
+            address2,
+            website,
+            deployment_id,
+            created_at,
+            updated_at
         """,
         structure_insert.siret,
         structure_insert.name,
@@ -125,8 +152,7 @@ async def create_structure_from_agences_list(
         return await insert_structure(connection, structure_insert)
     else:
         logging.error(
-            "Agence '{}' in CSV not found in PE API response, unable to create structure. Skipping.".format(
-                label
-            )
+            f"Agence '{label}' in CSV not found in PE API response, "
+            "unable to create structure. Skipping."
         )
         return

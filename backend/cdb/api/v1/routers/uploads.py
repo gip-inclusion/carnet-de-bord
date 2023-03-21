@@ -77,7 +77,10 @@ async def create_upload_file(
     else:
         raise HTTPException(
             status_code=400,
-            detail=f"File type '{mime_type}' not supported. Allowed types are csv or excel",
+            detail=(
+                f"File type '{mime_type}' not supported. "
+                "Allowed types are csv or excel",
+            ),
         )
 
     df = df.replace({np.nan: None})
