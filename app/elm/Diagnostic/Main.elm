@@ -69,7 +69,7 @@ type alias PersonalSituation =
     { theme : String
     , description : String
     , createdAt : String
-    , creator : String
+    , creator : Maybe Account
     }
 
 
@@ -141,26 +141,8 @@ extractPersonalSituationFromFlags flags =
     { theme = flags.refSituation.theme
     , description = flags.refSituation.description
     , createdAt = flags.createdAt
-    , creator = formatAccount flags.creator
+    , creator = flags.creator
     }
-
-
-formatAccount : Maybe Account -> String
-formatAccount account =
-    account
-        |> Maybe.map
-            (\creator ->
-                case ( creator.professional, creator.orientation_manager ) of
-                    ( Just p, _ ) ->
-                        p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
-
-                    ( _, Just o ) ->
-                        o.firstname ++ " " ++ o.lastname
-
-                    _ ->
-                        ""
-            )
-        |> Maybe.withDefault ""
 
 
 extractPersonalSituationsToPersonalSituationsByTheme : ( PersonalSituation, List PersonalSituation ) -> PersonalSituationsByTheme
@@ -231,7 +213,7 @@ extractProfessionalProjectFromFlags flags =
     , workingTimeType = extractWorkingTimeType flags.employmentType
     , updatedAt = Iso8601.toTime flags.updatedAt |> Result.toMaybe
     , createdAt = Iso8601.toTime flags.createdAt |> Result.toMaybe
-    , updater = formatAccount flags.updater
+    , updater = flags.updater
     }
 
 
@@ -247,6 +229,23 @@ extractWorkingTimeType workingTimeFlag =
 
 
 -- VIEW
+
+formatAccount : Maybe Account -> String
+formatAccount account =
+    account
+        |> Maybe.map
+            (\creator ->
+                case ( creator.professional, creator.orientation_manager ) of
+                    ( Just p, _ ) ->
+                        p.firstname ++ " " ++ p.lastname ++ Maybe.withDefault "" (Maybe.map (\s -> " (" ++ s.name ++ ")") p.structure)
+
+                    ( _, Just o ) ->
+                        o.firstname ++ " " ++ o.lastname
+
+                    _ ->
+                        ""
+            )
+        |> Maybe.withDefault ""
 
 
 dateFormat : String
@@ -419,12 +418,13 @@ peInformationsView peGeneralData =
 formatLastUpdateInformation : ProfessionalProject -> String
 formatLastUpdateInformation professionalProject =
     let
+        formattedUpdater = formatAccount professionalProject.updater
         updater =
-            if professionalProject.updater == "" then
+            if formattedUpdater == "" then
                 ""
 
             else
-                " par " ++ professionalProject.updater
+                " par " ++ formattedUpdater
 
         updatedAt =
             case professionalProject.updatedAt |> Maybe.map (DateFormat.format "dd/MM/yyyy" parisZone) of
@@ -559,7 +559,7 @@ personalSituationView { personalSituations } =
                                                     , td [ class "pr-8 py-3" ]
                                                         [ text situation.createdAt ]
                                                     , td [ class "py-3" ]
-                                                        [ text situation.creator ]
+                                                        [ situation.creator |> formatAccount |> text ]
                                                     ]
                                             )
                                 )
