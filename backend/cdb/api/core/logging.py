@@ -46,8 +46,8 @@ def setup_logging(json_logs: bool, log_level: str):
     ]
 
     if json_logs:
-        # We rename the `event` key to `message` only in JSON logs, as Datadog looks for the
-        # `message` key but the pretty ConsoleRenderer looks for `event`
+        # We rename the `event` key to `message` only in JSON logs, as Datadog looks for
+        # the `message` key but the pretty ConsoleRenderer looks for `event`
         shared_processors.append(rename_event_key)
         # Format the exception only for JSON logs, as we want to pretty-print them when
         # using the ConsoleRenderer

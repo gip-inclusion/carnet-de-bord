@@ -48,7 +48,9 @@ async def create_nps_rating(
         ) < timedelta(days=14):
             raise HTTPException(
                 status_code=403,
-                detail="Le dernier score NPS a été enregistré il y a moins de 14 jours.",
+                detail=(
+                    "Le dernier score NPS a été enregistré il y a moins de 14 jours."
+                ),
             )
         await insert_nps_rating(db, account_uuid, data.score)
     return {}

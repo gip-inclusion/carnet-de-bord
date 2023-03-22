@@ -114,14 +114,18 @@ async def import_beneficiary(
                 records, beneficiary, deployment_id
             ):
                 logger.info(
-                    "block beneficiary creation as it is conflicting with existing beneficiaries(same id): %s",
+                    "block beneficiary creation as it is conflicting with existing "
+                    "beneficiaries(same id): %s",
                     [beneficiary.id for beneficiary in records],
                 )
                 return BeneficiaryCsvRowResponse(
                     row=beneficiary.dict(by_alias=True),
                     errors=[
                         CsvFieldError(
-                            error="Un bénéficiaire existe déjà avec cet identifiant SI sur le territoire."
+                            error=(
+                                "Un bénéficiaire existe déjà avec cet identifiant SI "
+                                "sur le territoire."
+                            )
                         )
                     ],
                     valid=False,
@@ -129,7 +133,8 @@ async def import_beneficiary(
             else:
                 # same user info but different si_id
                 logger.info(
-                    "block beneficiary creation as it is conflicting with existing beneficiaries(same lastname / firstname / date of birth): %s",
+                    "block beneficiary creation as it is conflicting with existing "
+                    "beneficiaries(same lastname / firstname / date of birth): %s",
                     [beneficiary.id for beneficiary in records],
                 )
 
@@ -137,7 +142,10 @@ async def import_beneficiary(
                     row=beneficiary.dict(by_alias=True),
                     errors=[
                         CsvFieldError(
-                            error="Un bénéficiaire existe déjà avec ce nom/prénom/date de naissance sur le territoire."
+                            error=(
+                                "Un bénéficiaire existe déjà avec ce nom/prénom/date "
+                                "de naissance sur le territoire."
+                            )
                         )
                     ],
                     valid=False,
@@ -171,7 +179,10 @@ async def import_beneficiary(
                 row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
-                        error=f"import beneficiary {beneficiary.internal_id}: erreur inconnue"
+                        error=(
+                            f"import beneficiary {beneficiary.internal_id}:"
+                            "erreur inconnue"
+                        )
                     )
                 ],
                 valid=False,

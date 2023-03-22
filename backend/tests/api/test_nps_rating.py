@@ -73,7 +73,11 @@ async def test_nps_rating_invalid_score(test_client, db_connection, laure_loge_j
 
 async def test_nps_rating_double_submission(test_client, db_connection, laure_loge_jwt):
     row = await db_connection.fetchrow(
-        "INSERT INTO nps_rating (account_id, score) VALUES ($1, $2) RETURNING id, created_at",
+        """
+        INSERT INTO nps_rating (account_id, score)
+        VALUES ($1, $2)
+        RETURNING id, created_at
+        """,
         pro_uuid,
         10,
     )

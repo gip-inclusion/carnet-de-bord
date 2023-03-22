@@ -42,8 +42,9 @@ async def insert_professional(
     record = await connection.fetchrow(
         """
         INSERT INTO public.professional (structure_id, email, lastname, firstname, position, mobile_number)
-        VALUES ($1, $2, $3, $4, $5, $6) returning id, structure_id, email, lastname, firstname, position, mobile_number, created_at, updated_at
-        """,
+        VALUES ($1, $2, $3, $4, $5, $6)
+        RETURNING id, structure_id, email, lastname, firstname, position, mobile_number, created_at, updated_at
+        """,  # noqa: E501
         *professional_insert.dict().values(),
     )
 

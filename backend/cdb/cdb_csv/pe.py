@@ -101,7 +101,9 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
         pe_unique_id: str = row["identifiant_unique_de"]
 
         logging.info(
-            f"{pe_unique_id} => Trying to match beneficiary and pro of main row {pe_unique_id}"
+            "%(pe_unique_id)s => Trying to match beneficiary and pro of main row "
+            "%(pe_unique_id)s",
+            {"pe_unique_id": pe_unique_id},
         )
 
         csv_row: PrincipalCsvRow = await map_principal_row(row)
@@ -119,7 +121,9 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
             if beneficiary and beneficiary.notebook is not None:
 
                 logging.info(
-                    f"{pe_unique_id} - Found matching beneficiary for pro {beneficiary.id}"
+                    "%s - Found matching beneficiary for pro %s",
+                    pe_unique_id,
+                    beneficiary.id,
                 )
 
                 account: AccountDB | None = await get_account_by_professional_email(
@@ -128,7 +132,9 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
 
                 if account:
                     logging.info(
-                        f"{pe_unique_id} - Found professional account for {csv_row.referent_mail}"
+                        "%s - Found professional account for %s",
+                        pe_unique_id,
+                        csv_row.referent_mail,
                     )
 
                     notebook_member: NotebookMember | None = (
@@ -138,11 +144,13 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
                     )
                     if notebook_member:
                         logging.info(
-                            f"{pe_unique_id} - Pro is already a member of the notebook. Skipping."
+                            "%s - Pro is already a member of the notebook. Skipping.",
+                            pe_unique_id,
                         )
                     else:
                         logging.info(
-                            f"{pe_unique_id} - Pro is not a member of the notebook. Adding it."
+                            "%s - Pro is not a member of the notebook. Adding it.",
+                            pe_unique_id,
                         )
 
                         await add_account_to_notebook_members(
@@ -153,7 +161,9 @@ async def match_beneficiaries_and_pros(connection: Connection, principal_csv: st
                         )
                 else:
                     logging.info(
-                        f"{pe_unique_id} - No professional account found for {csv_row.referent_mail}"
+                        "%s - No professional account found for %s",
+                        pe_unique_id,
+                        csv_row.referent_mail,
                     )
 
 
@@ -195,9 +205,9 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                         )
                     else:
                         logging.error(
-                            "{} - No notebook for beneficiary. Skipping pe_referent import.".format(
-                                row["identifiant_unique_de"]
-                            )
+                            "%s - No notebook for beneficiary. "
+                            "Skipping pe_referent import.",
+                            row["identifiant_unique_de"],
                         )
 
                     await save_external_data(
@@ -245,7 +255,8 @@ async def import_actions(connection: Connection, action_csv_path: str):
         try:
             pe_unique_import_id: str = row["identifiant_unique_de"]
             logging.debug(
-                f"{pe_unique_import_id} => Trying to import action row {pe_unique_import_id}"
+                "%(import_id)s => Trying to import action row %(import_id)",
+                {"import_id": pe_unique_import_id},
             )
 
             csv_row: ActionCsvRow = await map_action_row(row)
@@ -256,7 +267,9 @@ async def import_actions(connection: Connection, action_csv_path: str):
             ):
 
                 logging.error(
-                    f"{pe_unique_import_id} => Line '{FORMATION_DOMAINE_SUIVANT_LABEL}' with empty 'formation' column. Skipping row."
+                    "%s => Line '{FORMATION_DOMAINE_SUIVANT_LABEL}' "
+                    "with empty 'formation' column. Skipping row.",
+                    pe_unique_import_id,
                 )
                 continue
 
@@ -266,7 +279,10 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 logging.debug(f"{pe_unique_import_id} => Mapped focus: {focus}")
             else:
                 logging.error(
-                    f"{pe_unique_import_id} => Mapped focus not found for action '{csv_row.lblaction}': {focus}. Skipping row."
+                    "%s => Mapped focus not found for action '%s': %s. Skipping row.",
+                    pe_unique_import_id,
+                    csv_row.lblaction,
+                    focus,
                 )
                 continue
 
@@ -276,12 +292,14 @@ async def import_actions(connection: Connection, action_csv_path: str):
 
             if not notebook:
                 logging.error(
-                    f"{pe_unique_import_id} => Corresponding notebook NOT FOUND for this action. Skipping row."
+                    "%s => Corresponding notebook NOT FOUND for this action. "
+                    "Skipping row.",
+                    pe_unique_import_id,
                 )
                 continue
             else:
                 logging.debug(
-                    f"{pe_unique_import_id} => Notebook FOUND for action import"
+                    "%s => Notebook FOUND for action import", pe_unique_import_id
                 )
 
             event_date = compute_action_date(
@@ -308,7 +326,9 @@ async def import_actions(connection: Connection, action_csv_path: str):
             # Don't import event/actions twice
             if notebook_event:
                 logging.debug(
-                    f"{pe_unique_import_id} => Event already imported. Database id: {notebook_event.id}, skipping."
+                    "%s => Event already imported. Database id: %s, skipping.",
+                    pe_unique_import_id,
+                    notebook_event.id,
                 )
                 continue
 
@@ -395,9 +415,10 @@ async def import_pe_referent(
 
     if not structure:
         logging.info(
-            "{} - Structure '{}' not found/created. Import of professional impossible.".format(
-                pe_unique_id, csv_row.struct_principale
-            )
+            "%s - Structure '%s' not found/created. "
+            "Import of professional impossible.",
+            pe_unique_id,
+            csv_row.struct_principale,
         )
         return
     else:
@@ -408,9 +429,10 @@ async def import_pe_referent(
 
     if pro_email is None:
         logging.error(
-            "{} - Unable to convert email {} to .fr. Using original '{}' instead.".format(
-                pe_unique_id, csv_row.referent_mail, csv_row.referent_mail
-            )
+            "%s - Unable to convert email %s to .fr. Using original '%s' instead.",
+            pe_unique_id,
+            csv_row.referent_mail,
+            csv_row.referent_mail,
         )
         pro_email = csv_row.referent_mail
 
@@ -508,12 +530,11 @@ async def add_account_to_notebook_members(
     )
     if notebook_member:
         logging.info(
-            "{} - Professional added to notebook_member {} as {}. Notebook id: {}".format(
-                pe_unique_id,
-                notebook_member.id,
-                notebook_member.member_type,
-                notebook_id,
-            )
+            "%s - Professional added to notebook_member %s as %s. Notebook id: %s",
+            pe_unique_id,
+            notebook_member.id,
+            notebook_member.member_type,
+            notebook_id,
         )
     else:
         logging.error(
@@ -546,7 +567,8 @@ async def import_beneficiary(
 
             if beneficiary_uuid:
                 logging.info(
-                    f"{pe_unique_id} - Updated beneficiary pe_unique_import_id to value {pe_unique_id}"
+                    "%(id)s - Updated beneficiary pe_unique_import_id to value %(id)s",
+                    {"id": pe_unique_id},
                 )
 
         # Do we already have some external data for this beneficiary?

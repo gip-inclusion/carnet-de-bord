@@ -16,7 +16,9 @@ from cdb.api.db.models.professional import Professional
 from cdb.cdb_csv.json_encoder import CustomEncoder
 
 SELECT_ALL_QUERY = (
-    "SELECT external_data.*, external_data_info.created_at as info_created_at, external_data_info.beneficiary_id as info_beneficiary_id, "
+    "SELECT external_data.*, "
+    "external_data_info.created_at as info_created_at, "
+    "external_data_info.beneficiary_id as info_beneficiary_id, "
     "external_data_info.updated_at as info_updated_at, "
     "external_data_info.professional_id as info_professional_id "
     "FROM external_data "
@@ -58,10 +60,10 @@ async def update_external_data_for_beneficiary_and_professional(
 
     record_info = await connection.fetchrow(
         """
-            UPDATE external_data_info SET beneficiary_id = $1, professional_id = $2
-            WHERE external_data_info.external_data_id = $3
-            returning external_data_id, beneficiary_id, created_at, updated_at, professional_id
-            """,
+        UPDATE external_data_info SET beneficiary_id = $1, professional_id = $2
+        WHERE external_data_info.external_data_id = $3
+        returning external_data_id, beneficiary_id, created_at, updated_at, professional_id
+        """,  # noqa: E501
         beneficiary.id,
         professional.id if professional else None,
         external_data.id,
@@ -191,9 +193,9 @@ async def insert_external_data_info(
 
     v = await connection.fetchrow(
         """
-            INSERT INTO public.external_data_info (external_data_id, beneficiary_id)
-            VALUES ($1, $2) returning external_data_id, beneficiary_id, created_at, updated_at
-            """,
+        INSERT INTO public.external_data_info (external_data_id, beneficiary_id)
+        VALUES ($1, $2) returning external_data_id, beneficiary_id, created_at, updated_at
+        """,  # noqa: E501
         external_info_insert.external_data_id,
         external_info_insert.beneficiary_id,
     )

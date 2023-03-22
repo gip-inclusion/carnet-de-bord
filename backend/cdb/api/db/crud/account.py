@@ -33,7 +33,7 @@ async def insert_account(
             INSERT INTO public.account(username, type, confirmed, {role_column_name}, access_key, access_key_date)
             VALUES ($1, $2, $3, $4, $5, $6)
             RETURNING id, username, type, access_key, access_key_date, last_login, admin_id, manager_id, orientation_manager_id, admin_structure_id, professional_id, beneficiary_id, confirmed, onboarding_done, created_at, updated_at
-        """.format(
+        """.format(  # noqa: E501
             role_column_name=role_column_name
         ),
         username,
@@ -113,9 +113,11 @@ async def get_accounts_from_email(
     connection: Connection, email: str
 ) -> List[AccountDB]:
     """
-    Since email are store in different tables (manager / professional / orientation_manager)
-    And since there is no unicity constraint accross multiple table
-    we could have multiple results given a single email (ex: one for pro and one for orientation_manager)
+    Since email are stored in different tables :
+        (manager / professional / orientation_manager)
+    And since there is no unicity constraint across multiple table we could have
+    multiple results given a single email (ex: one for pro and one for
+    orientation_manager)
     """
     return await get_accounts_with_query(
         connection,
@@ -132,7 +134,7 @@ async def get_accounts_from_email(
         OR admin_structure.email like $1
         OR orientation_manager.email like $1
         OR admin_cdb.email like $1
-        """,
+        """,  # noqa: E501
         email,
     )
 

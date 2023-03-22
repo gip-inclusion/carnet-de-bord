@@ -1,4 +1,3 @@
-import json
 import logging
 from typing import Callable
 from uuid import UUID
@@ -486,8 +485,28 @@ async def insert_notebook_member(
 
     record = await connection.fetchrow(
         """
-        INSERT INTO public.notebook_member (notebook_id, account_id, last_visited_at, member_type, last_modified_at, creator_id, invitation_sent_at, active)
-        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning id, notebook_id, account_id, last_visited_at, member_type, last_modified_at, created_at, creator_id, invitation_sent_at, active
+        INSERT INTO public.notebook_member (
+            notebook_id,
+            account_id,
+            last_visited_at,
+            member_type,
+            last_modified_at,
+            creator_id,
+            invitation_sent_at,
+            active
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+        RETURNING
+            id,
+            notebook_id,
+            account_id,
+            last_visited_at,
+            member_type,
+            last_modified_at,
+            created_at,
+            creator_id,
+            invitation_sent_at,
+            active
         """,
         *notebook_member_insert.dict().values(),
     )

@@ -60,7 +60,8 @@ async def insert_professional_project_for_notebook(
             )
     else:
         logging.error(
-            f"Beneficiary {notebook.beneficiary_id} - Rome code not found '({rome_code_id}) {description}'"
+            f"Beneficiary {notebook.beneficiary_id} - "
+            f"Rome code not found '({rome_code_id}) {description}'"
         )
 
 

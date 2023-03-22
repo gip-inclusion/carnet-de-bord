@@ -14,7 +14,7 @@ API_CLIENT_HTTP_ERROR_CODE = "http_error"
 
 
 class PoleEmploiAPIException(Exception):
-    """unexpected exceptions (meaning, "exceptional") that warrant a subsequent retry."""
+    'unexpected exceptions (meaning, "exceptional") that warrant a retry.'
 
     def __init__(self, error_code):
         self.error_code = error_code

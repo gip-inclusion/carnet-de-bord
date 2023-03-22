@@ -37,10 +37,10 @@ async def insert_orientation_manager(
 ) -> OrientationManagerDB | None:
     record = await connection.fetchrow(
         """
-            INSERT INTO public.orientation_manager(deployment_id, email, firstname, lastname, phone_numbers)
-            VALUES ($1, $2, $3, $4, $5)
-            RETURNING id, firstname, lastname, email, phone_numbers, deployment_id, created_at, updated_at
-            """,
+        INSERT INTO public.orientation_manager(deployment_id, email, firstname, lastname, phone_numbers)
+        VALUES ($1, $2, $3, $4, $5)
+        RETURNING id, firstname, lastname, email, phone_numbers, deployment_id, created_at, updated_at
+        """,  # noqa: E501
         deployment_id,
         data.email,
         data.firstname,

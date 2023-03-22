@@ -66,7 +66,10 @@ async def file_to_json(upload_file: UploadFile) -> DataFrame:
     else:
         raise HTTPException(
             status_code=400,
-            detail=f"File type '{mime_type}' not supported. Allowed types are csv or excel",
+            detail=(
+                f"File type '{mime_type}' not supported. "
+                "Allowed types are csv or excel"
+            ),
         )
 
     data_frame = df.replace({np.nan: None})

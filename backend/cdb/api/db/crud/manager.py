@@ -18,10 +18,10 @@ async def insert_admin_pdi(
 ) -> Manager | None:
     record = await connection.fetchrow(
         """
-            INSERT INTO public.manager(deployment_id, email, firstname, lastname)
-            VALUES ($1, $2, $3, $4)
-            RETURNING id, firstname, lastname, email, deployment_id, created_at, updated_at
-            """,
+        INSERT INTO public.manager(deployment_id, email, firstname, lastname)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id, firstname, lastname, email, deployment_id, created_at, updated_at
+        """,
         data.deployment_id,
         data.email.lower(),
         data.firstname,

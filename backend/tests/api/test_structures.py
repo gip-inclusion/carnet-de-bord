@@ -62,7 +62,7 @@ async def test_structure_with_buggy_import_json(
         headers={"jwt-token": get_manager_jwt_93},
     )
 
-    data = response.json()
+    response.json()
     assert response.status_code == 422
 
 

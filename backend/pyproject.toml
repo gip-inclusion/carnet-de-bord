@@ -45,9 +45,20 @@ pytest-testmon = "^1.3.7"
 pytest-watch = "^4.2.0"
 syrupy = "^3.0.5"
 
+[tool.ruff]
+select = [
+    "E",  # pycodestyle
+    "F",  # Pyflakes
+    "B",  # flake8-bugbear
+    "I",  # Isort
+]
+extend-exclude = ["cdb/api/_gen/schema_gql.py"]
+ignore = [
+    # Do not perform function call `XXX` in argument defaults.
+    # FastAPI Depends() relies on this.
+    "B008",
+]
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.isort]
-profile = "black"

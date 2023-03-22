@@ -36,12 +36,13 @@ def main():
         print(f"--> Version from {file} is {version}")
 
     errors = []
+    hasura_fp = "hasura/.hasura_version"
     for file, version in compose_versions.items():
         if hasura_version == version:
-            print(f"--> Version in {file} matches version in hasura/.hasura_version")
+            print(f"--> Version in {file} matches version in {hasura_fp}")
         else:
             errors.append(
-                f"--> Error: Version in {file} mismatches version in hasura/.hasura_version"
+                f"--> Error: Version in {file} mismatches version in {hasura_fp}"
             )
     if errors:
         sys.exit("\n".join(errors))

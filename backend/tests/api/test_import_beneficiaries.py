@@ -81,7 +81,7 @@ async def test_update_existing_beneficiary_same_name(
     beneficiary_in_db: Beneficiary = await get_beneficiary_from_personal_information(
         db_connection, "Harry", "Covert", date(1985, 7, 23)
     )
-    assert beneficiary_in_db.mobile_number == None
+    assert beneficiary_in_db.mobile_number is None
 
     await import_beneficiaries(test_client, get_manager_jwt_93, [harry_covert])
 
@@ -177,11 +177,11 @@ async def test_insert_beneficiary_check_all_fields(
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
     assert beneficiary_in_db.nir == harry_covert.nir
 
-    assert beneficiary_in_db.notebook.right_rqth == False
+    assert beneficiary_in_db.notebook.right_rqth is False
     assert beneficiary_in_db.right_rsa == harry_covert.right_rsa
-    assert beneficiary_in_db.right_are == True
-    assert beneficiary_in_db.right_ass == False
-    assert beneficiary_in_db.right_bonus == False
+    assert beneficiary_in_db.right_are is True
+    assert beneficiary_in_db.right_ass is False
+    assert beneficiary_in_db.right_bonus is False
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
     professional_projects = [
@@ -220,11 +220,11 @@ async def test_update_beneficiary_check_all_fields(
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
     assert beneficiary_in_db.nir == harry_covert.nir
     assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
-    assert beneficiary_in_db.notebook.right_rqth == False
+    assert beneficiary_in_db.notebook.right_rqth is False
     assert beneficiary_in_db.right_rsa == harry_covert.right_rsa
-    assert beneficiary_in_db.right_are == True
-    assert beneficiary_in_db.right_ass == False
-    assert beneficiary_in_db.right_bonus == False
+    assert beneficiary_in_db.right_are is True
+    assert beneficiary_in_db.right_ass is False
+    assert beneficiary_in_db.right_bonus is False
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
     professional_projects = [
         await get_rome_code_by_id(db_connection, wj.rome_code_id)
@@ -260,11 +260,11 @@ async def test_dont_update_beneficiary_with_empty_fields(
     assert beneficiary_in_db.caf_number == harry_covert.caf_number
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
     assert beneficiary_in_db.nir == harry_covert.nir
-    assert beneficiary_in_db.notebook.right_rqth == False
+    assert beneficiary_in_db.notebook.right_rqth is False
     assert beneficiary_in_db.right_rsa == harry_covert.right_rsa
-    assert beneficiary_in_db.right_are == True
-    assert beneficiary_in_db.right_ass == False
-    assert beneficiary_in_db.right_bonus == False
+    assert beneficiary_in_db.right_are is True
+    assert beneficiary_in_db.right_ass is False
+    assert beneficiary_in_db.right_bonus is False
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
 
@@ -291,11 +291,11 @@ async def test_only_update_beneficiary_with_not_null_fields(
     assert beneficiary_in_db.caf_number == harry_covert.caf_number
     assert beneficiary_in_db.pe_number == harry_covert.pe_number
     assert beneficiary_in_db.notebook.work_situation == harry_covert.work_situation
-    assert beneficiary_in_db.notebook.right_rqth == False
+    assert beneficiary_in_db.notebook.right_rqth is False
     assert beneficiary_in_db.right_rsa == harry_covert.right_rsa
-    assert beneficiary_in_db.right_are == True
-    assert beneficiary_in_db.right_ass == False
-    assert beneficiary_in_db.right_bonus == False
+    assert beneficiary_in_db.right_are is True
+    assert beneficiary_in_db.right_ass is False
+    assert beneficiary_in_db.right_bonus is False
     assert beneficiary_in_db.notebook.education_level == harry_covert.education_level
 
 

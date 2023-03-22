@@ -63,9 +63,9 @@ def phone_validator(*args, **kwargs):
 def postal_code(value: str) -> str:
     if not value:
         return value
-    if (
-        value[0:2] == "00"
-    ):  ## Les 2 premiers digits correspondent au numéro de departement, 00 n'est donc pas valide
+    # Les 2 premiers digits correspondent au numéro de departement, 00 n'est donc pas
+    # valide
+    if value[0:2] == "00":
         raise ValueError("value is not a valid postal code")
     if not re.match("^[0-9]{5}$", value):
         raise ValueError("value is not a valid postal code")

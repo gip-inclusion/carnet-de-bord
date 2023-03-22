@@ -24,7 +24,7 @@ async def insert_or_update_need_orientation(
         ON CONFLICT ON CONSTRAINT notebook_info_pkey
         DO UPDATE SET need_orientation = $3
         RETURNING notebook_id, orientation_system_id, need_orientation, created_at, updated_at
-        """,
+        """,  # noqa: E501
         notebook_id,
         orientation_system_id,
         need_orientation,

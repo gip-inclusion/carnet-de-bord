@@ -213,7 +213,8 @@ class BeneficiaryImport(BaseModel):
     def _filter_updatable_field_keys(self, allowed_fields) -> list[str]:
         filled_fields = self._get_filled_field_keys()
         keys_to_update = [key for key in filled_fields if key in allowed_fields]
-        # Special case for address where we need to clean address2 if address1 is provided but not address2
+        # Special case for address where we need to clean address2 if address1 is
+        # provided but not address2
         if "address1" in keys_to_update and "address2" not in keys_to_update:
             keys_to_update.append("address2")
 
