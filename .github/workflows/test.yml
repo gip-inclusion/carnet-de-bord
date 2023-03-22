@@ -5,8 +5,6 @@ on:
     # as every commit on master led to a release tag creation
     # we do not want to test every commit on master
     # but only every release tag
-    branches-ignore:
-      - master
     tags:
       - v*
   pull_request:
