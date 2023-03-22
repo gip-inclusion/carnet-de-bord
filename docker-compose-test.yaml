@@ -14,6 +14,14 @@ services:
       - '5433:5432'
     volumes:
       - cdb-pgdata-test:/var/lib/postgresql/data
+    command:
+      - postgres
+      - -c
+      - fsync=off
+      - -c
+      - synchronous_commit=off
+      - -c
+      - full_page_writes=off
 
   hasura_test:
     image: hasura/graphql-engine:v2.15.2-ce.cli-migrations-v3
