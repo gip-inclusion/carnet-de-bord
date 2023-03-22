@@ -63,16 +63,3 @@ def create_app() -> FastAPI:
 async def connection(request: Request):
     async with request.app.state.db.pool.acquire() as db:
         yield db
-
-
-async def transaction(request: Request):
-    async with request.app.state.db.pool.acquire() as db:
-        txn = db.transaction()
-        await txn.start()
-        try:
-            yield db
-        except:  # noqa
-            await txn.rollback()
-            raise
-        else:
-            await txn.commit()
