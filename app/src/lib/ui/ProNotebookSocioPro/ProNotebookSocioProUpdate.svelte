@@ -107,11 +107,12 @@
 		rhs: ProfessionalProject
 	): boolean {
 		return (
-			lhs.contractTypeId === rhs.contractTypeId &&
-			lhs.employmentTypeId === rhs.employmentTypeId &&
-			lhs.romeCodeId === rhs.romeCodeId &&
-			lhs.hourlyRate === rhs.hourlyRate &&
-			lhs.mobilityRadius === rhs.mobilityRadius
+			// null and undefined are considered equal
+			lhs.contractTypeId == rhs.contractTypeId &&
+			lhs.employmentTypeId == rhs.employmentTypeId &&
+			lhs.romeCodeId == rhs.romeCodeId &&
+			lhs.hourlyRate == rhs.hourlyRate &&
+			lhs.mobilityRadius == rhs.mobilityRadius
 		);
 	}
 
