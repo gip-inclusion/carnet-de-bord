@@ -183,8 +183,8 @@ async def import_actions(connection: Connection, action_csv_path: str):
         try:
             pe_unique_import_id: str = row["identifiant_unique_de"]
             logging.debug(
-                "%(import_id)s => Trying to import action row %(import_id)",
-                {"import_id": pe_unique_import_id},
+                "%s => Trying to import action row",
+                pe_unique_import_id,
             )
 
             csv_row: ActionCsvRow = await map_action_row(row)
@@ -194,16 +194,16 @@ async def import_actions(connection: Connection, action_csv_path: str):
                 and csv_row.formation is None
             ):
                 logging.error(
-                    "%s => Line '{FORMATION_DOMAINE_SUIVANT_LABEL}' "
-                    "with empty 'formation' column. Skipping row.",
+                    "%s => Line '%s' " "with empty 'formation' column. Skipping row.",
                     pe_unique_import_id,
+                    FORMATION_DOMAINE_SUIVANT_LABEL,
                 )
                 continue
 
             focus: str | None = mapping.get(csv_row.lblaction, None)
 
             if focus:
-                logging.debug(f"{pe_unique_import_id} => Mapped focus: {focus}")
+                logging.debug("%s => Mapped focus: %s", pe_unique_import_id, focus)
             else:
                 logging.error(
                     "%s => Mapped focus not found for action '%s': %s. Skipping row.",
@@ -273,7 +273,7 @@ async def import_actions(connection: Connection, action_csv_path: str):
             )
 
             logging.debug(
-                f"{pe_unique_import_id} => Importing event {notebook_event_insert}"
+                "%s => Importing event %s", pe_unique_import_id, notebook_event_insert
             )
 
             notebook_event: NotebookEvent | None = await insert_notebook_event(
@@ -282,13 +282,13 @@ async def import_actions(connection: Connection, action_csv_path: str):
 
             if notebook_event:
                 logging.debug(
-                    f"{pe_unique_import_id} => Imported event {notebook_event}"
+                    "%s => Imported event %s", pe_unique_import_id, notebook_event
                 )
             else:
-                logging.error(f"{pe_unique_import_id} => Failed to import event")
+                logging.error("%s => Failed to import event", pe_unique_import_id)
 
         except Exception as e:
-            logging.error("Exception while processing action CSV line: {}".format(e))
+            logging.error("Exception while processing action CSV line: %s", e)
             traceback.print_exc()
 
 

@@ -102,7 +102,7 @@ async def test_check_existing_external_data(
 
     assert (
         external_data.hash
-        == "c288c50fec100107b74cc58090e4d682800fabbc0be456eb80b1aab23a820bc9"
+        == "8b816e2ff8b67d36c5432f0f1eb74c66cc4c50c616296969448639799ba02368"
     )
 
     datas = await get_all_external_datas_by_beneficiary_id_and_source(
