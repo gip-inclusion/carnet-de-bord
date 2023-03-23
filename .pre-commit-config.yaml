@@ -86,14 +86,6 @@ repos:
         entry: |
           ./scripts/check-hasura-version
 
-      - id: check-app-codegen
-        name: check if app codegen needs to be ran
-        language: system
-        pass_filenames: false
-        files: ^app/.*\.gql$
-        entry: |
-          ./scripts/check-app-codegen.sh
-
   - repo: https://github.com/alessandrojcm/commitlint-pre-commit-hook
     rev: "v8.0.0"
     hooks:

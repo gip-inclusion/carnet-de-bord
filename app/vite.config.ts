@@ -32,7 +32,7 @@ const config = {
 		globals: true,
 		environment: 'jsdom',
 		// in-source testing
-		includeSource: ['src/**/*.{js,ts,svelte}'],
+		includeSource: ['src/**/*.{js,ts,svelte}', 'codegen.cjs'],
 		// Add @testing-library/jest-dom matchers & mocks of SvelteKit modules
 		setupFiles: ['./setupTest.ts'],
 		silent: false,
