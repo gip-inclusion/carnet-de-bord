@@ -109,9 +109,17 @@ async def test_add_notebook_member_as_referent(
     professional_pierre_chevalier: Professional,
     db_connection: Connection,
 ):
+    [orientation_system_id] = await db_connection.fetchrow(
+        """
+        SELECT orientation_system_id
+        FROM professional_orientation_system
+        WHERE professional_id = $1
+        """,
+        professional_paul_camara.id,
+    )
     response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
-        json={"member_type": "referent"},
+        json={"member_type": "referent", "orientation": str(orientation_system_id)},
         headers={"jwt-token": get_professional_paul_camara_jwt},
     )
     assert response.status_code == 204
@@ -148,3 +156,81 @@ async def test_add_notebook_member_as_referent(
         beneficiary_status="current",
         structure_name="Service Social Départemental",
     )
+
+    rows = await db_connection.fetch(
+        """
+        SELECT need_orientation, orientation_system_id
+          FROM notebook_info
+         WHERE notebook_id = $1
+        """,
+        notebook_sophie_tifour.id,
+    )
+    [row] = rows
+    assert row["need_orientation"] is False
+    assert row["orientation_system_id"] == orientation_system_id
+
+
+@mock.patch("cdb.api.core.emails.send_mail")
+async def test_add_notebook_member_as_referent_orientation_not_available(
+    mock_send_email: mock.Mock,
+    test_client: TestClient,
+    notebook_sophie_tifour: Notebook,
+    get_professional_paul_camara_jwt: str,
+    professional_paul_camara: Professional,
+    professional_pierre_chevalier: Professional,
+    db_connection: Connection,
+):
+    [orientation_system_id] = await db_connection.fetchrow(
+        """
+        SELECT orientation_system_id
+        FROM professional_orientation_system
+        WHERE professional_id = $1
+        """,
+        professional_paul_camara.id,
+    )
+    await db_connection.execute(
+        """
+        DELETE FROM professional_orientation_system
+        WHERE orientation_system_id = $1
+        """,
+        orientation_system_id,
+    )
+    response = await test_client.post(
+        f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
+        json={
+            "member_type": "referent",
+            "orientation": str(orientation_system_id),
+        },
+        headers={"jwt-token": get_professional_paul_camara_jwt},
+    )
+    assert response.status_code == 422
+    assert response.json() == {
+        "detail": [
+            "Le référent doit être rattaché au dispositif d’accompagnement spécifié."
+        ]
+    }
+    members = await get_notebook_members_by_notebook_id(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
+
+    assert all(
+        member.account_id != professional_paul_camara.account_id for member in members
+    )
+    assert_member(members, professional_pierre_chevalier, "referent", active=True)
+    mock_send_email.assert_not_called()
+
+    structures = await get_structures_for_beneficiary(
+        db_connection,
+        notebook_sophie_tifour.beneficiary_id,
+    )
+    assert_structure(
+        structures,
+        beneficiary_status="current",
+        structure_name="Centre Communal d'action social Livry-Gargan",
+    )
+
+    rows = await db_connection.fetch(
+        "SELECT * FROM notebook_info WHERE notebook_id = $1", notebook_sophie_tifour.id
+    )
+    assert len(rows) == 0
