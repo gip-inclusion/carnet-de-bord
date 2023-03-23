@@ -93,6 +93,8 @@ insert_permissions:
                   _eq: X-Hasura-User-Id
               - active:
                   _eq: true
+      set:
+        updated_by: x-hasura-User-Id
       columns:
         - contract_type_id
         - employment_type_id
@@ -110,6 +112,8 @@ insert_permissions:
                   _eq: X-Hasura-User-Id
               - active:
                   _eq: true
+      set:
+        updated_by: x-hasura-User-Id
       columns:
         - contract_type_id
         - employment_type_id
