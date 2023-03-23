@@ -42,7 +42,7 @@ from cdb.api.db.crud.professional_project import (
 )
 from cdb.api.db.crud.structure import (
     create_structure_from_agences_list,
-    get_structure_by_name,
+    get_structure_with_query,
 )
 from cdb.api.db.models.account import AccountDB
 from cdb.api.db.models.beneficiary import Beneficiary
@@ -102,16 +102,16 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
     for _, row in df.iterrows():
         try:
             logging.info(
-                "{id} => Trying to import main row {id}".format(
-                    id=row["identifiant_unique_de"]
-                )
+                "%s => Trying to import main row", row["identifiant_unique_de"]
             )
-
+            logging.warning("+++++ %s", row)
             csv_row: PrincipalCsvRow = await map_principal_row(row)
+            logging.warning("-----%s", csv_row)
             hash_result: str = await get_sha256(csv_row)
 
-            # TODO : utiliser une transaction
-            # TODO : Que faire en cas d'erreur : Est ce qu'on enregistre
+            # TODO: utiliser une transaction
+            # TODO: Que faire en cas d'erreur : Qu'est ce qu'on enregistre
+
             if csv_row.brsa:
                 beneficiary: Beneficiary | None = await import_beneficiary(
                     connection, csv_row, hash_result
@@ -140,7 +140,7 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                         beneficiary,
                         csv_row,
                         hash_result,
-                        professional=professional,
+                        professional,
                     )
                 else:
                     logging.info(
@@ -157,7 +157,11 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                 )
 
         except Exception as e:
-            logging.error("Exception while processing main CSV line: {}".format(e))
+            logging.error(
+                "Exception while processing main CSV line: %s on line %s",
+                e,
+                row.to_dict(),
+            )
             traceback.print_exc()
 
 
@@ -294,6 +298,7 @@ def compute_action_date(
     date_fin: datetime | None,
     label: str,
 ) -> datetime:
+
     if (
         label != FORMATION_DOMAINE_SUIVANT_LABEL
         and date_fin is not None
@@ -301,6 +306,7 @@ def compute_action_date(
     ):
         return date_realisation_action
     elif date_fin:
+
         return date_fin
 
     return date_prescription
@@ -312,11 +318,20 @@ async def import_pe_referent(
     deployment: Deployment,
     notebook_id: UUID,
 ) -> Professional | None:
-    # TODO: ca ne marche pas . Le nom de l'agence ne sera pas trouvé car il est inseré avec "Agence Pole emploi" avant
-    structure: Structure | None = await get_structure_by_name(
-        connection, csv_row.struct_principale
+    # HACK: @lionelb
+    # on utilise cette requete pour trouver les structure PE déjà créer
+    # depuis les données de l'api POLE EMPLOI n'ayant pas de données
+    # dans le fichier qui permettent une identification de la structure
+    # dans notre base. Le champ code_safir pourrait permettre cela
+    # malheureusement pour l'instant, l'analyse des données dans le fichier
+    # montre que celui ci n'est pas suffisament fiable.
+    # - Plusieurs structure_principale ont le meme code structure et inversement
+    # - Plusieurs code pour la meme structure
+    structure: Structure | None = await get_structure_with_query(
+        connection,
+        "WHERE short_desc = $1 and name like '%' || $1",
+        csv_row.struct_principale,
     )
-
     if not structure:
         client = PoleEmploiApiClient(
             auth_base_url=settings.PE_AUTH_BASE_URL,
@@ -326,12 +341,9 @@ async def import_pe_referent(
             scope=settings.PE_SCOPE,
         )
 
-        # Attention On recherche les agences depuis le département d'habitation
-        # on devrait plutot utilisé le département du déploiement
         agences: list[Agence] = client.recherche_agences_pydantic(
             deployment.department_code or "", horaire=False, zonecompetence=False
         )
-
         structure: Structure | None = await create_structure_from_agences_list(
             connection, agences, csv_row.struct_principale, deployment.id
         )
@@ -355,7 +367,7 @@ async def import_pe_referent(
     if pro_email is None:
         logging.error(
             "%s - Unable to convert email %s to .fr. Using original '%s' instead.",
-            csv_row.identifiant_unique_de,,
+            csv_row.identifiant_unique_de,
             csv_row.referent_mail,
             csv_row.referent_mail,
         )

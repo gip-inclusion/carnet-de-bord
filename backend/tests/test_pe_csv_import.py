@@ -19,7 +19,6 @@ from cdb.api.db.crud.notebook import (
 from cdb.api.db.crud.professional import get_professional_by_email
 from cdb.api.db.crud.structure import get_structures
 from cdb.api.db.models.beneficiary import Beneficiary
-from cdb.api.db.models.deployment import Deployment
 from cdb.api.db.models.external_data import ExternalSource
 from cdb.api.db.models.notebook import NotebookMember
 from cdb.api.db.models.professional import Professional
@@ -45,6 +44,7 @@ async def test_parse_principal_csv(
     beneficiary_edwina_skinner: Beneficiary,
     caplog,
 ):
+
     client = PoleEmploiApiClient(
         auth_base_url=settings.PE_AUTH_BASE_URL,
         base_url=settings.PE_BASE_URL,
@@ -115,7 +115,7 @@ async def test_parse_principal_csv(
     assert external_data.info.beneficiary_id == beneficiary_edwina_skinner.id
     assert (
         external_data.hash
-        == "e6b66369ffecc417265e83b1675ac3199977e713e883929bf0e9b70208a8e4b1"
+        == "11abe78a0ccfbb5ed90b71eeeb460583c88bfc2a9635d7e312fc770f46633a82"
     )
 
     sophie_tifour = await get_beneficiary_by_id(
@@ -179,6 +179,7 @@ async def test_insert_professional_projects_for_csv_row_and_notebook(
     pe_principal_csv_series,
     beneficiary_sophie_tifour: Beneficiary,
 ):
+
     assert beneficiary_sophie_tifour.notebook is not None
     assert len(beneficiary_sophie_tifour.notebook.professional_projects) == 2
 
@@ -244,11 +245,7 @@ async def test_import_pe_referent(
     professional: Professional | None = await import_pe_referent(
         db_connection,
         csv_row,
-        Deployment(
-            id=UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
-            label="expérimentation 93",
-            department_code="93",
-        ),
+        csv_row.identifiant_unique_de,
         UUID("9c0e5236-a03d-4e5f-b945-c6bc556cf9f3"),
     )
 

@@ -42,8 +42,8 @@ INSERT INTO public.account (id, username, type, access_key, access_key_date, las
 INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76');
 
 -- Deployments
-INSERT INTO public.deployment (id, label) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93');
-INSERT INTO public.deployment (id, label, config) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51', '{"url": "http://localhost:3000/api/test", "headers": {"token":"azerty"}, "callback": "/api/marne" }');
+INSERT INTO public.deployment (id, label, department_code) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93', '93');
+INSERT INTO public.deployment (id, label, config, department_code) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51', '{"url": "http://localhost:3000/api/test", "headers": {"token":"azerty"}, "callback": "/api/marne" }', '51');
 
 -- Orientation system
 INSERT INTO public.orientation_system (id, name, created_at, updated_at, orientation_type, deployment_id) VALUES ('fc48d848-33bf-437a-9533-881e16ffa666', 'PE', '2021-09-21 13:06:45.076+00', '2021-09-21 13:06:45.076+00', 'pro', '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
@@ -69,7 +69,7 @@ INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('dfaaa6e1-4c5a-4079-a191-e8611d573acf', NULL, 'Plateforme - Ma demande de logement social', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('dfaaa6e3-4c5a-4079-a191-e8611d573acf', NULL, 'Interlogement 93', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '4dab8036-a86e-4d5f-9bd4-6ce88c1940d0');
 INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('c0b8aee3-c061-4023-b57e-92880627d589', NULL, 'Interlogement 51', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b');
-INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('0143a94b-5df5-425e-a023-f2b2517ad038', '13000548120281', 'CHARLEVILLE-MEZIERES VAL DE VENCE', 'Agence Pôle emploi CHARLEVILLE-MEZIERES VAL DE VENCE', '3949', 'contact@pole-emploi.fr', '08000', 'CHARLEVILLE MEZIERES', '6 RUE JEAN BAPTISTE LEFORT', NULL, NULL, NULL);
+INSERT INTO public.structure (id, siret, name, short_desc, phone, email, postal_code, city, address1, address2, website, deployment_id) VALUES ('0143a94b-5df5-425e-a023-f2b2517ad038', '13000548120281', 'Agence Pôle emploi CHARLEVILLE-MEZIERES VAL DE VENCE', 'CHARLEVILLE-MEZIERES VAL DE VENCE', '3949', 'contact@pole-emploi.fr', '08000', 'CHARLEVILLE MEZIERES', '6 RUE JEAN BAPTISTE LEFORT', NULL, NULL, NULL);
 
 -- Orientation systems for structures:
 INSERT INTO public.structure_orientation_system (id, created_at, structure_id, orientation_system_id) VALUES ('aec48640-239a-4fc4-8907-bb20b3e832c1', '2021-09-21 13:06:45.076+00', '1c52e5ad-e0b9-48b9-a490-105a4effaaea', 'fc48d848-33bf-437a-9533-881e16ffa666');

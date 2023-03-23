@@ -123,7 +123,11 @@ async def create_structure_from_agences_list(
     ]
 
     if len(matching_agences) != 1:
-        logging.warning("Too many agences found '%s'.", matching_agences)
+        logging.warning(
+            "Did not find a single agence that matches %s in '%s'.",
+            label,
+            agences,
+        )
         agence = None
     else:
         agence = matching_agences[0]

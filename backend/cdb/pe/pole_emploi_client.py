@@ -84,9 +84,9 @@ class PoleEmploiApiClient:
             response = httpx.get(
                 url, params=params, headers=self._headers, timeout=API_TIMEOUT_SECONDS
             )
-            data = response.json()
             if response.status_code != 200:
                 raise PoleEmploiAPIException(response.status_code)
+            data = response.json()
             return data
         except httpx.RequestError as exc:
             raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
