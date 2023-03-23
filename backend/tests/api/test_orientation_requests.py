@@ -1,9 +1,12 @@
 from unittest import mock
 
+import pytest
 from fastapi.testclient import TestClient
 
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.professional import Professional
+
+pytestmark = pytest.mark.graphql
 
 DENY_ORIENTATION_ENDPOINT_PATH = "/v1/orientation_requests/deny"
 
@@ -17,7 +20,7 @@ async def test_deny_orientation_request_email(
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         DENY_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_request_id": orientation_request_jennings_dee.id,

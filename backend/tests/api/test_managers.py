@@ -17,7 +17,7 @@ async def test_jwt_token_verification(
     get_admin_structure_jwt,
 ):
 
-    response = test_client.post(
+    response = await test_client.post(
         ENDPOINT_PATH,
         json={"email": sender_email, "firstname": "lionel", "lastname": "Bé"},
         headers={"jwt-token": get_admin_structure_jwt},
@@ -38,7 +38,7 @@ async def test_insert_admin_in_db(
     deployment_id_cd93: UUID,
 ):
 
-    test_client.post(
+    await test_client.post(
         ENDPOINT_PATH,
         json={
             "email": sender_email,

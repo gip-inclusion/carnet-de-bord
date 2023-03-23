@@ -4,7 +4,7 @@ async def test_parse_csv(
     get_manager_jwt_93,
 ):
     with open(csv_beneficiary_filepath, "rb") as file:
-        response = test_client.post(
+        response = await test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -22,7 +22,7 @@ async def test_parse_csv_with_all_date_formats(
     get_manager_jwt_93,
 ):
     with open(csv_beneficiary_with_all_date_formats_filepath, "rb") as file:
-        response = test_client.post(
+        response = await test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -39,7 +39,7 @@ async def test_parse_csv_errors(
     get_manager_jwt_93,
 ):
     with open("tests/fixtures/import_beneficiaires_buggy.csv", "rb") as file:
-        response = test_client.post(
+        response = await test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -63,7 +63,7 @@ async def test_structure_parse_csv(
     get_manager_jwt_93,
 ):
     with open(csv_structure_filepath, "rb") as file:
-        response = test_client.post(
+        response = await test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -78,7 +78,7 @@ async def test_structure_parse_csv_with_error(
     get_manager_jwt_93,
 ):
     with open(csv_structure_buggy_filepath, "rb") as file:
-        response = test_client.post(
+        response = await test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": get_manager_jwt_93},
@@ -140,7 +140,7 @@ async def test_structure_parse_csv_with_missing_column_should_not_fail(
     get_manager_jwt_93,
 ):
     with open(csv_structure_missing_key_filepath, "rb") as file:
-        response = test_client.post(
+        response = await test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
             headers={"jwt-token": get_manager_jwt_93},
