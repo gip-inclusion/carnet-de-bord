@@ -107,6 +107,7 @@ query GetNotebook(
       lastJobEndedAt
       notebookInfo {
         needOrientation
+        orientationReason
       }
       professionalProjects {
         id

@@ -7886,6 +7886,8 @@ export type NotebookInfo = {
 	/** An object relationship */
 	notebook: Notebook;
 	notebookId: Scalars['uuid'];
+	/** motif de l'orientation, saisi par le chargé d'orientation */
+	orientationReason?: Maybe<Scalars['String']>;
 	/** An object relationship */
 	orientationSystem?: Maybe<OrientationSystem>;
 	orientationSystemId?: Maybe<Scalars['uuid']>;
@@ -7922,6 +7924,7 @@ export type NotebookInfoBoolExp = {
 	needOrientation?: InputMaybe<BooleanComparisonExp>;
 	notebook?: InputMaybe<NotebookBoolExp>;
 	notebookId?: InputMaybe<UuidComparisonExp>;
+	orientationReason?: InputMaybe<StringComparisonExp>;
 	orientationSystem?: InputMaybe<OrientationSystemBoolExp>;
 	orientationSystemId?: InputMaybe<UuidComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -7939,6 +7942,8 @@ export type NotebookInfoInsertInput = {
 	needOrientation?: InputMaybe<Scalars['Boolean']>;
 	notebook?: InputMaybe<NotebookObjRelInsertInput>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
+	/** motif de l'orientation, saisi par le chargé d'orientation */
+	orientationReason?: InputMaybe<Scalars['String']>;
 	orientationSystem?: InputMaybe<OrientationSystemObjRelInsertInput>;
 	orientationSystemId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -7949,6 +7954,8 @@ export type NotebookInfoMaxFields = {
 	__typename?: 'notebook_info_max_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	notebookId?: Maybe<Scalars['uuid']>;
+	/** motif de l'orientation, saisi par le chargé d'orientation */
+	orientationReason?: Maybe<Scalars['String']>;
 	orientationSystemId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -7958,6 +7965,8 @@ export type NotebookInfoMinFields = {
 	__typename?: 'notebook_info_min_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	notebookId?: Maybe<Scalars['uuid']>;
+	/** motif de l'orientation, saisi par le chargé d'orientation */
+	orientationReason?: Maybe<Scalars['String']>;
 	orientationSystemId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -7991,6 +8000,7 @@ export type NotebookInfoOrderBy = {
 	needOrientation?: InputMaybe<OrderBy>;
 	notebook?: InputMaybe<NotebookOrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
+	orientationReason?: InputMaybe<OrderBy>;
 	orientationSystem?: InputMaybe<OrientationSystemOrderBy>;
 	orientationSystemId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
@@ -8010,6 +8020,8 @@ export enum NotebookInfoSelectColumn {
 	/** column name */
 	NotebookId = 'notebookId',
 	/** column name */
+	OrientationReason = 'orientationReason',
+	/** column name */
 	OrientationSystemId = 'orientationSystemId',
 	/** column name */
 	UpdatedAt = 'updatedAt',
@@ -8020,6 +8032,8 @@ export type NotebookInfoSetInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	needOrientation?: InputMaybe<Scalars['Boolean']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
+	/** motif de l'orientation, saisi par le chargé d'orientation */
+	orientationReason?: InputMaybe<Scalars['String']>;
 	orientationSystemId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -8037,6 +8051,8 @@ export type NotebookInfoStreamCursorValueInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	needOrientation?: InputMaybe<Scalars['Boolean']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
+	/** motif de l'orientation, saisi par le chargé d'orientation */
+	orientationReason?: InputMaybe<Scalars['String']>;
 	orientationSystemId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -8049,6 +8065,8 @@ export enum NotebookInfoUpdateColumn {
 	NeedOrientation = 'needOrientation',
 	/** column name */
 	NotebookId = 'notebookId',
+	/** column name */
+	OrientationReason = 'orientationReason',
 	/** column name */
 	OrientationSystemId = 'orientationSystemId',
 	/** column name */
@@ -16476,7 +16494,11 @@ export type GetDeploymentNotebooksQuery = {
 	notebooks: Array<{
 		__typename?: 'notebook';
 		id: string;
-		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
+		notebookInfo?: {
+			__typename?: 'notebook_info';
+			needOrientation: boolean;
+			orientationReason?: string | null;
+		} | null;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			firstname: string;
@@ -17277,7 +17299,11 @@ export type GetNotebookByBeneficiaryIdQuery = {
 				} | null;
 			} | null;
 		}>;
-		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
+		notebookInfo?: {
+			__typename?: 'notebook_info';
+			needOrientation: boolean;
+			orientationReason?: string | null;
+		} | null;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: string | null;
@@ -17487,7 +17513,11 @@ export type GetNotebookByIdQuery = {
 				} | null;
 			} | null;
 		}>;
-		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
+		notebookInfo?: {
+			__typename?: 'notebook_info';
+			needOrientation: boolean;
+			orientationReason?: string | null;
+		} | null;
 		beneficiary: {
 			__typename?: 'beneficiary';
 			address1?: string | null;
@@ -17690,7 +17720,11 @@ export type NotebookFragmentFragment = {
 			} | null;
 		} | null;
 	}>;
-	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
+	notebookInfo?: {
+		__typename?: 'notebook_info';
+		needOrientation: boolean;
+		orientationReason?: string | null;
+	} | null;
 	beneficiary: {
 		__typename?: 'beneficiary';
 		address1?: string | null;
@@ -18362,7 +18396,11 @@ export type GetNotebookQuery = {
 			contractStartDate?: string | null;
 			contractEndDate?: string | null;
 			lastJobEndedAt?: string | null;
-			notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
+			notebookInfo?: {
+				__typename?: 'notebook_info';
+				needOrientation: boolean;
+				orientationReason?: string | null;
+			} | null;
 			professionalProjects: Array<{
 				__typename?: 'professional_project';
 				id: string;
@@ -19124,7 +19162,10 @@ export const NotebookFragmentFragmentDoc = {
 						name: { kind: 'Name', value: 'notebookInfo' },
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } }],
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'orientationReason' } },
+							],
 						},
 					},
 					{
@@ -21843,6 +21884,7 @@ export const GetDeploymentNotebooksDocument = {
 										kind: 'SelectionSet',
 										selections: [
 											{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'orientationReason' } },
 										],
 									},
 								},
@@ -29688,6 +29730,7 @@ export const GetNotebookDocument = {
 													kind: 'SelectionSet',
 													selections: [
 														{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'orientationReason' } },
 													],
 												},
 											},

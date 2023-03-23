@@ -30,3 +30,8 @@ Fonctionnalité: Demande de réorientation
 		Soit le pro "sanka@groupe-ns.fr" sur le carnet de "Herring"
 		Alors je vois "Demande de réorientation acceptée"
 		Alors je vois "Décision d'orientation : Social"
+
+	Scénario: Affichage du motif de l'orientation
+		Soit le pro "edith.orial@interlogement93.fr" sur le carnet de "Jennings"
+		Quand je clique sur "Voir le motif de l‘orientation"
+		Alors je vois "Edit Orial est sans aucun doute la meilleure référente pour ce bénéficiaire."

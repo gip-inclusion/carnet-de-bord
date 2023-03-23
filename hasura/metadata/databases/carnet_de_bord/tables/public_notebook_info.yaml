@@ -9,6 +9,8 @@ configuration:
       custom_name: needOrientation
     notebook_id:
       custom_name: notebookId
+    orientation_reason:
+      custom_name: orientationReason
     orientation_system_id:
       custom_name: orientationSystemId
     updated_at:
@@ -17,6 +19,7 @@ configuration:
     created_at: createdAt
     need_orientation: needOrientation
     notebook_id: notebookId
+    orientation_reason: orientationReason
     orientation_system_id: orientationSystemId
     updated_at: updatedAt
   custom_root_fields: {}
@@ -79,6 +82,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter: {}
@@ -88,6 +92,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -105,6 +110,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -119,6 +125,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -133,6 +140,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -147,6 +155,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:

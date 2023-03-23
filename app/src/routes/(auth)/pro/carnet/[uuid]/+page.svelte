@@ -1,6 +1,8 @@
 <script lang="ts">
 	import Alert from '$lib/ui/base/Alert.svelte';
+	import Dialog from '$lib/ui/Dialog.svelte';
 	import { Button } from '$lib/ui/base';
+	import { Text } from '$lib/ui/utils';
 	import { accountData, openComponent } from '$lib/stores';
 	import { baseUrlForRole } from '$lib/routes';
 	import { GetNotebookEventsQueryStore, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
@@ -216,8 +218,23 @@
 				<ProOrientationRequestBanner {reorientationRequest} />
 			</Portal>
 		{/if}
-		{#if isReferent && (!reorientationRequest || reorientationRequest.status != 'pending')}
-			<Button outline on:click={requireReorientation}>Demander une réorientation</Button>
+		{#if isReferent}
+			<div>
+				<Dialog
+					label="Voir le motif de l‘orientation"
+					buttonLabel="Voir le motif de l‘orientation"
+					title="Motif de l‘orientation"
+					showButtons={false}
+					buttonCssClasses="inline mr-6"
+				>
+					<Text value={notebook.notebookInfo?.orientationReason ?? 'Non défini'} />
+				</Dialog>
+				{#if !reorientationRequest || reorientationRequest.status != 'pending'}
+					<Button classNames="inline" outline on:click={requireReorientation}
+						>Demander une réorientation</Button
+					>
+				{/if}
+			</div>
 		{/if}
 		<ProNotebookPersonalInfoView
 			{beneficiary}
