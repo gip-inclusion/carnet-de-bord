@@ -2,7 +2,7 @@ name: Test
 
 on:
   push:
-    # as every commit on master led to a release tag creation
+    # as every commit on master leads to a release tag
     # we do not want to test every commit on master
     # but only every release tag
     tags:
