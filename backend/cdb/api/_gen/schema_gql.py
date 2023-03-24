@@ -1863,6 +1863,42 @@ type beneficiary {
   deployment: deployment!
   deploymentId: uuid!
   email: citext
+
+  """An array relationship"""
+  externalDataInfos(
+    """distinct select on columns"""
+    distinct_on: [external_data_info_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [external_data_info_order_by!]
+
+    """filter the rows returned"""
+    where: external_data_info_bool_exp
+  ): [external_data_info!]!
+
+  """An aggregate relationship"""
+  externalDataInfos_aggregate(
+    """distinct select on columns"""
+    distinct_on: [external_data_info_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [external_data_info_order_by!]
+
+    """filter the rows returned"""
+    where: external_data_info_bool_exp
+  ): external_data_info_aggregate!
   firstname: String!
   id: uuid!
   internalId: String
@@ -2038,6 +2074,8 @@ input beneficiary_bool_exp {
   deployment: deployment_bool_exp
   deploymentId: uuid_comparison_exp
   email: citext_comparison_exp
+  externalDataInfos: external_data_info_bool_exp
+  externalDataInfos_aggregate: external_data_info_aggregate_bool_exp
   firstname: String_comparison_exp
   id: uuid_comparison_exp
   internalId: String_comparison_exp
@@ -2066,9 +2104,9 @@ unique or primary key constraints on table "beneficiary"
 """
 enum beneficiary_constraint {
   """
-  unique or primary key constraint on columns "internal_id"
+  unique or primary key constraint on columns "deployment_id", "internal_id"
   """
-  beneficiary_internal_id_key
+  beneficiary_internal_id_deployment_id_key
 
   """
   unique or primary key constraint on columns "nir"
@@ -2100,6 +2138,7 @@ input beneficiary_insert_input {
   deployment: deployment_obj_rel_insert_input
   deploymentId: uuid
   email: citext
+  externalDataInfos: external_data_info_arr_rel_insert_input
   firstname: String
   id: uuid
   internalId: String
@@ -2263,6 +2302,7 @@ input beneficiary_order_by {
   deployment: deployment_order_by
   deploymentId: order_by
   email: order_by
+  externalDataInfos_aggregate: external_data_info_aggregate_order_by
   firstname: order_by
   id: order_by
   internalId: order_by
@@ -2946,6 +2986,203 @@ input citext_comparison_exp {
   _similar: citext
 }
 
+"""
+columns and relationships of "contract_type"
+"""
+type contract_type {
+  id: String!
+  label: String!
+}
+
+"""
+aggregated selection of "contract_type"
+"""
+type contract_type_aggregate {
+  aggregate: contract_type_aggregate_fields
+  nodes: [contract_type!]!
+}
+
+"""
+aggregate fields of "contract_type"
+"""
+type contract_type_aggregate_fields {
+  count(columns: [contract_type_select_column!], distinct: Boolean): Int!
+  max: contract_type_max_fields
+  min: contract_type_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "contract_type". All fields are combined with a logical 'AND'.
+"""
+input contract_type_bool_exp {
+  _and: [contract_type_bool_exp!]
+  _not: contract_type_bool_exp
+  _or: [contract_type_bool_exp!]
+  id: String_comparison_exp
+  label: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "contract_type"
+"""
+enum contract_type_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  contract_type_pkey
+}
+
+enum contract_type_enum {
+  """Apprentissage"""
+  apprentissage
+
+  """CDD"""
+  cdd
+
+  """CDI"""
+  cdi
+
+  """Contrat de professionnalisation"""
+  contrat_professionnalisation
+
+  """Interim"""
+  interim
+
+  """Libéral"""
+  liberal
+
+  """Portage salarial"""
+  portage_salarial
+
+  """Saisonnier"""
+  saisonnier
+}
+
+"""
+Boolean expression to compare columns of type "contract_type_enum". All fields are combined with logical 'AND'.
+"""
+input contract_type_enum_comparison_exp {
+  _eq: contract_type_enum
+  _in: [contract_type_enum!]
+  _is_null: Boolean
+  _neq: contract_type_enum
+  _nin: [contract_type_enum!]
+}
+
+"""
+input type for inserting data into table "contract_type"
+"""
+input contract_type_insert_input {
+  id: String
+  label: String
+}
+
+"""aggregate max on columns"""
+type contract_type_max_fields {
+  id: String
+  label: String
+}
+
+"""aggregate min on columns"""
+type contract_type_min_fields {
+  id: String
+  label: String
+}
+
+"""
+response of any mutation on the table "contract_type"
+"""
+type contract_type_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [contract_type!]!
+}
+
+"""
+input type for inserting object relation for remote table "contract_type"
+"""
+input contract_type_obj_rel_insert_input {
+  data: contract_type_insert_input!
+
+  """upsert condition"""
+  on_conflict: contract_type_on_conflict
+}
+
+"""
+on_conflict condition type for table "contract_type"
+"""
+input contract_type_on_conflict {
+  constraint: contract_type_constraint!
+  update_columns: [contract_type_update_column!]! = []
+  where: contract_type_bool_exp
+}
+
+"""Ordering options when selecting data from "contract_type"."""
+input contract_type_order_by {
+  id: order_by
+  label: order_by
+}
+
+"""primary key columns input for table: contract_type"""
+input contract_type_pk_columns_input {
+  id: String!
+}
+
+"""
+select columns of table "contract_type"
+"""
+enum contract_type_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  label
+}
+
+"""
+input type for updating data in table "contract_type"
+"""
+input contract_type_set_input {
+  id: String
+  label: String
+}
+
+"""
+Streaming cursor of the table "contract_type"
+"""
+input contract_type_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: contract_type_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input contract_type_stream_cursor_value_input {
+  id: String
+  label: String
+}
+
+"""
+update columns of table "contract_type"
+"""
+enum contract_type_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  label
+}
+
+input contract_type_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: contract_type_set_input
+  where: contract_type_bool_exp!
+}
+
 """ordering argument of a cursor"""
 enum cursor_ordering {
   """ascending ordering of the cursor"""
@@ -3465,6 +3702,185 @@ input deployment_updates {
 }
 
 """
+columns and relationships of "employment_type"
+"""
+type employment_type {
+  id: String!
+  label: String!
+}
+
+"""
+aggregated selection of "employment_type"
+"""
+type employment_type_aggregate {
+  aggregate: employment_type_aggregate_fields
+  nodes: [employment_type!]!
+}
+
+"""
+aggregate fields of "employment_type"
+"""
+type employment_type_aggregate_fields {
+  count(columns: [employment_type_select_column!], distinct: Boolean): Int!
+  max: employment_type_max_fields
+  min: employment_type_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "employment_type". All fields are combined with a logical 'AND'.
+"""
+input employment_type_bool_exp {
+  _and: [employment_type_bool_exp!]
+  _not: employment_type_bool_exp
+  _or: [employment_type_bool_exp!]
+  id: String_comparison_exp
+  label: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "employment_type"
+"""
+enum employment_type_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  employment_type_pkey
+}
+
+enum employment_type_enum {
+  """Temps plein"""
+  full_time
+
+  """Temps partiel"""
+  part_time
+}
+
+"""
+Boolean expression to compare columns of type "employment_type_enum". All fields are combined with logical 'AND'.
+"""
+input employment_type_enum_comparison_exp {
+  _eq: employment_type_enum
+  _in: [employment_type_enum!]
+  _is_null: Boolean
+  _neq: employment_type_enum
+  _nin: [employment_type_enum!]
+}
+
+"""
+input type for inserting data into table "employment_type"
+"""
+input employment_type_insert_input {
+  id: String
+  label: String
+}
+
+"""aggregate max on columns"""
+type employment_type_max_fields {
+  id: String
+  label: String
+}
+
+"""aggregate min on columns"""
+type employment_type_min_fields {
+  id: String
+  label: String
+}
+
+"""
+response of any mutation on the table "employment_type"
+"""
+type employment_type_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [employment_type!]!
+}
+
+"""
+input type for inserting object relation for remote table "employment_type"
+"""
+input employment_type_obj_rel_insert_input {
+  data: employment_type_insert_input!
+
+  """upsert condition"""
+  on_conflict: employment_type_on_conflict
+}
+
+"""
+on_conflict condition type for table "employment_type"
+"""
+input employment_type_on_conflict {
+  constraint: employment_type_constraint!
+  update_columns: [employment_type_update_column!]! = []
+  where: employment_type_bool_exp
+}
+
+"""Ordering options when selecting data from "employment_type"."""
+input employment_type_order_by {
+  id: order_by
+  label: order_by
+}
+
+"""primary key columns input for table: employment_type"""
+input employment_type_pk_columns_input {
+  id: String!
+}
+
+"""
+select columns of table "employment_type"
+"""
+enum employment_type_select_column {
+  """column name"""
+  id
+
+  """column name"""
+  label
+}
+
+"""
+input type for updating data in table "employment_type"
+"""
+input employment_type_set_input {
+  id: String
+  label: String
+}
+
+"""
+Streaming cursor of the table "employment_type"
+"""
+input employment_type_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: employment_type_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input employment_type_stream_cursor_value_input {
+  id: String
+  label: String
+}
+
+"""
+update columns of table "employment_type"
+"""
+enum employment_type_update_column {
+  """column name"""
+  id
+
+  """column name"""
+  label
+}
+
+input employment_type_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: employment_type_set_input
+  where: employment_type_bool_exp!
+}
+
+"""
 columns and relationships of "external_data"
 """
 type external_data {
@@ -3473,6 +3889,9 @@ type external_data {
     """JSON select path"""
     path: String
   ): jsonb!
+
+  """An object relationship"""
+  externalDataInfo: external_data_info
 
   """An object relationship"""
   external_source: external_source!
@@ -3543,6 +3962,7 @@ input external_data_bool_exp {
   _or: [external_data_bool_exp!]
   created_at: timestamptz_comparison_exp
   data: jsonb_comparison_exp
+  externalDataInfo: external_data_info_bool_exp
   external_source: external_source_bool_exp
   hash: String_comparison_exp
   id: uuid_comparison_exp
@@ -3589,6 +4009,9 @@ type external_data_info {
   beneficiary: beneficiary
   beneficiary_id: uuid
   created_at: timestamptz!
+
+  """An object relationship"""
+  externalData: external_data!
   external_data_id: uuid!
   professional_id: uuid
   updated_at: timestamptz!
@@ -3602,6 +4025,17 @@ type external_data_info_aggregate {
   nodes: [external_data_info!]!
 }
 
+input external_data_info_aggregate_bool_exp {
+  count: external_data_info_aggregate_bool_exp_count
+}
+
+input external_data_info_aggregate_bool_exp_count {
+  arguments: [external_data_info_select_column!]
+  distinct: Boolean
+  filter: external_data_info_bool_exp
+  predicate: Int_comparison_exp!
+}
+
 """
 aggregate fields of "external_data_info"
 """
@@ -3609,6 +4043,25 @@ type external_data_info_aggregate_fields {
   count(columns: [external_data_info_select_column!], distinct: Boolean): Int!
   max: external_data_info_max_fields
   min: external_data_info_min_fields
+}
+
+"""
+order by aggregate values of table "external_data_info"
+"""
+input external_data_info_aggregate_order_by {
+  count: order_by
+  max: external_data_info_max_order_by
+  min: external_data_info_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "external_data_info"
+"""
+input external_data_info_arr_rel_insert_input {
+  data: [external_data_info_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: external_data_info_on_conflict
 }
 
 """
@@ -3621,6 +4074,7 @@ input external_data_info_bool_exp {
   beneficiary: beneficiary_bool_exp
   beneficiary_id: uuid_comparison_exp
   created_at: timestamptz_comparison_exp
+  externalData: external_data_bool_exp
   external_data_id: uuid_comparison_exp
   professional_id: uuid_comparison_exp
   updated_at: timestamptz_comparison_exp
@@ -3643,6 +4097,7 @@ input external_data_info_insert_input {
   beneficiary: beneficiary_obj_rel_insert_input
   beneficiary_id: uuid
   created_at: timestamptz
+  externalData: external_data_obj_rel_insert_input
   external_data_id: uuid
   professional_id: uuid
   updated_at: timestamptz
@@ -3657,6 +4112,17 @@ type external_data_info_max_fields {
   updated_at: timestamptz
 }
 
+"""
+order by max() on columns of table "external_data_info"
+"""
+input external_data_info_max_order_by {
+  beneficiary_id: order_by
+  created_at: order_by
+  external_data_id: order_by
+  professional_id: order_by
+  updated_at: order_by
+}
+
 """aggregate min on columns"""
 type external_data_info_min_fields {
   beneficiary_id: uuid
@@ -3664,6 +4130,17 @@ type external_data_info_min_fields {
   external_data_id: uuid
   professional_id: uuid
   updated_at: timestamptz
+}
+
+"""
+order by min() on columns of table "external_data_info"
+"""
+input external_data_info_min_order_by {
+  beneficiary_id: order_by
+  created_at: order_by
+  external_data_id: order_by
+  professional_id: order_by
+  updated_at: order_by
 }
 
 """
@@ -3675,6 +4152,16 @@ type external_data_info_mutation_response {
 
   """data from the rows affected by the mutation"""
   returning: [external_data_info!]!
+}
+
+"""
+input type for inserting object relation for remote table "external_data_info"
+"""
+input external_data_info_obj_rel_insert_input {
+  data: external_data_info_insert_input!
+
+  """upsert condition"""
+  on_conflict: external_data_info_on_conflict
 }
 
 """
@@ -3691,6 +4178,7 @@ input external_data_info_order_by {
   beneficiary: beneficiary_order_by
   beneficiary_id: order_by
   created_at: order_by
+  externalData: external_data_order_by
   external_data_id: order_by
   professional_id: order_by
   updated_at: order_by
@@ -3784,6 +4272,7 @@ input type for inserting data into table "external_data"
 input external_data_insert_input {
   created_at: timestamptz
   data: jsonb
+  externalDataInfo: external_data_info_obj_rel_insert_input
   external_source: external_source_obj_rel_insert_input
   hash: String
   id: uuid
@@ -3839,6 +4328,16 @@ type external_data_mutation_response {
 }
 
 """
+input type for inserting object relation for remote table "external_data"
+"""
+input external_data_obj_rel_insert_input {
+  data: external_data_insert_input!
+
+  """upsert condition"""
+  on_conflict: external_data_on_conflict
+}
+
+"""
 on_conflict condition type for table "external_data"
 """
 input external_data_on_conflict {
@@ -3851,6 +4350,7 @@ input external_data_on_conflict {
 input external_data_order_by {
   created_at: order_by
   data: order_by
+  externalDataInfo: external_data_info_order_by
   external_source: external_source_order_by
   hash: order_by
   id: order_by
@@ -4188,6 +4688,23 @@ input external_source_updates {
   """sets the columns of the filtered rows to the given values"""
   _set: external_source_set_input
   where: external_source_bool_exp!
+}
+
+scalar float8
+
+"""
+Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'.
+"""
+input float8_comparison_exp {
+  _eq: float8
+  _gt: float8
+  _gte: float8
+  _in: [float8!]
+  _is_null: Boolean
+  _lt: float8
+  _lte: float8
+  _neq: float8
+  _nin: [float8!]
 }
 
 scalar jsonb
@@ -4610,6 +5127,19 @@ type mutation_root {
   delete_beneficiary_structure_by_pk(id: uuid!): beneficiary_structure
 
   """
+  delete data from the table: "contract_type"
+  """
+  delete_contract_type(
+    """filter the rows which have to be deleted"""
+    where: contract_type_bool_exp!
+  ): contract_type_mutation_response
+
+  """
+  delete single row from the table: "contract_type"
+  """
+  delete_contract_type_by_pk(id: String!): contract_type
+
+  """
   delete data from the table: "deployment"
   """
   delete_deployment(
@@ -4621,6 +5151,19 @@ type mutation_root {
   delete single row from the table: "deployment"
   """
   delete_deployment_by_pk(id: uuid!): deployment
+
+  """
+  delete data from the table: "employment_type"
+  """
+  delete_employment_type(
+    """filter the rows which have to be deleted"""
+    where: employment_type_bool_exp!
+  ): employment_type_mutation_response
+
+  """
+  delete single row from the table: "employment_type"
+  """
+  delete_employment_type_by_pk(id: String!): employment_type
 
   """
   delete data from the table: "external_data"
@@ -4787,6 +5330,19 @@ type mutation_root {
   ): notebook_public_view_mutation_response
 
   """
+  delete data from the table: "notebook_situation"
+  """
+  delete_notebook_situation(
+    """filter the rows which have to be deleted"""
+    where: notebook_situation_bool_exp!
+  ): notebook_situation_mutation_response
+
+  """
+  delete single row from the table: "notebook_situation"
+  """
+  delete_notebook_situation_by_pk(id: uuid!): notebook_situation
+
+  """
   delete data from the table: "notebook_target"
   """
   delete_notebook_target(
@@ -4798,6 +5354,32 @@ type mutation_root {
   delete single row from the table: "notebook_target"
   """
   delete_notebook_target_by_pk(id: uuid!): notebook_target
+
+  """
+  delete data from the table: "nps_rating"
+  """
+  delete_nps_rating(
+    """filter the rows which have to be deleted"""
+    where: nps_rating_bool_exp!
+  ): nps_rating_mutation_response
+
+  """
+  delete single row from the table: "nps_rating"
+  """
+  delete_nps_rating_by_pk(id: uuid!): nps_rating
+
+  """
+  delete data from the table: "nps_rating_dismissal"
+  """
+  delete_nps_rating_dismissal(
+    """filter the rows which have to be deleted"""
+    where: nps_rating_dismissal_bool_exp!
+  ): nps_rating_dismissal_mutation_response
+
+  """
+  delete single row from the table: "nps_rating_dismissal"
+  """
+  delete_nps_rating_dismissal_by_pk(id: uuid!): nps_rating_dismissal
 
   """
   delete data from the table: "orientation_manager"
@@ -4876,6 +5458,19 @@ type mutation_root {
   delete single row from the table: "professional_orientation_system"
   """
   delete_professional_orientation_system_by_pk(id: uuid!): professional_orientation_system
+
+  """
+  delete data from the table: "professional_project"
+  """
+  delete_professional_project(
+    """filter the rows which have to be deleted"""
+    where: professional_project_bool_exp!
+  ): professional_project_mutation_response
+
+  """
+  delete single row from the table: "professional_project"
+  """
+  delete_professional_project_by_pk(id: uuid!): professional_project
 
   """
   delete data from the table: "ref_action"
@@ -4967,19 +5562,6 @@ type mutation_root {
   delete single row from the table: "structure_orientation_system"
   """
   delete_structure_orientation_system_by_pk(id: uuid!): structure_orientation_system
-
-  """
-  delete data from the table: "wanted_job"
-  """
-  delete_wanted_job(
-    """filter the rows which have to be deleted"""
-    where: wanted_job_bool_exp!
-  ): wanted_job_mutation_response
-
-  """
-  delete single row from the table: "wanted_job"
-  """
-  delete_wanted_job_by_pk(id: uuid!): wanted_job
 
   """
   insert data into the table: "account"
@@ -5114,6 +5696,28 @@ type mutation_root {
   ): beneficiary_structure
 
   """
+  insert data into the table: "contract_type"
+  """
+  insert_contract_type(
+    """the rows to be inserted"""
+    objects: [contract_type_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: contract_type_on_conflict
+  ): contract_type_mutation_response
+
+  """
+  insert a single row into the table: "contract_type"
+  """
+  insert_contract_type_one(
+    """the row to be inserted"""
+    object: contract_type_insert_input!
+
+    """upsert condition"""
+    on_conflict: contract_type_on_conflict
+  ): contract_type
+
+  """
   insert data into the table: "deployment"
   """
   insert_deployment(
@@ -5134,6 +5738,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: deployment_on_conflict
   ): deployment
+
+  """
+  insert data into the table: "employment_type"
+  """
+  insert_employment_type(
+    """the rows to be inserted"""
+    objects: [employment_type_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: employment_type_on_conflict
+  ): employment_type_mutation_response
+
+  """
+  insert a single row into the table: "employment_type"
+  """
+  insert_employment_type_one(
+    """the row to be inserted"""
+    object: employment_type_insert_input!
+
+    """upsert condition"""
+    on_conflict: employment_type_on_conflict
+  ): employment_type
 
   """
   insert data into the table: "external_data"
@@ -5416,6 +6042,28 @@ type mutation_root {
   ): notebook_public_view
 
   """
+  insert data into the table: "notebook_situation"
+  """
+  insert_notebook_situation(
+    """the rows to be inserted"""
+    objects: [notebook_situation_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: notebook_situation_on_conflict
+  ): notebook_situation_mutation_response
+
+  """
+  insert a single row into the table: "notebook_situation"
+  """
+  insert_notebook_situation_one(
+    """the row to be inserted"""
+    object: notebook_situation_insert_input!
+
+    """upsert condition"""
+    on_conflict: notebook_situation_on_conflict
+  ): notebook_situation
+
+  """
   insert data into the table: "notebook_target"
   """
   insert_notebook_target(
@@ -5436,6 +6084,50 @@ type mutation_root {
     """upsert condition"""
     on_conflict: notebook_target_on_conflict
   ): notebook_target
+
+  """
+  insert data into the table: "nps_rating"
+  """
+  insert_nps_rating(
+    """the rows to be inserted"""
+    objects: [nps_rating_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: nps_rating_on_conflict
+  ): nps_rating_mutation_response
+
+  """
+  insert data into the table: "nps_rating_dismissal"
+  """
+  insert_nps_rating_dismissal(
+    """the rows to be inserted"""
+    objects: [nps_rating_dismissal_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: nps_rating_dismissal_on_conflict
+  ): nps_rating_dismissal_mutation_response
+
+  """
+  insert a single row into the table: "nps_rating_dismissal"
+  """
+  insert_nps_rating_dismissal_one(
+    """the row to be inserted"""
+    object: nps_rating_dismissal_insert_input!
+
+    """upsert condition"""
+    on_conflict: nps_rating_dismissal_on_conflict
+  ): nps_rating_dismissal
+
+  """
+  insert a single row into the table: "nps_rating"
+  """
+  insert_nps_rating_one(
+    """the row to be inserted"""
+    object: nps_rating_insert_input!
+
+    """upsert condition"""
+    on_conflict: nps_rating_on_conflict
+  ): nps_rating
 
   """
   insert data into the table: "orientation_manager"
@@ -5568,6 +6260,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: professional_orientation_system_on_conflict
   ): professional_orientation_system
+
+  """
+  insert data into the table: "professional_project"
+  """
+  insert_professional_project(
+    """the rows to be inserted"""
+    objects: [professional_project_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: professional_project_on_conflict
+  ): professional_project_mutation_response
+
+  """
+  insert a single row into the table: "professional_project"
+  """
+  insert_professional_project_one(
+    """the row to be inserted"""
+    object: professional_project_insert_input!
+
+    """upsert condition"""
+    on_conflict: professional_project_on_conflict
+  ): professional_project
 
   """
   insert data into the table: "ref_action"
@@ -5722,28 +6436,6 @@ type mutation_root {
     """upsert condition"""
     on_conflict: structure_orientation_system_on_conflict
   ): structure_orientation_system
-
-  """
-  insert data into the table: "wanted_job"
-  """
-  insert_wanted_job(
-    """the rows to be inserted"""
-    objects: [wanted_job_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: wanted_job_on_conflict
-  ): wanted_job_mutation_response
-
-  """
-  insert a single row into the table: "wanted_job"
-  """
-  insert_wanted_job_one(
-    """the row to be inserted"""
-    object: wanted_job_insert_input!
-
-    """upsert condition"""
-    on_conflict: wanted_job_on_conflict
-  ): wanted_job
 
   """
   update data of the table: "account"
@@ -5956,6 +6648,34 @@ type mutation_root {
   ): [beneficiary_structure_mutation_response]
 
   """
+  update data of the table: "contract_type"
+  """
+  update_contract_type(
+    """sets the columns of the filtered rows to the given values"""
+    _set: contract_type_set_input
+
+    """filter the rows which have to be updated"""
+    where: contract_type_bool_exp!
+  ): contract_type_mutation_response
+
+  """
+  update single row of the table: "contract_type"
+  """
+  update_contract_type_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: contract_type_set_input
+    pk_columns: contract_type_pk_columns_input!
+  ): contract_type
+
+  """
+  update multiples rows of table: "contract_type"
+  """
+  update_contract_type_many(
+    """updates to execute, in order"""
+    updates: [contract_type_updates!]!
+  ): [contract_type_mutation_response]
+
+  """
   update data of the table: "deployment"
   """
   update_deployment(
@@ -6024,6 +6744,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [deployment_updates!]!
   ): [deployment_mutation_response]
+
+  """
+  update data of the table: "employment_type"
+  """
+  update_employment_type(
+    """sets the columns of the filtered rows to the given values"""
+    _set: employment_type_set_input
+
+    """filter the rows which have to be updated"""
+    where: employment_type_bool_exp!
+  ): employment_type_mutation_response
+
+  """
+  update single row of the table: "employment_type"
+  """
+  update_employment_type_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: employment_type_set_input
+    pk_columns: employment_type_pk_columns_input!
+  ): employment_type
+
+  """
+  update multiples rows of table: "employment_type"
+  """
+  update_employment_type_many(
+    """updates to execute, in order"""
+    updates: [employment_type_updates!]!
+  ): [employment_type_mutation_response]
 
   """
   update data of the table: "external_data"
@@ -6357,27 +7105,6 @@ type mutation_root {
   update data of the table: "notebook_focus"
   """
   update_notebook_focus(
-    """append existing jsonb value of filtered columns with new jsonb value"""
-    _append: notebook_focus_append_input
-
-    """
-    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-    """
-    _delete_at_path: notebook_focus_delete_at_path_input
-
-    """
-    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
-    """
-    _delete_elem: notebook_focus_delete_elem_input
-
-    """
-    delete key/value pair or string element. key/value pairs are matched based on their key value
-    """
-    _delete_key: notebook_focus_delete_key_input
-
-    """prepend existing jsonb value of filtered columns with new jsonb value"""
-    _prepend: notebook_focus_prepend_input
-
     """sets the columns of the filtered rows to the given values"""
     _set: notebook_focus_set_input
 
@@ -6389,27 +7116,6 @@ type mutation_root {
   update single row of the table: "notebook_focus"
   """
   update_notebook_focus_by_pk(
-    """append existing jsonb value of filtered columns with new jsonb value"""
-    _append: notebook_focus_append_input
-
-    """
-    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-    """
-    _delete_at_path: notebook_focus_delete_at_path_input
-
-    """
-    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
-    """
-    _delete_elem: notebook_focus_delete_elem_input
-
-    """
-    delete key/value pair or string element. key/value pairs are matched based on their key value
-    """
-    _delete_key: notebook_focus_delete_key_input
-
-    """prepend existing jsonb value of filtered columns with new jsonb value"""
-    _prepend: notebook_focus_prepend_input
-
     """sets the columns of the filtered rows to the given values"""
     _set: notebook_focus_set_input
     pk_columns: notebook_focus_pk_columns_input!
@@ -6507,6 +7213,34 @@ type mutation_root {
   ): [notebook_public_view_mutation_response]
 
   """
+  update data of the table: "notebook_situation"
+  """
+  update_notebook_situation(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_situation_set_input
+
+    """filter the rows which have to be updated"""
+    where: notebook_situation_bool_exp!
+  ): notebook_situation_mutation_response
+
+  """
+  update single row of the table: "notebook_situation"
+  """
+  update_notebook_situation_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_situation_set_input
+    pk_columns: notebook_situation_pk_columns_input!
+  ): notebook_situation
+
+  """
+  update multiples rows of table: "notebook_situation"
+  """
+  update_notebook_situation_many(
+    """updates to execute, in order"""
+    updates: [notebook_situation_updates!]!
+  ): [notebook_situation_mutation_response]
+
+  """
   update data of the table: "notebook_target"
   """
   update_notebook_target(
@@ -6533,6 +7267,68 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [notebook_target_updates!]!
   ): [notebook_target_mutation_response]
+
+  """
+  update data of the table: "nps_rating"
+  """
+  update_nps_rating(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: nps_rating_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: nps_rating_set_input
+
+    """filter the rows which have to be updated"""
+    where: nps_rating_bool_exp!
+  ): nps_rating_mutation_response
+
+  """
+  update single row of the table: "nps_rating"
+  """
+  update_nps_rating_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: nps_rating_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: nps_rating_set_input
+    pk_columns: nps_rating_pk_columns_input!
+  ): nps_rating
+
+  """
+  update data of the table: "nps_rating_dismissal"
+  """
+  update_nps_rating_dismissal(
+    """sets the columns of the filtered rows to the given values"""
+    _set: nps_rating_dismissal_set_input
+
+    """filter the rows which have to be updated"""
+    where: nps_rating_dismissal_bool_exp!
+  ): nps_rating_dismissal_mutation_response
+
+  """
+  update single row of the table: "nps_rating_dismissal"
+  """
+  update_nps_rating_dismissal_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: nps_rating_dismissal_set_input
+    pk_columns: nps_rating_dismissal_pk_columns_input!
+  ): nps_rating_dismissal
+
+  """
+  update multiples rows of table: "nps_rating_dismissal"
+  """
+  update_nps_rating_dismissal_many(
+    """updates to execute, in order"""
+    updates: [nps_rating_dismissal_updates!]!
+  ): [nps_rating_dismissal_mutation_response]
+
+  """
+  update multiples rows of table: "nps_rating"
+  """
+  update_nps_rating_many(
+    """updates to execute, in order"""
+    updates: [nps_rating_updates!]!
+  ): [nps_rating_mutation_response]
 
   """
   update data of the table: "orientation_manager"
@@ -6701,6 +7497,40 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [professional_orientation_system_updates!]!
   ): [professional_orientation_system_mutation_response]
+
+  """
+  update data of the table: "professional_project"
+  """
+  update_professional_project(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: professional_project_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: professional_project_set_input
+
+    """filter the rows which have to be updated"""
+    where: professional_project_bool_exp!
+  ): professional_project_mutation_response
+
+  """
+  update single row of the table: "professional_project"
+  """
+  update_professional_project_by_pk(
+    """increments the numeric columns with given value of the filtered values"""
+    _inc: professional_project_inc_input
+
+    """sets the columns of the filtered rows to the given values"""
+    _set: professional_project_set_input
+    pk_columns: professional_project_pk_columns_input!
+  ): professional_project
+
+  """
+  update multiples rows of table: "professional_project"
+  """
+  update_professional_project_many(
+    """updates to execute, in order"""
+    updates: [professional_project_updates!]!
+  ): [professional_project_mutation_response]
 
   """
   update data of the table: "ref_action"
@@ -6897,34 +7727,6 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [structure_orientation_system_updates!]!
   ): [structure_orientation_system_mutation_response]
-
-  """
-  update data of the table: "wanted_job"
-  """
-  update_wanted_job(
-    """sets the columns of the filtered rows to the given values"""
-    _set: wanted_job_set_input
-
-    """filter the rows which have to be updated"""
-    where: wanted_job_bool_exp!
-  ): wanted_job_mutation_response
-
-  """
-  update single row of the table: "wanted_job"
-  """
-  update_wanted_job_by_pk(
-    """sets the columns of the filtered rows to the given values"""
-    _set: wanted_job_set_input
-    pk_columns: wanted_job_pk_columns_input!
-  ): wanted_job
-
-  """
-  update multiples rows of table: "wanted_job"
-  """
-  update_wanted_job_many(
-    """updates to execute, in order"""
-    updates: [wanted_job_updates!]!
-  ): [wanted_job_mutation_response]
 }
 
 """
@@ -7048,7 +7850,6 @@ type notebook {
     """filter the rows returned"""
     where: notebook_focus_bool_exp
   ): notebook_focus_aggregate!
-  geographicalArea: String
   id: uuid!
   lastJobEndedAt: date
 
@@ -7093,13 +7894,11 @@ type notebook {
 
   """return the number of professionnal for a notebook"""
   notebookMemberCount: bigint
-  rightRqth: Boolean!
-  updatedAt: timestamptz!
 
   """An array relationship"""
-  wantedJobs(
+  professionalProjects(
     """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
+    distinct_on: [professional_project_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -7108,16 +7907,16 @@ type notebook {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
+    order_by: [professional_project_order_by!]
 
     """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): [wanted_job!]!
+    where: professional_project_bool_exp
+  ): [professional_project!]!
 
   """An aggregate relationship"""
-  wantedJobs_aggregate(
+  professionalProjects_aggregate(
     """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
+    distinct_on: [professional_project_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -7126,11 +7925,49 @@ type notebook {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
+    order_by: [professional_project_order_by!]
 
     """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): wanted_job_aggregate!
+    where: professional_project_bool_exp
+  ): professional_project_aggregate!
+  rightRqth: Boolean!
+
+  """An array relationship"""
+  situations(
+    """distinct select on columns"""
+    distinct_on: [notebook_situation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_situation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_situation_bool_exp
+  ): [notebook_situation!]!
+
+  """An aggregate relationship"""
+  situations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_situation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_situation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_situation_bool_exp
+  ): notebook_situation_aggregate!
+  updatedAt: timestamptz!
   workSituation: String
   workSituationDate: date
   workSituationEndDate: date
@@ -7813,17 +8650,18 @@ input notebook_bool_exp {
   events_aggregate: notebook_event_aggregate_bool_exp
   focuses: notebook_focus_bool_exp
   focuses_aggregate: notebook_focus_aggregate_bool_exp
-  geographicalArea: String_comparison_exp
   id: uuid_comparison_exp
   lastJobEndedAt: date_comparison_exp
   members: notebook_member_bool_exp
   members_aggregate: notebook_member_aggregate_bool_exp
   notebookInfo: notebook_info_bool_exp
   notebookMemberCount: bigint_comparison_exp
+  professionalProjects: professional_project_bool_exp
+  professionalProjects_aggregate: professional_project_aggregate_bool_exp
   rightRqth: Boolean_comparison_exp
+  situations: notebook_situation_bool_exp
+  situations_aggregate: notebook_situation_aggregate_bool_exp
   updatedAt: timestamptz_comparison_exp
-  wantedJobs: wanted_job_bool_exp
-  wantedJobs_aggregate: wanted_job_aggregate_bool_exp
   workSituation: String_comparison_exp
   workSituationDate: date_comparison_exp
   workSituationEndDate: date_comparison_exp
@@ -8419,10 +9257,6 @@ type notebook_focus {
   """An object relationship"""
   notebook: notebook!
   notebookId: uuid!
-  situations(
-    """JSON select path"""
-    path: String
-  ): jsonb
 
   """An array relationship"""
   targets(
@@ -8500,11 +9334,6 @@ input notebook_focus_aggregate_order_by {
   min: notebook_focus_min_order_by
 }
 
-"""append existing jsonb value of filtered columns with new jsonb value"""
-input notebook_focus_append_input {
-  situations: jsonb
-}
-
 """
 input type for inserting array relation for remote table "notebook_focus"
 """
@@ -8529,7 +9358,6 @@ input notebook_focus_bool_exp {
   linkedTo: String_comparison_exp
   notebook: notebook_bool_exp
   notebookId: uuid_comparison_exp
-  situations: jsonb_comparison_exp
   targets: notebook_target_bool_exp
   targets_aggregate: notebook_target_aggregate_bool_exp
   theme: String_comparison_exp
@@ -8547,27 +9375,6 @@ enum notebook_focus_constraint {
 }
 
 """
-delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-"""
-input notebook_focus_delete_at_path_input {
-  situations: [String!]
-}
-
-"""
-delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
-"""
-input notebook_focus_delete_elem_input {
-  situations: Int
-}
-
-"""
-delete key/value pair or string element. key/value pairs are matched based on their key value
-"""
-input notebook_focus_delete_key_input {
-  situations: String
-}
-
-"""
 input type for inserting data into table "notebook_focus"
 """
 input notebook_focus_insert_input {
@@ -8578,7 +9385,6 @@ input notebook_focus_insert_input {
   linkedTo: String
   notebook: notebook_obj_rel_insert_input
   notebookId: uuid
-  situations: jsonb
   targets: notebook_target_arr_rel_insert_input
   theme: String
   updatedAt: timestamptz
@@ -8671,7 +9477,6 @@ input notebook_focus_order_by {
   linkedTo: order_by
   notebook: notebook_order_by
   notebookId: order_by
-  situations: order_by
   targets_aggregate: notebook_target_aggregate_order_by
   theme: order_by
   updatedAt: order_by
@@ -8680,11 +9485,6 @@ input notebook_focus_order_by {
 """primary key columns input for table: notebook_focus"""
 input notebook_focus_pk_columns_input {
   id: uuid!
-}
-
-"""prepend existing jsonb value of filtered columns with new jsonb value"""
-input notebook_focus_prepend_input {
-  situations: jsonb
 }
 
 """
@@ -8707,9 +9507,6 @@ enum notebook_focus_select_column {
   notebookId
 
   """column name"""
-  situations
-
-  """column name"""
   theme
 
   """column name"""
@@ -8725,7 +9522,6 @@ input notebook_focus_set_input {
   id: uuid
   linkedTo: String
   notebookId: uuid
-  situations: jsonb
   theme: String
   updatedAt: timestamptz
 }
@@ -8748,7 +9544,6 @@ input notebook_focus_stream_cursor_value_input {
   id: uuid
   linkedTo: String
   notebookId: uuid
-  situations: jsonb
   theme: String
   updatedAt: timestamptz
 }
@@ -8773,9 +9568,6 @@ enum notebook_focus_update_column {
   notebookId
 
   """column name"""
-  situations
-
-  """column name"""
   theme
 
   """column name"""
@@ -8783,27 +9575,6 @@ enum notebook_focus_update_column {
 }
 
 input notebook_focus_updates {
-  """append existing jsonb value of filtered columns with new jsonb value"""
-  _append: notebook_focus_append_input
-
-  """
-  delete the field or element with specified path (for JSON arrays, negative integers count from the end)
-  """
-  _delete_at_path: notebook_focus_delete_at_path_input
-
-  """
-  delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
-  """
-  _delete_elem: notebook_focus_delete_elem_input
-
-  """
-  delete key/value pair or string element. key/value pairs are matched based on their key value
-  """
-  _delete_key: notebook_focus_delete_key_input
-
-  """prepend existing jsonb value of filtered columns with new jsonb value"""
-  _prepend: notebook_focus_prepend_input
-
   """sets the columns of the filtered rows to the given values"""
   _set: notebook_focus_set_input
   where: notebook_focus_bool_exp!
@@ -9034,14 +9805,14 @@ input notebook_insert_input {
   educationLevel: String
   events: notebook_event_arr_rel_insert_input
   focuses: notebook_focus_arr_rel_insert_input
-  geographicalArea: String
   id: uuid
   lastJobEndedAt: date
   members: notebook_member_arr_rel_insert_input
   notebookInfo: notebook_info_obj_rel_insert_input
+  professionalProjects: professional_project_arr_rel_insert_input
   rightRqth: Boolean
+  situations: notebook_situation_arr_rel_insert_input
   updatedAt: timestamptz
-  wantedJobs: wanted_job_arr_rel_insert_input
   workSituation: String
   workSituationDate: date
   workSituationEndDate: date
@@ -9056,7 +9827,6 @@ type notebook_max_fields {
   contractType: String
   createdAt: timestamptz
   educationLevel: String
-  geographicalArea: String
   id: uuid
   lastJobEndedAt: date
   updatedAt: timestamptz
@@ -9469,7 +10239,6 @@ type notebook_min_fields {
   contractType: String
   createdAt: timestamptz
   educationLevel: String
-  geographicalArea: String
   id: uuid
   lastJobEndedAt: date
   updatedAt: timestamptz
@@ -9521,15 +10290,15 @@ input notebook_order_by {
   educationLevel: order_by
   events_aggregate: notebook_event_aggregate_order_by
   focuses_aggregate: notebook_focus_aggregate_order_by
-  geographicalArea: order_by
   id: order_by
   lastJobEndedAt: order_by
   members_aggregate: notebook_member_aggregate_order_by
   notebookInfo: notebook_info_order_by
   notebookMemberCount: order_by
+  professionalProjects_aggregate: professional_project_aggregate_order_by
   rightRqth: order_by
+  situations_aggregate: notebook_situation_aggregate_order_by
   updatedAt: order_by
-  wantedJobs_aggregate: wanted_job_aggregate_order_by
   workSituation: order_by
   workSituationDate: order_by
   workSituationEndDate: order_by
@@ -9761,9 +10530,6 @@ enum notebook_select_column {
   educationLevel
 
   """column name"""
-  geographicalArea
-
-  """column name"""
   id
 
   """column name"""
@@ -9796,7 +10562,6 @@ input notebook_set_input {
   contractType: String
   createdAt: timestamptz
   educationLevel: String
-  geographicalArea: String
   id: uuid
   lastJobEndedAt: date
   rightRqth: Boolean
@@ -9804,6 +10569,311 @@ input notebook_set_input {
   workSituation: String
   workSituationDate: date
   workSituationEndDate: date
+}
+
+"""
+columns and relationships of "notebook_situation"
+"""
+type notebook_situation {
+  createdAt: timestamptz!
+  createdBy: uuid!
+
+  """An object relationship"""
+  creator: account
+  deletedAt: timestamptz
+  deletedBy: uuid
+
+  """An object relationship"""
+  deletor: account
+  id: uuid!
+
+  """An object relationship"""
+  notebook: notebook
+  notebookId: uuid!
+
+  """An object relationship"""
+  refSituation: ref_situation
+  situationId: uuid!
+}
+
+"""
+aggregated selection of "notebook_situation"
+"""
+type notebook_situation_aggregate {
+  aggregate: notebook_situation_aggregate_fields
+  nodes: [notebook_situation!]!
+}
+
+input notebook_situation_aggregate_bool_exp {
+  count: notebook_situation_aggregate_bool_exp_count
+}
+
+input notebook_situation_aggregate_bool_exp_count {
+  arguments: [notebook_situation_select_column!]
+  distinct: Boolean
+  filter: notebook_situation_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "notebook_situation"
+"""
+type notebook_situation_aggregate_fields {
+  count(columns: [notebook_situation_select_column!], distinct: Boolean): Int!
+  max: notebook_situation_max_fields
+  min: notebook_situation_min_fields
+}
+
+"""
+order by aggregate values of table "notebook_situation"
+"""
+input notebook_situation_aggregate_order_by {
+  count: order_by
+  max: notebook_situation_max_order_by
+  min: notebook_situation_min_order_by
+}
+
+"""
+input type for inserting array relation for remote table "notebook_situation"
+"""
+input notebook_situation_arr_rel_insert_input {
+  data: [notebook_situation_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: notebook_situation_on_conflict
+}
+
+"""
+Boolean expression to filter rows from the table "notebook_situation". All fields are combined with a logical 'AND'.
+"""
+input notebook_situation_bool_exp {
+  _and: [notebook_situation_bool_exp!]
+  _not: notebook_situation_bool_exp
+  _or: [notebook_situation_bool_exp!]
+  createdAt: timestamptz_comparison_exp
+  createdBy: uuid_comparison_exp
+  creator: account_bool_exp
+  deletedAt: timestamptz_comparison_exp
+  deletedBy: uuid_comparison_exp
+  deletor: account_bool_exp
+  id: uuid_comparison_exp
+  notebook: notebook_bool_exp
+  notebookId: uuid_comparison_exp
+  refSituation: ref_situation_bool_exp
+  situationId: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "notebook_situation"
+"""
+enum notebook_situation_constraint {
+  """
+  unique or primary key constraint on columns "deleted_at", "notebook_id", "situation_id"
+  """
+  notebook_situation_notebook_id_situation_id_deleted_at_key
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  notebook_situation_pkey
+}
+
+"""
+input type for inserting data into table "notebook_situation"
+"""
+input notebook_situation_insert_input {
+  createdAt: timestamptz
+  createdBy: uuid
+  creator: account_obj_rel_insert_input
+  deletedAt: timestamptz
+  deletedBy: uuid
+  deletor: account_obj_rel_insert_input
+  id: uuid
+  notebook: notebook_obj_rel_insert_input
+  notebookId: uuid
+  refSituation: ref_situation_obj_rel_insert_input
+  situationId: uuid
+}
+
+"""aggregate max on columns"""
+type notebook_situation_max_fields {
+  createdAt: timestamptz
+  createdBy: uuid
+  deletedAt: timestamptz
+  deletedBy: uuid
+  id: uuid
+  notebookId: uuid
+  situationId: uuid
+}
+
+"""
+order by max() on columns of table "notebook_situation"
+"""
+input notebook_situation_max_order_by {
+  createdAt: order_by
+  createdBy: order_by
+  deletedAt: order_by
+  deletedBy: order_by
+  id: order_by
+  notebookId: order_by
+  situationId: order_by
+}
+
+"""aggregate min on columns"""
+type notebook_situation_min_fields {
+  createdAt: timestamptz
+  createdBy: uuid
+  deletedAt: timestamptz
+  deletedBy: uuid
+  id: uuid
+  notebookId: uuid
+  situationId: uuid
+}
+
+"""
+order by min() on columns of table "notebook_situation"
+"""
+input notebook_situation_min_order_by {
+  createdAt: order_by
+  createdBy: order_by
+  deletedAt: order_by
+  deletedBy: order_by
+  id: order_by
+  notebookId: order_by
+  situationId: order_by
+}
+
+"""
+response of any mutation on the table "notebook_situation"
+"""
+type notebook_situation_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [notebook_situation!]!
+}
+
+"""
+on_conflict condition type for table "notebook_situation"
+"""
+input notebook_situation_on_conflict {
+  constraint: notebook_situation_constraint!
+  update_columns: [notebook_situation_update_column!]! = []
+  where: notebook_situation_bool_exp
+}
+
+"""Ordering options when selecting data from "notebook_situation"."""
+input notebook_situation_order_by {
+  createdAt: order_by
+  createdBy: order_by
+  creator: account_order_by
+  deletedAt: order_by
+  deletedBy: order_by
+  deletor: account_order_by
+  id: order_by
+  notebook: notebook_order_by
+  notebookId: order_by
+  refSituation: ref_situation_order_by
+  situationId: order_by
+}
+
+"""primary key columns input for table: notebook_situation"""
+input notebook_situation_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "notebook_situation"
+"""
+enum notebook_situation_select_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  createdBy
+
+  """column name"""
+  deletedAt
+
+  """column name"""
+  deletedBy
+
+  """column name"""
+  id
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  situationId
+}
+
+"""
+input type for updating data in table "notebook_situation"
+"""
+input notebook_situation_set_input {
+  createdAt: timestamptz
+  createdBy: uuid
+  deletedAt: timestamptz
+  deletedBy: uuid
+  id: uuid
+  notebookId: uuid
+  situationId: uuid
+}
+
+"""
+Streaming cursor of the table "notebook_situation"
+"""
+input notebook_situation_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: notebook_situation_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input notebook_situation_stream_cursor_value_input {
+  createdAt: timestamptz
+  createdBy: uuid
+  deletedAt: timestamptz
+  deletedBy: uuid
+  id: uuid
+  notebookId: uuid
+  situationId: uuid
+}
+
+"""
+update columns of table "notebook_situation"
+"""
+enum notebook_situation_update_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  createdBy
+
+  """column name"""
+  deletedAt
+
+  """column name"""
+  deletedBy
+
+  """column name"""
+  id
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  situationId
+}
+
+input notebook_situation_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: notebook_situation_set_input
+  where: notebook_situation_bool_exp!
 }
 
 """
@@ -9826,7 +10896,6 @@ input notebook_stream_cursor_value_input {
   contractType: String
   createdAt: timestamptz
   educationLevel: String
-  geographicalArea: String
   id: uuid
   lastJobEndedAt: date
   rightRqth: Boolean
@@ -10204,9 +11273,6 @@ enum notebook_update_column {
   educationLevel
 
   """column name"""
-  geographicalArea
-
-  """column name"""
   id
 
   """column name"""
@@ -10232,6 +11298,412 @@ input notebook_updates {
   """sets the columns of the filtered rows to the given values"""
   _set: notebook_set_input
   where: notebook_bool_exp!
+}
+
+"""NPS ratings from users"""
+type nps_rating {
+  accountId: uuid!
+  createdAt: timestamptz!
+
+  """The created_at field, in Time.Posix format, for Elm."""
+  created_at_posix_ms: float8
+  id: uuid!
+  score: Int!
+}
+
+"""
+aggregated selection of "nps_rating"
+"""
+type nps_rating_aggregate {
+  aggregate: nps_rating_aggregate_fields
+  nodes: [nps_rating!]!
+}
+
+"""
+aggregate fields of "nps_rating"
+"""
+type nps_rating_aggregate_fields {
+  avg: nps_rating_avg_fields
+  count(columns: [nps_rating_select_column!], distinct: Boolean): Int!
+  max: nps_rating_max_fields
+  min: nps_rating_min_fields
+  stddev: nps_rating_stddev_fields
+  stddev_pop: nps_rating_stddev_pop_fields
+  stddev_samp: nps_rating_stddev_samp_fields
+  sum: nps_rating_sum_fields
+  var_pop: nps_rating_var_pop_fields
+  var_samp: nps_rating_var_samp_fields
+  variance: nps_rating_variance_fields
+}
+
+"""aggregate avg on columns"""
+type nps_rating_avg_fields {
+  score: Float
+}
+
+"""
+Boolean expression to filter rows from the table "nps_rating". All fields are combined with a logical 'AND'.
+"""
+input nps_rating_bool_exp {
+  _and: [nps_rating_bool_exp!]
+  _not: nps_rating_bool_exp
+  _or: [nps_rating_bool_exp!]
+  accountId: uuid_comparison_exp
+  createdAt: timestamptz_comparison_exp
+  created_at_posix_ms: float8_comparison_exp
+  id: uuid_comparison_exp
+  score: Int_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "nps_rating"
+"""
+enum nps_rating_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  nps_rating_pkey
+}
+
+"""Store when a user dismisses an NPS rating"""
+type nps_rating_dismissal {
+  accountId: uuid!
+  dismissedAt: timestamptz!
+
+  """The dismissed_at field, in Time.Posix format, for Elm."""
+  dismissed_at_posix_ms: float8
+  id: uuid!
+}
+
+"""
+aggregated selection of "nps_rating_dismissal"
+"""
+type nps_rating_dismissal_aggregate {
+  aggregate: nps_rating_dismissal_aggregate_fields
+  nodes: [nps_rating_dismissal!]!
+}
+
+"""
+aggregate fields of "nps_rating_dismissal"
+"""
+type nps_rating_dismissal_aggregate_fields {
+  count(columns: [nps_rating_dismissal_select_column!], distinct: Boolean): Int!
+  max: nps_rating_dismissal_max_fields
+  min: nps_rating_dismissal_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "nps_rating_dismissal". All fields are combined with a logical 'AND'.
+"""
+input nps_rating_dismissal_bool_exp {
+  _and: [nps_rating_dismissal_bool_exp!]
+  _not: nps_rating_dismissal_bool_exp
+  _or: [nps_rating_dismissal_bool_exp!]
+  accountId: uuid_comparison_exp
+  dismissedAt: timestamptz_comparison_exp
+  dismissed_at_posix_ms: float8_comparison_exp
+  id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "nps_rating_dismissal"
+"""
+enum nps_rating_dismissal_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  nps_rating_dismissal_pkey
+}
+
+"""
+input type for inserting data into table "nps_rating_dismissal"
+"""
+input nps_rating_dismissal_insert_input {
+  accountId: uuid
+  dismissedAt: timestamptz
+  id: uuid
+}
+
+"""aggregate max on columns"""
+type nps_rating_dismissal_max_fields {
+  accountId: uuid
+  dismissedAt: timestamptz
+  id: uuid
+}
+
+"""aggregate min on columns"""
+type nps_rating_dismissal_min_fields {
+  accountId: uuid
+  dismissedAt: timestamptz
+  id: uuid
+}
+
+"""
+response of any mutation on the table "nps_rating_dismissal"
+"""
+type nps_rating_dismissal_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [nps_rating_dismissal!]!
+}
+
+"""
+on_conflict condition type for table "nps_rating_dismissal"
+"""
+input nps_rating_dismissal_on_conflict {
+  constraint: nps_rating_dismissal_constraint!
+  update_columns: [nps_rating_dismissal_update_column!]! = []
+  where: nps_rating_dismissal_bool_exp
+}
+
+"""Ordering options when selecting data from "nps_rating_dismissal"."""
+input nps_rating_dismissal_order_by {
+  accountId: order_by
+  dismissedAt: order_by
+  dismissed_at_posix_ms: order_by
+  id: order_by
+}
+
+"""primary key columns input for table: nps_rating_dismissal"""
+input nps_rating_dismissal_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "nps_rating_dismissal"
+"""
+enum nps_rating_dismissal_select_column {
+  """column name"""
+  accountId
+
+  """column name"""
+  dismissedAt
+
+  """column name"""
+  id
+}
+
+"""
+input type for updating data in table "nps_rating_dismissal"
+"""
+input nps_rating_dismissal_set_input {
+  accountId: uuid
+  dismissedAt: timestamptz
+  id: uuid
+}
+
+"""
+Streaming cursor of the table "nps_rating_dismissal"
+"""
+input nps_rating_dismissal_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: nps_rating_dismissal_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input nps_rating_dismissal_stream_cursor_value_input {
+  accountId: uuid
+  dismissedAt: timestamptz
+  id: uuid
+}
+
+"""
+update columns of table "nps_rating_dismissal"
+"""
+enum nps_rating_dismissal_update_column {
+  """column name"""
+  accountId
+
+  """column name"""
+  dismissedAt
+
+  """column name"""
+  id
+}
+
+input nps_rating_dismissal_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: nps_rating_dismissal_set_input
+  where: nps_rating_dismissal_bool_exp!
+}
+
+"""
+input type for incrementing numeric columns in table "nps_rating"
+"""
+input nps_rating_inc_input {
+  score: Int
+}
+
+"""
+input type for inserting data into table "nps_rating"
+"""
+input nps_rating_insert_input {
+  accountId: uuid
+  createdAt: timestamptz
+  id: uuid
+  score: Int
+}
+
+"""aggregate max on columns"""
+type nps_rating_max_fields {
+  accountId: uuid
+  createdAt: timestamptz
+  id: uuid
+  score: Int
+}
+
+"""aggregate min on columns"""
+type nps_rating_min_fields {
+  accountId: uuid
+  createdAt: timestamptz
+  id: uuid
+  score: Int
+}
+
+"""
+response of any mutation on the table "nps_rating"
+"""
+type nps_rating_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [nps_rating!]!
+}
+
+"""
+on_conflict condition type for table "nps_rating"
+"""
+input nps_rating_on_conflict {
+  constraint: nps_rating_constraint!
+  update_columns: [nps_rating_update_column!]! = []
+  where: nps_rating_bool_exp
+}
+
+"""Ordering options when selecting data from "nps_rating"."""
+input nps_rating_order_by {
+  accountId: order_by
+  createdAt: order_by
+  created_at_posix_ms: order_by
+  id: order_by
+  score: order_by
+}
+
+"""primary key columns input for table: nps_rating"""
+input nps_rating_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "nps_rating"
+"""
+enum nps_rating_select_column {
+  """column name"""
+  accountId
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  score
+}
+
+"""
+input type for updating data in table "nps_rating"
+"""
+input nps_rating_set_input {
+  accountId: uuid
+  createdAt: timestamptz
+  id: uuid
+  score: Int
+}
+
+"""aggregate stddev on columns"""
+type nps_rating_stddev_fields {
+  score: Float
+}
+
+"""aggregate stddev_pop on columns"""
+type nps_rating_stddev_pop_fields {
+  score: Float
+}
+
+"""aggregate stddev_samp on columns"""
+type nps_rating_stddev_samp_fields {
+  score: Float
+}
+
+"""
+Streaming cursor of the table "nps_rating"
+"""
+input nps_rating_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: nps_rating_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input nps_rating_stream_cursor_value_input {
+  accountId: uuid
+  createdAt: timestamptz
+  id: uuid
+  score: Int
+}
+
+"""aggregate sum on columns"""
+type nps_rating_sum_fields {
+  score: Int
+}
+
+"""
+update columns of table "nps_rating"
+"""
+enum nps_rating_update_column {
+  """column name"""
+  accountId
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  id
+
+  """column name"""
+  score
+}
+
+input nps_rating_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: nps_rating_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: nps_rating_set_input
+  where: nps_rating_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type nps_rating_var_pop_fields {
+  score: Float
+}
+
+"""aggregate var_samp on columns"""
+type nps_rating_var_samp_fields {
+  score: Float
+}
+
+"""aggregate variance on columns"""
+type nps_rating_variance_fields {
+  score: Float
 }
 
 """column ordering options"""
@@ -12074,6 +13546,505 @@ input professional_pk_columns_input {
   id: uuid!
 }
 
+"""Stores the jobs wanted for a notebook beneficiary"""
+type professional_project {
+  contractTypeId: contract_type_enum
+
+  """An object relationship"""
+  contract_type: contract_type
+  createdAt: timestamptz
+  employmentTypeId: employment_type_enum
+
+  """An object relationship"""
+  employment_type: employment_type
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  id: uuid!
+  mobilityRadius: Int
+
+  """An object relationship"""
+  notebook: notebook!
+  notebookId: uuid!
+  romeCodeId: uuid
+
+  """An object relationship"""
+  rome_code: rome_code
+  updatedAt: timestamptz
+}
+
+"""
+aggregated selection of "professional_project"
+"""
+type professional_project_aggregate {
+  aggregate: professional_project_aggregate_fields
+  nodes: [professional_project!]!
+}
+
+input professional_project_aggregate_bool_exp {
+  count: professional_project_aggregate_bool_exp_count
+}
+
+input professional_project_aggregate_bool_exp_count {
+  arguments: [professional_project_select_column!]
+  distinct: Boolean
+  filter: professional_project_bool_exp
+  predicate: Int_comparison_exp!
+}
+
+"""
+aggregate fields of "professional_project"
+"""
+type professional_project_aggregate_fields {
+  avg: professional_project_avg_fields
+  count(columns: [professional_project_select_column!], distinct: Boolean): Int!
+  max: professional_project_max_fields
+  min: professional_project_min_fields
+  stddev: professional_project_stddev_fields
+  stddev_pop: professional_project_stddev_pop_fields
+  stddev_samp: professional_project_stddev_samp_fields
+  sum: professional_project_sum_fields
+  var_pop: professional_project_var_pop_fields
+  var_samp: professional_project_var_samp_fields
+  variance: professional_project_variance_fields
+}
+
+"""
+order by aggregate values of table "professional_project"
+"""
+input professional_project_aggregate_order_by {
+  avg: professional_project_avg_order_by
+  count: order_by
+  max: professional_project_max_order_by
+  min: professional_project_min_order_by
+  stddev: professional_project_stddev_order_by
+  stddev_pop: professional_project_stddev_pop_order_by
+  stddev_samp: professional_project_stddev_samp_order_by
+  sum: professional_project_sum_order_by
+  var_pop: professional_project_var_pop_order_by
+  var_samp: professional_project_var_samp_order_by
+  variance: professional_project_variance_order_by
+}
+
+"""
+input type for inserting array relation for remote table "professional_project"
+"""
+input professional_project_arr_rel_insert_input {
+  data: [professional_project_insert_input!]!
+
+  """upsert condition"""
+  on_conflict: professional_project_on_conflict
+}
+
+"""aggregate avg on columns"""
+type professional_project_avg_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Float
+  mobilityRadius: Float
+}
+
+"""
+order by avg() on columns of table "professional_project"
+"""
+input professional_project_avg_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
+"""
+Boolean expression to filter rows from the table "professional_project". All fields are combined with a logical 'AND'.
+"""
+input professional_project_bool_exp {
+  _and: [professional_project_bool_exp!]
+  _not: professional_project_bool_exp
+  _or: [professional_project_bool_exp!]
+  contractTypeId: contract_type_enum_comparison_exp
+  contract_type: contract_type_bool_exp
+  createdAt: timestamptz_comparison_exp
+  employmentTypeId: employment_type_enum_comparison_exp
+  employment_type: employment_type_bool_exp
+  hourlyRate: Int_comparison_exp
+  id: uuid_comparison_exp
+  mobilityRadius: Int_comparison_exp
+  notebook: notebook_bool_exp
+  notebookId: uuid_comparison_exp
+  romeCodeId: uuid_comparison_exp
+  rome_code: rome_code_bool_exp
+  updatedAt: timestamptz_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "professional_project"
+"""
+enum professional_project_constraint {
+  """
+  unique or primary key constraint on columns "notebook_id"
+  """
+  notebook_id_rome_code_id_null_idx
+
+  """
+  unique or primary key constraint on columns "id"
+  """
+  professional_project_pkey
+}
+
+"""
+input type for incrementing numeric columns in table "professional_project"
+"""
+input professional_project_inc_input {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  mobilityRadius: Int
+}
+
+"""
+input type for inserting data into table "professional_project"
+"""
+input professional_project_insert_input {
+  contractTypeId: contract_type_enum
+  contract_type: contract_type_obj_rel_insert_input
+  createdAt: timestamptz
+  employmentTypeId: employment_type_enum
+  employment_type: employment_type_obj_rel_insert_input
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  id: uuid
+  mobilityRadius: Int
+  notebook: notebook_obj_rel_insert_input
+  notebookId: uuid
+  romeCodeId: uuid
+  rome_code: rome_code_obj_rel_insert_input
+  updatedAt: timestamptz
+}
+
+"""aggregate max on columns"""
+type professional_project_max_fields {
+  createdAt: timestamptz
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  id: uuid
+  mobilityRadius: Int
+  notebookId: uuid
+  romeCodeId: uuid
+  updatedAt: timestamptz
+}
+
+"""
+order by max() on columns of table "professional_project"
+"""
+input professional_project_max_order_by {
+  createdAt: order_by
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  id: order_by
+  mobilityRadius: order_by
+  notebookId: order_by
+  romeCodeId: order_by
+  updatedAt: order_by
+}
+
+"""aggregate min on columns"""
+type professional_project_min_fields {
+  createdAt: timestamptz
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  id: uuid
+  mobilityRadius: Int
+  notebookId: uuid
+  romeCodeId: uuid
+  updatedAt: timestamptz
+}
+
+"""
+order by min() on columns of table "professional_project"
+"""
+input professional_project_min_order_by {
+  createdAt: order_by
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  id: order_by
+  mobilityRadius: order_by
+  notebookId: order_by
+  romeCodeId: order_by
+  updatedAt: order_by
+}
+
+"""
+response of any mutation on the table "professional_project"
+"""
+type professional_project_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [professional_project!]!
+}
+
+"""
+on_conflict condition type for table "professional_project"
+"""
+input professional_project_on_conflict {
+  constraint: professional_project_constraint!
+  update_columns: [professional_project_update_column!]! = []
+  where: professional_project_bool_exp
+}
+
+"""Ordering options when selecting data from "professional_project"."""
+input professional_project_order_by {
+  contractTypeId: order_by
+  contract_type: contract_type_order_by
+  createdAt: order_by
+  employmentTypeId: order_by
+  employment_type: employment_type_order_by
+  hourlyRate: order_by
+  id: order_by
+  mobilityRadius: order_by
+  notebook: notebook_order_by
+  notebookId: order_by
+  romeCodeId: order_by
+  rome_code: rome_code_order_by
+  updatedAt: order_by
+}
+
+"""primary key columns input for table: professional_project"""
+input professional_project_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "professional_project"
+"""
+enum professional_project_select_column {
+  """column name"""
+  contractTypeId
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  employmentTypeId
+
+  """column name"""
+  hourlyRate
+
+  """column name"""
+  id
+
+  """column name"""
+  mobilityRadius
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  romeCodeId
+
+  """column name"""
+  updatedAt
+}
+
+"""
+input type for updating data in table "professional_project"
+"""
+input professional_project_set_input {
+  contractTypeId: contract_type_enum
+  createdAt: timestamptz
+  employmentTypeId: employment_type_enum
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  id: uuid
+  mobilityRadius: Int
+  notebookId: uuid
+  romeCodeId: uuid
+  updatedAt: timestamptz
+}
+
+"""aggregate stddev on columns"""
+type professional_project_stddev_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Float
+  mobilityRadius: Float
+}
+
+"""
+order by stddev() on columns of table "professional_project"
+"""
+input professional_project_stddev_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
+"""aggregate stddev_pop on columns"""
+type professional_project_stddev_pop_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Float
+  mobilityRadius: Float
+}
+
+"""
+order by stddev_pop() on columns of table "professional_project"
+"""
+input professional_project_stddev_pop_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
+"""aggregate stddev_samp on columns"""
+type professional_project_stddev_samp_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Float
+  mobilityRadius: Float
+}
+
+"""
+order by stddev_samp() on columns of table "professional_project"
+"""
+input professional_project_stddev_samp_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
+"""
+Streaming cursor of the table "professional_project"
+"""
+input professional_project_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: professional_project_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input professional_project_stream_cursor_value_input {
+  contractTypeId: contract_type_enum
+  createdAt: timestamptz
+  employmentTypeId: employment_type_enum
+
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  id: uuid
+  mobilityRadius: Int
+  notebookId: uuid
+  romeCodeId: uuid
+  updatedAt: timestamptz
+}
+
+"""aggregate sum on columns"""
+type professional_project_sum_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Int
+  mobilityRadius: Int
+}
+
+"""
+order by sum() on columns of table "professional_project"
+"""
+input professional_project_sum_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
+"""
+update columns of table "professional_project"
+"""
+enum professional_project_update_column {
+  """column name"""
+  contractTypeId
+
+  """column name"""
+  createdAt
+
+  """column name"""
+  employmentTypeId
+
+  """column name"""
+  hourlyRate
+
+  """column name"""
+  id
+
+  """column name"""
+  mobilityRadius
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  romeCodeId
+
+  """column name"""
+  updatedAt
+}
+
+input professional_project_updates {
+  """increments the numeric columns with given value of the filtered values"""
+  _inc: professional_project_inc_input
+
+  """sets the columns of the filtered rows to the given values"""
+  _set: professional_project_set_input
+  where: professional_project_bool_exp!
+}
+
+"""aggregate var_pop on columns"""
+type professional_project_var_pop_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Float
+  mobilityRadius: Float
+}
+
+"""
+order by var_pop() on columns of table "professional_project"
+"""
+input professional_project_var_pop_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
+"""aggregate var_samp on columns"""
+type professional_project_var_samp_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Float
+  mobilityRadius: Float
+}
+
+"""
+order by var_samp() on columns of table "professional_project"
+"""
+input professional_project_var_samp_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
+"""aggregate variance on columns"""
+type professional_project_variance_fields {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: Float
+  mobilityRadius: Float
+}
+
+"""
+order by variance() on columns of table "professional_project"
+"""
+input professional_project_variance_order_by {
+  """in cents (divide by 100 for the EUR value)"""
+  hourlyRate: order_by
+  mobilityRadius: order_by
+}
+
 """
 select columns of table "professional"
 """
@@ -12487,6 +14458,49 @@ type query_root {
   beneficiary_structure_by_pk(id: uuid!): beneficiary_structure
 
   """
+  fetch data from the table: "contract_type"
+  """
+  contract_type(
+    """distinct select on columns"""
+    distinct_on: [contract_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [contract_type_order_by!]
+
+    """filter the rows returned"""
+    where: contract_type_bool_exp
+  ): [contract_type!]!
+
+  """
+  fetch aggregated fields from the table: "contract_type"
+  """
+  contract_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [contract_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [contract_type_order_by!]
+
+    """filter the rows returned"""
+    where: contract_type_bool_exp
+  ): contract_type_aggregate!
+
+  """fetch data from the table: "contract_type" using primary key columns"""
+  contract_type_by_pk(id: String!): contract_type
+
+  """
   fetch data from the table: "deployment"
   """
   deployment(
@@ -12528,6 +14542,49 @@ type query_root {
 
   """fetch data from the table: "deployment" using primary key columns"""
   deployment_by_pk(id: uuid!): deployment
+
+  """
+  fetch data from the table: "employment_type"
+  """
+  employment_type(
+    """distinct select on columns"""
+    distinct_on: [employment_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [employment_type_order_by!]
+
+    """filter the rows returned"""
+    where: employment_type_bool_exp
+  ): [employment_type!]!
+
+  """
+  fetch aggregated fields from the table: "employment_type"
+  """
+  employment_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [employment_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [employment_type_order_by!]
+
+    """filter the rows returned"""
+    where: employment_type_bool_exp
+  ): employment_type_aggregate!
+
+  """fetch data from the table: "employment_type" using primary key columns"""
+  employment_type_by_pk(id: String!): employment_type
 
   """An array relationship"""
   external_data(
@@ -13088,6 +15145,51 @@ type query_root {
   ): notebook_public_view_aggregate!
 
   """
+  fetch data from the table: "notebook_situation"
+  """
+  notebook_situation(
+    """distinct select on columns"""
+    distinct_on: [notebook_situation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_situation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_situation_bool_exp
+  ): [notebook_situation!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_situation"
+  """
+  notebook_situation_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_situation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_situation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_situation_bool_exp
+  ): notebook_situation_aggregate!
+
+  """
+  fetch data from the table: "notebook_situation" using primary key columns
+  """
+  notebook_situation_by_pk(id: uuid!): notebook_situation
+
+  """
   fetch data from the table: "notebook_target"
   """
   notebook_target(
@@ -13129,6 +15231,94 @@ type query_root {
 
   """fetch data from the table: "notebook_target" using primary key columns"""
   notebook_target_by_pk(id: uuid!): notebook_target
+
+  """
+  fetch data from the table: "nps_rating"
+  """
+  nps_rating(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_bool_exp
+  ): [nps_rating!]!
+
+  """
+  fetch aggregated fields from the table: "nps_rating"
+  """
+  nps_rating_aggregate(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_bool_exp
+  ): nps_rating_aggregate!
+
+  """fetch data from the table: "nps_rating" using primary key columns"""
+  nps_rating_by_pk(id: uuid!): nps_rating
+
+  """
+  fetch data from the table: "nps_rating_dismissal"
+  """
+  nps_rating_dismissal(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_dismissal_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_dismissal_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_dismissal_bool_exp
+  ): [nps_rating_dismissal!]!
+
+  """
+  fetch aggregated fields from the table: "nps_rating_dismissal"
+  """
+  nps_rating_dismissal_aggregate(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_dismissal_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_dismissal_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_dismissal_bool_exp
+  ): nps_rating_dismissal_aggregate!
+
+  """
+  fetch data from the table: "nps_rating_dismissal" using primary key columns
+  """
+  nps_rating_dismissal_by_pk(id: uuid!): nps_rating_dismissal
 
   """
   fetch data from the table: "orientation_manager"
@@ -13397,6 +15587,51 @@ type query_root {
   fetch data from the table: "professional_orientation_system" using primary key columns
   """
   professional_orientation_system_by_pk(id: uuid!): professional_orientation_system
+
+  """
+  fetch data from the table: "professional_project"
+  """
+  professional_project(
+    """distinct select on columns"""
+    distinct_on: [professional_project_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_project_order_by!]
+
+    """filter the rows returned"""
+    where: professional_project_bool_exp
+  ): [professional_project!]!
+
+  """
+  fetch aggregated fields from the table: "professional_project"
+  """
+  professional_project_aggregate(
+    """distinct select on columns"""
+    distinct_on: [professional_project_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_project_order_by!]
+
+    """filter the rows returned"""
+    where: professional_project_bool_exp
+  ): professional_project_aggregate!
+
+  """
+  fetch data from the table: "professional_project" using primary key columns
+  """
+  professional_project_by_pk(id: uuid!): professional_project
 
   """
   fetch data from the table: "ref_action"
@@ -13900,49 +16135,6 @@ type query_root {
   fetch data from the table: "structure_orientation_system" using primary key columns
   """
   structure_orientation_system_by_pk(id: uuid!): structure_orientation_system
-
-  """
-  fetch data from the table: "wanted_job"
-  """
-  wanted_job(
-    """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
-
-    """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): [wanted_job!]!
-
-  """
-  fetch aggregated fields from the table: "wanted_job"
-  """
-  wanted_job_aggregate(
-    """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
-
-    """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): wanted_job_aggregate!
-
-  """fetch data from the table: "wanted_job" using primary key columns"""
-  wanted_job_by_pk(id: uuid!): wanted_job
 }
 
 """
@@ -14189,6 +16381,16 @@ type ref_situation_mutation_response {
 
   """data from the rows affected by the mutation"""
   returning: [ref_situation!]!
+}
+
+"""
+input type for inserting object relation for remote table "ref_situation"
+"""
+input ref_situation_obj_rel_insert_input {
+  data: ref_situation_insert_input!
+
+  """upsert condition"""
+  on_conflict: ref_situation_on_conflict
 }
 
 """
@@ -14650,9 +16852,9 @@ type rome_code {
   label: String!
 
   """An array relationship"""
-  wanted_by(
+  professionalProjects(
     """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
+    distinct_on: [professional_project_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -14661,16 +16863,16 @@ type rome_code {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
+    order_by: [professional_project_order_by!]
 
     """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): [wanted_job!]!
+    where: professional_project_bool_exp
+  ): [professional_project!]!
 
   """An aggregate relationship"""
-  wanted_by_aggregate(
+  professionalProjects_aggregate(
     """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
+    distinct_on: [professional_project_select_column!]
 
     """limit the number of rows returned"""
     limit: Int
@@ -14679,11 +16881,11 @@ type rome_code {
     offset: Int
 
     """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
+    order_by: [professional_project_order_by!]
 
     """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): wanted_job_aggregate!
+    where: professional_project_bool_exp
+  ): professional_project_aggregate!
 }
 
 """
@@ -14714,8 +16916,8 @@ input rome_code_bool_exp {
   description: String_comparison_exp
   id: uuid_comparison_exp
   label: String_comparison_exp
-  wanted_by: wanted_job_bool_exp
-  wanted_by_aggregate: wanted_job_aggregate_bool_exp
+  professionalProjects: professional_project_bool_exp
+  professionalProjects_aggregate: professional_project_aggregate_bool_exp
 }
 
 """
@@ -14741,7 +16943,7 @@ input rome_code_insert_input {
   description: String
   id: uuid
   label: String
-  wanted_by: wanted_job_arr_rel_insert_input
+  professionalProjects: professional_project_arr_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -14796,7 +16998,7 @@ input rome_code_order_by {
   description: order_by
   id: order_by
   label: order_by
-  wanted_by_aggregate: wanted_job_aggregate_order_by
+  professionalProjects_aggregate: professional_project_aggregate_order_by
 }
 
 """primary key columns input for table: rome_code"""
@@ -16107,6 +18309,63 @@ type subscription_root {
   ): [beneficiary_structure!]!
 
   """
+  fetch data from the table: "contract_type"
+  """
+  contract_type(
+    """distinct select on columns"""
+    distinct_on: [contract_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [contract_type_order_by!]
+
+    """filter the rows returned"""
+    where: contract_type_bool_exp
+  ): [contract_type!]!
+
+  """
+  fetch aggregated fields from the table: "contract_type"
+  """
+  contract_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [contract_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [contract_type_order_by!]
+
+    """filter the rows returned"""
+    where: contract_type_bool_exp
+  ): contract_type_aggregate!
+
+  """fetch data from the table: "contract_type" using primary key columns"""
+  contract_type_by_pk(id: String!): contract_type
+
+  """
+  fetch data from the table in a streaming manner: "contract_type"
+  """
+  contract_type_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [contract_type_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: contract_type_bool_exp
+  ): [contract_type!]!
+
+  """
   fetch data from the table: "deployment"
   """
   deployment(
@@ -16162,6 +18421,63 @@ type subscription_root {
     """filter the rows returned"""
     where: deployment_bool_exp
   ): [deployment!]!
+
+  """
+  fetch data from the table: "employment_type"
+  """
+  employment_type(
+    """distinct select on columns"""
+    distinct_on: [employment_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [employment_type_order_by!]
+
+    """filter the rows returned"""
+    where: employment_type_bool_exp
+  ): [employment_type!]!
+
+  """
+  fetch aggregated fields from the table: "employment_type"
+  """
+  employment_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [employment_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [employment_type_order_by!]
+
+    """filter the rows returned"""
+    where: employment_type_bool_exp
+  ): employment_type_aggregate!
+
+  """fetch data from the table: "employment_type" using primary key columns"""
+  employment_type_by_pk(id: String!): employment_type
+
+  """
+  fetch data from the table in a streaming manner: "employment_type"
+  """
+  employment_type_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [employment_type_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: employment_type_bool_exp
+  ): [employment_type!]!
 
   """An array relationship"""
   external_data(
@@ -16890,6 +19206,65 @@ type subscription_root {
   ): [notebook_public_view!]!
 
   """
+  fetch data from the table: "notebook_situation"
+  """
+  notebook_situation(
+    """distinct select on columns"""
+    distinct_on: [notebook_situation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_situation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_situation_bool_exp
+  ): [notebook_situation!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_situation"
+  """
+  notebook_situation_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_situation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_situation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_situation_bool_exp
+  ): notebook_situation_aggregate!
+
+  """
+  fetch data from the table: "notebook_situation" using primary key columns
+  """
+  notebook_situation_by_pk(id: uuid!): notebook_situation
+
+  """
+  fetch data from the table in a streaming manner: "notebook_situation"
+  """
+  notebook_situation_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [notebook_situation_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: notebook_situation_bool_exp
+  ): [notebook_situation!]!
+
+  """
   fetch data from the table in a streaming manner: "notebook"
   """
   notebook_stream(
@@ -16959,6 +19334,122 @@ type subscription_root {
     """filter the rows returned"""
     where: notebook_target_bool_exp
   ): [notebook_target!]!
+
+  """
+  fetch data from the table: "nps_rating"
+  """
+  nps_rating(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_bool_exp
+  ): [nps_rating!]!
+
+  """
+  fetch aggregated fields from the table: "nps_rating"
+  """
+  nps_rating_aggregate(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_bool_exp
+  ): nps_rating_aggregate!
+
+  """fetch data from the table: "nps_rating" using primary key columns"""
+  nps_rating_by_pk(id: uuid!): nps_rating
+
+  """
+  fetch data from the table: "nps_rating_dismissal"
+  """
+  nps_rating_dismissal(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_dismissal_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_dismissal_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_dismissal_bool_exp
+  ): [nps_rating_dismissal!]!
+
+  """
+  fetch aggregated fields from the table: "nps_rating_dismissal"
+  """
+  nps_rating_dismissal_aggregate(
+    """distinct select on columns"""
+    distinct_on: [nps_rating_dismissal_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [nps_rating_dismissal_order_by!]
+
+    """filter the rows returned"""
+    where: nps_rating_dismissal_bool_exp
+  ): nps_rating_dismissal_aggregate!
+
+  """
+  fetch data from the table: "nps_rating_dismissal" using primary key columns
+  """
+  nps_rating_dismissal_by_pk(id: uuid!): nps_rating_dismissal
+
+  """
+  fetch data from the table in a streaming manner: "nps_rating_dismissal"
+  """
+  nps_rating_dismissal_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [nps_rating_dismissal_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: nps_rating_dismissal_bool_exp
+  ): [nps_rating_dismissal!]!
+
+  """
+  fetch data from the table in a streaming manner: "nps_rating"
+  """
+  nps_rating_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [nps_rating_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: nps_rating_bool_exp
+  ): [nps_rating!]!
 
   """
   fetch data from the table: "orientation_manager"
@@ -17297,6 +19788,65 @@ type subscription_root {
     """filter the rows returned"""
     where: professional_orientation_system_bool_exp
   ): [professional_orientation_system!]!
+
+  """
+  fetch data from the table: "professional_project"
+  """
+  professional_project(
+    """distinct select on columns"""
+    distinct_on: [professional_project_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_project_order_by!]
+
+    """filter the rows returned"""
+    where: professional_project_bool_exp
+  ): [professional_project!]!
+
+  """
+  fetch aggregated fields from the table: "professional_project"
+  """
+  professional_project_aggregate(
+    """distinct select on columns"""
+    distinct_on: [professional_project_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [professional_project_order_by!]
+
+    """filter the rows returned"""
+    where: professional_project_bool_exp
+  ): professional_project_aggregate!
+
+  """
+  fetch data from the table: "professional_project" using primary key columns
+  """
+  professional_project_by_pk(id: uuid!): professional_project
+
+  """
+  fetch data from the table in a streaming manner: "professional_project"
+  """
+  professional_project_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [professional_project_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: professional_project_bool_exp
+  ): [professional_project!]!
 
   """
   fetch data from the table in a streaming manner: "professional"
@@ -17912,63 +20462,6 @@ type subscription_root {
     """filter the rows returned"""
     where: structure_bool_exp
   ): [structure!]!
-
-  """
-  fetch data from the table: "wanted_job"
-  """
-  wanted_job(
-    """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
-
-    """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): [wanted_job!]!
-
-  """
-  fetch aggregated fields from the table: "wanted_job"
-  """
-  wanted_job_aggregate(
-    """distinct select on columns"""
-    distinct_on: [wanted_job_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [wanted_job_order_by!]
-
-    """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): wanted_job_aggregate!
-
-  """fetch data from the table: "wanted_job" using primary key columns"""
-  wanted_job_by_pk(id: uuid!): wanted_job
-
-  """
-  fetch data from the table in a streaming manner: "wanted_job"
-  """
-  wanted_job_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [wanted_job_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: wanted_job_bool_exp
-  ): [wanted_job!]!
 }
 
 scalar timestamp
@@ -18020,265 +20513,6 @@ input uuid_comparison_exp {
   _lte: uuid
   _neq: uuid
   _nin: [uuid!]
-}
-
-"""Stores the jobs wanted for a notebook beneficiary"""
-type wanted_job {
-  created_at: timestamptz
-  id: uuid!
-
-  """An object relationship"""
-  notebook: notebook!
-  notebook_id: uuid!
-
-  """An object relationship"""
-  rome_code: rome_code!
-  rome_code_id: uuid!
-  updated_at: timestamptz
-}
-
-"""
-aggregated selection of "wanted_job"
-"""
-type wanted_job_aggregate {
-  aggregate: wanted_job_aggregate_fields
-  nodes: [wanted_job!]!
-}
-
-input wanted_job_aggregate_bool_exp {
-  count: wanted_job_aggregate_bool_exp_count
-}
-
-input wanted_job_aggregate_bool_exp_count {
-  arguments: [wanted_job_select_column!]
-  distinct: Boolean
-  filter: wanted_job_bool_exp
-  predicate: Int_comparison_exp!
-}
-
-"""
-aggregate fields of "wanted_job"
-"""
-type wanted_job_aggregate_fields {
-  count(columns: [wanted_job_select_column!], distinct: Boolean): Int!
-  max: wanted_job_max_fields
-  min: wanted_job_min_fields
-}
-
-"""
-order by aggregate values of table "wanted_job"
-"""
-input wanted_job_aggregate_order_by {
-  count: order_by
-  max: wanted_job_max_order_by
-  min: wanted_job_min_order_by
-}
-
-"""
-input type for inserting array relation for remote table "wanted_job"
-"""
-input wanted_job_arr_rel_insert_input {
-  data: [wanted_job_insert_input!]!
-
-  """upsert condition"""
-  on_conflict: wanted_job_on_conflict
-}
-
-"""
-Boolean expression to filter rows from the table "wanted_job". All fields are combined with a logical 'AND'.
-"""
-input wanted_job_bool_exp {
-  _and: [wanted_job_bool_exp!]
-  _not: wanted_job_bool_exp
-  _or: [wanted_job_bool_exp!]
-  created_at: timestamptz_comparison_exp
-  id: uuid_comparison_exp
-  notebook: notebook_bool_exp
-  notebook_id: uuid_comparison_exp
-  rome_code: rome_code_bool_exp
-  rome_code_id: uuid_comparison_exp
-  updated_at: timestamptz_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "wanted_job"
-"""
-enum wanted_job_constraint {
-  """
-  unique or primary key constraint on columns "rome_code_id", "notebook_id"
-  """
-  wanted_job_notebook_id_rome_code_id_key
-
-  """
-  unique or primary key constraint on columns "id"
-  """
-  wanted_job_pkey
-}
-
-"""
-input type for inserting data into table "wanted_job"
-"""
-input wanted_job_insert_input {
-  created_at: timestamptz
-  id: uuid
-  notebook: notebook_obj_rel_insert_input
-  notebook_id: uuid
-  rome_code: rome_code_obj_rel_insert_input
-  rome_code_id: uuid
-  updated_at: timestamptz
-}
-
-"""aggregate max on columns"""
-type wanted_job_max_fields {
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-  rome_code_id: uuid
-  updated_at: timestamptz
-}
-
-"""
-order by max() on columns of table "wanted_job"
-"""
-input wanted_job_max_order_by {
-  created_at: order_by
-  id: order_by
-  notebook_id: order_by
-  rome_code_id: order_by
-  updated_at: order_by
-}
-
-"""aggregate min on columns"""
-type wanted_job_min_fields {
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-  rome_code_id: uuid
-  updated_at: timestamptz
-}
-
-"""
-order by min() on columns of table "wanted_job"
-"""
-input wanted_job_min_order_by {
-  created_at: order_by
-  id: order_by
-  notebook_id: order_by
-  rome_code_id: order_by
-  updated_at: order_by
-}
-
-"""
-response of any mutation on the table "wanted_job"
-"""
-type wanted_job_mutation_response {
-  """number of rows affected by the mutation"""
-  affected_rows: Int!
-
-  """data from the rows affected by the mutation"""
-  returning: [wanted_job!]!
-}
-
-"""
-on_conflict condition type for table "wanted_job"
-"""
-input wanted_job_on_conflict {
-  constraint: wanted_job_constraint!
-  update_columns: [wanted_job_update_column!]! = []
-  where: wanted_job_bool_exp
-}
-
-"""Ordering options when selecting data from "wanted_job"."""
-input wanted_job_order_by {
-  created_at: order_by
-  id: order_by
-  notebook: notebook_order_by
-  notebook_id: order_by
-  rome_code: rome_code_order_by
-  rome_code_id: order_by
-  updated_at: order_by
-}
-
-"""primary key columns input for table: wanted_job"""
-input wanted_job_pk_columns_input {
-  id: uuid!
-}
-
-"""
-select columns of table "wanted_job"
-"""
-enum wanted_job_select_column {
-  """column name"""
-  created_at
-
-  """column name"""
-  id
-
-  """column name"""
-  notebook_id
-
-  """column name"""
-  rome_code_id
-
-  """column name"""
-  updated_at
-}
-
-"""
-input type for updating data in table "wanted_job"
-"""
-input wanted_job_set_input {
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-  rome_code_id: uuid
-  updated_at: timestamptz
-}
-
-"""
-Streaming cursor of the table "wanted_job"
-"""
-input wanted_job_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: wanted_job_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input wanted_job_stream_cursor_value_input {
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-  rome_code_id: uuid
-  updated_at: timestamptz
-}
-
-"""
-update columns of table "wanted_job"
-"""
-enum wanted_job_update_column {
-  """column name"""
-  created_at
-
-  """column name"""
-  id
-
-  """column name"""
-  notebook_id
-
-  """column name"""
-  rome_code_id
-
-  """column name"""
-  updated_at
-}
-
-input wanted_job_updates {
-  """sets the columns of the filtered rows to the given values"""
-  _set: wanted_job_set_input
-  where: wanted_job_bool_exp!
 }
     '''
 )
