@@ -15,7 +15,6 @@ export const load: PageLoad = async (event) => {
 	if (params.get('co') === 'avec') {
 		withoutOrientationManager = true;
 	}
-	console.log(beneficiaryFilter, orientationStatusFilter, withoutOrientationManager);
 	return {
 		currentPage: parseInt(params.get('page') || '1', 10),
 		search: params.get('search') || '',
