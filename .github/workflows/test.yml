@@ -2,10 +2,11 @@ name: Test
 
 on:
   push:
-    branches:
-      - "master"
+    # as every commit on master leads to a release tag
+    # we do not want to test every commit on master
+    # but only every release tag
     tags:
-      - "!v*"
+      - v*
   pull_request:
 
 env:
