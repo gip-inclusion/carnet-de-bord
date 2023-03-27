@@ -41,6 +41,19 @@ fragment notebookFragment on notebook {
     mobilityRadius
     updatedAt
     createdAt
+    updater {
+      orientation_manager {
+        firstname
+        lastname
+      }
+      professional {
+        firstname
+        lastname
+        structure {
+          name
+        }
+      }
+    }
   }
   notebookInfo {
     needOrientation

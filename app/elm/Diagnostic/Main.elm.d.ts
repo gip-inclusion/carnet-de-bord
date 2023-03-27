@@ -18,6 +18,7 @@ export type ProfessionalProjectElm = Pick<
 	| 'employment_type'
 > & {
 	rome?: Pick<RomeCode, 'id' | 'label'>;
+	updater?: Creator;
 };
 
 export type Flags = {
