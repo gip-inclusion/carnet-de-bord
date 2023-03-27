@@ -55,6 +55,7 @@
 						contract_type,
 						employment_type,
 						hourlyRate,
+						updater,
 					}) => ({
 						id,
 						createdAt,
@@ -64,6 +65,7 @@
 						hourlyRate,
 						contractType: contract_type,
 						employmentType: employment_type,
+						updater,
 					})
 				),
 				peGeneralData: externalDataDetail?.data?.source || null,

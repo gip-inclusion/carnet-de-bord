@@ -15,6 +15,7 @@ export type Scalars = {
 	bigint: any;
 	citext: string;
 	date: string;
+	float8: any;
 	jsonb: any;
 	timestamp: any;
 	timestamptz: string;
@@ -1725,8 +1726,8 @@ export type BeneficiaryBoolExp = {
 
 /** unique or primary key constraints on table "beneficiary" */
 export enum BeneficiaryConstraint {
-	/** unique or primary key constraint on columns "internal_id" */
-	BeneficiaryInternalIdKey = 'beneficiary_internal_id_key',
+	/** unique or primary key constraint on columns "deployment_id", "internal_id" */
+	BeneficiaryInternalIdDeploymentIdKey = 'beneficiary_internal_id_deployment_id_key',
 	/** unique or primary key constraint on columns "nir" */
 	BeneficiaryNirKey = 'beneficiary_nir_key',
 	/** unique or primary key constraint on columns "id" */
@@ -3841,6 +3842,19 @@ export type ExternalSourceUpdates = {
 	where: ExternalSourceBoolExp;
 };
 
+/** Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'. */
+export type Float8ComparisonExp = {
+	_eq?: InputMaybe<Scalars['float8']>;
+	_gt?: InputMaybe<Scalars['float8']>;
+	_gte?: InputMaybe<Scalars['float8']>;
+	_in?: InputMaybe<Array<Scalars['float8']>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_lt?: InputMaybe<Scalars['float8']>;
+	_lte?: InputMaybe<Scalars['float8']>;
+	_neq?: InputMaybe<Scalars['float8']>;
+	_nin?: InputMaybe<Array<Scalars['float8']>>;
+};
+
 export type JsonbCastExp = {
 	String?: InputMaybe<StringComparisonExp>;
 };
@@ -4225,6 +4239,14 @@ export type MutationRoot = {
 	delete_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** delete single row from the table: "notebook_target" */
 	delete_notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** delete data from the table: "nps_rating" */
+	delete_nps_rating?: Maybe<NpsRatingMutationResponse>;
+	/** delete single row from the table: "nps_rating" */
+	delete_nps_rating_by_pk?: Maybe<NpsRating>;
+	/** delete data from the table: "nps_rating_dismissal" */
+	delete_nps_rating_dismissal?: Maybe<NpsRatingDismissalMutationResponse>;
+	/** delete single row from the table: "nps_rating_dismissal" */
+	delete_nps_rating_dismissal_by_pk?: Maybe<NpsRatingDismissal>;
 	/** delete data from the table: "orientation_manager" */
 	delete_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
 	/** delete single row from the table: "orientation_manager" */
@@ -4377,6 +4399,14 @@ export type MutationRoot = {
 	insert_notebook_target?: Maybe<NotebookTargetMutationResponse>;
 	/** insert a single row into the table: "notebook_target" */
 	insert_notebook_target_one?: Maybe<NotebookTarget>;
+	/** insert data into the table: "nps_rating" */
+	insert_nps_rating?: Maybe<NpsRatingMutationResponse>;
+	/** insert data into the table: "nps_rating_dismissal" */
+	insert_nps_rating_dismissal?: Maybe<NpsRatingDismissalMutationResponse>;
+	/** insert a single row into the table: "nps_rating_dismissal" */
+	insert_nps_rating_dismissal_one?: Maybe<NpsRatingDismissal>;
+	/** insert a single row into the table: "nps_rating" */
+	insert_nps_rating_one?: Maybe<NpsRating>;
 	/** insert data into the table: "orientation_manager" */
 	insert_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
 	/** insert a single row into the table: "orientation_manager" */
@@ -4577,6 +4607,18 @@ export type MutationRoot = {
 	update_notebook_target_by_pk?: Maybe<NotebookTarget>;
 	/** update multiples rows of table: "notebook_target" */
 	update_notebook_target_many?: Maybe<Array<Maybe<NotebookTargetMutationResponse>>>;
+	/** update data of the table: "nps_rating" */
+	update_nps_rating?: Maybe<NpsRatingMutationResponse>;
+	/** update single row of the table: "nps_rating" */
+	update_nps_rating_by_pk?: Maybe<NpsRating>;
+	/** update data of the table: "nps_rating_dismissal" */
+	update_nps_rating_dismissal?: Maybe<NpsRatingDismissalMutationResponse>;
+	/** update single row of the table: "nps_rating_dismissal" */
+	update_nps_rating_dismissal_by_pk?: Maybe<NpsRatingDismissal>;
+	/** update multiples rows of table: "nps_rating_dismissal" */
+	update_nps_rating_dismissal_many?: Maybe<Array<Maybe<NpsRatingDismissalMutationResponse>>>;
+	/** update multiples rows of table: "nps_rating" */
+	update_nps_rating_many?: Maybe<Array<Maybe<NpsRatingMutationResponse>>>;
 	/** update data of the table: "orientation_manager" */
 	update_orientation_manager?: Maybe<OrientationManagerMutationResponse>;
 	/** update single row of the table: "orientation_manager" */
@@ -4905,6 +4947,26 @@ export type MutationRootDeleteNotebookTargetArgs = {
 
 /** mutation root */
 export type MutationRootDeleteNotebookTargetByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteNpsRatingArgs = {
+	where: NpsRatingBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNpsRatingByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteNpsRatingDismissalArgs = {
+	where: NpsRatingDismissalBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteNpsRatingDismissalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -5332,6 +5394,30 @@ export type MutationRootInsertNotebookTargetArgs = {
 export type MutationRootInsertNotebookTargetOneArgs = {
 	object: NotebookTargetInsertInput;
 	on_conflict?: InputMaybe<NotebookTargetOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNpsRatingArgs = {
+	objects: Array<NpsRatingInsertInput>;
+	on_conflict?: InputMaybe<NpsRatingOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNpsRatingDismissalArgs = {
+	objects: Array<NpsRatingDismissalInsertInput>;
+	on_conflict?: InputMaybe<NpsRatingDismissalOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNpsRatingDismissalOneArgs = {
+	object: NpsRatingDismissalInsertInput;
+	on_conflict?: InputMaybe<NpsRatingDismissalOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertNpsRatingOneArgs = {
+	object: NpsRatingInsertInput;
+	on_conflict?: InputMaybe<NpsRatingOnConflict>;
 };
 
 /** mutation root */
@@ -5942,6 +6028,42 @@ export type MutationRootUpdateNotebookTargetByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateNotebookTargetManyArgs = {
 	updates: Array<NotebookTargetUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateNpsRatingArgs = {
+	_inc?: InputMaybe<NpsRatingIncInput>;
+	_set?: InputMaybe<NpsRatingSetInput>;
+	where: NpsRatingBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNpsRatingByPkArgs = {
+	_inc?: InputMaybe<NpsRatingIncInput>;
+	_set?: InputMaybe<NpsRatingSetInput>;
+	pk_columns: NpsRatingPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNpsRatingDismissalArgs = {
+	_set?: InputMaybe<NpsRatingDismissalSetInput>;
+	where: NpsRatingDismissalBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateNpsRatingDismissalByPkArgs = {
+	_set?: InputMaybe<NpsRatingDismissalSetInput>;
+	pk_columns: NpsRatingDismissalPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateNpsRatingDismissalManyArgs = {
+	updates: Array<NpsRatingDismissalUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateNpsRatingManyArgs = {
+	updates: Array<NpsRatingUpdates>;
 };
 
 /** mutation root */
@@ -8577,6 +8699,7 @@ export type NotebookSituation = {
 	/** An object relationship */
 	refSituation?: Maybe<RefSituation>;
 	situationId: Scalars['uuid'];
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregated selection of "notebook_situation" */
@@ -8641,6 +8764,7 @@ export type NotebookSituationBoolExp = {
 	notebookId?: InputMaybe<UuidComparisonExp>;
 	refSituation?: InputMaybe<RefSituationBoolExp>;
 	situationId?: InputMaybe<UuidComparisonExp>;
+	updatedBy?: InputMaybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_situation" */
@@ -8664,6 +8788,7 @@ export type NotebookSituationInsertInput = {
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	refSituation?: InputMaybe<RefSituationObjRelInsertInput>;
 	situationId?: InputMaybe<Scalars['uuid']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
@@ -8676,6 +8801,7 @@ export type NotebookSituationMaxFields = {
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "notebook_situation" */
@@ -8687,6 +8813,7 @@ export type NotebookSituationMaxOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
@@ -8699,6 +8826,7 @@ export type NotebookSituationMinFields = {
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "notebook_situation" */
@@ -8710,6 +8838,7 @@ export type NotebookSituationMinOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_situation" */
@@ -8741,6 +8870,7 @@ export type NotebookSituationOrderBy = {
 	notebookId?: InputMaybe<OrderBy>;
 	refSituation?: InputMaybe<RefSituationOrderBy>;
 	situationId?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_situation */
@@ -8764,6 +8894,8 @@ export enum NotebookSituationSelectColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	SituationId = 'situationId',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 /** input type for updating data in table "notebook_situation" */
@@ -8775,6 +8907,7 @@ export type NotebookSituationSetInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** Streaming cursor of the table "notebook_situation" */
@@ -8794,6 +8927,7 @@ export type NotebookSituationStreamCursorValueInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "notebook_situation" */
@@ -8812,6 +8946,8 @@ export enum NotebookSituationUpdateColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	SituationId = 'situationId',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 export type NotebookSituationUpdates = {
@@ -9166,6 +9302,377 @@ export type NotebookUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookSetInput>;
 	where: NotebookBoolExp;
+};
+
+/** NPS ratings from users */
+export type NpsRating = {
+	__typename?: 'nps_rating';
+	accountId: Scalars['uuid'];
+	createdAt: Scalars['timestamptz'];
+	/** The created_at field, in Time.Posix format, for Elm. */
+	created_at_posix_ms?: Maybe<Scalars['float8']>;
+	id: Scalars['uuid'];
+	score: Scalars['Int'];
+};
+
+/** aggregated selection of "nps_rating" */
+export type NpsRatingAggregate = {
+	__typename?: 'nps_rating_aggregate';
+	aggregate?: Maybe<NpsRatingAggregateFields>;
+	nodes: Array<NpsRating>;
+};
+
+/** aggregate fields of "nps_rating" */
+export type NpsRatingAggregateFields = {
+	__typename?: 'nps_rating_aggregate_fields';
+	avg?: Maybe<NpsRatingAvgFields>;
+	count: Scalars['Int'];
+	max?: Maybe<NpsRatingMaxFields>;
+	min?: Maybe<NpsRatingMinFields>;
+	stddev?: Maybe<NpsRatingStddevFields>;
+	stddev_pop?: Maybe<NpsRatingStddevPopFields>;
+	stddev_samp?: Maybe<NpsRatingStddevSampFields>;
+	sum?: Maybe<NpsRatingSumFields>;
+	var_pop?: Maybe<NpsRatingVarPopFields>;
+	var_samp?: Maybe<NpsRatingVarSampFields>;
+	variance?: Maybe<NpsRatingVarianceFields>;
+};
+
+/** aggregate fields of "nps_rating" */
+export type NpsRatingAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<NpsRatingSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** aggregate avg on columns */
+export type NpsRatingAvgFields = {
+	__typename?: 'nps_rating_avg_fields';
+	score?: Maybe<Scalars['Float']>;
+};
+
+/** Boolean expression to filter rows from the table "nps_rating". All fields are combined with a logical 'AND'. */
+export type NpsRatingBoolExp = {
+	_and?: InputMaybe<Array<NpsRatingBoolExp>>;
+	_not?: InputMaybe<NpsRatingBoolExp>;
+	_or?: InputMaybe<Array<NpsRatingBoolExp>>;
+	accountId?: InputMaybe<UuidComparisonExp>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	created_at_posix_ms?: InputMaybe<Float8ComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	score?: InputMaybe<IntComparisonExp>;
+};
+
+/** unique or primary key constraints on table "nps_rating" */
+export enum NpsRatingConstraint {
+	/** unique or primary key constraint on columns "id" */
+	NpsRatingPkey = 'nps_rating_pkey',
+}
+
+/** Store when a user dismisses an NPS rating */
+export type NpsRatingDismissal = {
+	__typename?: 'nps_rating_dismissal';
+	accountId: Scalars['uuid'];
+	dismissedAt: Scalars['timestamptz'];
+	/** The dismissed_at field, in Time.Posix format, for Elm. */
+	dismissed_at_posix_ms?: Maybe<Scalars['float8']>;
+	id: Scalars['uuid'];
+};
+
+/** aggregated selection of "nps_rating_dismissal" */
+export type NpsRatingDismissalAggregate = {
+	__typename?: 'nps_rating_dismissal_aggregate';
+	aggregate?: Maybe<NpsRatingDismissalAggregateFields>;
+	nodes: Array<NpsRatingDismissal>;
+};
+
+/** aggregate fields of "nps_rating_dismissal" */
+export type NpsRatingDismissalAggregateFields = {
+	__typename?: 'nps_rating_dismissal_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<NpsRatingDismissalMaxFields>;
+	min?: Maybe<NpsRatingDismissalMinFields>;
+};
+
+/** aggregate fields of "nps_rating_dismissal" */
+export type NpsRatingDismissalAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<NpsRatingDismissalSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "nps_rating_dismissal". All fields are combined with a logical 'AND'. */
+export type NpsRatingDismissalBoolExp = {
+	_and?: InputMaybe<Array<NpsRatingDismissalBoolExp>>;
+	_not?: InputMaybe<NpsRatingDismissalBoolExp>;
+	_or?: InputMaybe<Array<NpsRatingDismissalBoolExp>>;
+	accountId?: InputMaybe<UuidComparisonExp>;
+	dismissedAt?: InputMaybe<TimestamptzComparisonExp>;
+	dismissed_at_posix_ms?: InputMaybe<Float8ComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+};
+
+/** unique or primary key constraints on table "nps_rating_dismissal" */
+export enum NpsRatingDismissalConstraint {
+	/** unique or primary key constraint on columns "id" */
+	NpsRatingDismissalPkey = 'nps_rating_dismissal_pkey',
+}
+
+/** input type for inserting data into table "nps_rating_dismissal" */
+export type NpsRatingDismissalInsertInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
+	dismissedAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** aggregate max on columns */
+export type NpsRatingDismissalMaxFields = {
+	__typename?: 'nps_rating_dismissal_max_fields';
+	accountId?: Maybe<Scalars['uuid']>;
+	dismissedAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+};
+
+/** aggregate min on columns */
+export type NpsRatingDismissalMinFields = {
+	__typename?: 'nps_rating_dismissal_min_fields';
+	accountId?: Maybe<Scalars['uuid']>;
+	dismissedAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+};
+
+/** response of any mutation on the table "nps_rating_dismissal" */
+export type NpsRatingDismissalMutationResponse = {
+	__typename?: 'nps_rating_dismissal_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NpsRatingDismissal>;
+};
+
+/** on_conflict condition type for table "nps_rating_dismissal" */
+export type NpsRatingDismissalOnConflict = {
+	constraint: NpsRatingDismissalConstraint;
+	update_columns?: Array<NpsRatingDismissalUpdateColumn>;
+	where?: InputMaybe<NpsRatingDismissalBoolExp>;
+};
+
+/** Ordering options when selecting data from "nps_rating_dismissal". */
+export type NpsRatingDismissalOrderBy = {
+	accountId?: InputMaybe<OrderBy>;
+	dismissedAt?: InputMaybe<OrderBy>;
+	dismissed_at_posix_ms?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: nps_rating_dismissal */
+export type NpsRatingDismissalPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "nps_rating_dismissal" */
+export enum NpsRatingDismissalSelectColumn {
+	/** column name */
+	AccountId = 'accountId',
+	/** column name */
+	DismissedAt = 'dismissedAt',
+	/** column name */
+	Id = 'id',
+}
+
+/** input type for updating data in table "nps_rating_dismissal" */
+export type NpsRatingDismissalSetInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
+	dismissedAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** Streaming cursor of the table "nps_rating_dismissal" */
+export type NpsRatingDismissalStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NpsRatingDismissalStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NpsRatingDismissalStreamCursorValueInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
+	dismissedAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+};
+
+/** update columns of table "nps_rating_dismissal" */
+export enum NpsRatingDismissalUpdateColumn {
+	/** column name */
+	AccountId = 'accountId',
+	/** column name */
+	DismissedAt = 'dismissedAt',
+	/** column name */
+	Id = 'id',
+}
+
+export type NpsRatingDismissalUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NpsRatingDismissalSetInput>;
+	where: NpsRatingDismissalBoolExp;
+};
+
+/** input type for incrementing numeric columns in table "nps_rating" */
+export type NpsRatingIncInput = {
+	score?: InputMaybe<Scalars['Int']>;
+};
+
+/** input type for inserting data into table "nps_rating" */
+export type NpsRatingInsertInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate max on columns */
+export type NpsRatingMaxFields = {
+	__typename?: 'nps_rating_max_fields';
+	accountId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	score?: Maybe<Scalars['Int']>;
+};
+
+/** aggregate min on columns */
+export type NpsRatingMinFields = {
+	__typename?: 'nps_rating_min_fields';
+	accountId?: Maybe<Scalars['uuid']>;
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	id?: Maybe<Scalars['uuid']>;
+	score?: Maybe<Scalars['Int']>;
+};
+
+/** response of any mutation on the table "nps_rating" */
+export type NpsRatingMutationResponse = {
+	__typename?: 'nps_rating_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<NpsRating>;
+};
+
+/** on_conflict condition type for table "nps_rating" */
+export type NpsRatingOnConflict = {
+	constraint: NpsRatingConstraint;
+	update_columns?: Array<NpsRatingUpdateColumn>;
+	where?: InputMaybe<NpsRatingBoolExp>;
+};
+
+/** Ordering options when selecting data from "nps_rating". */
+export type NpsRatingOrderBy = {
+	accountId?: InputMaybe<OrderBy>;
+	createdAt?: InputMaybe<OrderBy>;
+	created_at_posix_ms?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	score?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: nps_rating */
+export type NpsRatingPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** select columns of table "nps_rating" */
+export enum NpsRatingSelectColumn {
+	/** column name */
+	AccountId = 'accountId',
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Score = 'score',
+}
+
+/** input type for updating data in table "nps_rating" */
+export type NpsRatingSetInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate stddev on columns */
+export type NpsRatingStddevFields = {
+	__typename?: 'nps_rating_stddev_fields';
+	score?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_pop on columns */
+export type NpsRatingStddevPopFields = {
+	__typename?: 'nps_rating_stddev_pop_fields';
+	score?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate stddev_samp on columns */
+export type NpsRatingStddevSampFields = {
+	__typename?: 'nps_rating_stddev_samp_fields';
+	score?: Maybe<Scalars['Float']>;
+};
+
+/** Streaming cursor of the table "nps_rating" */
+export type NpsRatingStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: NpsRatingStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type NpsRatingStreamCursorValueInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	score?: InputMaybe<Scalars['Int']>;
+};
+
+/** aggregate sum on columns */
+export type NpsRatingSumFields = {
+	__typename?: 'nps_rating_sum_fields';
+	score?: Maybe<Scalars['Int']>;
+};
+
+/** update columns of table "nps_rating" */
+export enum NpsRatingUpdateColumn {
+	/** column name */
+	AccountId = 'accountId',
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	Score = 'score',
+}
+
+export type NpsRatingUpdates = {
+	/** increments the numeric columns with given value of the filtered values */
+	_inc?: InputMaybe<NpsRatingIncInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<NpsRatingSetInput>;
+	where: NpsRatingBoolExp;
+};
+
+/** aggregate var_pop on columns */
+export type NpsRatingVarPopFields = {
+	__typename?: 'nps_rating_var_pop_fields';
+	score?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate var_samp on columns */
+export type NpsRatingVarSampFields = {
+	__typename?: 'nps_rating_var_samp_fields';
+	score?: Maybe<Scalars['Float']>;
+};
+
+/** aggregate variance on columns */
+export type NpsRatingVarianceFields = {
+	__typename?: 'nps_rating_variance_fields';
+	score?: Maybe<Scalars['Float']>;
 };
 
 /** column ordering options */
@@ -10718,7 +11225,7 @@ export type ProfessionalProject = {
 	employmentTypeId?: Maybe<EmploymentTypeEnum>;
 	/** An object relationship */
 	employment_type?: Maybe<EmploymentType>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id: Scalars['uuid'];
 	mobilityRadius?: Maybe<Scalars['Int']>;
@@ -10729,6 +11236,9 @@ export type ProfessionalProject = {
 	/** An object relationship */
 	rome_code?: Maybe<RomeCode>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
+	/** An object relationship */
+	updater?: Maybe<Account>;
 };
 
 /** aggregated selection of "professional_project" */
@@ -10796,14 +11306,14 @@ export type ProfessionalProjectArrRelInsertInput = {
 /** aggregate avg on columns */
 export type ProfessionalProjectAvgFields = {
 	__typename?: 'professional_project_avg_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by avg() on columns of table "professional_project" */
 export type ProfessionalProjectAvgOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -10826,6 +11336,8 @@ export type ProfessionalProjectBoolExp = {
 	romeCodeId?: InputMaybe<UuidComparisonExp>;
 	rome_code?: InputMaybe<RomeCodeBoolExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
+	updatedBy?: InputMaybe<UuidComparisonExp>;
+	updater?: InputMaybe<AccountBoolExp>;
 };
 
 /** unique or primary key constraints on table "professional_project" */
@@ -10838,7 +11350,7 @@ export enum ProfessionalProjectConstraint {
 
 /** input type for incrementing numeric columns in table "professional_project" */
 export type ProfessionalProjectIncInput = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
 };
@@ -10850,7 +11362,7 @@ export type ProfessionalProjectInsertInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	employment_type?: InputMaybe<EmploymentTypeObjRelInsertInput>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
@@ -10859,56 +11371,62 @@ export type ProfessionalProjectInsertInput = {
 	romeCodeId?: InputMaybe<Scalars['uuid']>;
 	rome_code?: InputMaybe<RomeCodeObjRelInsertInput>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
+	updater?: InputMaybe<AccountObjRelInsertInput>;
 };
 
 /** aggregate max on columns */
 export type ProfessionalProjectMaxFields = {
 	__typename?: 'professional_project_max_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
 	mobilityRadius?: Maybe<Scalars['Int']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	romeCodeId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "professional_project" */
 export type ProfessionalProjectMaxOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	romeCodeId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
 export type ProfessionalProjectMinFields = {
 	__typename?: 'professional_project_min_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
 	mobilityRadius?: Maybe<Scalars['Int']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	romeCodeId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
+	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "professional_project" */
 export type ProfessionalProjectMinOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	romeCodeId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "professional_project" */
@@ -10942,6 +11460,8 @@ export type ProfessionalProjectOrderBy = {
 	romeCodeId?: InputMaybe<OrderBy>;
 	rome_code?: InputMaybe<RomeCodeOrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
+	updatedBy?: InputMaybe<OrderBy>;
+	updater?: InputMaybe<AccountOrderBy>;
 };
 
 /** primary key columns input for table: professional_project */
@@ -10969,6 +11489,8 @@ export enum ProfessionalProjectSelectColumn {
 	RomeCodeId = 'romeCodeId',
 	/** column name */
 	UpdatedAt = 'updatedAt',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 /** input type for updating data in table "professional_project" */
@@ -10976,26 +11498,27 @@ export type ProfessionalProjectSetInput = {
 	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	romeCodeId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate stddev on columns */
 export type ProfessionalProjectStddevFields = {
 	__typename?: 'professional_project_stddev_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev() on columns of table "professional_project" */
 export type ProfessionalProjectStddevOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -11003,14 +11526,14 @@ export type ProfessionalProjectStddevOrderBy = {
 /** aggregate stddev_pop on columns */
 export type ProfessionalProjectStddevPopFields = {
 	__typename?: 'professional_project_stddev_pop_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_pop() on columns of table "professional_project" */
 export type ProfessionalProjectStddevPopOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -11018,14 +11541,14 @@ export type ProfessionalProjectStddevPopOrderBy = {
 /** aggregate stddev_samp on columns */
 export type ProfessionalProjectStddevSampFields = {
 	__typename?: 'professional_project_stddev_samp_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by stddev_samp() on columns of table "professional_project" */
 export type ProfessionalProjectStddevSampOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -11043,26 +11566,27 @@ export type ProfessionalProjectStreamCursorValueInput = {
 	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	mobilityRadius?: InputMaybe<Scalars['Int']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	romeCodeId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
+	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate sum on columns */
 export type ProfessionalProjectSumFields = {
 	__typename?: 'professional_project_sum_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	mobilityRadius?: Maybe<Scalars['Int']>;
 };
 
 /** order by sum() on columns of table "professional_project" */
 export type ProfessionalProjectSumOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -11087,6 +11611,8 @@ export enum ProfessionalProjectUpdateColumn {
 	RomeCodeId = 'romeCodeId',
 	/** column name */
 	UpdatedAt = 'updatedAt',
+	/** column name */
+	UpdatedBy = 'updatedBy',
 }
 
 export type ProfessionalProjectUpdates = {
@@ -11100,14 +11626,14 @@ export type ProfessionalProjectUpdates = {
 /** aggregate var_pop on columns */
 export type ProfessionalProjectVarPopFields = {
 	__typename?: 'professional_project_var_pop_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_pop() on columns of table "professional_project" */
 export type ProfessionalProjectVarPopOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -11115,14 +11641,14 @@ export type ProfessionalProjectVarPopOrderBy = {
 /** aggregate var_samp on columns */
 export type ProfessionalProjectVarSampFields = {
 	__typename?: 'professional_project_var_samp_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by var_samp() on columns of table "professional_project" */
 export type ProfessionalProjectVarSampOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -11130,14 +11656,14 @@ export type ProfessionalProjectVarSampOrderBy = {
 /** aggregate variance on columns */
 export type ProfessionalProjectVarianceFields = {
 	__typename?: 'professional_project_variance_fields';
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Float']>;
 	mobilityRadius?: Maybe<Scalars['Float']>;
 };
 
 /** order by variance() on columns of table "professional_project" */
 export type ProfessionalProjectVarianceOrderBy = {
-	/** in cents (multiply by 100 for the EUR value) */
+	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	mobilityRadius?: InputMaybe<OrderBy>;
 };
@@ -11374,6 +11900,18 @@ export type QueryRoot = {
 	notebook_target_aggregate: NotebookTargetAggregate;
 	/** fetch data from the table: "notebook_target" using primary key columns */
 	notebook_target_by_pk?: Maybe<NotebookTarget>;
+	/** fetch data from the table: "nps_rating" */
+	nps_rating: Array<NpsRating>;
+	/** fetch aggregated fields from the table: "nps_rating" */
+	nps_rating_aggregate: NpsRatingAggregate;
+	/** fetch data from the table: "nps_rating" using primary key columns */
+	nps_rating_by_pk?: Maybe<NpsRating>;
+	/** fetch data from the table: "nps_rating_dismissal" */
+	nps_rating_dismissal: Array<NpsRatingDismissal>;
+	/** fetch aggregated fields from the table: "nps_rating_dismissal" */
+	nps_rating_dismissal_aggregate: NpsRatingDismissalAggregate;
+	/** fetch data from the table: "nps_rating_dismissal" using primary key columns */
+	nps_rating_dismissal_by_pk?: Maybe<NpsRatingDismissal>;
 	/** fetch data from the table: "orientation_manager" */
 	orientation_manager: Array<OrientationManager>;
 	/** fetch aggregated fields from the table: "orientation_manager" */
@@ -11965,6 +12503,46 @@ export type QueryRootNotebookTargetAggregateArgs = {
 };
 
 export type QueryRootNotebookTargetByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootNpsRatingArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingOrderBy>>;
+	where?: InputMaybe<NpsRatingBoolExp>;
+};
+
+export type QueryRootNpsRatingAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingOrderBy>>;
+	where?: InputMaybe<NpsRatingBoolExp>;
+};
+
+export type QueryRootNpsRatingByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type QueryRootNpsRatingDismissalArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingDismissalSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingDismissalOrderBy>>;
+	where?: InputMaybe<NpsRatingDismissalBoolExp>;
+};
+
+export type QueryRootNpsRatingDismissalAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingDismissalSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingDismissalOrderBy>>;
+	where?: InputMaybe<NpsRatingDismissalBoolExp>;
+};
+
+export type QueryRootNpsRatingDismissalByPkArgs = {
 	id: Scalars['uuid'];
 };
 
@@ -13999,6 +14577,22 @@ export type SubscriptionRoot = {
 	notebook_target_by_pk?: Maybe<NotebookTarget>;
 	/** fetch data from the table in a streaming manner: "notebook_target" */
 	notebook_target_stream: Array<NotebookTarget>;
+	/** fetch data from the table: "nps_rating" */
+	nps_rating: Array<NpsRating>;
+	/** fetch aggregated fields from the table: "nps_rating" */
+	nps_rating_aggregate: NpsRatingAggregate;
+	/** fetch data from the table: "nps_rating" using primary key columns */
+	nps_rating_by_pk?: Maybe<NpsRating>;
+	/** fetch data from the table: "nps_rating_dismissal" */
+	nps_rating_dismissal: Array<NpsRatingDismissal>;
+	/** fetch aggregated fields from the table: "nps_rating_dismissal" */
+	nps_rating_dismissal_aggregate: NpsRatingDismissalAggregate;
+	/** fetch data from the table: "nps_rating_dismissal" using primary key columns */
+	nps_rating_dismissal_by_pk?: Maybe<NpsRatingDismissal>;
+	/** fetch data from the table in a streaming manner: "nps_rating_dismissal" */
+	nps_rating_dismissal_stream: Array<NpsRatingDismissal>;
+	/** fetch data from the table in a streaming manner: "nps_rating" */
+	nps_rating_stream: Array<NpsRating>;
 	/** fetch data from the table: "orientation_manager" */
 	orientation_manager: Array<OrientationManager>;
 	/** fetch aggregated fields from the table: "orientation_manager" */
@@ -14769,6 +15363,58 @@ export type SubscriptionRootNotebookTargetStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<NotebookTargetStreamCursorInput>>;
 	where?: InputMaybe<NotebookTargetBoolExp>;
+};
+
+export type SubscriptionRootNpsRatingArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingOrderBy>>;
+	where?: InputMaybe<NpsRatingBoolExp>;
+};
+
+export type SubscriptionRootNpsRatingAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingOrderBy>>;
+	where?: InputMaybe<NpsRatingBoolExp>;
+};
+
+export type SubscriptionRootNpsRatingByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootNpsRatingDismissalArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingDismissalSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingDismissalOrderBy>>;
+	where?: InputMaybe<NpsRatingDismissalBoolExp>;
+};
+
+export type SubscriptionRootNpsRatingDismissalAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NpsRatingDismissalSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NpsRatingDismissalOrderBy>>;
+	where?: InputMaybe<NpsRatingDismissalBoolExp>;
+};
+
+export type SubscriptionRootNpsRatingDismissalByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootNpsRatingDismissalStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NpsRatingDismissalStreamCursorInput>>;
+	where?: InputMaybe<NpsRatingDismissalBoolExp>;
+};
+
+export type SubscriptionRootNpsRatingStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<NpsRatingStreamCursorInput>>;
+	where?: InputMaybe<NpsRatingBoolExp>;
 };
 
 export type SubscriptionRootOrientationManagerArgs = {
@@ -16364,6 +17010,20 @@ export type GetNotebookByBeneficiaryIdQuery = {
 			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 			contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 			employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+			updater?: {
+				__typename?: 'account';
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			} | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -16560,6 +17220,20 @@ export type GetNotebookByIdQuery = {
 			rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 			contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 			employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+			updater?: {
+				__typename?: 'account';
+				orientation_manager?: {
+					__typename?: 'orientation_manager';
+					firstname?: string | null;
+					lastname?: string | null;
+				} | null;
+				professional?: {
+					__typename?: 'professional';
+					firstname: string;
+					lastname: string;
+					structure: { __typename?: 'structure'; name: string };
+				} | null;
+			} | null;
 		}>;
 		notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 		beneficiary: {
@@ -16749,6 +17423,20 @@ export type NotebookFragmentFragment = {
 		rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 		contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 		employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+		updater?: {
+			__typename?: 'account';
+			orientation_manager?: {
+				__typename?: 'orientation_manager';
+				firstname?: string | null;
+				lastname?: string | null;
+			} | null;
+			professional?: {
+				__typename?: 'professional';
+				firstname: string;
+				lastname: string;
+				structure: { __typename?: 'structure'; name: string };
+			} | null;
+		} | null;
 	}>;
 	notebookInfo?: { __typename?: 'notebook_info'; needOrientation: boolean } | null;
 	beneficiary: {
@@ -17433,6 +18121,20 @@ export type GetNotebookQuery = {
 				rome_code?: { __typename?: 'rome_code'; id: string; label: string } | null;
 				contract_type?: { __typename?: 'contract_type'; id: string; label: string } | null;
 				employment_type?: { __typename?: 'employment_type'; id: string; label: string } | null;
+				updater?: {
+					__typename?: 'account';
+					orientation_manager?: {
+						__typename?: 'orientation_manager';
+						firstname?: string | null;
+						lastname?: string | null;
+					} | null;
+					professional?: {
+						__typename?: 'professional';
+						firstname: string;
+						lastname: string;
+						structure: { __typename?: 'structure'; name: string };
+					} | null;
+				} | null;
 			}>;
 			situations: Array<{
 				__typename?: 'notebook_situation';
@@ -18138,6 +18840,47 @@ export const NotebookFragmentFragmentDoc = {
 								{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'updater' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'orientation_manager' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+													],
+												},
+											},
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'professional' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{ kind: 'Field', name: { kind: 'Name', value: 'firstname' } },
+														{ kind: 'Field', name: { kind: 'Name', value: 'lastname' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'structure' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+																],
+															},
+														},
+													],
+												},
+											},
+										],
+									},
+								},
 							],
 						},
 					},
@@ -28722,6 +29465,62 @@ export const GetNotebookDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'mobilityRadius' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'updatedAt' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'createdAt' } },
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'updater' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'orientation_manager' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																			],
+																		},
+																	},
+																	{
+																		kind: 'Field',
+																		name: { kind: 'Name', value: 'professional' },
+																		selectionSet: {
+																			kind: 'SelectionSet',
+																			selections: [
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'firstname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'lastname' },
+																				},
+																				{
+																					kind: 'Field',
+																					name: { kind: 'Name', value: 'structure' },
+																					selectionSet: {
+																						kind: 'SelectionSet',
+																						selections: [
+																							{
+																								kind: 'Field',
+																								name: { kind: 'Name', value: 'name' },
+																							},
+																						],
+																					},
+																				},
+																			],
+																		},
+																	},
+																],
+															},
+														},
 													],
 												},
 											},

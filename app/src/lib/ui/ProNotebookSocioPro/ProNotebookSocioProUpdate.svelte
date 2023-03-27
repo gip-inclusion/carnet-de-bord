@@ -44,6 +44,9 @@
 	>;
 	export let refSituations: RefSituation[];
 
+	type NotebookProfessionalProject =
+		GetNotebookQuery['notebook_public_view'][number]['notebook']['professionalProjects'][number];
+
 	let stuck = true;
 	const stickToTop = false;
 	function handleStuck(e: CustomEvent<{ isStuck: boolean }>) {
@@ -52,10 +55,11 @@
 
 	$: errorMessage = '';
 	let selectedSituations: string[] = notebook.situations.map(({ refSituation }) => refSituation.id);
-	let professionalProjects: Pick<
+	type ProfessionalProject = Pick<
 		ProfessionalProjectInsertInput,
 		'id' | 'mobilityRadius' | 'contractTypeId' | 'romeCodeId' | 'hourlyRate' | 'employmentTypeId'
-	>[] =
+	>;
+	let professionalProjects: ProfessionalProject[] =
 		notebook?.professionalProjects?.map((professionalProject) => {
 			return {
 				id: professionalProject.id,
@@ -81,6 +85,48 @@
 
 	function close() {
 		onClose();
+	}
+
+	function professionalProjectIsModified(professionalProject: ProfessionalProject): boolean {
+		const currentProfessionalProject = notebook.professionalProjects.find(
+			({ id }) => id === professionalProject.id
+		);
+
+		if (!currentProfessionalProject) {
+			return true;
+		}
+
+		return !areEqualsProfessionalProjects(
+			toProfessionalProject(currentProfessionalProject),
+			professionalProject
+		);
+	}
+
+	function areEqualsProfessionalProjects(
+		lhs: ProfessionalProject,
+		rhs: ProfessionalProject
+	): boolean {
+		return (
+			// null and undefined are considered equal
+			lhs.contractTypeId == rhs.contractTypeId &&
+			lhs.employmentTypeId == rhs.employmentTypeId &&
+			lhs.romeCodeId == rhs.romeCodeId &&
+			lhs.hourlyRate == rhs.hourlyRate &&
+			lhs.mobilityRadius == rhs.mobilityRadius
+		);
+	}
+
+	function toProfessionalProject(
+		notebookProfessionalProject: NotebookProfessionalProject
+	): ProfessionalProject {
+		return {
+			contractTypeId: (notebookProfessionalProject.contract_type?.id ?? null) as ContractTypeEnum,
+			employmentTypeId: (notebookProfessionalProject.employment_type?.id ??
+				null) as EmploymentTypeEnum,
+			romeCodeId: notebookProfessionalProject.rome_code?.id ?? null,
+			hourlyRate: notebookProfessionalProject.hourlyRate,
+			mobilityRadius: notebookProfessionalProject.mobilityRadius,
+		};
 	}
 
 	async function handleSubmit(values: ProNotebookSocioproInput) {
@@ -122,6 +168,7 @@
 
 		const professionalProjectsToUpdate: ProfessionalProjectUpdates[] = professionalProjects
 			.filter(({ id }) => id)
+			.filter(professionalProjectIsModified)
 			.map((project) => {
 				return {
 					where: {
@@ -227,6 +274,7 @@
 						hourlyRate,
 						employment_type,
 						contract_type,
+						updater,
 					}) => ({
 						id,
 						createdAt,
@@ -236,6 +284,7 @@
 						hourlyRate,
 						contractType: contract_type,
 						employmentType: employment_type,
+						updater,
 					})
 				),
 			},

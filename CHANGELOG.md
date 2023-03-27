@@ -1,3 +1,18 @@
+## [1.209.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.209.0...v1.209.1) (2023-03-27)
+
+# [1.209.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.208.8...v1.209.0) (2023-03-27)
+
+
+### Features
+
+* Affichage des informations de mise à jour des projets professionnels. ([#1597](https://github.com/gip-inclusion/carnet-de-bord/issues/1597)) ([0c6bfcc](https://github.com/gip-inclusion/carnet-de-bord/commit/0c6bfcc406be9cedcb462932215e81f8f30fb055))
+
+## [1.208.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.208.7...v1.208.8) (2023-03-25)
+
+## [1.208.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.208.6...v1.208.7) (2023-03-23)
+
+## [1.208.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.208.5...v1.208.6) (2023-03-23)
+
 ## [1.208.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.208.4...v1.208.5) (2023-03-22)
 
 ## [1.208.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.208.3...v1.208.4) (2023-03-22)

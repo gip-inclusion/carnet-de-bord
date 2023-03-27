@@ -1,5 +1,6 @@
 from unittest import mock
 
+import pytest
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
@@ -9,6 +10,8 @@ from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.professional import Professional
 from tests.utils.assert_helpers import assert_member, assert_structure
 
+pytestmark = pytest.mark.graphql
+
 
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_verify_no_token(
@@ -16,7 +19,7 @@ async def test_verify_no_token(
     test_client: TestClient,
     notebook_sophie_tifour: Notebook,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
     )
     assert response.status_code == 401
@@ -31,7 +34,7 @@ async def test_orientation_manager_not_allowed_to_add_notebook_member(
     giulia_diaby_jwt: str,
     notebook_sophie_tifour: Notebook,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -47,7 +50,7 @@ async def test_add_notebook_member_as_no_referent_with_no_structure_id_in_token(
     notebook_sophie_tifour: Notebook,
     get_professional_jwt_without_structure_id: str,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         f"/v1/notebooks/{str(notebook_sophie_tifour.id)}/members",
         json={"member_type": "no_referent"},
         headers={"jwt-token": f"{get_professional_jwt_without_structure_id}"},
@@ -67,7 +70,7 @@ async def test_add_notebook_member_as_no_referent(
     professional_pierre_chevalier: Professional,
     db_connection: Connection,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "no_referent"},
         headers={"jwt-token": get_professional_paul_camara_jwt},
@@ -106,7 +109,7 @@ async def test_add_notebook_member_as_referent(
     professional_pierre_chevalier: Professional,
     db_connection: Connection,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "referent"},
         headers={"jwt-token": get_professional_paul_camara_jwt},

@@ -1,6 +1,7 @@
 from unittest import mock
 from uuid import UUID
 
+import pytest
 from asyncpg.connection import Connection
 from fastapi.testclient import TestClient
 
@@ -14,6 +15,8 @@ from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
 from tests.utils.assert_helpers import assert_member, assert_structure
 
+pytestmark = pytest.mark.graphql
+
 UPDATE_ORIENTATION_ENDPOINT_PATH = "/v1/orientations/change"
 
 
@@ -25,7 +28,7 @@ async def test_verify_no_token(
     notebook_sophie_tifour: Notebook,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -48,7 +51,7 @@ async def test_professional_not_allowed_to_change_orientation(
     get_professional_jwt: str,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -72,7 +75,7 @@ async def test_admin_structure_not_allowed_to_change_orientation(
     get_admin_structure_jwt: str,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -97,7 +100,7 @@ async def test_change_orientation_while_keeping_same_referent(
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -128,7 +131,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -186,7 +189,7 @@ async def test_change_orientation_with_new_referent(
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -247,7 +250,7 @@ async def test_change_orientation_with_new_referent_when_beneficiary_has_no_stru
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -292,7 +295,7 @@ async def test_change_orientation_with_orientation_request(
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_request_id": orientation_request_jennings_dee.id,
@@ -331,7 +334,7 @@ async def test_send_email_to_members_with_orientation_request(
     giulia_diaby_jwt: str,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -370,7 +373,7 @@ async def test_send_email_to_members_without_orientation_request(
     giulia_diaby_jwt: str,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -407,7 +410,7 @@ async def test_send_email_to_members_first_orientation(
     giulia_diaby_jwt: str,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),
@@ -436,7 +439,7 @@ async def test_unconsistent_orientation_request(
     giulia_diaby_jwt: str,
     orientation_system_social_id: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
             "orientation_system_id": str(orientation_system_social_id),

@@ -16,7 +16,7 @@ async def test_jwt_token_verification(
     structure_id_pe_livry: UUID,
 ):
 
-    response = test_client.post(
+    response = await test_client.post(
         ENDPOINT_PATH,
         json={
             "admin": {
@@ -48,7 +48,7 @@ async def test_insert_admin_structure_with_structure_in_db(
     structure_id_pe_livry: UUID,
 ):
 
-    response = test_client.post(
+    response = await test_client.post(
         ENDPOINT_PATH,
         json={
             "admin": {
@@ -103,7 +103,7 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
     deployment_id_cd93: UUID,
     structure_id_pe_livry: UUID,
 ):
-    response = test_client.post(
+    response = await test_client.post(
         ENDPOINT_PATH,
         json={
             "admin": {
@@ -150,7 +150,7 @@ async def test_insert_existing_admin_structure_in_existing_structure(
     structure_id_pe_livry: UUID,
 ):
 
-    response = test_client.post(
+    response = await test_client.post(
         ENDPOINT_PATH,
         json={
             "admin": {
@@ -195,7 +195,7 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
         "vincent.timaitre@groupe-ns.fr",
     )
 
-    response = test_client.post(
+    response = await test_client.post(
         ENDPOINT_PATH,
         json={
             "admin": {
