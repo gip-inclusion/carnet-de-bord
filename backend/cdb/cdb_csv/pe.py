@@ -92,7 +92,7 @@ async def map_action_row(row: Series) -> ActionCsvRow:
 
 
 async def import_beneficiaries(connection: Connection, principal_csv: str):
-    # TODO consider NULL string comme NA_VALUES
+    # TODO consider NULL string as NA_VALUES
     # and use df = df.replace({np.nan:None})
     df = dd.read_csv(  # type: ignore
         principal_csv, sep=";", dtype=str, keep_default_na=False, na_values=["_"]
@@ -104,13 +104,11 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
             logging.info(
                 "%s => Trying to import main row", row["identifiant_unique_de"]
             )
-            logging.warning("+++++ %s", row)
             csv_row: PrincipalCsvRow = await map_principal_row(row)
-            logging.warning("-----%s", csv_row)
             hash_result: str = await get_sha256(csv_row)
 
-            # TODO: utiliser une transaction
-            # TODO: Que faire en cas d'erreur : Qu'est ce qu'on enregistre
+            # TODO: use a transaction
+            # TODO: what should we do when we encounter an error? What should we save?
 
             if csv_row.brsa:
                 beneficiary: Beneficiary | None = await import_beneficiary(
@@ -144,16 +142,14 @@ async def import_beneficiaries(connection: Connection, principal_csv: str):
                     )
                 else:
                     logging.info(
-                        "{} - No new beneficiary to import. Skipping.".format(
-                            row["identifiant_unique_de"]
-                        )
+                        "%s - No new beneficiary to import. Skipping.",
+                        row["identifiant_unique_de"],
                     )
 
             else:
                 logging.info(
-                    "{} - Skipping, BRSA field value is No".format(
-                        row["identifiant_unique_de"]
-                    )
+                    "%s - Skipping, BRSA field value is No",
+                    row["identifiant_unique_de"],
                 )
 
         except Exception as e:
@@ -319,14 +315,12 @@ async def import_pe_referent(
     notebook_id: UUID,
 ) -> Professional | None:
     # HACK: @lionelb
-    # on utilise cette requete pour trouver les structure PE déjà créer
-    # depuis les données de l'api POLE EMPLOI n'ayant pas de données
-    # dans le fichier qui permettent une identification de la structure
-    # dans notre base. Le champ code_safir pourrait permettre cela
-    # malheureusement pour l'instant, l'analyse des données dans le fichier
-    # montre que celui ci n'est pas suffisament fiable.
-    # - Plusieurs structure_principale ont le meme code structure et inversement
-    # - Plusieurs code pour la meme structure
+    # We use this query to get structures from PE already created
+    # with data coming from PE API as we don't have data in the PE file that
+    # could allow identifying  the structure in our database. The `code_safir` field
+    # could allow it but unfortunately, after having a look a the data, this field
+    # doesn't seem reliable enough:
+    # - Multiple `structure_principale` have the same structure code and vice versa
     structure: Structure | None = await get_structure_with_query(
         connection,
         "WHERE short_desc = $1 and name like '%' || $1",
@@ -358,9 +352,9 @@ async def import_pe_referent(
         return
     else:
         logging.info(
-            "{} - Structure '{}' found".format(
-                csv_row.identifiant_unique_de, csv_row.struct_principale
-            )
+            "%s - Structure '%s' found",
+            csv_row.identifiant_unique_de,
+            csv_row.struct_principale,
         )
     pro_email: str | None = net_email_to_fr_email(csv_row.referent_mail)
 
@@ -393,9 +387,10 @@ async def import_pe_referent(
 
         if professional:
             logging.info(
-                "{} - Professional {} inserted and attached to structure {}".format(
-                    csv_row.identifiant_unique_de, csv_row.referent_mail, structure.name
-                )
+                "%S - Professional %s inserted and attached to structure %s",
+                csv_row.identifiant_unique_de,
+                csv_row.referent_mail,
+                structure.name,
             )
             account: AccountDB | None = await insert_professional_account(
                 connection,
@@ -406,9 +401,9 @@ async def import_pe_referent(
 
             if not account:
                 logging.error(
-                    "{} - Impossible to create account for {}".format(
-                        csv_row.identifiant_unique_de, csv_row.referent_mail
-                    )
+                    "%s - Impossible to create account for %s",
+                    csv_row.identifiant_unique_de,
+                    csv_row.referent_mail,
                 )
             else:
                 await add_account_to_notebook_members(
@@ -416,9 +411,7 @@ async def import_pe_referent(
                 )
         return professional
     else:
-        logging.info(
-            "{} - Professional already exists".format(csv_row.identifiant_unique_de)
-        )
+        logging.info("%s - Professional already exists", csv_row.identifiant_unique_de)
 
         account: AccountDB | None = await get_account_by_professional_email(
             connection, pro_email
@@ -437,15 +430,12 @@ async def import_pe_referent(
                 )
             else:
                 logging.info(
-                    "{} - Professional is already a member of the notebook".format(
-                        csv_row.identifiant_unique_de
-                    )
+                    "%s - Professional is already a member of the notebook",
+                    csv_row.identifiant_unique_de,
                 )
         else:
             logging.error(
-                "{} - No account found for Professional".format(
-                    csv_row.identifiant_unique_de
-                )
+                "%s - No account found for Professional", csv_row.identifiant_unique_de
             )
 
 
@@ -478,9 +468,7 @@ async def add_account_to_notebook_members(
         )
     else:
         logging.error(
-            "{} - Impossible to add professional as notebook_member".format(
-                pe_unique_id
-            )
+            "%s - Impossible to add professional as notebook_member", pe_unique_id
         )
 
 
@@ -519,16 +507,16 @@ async def import_beneficiary(
         )
         if external_data is not None and hash_result == external_data.hash:
             logging.info(
-                "{} - SHA value is the same. Skipping import for beneficiary {}".format(
-                    csv_row.identifiant_unique_de, beneficiary.id
-                )
+                "%s - SHA value is the same. Skipping import for beneficiary %s",
+                csv_row.identifiant_unique_de,
+                beneficiary.id,
             )
             return
 
         logging.info(
-            "{} - Found matching beneficiary {}".format(
-                csv_row.identifiant_unique_de, beneficiary.id
-            )
+            "%s - Found matching beneficiary %s",
+            csv_row.identifiant_unique_de,
+            beneficiary.id,
         )
 
         # Insert the missing wanted jobs into the DB
@@ -543,9 +531,8 @@ async def import_beneficiary(
         return beneficiary
     else:
         logging.info(
-            "{} - No matching beneficiary with notebook found".format(
-                csv_row.identifiant_unique_de
-            )
+            "%s - No matching beneficiary with notebook found",
+            csv_row.identifiant_unique_de,
         )
 
 
@@ -573,12 +560,11 @@ async def save_external_data(
         return external_data
 
     if external_data is None:
-        logging.info("No external_data for {}".format(beneficiary.id))
+        logging.info("No external_data for %s", beneficiary.id)
     else:
         logging.info(
-            "Data has changed, setting up new version of external data for {}".format(
-                beneficiary.id
-            )
+            "Data has changed, setting up new version of external data for %s",
+            beneficiary.id,
         )
     external_data: ExternalData | None = (
         await insert_external_data_for_beneficiary_and_professional(
@@ -636,15 +622,13 @@ async def insert_professional_projects_for_csv_row_and_notebook(
         )
         if professional_project:
             logging.info(
-                "{} - Wanted job {} inserted".format(
-                    csv_row.identifiant_unique_de, professional_project
-                )
+                "%s - Wanted job %s inserted",
+                csv_row.identifiant_unique_de,
+                professional_project,
             )
             notebook.professional_projects.append(professional_project)
         else:
-            logging.info(
-                "{} - NO Wanted job inserted".format(csv_row.identifiant_unique_de)
-            )
+            logging.info("%s - NO Wanted job inserted", csv_row.identifiant_unique_de)
 
     return notebook
 
@@ -662,12 +646,13 @@ async def check_and_insert_professional_project(
 
     if not professional_project:
         logging.info(
-            "Wanted job {} - {} not found for notebook {}".format(
-                rome_code, rome_label, notebook.id
-            )
+            "Wanted job %s - %s not found for notebook %s",
+            rome_code,
+            rome_label,
+            notebook.id,
         )
         return await insert_professional_project_for_notebook(
             connection, notebook, rome_code, rome_label
         )
     else:
-        logging.info("Wanted job {} found for notebook".format(professional_project))
+        logging.info("Wanted job %s found for notebook", professional_project)
