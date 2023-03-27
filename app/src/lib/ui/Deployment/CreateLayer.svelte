@@ -15,11 +15,13 @@
 	const initialValues = {
 		email: '',
 		deployment: '',
+		departmentCode: '',
 	};
 	let errorMessage = '';
 
 	async function handleSubmit(values: AdminDeploymentType) {
-		const { error } = await insertDeployment(values);
+		const data = adminDeploymentSchema.cast(values);
+		const { error } = await insertDeployment(data);
 		if (error) {
 			errorMessage = 'Une erreur est survenue lors de la création du déploiement.';
 			if (/uniqueness/i.test(error.message) && /manager_email_key/i.test(error.message)) {
@@ -55,8 +57,14 @@
 		let:isSubmitted
 		let:isSubmitting
 		let:isValid
-	>
-		<Input name="deployment" required inputLabel="Nom du déploiement" />
+		><div class="fr-grid-row fr-grid-row--gutters">
+			<div class="fr-col-md-12 fr-col-lg-8">
+				<Input name="deployment" required inputLabel="Nom du déploiement" />
+			</div>
+			<div class="fr-col-md-12 fr-col-lg-4">
+				<Input name="departmentCode" required inputLabel="Département" />
+			</div>
+		</div>
 		<Input name="email" required inputLabel="Courriel du gestionnaire" />
 		{#if $deploymentStore.error}
 			<div class="mb-8">
