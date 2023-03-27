@@ -174,6 +174,7 @@
 	$: lastMember = members?.length ? members[0] : null;
 	$: reorientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
+	$: lastReferent = publicNotebook?.lastReferent?.length ? publicNotebook.lastReferent[0] : null;
 
 	let search = '';
 
@@ -192,6 +193,7 @@
 	$: isReferent = members.some(
 		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
 	);
+	$: isLastReferent = $accountData.id === lastReferent?.account?.id;
 	$: isMember = members.some(({ account }) => $accountData.id === account.id);
 
 	$: externalData =
@@ -218,8 +220,8 @@
 				<ProOrientationRequestBanner {reorientationRequest} />
 			</Portal>
 		{/if}
-		{#if isReferent}
-			<div>
+		<div>
+			{#if isReferent || isLastReferent}
 				<Dialog
 					label="Voir le motif de l‘orientation"
 					buttonLabel="Voir le motif de l‘orientation"
@@ -229,13 +231,13 @@
 				>
 					<Text value={notebook.notebookInfo?.orientationReason ?? 'Non défini'} />
 				</Dialog>
-				{#if !reorientationRequest || reorientationRequest.status != 'pending'}
-					<Button classNames="inline" outline on:click={requireReorientation}
-						>Demander une réorientation</Button
-					>
-				{/if}
-			</div>
-		{/if}
+			{/if}
+			{#if isReferent && (!reorientationRequest || reorientationRequest.status != 'pending')}
+				<Button classNames="inline" outline on:click={requireReorientation}
+					>Demander une réorientation</Button
+				>
+			{/if}
+		</div>
 		<ProNotebookPersonalInfoView
 			{beneficiary}
 			lastUpdateDate={lastMember?.lastModifiedAt}

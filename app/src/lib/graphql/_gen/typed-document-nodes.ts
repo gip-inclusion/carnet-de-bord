@@ -18342,6 +18342,11 @@ export type GetNotebookQuery = {
 				} | null;
 			}>;
 		} | null;
+		lastReferent: Array<{
+			__typename?: 'notebook_member';
+			id: string;
+			account: { __typename?: 'account'; id: string };
+		}>;
 		members: Array<{
 			__typename?: 'notebook_member';
 			id: string;
@@ -29582,6 +29587,106 @@ export const GetNotebookDocument = {
 															},
 														},
 													],
+												},
+											},
+										],
+									},
+								},
+								{
+									kind: 'Field',
+									alias: { kind: 'Name', value: 'lastReferent' },
+									name: { kind: 'Name', value: 'members' },
+									arguments: [
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'where' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: '_and' },
+														value: {
+															kind: 'ListValue',
+															values: [
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'memberType' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_eq' },
+																						value: {
+																							kind: 'StringValue',
+																							value: 'referent',
+																							block: false,
+																						},
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+																{
+																	kind: 'ObjectValue',
+																	fields: [
+																		{
+																			kind: 'ObjectField',
+																			name: { kind: 'Name', value: 'membershipEndedAt' },
+																			value: {
+																				kind: 'ObjectValue',
+																				fields: [
+																					{
+																						kind: 'ObjectField',
+																						name: { kind: 'Name', value: '_is_null' },
+																						value: { kind: 'BooleanValue', value: false },
+																					},
+																				],
+																			},
+																		},
+																	],
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'order_by' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'membershipEndedAt' },
+														value: { kind: 'EnumValue', value: 'desc_nulls_last' },
+													},
+												],
+											},
+										},
+										{
+											kind: 'Argument',
+											name: { kind: 'Name', value: 'limit' },
+											value: { kind: 'IntValue', value: '1' },
+										},
+									],
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [
+											{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+											{
+												kind: 'Field',
+												name: { kind: 'Name', value: 'account' },
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 												},
 											},
 										],
