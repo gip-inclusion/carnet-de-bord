@@ -1,3 +1,10 @@
+## [1.209.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.209.2...v1.209.3) (2023-03-28)
+
+
+### Bug Fixes
+
+* Correction de la faute dans le nom du type de contrat `saisonnier`. ([#1616](https://github.com/gip-inclusion/carnet-de-bord/issues/1616)) ([2f0f348](https://github.com/gip-inclusion/carnet-de-bord/commit/2f0f348d4edbde1fae9aa83ce459fc96719ce5ce))
+
 ## [1.209.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.209.1...v1.209.2) (2023-03-27)
 
 ## [1.209.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.209.0...v1.209.1) (2023-03-27)
