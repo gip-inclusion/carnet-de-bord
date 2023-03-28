@@ -14,7 +14,7 @@
 	const uniqueId = `select-input-${counter}`;
 	export let id = uniqueId;
 
-	export let label = 'Selectionner un élément';
+	export let label = 'Sélectionner un élément';
 	export let help =
 		'Utilisez la tabulation (ou les touches flèches) pour naviguer dans la liste des suggestions';
 	export let placeholder = 'Sélectionner un élément';

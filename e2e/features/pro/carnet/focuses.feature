@@ -15,7 +15,7 @@ Scénario: Ajout d'un axe de travail par un pro
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
 	Quand je choisis "Aucun"
-	Quand je selectionne l'option "Numérique" dans la liste "Thème"
+	Quand je sélectionne l'option "Numérique" dans la liste "Thème"
 	Quand je clique sur "Valider"
 	Quand je clique sur "J'ai compris"
 	Alors je vois "Aucune action" dans la tuile "Numérique"

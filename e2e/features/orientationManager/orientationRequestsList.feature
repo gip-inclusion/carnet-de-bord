@@ -8,14 +8,14 @@ Fonctionnalité: Liste des demandes de réorientation
 	Scénario: Aucune demande de réorientation
 		Soit un "chargé d'orientation" authentifié avec l'email "laure.loge@cd51.fr"
 		Quand je clique sur "Bénéficiaires"
-		Quand je selectionne l'option "Avec une demande de réorientation" dans la liste "Statut"
+		Quand je sélectionne l'option "Avec une demande de réorientation" dans la liste "Statut"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je vois "Aucun bénéficiaire"
 
   Scénario: Une demande de réorientation
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
-		Quand je selectionne l'option "Avec une demande de réorientation" dans la liste "Statut"
+		Quand je sélectionne l'option "Avec une demande de réorientation" dans la liste "Statut"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je vois "Carlson Oconnor"
 		Quand je clique sur le bouton "Voir la demande de réorientation de Oconnor Carlson"
