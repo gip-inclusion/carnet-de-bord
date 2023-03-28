@@ -74,7 +74,7 @@ contractTypeToLabel contractType =
             "Intérim"
 
         Seasonal ->
-            "Saisonier"
+            "Saisonnier"
 
         Liberal ->
             "Libéral"
@@ -138,7 +138,7 @@ contractTypeStringToType contractType =
         "interim" ->
             Just Interim
 
-        "Saisonier" ->
+        "Saisonnier" ->
             Just Seasonal
 
         "saisonnier" ->
