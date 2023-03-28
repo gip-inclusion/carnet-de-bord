@@ -12,11 +12,13 @@
 	import { postApiJson } from '$lib/utils/post';
 	import { captureException } from '$lib/utils/sentry';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { Button, Radio, Select } from '$lib/ui/base';
+	import { Button } from '$lib/ui/base';
 	import { createEventDispatcher } from 'svelte';
 	import type { Option } from '$lib/types';
 	import { goto } from '$app/navigation';
 	import { displayFullName } from '../format';
+	import { Form, Select, Radio } from '$lib/ui/forms';
+	import * as yup from 'yup';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][number];
 	type Member = Notebook['members'][number];
@@ -45,15 +47,12 @@
 		{ name: 'no_referent', label: 'Non' },
 	];
 
-	let memberType: 'referent' | 'no_referent' = 'no_referent';
-	$: asReferent = memberType === referent;
-
-	async function addCurrentAccountToNotebookMembers() {
+	async function addCurrentAccountToNotebookMembers(values: addMemberType) {
 		trackEvent('pro', 'members', 'join_notebook_members');
 		try {
 			await postApiJson(
 				`/v1/notebooks/${notebookId}/members`,
-				{ member_type: memberType },
+				{ member_type: values.memberType, orientation: values.orientation },
 				{ 'jwt-token': $token }
 			);
 			dispatch('notebook-member-added');
@@ -69,10 +68,6 @@
 			}
 			return;
 		}
-	}
-
-	function setSelectedMemberType(selected: CustomEvent) {
-		memberType = selected.detail.value;
 	}
 
 	function forceLogout() {
@@ -98,43 +93,58 @@
 					: member.account?.professional?.position,
 		};
 	}
+
 	const notebookMembers = members.map(toNotebookMember);
+
+	const addMemberSchema = yup.object().shape({
+		memberType: yup.string().oneOf(['referent', 'no_referent']).required(),
+		orientation: yup.string().uuid().when('memberType', {
+			is: 'referent',
+			then: yup.string().uuid().required(),
+		}),
+	});
+	type addMemberType = yup.InferType<typeof addMemberSchema>;
+
+	const initialValues = {
+		memberType: 'no_referent',
+	};
 </script>
 
 <div class="fr-table fr-table--layout-fixed !mb-0">
 	{#if $accountData.professional}
 		<div class="pb-6">
-			{#if orientationOptions.length}
-				<Dialog
-					buttonFullWidth={true}
-					outlineButton={false}
-					title="Se rattacher"
-					label="Se rattacher"
-					on:confirm={addCurrentAccountToNotebookMembers}
+			<Dialog
+				buttonFullWidth={true}
+				outlineButton={false}
+				title="Se rattacher"
+				label="Se rattacher"
+				showButtons={false}
+			>
+				<Form
+					{initialValues}
+					validationSchema={addMemberSchema}
+					onSubmit={addCurrentAccountToNotebookMembers}
+					let:form
 				>
 					<Radio
-						caption="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+						legend="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 						name="memberType"
 						{options}
-						selected={memberType}
-						on:input={setSelectedMemberType}
 						ariaControls="orientation-system"
 					/>
-					<div class="fr-form-group">
-						<Select
-							id="orientation-system"
-							options={orientationOptions}
-							name="orientation"
-							selected={orientationOptions.length === 1 ? orientationOptions[0].name : undefined}
-							selectLabel="Dispositif d’accompagnement"
-							disabled={!asReferent}
-							required={asReferent}
-						/>
-					</div>
-				</Dialog>
-			{:else}
-				<Button type="button" on:click={addCurrentAccountToNotebookMembers}>Se rattacher</Button>
-			{/if}
+					{#if orientationOptions.length && form.memberType === 'referent'}
+						<div class="fr-form-group">
+							<Select
+								options={orientationOptions}
+								name="orientation"
+								selectLabel="Dispositif d’accompagnement"
+								required
+							/>
+						</div>
+					{/if}
+					<Button type="submit">Se rattacher</Button>
+				</Form>
+			</Dialog>
 		</div>
 	{/if}
 

@@ -13,6 +13,7 @@
 	export let valid = '';
 	export let disabled = false;
 	export let required = false;
+	export let ariaControls: string | null = null;
 
 	const { form, handleChange, errors, isSubmitted } = getContext<
 		{ isSubmitted: Writable<boolean> } & FormProps['context']
@@ -51,6 +52,7 @@
 						on:change={handleChange}
 						value={option.name}
 						checked={$form[name] === option.name}
+						aria-controls={ariaControls}
 					/>
 					<label class="fr-label" for={`radio-${name}-${option.name}`}>{option.label} </label>
 				</div>
