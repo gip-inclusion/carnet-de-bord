@@ -8699,7 +8699,6 @@ export type NotebookSituation = {
 	/** An object relationship */
 	refSituation?: Maybe<RefSituation>;
 	situationId: Scalars['uuid'];
-	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** aggregated selection of "notebook_situation" */
@@ -8764,7 +8763,6 @@ export type NotebookSituationBoolExp = {
 	notebookId?: InputMaybe<UuidComparisonExp>;
 	refSituation?: InputMaybe<RefSituationBoolExp>;
 	situationId?: InputMaybe<UuidComparisonExp>;
-	updatedBy?: InputMaybe<UuidComparisonExp>;
 };
 
 /** unique or primary key constraints on table "notebook_situation" */
@@ -8788,7 +8786,6 @@ export type NotebookSituationInsertInput = {
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	refSituation?: InputMaybe<RefSituationObjRelInsertInput>;
 	situationId?: InputMaybe<Scalars['uuid']>;
-	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** aggregate max on columns */
@@ -8801,7 +8798,6 @@ export type NotebookSituationMaxFields = {
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
-	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by max() on columns of table "notebook_situation" */
@@ -8813,7 +8809,6 @@ export type NotebookSituationMaxOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
-	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** aggregate min on columns */
@@ -8826,7 +8821,6 @@ export type NotebookSituationMinFields = {
 	id?: Maybe<Scalars['uuid']>;
 	notebookId?: Maybe<Scalars['uuid']>;
 	situationId?: Maybe<Scalars['uuid']>;
-	updatedBy?: Maybe<Scalars['uuid']>;
 };
 
 /** order by min() on columns of table "notebook_situation" */
@@ -8838,7 +8832,6 @@ export type NotebookSituationMinOrderBy = {
 	id?: InputMaybe<OrderBy>;
 	notebookId?: InputMaybe<OrderBy>;
 	situationId?: InputMaybe<OrderBy>;
-	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** response of any mutation on the table "notebook_situation" */
@@ -8870,7 +8863,6 @@ export type NotebookSituationOrderBy = {
 	notebookId?: InputMaybe<OrderBy>;
 	refSituation?: InputMaybe<RefSituationOrderBy>;
 	situationId?: InputMaybe<OrderBy>;
-	updatedBy?: InputMaybe<OrderBy>;
 };
 
 /** primary key columns input for table: notebook_situation */
@@ -8894,8 +8886,6 @@ export enum NotebookSituationSelectColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	SituationId = 'situationId',
-	/** column name */
-	UpdatedBy = 'updatedBy',
 }
 
 /** input type for updating data in table "notebook_situation" */
@@ -8907,7 +8897,6 @@ export type NotebookSituationSetInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
-	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** Streaming cursor of the table "notebook_situation" */
@@ -8927,7 +8916,6 @@ export type NotebookSituationStreamCursorValueInput = {
 	id?: InputMaybe<Scalars['uuid']>;
 	notebookId?: InputMaybe<Scalars['uuid']>;
 	situationId?: InputMaybe<Scalars['uuid']>;
-	updatedBy?: InputMaybe<Scalars['uuid']>;
 };
 
 /** update columns of table "notebook_situation" */
@@ -8946,8 +8934,6 @@ export enum NotebookSituationUpdateColumn {
 	NotebookId = 'notebookId',
 	/** column name */
 	SituationId = 'situationId',
-	/** column name */
-	UpdatedBy = 'updatedBy',
 }
 
 export type NotebookSituationUpdates = {
