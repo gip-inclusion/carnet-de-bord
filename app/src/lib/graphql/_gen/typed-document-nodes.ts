@@ -35,12 +35,6 @@ export type BooleanComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
-export type CreateDeploymentOutput = {
-	__typename?: 'CreateDeploymentOutput';
-	id: Scalars['uuid'];
-	label: Scalars['String'];
-};
-
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type IntComparisonExp = {
 	_eq?: InputMaybe<Scalars['Int']>;
@@ -2650,6 +2644,7 @@ export type Deployment = {
 	beneficiaries_aggregate: BeneficiaryAggregate;
 	config?: Maybe<Scalars['jsonb']>;
 	createdAt: Scalars['timestamptz'];
+	departmentCode?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	label: Scalars['String'];
 	/** An array relationship */
@@ -2821,6 +2816,7 @@ export type DeploymentBoolExp = {
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryAggregateBoolExp>;
 	config?: InputMaybe<JsonbComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	departmentCode?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	label?: InputMaybe<StringComparisonExp>;
 	managers?: InputMaybe<ManagerBoolExp>;
@@ -2861,6 +2857,7 @@ export type DeploymentInsertInput = {
 	beneficiaries?: InputMaybe<BeneficiaryArrRelInsertInput>;
 	config?: InputMaybe<Scalars['jsonb']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	departmentCode?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	label?: InputMaybe<Scalars['String']>;
 	managers?: InputMaybe<ManagerArrRelInsertInput>;
@@ -2874,6 +2871,7 @@ export type DeploymentInsertInput = {
 export type DeploymentMaxFields = {
 	__typename?: 'deployment_max_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	departmentCode?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	label?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -2883,6 +2881,7 @@ export type DeploymentMaxFields = {
 export type DeploymentMinFields = {
 	__typename?: 'deployment_min_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	departmentCode?: Maybe<Scalars['String']>;
 	id?: Maybe<Scalars['uuid']>;
 	label?: Maybe<Scalars['String']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
@@ -2917,6 +2916,7 @@ export type DeploymentOrderBy = {
 	beneficiaries_aggregate?: InputMaybe<BeneficiaryAggregateOrderBy>;
 	config?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	departmentCode?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	label?: InputMaybe<OrderBy>;
 	managers_aggregate?: InputMaybe<ManagerAggregateOrderBy>;
@@ -2943,6 +2943,8 @@ export enum DeploymentSelectColumn {
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
+	DepartmentCode = 'departmentCode',
+	/** column name */
 	Id = 'id',
 	/** column name */
 	Label = 'label',
@@ -2954,6 +2956,7 @@ export enum DeploymentSelectColumn {
 export type DeploymentSetInput = {
 	config?: InputMaybe<Scalars['jsonb']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	departmentCode?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	label?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -2971,6 +2974,7 @@ export type DeploymentStreamCursorInput = {
 export type DeploymentStreamCursorValueInput = {
 	config?: InputMaybe<Scalars['jsonb']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	departmentCode?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	label?: InputMaybe<Scalars['String']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -2982,6 +2986,8 @@ export enum DeploymentUpdateColumn {
 	Config = 'config',
 	/** column name */
 	CreatedAt = 'createdAt',
+	/** column name */
+	DepartmentCode = 'departmentCode',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -4144,7 +4150,6 @@ export type ManagerUpdates = {
 /** mutation root */
 export type MutationRoot = {
 	__typename?: 'mutation_root';
-	createDeploymentWithEmail?: Maybe<CreateDeploymentOutput>;
 	/** delete data from the table: "account" */
 	delete_account?: Maybe<AccountMutationResponse>;
 	/** delete single row from the table: "account" */
@@ -4707,12 +4712,6 @@ export type MutationRoot = {
 	update_structure_orientation_system_many?: Maybe<
 		Array<Maybe<StructureOrientationSystemMutationResponse>>
 	>;
-};
-
-/** mutation root */
-export type MutationRootCreateDeploymentWithEmailArgs = {
-	deployment: Scalars['String'];
-	email: Scalars['citext'];
 };
 
 /** mutation root */
@@ -16139,20 +16138,6 @@ export type UpdateReferentMutation = {
 	} | null;
 };
 
-export type CreateDeploymentMutationVariables = Exact<{
-	email: Scalars['citext'];
-	deployment: Scalars['String'];
-}>;
-
-export type CreateDeploymentMutation = {
-	__typename?: 'mutation_root';
-	createDeploymentWithEmail?: {
-		__typename?: 'CreateDeploymentOutput';
-		id: string;
-		label: string;
-	} | null;
-};
-
 export type GetDeploymentByIdQueryVariables = Exact<{
 	id: Scalars['uuid'];
 }>;
@@ -18523,23 +18508,6 @@ export type InsertProfessionalAccountMutation = {
 			__typename?: 'professional';
 			structure: { __typename?: 'structure'; name: string };
 		} | null;
-	} | null;
-};
-
-export type CreateDeploymentFromApiMutationVariables = Exact<{
-	object: DeploymentInsertInput;
-}>;
-
-export type CreateDeploymentFromApiMutation = {
-	__typename?: 'mutation_root';
-	insert_deployment_one?: {
-		__typename?: 'deployment';
-		id: string;
-		label: string;
-		managers: Array<{
-			__typename?: 'manager';
-			account?: { __typename?: 'account'; id: string } | null;
-		}>;
 	} | null;
 };
 
@@ -21178,62 +21146,6 @@ export const UpdateReferentDocument = {
 		},
 	],
 } as unknown as DocumentNode<UpdateReferentMutation, UpdateReferentMutationVariables>;
-export const CreateDeploymentDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'CreateDeployment' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'citext' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deployment' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'createDeploymentWithEmail' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'email' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'email' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'deployment' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'deployment' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<CreateDeploymentMutation, CreateDeploymentMutationVariables>;
 export const GetDeploymentByIdDocument = {
 	kind: 'Document',
 	definitions: [
@@ -31772,69 +31684,6 @@ export const InsertProfessionalAccountDocument = {
 	InsertProfessionalAccountMutation,
 	InsertProfessionalAccountMutationVariables
 >;
-export const CreateDeploymentFromApiDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'mutation',
-			name: { kind: 'Name', value: 'CreateDeploymentFromApi' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'deployment_insert_input' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_deployment_one' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'object' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'object' } },
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'label' } },
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'managers' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'account' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	CreateDeploymentFromApiMutation,
-	CreateDeploymentFromApiMutationVariables
->;
 export const ListDeploymentIdDocument = {
 	kind: 'Document',
 	definitions: [
@@ -33468,10 +33317,6 @@ export type UpdateReferentMutationStore = OperationStore<
 	UpdateReferentMutation,
 	UpdateReferentMutationVariables
 >;
-export type CreateDeploymentMutationStore = OperationStore<
-	CreateDeploymentMutation,
-	CreateDeploymentMutationVariables
->;
 export type GetDeploymentByIdQueryStore = OperationStore<
 	GetDeploymentByIdQuery,
 	GetDeploymentByIdQueryVariables
@@ -33710,10 +33555,6 @@ export type GetDeploymentManagersForStructureQueryStore = OperationStore<
 export type InsertProfessionalAccountMutationStore = OperationStore<
 	InsertProfessionalAccountMutation,
 	InsertProfessionalAccountMutationVariables
->;
-export type CreateDeploymentFromApiMutationStore = OperationStore<
-	CreateDeploymentFromApiMutation,
-	CreateDeploymentFromApiMutationVariables
 >;
 export type ListDeploymentIdQueryStore = OperationStore<
 	ListDeploymentIdQuery,
