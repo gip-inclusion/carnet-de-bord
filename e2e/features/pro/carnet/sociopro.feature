@@ -62,6 +62,7 @@ Fonctionnalité: Informations sur le bénéficaire
 		Alors je clique sur "Se rattacher"
 		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 		Alors je clique sur "Oui"
+		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d’accompagnement"
 		Alors je clique sur "Se rattacher" dans la modale
 		Alors je vois "Informations Pôle emploi"
 		Alors je vois "30/04/2018"
