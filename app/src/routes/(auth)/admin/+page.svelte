@@ -13,7 +13,14 @@
 	function onAddDeployementClick() {
 		openComponent.open({
 			component: AdminDeploymentCreateLayer,
+			props: {
+				onClose: refreshDeploymentList,
+			},
 		});
+	}
+
+	function refreshDeploymentList() {
+		deploymentsStore.reexecute({ requestPolicy: 'network-only' });
 	}
 
 	const breadcrumbs: Segment[] = [

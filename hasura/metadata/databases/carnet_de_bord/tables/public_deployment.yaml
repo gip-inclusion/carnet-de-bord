@@ -62,11 +62,12 @@ insert_permissions:
     permission:
       check: {}
       columns:
+        - config
+        - created_at
+        - department_code
         - id
         - label
-        - created_at
         - updated_at
-        - config
 select_permissions:
   - role: admin_cdb
     permission:

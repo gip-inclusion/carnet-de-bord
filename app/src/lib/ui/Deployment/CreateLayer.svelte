@@ -18,6 +18,7 @@
 		departmentCode: '',
 	};
 	let errorMessage = '';
+	export let onClose: () => void;
 
 	async function handleSubmit(values: AdminDeploymentType) {
 		const data = adminDeploymentSchema.cast(values);
@@ -32,6 +33,9 @@
 		}
 	}
 	function close() {
+		if (onClose) {
+			onClose();
+		}
 		openComponent.close();
 	}
 </script>
@@ -68,7 +72,7 @@
 		<Input name="email" required inputLabel="Courriel du gestionnaire" />
 		{#if $deploymentStore.error}
 			<div class="mb-8">
-				<Alert type="error" description={errorMessage} />
+				<Alert title="Erreur" type="error" description={errorMessage} />
 			</div>
 		{/if}
 		<div class="flex flex-row gap-6 mt-12">
