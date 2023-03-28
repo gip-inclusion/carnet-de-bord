@@ -1,15 +1,10 @@
-import logging
+from typing import Tuple
 
 from fastapi import APIRouter, BackgroundTasks, Depends, HTTPException
 
 from cdb.api.core.emails import send_invitation_email
 from cdb.api.core.init import connection
-from cdb.api.db.crud.account import (
-    create_username,
-    get_accounts_with_query,
-    insert_admin_pdi_account,
-)
-from cdb.api.db.crud.manager import insert_admin_pdi
+from cdb.api.db.crud.manager import insert_manager_with_account
 from cdb.api.db.models.account import AccountDBWithAccessKey
 from cdb.api.db.models.manager import Manager, ManagerInput
 from cdb.api.db.models.role import RoleEnum
@@ -26,41 +21,20 @@ async def create_manager(
     background_tasks: BackgroundTasks,
     db=Depends(connection),
 ):
-    async with db.transaction():
-        admin_pdi = await insert_admin_pdi(connection=db, data=admin)
-        if admin_pdi is None:
-            raise HTTPException(status_code=500, detail="insert manager failed")
+    account_manager_tuple: Tuple[
+        AccountDBWithAccessKey, Manager
+    ] | None = await insert_manager_with_account(connection=db, data=admin)
 
-        email_username = admin.email.split("@")[0].lower()
+    if account_manager_tuple is None:
+        raise HTTPException(status_code=500, detail="insert manager failed")
 
-        accounts = await get_accounts_with_query(
-            db,
-            """
-            WHERE account.username like $1
-            """,
-            email_username + "%",
-        )
+    account, manager = account_manager_tuple
 
-        username = create_username(
-            email_username, [account.username for account in accounts]
-        )
-
-        account: AccountDBWithAccessKey | None = await insert_admin_pdi_account(
-            connection=db,
-            admin_pdi_id=admin_pdi.id,
-            confirmed=True,
-            username=username,
-        )
-
-        if not account:
-            logging.error("Insert account failed")
-            raise HTTPException(status_code=500, detail="insert account failed")
-
-        background_tasks.add_task(
-            send_invitation_email,
-            email=admin_pdi.email,
-            firstname=admin_pdi.firstname,
-            lastname=admin_pdi.lastname,
-            access_key=account.access_key,
-        )
-        return admin_pdi
+    background_tasks.add_task(
+        send_invitation_email,
+        email=manager.email,
+        firstname=manager.firstname,
+        lastname=manager.lastname,
+        access_key=account.access_key,
+    )
+    return manager

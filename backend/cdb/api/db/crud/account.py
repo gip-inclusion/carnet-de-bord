@@ -64,18 +64,18 @@ async def insert_orientation_manager_account(
     )
 
 
-async def insert_admin_pdi_account(
+async def insert_manager_account(
     connection: Connection,
     username: str,
     confirmed: bool,
-    admin_pdi_id: UUID,
+    manager_id: UUID,
 ) -> AccountDBWithAccessKey | None:
     return await insert_account(
         connection=connection,
         username=username,
         account_type=RoleEnum.MANAGER,
         confirmed=confirmed,
-        foreign_key_id=admin_pdi_id,
+        foreign_key_id=manager_id,
     )
 
 
