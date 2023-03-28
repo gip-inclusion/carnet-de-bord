@@ -6,7 +6,9 @@ from asyncpg.connection import Connection
 from cdb.api.db.models.deployment import Deployment, DeploymentInput
 
 
-async def insert_deployment(connection: Connection, deployment_info: DeploymentInput):
+async def insert_deployment(
+    connection: Connection, deployment_info: DeploymentInput
+) -> Deployment | None:
     result: Record | None = await connection.fetchrow(
         """
         INSERT INTO deployment (label, department_code)

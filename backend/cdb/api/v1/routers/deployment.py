@@ -28,7 +28,9 @@ async def create_deployment(
         deployment = await insert_deployment(db, data)
 
         if deployment is None:
-            raise HTTPException(status_code=500, detail="insert deployment failed")
+            raise HTTPException(
+                status_code=500, detail="Création du déploiement impossible"
+            )
 
         manager_input = ManagerInput(
             email=data.manager_email,

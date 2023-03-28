@@ -5,6 +5,7 @@
 	import { Form, Input } from '$lib/ui/forms';
 	import { type AdminDeploymentType, adminDeploymentSchema } from './adminDeployment.schema';
 	import { postApiJson } from '$lib/utils/post';
+	import { captureException } from '$lib/utils/sentry';
 
 	const initialValues = {
 		email: '',
@@ -30,7 +31,7 @@
 			);
 			close();
 		} catch (error) {
-			console.error(error);
+			captureException(error);
 			errorMessage = error.message || 'Création du déploiement impossible.';
 		}
 	}
