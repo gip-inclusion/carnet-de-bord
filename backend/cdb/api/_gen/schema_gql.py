@@ -13571,6 +13571,10 @@ type professional_project {
   """An object relationship"""
   rome_code: rome_code
   updatedAt: timestamptz
+  updatedBy: uuid
+
+  """An object relationship"""
+  updater: account
 }
 
 """
@@ -13672,6 +13676,8 @@ input professional_project_bool_exp {
   romeCodeId: uuid_comparison_exp
   rome_code: rome_code_bool_exp
   updatedAt: timestamptz_comparison_exp
+  updatedBy: uuid_comparison_exp
+  updater: account_bool_exp
 }
 
 """
@@ -13717,6 +13723,8 @@ input professional_project_insert_input {
   romeCodeId: uuid
   rome_code: rome_code_obj_rel_insert_input
   updatedAt: timestamptz
+  updatedBy: uuid
+  updater: account_obj_rel_insert_input
 }
 
 """aggregate max on columns"""
@@ -13730,6 +13738,7 @@ type professional_project_max_fields {
   notebookId: uuid
   romeCodeId: uuid
   updatedAt: timestamptz
+  updatedBy: uuid
 }
 
 """
@@ -13745,6 +13754,7 @@ input professional_project_max_order_by {
   notebookId: order_by
   romeCodeId: order_by
   updatedAt: order_by
+  updatedBy: order_by
 }
 
 """aggregate min on columns"""
@@ -13758,6 +13768,7 @@ type professional_project_min_fields {
   notebookId: uuid
   romeCodeId: uuid
   updatedAt: timestamptz
+  updatedBy: uuid
 }
 
 """
@@ -13773,6 +13784,7 @@ input professional_project_min_order_by {
   notebookId: order_by
   romeCodeId: order_by
   updatedAt: order_by
+  updatedBy: order_by
 }
 
 """
@@ -13810,6 +13822,8 @@ input professional_project_order_by {
   romeCodeId: order_by
   rome_code: rome_code_order_by
   updatedAt: order_by
+  updatedBy: order_by
+  updater: account_order_by
 }
 
 """primary key columns input for table: professional_project"""
@@ -13847,6 +13861,9 @@ enum professional_project_select_column {
 
   """column name"""
   updatedAt
+
+  """column name"""
+  updatedBy
 }
 
 """
@@ -13864,6 +13881,7 @@ input professional_project_set_input {
   notebookId: uuid
   romeCodeId: uuid
   updatedAt: timestamptz
+  updatedBy: uuid
 }
 
 """aggregate stddev on columns"""
@@ -13938,6 +13956,7 @@ input professional_project_stream_cursor_value_input {
   notebookId: uuid
   romeCodeId: uuid
   updatedAt: timestamptz
+  updatedBy: uuid
 }
 
 """aggregate sum on columns"""
@@ -13986,6 +14005,9 @@ enum professional_project_update_column {
 
   """column name"""
   updatedAt
+
+  """column name"""
+  updatedBy
 }
 
 input professional_project_updates {
