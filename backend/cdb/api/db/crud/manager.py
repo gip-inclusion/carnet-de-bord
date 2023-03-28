@@ -45,7 +45,7 @@ async def insert_manager_with_account(
     data: ManagerInput,
 ) -> Tuple[AccountDBWithAccessKey, Manager] | None:
     """
-    On crée un nouveau manager avec le compte associé.
+    We create a new manager with the associated account.
     """
     async with connection.transaction():
         manager: Manager | None = await insert_manager(connection=connection, data=data)

@@ -7,7 +7,7 @@ from cdb.api.db.models.deployment import Deployment, DeploymentInput
 
 
 async def insert_deployment(connection: Connection, deployment_info: DeploymentInput):
-    result: Record = await connection.fetchrow(
+    result: Record | None = await connection.fetchrow(
         """
         INSERT INTO deployment (label, department_code)
         VALUES ($1, $2)
