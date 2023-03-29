@@ -15941,6 +15941,15 @@ export type UpdateAdminStructureByIdMutation = {
 	} | null;
 };
 
+export type GetProfessionalOrientationOptionsQueryVariables = Exact<{
+	professionalId: Scalars['uuid'];
+}>;
+
+export type GetProfessionalOrientationOptionsQuery = {
+	__typename?: 'query_root';
+	orientation: Array<{ __typename?: 'orientation_system'; id: string; name: string }>;
+};
+
 export type GetBeneficiariesQueryVariables = Exact<{
 	offset?: Scalars['Int'];
 	limit?: Scalars['Int'];
@@ -18280,15 +18289,6 @@ export type GetNotebookMemberByIdQuery = {
 	} | null;
 };
 
-export type GetProfessionalOrientationOptionsQueryVariables = Exact<{
-	professionalId: Scalars['uuid'];
-}>;
-
-export type GetProfessionalOrientationOptionsQuery = {
-	__typename?: 'query_root';
-	orientation: Array<{ __typename?: 'orientation_system'; id: string; name: string }>;
-};
-
 export type GetRomeCodesQueryVariables = Exact<{
 	search: Scalars['String'];
 	labels?: InputMaybe<Array<Scalars['String']> | Scalars['String']>;
@@ -19860,6 +19860,83 @@ export const UpdateAdminStructureByIdDocument = {
 } as unknown as DocumentNode<
 	UpdateAdminStructureByIdMutation,
 	UpdateAdminStructureByIdMutationVariables
+>;
+export const GetProfessionalOrientationOptionsDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'query',
+			name: { kind: 'Name', value: 'getProfessionalOrientationOptions' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						alias: { kind: 'Name', value: 'orientation' },
+						name: { kind: 'Name', value: 'orientation_system' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'where' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'professionalOrientationSystems' },
+											value: {
+												kind: 'ObjectValue',
+												fields: [
+													{
+														kind: 'ObjectField',
+														name: { kind: 'Name', value: 'professionalId' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: '_eq' },
+																	value: {
+																		kind: 'Variable',
+																		name: { kind: 'Name', value: 'professionalId' },
+																	},
+																},
+															],
+														},
+													},
+												],
+											},
+										},
+									],
+								},
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
+							],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<
+	GetProfessionalOrientationOptionsQuery,
+	GetProfessionalOrientationOptionsQueryVariables
 >;
 export const GetBeneficiariesDocument = {
 	kind: 'Document',
@@ -30087,83 +30164,6 @@ export const GetNotebookMemberByIdDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetNotebookMemberByIdQuery, GetNotebookMemberByIdQueryVariables>;
-export const GetProfessionalOrientationOptionsDocument = {
-	kind: 'Document',
-	definitions: [
-		{
-			kind: 'OperationDefinition',
-			operation: 'query',
-			name: { kind: 'Name', value: 'getProfessionalOrientationOptions' },
-			variableDefinitions: [
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'professionalId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-			],
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{
-						kind: 'Field',
-						alias: { kind: 'Name', value: 'orientation' },
-						name: { kind: 'Name', value: 'orientation_system' },
-						arguments: [
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'professionalOrientationSystems' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: 'professionalId' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: '_eq' },
-																	value: {
-																		kind: 'Variable',
-																		name: { kind: 'Name', value: 'professionalId' },
-																	},
-																},
-															],
-														},
-													},
-												],
-											},
-										},
-									],
-								},
-							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-								{ kind: 'Field', name: { kind: 'Name', value: 'name' } },
-							],
-						},
-					},
-				],
-			},
-		},
-	],
-} as unknown as DocumentNode<
-	GetProfessionalOrientationOptionsQuery,
-	GetProfessionalOrientationOptionsQueryVariables
->;
 export const GetRomeCodesDocument = {
 	kind: 'Document',
 	definitions: [
@@ -33367,6 +33367,10 @@ export type UpdateAdminStructureByIdMutationStore = OperationStore<
 	UpdateAdminStructureByIdMutation,
 	UpdateAdminStructureByIdMutationVariables
 >;
+export type GetProfessionalOrientationOptionsQueryStore = OperationStore<
+	GetProfessionalOrientationOptionsQuery,
+	GetProfessionalOrientationOptionsQueryVariables
+>;
 export type GetBeneficiariesQueryStore = OperationStore<
 	GetBeneficiariesQuery,
 	GetBeneficiariesQueryVariables
@@ -33611,10 +33615,6 @@ export type GetNotebookEventsQueryStore = OperationStore<
 export type GetNotebookMemberByIdQueryStore = OperationStore<
 	GetNotebookMemberByIdQuery,
 	GetNotebookMemberByIdQueryVariables
->;
-export type GetProfessionalOrientationOptionsQueryStore = OperationStore<
-	GetProfessionalOrientationOptionsQuery,
-	GetProfessionalOrientationOptionsQueryVariables
 >;
 export type GetRomeCodesQueryStore = OperationStore<GetRomeCodesQuery, GetRomeCodesQueryVariables>;
 export type UpdateNotebookVisitDateMutationStore = OperationStore<
