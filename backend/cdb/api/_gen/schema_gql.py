@@ -32,11 +32,6 @@ input Boolean_comparison_exp {
   _nin: [Boolean!]
 }
 
-type CreateDeploymentOutput {
-  id: uuid!
-  label: String!
-}
-
 """
 Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
@@ -3287,6 +3282,7 @@ type deployment {
     path: String
   ): jsonb
   createdAt: timestamptz!
+  departmentCode: String
   id: uuid!
   label: String!
 
@@ -3471,6 +3467,7 @@ input deployment_bool_exp {
   beneficiaries_aggregate: beneficiary_aggregate_bool_exp
   config: jsonb_comparison_exp
   createdAt: timestamptz_comparison_exp
+  departmentCode: String_comparison_exp
   id: uuid_comparison_exp
   label: String_comparison_exp
   managers: manager_bool_exp
@@ -3523,6 +3520,7 @@ input deployment_insert_input {
   beneficiaries: beneficiary_arr_rel_insert_input
   config: jsonb
   createdAt: timestamptz
+  departmentCode: String
   id: uuid
   label: String
   managers: manager_arr_rel_insert_input
@@ -3535,6 +3533,7 @@ input deployment_insert_input {
 """aggregate max on columns"""
 type deployment_max_fields {
   createdAt: timestamptz
+  departmentCode: String
   id: uuid
   label: String
   updatedAt: timestamptz
@@ -3543,6 +3542,7 @@ type deployment_max_fields {
 """aggregate min on columns"""
 type deployment_min_fields {
   createdAt: timestamptz
+  departmentCode: String
   id: uuid
   label: String
   updatedAt: timestamptz
@@ -3584,6 +3584,7 @@ input deployment_order_by {
   beneficiaries_aggregate: beneficiary_aggregate_order_by
   config: order_by
   createdAt: order_by
+  departmentCode: order_by
   id: order_by
   label: order_by
   managers_aggregate: manager_aggregate_order_by
@@ -3614,6 +3615,9 @@ enum deployment_select_column {
   createdAt
 
   """column name"""
+  departmentCode
+
+  """column name"""
   id
 
   """column name"""
@@ -3629,6 +3633,7 @@ input type for updating data in table "deployment"
 input deployment_set_input {
   config: jsonb
   createdAt: timestamptz
+  departmentCode: String
   id: uuid
   label: String
   updatedAt: timestamptz
@@ -3649,6 +3654,7 @@ input deployment_stream_cursor_input {
 input deployment_stream_cursor_value_input {
   config: jsonb
   createdAt: timestamptz
+  departmentCode: String
   id: uuid
   label: String
   updatedAt: timestamptz
@@ -3663,6 +3669,9 @@ enum deployment_update_column {
 
   """column name"""
   createdAt
+
+  """column name"""
+  departmentCode
 
   """column name"""
   id
@@ -5046,8 +5055,6 @@ input manager_updates {
 
 """mutation root"""
 type mutation_root {
-  createDeploymentWithEmail(deployment: String!, email: citext!): CreateDeploymentOutput
-
   """
   delete data from the table: "account"
   """
