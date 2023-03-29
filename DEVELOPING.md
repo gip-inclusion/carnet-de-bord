@@ -38,10 +38,17 @@ query SearchBeneficiaries($filter: String) {
 }
 ```
 
-on génère les types avec `codegen`
+Avec **l’environnement de dev démarré**, on génère les types avec `codegen` :
 
 ```sh
-# depuis le répertoire app
+# Pour Python, depuis le répertoire backend/
+poetry run cdb/scripts/codegen.py
+```
+
+Le schéma est écrit dans un module Python `backend.cdb.api._gen.schema_gql`.
+
+```sh
+# Pour JavaScript, depuis le répertoire app/
 npm run codegen
 ```
 
