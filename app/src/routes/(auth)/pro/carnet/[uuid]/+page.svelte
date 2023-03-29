@@ -196,7 +196,7 @@
 	$: isReferent = members.some(
 		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
 	);
-	$: isLastReferent = $accountData.id === previousReferent?.account?.id;
+	$: isPreviousReferent = $accountData.id === previousReferent?.account?.id;
 	$: isMember = members.some(({ account }) => $accountData.id === account.id);
 
 	$: externalData =
@@ -225,7 +225,7 @@
 		{/if}
 		<div>
 			{#if !reorientationRequest || reorientationRequest.status != OrientationRequestStatus.pending}
-				{#if isReferent || isLastReferent}
+				{#if notebook.notebookInfo?.orientationReason && (isReferent || isPreviousReferent)}
 					<Dialog
 						label="Voir le motif de l‘orientation"
 						buttonLabel="Voir le motif de l‘orientation"
@@ -233,7 +233,7 @@
 						showButtons={false}
 						buttonCssClasses="inline mr-6"
 					>
-						<Text value={notebook.notebookInfo?.orientationReason ?? 'Non défini'} />
+						<Text value={notebook.notebookInfo?.orientationReason} />
 					</Dialog>
 				{/if}
 				{#if isReferent}
