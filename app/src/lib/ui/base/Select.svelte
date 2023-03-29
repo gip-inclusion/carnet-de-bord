@@ -1,12 +1,10 @@
 <script context="module" lang="ts">
-	import type { Option, SvelteEventHandler } from '$lib/types';
-
 	let counter = 0;
 </script>
 
 <script lang="ts">
 	import { pluck } from '$lib/helpers';
-
+	import type { Option, SvelteEventHandler } from '$lib/types';
 	import { createEventDispatcher } from 'svelte';
 
 	counter++;
@@ -24,6 +22,7 @@
 	export let required: boolean | null = false;
 	export let classNames = '';
 	export let twWidthClass = '';
+	export let groupOption = false;
 
 	const dispatch = createEventDispatcher();
 	const handleSelect: SvelteEventHandler<HTMLSelectElement> = async function handleSelect(event) {
@@ -31,6 +30,17 @@
 		name = event.currentTarget.name;
 		dispatch('select', { name, selected });
 	};
+
+	function groupByHandler(acc: { label: string; items: Option[] }[], item: Option) {
+		const optgroup = acc.find((obj) => obj.label === item.group);
+
+		if (optgroup) {
+			optgroup.items.push(item);
+		} else {
+			acc.push({ label: item.group, items: [item] });
+		}
+		return acc;
+	}
 
 	const selectHintOption = 'select_hint_option';
 	$: selectProps = pluck(
@@ -79,9 +89,20 @@
 		{...selectProps}
 	>
 		<option value={selectHintOption} disabled>{selectHint || 'Sélectionner...'}</option>
-		{#each options as option (option.name)}
-			<option value={option.name}>{option.label}</option>
-		{/each}
+		{#if groupOption}
+			{@const groupedOptions = options.reduce(groupByHandler, [])}
+			{#each groupedOptions as optionGroup}
+				<optgroup label={optionGroup.label}>
+					{#each optionGroup.items as option}
+						<option value={option.name}>{option.label}</option>
+					{/each}
+				</optgroup>
+			{/each}
+		{:else}
+			{#each options as option (option.name)}
+				<option value={option.name}>{option.label}</option>
+			{/each}
+		{/if}
 	</select>
 
 	{#if error}

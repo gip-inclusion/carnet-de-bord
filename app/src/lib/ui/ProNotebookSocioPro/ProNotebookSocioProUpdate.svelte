@@ -6,7 +6,6 @@
 		GetNotebookQuery,
 		ProfessionalProjectInsertInput,
 		ProfessionalProjectUpdates,
-		RefSituation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { trackEvent } from '$lib/tracking/matomo';
@@ -42,7 +41,7 @@
 		| 'situations'
 		| 'professionalProjects'
 	>;
-	export let refSituations: RefSituation[];
+	export let refSituations: GetNotebookQuery['refSituations'];
 
 	type NotebookProfessionalProject =
 		GetNotebookQuery['notebook_public_view'][number]['notebook']['professionalProjects'][number];

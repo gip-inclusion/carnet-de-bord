@@ -1,0 +1,9 @@
+query GetRefTargetByFocus($theme: [String!]!) {
+  refTargets: ref_target(where: { theme: { _in: $theme } }, order_by: { description: asc }) {
+    id
+    description
+    refTheme {
+      label
+    }
+  }
+}

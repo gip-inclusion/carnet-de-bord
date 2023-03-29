@@ -4292,6 +4292,10 @@ export type MutationRoot = {
 	delete_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** delete single row from the table: "ref_target" */
 	delete_ref_target_by_pk?: Maybe<RefTarget>;
+	/** delete data from the table: "ref_theme" */
+	delete_ref_theme?: Maybe<RefThemeMutationResponse>;
+	/** delete single row from the table: "ref_theme" */
+	delete_ref_theme_by_pk?: Maybe<RefTheme>;
 	/** delete data from the table: "role" */
 	delete_role?: Maybe<RoleMutationResponse>;
 	/** delete single row from the table: "role" */
@@ -4452,6 +4456,10 @@ export type MutationRoot = {
 	insert_ref_target?: Maybe<RefTargetMutationResponse>;
 	/** insert a single row into the table: "ref_target" */
 	insert_ref_target_one?: Maybe<RefTarget>;
+	/** insert data into the table: "ref_theme" */
+	insert_ref_theme?: Maybe<RefThemeMutationResponse>;
+	/** insert a single row into the table: "ref_theme" */
+	insert_ref_theme_one?: Maybe<RefTheme>;
 	/** insert data into the table: "role" */
 	insert_role?: Maybe<RoleMutationResponse>;
 	/** insert a single row into the table: "role" */
@@ -4686,6 +4694,12 @@ export type MutationRoot = {
 	update_ref_target_by_pk?: Maybe<RefTarget>;
 	/** update multiples rows of table: "ref_target" */
 	update_ref_target_many?: Maybe<Array<Maybe<RefTargetMutationResponse>>>;
+	/** update data of the table: "ref_theme" */
+	update_ref_theme?: Maybe<RefThemeMutationResponse>;
+	/** update single row of the table: "ref_theme" */
+	update_ref_theme_by_pk?: Maybe<RefTheme>;
+	/** update multiples rows of table: "ref_theme" */
+	update_ref_theme_many?: Maybe<Array<Maybe<RefThemeMutationResponse>>>;
 	/** update data of the table: "role" */
 	update_role?: Maybe<RoleMutationResponse>;
 	/** update single row of the table: "role" */
@@ -5067,6 +5081,16 @@ export type MutationRootDeleteRefTargetArgs = {
 /** mutation root */
 export type MutationRootDeleteRefTargetByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRefThemeArgs = {
+	where: RefThemeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRefThemeByPkArgs = {
+	name: Scalars['String'];
 };
 
 /** mutation root */
@@ -5537,6 +5561,18 @@ export type MutationRootInsertRefTargetArgs = {
 export type MutationRootInsertRefTargetOneArgs = {
 	object: RefTargetInsertInput;
 	on_conflict?: InputMaybe<RefTargetOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefThemeArgs = {
+	objects: Array<RefThemeInsertInput>;
+	on_conflict?: InputMaybe<RefThemeOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRefThemeOneArgs = {
+	object: RefThemeInsertInput;
+	on_conflict?: InputMaybe<RefThemeOnConflict>;
 };
 
 /** mutation root */
@@ -6235,6 +6271,23 @@ export type MutationRootUpdateRefTargetByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateRefTargetManyArgs = {
 	updates: Array<RefTargetUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefThemeArgs = {
+	_set?: InputMaybe<RefThemeSetInput>;
+	where: RefThemeBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefThemeByPkArgs = {
+	_set?: InputMaybe<RefThemeSetInput>;
+	pk_columns: RefThemePkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRefThemeManyArgs = {
+	updates: Array<RefThemeUpdates>;
 };
 
 /** mutation root */
@@ -11957,6 +12010,12 @@ export type QueryRoot = {
 	ref_target_aggregate: RefTargetAggregate;
 	/** fetch data from the table: "ref_target" using primary key columns */
 	ref_target_by_pk?: Maybe<RefTarget>;
+	/** fetch data from the table: "ref_theme" */
+	ref_theme: Array<RefTheme>;
+	/** fetch aggregated fields from the table: "ref_theme" */
+	ref_theme_aggregate: RefThemeAggregate;
+	/** fetch data from the table: "ref_theme" using primary key columns */
+	ref_theme_by_pk?: Maybe<RefTheme>;
 	/** fetch data from the table: "role" */
 	role: Array<Role>;
 	/** fetch aggregated fields from the table: "role" */
@@ -12731,6 +12790,26 @@ export type QueryRootRefTargetByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootRefThemeArgs = {
+	distinct_on?: InputMaybe<Array<RefThemeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefThemeOrderBy>>;
+	where?: InputMaybe<RefThemeBoolExp>;
+};
+
+export type QueryRootRefThemeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RefThemeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefThemeOrderBy>>;
+	where?: InputMaybe<RefThemeBoolExp>;
+};
+
+export type QueryRootRefThemeByPkArgs = {
+	name: Scalars['String'];
+};
+
 export type QueryRootRoleArgs = {
 	distinct_on?: InputMaybe<Array<RoleSelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -12888,6 +12967,8 @@ export type RefAction = {
 	__typename?: 'ref_action';
 	description: Scalars['String'];
 	id: Scalars['uuid'];
+	/** An object relationship */
+	refTheme: RefTheme;
 	theme: Scalars['String'];
 };
 
@@ -12919,6 +13000,7 @@ export type RefActionBoolExp = {
 	_or?: InputMaybe<Array<RefActionBoolExp>>;
 	description?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	refTheme?: InputMaybe<RefThemeBoolExp>;
 	theme?: InputMaybe<StringComparisonExp>;
 };
 
@@ -12932,6 +13014,7 @@ export enum RefActionConstraint {
 export type RefActionInsertInput = {
 	description?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	refTheme?: InputMaybe<RefThemeObjRelInsertInput>;
 	theme?: InputMaybe<Scalars['String']>;
 };
 
@@ -12971,6 +13054,7 @@ export type RefActionOnConflict = {
 export type RefActionOrderBy = {
 	description?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	refTheme?: InputMaybe<RefThemeOrderBy>;
 	theme?: InputMaybe<OrderBy>;
 };
 
@@ -13032,6 +13116,8 @@ export type RefSituation = {
 	__typename?: 'ref_situation';
 	description: Scalars['String'];
 	id: Scalars['uuid'];
+	/** An object relationship */
+	refTheme: RefTheme;
 	theme: Scalars['String'];
 };
 
@@ -13063,6 +13149,7 @@ export type RefSituationBoolExp = {
 	_or?: InputMaybe<Array<RefSituationBoolExp>>;
 	description?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	refTheme?: InputMaybe<RefThemeBoolExp>;
 	theme?: InputMaybe<StringComparisonExp>;
 };
 
@@ -13076,6 +13163,7 @@ export enum RefSituationConstraint {
 export type RefSituationInsertInput = {
 	description?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	refTheme?: InputMaybe<RefThemeObjRelInsertInput>;
 	theme?: InputMaybe<Scalars['String']>;
 };
 
@@ -13122,6 +13210,7 @@ export type RefSituationOnConflict = {
 export type RefSituationOrderBy = {
 	description?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	refTheme?: InputMaybe<RefThemeOrderBy>;
 	theme?: InputMaybe<OrderBy>;
 };
 
@@ -13183,6 +13272,8 @@ export type RefTarget = {
 	__typename?: 'ref_target';
 	description: Scalars['String'];
 	id: Scalars['uuid'];
+	/** An object relationship */
+	refTheme: RefTheme;
 	theme: Scalars['String'];
 };
 
@@ -13214,6 +13305,7 @@ export type RefTargetBoolExp = {
 	_or?: InputMaybe<Array<RefTargetBoolExp>>;
 	description?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
+	refTheme?: InputMaybe<RefThemeBoolExp>;
 	theme?: InputMaybe<StringComparisonExp>;
 };
 
@@ -13227,6 +13319,7 @@ export enum RefTargetConstraint {
 export type RefTargetInsertInput = {
 	description?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
+	refTheme?: InputMaybe<RefThemeObjRelInsertInput>;
 	theme?: InputMaybe<Scalars['String']>;
 };
 
@@ -13266,6 +13359,7 @@ export type RefTargetOnConflict = {
 export type RefTargetOrderBy = {
 	description?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	refTheme?: InputMaybe<RefThemeOrderBy>;
 	theme?: InputMaybe<OrderBy>;
 };
 
@@ -13320,6 +13414,145 @@ export type RefTargetUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RefTargetSetInput>;
 	where: RefTargetBoolExp;
+};
+
+/** contains the availables themes for focus, sitations, targets, actions */
+export type RefTheme = {
+	__typename?: 'ref_theme';
+	label: Scalars['String'];
+	name: Scalars['String'];
+};
+
+/** aggregated selection of "ref_theme" */
+export type RefThemeAggregate = {
+	__typename?: 'ref_theme_aggregate';
+	aggregate?: Maybe<RefThemeAggregateFields>;
+	nodes: Array<RefTheme>;
+};
+
+/** aggregate fields of "ref_theme" */
+export type RefThemeAggregateFields = {
+	__typename?: 'ref_theme_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RefThemeMaxFields>;
+	min?: Maybe<RefThemeMinFields>;
+};
+
+/** aggregate fields of "ref_theme" */
+export type RefThemeAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<RefThemeSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "ref_theme". All fields are combined with a logical 'AND'. */
+export type RefThemeBoolExp = {
+	_and?: InputMaybe<Array<RefThemeBoolExp>>;
+	_not?: InputMaybe<RefThemeBoolExp>;
+	_or?: InputMaybe<Array<RefThemeBoolExp>>;
+	label?: InputMaybe<StringComparisonExp>;
+	name?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "ref_theme" */
+export enum RefThemeConstraint {
+	/** unique or primary key constraint on columns "name" */
+	RefThemePkey = 'ref_theme_pkey',
+}
+
+/** input type for inserting data into table "ref_theme" */
+export type RefThemeInsertInput = {
+	label?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type RefThemeMaxFields = {
+	__typename?: 'ref_theme_max_fields';
+	label?: Maybe<Scalars['String']>;
+	name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type RefThemeMinFields = {
+	__typename?: 'ref_theme_min_fields';
+	label?: Maybe<Scalars['String']>;
+	name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "ref_theme" */
+export type RefThemeMutationResponse = {
+	__typename?: 'ref_theme_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<RefTheme>;
+};
+
+/** input type for inserting object relation for remote table "ref_theme" */
+export type RefThemeObjRelInsertInput = {
+	data: RefThemeInsertInput;
+	/** upsert condition */
+	on_conflict?: InputMaybe<RefThemeOnConflict>;
+};
+
+/** on_conflict condition type for table "ref_theme" */
+export type RefThemeOnConflict = {
+	constraint: RefThemeConstraint;
+	update_columns?: Array<RefThemeUpdateColumn>;
+	where?: InputMaybe<RefThemeBoolExp>;
+};
+
+/** Ordering options when selecting data from "ref_theme". */
+export type RefThemeOrderBy = {
+	label?: InputMaybe<OrderBy>;
+	name?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: ref_theme */
+export type RefThemePkColumnsInput = {
+	name: Scalars['String'];
+};
+
+/** select columns of table "ref_theme" */
+export enum RefThemeSelectColumn {
+	/** column name */
+	Label = 'label',
+	/** column name */
+	Name = 'name',
+}
+
+/** input type for updating data in table "ref_theme" */
+export type RefThemeSetInput = {
+	label?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "ref_theme" */
+export type RefThemeStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RefThemeStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RefThemeStreamCursorValueInput = {
+	label?: InputMaybe<Scalars['String']>;
+	name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "ref_theme" */
+export enum RefThemeUpdateColumn {
+	/** column name */
+	Label = 'label',
+	/** column name */
+	Name = 'name',
+}
+
+export type RefThemeUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RefThemeSetInput>;
+	where: RefThemeBoolExp;
 };
 
 /** liste des roles */
@@ -14658,6 +14891,14 @@ export type SubscriptionRoot = {
 	ref_target_by_pk?: Maybe<RefTarget>;
 	/** fetch data from the table in a streaming manner: "ref_target" */
 	ref_target_stream: Array<RefTarget>;
+	/** fetch data from the table: "ref_theme" */
+	ref_theme: Array<RefTheme>;
+	/** fetch aggregated fields from the table: "ref_theme" */
+	ref_theme_aggregate: RefThemeAggregate;
+	/** fetch data from the table: "ref_theme" using primary key columns */
+	ref_theme_by_pk?: Maybe<RefTheme>;
+	/** fetch data from the table in a streaming manner: "ref_theme" */
+	ref_theme_stream: Array<RefTheme>;
 	/** fetch data from the table: "role" */
 	role: Array<Role>;
 	/** fetch aggregated fields from the table: "role" */
@@ -15660,6 +15901,32 @@ export type SubscriptionRootRefTargetStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<RefTargetStreamCursorInput>>;
 	where?: InputMaybe<RefTargetBoolExp>;
+};
+
+export type SubscriptionRootRefThemeArgs = {
+	distinct_on?: InputMaybe<Array<RefThemeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefThemeOrderBy>>;
+	where?: InputMaybe<RefThemeBoolExp>;
+};
+
+export type SubscriptionRootRefThemeAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RefThemeSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefThemeOrderBy>>;
+	where?: InputMaybe<RefThemeBoolExp>;
+};
+
+export type SubscriptionRootRefThemeByPkArgs = {
+	name: Scalars['String'];
+};
+
+export type SubscriptionRootRefThemeStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RefThemeStreamCursorInput>>;
+	where?: InputMaybe<RefThemeBoolExp>;
 };
 
 export type SubscriptionRootRoleArgs = {
@@ -16739,12 +17006,17 @@ export type AddNotebookTargetMutation = {
 };
 
 export type GetRefTargetByFocusQueryVariables = Exact<{
-	theme: Scalars['String'];
+	theme: Array<Scalars['String']> | Scalars['String'];
 }>;
 
 export type GetRefTargetByFocusQuery = {
 	__typename?: 'query_root';
-	refTargets: Array<{ __typename?: 'ref_target'; id: string; description: string }>;
+	refTargets: Array<{
+		__typename?: 'ref_target';
+		id: string;
+		description: string;
+		refTheme: { __typename?: 'ref_theme'; label: string };
+	}>;
 };
 
 export type DeleteAccountMutationVariables = Exact<{
@@ -25566,7 +25838,13 @@ export const GetRefTargetByFocusDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+						type: {
+							kind: 'ListType',
+							type: {
+								kind: 'NonNullType',
+								type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+							},
+						},
 					},
 				},
 			],
@@ -25592,7 +25870,7 @@ export const GetRefTargetByFocusDocument = {
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_eq' },
+														name: { kind: 'Name', value: '_in' },
 														value: { kind: 'Variable', name: { kind: 'Name', value: 'theme' } },
 													},
 												],
@@ -25621,6 +25899,14 @@ export const GetRefTargetByFocusDocument = {
 							selections: [
 								{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
 								{ kind: 'Field', name: { kind: 'Name', value: 'description' } },
+								{
+									kind: 'Field',
+									name: { kind: 'Name', value: 'refTheme' },
+									selectionSet: {
+										kind: 'SelectionSet',
+										selections: [{ kind: 'Field', name: { kind: 'Name', value: 'label' } }],
+									},
+								},
 							],
 						},
 					},

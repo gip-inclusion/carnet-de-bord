@@ -1,11 +1,15 @@
-import type { RomeCode, ProfessionalProject } from '$lib/graphql/_gen/typed-document-nodes';
+import type {
+	RomeCode,
+	ProfessionalProject,
+	RefSituation as _RefSituation,
+} from '$lib/graphql/_gen/typed-document-nodes';
 
 export type Creator = {
 	professional?: { firstname?: string; lastname?: string; structure: { name: string } };
 	orientation_manager?: { firstname?: string; lastname?: string };
 };
 
-export type RefSituation = { id: string; theme: string; description: string };
+export type RefSituation = Pick<_RefSituation, 'id' | 'theme' | 'description'>;
 
 export type ProfessionalProjectElm = Pick<
 	ProfessionalProject,
