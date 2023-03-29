@@ -41,6 +41,7 @@ insert_permissions:
       columns:
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
   - role: orientation_manager
     permission:
@@ -52,6 +53,7 @@ insert_permissions:
       columns:
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
   - role: professional
     permission:
@@ -169,6 +171,7 @@ update_permissions:
     permission:
       columns:
         - need_orientation
+        - orientation_reason
         - orientation_system_id
       filter:
         notebook:
@@ -180,6 +183,7 @@ update_permissions:
     permission:
       columns:
         - need_orientation
+        - orientation_reason
         - orientation_system_id
       filter:
         notebook:

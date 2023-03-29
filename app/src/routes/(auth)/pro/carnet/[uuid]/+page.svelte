@@ -225,7 +225,7 @@
 		{/if}
 		<div>
 			{#if !reorientationRequest || reorientationRequest.status != OrientationRequestStatus.pending}
-				{#if notebook.notebookInfo?.orientationReason && (isReferent || isPreviousReferent)}
+				{#if notebook?.notebookInfo?.orientationReason && (isReferent || isPreviousReferent)}
 					<Dialog
 						label="Voir le motif de l‘orientation"
 						buttonLabel="Voir le motif de l‘orientation"

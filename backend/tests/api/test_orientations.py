@@ -7,6 +7,7 @@ from fastapi.testclient import TestClient
 
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
+from cdb.api.db.crud.notebook_info import get_notebook_info
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.notebook import Notebook
@@ -100,6 +101,7 @@ async def test_change_orientation_while_keeping_same_referent(
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
+    orientation_reason = "Motif de l’orientation."
     response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
@@ -107,6 +109,7 @@ async def test_change_orientation_while_keeping_same_referent(
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
+            "orientation_reason": orientation_reason,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -115,9 +118,15 @@ async def test_change_orientation_while_keeping_same_referent(
         db_connection,
         notebook_sophie_tifour.id,
     )
+    notebook_info = await get_notebook_info(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
 
     # Check that no new member row was added since referent doesn't change
     assert_member(members, professional_pierre_chevalier)
+    notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    assert notebook_info.orientation_reason == orientation_reason
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -131,6 +140,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
+    orientation_reason = "Motif de l’orientation."
     response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
@@ -138,6 +148,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": None,
+            "orientation_reason": orientation_reason,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -175,6 +186,8 @@ async def test_change_orientation_assign_to_structure_not_referent(
         beneficiary_status="current",
         structure_name="Service Social Départemental",
     )
+    notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    assert notebook_info.orientation_reason == orientation_reason
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -189,6 +202,7 @@ async def test_change_orientation_with_new_referent(
     db_connection: Connection,
     orientation_system_social_id: UUID,
 ):
+    orientation_reason = "Motif de l’orientation."
     response = await test_client.post(
         UPDATE_ORIENTATION_ENDPOINT_PATH,
         json={
@@ -196,6 +210,7 @@ async def test_change_orientation_with_new_referent(
             "notebook_id": notebook_sophie_tifour.id,
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
+            "orientation_reason": orientation_reason,
         },
         headers={"jwt-token": giulia_diaby_jwt},
     )
@@ -237,6 +252,8 @@ async def test_change_orientation_with_new_referent(
         beneficiary_status="current",
         structure_name="Service Social Départemental",
     )
+    notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    assert notebook_info.orientation_reason == orientation_reason
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -458,3 +475,28 @@ async def test_orientation_system_label(
 ):
     assert orientation_system_pe.get_label() == "PE (Professionnel)"
     assert orientation_system_pro.get_label() == "Professionnel"
+
+
+@mock.patch("cdb.api.core.emails.send_mail")
+async def test_set_orientation_reason_to_null_when_not_defined(
+    _: mock.Mock,
+    test_client: TestClient,
+    professional_pierre_chevalier: Professional,
+    notebook_sophie_tifour: Notebook,
+    giulia_diaby_jwt: str,
+    db_connection: Connection,
+    orientation_system_social_id: UUID,
+):
+    response = await test_client.post(
+        UPDATE_ORIENTATION_ENDPOINT_PATH,
+        json={
+            "orientation_system_id": str(orientation_system_social_id),
+            "notebook_id": notebook_sophie_tifour.id,
+            "structure_id": professional_pierre_chevalier.structure_id,
+            "new_referent_account_id": professional_pierre_chevalier.account_id,
+        },
+        headers={"jwt-token": giulia_diaby_jwt},
+    )
+    assert response.status_code == 200
+    notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    assert notebook_info.orientation_reason is None

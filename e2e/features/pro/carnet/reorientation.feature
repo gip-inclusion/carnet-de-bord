@@ -31,7 +31,7 @@ Fonctionnalité: Demande de réorientation
 		Alors je vois "Demande de réorientation acceptée"
 		Alors je vois "Décision d'orientation : Social"
 
-	Scénario: Affichage du motif de l'orientation
+	Scénario: Non affichage du motif de l'orientation quand une demande est en cours
 		Soit le pro "edith.orial@interlogement93.fr" sur le carnet de "Jennings"
 		Alors je vois "Demande de réorientation envoyée le"
 		Alors je ne vois pas "Voir le motif d‘orientation"

@@ -9659,6 +9659,9 @@ schema = build_schema(
       notebook: notebook!
       notebookId: uuid!
 
+      """motif de l'orientation, saisi par le chargé d'orientation"""
+      orientationReason: String
+
       """An object relationship"""
       orientationSystem: orientation_system
       orientationSystemId: uuid
@@ -9693,6 +9696,7 @@ schema = build_schema(
       needOrientation: Boolean_comparison_exp
       notebook: notebook_bool_exp
       notebookId: uuid_comparison_exp
+      orientationReason: String_comparison_exp
       orientationSystem: orientation_system_bool_exp
       orientationSystemId: uuid_comparison_exp
       updatedAt: timestamptz_comparison_exp
@@ -9716,6 +9720,9 @@ schema = build_schema(
       needOrientation: Boolean
       notebook: notebook_obj_rel_insert_input
       notebookId: uuid
+
+      """motif de l'orientation, saisi par le chargé d'orientation"""
+      orientationReason: String
       orientationSystem: orientation_system_obj_rel_insert_input
       orientationSystemId: uuid
       updatedAt: timestamptz
@@ -9725,6 +9732,9 @@ schema = build_schema(
     type notebook_info_max_fields {
       createdAt: timestamptz
       notebookId: uuid
+
+      """motif de l'orientation, saisi par le chargé d'orientation"""
+      orientationReason: String
       orientationSystemId: uuid
       updatedAt: timestamptz
     }
@@ -9733,6 +9743,9 @@ schema = build_schema(
     type notebook_info_min_fields {
       createdAt: timestamptz
       notebookId: uuid
+
+      """motif de l'orientation, saisi par le chargé d'orientation"""
+      orientationReason: String
       orientationSystemId: uuid
       updatedAt: timestamptz
     }
@@ -9773,6 +9786,7 @@ schema = build_schema(
       needOrientation: order_by
       notebook: notebook_order_by
       notebookId: order_by
+      orientationReason: order_by
       orientationSystem: orientation_system_order_by
       orientationSystemId: order_by
       updatedAt: order_by
@@ -9797,6 +9811,9 @@ schema = build_schema(
       notebookId
 
       """column name"""
+      orientationReason
+
+      """column name"""
       orientationSystemId
 
       """column name"""
@@ -9810,6 +9827,9 @@ schema = build_schema(
       createdAt: timestamptz
       needOrientation: Boolean
       notebookId: uuid
+
+      """motif de l'orientation, saisi par le chargé d'orientation"""
+      orientationReason: String
       orientationSystemId: uuid
       updatedAt: timestamptz
     }
@@ -9830,6 +9850,9 @@ schema = build_schema(
       createdAt: timestamptz
       needOrientation: Boolean
       notebookId: uuid
+
+      """motif de l'orientation, saisi par le chargé d'orientation"""
+      orientationReason: String
       orientationSystemId: uuid
       updatedAt: timestamptz
     }
@@ -9846,6 +9869,9 @@ schema = build_schema(
 
       """column name"""
       notebookId
+
+      """column name"""
+      orientationReason
 
       """column name"""
       orientationSystemId

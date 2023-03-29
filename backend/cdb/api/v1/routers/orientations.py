@@ -54,6 +54,7 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
     structure_id: UUID
     orientation_request_id: UUID | None
     new_referent_account_id: UUID | None
+    orientation_reason: str | None
 
 
 @router.post("/change")
@@ -82,6 +83,7 @@ async def change_beneficiary_orientation(
       add the new beneficiary_structure if the structure has changed
     - deactivate the current notebook_member records (referent / no_referent)
     - add the new notebook_member records (referent / no-referent)
+    - update the orientation_reason
 
     """
     transport = AIOHTTPTransport(
@@ -146,7 +148,10 @@ async def change_beneficiary_orientation(
             )
 
         mutations = mutations | get_insert_notebook_info_mutation(
-            dsl_schema, data.notebook_id, data.orientation_system_id
+            dsl_schema,
+            data.notebook_id,
+            data.orientation_system_id,
+            data.orientation_reason,
         )
 
         structure_changed = (
