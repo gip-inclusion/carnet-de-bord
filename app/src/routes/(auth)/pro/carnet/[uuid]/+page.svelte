@@ -175,7 +175,9 @@
 	$: lastMember = members?.length ? members[0] : null;
 	$: reorientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
-	$: lastReferent = publicNotebook?.lastReferent?.length ? publicNotebook.lastReferent[0] : null;
+	$: previousReferent = publicNotebook?.previousReferent?.length
+		? publicNotebook.previousReferent[0]
+		: null;
 
 	let search = '';
 
@@ -194,7 +196,7 @@
 	$: isReferent = members.some(
 		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
 	);
-	$: isLastReferent = $accountData.id === lastReferent?.account?.id;
+	$: isLastReferent = $accountData.id === previousReferent?.account?.id;
 	$: isMember = members.some(({ account }) => $accountData.id === account.id);
 
 	$: externalData =

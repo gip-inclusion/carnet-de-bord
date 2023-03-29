@@ -18342,7 +18342,7 @@ export type GetNotebookQuery = {
 				} | null;
 			}>;
 		} | null;
-		lastReferent: Array<{
+		previousReferent: Array<{
 			__typename?: 'notebook_member';
 			id: string;
 			account: { __typename?: 'account'; id: string };
@@ -29594,7 +29594,7 @@ export const GetNotebookDocument = {
 								},
 								{
 									kind: 'Field',
-									alias: { kind: 'Name', value: 'lastReferent' },
+									alias: { kind: 'Name', value: 'previousReferent' },
 									name: { kind: 'Name', value: 'members' },
 									arguments: [
 										{

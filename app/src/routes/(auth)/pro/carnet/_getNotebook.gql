@@ -57,7 +57,7 @@ query GetNotebook(
         }
       }
     }
-    lastReferent: members(
+    previousReferent: members(
       where: {
         _and: [
           { memberType: { _eq: "referent" } },
