@@ -4,6 +4,7 @@ from cdb.api.v1.routers import (
     admin_structures,
     beneficiaries,
     csv2json,
+    deployment,
     managers,
     notebooks,
     nps_rating,
@@ -42,3 +43,5 @@ api_router.include_router(
 api_router.include_router(notebooks.router, prefix="/notebooks", tags=["Notebooks"])
 
 api_router.include_router(nps_rating.router, prefix="/nps-rating", tags=["NPS ratings"])
+
+api_router.include_router(deployment.router, prefix="/deployment", tags=["deployment"])

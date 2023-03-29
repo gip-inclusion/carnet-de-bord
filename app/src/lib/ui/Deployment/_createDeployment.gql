@@ -1,6 +1,0 @@
-mutation CreateDeployment($email: citext!, $deployment: String!) {
-  createDeploymentWithEmail(email: $email, deployment: $deployment) {
-    id
-    label
-  }
-}

@@ -115,7 +115,7 @@ async def test_parse_principal_csv(
     assert external_data.info.beneficiary_id == beneficiary_edwina_skinner.id
     assert (
         external_data.hash
-        == "7ae664ec9134a62371c75c32f0a91a7162eac396a7f3db4119ea0b5eda88e380"
+        == "11abe78a0ccfbb5ed90b71eeeb460583c88bfc2a9635d7e312fc770f46633a82"
     )
 
     sophie_tifour = await get_beneficiary_by_id(
@@ -192,7 +192,6 @@ async def test_insert_professional_projects_for_csv_row_and_notebook(
             db_connection,
             csv_row,
             beneficiary_sophie_tifour.notebook,
-            row["identifiant_unique_de"],
         )
 
         assert len(updated_notebook.professional_projects) == 3
@@ -247,7 +246,6 @@ async def test_import_pe_referent(
         db_connection,
         csv_row,
         csv_row.identifiant_unique_de,
-        UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0"),
         UUID("9c0e5236-a03d-4e5f-b945-c6bc556cf9f3"),
     )
 

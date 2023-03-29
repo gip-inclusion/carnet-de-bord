@@ -50,7 +50,6 @@ async def test_check_existing_external_data(
     professional_pierre_chevalier: Professional,
     pe_principal_csv_series,
 ):
-
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
         db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
     )
@@ -100,9 +99,10 @@ async def test_check_existing_external_data(
     assert external_data.data["parsed"]["beneficiary"]["lastname"] == "Newname"
     assert external_data.data["parsed"]["professional"]["lastname"] == "Newlastname"
     assert external_data.data["source"]["nom"] == "Newname"
+
     assert (
         external_data.hash
-        == "beaae517011c2204b5425c6eb58388cb9b370a71223000bf192964245182a6d6"
+        == "8b816e2ff8b67d36c5432f0f1eb74c66cc4c50c616296969448639799ba02368"
     )
 
     datas = await get_all_external_datas_by_beneficiary_id_and_source(

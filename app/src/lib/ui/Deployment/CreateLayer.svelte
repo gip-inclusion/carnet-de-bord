@@ -1,35 +1,45 @@
 <script lang="ts">
-	import { CreateDeploymentDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { openComponent } from '$lib/stores';
+	import { openComponent, token } from '$lib/stores';
 
-	import { mutation, operationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
 	import { type AdminDeploymentType, adminDeploymentSchema } from './adminDeployment.schema';
-
-	const deploymentStore = operationStore(CreateDeploymentDocument, null, {
-		additionalTypenames: ['deployment'],
-	});
-	const insertDeployment = mutation(deploymentStore);
+	import { postApiJson } from '$lib/utils/post';
+	import { captureException } from '$lib/utils/sentry';
 
 	const initialValues = {
 		email: '',
 		deployment: '',
+		departmentCode: '',
 	};
 	let errorMessage = '';
+	export let onClose: () => void;
 
 	async function handleSubmit(values: AdminDeploymentType) {
-		const { error } = await insertDeployment(values);
-		if (error) {
-			errorMessage = 'Une erreur est survenue lors de la création du déploiement.';
-			if (/uniqueness/i.test(error.message) && /manager_email_key/i.test(error.message)) {
-				errorMessage = 'Cet email est déja assigné à un manager.';
-			}
-		} else {
+		const data = adminDeploymentSchema.cast(values);
+		try {
+			await postApiJson(
+				'/v1/deployment',
+				{
+					manager_email: data.email,
+					departement_code: data.departmentCode,
+					label: data.deployment,
+				},
+				{
+					'jwt-token': $token,
+				}
+			);
 			close();
+		} catch (error) {
+			captureException(error);
+			errorMessage = error.message || 'Création du déploiement impossible.';
 		}
 	}
+
 	function close() {
+		if (onClose) {
+			onClose();
+		}
 		openComponent.close();
 	}
 </script>
@@ -55,12 +65,18 @@
 		let:isSubmitted
 		let:isSubmitting
 		let:isValid
-	>
-		<Input name="deployment" required inputLabel="Nom du déploiement" />
+		><div class="fr-grid-row fr-grid-row--gutters">
+			<div class="fr-col-md-12 fr-col-lg-8">
+				<Input name="deployment" required inputLabel="Nom du déploiement" />
+			</div>
+			<div class="fr-col-md-12 fr-col-lg-4">
+				<Input name="departmentCode" required inputLabel="Département" />
+			</div>
+		</div>
 		<Input name="email" required inputLabel="Courriel du gestionnaire" />
-		{#if $deploymentStore.error}
+		{#if errorMessage}
 			<div class="mb-8">
-				<Alert type="error" description={errorMessage} />
+				<Alert title="Erreur" type="error" description={errorMessage} />
 			</div>
 		{/if}
 		<div class="flex flex-row gap-6 mt-12">

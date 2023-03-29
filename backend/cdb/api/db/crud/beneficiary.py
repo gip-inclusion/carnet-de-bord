@@ -24,6 +24,7 @@ from cdb.api.db.models.beneficiary import (
     BeneficiaryStructure,
     BeneficiaryWithAdminStructureEmail,
 )
+from cdb.api.db.models.deployment import parse_deployment_from_beneficiary_record
 from cdb.api.db.models.notebook_member import NotebookMemberInsert
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
@@ -31,11 +32,15 @@ from cdb.api.db.models.professional import Professional
 logger = logging.getLogger(__name__)
 
 BENEFICIARY_BASE_QUERY = (
-    """SELECT b.*, acc.id as account_id,"""
+    """
+    SELECT b.*, acc.id as account_id,
+    dep.id as dep_id, dep.label as dep_label, dep.department_code as dep_code,
+    """
     + NOTEBOOK_BASE_FIELDS
     + """
     FROM public.beneficiary b
     LEFT JOIN notebook n ON n.beneficiary_id = b.id
+    LEFT JOIN deployment dep on dep.id = b.deployment_id
     """
     + NOTEBOOK_BASE_JOINS
     + """
@@ -83,7 +88,6 @@ async def update_beneficiary_field(
     field_value: str,
     beneficiary_id: UUID,
 ) -> UUID | None:
-
     result: Record | None = await connection.fetchrow(
         f"""
 UPDATE beneficiary SET {field_name} = $2
@@ -102,7 +106,6 @@ async def update_beneficiary(
     beneficiary: BeneficiaryImport,
     beneficiary_id: UUID,
 ) -> UUID | None:
-
     keys_to_update = beneficiary.get_beneficiary_editable_keys()
 
     if len(keys_to_update) == 0:
@@ -152,9 +155,7 @@ async def insert_beneficiary(
 async def get_beneficiary_with_query(
     connection: Connection, query: str, *args
 ) -> Beneficiary | None:
-
     async with connection.transaction():
-
         beneficiary = None
 
         beneficiary_records: List[Record] = await connection.fetch(
@@ -163,9 +164,11 @@ async def get_beneficiary_with_query(
         )
 
         for beneficiary_record in beneficiary_records:
-
             if beneficiary is None:
                 beneficiary = Beneficiary.parse_obj(beneficiary_record)
+                beneficiary.deployment = parse_deployment_from_beneficiary_record(
+                    beneficiary_record
+                )
             if beneficiary_record["n_id"] is not None:
                 beneficiary.notebook = await parse_notebook_from_record(
                     beneficiary_record,
@@ -178,7 +181,6 @@ async def get_beneficiary_with_query(
 async def get_beneficiary_from_personal_information(
     connection: Connection, firstname: str, lastname: str, birth_date: date
 ) -> Beneficiary | None:
-
     return await get_beneficiary_with_query(
         connection,
         # We use LOWER(BTRIM(field)) here to match the index so postgres
@@ -239,7 +241,6 @@ WHERE b_struct.beneficiary_id = $1
 async def get_beneficiary_by_id(
     connection: Connection, beneficiary_id: UUID
 ) -> Beneficiary | None:
-
     return await get_beneficiary_with_query(
         connection, "WHERE b.id = $1", beneficiary_id
     )
@@ -251,7 +252,6 @@ async def create_beneficiary_with_notebook_and_referent(
     deployment_id: UUID,
     need_orientation: bool,
 ) -> UUID:
-
     beneficiary_id: UUID | None = await insert_beneficiary(
         connection, beneficiary, deployment_id
     )

@@ -18,7 +18,6 @@ def parse_structure_from_record(record: Record) -> Structure:
 async def insert_structure(
     connection: Connection, structure_insert: StructureInsert
 ) -> Structure | None:
-
     record = await connection.fetchrow(
         """
         INSERT INTO public.structure (
@@ -72,7 +71,7 @@ async def get_structure_by_name(connection: Connection, name: str) -> Structure 
     return await get_structure_with_query(
         connection,
         """
-        WHERE trim(lower(name))=trim(lower($1))
+        WHERE trim(lower(unaccent(name)))=trim(lower(unaccent($1)))
         """,
         name,
     )
@@ -91,7 +90,6 @@ async def get_structure_by_id(connection: Connection, id: UUID) -> Structure | N
 async def get_structure_with_query(
     connection: Connection, query: str, *args
 ) -> Structure | None:
-
     record: Record | None = await connection.fetchrow(
         STRUCTURE_BASE_QUERY + query,
         *args,
@@ -105,7 +103,6 @@ async def get_structures_with_query(
     connection: Connection, query: str, *args
 ) -> list[Structure]:
     async with connection.transaction():
-
         records: list[Record] = await connection.fetch(
             STRUCTURE_BASE_QUERY + query,
             *args,
@@ -121,12 +118,16 @@ async def get_structures(connection: Connection) -> list[Structure]:
 async def create_structure_from_agences_list(
     connection: Connection, agences: list[Agence], label: str, deployment_id: UUID
 ) -> Structure | None:
-
     matching_agences: list[Agence] = [
         agence for agence in agences if agence.libelle == label
     ]
 
-    if len(matching_agences) == 0:
+    if len(matching_agences) != 1:
+        logging.warning(
+            "Did not find a single agence that matches %s in '%s'.",
+            label,
+            agences,
+        )
         agence = None
     else:
         agence = matching_agences[0]

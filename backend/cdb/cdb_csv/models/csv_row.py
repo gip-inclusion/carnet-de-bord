@@ -81,6 +81,7 @@ class PrincipalCsvRow(BaseModel):
     referent_nom: str
     referent_prenom: str
     referent_mail: str
+    code_safir: str
     modalite_accompagnement: str
     struct_suivi: str
     suivi_debut: date | None

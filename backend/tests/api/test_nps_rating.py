@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
 pro_uuid = UUID("f29ca78a-4719-4658-8d19-48d3df9178b5")
@@ -22,7 +22,7 @@ async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_j
     await db_connection.execute(
         "INSERT INTO nps_rating (account_id, created_at, score) VALUES ($1, $2, $3)",
         pro_uuid,
-        datetime.now() - timedelta(days=14),
+        datetime.now(tz=timezone.utc) - timedelta(days=14),
         7,
     )
     response = await test_client.post(

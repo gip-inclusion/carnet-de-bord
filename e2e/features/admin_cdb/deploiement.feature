@@ -10,6 +10,7 @@ Fonctionnalité: Parcours Admin CdB
 		Alors je vois "Liste des déploiements"
 		Alors je clique sur "Ajouter un Déploiement"
 		Alors je renseigne "expérimentation e2e" dans le champ "Nom du déploiement"
+		Alors je renseigne "26" dans le champ "Département"
 		Alors je renseigne "experimentation-e2e@noreply.beta.gouv.fr" dans le champ "Courriel du gestionnaire"
 		Quand je clique sur "Créer le déploiement"
 		Alors je vois "expérimentation e2e"

@@ -22,15 +22,5 @@ def principal_file(pe_principal_file: str):
     asyncio.run(pe.parse_pe_csv(pe_principal_file))
 
 
-@app.command()
-def attach_pro_to_beneficiary(pe_principal_file: str):
-    typer.echo(f"Attaching pro to beneficiary from principal file {pe_principal_file}")
-    asyncio.run(
-        pe.parse_pe_csv(
-            pe_principal_file, pe.ParseActionEnum.MATCH_BENEFICIARIES_AND_PROS
-        )
-    )
-
-
 if __name__ == "__main__":
     app()

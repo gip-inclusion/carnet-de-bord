@@ -4,6 +4,7 @@ import { cityOrNameValidation } from '$lib/validation';
 export const adminDeploymentSchema = yup.object().shape({
 	email: yup.string().trim().email().required(),
 	deployment: yup.string().trim().required(),
+	departmentCode: yup.string().trim().required(),
 });
 
 export const deploymentAdminPdiSchema = yup.object().shape({
