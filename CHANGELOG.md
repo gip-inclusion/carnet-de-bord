@@ -1,3 +1,10 @@
+# [1.210.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.209.4...v1.210.0) (2023-03-29)
+
+
+### Features
+
+* ajout du code departement pour un deploiment ([#1610](https://github.com/gip-inclusion/carnet-de-bord/issues/1610)) ([f52f218](https://github.com/gip-inclusion/carnet-de-bord/commit/f52f218200db18becf4fd8044800fc083904b13e))
+
 ## [1.209.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.209.3...v1.209.4) (2023-03-28)
 
 ## [1.209.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.209.2...v1.209.3) (2023-03-28)
