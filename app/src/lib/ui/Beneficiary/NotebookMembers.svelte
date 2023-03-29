@@ -105,8 +105,9 @@
 	});
 	type addMemberType = yup.InferType<typeof addMemberSchema>;
 
-	const initialValues = {
+	$: initialValues = {
 		memberType: 'no_referent',
+		orientation: orientationOptions?.length === 1 ? orientationOptions[0].name : undefined,
 	};
 </script>
 
