@@ -20,6 +20,6 @@ it('has an up-to-date typed-document-nodes.ts', async () => {
 	const expectedCodegen = format(schemaFromGQL, prettierOptions);
 	const actualCodegen = schemaFromDisk;
 	// Do not use toStrictEqual, it computes the diff of 30k lines files.
-	// Codegen is out of date.
+	// If this assertion fails, codegen is out of date.
 	expect(actualCodegen === expectedCodegen).toBe(true);
 }, 10000);

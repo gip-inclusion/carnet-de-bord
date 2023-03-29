@@ -1,3 +1,4 @@
+/** @type {import("@graphql-codegen/cli").CodegenConfig} **/
 module.exports = {
 	schema: [
 		{
