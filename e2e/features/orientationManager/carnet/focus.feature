@@ -17,17 +17,17 @@ Scénario: Ajout d'un axe de travail
 Scénario: Ajout d'un objectif
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
 	Alors je clique sur "Formation" dans la tuile "Formation"
-	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
+	Alors j'attends que le texte "Trouver sa formation" apparaisse
 	Quand je clique sur "Ajouter un objectif"
 	Alors j'attends que le texte "Objectif" apparaisse
-	Quand je sélectionne l'option "Définir un parcours de formation personnalisé" dans la liste "Objectif"
+	Quand je sélectionne l'option "Monter son dossier de formation" dans la liste "Objectif"
 	Quand je clique sur "Ajouter"
-	Alors je vois "Définir un parcours de formation personnalisé" sous le titre "Objectifs"
+	Alors je vois "Monter son dossier de formation" sous le titre "Objectifs"
 
 Scénario: Ajout d'une action
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
 	Alors je clique sur "Formation" dans la tuile "Formation"
-	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
+	Alors j'attends que le texte "Trouver sa formation" apparaisse
 	Quand je clique sur "Se former"
 	Alors j'attends que le texte "Action" apparaisse
 	Alors je vois "Aucune action entreprise pour le moment." dans le volet

@@ -31,12 +31,11 @@ async def test_export_notebook(db_connection, test_directory):
         assert focus is not None
 
         assert len(focus["targets"]) == 3
-
         target = next(
             (
                 t
                 for t in focus["targets"]
-                if t["target"] == "Acc\u00e9der \u00e0 l\u2019emploi"
+                if t["target"] == "Répondre à des offres d'emploi"
             ),
             None,
         )
