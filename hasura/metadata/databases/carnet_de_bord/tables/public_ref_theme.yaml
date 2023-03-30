@@ -1,50 +1,40 @@
 table:
-  name: ref_action
+  name: ref_theme
   schema: public
-object_relationships:
-  - name: refTheme
-    using:
-      foreign_key_constraint_on: theme
 select_permissions:
   - role: admin_cdb
     permission:
       columns:
-        - description
-        - theme
-        - id
+        - label
+        - name
       filter: {}
   - role: admin_structure
     permission:
       columns:
-        - id
-        - description
-        - theme
+        - label
+        - name
       filter: {}
   - role: beneficiary
     permission:
       columns:
-        - description
-        - theme
-        - id
+        - label
+        - name
       filter: {}
   - role: manager
     permission:
       columns:
-        - description
-        - id
-        - theme
+        - label
+        - name
       filter: {}
   - role: orientation_manager
     permission:
       columns:
-        - description
-        - theme
-        - id
+        - label
+        - name
       filter: {}
   - role: professional
     permission:
       columns:
-        - id
-        - description
-        - theme
+        - label
+        - name
       filter: {}

@@ -1,8 +1,26 @@
 table:
   name: ref_target
   schema: public
+object_relationships:
+  - name: refTheme
+    using:
+      foreign_key_constraint_on: theme
 select_permissions:
   - role: admin_cdb
+    permission:
+      columns:
+        - description
+        - theme
+        - id
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - description
+        - theme
+        - id
+      filter: {}
+  - role: beneficiary
     permission:
       columns:
         - description

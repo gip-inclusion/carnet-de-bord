@@ -5519,6 +5519,19 @@ schema = build_schema(
       delete_ref_target_by_pk(id: uuid!): ref_target
 
       """
+      delete data from the table: "ref_theme"
+      """
+      delete_ref_theme(
+        """filter the rows which have to be deleted"""
+        where: ref_theme_bool_exp!
+      ): ref_theme_mutation_response
+
+      """
+      delete single row from the table: "ref_theme"
+      """
+      delete_ref_theme_by_pk(name: String!): ref_theme
+
+      """
       delete data from the table: "role"
       """
       delete_role(
@@ -6355,6 +6368,28 @@ schema = build_schema(
         """upsert condition"""
         on_conflict: ref_target_on_conflict
       ): ref_target
+
+      """
+      insert data into the table: "ref_theme"
+      """
+      insert_ref_theme(
+        """the rows to be inserted"""
+        objects: [ref_theme_insert_input!]!
+
+        """upsert condition"""
+        on_conflict: ref_theme_on_conflict
+      ): ref_theme_mutation_response
+
+      """
+      insert a single row into the table: "ref_theme"
+      """
+      insert_ref_theme_one(
+        """the row to be inserted"""
+        object: ref_theme_insert_input!
+
+        """upsert condition"""
+        on_conflict: ref_theme_on_conflict
+      ): ref_theme
 
       """
       insert data into the table: "role"
@@ -7622,6 +7657,34 @@ schema = build_schema(
         """updates to execute, in order"""
         updates: [ref_target_updates!]!
       ): [ref_target_mutation_response]
+
+      """
+      update data of the table: "ref_theme"
+      """
+      update_ref_theme(
+        """sets the columns of the filtered rows to the given values"""
+        _set: ref_theme_set_input
+
+        """filter the rows which have to be updated"""
+        where: ref_theme_bool_exp!
+      ): ref_theme_mutation_response
+
+      """
+      update single row of the table: "ref_theme"
+      """
+      update_ref_theme_by_pk(
+        """sets the columns of the filtered rows to the given values"""
+        _set: ref_theme_set_input
+        pk_columns: ref_theme_pk_columns_input!
+      ): ref_theme
+
+      """
+      update multiples rows of table: "ref_theme"
+      """
+      update_ref_theme_many(
+        """updates to execute, in order"""
+        updates: [ref_theme_updates!]!
+      ): [ref_theme_mutation_response]
 
       """
       update data of the table: "role"
@@ -15792,6 +15855,49 @@ schema = build_schema(
       ref_target_by_pk(id: uuid!): ref_target
 
       """
+      fetch data from the table: "ref_theme"
+      """
+      ref_theme(
+        """distinct select on columns"""
+        distinct_on: [ref_theme_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_theme_order_by!]
+
+        """filter the rows returned"""
+        where: ref_theme_bool_exp
+      ): [ref_theme!]!
+
+      """
+      fetch aggregated fields from the table: "ref_theme"
+      """
+      ref_theme_aggregate(
+        """distinct select on columns"""
+        distinct_on: [ref_theme_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_theme_order_by!]
+
+        """filter the rows returned"""
+        where: ref_theme_bool_exp
+      ): ref_theme_aggregate!
+
+      """fetch data from the table: "ref_theme" using primary key columns"""
+      ref_theme_by_pk(name: String!): ref_theme
+
+      """
       fetch data from the table: "role"
       """
       role(
@@ -16172,6 +16278,9 @@ schema = build_schema(
     type ref_action {
       description: String!
       id: uuid!
+
+      """An object relationship"""
+      refTheme: ref_theme!
       theme: String!
     }
 
@@ -16201,6 +16310,7 @@ schema = build_schema(
       _or: [ref_action_bool_exp!]
       description: String_comparison_exp
       id: uuid_comparison_exp
+      refTheme: ref_theme_bool_exp
       theme: String_comparison_exp
     }
 
@@ -16220,6 +16330,7 @@ schema = build_schema(
     input ref_action_insert_input {
       description: String
       id: uuid
+      refTheme: ref_theme_obj_rel_insert_input
       theme: String
     }
 
@@ -16261,6 +16372,7 @@ schema = build_schema(
     input ref_action_order_by {
       description: order_by
       id: order_by
+      refTheme: ref_theme_order_by
       theme: order_by
     }
 
@@ -16336,6 +16448,9 @@ schema = build_schema(
     type ref_situation {
       description: String!
       id: uuid!
+
+      """An object relationship"""
+      refTheme: ref_theme!
       theme: String!
     }
 
@@ -16365,6 +16480,7 @@ schema = build_schema(
       _or: [ref_situation_bool_exp!]
       description: String_comparison_exp
       id: uuid_comparison_exp
+      refTheme: ref_theme_bool_exp
       theme: String_comparison_exp
     }
 
@@ -16384,6 +16500,7 @@ schema = build_schema(
     input ref_situation_insert_input {
       description: String
       id: uuid
+      refTheme: ref_theme_obj_rel_insert_input
       theme: String
     }
 
@@ -16435,6 +16552,7 @@ schema = build_schema(
     input ref_situation_order_by {
       description: order_by
       id: order_by
+      refTheme: ref_theme_order_by
       theme: order_by
     }
 
@@ -16510,6 +16628,9 @@ schema = build_schema(
     type ref_target {
       description: String!
       id: uuid!
+
+      """An object relationship"""
+      refTheme: ref_theme!
       theme: String!
     }
 
@@ -16539,6 +16660,7 @@ schema = build_schema(
       _or: [ref_target_bool_exp!]
       description: String_comparison_exp
       id: uuid_comparison_exp
+      refTheme: ref_theme_bool_exp
       theme: String_comparison_exp
     }
 
@@ -16558,6 +16680,7 @@ schema = build_schema(
     input ref_target_insert_input {
       description: String
       id: uuid
+      refTheme: ref_theme_obj_rel_insert_input
       theme: String
     }
 
@@ -16599,6 +16722,7 @@ schema = build_schema(
     input ref_target_order_by {
       description: order_by
       id: order_by
+      refTheme: ref_theme_order_by
       theme: order_by
     }
 
@@ -16666,6 +16790,164 @@ schema = build_schema(
       """sets the columns of the filtered rows to the given values"""
       _set: ref_target_set_input
       where: ref_target_bool_exp!
+    }
+
+    """contains the availables themes for focus, sitations, targets, actions"""
+    type ref_theme {
+      label: String!
+      name: String!
+    }
+
+    """
+    aggregated selection of "ref_theme"
+    """
+    type ref_theme_aggregate {
+      aggregate: ref_theme_aggregate_fields
+      nodes: [ref_theme!]!
+    }
+
+    """
+    aggregate fields of "ref_theme"
+    """
+    type ref_theme_aggregate_fields {
+      count(columns: [ref_theme_select_column!], distinct: Boolean): Int!
+      max: ref_theme_max_fields
+      min: ref_theme_min_fields
+    }
+
+    """
+    Boolean expression to filter rows from the table "ref_theme". All fields are combined with a logical 'AND'.
+    """
+    input ref_theme_bool_exp {
+      _and: [ref_theme_bool_exp!]
+      _not: ref_theme_bool_exp
+      _or: [ref_theme_bool_exp!]
+      label: String_comparison_exp
+      name: String_comparison_exp
+    }
+
+    """
+    unique or primary key constraints on table "ref_theme"
+    """
+    enum ref_theme_constraint {
+      """
+      unique or primary key constraint on columns "name"
+      """
+      ref_theme_pkey
+    }
+
+    """
+    input type for inserting data into table "ref_theme"
+    """
+    input ref_theme_insert_input {
+      label: String
+      name: String
+    }
+
+    """aggregate max on columns"""
+    type ref_theme_max_fields {
+      label: String
+      name: String
+    }
+
+    """aggregate min on columns"""
+    type ref_theme_min_fields {
+      label: String
+      name: String
+    }
+
+    """
+    response of any mutation on the table "ref_theme"
+    """
+    type ref_theme_mutation_response {
+      """number of rows affected by the mutation"""
+      affected_rows: Int!
+
+      """data from the rows affected by the mutation"""
+      returning: [ref_theme!]!
+    }
+
+    """
+    input type for inserting object relation for remote table "ref_theme"
+    """
+    input ref_theme_obj_rel_insert_input {
+      data: ref_theme_insert_input!
+
+      """upsert condition"""
+      on_conflict: ref_theme_on_conflict
+    }
+
+    """
+    on_conflict condition type for table "ref_theme"
+    """
+    input ref_theme_on_conflict {
+      constraint: ref_theme_constraint!
+      update_columns: [ref_theme_update_column!]! = []
+      where: ref_theme_bool_exp
+    }
+
+    """Ordering options when selecting data from "ref_theme"."""
+    input ref_theme_order_by {
+      label: order_by
+      name: order_by
+    }
+
+    """primary key columns input for table: ref_theme"""
+    input ref_theme_pk_columns_input {
+      name: String!
+    }
+
+    """
+    select columns of table "ref_theme"
+    """
+    enum ref_theme_select_column {
+      """column name"""
+      label
+
+      """column name"""
+      name
+    }
+
+    """
+    input type for updating data in table "ref_theme"
+    """
+    input ref_theme_set_input {
+      label: String
+      name: String
+    }
+
+    """
+    Streaming cursor of the table "ref_theme"
+    """
+    input ref_theme_stream_cursor_input {
+      """Stream column input with initial value"""
+      initial_value: ref_theme_stream_cursor_value_input!
+
+      """cursor ordering"""
+      ordering: cursor_ordering
+    }
+
+    """Initial value of the column from where the streaming should start"""
+    input ref_theme_stream_cursor_value_input {
+      label: String
+      name: String
+    }
+
+    """
+    update columns of table "ref_theme"
+    """
+    enum ref_theme_update_column {
+      """column name"""
+      label
+
+      """column name"""
+      name
+    }
+
+    input ref_theme_updates {
+      """sets the columns of the filtered rows to the given values"""
+      _set: ref_theme_set_input
+      where: ref_theme_bool_exp!
     }
 
     """liste des roles"""
@@ -20061,6 +20343,63 @@ schema = build_schema(
         """filter the rows returned"""
         where: ref_target_bool_exp
       ): [ref_target!]!
+
+      """
+      fetch data from the table: "ref_theme"
+      """
+      ref_theme(
+        """distinct select on columns"""
+        distinct_on: [ref_theme_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_theme_order_by!]
+
+        """filter the rows returned"""
+        where: ref_theme_bool_exp
+      ): [ref_theme!]!
+
+      """
+      fetch aggregated fields from the table: "ref_theme"
+      """
+      ref_theme_aggregate(
+        """distinct select on columns"""
+        distinct_on: [ref_theme_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_theme_order_by!]
+
+        """filter the rows returned"""
+        where: ref_theme_bool_exp
+      ): ref_theme_aggregate!
+
+      """fetch data from the table: "ref_theme" using primary key columns"""
+      ref_theme_by_pk(name: String!): ref_theme
+
+      """
+      fetch data from the table in a streaming manner: "ref_theme"
+      """
+      ref_theme_stream(
+        """maximum number of rows returned in a single batch"""
+        batch_size: Int!
+
+        """cursor to stream the results returned by the query"""
+        cursor: [ref_theme_stream_cursor_input]!
+
+        """filter the rows returned"""
+        where: ref_theme_bool_exp
+      ): [ref_theme!]!
 
       """
       fetch data from the table: "role"

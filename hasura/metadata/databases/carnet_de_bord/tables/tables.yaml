@@ -35,6 +35,7 @@
 - "!include public_ref_action.yaml"
 - "!include public_ref_situation.yaml"
 - "!include public_ref_target.yaml"
+- "!include public_ref_theme.yaml"
 - "!include public_role.yaml"
 - "!include public_rome_code.yaml"
 - "!include public_structure.yaml"

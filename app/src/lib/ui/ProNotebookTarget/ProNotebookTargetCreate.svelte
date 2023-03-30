@@ -15,8 +15,25 @@
 	function close() {
 		openComponent.close();
 	}
-
-	const refTargetStore = operationStore(GetRefTargetByFocusDocument, { theme: focusTheme });
+	function transformTheme(focusTheme: string): string[] {
+		switch (focusTheme) {
+			case 'emploi':
+				return [
+					'choisir_un_metier',
+					'preparer_sa_candidature',
+					'trouver_un_emploi',
+					'creer_une_entreprise',
+					's_ouvrir_a_l_international',
+				];
+			case 'formation':
+				return ['se_former'];
+			default:
+				return [focusTheme];
+		}
+	}
+	const refTargetStore = operationStore(GetRefTargetByFocusDocument, {
+		theme: transformTheme(focusTheme),
+	});
 	query(refTargetStore);
 
 	const addNotebookTargetStore = operationStore(AddNotebookTargetDocument);
@@ -41,9 +58,10 @@
 	}
 
 	$: targetOptions =
-		$refTargetStore.data?.refTargets.map(({ description }) => ({
+		$refTargetStore.data?.refTargets.map(({ description, refTheme }) => ({
 			label: description,
 			name: description,
+			group: refTheme.label,
 		})) || [];
 
 	$: disabled = !formData.target;
@@ -56,7 +74,12 @@
 	</div>
 	<LoaderIndicator result={refTargetStore}>
 		<div class="min-w-0">
-			<Select selectLabel={'Objectif'} options={targetOptions} bind:selected={formData.target} />
+			<Select
+				selectLabel={'Objectif'}
+				options={targetOptions}
+				bind:selected={formData.target}
+				groupOption
+			/>
 		</div>
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button {disabled} on:click={createTarget}>Ajouter</Button>

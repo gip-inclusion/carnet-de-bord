@@ -90,6 +90,7 @@ export type TableHeader<Data> = {
 export interface Option {
 	name: string;
 	label: string;
+	group?: string;
 }
 
 export type MenuItem = {
