@@ -196,16 +196,16 @@
 						<tbody class="bg-white divide-y divide-gray-300">
 							{#each insertResults as insertResult}
 								<tr>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={insertResult.pro.email} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={insertResult.pro.firstname} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={insertResult.pro.lastname} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										{#if insertResult.error}
 											<Text
 												classNames="text-error"

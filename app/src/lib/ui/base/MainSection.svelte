@@ -3,7 +3,7 @@
 </script>
 
 <section class="fr-accordion pb-8">
-	<h2 class="fr-accordion__title ">
+	<h2 class="fr-accordion__title">
 		<div class="fr-accordion__btn !py-6 !pl-0 after:content-none">
 			<span class="text-france-blue text-2xl font-bold">{title}</span>
 		</div>

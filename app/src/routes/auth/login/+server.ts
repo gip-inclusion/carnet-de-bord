@@ -86,7 +86,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			},
 		})
 		.toPromise();
-	let account: typeof emailResult.data.account[0];
+	let account: (typeof emailResult.data.account)[0];
 
 	if (emailResult.error) {
 		logger.error(emailResult.error);

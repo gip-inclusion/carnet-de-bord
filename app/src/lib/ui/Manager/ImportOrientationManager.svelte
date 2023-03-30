@@ -72,17 +72,17 @@
 				<tbody class="bg-white divide-y divide-gray-300">
 					{#each orientation_managers as orientation_manager}
 						<tr>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								<Text value={orientation_manager.email} />
 							</td>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								<Text value={orientation_manager.lastname} defaultValue="" />
 							</td>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								<Text value={orientation_manager.firstname} defaultValue="" />
 							</td>
 
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								{#if orientation_manager.valid === false}
 									<Text classNames="text-error" value={translateError(orientation_manager.error)} />
 								{:else}

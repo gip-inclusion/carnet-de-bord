@@ -229,7 +229,7 @@
 						<tr>
 							{#if appointment.isEdited}
 								<td class="align-top" colspan="3">
-									<div class="flex flex-wrap gap-4 items-start  ">
+									<div class="flex flex-wrap gap-4 items-start">
 										<div class="flex items-center gap-4">
 											Le
 											<Input

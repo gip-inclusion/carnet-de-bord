@@ -238,7 +238,7 @@
 									<Text value={structure.row['Courriel responsable']} />
 								{/if}
 							</td>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								{#if structure.valid === false}
 									<Text classNames="text-error" value={translateError(lineErrors.join(','))} />
 								{:else}

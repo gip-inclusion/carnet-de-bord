@@ -52,7 +52,7 @@
 					Orientation recommandée : {orientationRequest.requestedOrientationSystem.name}
 				</p>
 			</div>
-			<div class="flex flex-row ml-auto items-center gap-6 ">
+			<div class="flex flex-row ml-auto items-center gap-6">
 				<Button title="Réorienter" on:click={() => acceptOrientationRequest()}>Réorienter</Button>
 				<Button title="Maintenir l'accompagnement" on:click={() => denyOrientationRequest()}>
 					Maintenir l'accompagnement

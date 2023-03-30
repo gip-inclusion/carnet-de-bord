@@ -252,22 +252,22 @@
 						<tbody class="bg-white divide-y divide-gray-300">
 							{#each insertResult as member}
 								<tr>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={member.input_.notebookId} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={member.input_.firstname} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={member.input_.lastname} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={formatDateLocale(member.input_.dateOfBirth)} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										<Text value={member.input_.proEmails} />
 									</td>
-									<td class="px-2 py-2 ">
+									<td class="px-2 py-2">
 										{#if member.error}
 											<Text class="text-error" value={member.error} />
 										{:else}
