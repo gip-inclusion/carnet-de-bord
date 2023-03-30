@@ -204,12 +204,12 @@ Quand('je télécharge en cliquant sur {string}', (downloadText) => {
 	I.click(`//*[text()[starts-with(., "${downloadText}")]]`);
 });
 
-Quand(`je selectionne l'option {string} dans la liste {string}`, (option, select) => {
+Quand(`je sélectionne l'option {string} dans la liste {string}`, (option, select) => {
 	I.selectOption(select, option);
 });
 
 Quand(
-	"je selectionne l'option {string} dans la liste {string} après le texte {string}",
+	"je sélectionne l'option {string} dans la liste {string} après le texte {string}",
 	(option, inputLabel, matcher) => {
 		const inputLocator = locate('select').after(locate('label').withText(inputLabel));
 		const select = locate('*')

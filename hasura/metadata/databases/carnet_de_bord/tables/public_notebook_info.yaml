@@ -50,6 +50,28 @@ insert_permissions:
         - need_orientation
         - notebook_id
         - orientation_system_id
+  - role: professional
+    permission:
+      check:
+        _and:
+          - notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
+                  - member_type:
+                      _eq: referent
+          - orientationSystem:
+              professionalOrientationSystems:
+                professional:
+                  account:
+                    id:
+                      _eq: X-Hasura-User-Id
+      columns:
+        - notebook_id
+        - orientation_system_id
 select_permissions:
   - role: admin_cdb
     permission:
@@ -156,3 +178,42 @@ update_permissions:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
       check: null
+  - role: professional
+    permission:
+      columns:
+        - notebook_id
+        - orientation_system_id
+      filter:
+        _and:
+          - notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
+                  - member_type:
+                      _eq: referent
+          - orientationSystem:
+              professionalOrientationSystems:
+                professional:
+                  account:
+                    id:
+                      _eq: X-Hasura-User-Id
+      check:
+        _and:
+          - notebook:
+              members:
+                _and:
+                  - account_id:
+                      _eq: X-Hasura-User-Id
+                  - active:
+                      _eq: true
+                  - member_type:
+                      _eq: referent
+          - orientationSystem:
+              professionalOrientationSystems:
+                professional:
+                  account:
+                    id:
+                      _eq: X-Hasura-User-Id

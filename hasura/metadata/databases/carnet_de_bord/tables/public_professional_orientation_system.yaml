@@ -78,6 +78,16 @@ select_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+  - role: professional
+    permission:
+      columns:
+        - orientation_system_id
+        - professional_id
+      filter:
+        professional:
+          account:
+            id:
+              _eq: X-Hasura-User-Id
 update_permissions:
   - role: admin_structure
     permission:

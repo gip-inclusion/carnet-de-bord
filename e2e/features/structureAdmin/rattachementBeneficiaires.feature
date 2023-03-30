@@ -26,14 +26,14 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je vois "17" dans la tuile "Bénéficiaires non accompagnés"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
-		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
+		Alors je sélectionne l'option "Tous" dans la liste "Rattachement"
 		Alors je choisis "Sélectionner Katrina Beach"
 		Alors je choisis "Sélectionner Whitley Benjamin"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher"
 		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique des bénéficiaires." apparaisse
-		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
+		Alors je sélectionne l'option "Simon Anka" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"
 		Alors je vois "Simon Anka" sur la ligne "Benjamin"
@@ -45,13 +45,13 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je vois "17" dans la tuile "Bénéficiaires non accompagnés"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
-		Alors je selectionne l'option "Tous" dans la liste "Rattachement"
+		Alors je sélectionne l'option "Tous" dans la liste "Rattachement"
 		Quand je recherche "Beach"
 		Quand je clique sur "Rechercher"
 		Alors je vois "Non rattaché" sur la ligne "Beach"
 		Quand je clique sur "Non rattaché"
 		Alors je vois "Rattacher"
 		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique du bénéficiaire." apparaisse
-		Alors je selectionne l'option "Simon Anka" dans la liste "Nom du référent"
+		Alors je sélectionne l'option "Simon Anka" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet
 		Alors je vois "Simon Anka" sur la ligne "Beach"

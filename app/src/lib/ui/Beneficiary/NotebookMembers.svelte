@@ -1,19 +1,24 @@
 <script lang="ts">
 	import {
 		type GetNotebookByBeneficiaryIdQuery,
+		type GetProfessionalOrientationOptionsQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetProfessionalOrientationOptionsDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { Text } from '$lib/ui/utils';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import { accountData, token } from '$lib/stores';
+	import { accountData, connectedUser, token } from '$lib/stores';
+	import { operationStore, query } from '@urql/svelte';
 	import { postApiJson } from '$lib/utils/post';
 	import { captureException } from '$lib/utils/sentry';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { Radio } from '$lib/ui/base';
+	import { Button } from '$lib/ui/base';
 	import { createEventDispatcher } from 'svelte';
 	import type { Option } from '$lib/types';
 	import { goto } from '$app/navigation';
 	import { displayFullName } from '../format';
+	import { Form, Select, Radio } from '$lib/ui/forms';
+	import * as yup from 'yup';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][number];
 	type Member = Notebook['members'][number];
@@ -22,19 +27,32 @@
 
 	const dispatch = createEventDispatcher();
 
+	type OrientationOption = GetProfessionalOrientationOptionsQuery['orientation'][number];
+	let orientationOptions: Option[];
+	const orientationSystemStore = operationStore(
+		GetProfessionalOrientationOptionsDocument,
+		{ professionalId: $connectedUser.professionalId },
+		{ pause: !$accountData.professional }
+	);
+	query(orientationSystemStore);
+
+	$: orientationOptions = $orientationSystemStore.data?.orientation.map(toOrientationOption) || [];
+	function toOrientationOption(orientation: OrientationOption): Option {
+		return { name: orientation.id, label: orientation.name };
+	}
+
+	const referent = 'referent';
 	const options: Option[] = [
-		{ name: 'referent', label: 'Oui' },
+		{ name: referent, label: 'Oui' },
 		{ name: 'no_referent', label: 'Non' },
 	];
 
-	let memberType: 'referent' | 'no_referent' = 'no_referent';
-
-	async function addCurrentAccountToNotebookMembers() {
+	async function addCurrentAccountToNotebookMembers(values: addMemberType) {
 		trackEvent('pro', 'members', 'join_notebook_members');
 		try {
 			await postApiJson(
 				`/v1/notebooks/${notebookId}/members`,
-				{ member_type: memberType },
+				{ member_type: values.memberType, orientation: values.orientation },
 				{ 'jwt-token': $token }
 			);
 			dispatch('notebook-member-added');
@@ -50,10 +68,6 @@
 			}
 			return;
 		}
-	}
-
-	function setSelectedMemberType(selected: CustomEvent) {
-		memberType = selected.detail.value;
 	}
 
 	function forceLogout() {
@@ -79,7 +93,22 @@
 					: member.account?.professional?.position,
 		};
 	}
+
 	const notebookMembers = members.map(toNotebookMember);
+
+	const addMemberSchema = yup.object().shape({
+		memberType: yup.string().oneOf(['referent', 'no_referent']).required(),
+		orientation: yup.string().uuid().when('memberType', {
+			is: 'referent',
+			then: yup.string().uuid().required(),
+		}),
+	});
+	type addMemberType = yup.InferType<typeof addMemberSchema>;
+
+	$: initialValues = {
+		memberType: 'no_referent',
+		orientation: orientationOptions?.length === 1 ? orientationOptions[0].name : undefined,
+	};
 </script>
 
 <div class="fr-table fr-table--layout-fixed !mb-0">
@@ -90,15 +119,32 @@
 				outlineButton={false}
 				title="Se rattacher"
 				label="Se rattacher"
-				on:confirm={addCurrentAccountToNotebookMembers}
+				showButtons={false}
 			>
-				<Radio
-					caption="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
-					name="memberType"
-					{options}
-					selected={memberType}
-					on:input={setSelectedMemberType}
-				/>
+				<Form
+					{initialValues}
+					validationSchema={addMemberSchema}
+					onSubmit={addCurrentAccountToNotebookMembers}
+					let:form
+				>
+					<Radio
+						legend="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+						name="memberType"
+						{options}
+						ariaControls="orientation-system"
+					/>
+					{#if orientationOptions.length && form.memberType === 'referent'}
+						<div class="fr-form-group">
+							<Select
+								options={orientationOptions}
+								name="orientation"
+								selectLabel="Dispositif d’accompagnement"
+								required
+							/>
+						</div>
+					{/if}
+					<Button type="submit">Se rattacher</Button>
+				</Form>
 			</Dialog>
 		</div>
 	{/if}

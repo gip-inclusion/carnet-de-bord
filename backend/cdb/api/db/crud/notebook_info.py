@@ -66,3 +66,22 @@ def get_insert_notebook_info_mutation(
             },
         ).select(dsl_schema.notebook_info.notebookId)
     }
+
+
+def get_insert_notebook_info_orientation_system_mutation(
+    dsl_schema: DSLSchema, notebook_id: UUID, orientation_system_id: UUID
+) -> dict[str, DSLField]:
+    return {
+        "upsert_notebook_info_orientation_system": (
+            dsl_schema.mutation_root.insert_notebook_info_one.args(
+                object={
+                    "notebookId": str(notebook_id),
+                    "orientationSystemId": str(orientation_system_id),
+                },
+                on_conflict={
+                    "constraint": "notebook_info_pkey",
+                    "update_columns": ["orientationSystemId"],
+                },
+            ).select(dsl_schema.notebook_info.notebookId)
+        )
+    }

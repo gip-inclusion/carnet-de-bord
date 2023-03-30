@@ -9,7 +9,7 @@ Scénario: Ajout d'un axe de travail
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
 	Quand je choisis "Aucun"
-	Quand je selectionne l'option "Emploi" dans la liste "Thème"
+	Quand je sélectionne l'option "Emploi" dans la liste "Thème"
 	Quand je clique sur "Valider"
 	Quand je clique sur "J'ai compris"
 	Alors je vois "Aucune action" dans la tuile "Emploi"
@@ -20,7 +20,7 @@ Scénario: Ajout d'un objectif
 	Alors j'attends que le texte "Prêt à suivre une formation" apparaisse
 	Quand je clique sur "Ajouter un objectif"
 	Alors j'attends que le texte "Objectif" apparaisse
-	Quand je selectionne l'option "Définir un parcours de formation personnalisé" dans la liste "Objectif"
+	Quand je sélectionne l'option "Définir un parcours de formation personnalisé" dans la liste "Objectif"
 	Quand je clique sur "Ajouter"
 	Alors je vois "Définir un parcours de formation personnalisé" sous le titre "Objectifs"
 

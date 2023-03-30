@@ -34,6 +34,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je clique sur "Se rattacher"
 		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 		Alors je clique sur "Oui"
+		Quand je sélectionne l'option "Professionnel" dans la liste "Dispositif d’accompagnement"
 		Alors je clique sur "Se rattacher" dans la modale
 		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
 		Alors je vois "référent"

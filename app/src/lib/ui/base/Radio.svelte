@@ -9,6 +9,7 @@
 	export let selected: string | null;
 	export let options: Option[];
 	export let caption: string | null = null;
+	export let ariaControls: string | null = null;
 	export let legendClass = '';
 
 	const dispatch = createEventDispatcher();
@@ -43,6 +44,7 @@
 						name={groupId}
 						bind:group={selected}
 						value={option.name}
+						aria-controls={ariaControls}
 					/>
 					<label class="fr-label" for="radio-{option.name}">{@html option.label}</label>
 				</div>

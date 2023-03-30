@@ -1,0 +1,6 @@
+query getProfessionalOrientationOptions($professionalId: uuid!) {
+  orientation: orientation_system(where: {professionalOrientationSystems: {professionalId: {_eq: $professionalId}}}) {
+    id
+    name
+  }
+}

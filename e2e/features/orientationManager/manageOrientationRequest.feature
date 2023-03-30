@@ -34,8 +34,8 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Quand je clique sur "Réorienter"
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet
-		Alors je selectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
-		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
+		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
+		Alors je sélectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider" dans le volet
 		Alors je ne vois pas "Demande de réorientation envoyée le 01/09/2022"
 		Alors je ne vois pas "Orientation recommandée : Social"
@@ -49,9 +49,9 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Quand je clique sur "Réorienter"
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet
-		Alors je selectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
-		Alors je selectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
-		Alors je selectionne l'option "Thierry Dunord (0)" dans la liste "Nom du référent"
+		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
+		Alors je sélectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
+		Alors je sélectionne l'option "Thierry Dunord (0)" dans la liste "Nom du référent"
 		Quand je clique sur "Valider" dans le volet
 		Alors je ne vois pas "Demande de réorientation envoyée le 01/09/2022"
 		Alors je ne vois pas "Orientation recommandée : Social"
