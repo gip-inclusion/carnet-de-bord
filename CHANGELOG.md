@@ -1,3 +1,10 @@
+# [1.212.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.211.0...v1.212.0) (2023-03-30)
+
+
+### Features
+
+* mise à jour du référentiel pour ajouter les thématiques france travail ([#1630](https://github.com/gip-inclusion/carnet-de-bord/issues/1630)) ([a854550](https://github.com/gip-inclusion/carnet-de-bord/commit/a854550f38f85a7e0483375fa8d155005f01eecb))
+
 # [1.211.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.210.3...v1.211.0) (2023-03-30)
 
 
