@@ -23,9 +23,10 @@ function _mockRequest(data: unknown, headers: Record<string, string> = {}): Requ
 		fetch: () => Promise.resolve(new Response()),
 		setHeaders: (_: Record<string, string>) => ({}),
 		url: new URL('https://io.io'),
+		isDataRequest: false,
 		locals: {},
 		params: {},
-		routeId: 'route',
+		route: { id: 'route' },
 		getClientAddress: () => '',
 		platform: 'test',
 		request: {
