@@ -1,3 +1,10 @@
+# [1.211.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.210.3...v1.211.0) (2023-03-30)
+
+
+### Features
+
+* définir le dispositif d’accompagnement lors du rattachement d’un référent ([#1624](https://github.com/gip-inclusion/carnet-de-bord/issues/1624)) ([fa86c95](https://github.com/gip-inclusion/carnet-de-bord/commit/fa86c95b35b1dc0c937ffbcc55b32a4d2c3a4bc3))
+
 ## [1.210.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.210.2...v1.210.3) (2023-03-29)
 
 ## [1.210.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.210.1...v1.210.2) (2023-03-29)
