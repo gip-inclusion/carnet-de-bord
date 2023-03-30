@@ -45,8 +45,8 @@
 			focusThemeKeys.byKey[event.event.category]
 		) {
 			return (
-				' ' +
 				constantToString(event.eventType, eventTypes) +
+				' ' +
 				focusThemeKeys.byKey[event.event.category]
 			);
 		} else {
