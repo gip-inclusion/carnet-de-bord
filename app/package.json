@@ -74,6 +74,7 @@
 		"eslint-plugin-simple-import-sort": "^8.0.0",
 		"eslint-plugin-svelte3": "^4.0.0",
 		"isomorphic-fetch": "^3.0.0",
+		"jsdom": "21.1.1",
 		"pino-pretty": "9.1.1",
 		"postcss": "^8.4.5",
 		"postcss-load-config": "^4.0.0",
