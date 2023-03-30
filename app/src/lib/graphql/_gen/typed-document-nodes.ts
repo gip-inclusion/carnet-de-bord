@@ -11278,6 +11278,9 @@ export type ProfessionalProject = {
 	/** An object relationship */
 	contract_type?: Maybe<ContractType>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	createdBy?: Maybe<Scalars['uuid']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
+	deletedBy?: Maybe<Scalars['uuid']>;
 	employmentTypeId?: Maybe<EmploymentTypeEnum>;
 	/** An object relationship */
 	employment_type?: Maybe<EmploymentType>;
@@ -11382,6 +11385,9 @@ export type ProfessionalProjectBoolExp = {
 	contractTypeId?: InputMaybe<ContractTypeEnumComparisonExp>;
 	contract_type?: InputMaybe<ContractTypeBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	createdBy?: InputMaybe<UuidComparisonExp>;
+	deletedAt?: InputMaybe<TimestamptzComparisonExp>;
+	deletedBy?: InputMaybe<UuidComparisonExp>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnumComparisonExp>;
 	employment_type?: InputMaybe<EmploymentTypeBoolExp>;
 	hourlyRate?: InputMaybe<IntComparisonExp>;
@@ -11416,6 +11422,9 @@ export type ProfessionalProjectInsertInput = {
 	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	contract_type?: InputMaybe<ContractTypeObjRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedBy?: InputMaybe<Scalars['uuid']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	employment_type?: InputMaybe<EmploymentTypeObjRelInsertInput>;
 	/** in cents (divide by 100 for the EUR value) */
@@ -11435,6 +11444,9 @@ export type ProfessionalProjectInsertInput = {
 export type ProfessionalProjectMaxFields = {
 	__typename?: 'professional_project_max_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	createdBy?: Maybe<Scalars['uuid']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
+	deletedBy?: Maybe<Scalars['uuid']>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -11448,6 +11460,9 @@ export type ProfessionalProjectMaxFields = {
 /** order by max() on columns of table "professional_project" */
 export type ProfessionalProjectMaxOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
+	createdBy?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
+	deletedBy?: InputMaybe<OrderBy>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -11462,6 +11477,9 @@ export type ProfessionalProjectMaxOrderBy = {
 export type ProfessionalProjectMinFields = {
 	__typename?: 'professional_project_min_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
+	createdBy?: Maybe<Scalars['uuid']>;
+	deletedAt?: Maybe<Scalars['timestamptz']>;
+	deletedBy?: Maybe<Scalars['uuid']>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -11475,6 +11493,9 @@ export type ProfessionalProjectMinFields = {
 /** order by min() on columns of table "professional_project" */
 export type ProfessionalProjectMinOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
+	createdBy?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
+	deletedBy?: InputMaybe<OrderBy>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -11506,6 +11527,9 @@ export type ProfessionalProjectOrderBy = {
 	contractTypeId?: InputMaybe<OrderBy>;
 	contract_type?: InputMaybe<ContractTypeOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
+	createdBy?: InputMaybe<OrderBy>;
+	deletedAt?: InputMaybe<OrderBy>;
+	deletedBy?: InputMaybe<OrderBy>;
 	employmentTypeId?: InputMaybe<OrderBy>;
 	employment_type?: InputMaybe<EmploymentTypeOrderBy>;
 	hourlyRate?: InputMaybe<OrderBy>;
@@ -11532,6 +11556,12 @@ export enum ProfessionalProjectSelectColumn {
 	/** column name */
 	CreatedAt = 'createdAt',
 	/** column name */
+	CreatedBy = 'createdBy',
+	/** column name */
+	DeletedAt = 'deletedAt',
+	/** column name */
+	DeletedBy = 'deletedBy',
+	/** column name */
 	EmploymentTypeId = 'employmentTypeId',
 	/** column name */
 	HourlyRate = 'hourlyRate',
@@ -11553,6 +11583,9 @@ export enum ProfessionalProjectSelectColumn {
 export type ProfessionalProjectSetInput = {
 	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedBy?: InputMaybe<Scalars['uuid']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
@@ -11621,6 +11654,9 @@ export type ProfessionalProjectStreamCursorInput = {
 export type ProfessionalProjectStreamCursorValueInput = {
 	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	deletedAt?: InputMaybe<Scalars['timestamptz']>;
+	deletedBy?: InputMaybe<Scalars['uuid']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
@@ -11653,6 +11689,12 @@ export enum ProfessionalProjectUpdateColumn {
 	ContractTypeId = 'contractTypeId',
 	/** column name */
 	CreatedAt = 'createdAt',
+	/** column name */
+	CreatedBy = 'createdBy',
+	/** column name */
+	DeletedAt = 'deletedAt',
+	/** column name */
+	DeletedBy = 'deletedBy',
 	/** column name */
 	EmploymentTypeId = 'employmentTypeId',
 	/** column name */
@@ -16990,12 +17032,13 @@ export type UpdateSocioProMutationVariables = Exact<{
 	professionalProjectsToUpdate: Array<ProfessionalProjectUpdates> | ProfessionalProjectUpdates;
 	situationsToAdd: Array<NotebookSituationInsertInput> | NotebookSituationInsertInput;
 	situationIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
+	accountId: Scalars['uuid'];
 }>;
 
 export type UpdateSocioProMutation = {
 	__typename?: 'mutation_root';
 	update?: { __typename?: 'notebook'; id: string } | null;
-	delete_professional_project?: {
+	delete_with_update?: {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
@@ -25556,6 +25599,14 @@ export const UpdateSocioProDocument = {
 						},
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -25632,7 +25683,8 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						name: { kind: 'Name', value: 'delete_professional_project' },
+						alias: { kind: 'Name', value: 'delete_with_update' },
+						name: { kind: 'Name', value: 'update_professional_project' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -25656,6 +25708,25 @@ export const UpdateSocioProDocument = {
 													},
 												],
 											},
+										},
+									],
+								},
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: '_set' },
+								value: {
+									kind: 'ObjectValue',
+									fields: [
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deletedAt' },
+											value: { kind: 'EnumValue', value: 'now' },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'deletedBy' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 										},
 									],
 								},
@@ -31300,6 +31371,31 @@ export const GetNotebookDocument = {
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professionalProjects' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'deletedAt' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_is_null' },
+																				value: { kind: 'BooleanValue', value: true },
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+												],
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [

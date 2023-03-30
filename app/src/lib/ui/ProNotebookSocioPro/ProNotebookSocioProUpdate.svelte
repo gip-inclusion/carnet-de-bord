@@ -42,6 +42,7 @@
 		| 'professionalProjects'
 	>;
 	export let refSituations: GetNotebookQuery['refSituations'];
+	import { accountData } from '$lib/stores/account';
 
 	type NotebookProfessionalProject =
 		GetNotebookQuery['notebook_public_view'][number]['notebook']['professionalProjects'][number];
@@ -196,6 +197,7 @@
 			professionalProjectsToUpdate,
 			situationsToAdd,
 			situationIdsToDelete,
+			accountId: $accountData.id,
 		};
 
 		errorMessage = null;

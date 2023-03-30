@@ -230,6 +230,7 @@ extractWorkingTimeType workingTimeFlag =
 
 -- VIEW
 
+
 formatAccount : Maybe Account -> String
 formatAccount account =
     account
@@ -418,7 +419,9 @@ peInformationsView peGeneralData =
 formatLastUpdateInformation : ProfessionalProject -> String
 formatLastUpdateInformation professionalProject =
     let
-        formattedUpdater = formatAccount professionalProject.updater
+        formattedUpdater =
+            formatAccount professionalProject.updater
+
         updater =
             if formattedUpdater == "" then
                 ""
@@ -444,7 +447,7 @@ professionalProjectView { professionalProjects } =
             [ class "text-xl" ]
             [ text "Projets professionnels" ]
         , if List.isEmpty professionalProjects then
-            span [ class "fr-container shadow-dsfr rounded-lg py-8" ] [ text "Aucun projet professionel défini" ]
+            span [ class "fr-container shadow-dsfr rounded-lg py-8" ] [ text "Aucun projet professionnel défini" ]
 
           else
             div [ class "space-y-8" ]

@@ -7,6 +7,12 @@ configuration:
       custom_name: contractTypeId
     created_at:
       custom_name: createdAt
+    created_by:
+      custom_name: createdBy
+    deleted_at:
+      custom_name: deletedAt
+    deleted_by:
+      custom_name: deletedBy
     employment_type_id:
       custom_name: employmentTypeId
     hourly_rate:
@@ -24,6 +30,9 @@ configuration:
   custom_column_names:
     contract_type_id: contractTypeId
     created_at: createdAt
+    created_by: createdBy
+    deleted_at: deletedAt
+    deleted_by: deletedBy
     employment_type_id: employmentTypeId
     hourly_rate: hourlyRate
     mobility_radius: mobilityRadius
@@ -76,6 +85,9 @@ insert_permissions:
               managers:
                 id:
                   _eq: X-Hasura-Manager-Id
+      set:
+        created_by: x-hasura-User-Id
+        updated_by: x-hasura-User-Id
       columns:
         - contract_type_id
         - employment_type_id
@@ -94,6 +106,7 @@ insert_permissions:
               - active:
                   _eq: true
       set:
+        created_by: x-hasura-User-Id
         updated_by: x-hasura-User-Id
       columns:
         - contract_type_id
@@ -113,6 +126,7 @@ insert_permissions:
               - active:
                   _eq: true
       set:
+        created_by: x-hasura-User-Id
         updated_by: x-hasura-User-Id
       columns:
         - contract_type_id
@@ -125,30 +139,36 @@ select_permissions:
   - role: admin_cdb
     permission:
       columns:
-        - contract_type_id
-        - created_at
-        - employment_type_id
-        - hourly_rate
-        - id
         - mobility_radius
+        - contract_type_id
+        - employment_type_id
+        - created_at
+        - deleted_at
+        - updated_at
+        - created_by
+        - deleted_by
+        - id
         - notebook_id
         - rome_code_id
-        - updated_at
         - updated_by
+        - hourly_rate
       filter: {}
   - role: admin_structure
     permission:
       columns:
-        - contract_type_id
-        - created_at
-        - employment_type_id
-        - hourly_rate
-        - id
         - mobility_radius
+        - contract_type_id
+        - employment_type_id
+        - created_at
+        - deleted_at
+        - updated_at
+        - created_by
+        - deleted_by
+        - id
         - notebook_id
         - rome_code_id
-        - updated_at
         - updated_by
+        - hourly_rate
       filter:
         notebook:
           _or:
@@ -169,16 +189,19 @@ select_permissions:
   - role: beneficiary
     permission:
       columns:
-        - contract_type_id
-        - created_at
-        - employment_type_id
-        - hourly_rate
-        - id
         - mobility_radius
+        - contract_type_id
+        - employment_type_id
+        - created_at
+        - deleted_at
+        - updated_at
+        - created_by
+        - deleted_by
+        - id
         - notebook_id
         - rome_code_id
-        - updated_at
         - updated_by
+        - hourly_rate
       filter:
         notebook:
           beneficiary_id:
@@ -187,16 +210,19 @@ select_permissions:
   - role: manager
     permission:
       columns:
-        - contract_type_id
-        - created_at
-        - employment_type_id
-        - hourly_rate
-        - id
         - mobility_radius
+        - contract_type_id
+        - employment_type_id
+        - created_at
+        - deleted_at
+        - updated_at
+        - created_by
+        - deleted_by
+        - id
         - notebook_id
         - rome_code_id
-        - updated_at
         - updated_by
+        - hourly_rate
       filter:
         notebook:
           beneficiary:
@@ -206,16 +232,19 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - contract_type_id
-        - created_at
-        - employment_type_id
-        - hourly_rate
-        - id
         - mobility_radius
+        - contract_type_id
+        - employment_type_id
+        - created_at
+        - deleted_at
+        - updated_at
+        - created_by
+        - deleted_by
+        - id
         - notebook_id
         - rome_code_id
-        - updated_at
         - updated_by
+        - hourly_rate
       filter:
         notebook:
           beneficiary:
@@ -224,16 +253,19 @@ select_permissions:
   - role: professional
     permission:
       columns:
-        - contract_type_id
-        - created_at
-        - employment_type_id
-        - hourly_rate
         - id
-        - mobility_radius
         - notebook_id
         - rome_code_id
+        - created_at
         - updated_at
+        - mobility_radius
+        - hourly_rate
+        - contract_type_id
+        - employment_type_id
         - updated_by
+        - created_by
+        - deleted_at
+        - deleted_by
       filter:
         notebook:
           members:
@@ -244,6 +276,8 @@ update_permissions:
     permission:
       columns:
         - contract_type_id
+        - deleted_at
+        - deleted_by
         - employment_type_id
         - hourly_rate
         - mobility_radius
@@ -263,6 +297,8 @@ update_permissions:
     permission:
       columns:
         - contract_type_id
+        - deleted_at
+        - deleted_by
         - employment_type_id
         - hourly_rate
         - mobility_radius

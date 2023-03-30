@@ -123,7 +123,7 @@ query GetNotebook(
         needOrientation
         orientationReason
       }
-      professionalProjects {
+      professionalProjects(where: { deletedAt: { _is_null: true } }) {
         id
         rome_code {
           id
