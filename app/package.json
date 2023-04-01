@@ -90,7 +90,7 @@
 		"typescript": "^4.5.4",
 		"vite": "4.2.1",
 		"vite-plugin-elm": "2.8.0-beta.4",
-		"vitest": "0.25.0"
+		"vitest": "0.29.8"
 	},
 	"dependencies": {
 		"@gouvfr/dsfr": "^1.7.2",
