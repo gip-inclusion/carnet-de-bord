@@ -40,9 +40,9 @@
 		"sync": "svelte-kit sync"
 	},
 	"devDependencies": {
-		"@babel/core": "^7.16.5",
-		"@babel/preset-env": "^7.16.5",
-		"@babel/preset-typescript": "^7.16.5",
+		"@babel/core": "7.21.4",
+		"@babel/preset-env": "7.21.4",
+		"@babel/preset-typescript": "7.21.4",
 		"@graphql-codegen/cli": "^2.13.7",
 		"@graphql-codegen/typed-document-node": "^2.3.5",
 		"@graphql-codegen/typescript": "^2.8.0",
