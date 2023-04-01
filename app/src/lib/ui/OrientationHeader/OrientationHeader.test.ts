@@ -2,7 +2,10 @@ import { test } from 'vitest';
 import { render, screen } from '@testing-library/svelte';
 import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 import { accountData } from '$lib/stores';
-import { GetNotebookByBeneficiaryIdQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+import {
+	type GetNotebookByBeneficiaryIdQuery,
+	RoleEnum,
+} from '$lib/graphql/_gen/typed-document-nodes';
 
 const pierreChevalierAccount = {
 	id: 'acc1',

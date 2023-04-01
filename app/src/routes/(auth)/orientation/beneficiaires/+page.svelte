@@ -6,12 +6,12 @@
 	} from '$lib/ui/BeneficiaryList/MultipageSelectionStore';
 	import { onDestroy, setContext } from 'svelte';
 	import type { PageData } from './$types';
-	import {
+	import type {
 		BeneficiaryBoolExp,
-		GetBeneficiariesWithOrientationRequestDocument,
 		GetBeneficiariesWithOrientationRequestQuery,
 		NotebookBoolExp,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetBeneficiariesWithOrientationRequestDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import BeneficiaryListWithOrientation from '$lib/ui/BeneficiaryList/ListWithOrientation.svelte';
 	import FilterOrientation from '$lib/ui/BeneficiaryList/FilterOrientation.svelte';
 

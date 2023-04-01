@@ -4,7 +4,7 @@
 	import { formatDateLocale } from '$lib/utils/date';
 	import { Accordions, MainSection } from '$lib/ui/base';
 	import {
-		GetNotebookByBeneficiaryIdQuery,
+		type GetNotebookByBeneficiaryIdQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import SocioProView from '../Beneficiary/SocioProView.svelte';
