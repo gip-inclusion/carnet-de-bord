@@ -65,7 +65,7 @@
 		"@typescript-eslint/parser": "^5.36.2",
 		"autoprefixer": "^10.4.0",
 		"babel-preset-vite": "^1.0.4",
-		"cssnano": "^5.0.14",
+		"cssnano": "6.0.0",
 		"elm-gql": "^0.3.5",
 		"elm-test": "0.19.1-revision11",
 		"esbuild": "^0.15.0",
