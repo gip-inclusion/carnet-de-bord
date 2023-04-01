@@ -67,7 +67,7 @@
 		"babel-preset-vite": "^1.0.4",
 		"cssnano": "6.0.0",
 		"elm-gql": "0.5.0",
-		"elm-test": "0.19.1-revision11",
+		"elm-test": "0.19.1-revision12",
 		"esbuild": "^0.15.0",
 		"eslint": "^8.13.0",
 		"eslint-config-prettier": "^8.5.0",
