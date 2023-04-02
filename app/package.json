@@ -111,7 +111,7 @@
 		"pino": "8.11.0",
 		"rasha": "^1.2.5",
 		"svelte-accessible-dialog": "^2.1.3",
-		"svelte-file-dropzone": "^0.0.15",
+		"svelte-file-dropzone": "2.0.1",
 		"svelte-forms-lib": "^2.0.0",
 		"svelte-portal": "^2.2.0",
 		"uuid": "9.0.0",

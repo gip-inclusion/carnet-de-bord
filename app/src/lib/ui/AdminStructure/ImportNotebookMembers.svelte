@@ -10,7 +10,7 @@
 </script>
 
 <script lang="ts">
-	import Dropzone from 'svelte-file-dropzone';
+	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import { ImportParserError, Text } from '$lib/ui/utils';
 	import { Alert, Button, GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { page } from '$app/stores';
@@ -214,7 +214,12 @@
 					>télécharger la liste des bénéficiaires en attente de rattachement</a
 				>.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
+			<Dropzone
+				on:drop={handleFilesSelect}
+				multiple={false}
+				accept=".csv,.xls,.xlsx"
+				inputElement={undefined}
+			>
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
 			<ImportParserError {parseErrors} />

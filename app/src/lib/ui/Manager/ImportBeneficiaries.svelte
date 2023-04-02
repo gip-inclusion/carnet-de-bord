@@ -11,7 +11,7 @@
 		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { type OperationStore, operationStore, query } from '@urql/svelte';
-	import Dropzone from 'svelte-file-dropzone';
+	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
@@ -240,6 +240,7 @@
 				multiple={false}
 				accept=".csv,.xls,.xlsx"
 				containerClasses="cursor-pointer dropzone"
+				inputElement={undefined}
 			>
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
