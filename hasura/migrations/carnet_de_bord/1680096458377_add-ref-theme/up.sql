@@ -1,6 +1,4 @@
-ALTER TABLE "public"."notebook_action" DISABLE TRIGGER USER;
-ALTER TABLE "public"."notebook_target" DISABLE TRIGGER USER;
-
+SET session_replication_role = replica;
 
 CREATE TABLE "public"."ref_theme" (
 	"name" text NOT NULL,
@@ -188,5 +186,4 @@ alter table "public"."ref_situation"
   references "public"."ref_theme"
   ("name") on update restrict on delete restrict;
 
-ALTER TABLE "public"."notebook_action" ENABLE TRIGGER USER;
-ALTER TABLE "public"."notebook_target" ENABLE TRIGGER USER;
+SET session_replication_role = DEFAULT;
