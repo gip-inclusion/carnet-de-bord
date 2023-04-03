@@ -18,6 +18,7 @@
             pre-commit
             poetry
             python310Packages.magic
+            gnumake
           ];
           shellHook = ''
           '';
