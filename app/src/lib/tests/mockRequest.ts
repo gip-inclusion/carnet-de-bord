@@ -14,7 +14,11 @@ const mockHeader = (headers: Record<string, string> = {}) => {
 };
 const mockCookies = (cookies: Record<string, string> = {}) => {
 	const map = new Map(Object.entries(cookies));
-	return Object.assign(map, { append: () => ({}), serialize: () => '' });
+	return Object.assign(map, {
+		append: () => ({}),
+		serialize: () => '',
+		getAll: () => [{ name: '', value: '' }],
+	});
 };
 
 function _mockRequest(data: unknown, headers: Record<string, string> = {}): RequestEvent {

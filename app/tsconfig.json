@@ -12,8 +12,6 @@
 		"types": [
 			"vitest/globals"
 		],
-		// remove this line when upgrading to sveltekit supporting ts 5.0
-		"ignoreDeprecations": "5.0"
 	},
 	"include": [
 		".svelte-kit/ambient.d.ts",

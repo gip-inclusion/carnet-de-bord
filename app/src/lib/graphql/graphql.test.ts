@@ -1,5 +1,5 @@
 import { executeCodegen } from '@graphql-codegen/cli';
-import codegenConfig from 'codegen.cjs';
+import codegenConfig from '../../../codegen.cjs';
 import { readFileSync } from 'fs';
 import { format, resolveConfig } from 'prettier';
 
