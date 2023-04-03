@@ -19,41 +19,50 @@ class CafMsaInfosFoyer(BaseModel):
     sans_domicile_fixe: bool
 
 
-def parseInfosFoyerRSA(node: etree._ElementTree):
-    matricule = node.find("/IdentificationRSA/Organisme/MATRICULE", None)
-    personneNodes = node.findall("/Personne", None)
+def parse_infos_foyer_rsa(node: etree._ElementTree):
+
+    personneNodes: list[etree._ElementTree] = node.findall("Personne", namespaces=None)
+
     personnes = [
         Personne(
-            nir=personne.find("/Identifcation/NIR:text()", None),
-            soumis_droit_et_devoir=personne.find(
-                "/Identifcation/TOPPERSDRODEVORSA:text()", None
+            nir=personne.findtext("Identification/NIR", default=None, namespaces=None),
+            soumis_droit_et_devoir=personne.findtext(
+                "MontantCalculDroitRSAPersonne/TOPPERSDRODEVORSA",
+                default=None,
+                namespaces=None,
             ),
         )
         for personne in personneNodes
     ]
 
-    etat_droit_rsa = node.find(
-        "/PrestationRSA/SituationDossierRSA/EtatDossierRSA/ETATDOSRSA", None
-    )
-    motif_versement_rsa = node.find(
-        "/PrestationRSA/SituationDossierRSA/SuspensionVersement/MOTISUSVERSRSA", None
-    )
-    motif_cloture_rsa = node.find(
-        "/PrestationRSA/SituationDossierRSA/FinDroit/MOTICLORSA", None
-    )
-    date_cloture_rsa = node.find(
-        "/PrestationRSA/SituationDossierRSA/FinDroit/DTCLORSA", None
-    )
-    sans_domicile_fixe = node.find(
-        "/PrestationRSA/DetailDroitRSA/TroncCommunDroitRSA/TOPSANSDOMFIXE", None
-    )
-
     return CafMsaInfosFoyer(
-        matricule=matricule,
+        matricule=node.findtext(
+            "IdentificationRSA/Organisme/MATRICULE", default=None, namespaces=None
+        ),
         personnes=personnes,
-        etat_droit_rsa=etat_droit_rsa,
-        motif_versement_rsa=motif_versement_rsa,
-        motif_cloture_rsa=motif_cloture_rsa,
-        date_cloture_rsa=date_cloture_rsa,
-        sans_domicile_fixe=sans_domicile_fixe,
+        etat_droit_rsa=node.findtext(
+            "PrestationRSA/SituationDossierRSA/EtatDossierRSA/ETATDOSRSA",
+            default=None,
+            namespaces=None,
+        ),
+        motif_versement_rsa=node.findtext(
+            "PrestationRSA/SituationDossierRSA/SuspensionVersement/MOTISUSVERSRSA",
+            default=None,
+            namespaces=None,
+        ),
+        motif_cloture_rsa=node.findtext(
+            "PrestationRSA/SituationDossierRSA/FinDroit/MOTICLORSA",
+            default=None,
+            namespaces=None,
+        ),
+        date_cloture_rsa=node.findtext(
+            "PrestationRSA/SituationDossierRSA/FinDroit/DTCLORSA",
+            default=None,
+            namespaces=None,
+        ),
+        sans_domicile_fixe=node.findtext(
+            "PrestationRSA/DetailDroitRSA/TroncCommunDroitRSA/TOPSANSDOMFIXE",
+            default=None,
+            namespaces=None,
+        ),
     )

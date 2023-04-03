@@ -16,7 +16,9 @@ async def test_validate_correct_file(flux_mensuel_caf: io.BufferedReader):
     assert validate_xml(flux_mensuel_caf)
 
 
-async def test_extract_data_using_xml_tag_stream(flux_mensuel_caf: io.BufferedReader):
+async def test_extract_data_using_xml_tag_stream(
+    flux_mensuel_caf: io.BufferedReader, snapshot
+):
     foyers = []
     with XMLTagStream(flux_mensuel_caf, "InfosFoyerRSA") as stream:
         for infosFoyer in stream:
@@ -25,3 +27,4 @@ async def test_extract_data_using_xml_tag_stream(flux_mensuel_caf: io.BufferedRe
             except Exception as error:
                 print(error)
     assert len(foyers) == 2
+    assert foyers == snapshot

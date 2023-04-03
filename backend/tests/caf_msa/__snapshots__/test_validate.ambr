@@ -1,0 +1,6 @@
+# name: test_extract_data_using_xml_tag_stream
+  list([
+    CafMsaInfosFoyer(matricule='205599000000000', etat_droit_rsa='5', personnes=[Personne(nir='2820251108030', soumis_droit_et_devoir='1'), Personne(nir='1770393050005', soumis_droit_et_devoir='0')], motif_versement_rsa=None, motif_cloture_rsa='PCG', date_cloture_rsa='2021-11-30', sans_domicile_fixe=False),
+    CafMsaInfosFoyer(matricule='208956400000000', etat_droit_rsa='2', personnes=[Personne(nir='2730799404078', soumis_droit_et_devoir='1')], motif_versement_rsa=None, motif_cloture_rsa='PCG', date_cloture_rsa='2021-11-30', sans_domicile_fixe=False),
+  ])
+# ---
