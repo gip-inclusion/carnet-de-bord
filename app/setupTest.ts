@@ -76,3 +76,5 @@ vi.mock('$app/stores', (): typeof stores => {
 		updated,
 	};
 });
+
+vi.mock('$env/dynamic/public', () => ({}));
