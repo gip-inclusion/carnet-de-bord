@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="windows-1252"?>
-<Racine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="vrsb0801.xsd">
+<Racine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../caf_msa/vrsb0801.xsd">
 <IdentificationFlux>
 <APPLIEME>CRI</APPLIEME>
 <NUMVERSIONAPPLIEME>6200</NUMVERSIONAPPLIEME>
