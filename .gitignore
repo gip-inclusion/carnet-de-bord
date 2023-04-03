@@ -13,3 +13,6 @@ __pycache__
 app/.eslintcache
 e2e/.eslintcache
 node_modules
+
+# Nix
+.direnv
