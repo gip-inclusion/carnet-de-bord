@@ -1,3 +1,6 @@
+ALTER TABLE "public"."notebook_action" DISABLE TRIGGER USER;
+ALTER TABLE "public"."notebook_target" DISABLE TRIGGER USER;
+
 
 CREATE TABLE "public"."ref_theme" (
 	"name" text NOT NULL,
@@ -35,6 +38,99 @@ UPDATE "public"."ref_target" SET (description, theme)=('Découvrir un métier ou
 UPDATE "public"."ref_target" SET (description, theme)=('Confirmer son choix de métier', 'choisir_un_metier') where description='Définir ou confirmer un projet professionnel' and theme='emploi';
 
 -- se former
+UPDATE notebook_action
+SET target_id = (
+    SELECT id FROM notebook_target WHERE focus_id in (
+            SELECT notebook_focus.id as focus_id
+            FROM notebook_focus, notebook_target
+            WHERE notebook_focus.id = notebook_target.focus_id
+            AND (notebook_target.target = 'Se former' OR notebook_target.target = 'Acquérir les compétences de bases')
+            GROUP BY notebook_focus.id
+            HAVING count(focus_id) > 1
+        )
+        AND notebook_target.target = 'Se former'
+        AND notebook_target.focus_id = oldtarget.focus_id
+)
+FROM (
+    SELECT * FROM notebook_target WHERE focus_id in (
+        SELECT notebook_focus.id as focus_id
+        FROM notebook_focus, notebook_target
+        WHERE notebook_focus.id = notebook_target.focus_id
+        AND (notebook_target.target = 'Se former' OR notebook_target.target = 'Acquérir les compétences de bases')
+        GROUP BY notebook_focus.id
+        HAVING count(focus_id) > 1
+    )
+    AND notebook_target.target = 'Acquérir les compétences de bases'
+  )
+  AS oldTarget
+WHERE target_id = oldTarget.id;
+
+UPDATE notebook_action
+SET target_id = (
+    SELECT id FROM notebook_target WHERE focus_id in (
+            SELECT notebook_focus.id as focus_id
+            FROM notebook_focus, notebook_target
+            WHERE notebook_focus.id = notebook_target.focus_id
+            AND (notebook_target.target = 'Se former' OR notebook_target.target = 'Se remobiliser')
+            GROUP BY notebook_focus.id
+            HAVING count(focus_id) > 1
+        )
+        AND notebook_target.target = 'Se former'
+        AND notebook_target.focus_id = oldtarget.focus_id
+)
+FROM (
+    SELECT * FROM notebook_target WHERE focus_id in (
+        SELECT notebook_focus.id as focus_id
+        FROM notebook_focus, notebook_target
+        WHERE notebook_focus.id = notebook_target.focus_id
+        AND (notebook_target.target = 'Se former' OR notebook_target.target = 'Se remobiliser')
+        GROUP BY notebook_focus.id
+        HAVING count(focus_id) > 1
+    )
+    AND notebook_target.target = 'Se remobiliser'
+  )
+  AS oldTarget
+WHERE target_id = oldTarget.id;
+
+UPDATE notebook_action
+SET target_id = (
+    SELECT id FROM notebook_target WHERE focus_id in (
+            SELECT notebook_focus.id as focus_id
+            FROM notebook_focus, notebook_target
+            WHERE notebook_focus.id = notebook_target.focus_id
+            AND (notebook_target.target = 'Se former' OR notebook_target.target = 'Accéder au parcours d’accompagnement')
+            GROUP BY notebook_focus.id
+            HAVING count(focus_id) > 1
+        )
+        AND notebook_target.target = 'Se former'
+        AND notebook_target.focus_id = oldtarget.focus_id
+)
+FROM (
+    SELECT * FROM notebook_target WHERE focus_id in (
+        SELECT notebook_focus.id as focus_id
+        FROM notebook_focus, notebook_target
+        WHERE notebook_focus.id = notebook_target.focus_id
+        AND (notebook_target.target = 'Se former' OR notebook_target.target = 'Accéder au parcours d’accompagnement')
+        GROUP BY notebook_focus.id
+        HAVING count(focus_id) > 1
+    )
+    AND notebook_target.target = 'Accéder au parcours d’accompagnement'
+  )
+  AS oldTarget
+WHERE target_id = oldTarget.id;
+
+DELETE FROM notebook_target WHERE id in (
+    SELECT id FROM notebook_target WHERE focus_id in  (
+        SELECT notebook_focus.id as focus_id
+        FROM notebook_focus, notebook_target
+        WHERE notebook_focus.id = notebook_target.focus_id
+        AND (notebook_target.target = 'Se former' OR notebook_target.target = 'Acquérir les compétences de bases' OR notebook_target.target = 'Se remobiliser' OR notebook_target.target = 'Accéder au parcours d’accompagnement')
+        GROUP BY notebook_focus.id
+        HAVING count(focus_id) > 1
+    )
+    AND (notebook_target.target = 'Acquérir les compétences de bases' OR notebook_target.target = 'Se remobiliser' OR notebook_target.target = 'Accéder au parcours d’accompagnement')
+);
+
 UPDATE "public"."notebook_target" SET target='Trouver sa formation' WHERE target IN('Se former', 'Acquérir les compétences de bases', 'Se remobiliser', 'Accéder au parcours d’accompagnement');
 UPDATE "public"."ref_target" SET (description, theme)=('Trouver sa formation', 'se_former') where description='Se former' and theme='formation';
 UPDATE "public"."ref_target" SET (description, theme)=('Monter son dossier de formation', 'se_former') where description='Définir un parcours de formation personnalisé' and theme='formation';
@@ -91,3 +187,6 @@ alter table "public"."ref_situation"
   foreign key ("theme")
   references "public"."ref_theme"
   ("name") on update restrict on delete restrict;
+
+ALTER TABLE "public"."notebook_action" ENABLE TRIGGER USER;
+ALTER TABLE "public"."notebook_target" ENABLE TRIGGER USER;
