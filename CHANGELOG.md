@@ -1,3 +1,10 @@
+## [1.212.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.212.0...v1.212.1) (2023-04-03)
+
+
+### Bug Fixes
+
+* Correction de la fusion de plusieurs `notebook_target` vers un seul élement. ([#1639](https://github.com/gip-inclusion/carnet-de-bord/issues/1639)) ([2b89a0e](https://github.com/gip-inclusion/carnet-de-bord/commit/2b89a0edf05478370048c5deb4f3b3cae6a286dd))
+
 # [1.212.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.211.0...v1.212.0) (2023-03-30)
 
 
