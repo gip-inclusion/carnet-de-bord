@@ -9,10 +9,6 @@ configuration:
       custom_name: createdAt
     created_by:
       custom_name: createdBy
-    deleted_at:
-      custom_name: deletedAt
-    deleted_by:
-      custom_name: deletedBy
     employment_type_id:
       custom_name: employmentTypeId
     hourly_rate:
@@ -31,8 +27,6 @@ configuration:
     contract_type_id: contractTypeId
     created_at: createdAt
     created_by: createdBy
-    deleted_at: deletedAt
-    deleted_by: deletedBy
     employment_type_id: employmentTypeId
     hourly_rate: hourlyRate
     mobility_radius: mobilityRadius
@@ -143,10 +137,8 @@ select_permissions:
         - contract_type_id
         - employment_type_id
         - created_at
-        - deleted_at
         - updated_at
         - created_by
-        - deleted_by
         - id
         - notebook_id
         - rome_code_id
@@ -160,10 +152,8 @@ select_permissions:
         - contract_type_id
         - employment_type_id
         - created_at
-        - deleted_at
         - updated_at
         - created_by
-        - deleted_by
         - id
         - notebook_id
         - rome_code_id
@@ -193,10 +183,8 @@ select_permissions:
         - contract_type_id
         - employment_type_id
         - created_at
-        - deleted_at
         - updated_at
         - created_by
-        - deleted_by
         - id
         - notebook_id
         - rome_code_id
@@ -214,10 +202,8 @@ select_permissions:
         - contract_type_id
         - employment_type_id
         - created_at
-        - deleted_at
         - updated_at
         - created_by
-        - deleted_by
         - id
         - notebook_id
         - rome_code_id
@@ -236,10 +222,8 @@ select_permissions:
         - contract_type_id
         - employment_type_id
         - created_at
-        - deleted_at
         - updated_at
         - created_by
-        - deleted_by
         - id
         - notebook_id
         - rome_code_id
@@ -264,8 +248,6 @@ select_permissions:
         - employment_type_id
         - updated_by
         - created_by
-        - deleted_at
-        - deleted_by
       filter:
         notebook:
           members:
@@ -276,8 +258,6 @@ update_permissions:
     permission:
       columns:
         - contract_type_id
-        - deleted_at
-        - deleted_by
         - employment_type_id
         - hourly_rate
         - mobility_radius
@@ -297,8 +277,6 @@ update_permissions:
     permission:
       columns:
         - contract_type_id
-        - deleted_at
-        - deleted_by
         - employment_type_id
         - hourly_rate
         - mobility_radius
