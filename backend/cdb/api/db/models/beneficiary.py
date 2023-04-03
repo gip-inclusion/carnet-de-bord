@@ -121,6 +121,10 @@ class BeneficiaryImport(BaseModel):
             "rsa_droit_ouvert_et_suspendu",
             "rsa_droit_ouvert_versable",
             "rsa_droit_ouvert_versement_suspendu",
+            "rsa_demande_en_attente",
+            "rsa_refuse",
+            "rsa_clot",
+            "rsa_clot_anterieur",
         ]:
             raise ValueError("value unknown")
         return right_rsa

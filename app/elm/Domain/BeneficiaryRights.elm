@@ -22,6 +22,18 @@ rsaRightKeyToString key =
                 "rsa_droit_ouvert_versement_suspendu" ->
                     "Droit ouvert mais versement suspendu"
 
+                "rsa_demande_en_attente" ->
+                    "Nouvelle demande en attente de décision du Conseil départemental pour ouverture du droit"
+
+                "rsa_refuse" ->
+                    "Droit refusé"
+
+                "rsa_clot" ->
+                    "Droit clos"
+
+                "rsa_clot_anterieur" ->
+                    "Droit clos sur mois antérieur ayant eu un contrôle dans le mois de référence pour une période antérieure."
+
                 _ ->
                     "Droit non renseigné"
            )
