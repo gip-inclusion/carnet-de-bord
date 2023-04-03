@@ -1,7 +1,4 @@
 
-alter table "public"."professional_project" add column "updated_by" UUID
- null;
-
 alter table "public"."professional_project" add column "created_by" uuid
  null;
 
