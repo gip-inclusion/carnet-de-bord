@@ -11,7 +11,6 @@ mutation UpdateSocioPro(
   $professionalProjectsToUpdate: [professional_project_updates!]!
   $situationsToAdd: [notebook_situation_insert_input!]!
   $situationIdsToDelete: [uuid!]!
-  $accountId: uuid!
 ) {
   update: update_notebook_by_pk(
     pk_columns: { id: $id }
@@ -26,10 +25,7 @@ mutation UpdateSocioPro(
   ) {
     id
   }
-  delete_with_update: update_professional_project(
-    where: { id: { _in: $professionalProjectIdsToDelete } }
-    _set: { deletedAt: now, deletedBy: $accountId }
-  ) {
+  delete_professional_project(where: { id: { _in: $professionalProjectIdsToDelete } }) {
     affected_rows
   }
   update_professional_project_many(updates: $professionalProjectsToUpdate) {

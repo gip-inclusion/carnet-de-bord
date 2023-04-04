@@ -3861,6 +3861,256 @@ export type Float8ComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['float8']>>;
 };
 
+/** columns and relationships of "history" */
+export type History = {
+	__typename?: 'history';
+	created_at: Scalars['timestamptz'];
+	created_by?: Maybe<Scalars['uuid']>;
+	id: Scalars['uuid'];
+	new_val?: Maybe<Scalars['jsonb']>;
+	old_val?: Maybe<Scalars['jsonb']>;
+	operation: Scalars['String'];
+	schema_name: Scalars['String'];
+	table_name: Scalars['String'];
+};
+
+/** columns and relationships of "history" */
+export type HistoryNewValArgs = {
+	path?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "history" */
+export type HistoryOldValArgs = {
+	path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "history" */
+export type HistoryAggregate = {
+	__typename?: 'history_aggregate';
+	aggregate?: Maybe<HistoryAggregateFields>;
+	nodes: Array<History>;
+};
+
+/** aggregate fields of "history" */
+export type HistoryAggregateFields = {
+	__typename?: 'history_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<HistoryMaxFields>;
+	min?: Maybe<HistoryMinFields>;
+};
+
+/** aggregate fields of "history" */
+export type HistoryAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<HistorySelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type HistoryAppendInput = {
+	new_val?: InputMaybe<Scalars['jsonb']>;
+	old_val?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** Boolean expression to filter rows from the table "history". All fields are combined with a logical 'AND'. */
+export type HistoryBoolExp = {
+	_and?: InputMaybe<Array<HistoryBoolExp>>;
+	_not?: InputMaybe<HistoryBoolExp>;
+	_or?: InputMaybe<Array<HistoryBoolExp>>;
+	created_at?: InputMaybe<TimestamptzComparisonExp>;
+	created_by?: InputMaybe<UuidComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	new_val?: InputMaybe<JsonbComparisonExp>;
+	old_val?: InputMaybe<JsonbComparisonExp>;
+	operation?: InputMaybe<StringComparisonExp>;
+	schema_name?: InputMaybe<StringComparisonExp>;
+	table_name?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "history" */
+export enum HistoryConstraint {
+	/** unique or primary key constraint on columns "id" */
+	HistoryPkey = 'history_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type HistoryDeleteAtPathInput = {
+	new_val?: InputMaybe<Array<Scalars['String']>>;
+	old_val?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type HistoryDeleteElemInput = {
+	new_val?: InputMaybe<Scalars['Int']>;
+	old_val?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type HistoryDeleteKeyInput = {
+	new_val?: InputMaybe<Scalars['String']>;
+	old_val?: InputMaybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "history" */
+export type HistoryInsertInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	created_by?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	new_val?: InputMaybe<Scalars['jsonb']>;
+	old_val?: InputMaybe<Scalars['jsonb']>;
+	operation?: InputMaybe<Scalars['String']>;
+	schema_name?: InputMaybe<Scalars['String']>;
+	table_name?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type HistoryMaxFields = {
+	__typename?: 'history_max_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	created_by?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	operation?: Maybe<Scalars['String']>;
+	schema_name?: Maybe<Scalars['String']>;
+	table_name?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type HistoryMinFields = {
+	__typename?: 'history_min_fields';
+	created_at?: Maybe<Scalars['timestamptz']>;
+	created_by?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	operation?: Maybe<Scalars['String']>;
+	schema_name?: Maybe<Scalars['String']>;
+	table_name?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "history" */
+export type HistoryMutationResponse = {
+	__typename?: 'history_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<History>;
+};
+
+/** on_conflict condition type for table "history" */
+export type HistoryOnConflict = {
+	constraint: HistoryConstraint;
+	update_columns?: Array<HistoryUpdateColumn>;
+	where?: InputMaybe<HistoryBoolExp>;
+};
+
+/** Ordering options when selecting data from "history". */
+export type HistoryOrderBy = {
+	created_at?: InputMaybe<OrderBy>;
+	created_by?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	new_val?: InputMaybe<OrderBy>;
+	old_val?: InputMaybe<OrderBy>;
+	operation?: InputMaybe<OrderBy>;
+	schema_name?: InputMaybe<OrderBy>;
+	table_name?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: history */
+export type HistoryPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type HistoryPrependInput = {
+	new_val?: InputMaybe<Scalars['jsonb']>;
+	old_val?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "history" */
+export enum HistorySelectColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	CreatedBy = 'created_by',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NewVal = 'new_val',
+	/** column name */
+	OldVal = 'old_val',
+	/** column name */
+	Operation = 'operation',
+	/** column name */
+	SchemaName = 'schema_name',
+	/** column name */
+	TableName = 'table_name',
+}
+
+/** input type for updating data in table "history" */
+export type HistorySetInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	created_by?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	new_val?: InputMaybe<Scalars['jsonb']>;
+	old_val?: InputMaybe<Scalars['jsonb']>;
+	operation?: InputMaybe<Scalars['String']>;
+	schema_name?: InputMaybe<Scalars['String']>;
+	table_name?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "history" */
+export type HistoryStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: HistoryStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type HistoryStreamCursorValueInput = {
+	created_at?: InputMaybe<Scalars['timestamptz']>;
+	created_by?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	new_val?: InputMaybe<Scalars['jsonb']>;
+	old_val?: InputMaybe<Scalars['jsonb']>;
+	operation?: InputMaybe<Scalars['String']>;
+	schema_name?: InputMaybe<Scalars['String']>;
+	table_name?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "history" */
+export enum HistoryUpdateColumn {
+	/** column name */
+	CreatedAt = 'created_at',
+	/** column name */
+	CreatedBy = 'created_by',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NewVal = 'new_val',
+	/** column name */
+	OldVal = 'old_val',
+	/** column name */
+	Operation = 'operation',
+	/** column name */
+	SchemaName = 'schema_name',
+	/** column name */
+	TableName = 'table_name',
+}
+
+export type HistoryUpdates = {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: InputMaybe<HistoryAppendInput>;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: InputMaybe<HistoryDeleteAtPathInput>;
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: InputMaybe<HistoryDeleteElemInput>;
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: InputMaybe<HistoryDeleteKeyInput>;
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: InputMaybe<HistoryPrependInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<HistorySetInput>;
+	where: HistoryBoolExp;
+};
+
 export type JsonbCastExp = {
 	String?: InputMaybe<StringComparisonExp>;
 };
@@ -4198,6 +4448,10 @@ export type MutationRoot = {
 	delete_external_source?: Maybe<ExternalSourceMutationResponse>;
 	/** delete single row from the table: "external_source" */
 	delete_external_source_by_pk?: Maybe<ExternalSource>;
+	/** delete data from the table: "history" */
+	delete_history?: Maybe<HistoryMutationResponse>;
+	/** delete single row from the table: "history" */
+	delete_history_by_pk?: Maybe<History>;
 	/** delete data from the table: "manager" */
 	delete_manager?: Maybe<ManagerMutationResponse>;
 	/** delete single row from the table: "manager" */
@@ -4360,6 +4614,10 @@ export type MutationRoot = {
 	insert_external_source?: Maybe<ExternalSourceMutationResponse>;
 	/** insert a single row into the table: "external_source" */
 	insert_external_source_one?: Maybe<ExternalSource>;
+	/** insert data into the table: "history" */
+	insert_history?: Maybe<HistoryMutationResponse>;
+	/** insert a single row into the table: "history" */
+	insert_history_one?: Maybe<History>;
 	/** insert data into the table: "manager" */
 	insert_manager?: Maybe<ManagerMutationResponse>;
 	/** insert a single row into the table: "manager" */
@@ -4550,6 +4808,12 @@ export type MutationRoot = {
 	update_external_source_by_pk?: Maybe<ExternalSource>;
 	/** update multiples rows of table: "external_source" */
 	update_external_source_many?: Maybe<Array<Maybe<ExternalSourceMutationResponse>>>;
+	/** update data of the table: "history" */
+	update_history?: Maybe<HistoryMutationResponse>;
+	/** update single row of the table: "history" */
+	update_history_by_pk?: Maybe<History>;
+	/** update multiples rows of table: "history" */
+	update_history_many?: Maybe<Array<Maybe<HistoryMutationResponse>>>;
 	/** update data of the table: "manager" */
 	update_manager?: Maybe<ManagerMutationResponse>;
 	/** update single row of the table: "manager" */
@@ -4846,6 +5110,16 @@ export type MutationRootDeleteExternalSourceArgs = {
 /** mutation root */
 export type MutationRootDeleteExternalSourceByPkArgs = {
 	value: Scalars['String'];
+};
+
+/** mutation root */
+export type MutationRootDeleteHistoryArgs = {
+	where: HistoryBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteHistoryByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -5275,6 +5549,18 @@ export type MutationRootInsertExternalSourceArgs = {
 export type MutationRootInsertExternalSourceOneArgs = {
 	object: ExternalSourceInsertInput;
 	on_conflict?: InputMaybe<ExternalSourceOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertHistoryArgs = {
+	objects: Array<HistoryInsertInput>;
+	on_conflict?: InputMaybe<HistoryOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertHistoryOneArgs = {
+	object: HistoryInsertInput;
+	on_conflict?: InputMaybe<HistoryOnConflict>;
 };
 
 /** mutation root */
@@ -5855,6 +6141,33 @@ export type MutationRootUpdateExternalSourceByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateExternalSourceManyArgs = {
 	updates: Array<ExternalSourceUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateHistoryArgs = {
+	_append?: InputMaybe<HistoryAppendInput>;
+	_delete_at_path?: InputMaybe<HistoryDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<HistoryDeleteElemInput>;
+	_delete_key?: InputMaybe<HistoryDeleteKeyInput>;
+	_prepend?: InputMaybe<HistoryPrependInput>;
+	_set?: InputMaybe<HistorySetInput>;
+	where: HistoryBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateHistoryByPkArgs = {
+	_append?: InputMaybe<HistoryAppendInput>;
+	_delete_at_path?: InputMaybe<HistoryDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<HistoryDeleteElemInput>;
+	_delete_key?: InputMaybe<HistoryDeleteKeyInput>;
+	_prepend?: InputMaybe<HistoryPrependInput>;
+	_set?: InputMaybe<HistorySetInput>;
+	pk_columns: HistoryPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateHistoryManyArgs = {
+	updates: Array<HistoryUpdates>;
 };
 
 /** mutation root */
@@ -11279,8 +11592,6 @@ export type ProfessionalProject = {
 	contract_type?: Maybe<ContractType>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	createdBy?: Maybe<Scalars['uuid']>;
-	deletedAt?: Maybe<Scalars['timestamptz']>;
-	deletedBy?: Maybe<Scalars['uuid']>;
 	employmentTypeId?: Maybe<EmploymentTypeEnum>;
 	/** An object relationship */
 	employment_type?: Maybe<EmploymentType>;
@@ -11386,8 +11697,6 @@ export type ProfessionalProjectBoolExp = {
 	contract_type?: InputMaybe<ContractTypeBoolExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
 	createdBy?: InputMaybe<UuidComparisonExp>;
-	deletedAt?: InputMaybe<TimestamptzComparisonExp>;
-	deletedBy?: InputMaybe<UuidComparisonExp>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnumComparisonExp>;
 	employment_type?: InputMaybe<EmploymentTypeBoolExp>;
 	hourlyRate?: InputMaybe<IntComparisonExp>;
@@ -11423,8 +11732,6 @@ export type ProfessionalProjectInsertInput = {
 	contract_type?: InputMaybe<ContractTypeObjRelInsertInput>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	createdBy?: InputMaybe<Scalars['uuid']>;
-	deletedAt?: InputMaybe<Scalars['timestamptz']>;
-	deletedBy?: InputMaybe<Scalars['uuid']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	employment_type?: InputMaybe<EmploymentTypeObjRelInsertInput>;
 	/** in cents (divide by 100 for the EUR value) */
@@ -11445,8 +11752,6 @@ export type ProfessionalProjectMaxFields = {
 	__typename?: 'professional_project_max_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	createdBy?: Maybe<Scalars['uuid']>;
-	deletedAt?: Maybe<Scalars['timestamptz']>;
-	deletedBy?: Maybe<Scalars['uuid']>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -11461,8 +11766,6 @@ export type ProfessionalProjectMaxFields = {
 export type ProfessionalProjectMaxOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	createdBy?: InputMaybe<OrderBy>;
-	deletedAt?: InputMaybe<OrderBy>;
-	deletedBy?: InputMaybe<OrderBy>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -11478,8 +11781,6 @@ export type ProfessionalProjectMinFields = {
 	__typename?: 'professional_project_min_fields';
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	createdBy?: Maybe<Scalars['uuid']>;
-	deletedAt?: Maybe<Scalars['timestamptz']>;
-	deletedBy?: Maybe<Scalars['uuid']>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: Maybe<Scalars['Int']>;
 	id?: Maybe<Scalars['uuid']>;
@@ -11494,8 +11795,6 @@ export type ProfessionalProjectMinFields = {
 export type ProfessionalProjectMinOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	createdBy?: InputMaybe<OrderBy>;
-	deletedAt?: InputMaybe<OrderBy>;
-	deletedBy?: InputMaybe<OrderBy>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
@@ -11528,8 +11827,6 @@ export type ProfessionalProjectOrderBy = {
 	contract_type?: InputMaybe<ContractTypeOrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
 	createdBy?: InputMaybe<OrderBy>;
-	deletedAt?: InputMaybe<OrderBy>;
-	deletedBy?: InputMaybe<OrderBy>;
 	employmentTypeId?: InputMaybe<OrderBy>;
 	employment_type?: InputMaybe<EmploymentTypeOrderBy>;
 	hourlyRate?: InputMaybe<OrderBy>;
@@ -11558,10 +11855,6 @@ export enum ProfessionalProjectSelectColumn {
 	/** column name */
 	CreatedBy = 'createdBy',
 	/** column name */
-	DeletedAt = 'deletedAt',
-	/** column name */
-	DeletedBy = 'deletedBy',
-	/** column name */
 	EmploymentTypeId = 'employmentTypeId',
 	/** column name */
 	HourlyRate = 'hourlyRate',
@@ -11584,8 +11877,6 @@ export type ProfessionalProjectSetInput = {
 	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	createdBy?: InputMaybe<Scalars['uuid']>;
-	deletedAt?: InputMaybe<Scalars['timestamptz']>;
-	deletedBy?: InputMaybe<Scalars['uuid']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
@@ -11655,8 +11946,6 @@ export type ProfessionalProjectStreamCursorValueInput = {
 	contractTypeId?: InputMaybe<ContractTypeEnum>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	createdBy?: InputMaybe<Scalars['uuid']>;
-	deletedAt?: InputMaybe<Scalars['timestamptz']>;
-	deletedBy?: InputMaybe<Scalars['uuid']>;
 	employmentTypeId?: InputMaybe<EmploymentTypeEnum>;
 	/** in cents (divide by 100 for the EUR value) */
 	hourlyRate?: InputMaybe<Scalars['Int']>;
@@ -11691,10 +11980,6 @@ export enum ProfessionalProjectUpdateColumn {
 	CreatedAt = 'createdAt',
 	/** column name */
 	CreatedBy = 'createdBy',
-	/** column name */
-	DeletedAt = 'deletedAt',
-	/** column name */
-	DeletedBy = 'deletedBy',
 	/** column name */
 	EmploymentTypeId = 'employmentTypeId',
 	/** column name */
@@ -11928,6 +12213,12 @@ export type QueryRoot = {
 	external_source_aggregate: ExternalSourceAggregate;
 	/** fetch data from the table: "external_source" using primary key columns */
 	external_source_by_pk?: Maybe<ExternalSource>;
+	/** fetch data from the table: "history" */
+	history: Array<History>;
+	/** fetch aggregated fields from the table: "history" */
+	history_aggregate: HistoryAggregate;
+	/** fetch data from the table: "history" using primary key columns */
+	history_by_pk?: Maybe<History>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -12372,6 +12663,26 @@ export type QueryRootExternalSourceAggregateArgs = {
 
 export type QueryRootExternalSourceByPkArgs = {
 	value: Scalars['String'];
+};
+
+export type QueryRootHistoryArgs = {
+	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<HistoryOrderBy>>;
+	where?: InputMaybe<HistoryBoolExp>;
+};
+
+export type QueryRootHistoryAggregateArgs = {
+	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<HistoryOrderBy>>;
+	where?: InputMaybe<HistoryBoolExp>;
+};
+
+export type QueryRootHistoryByPkArgs = {
+	id: Scalars['uuid'];
 };
 
 export type QueryRootManagerArgs = {
@@ -14761,6 +15072,14 @@ export type SubscriptionRoot = {
 	external_source_by_pk?: Maybe<ExternalSource>;
 	/** fetch data from the table in a streaming manner: "external_source" */
 	external_source_stream: Array<ExternalSource>;
+	/** fetch data from the table: "history" */
+	history: Array<History>;
+	/** fetch aggregated fields from the table: "history" */
+	history_aggregate: HistoryAggregate;
+	/** fetch data from the table: "history" using primary key columns */
+	history_by_pk?: Maybe<History>;
+	/** fetch data from the table in a streaming manner: "history" */
+	history_stream: Array<History>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -15341,6 +15660,32 @@ export type SubscriptionRootExternalSourceStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<ExternalSourceStreamCursorInput>>;
 	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
+export type SubscriptionRootHistoryArgs = {
+	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<HistoryOrderBy>>;
+	where?: InputMaybe<HistoryBoolExp>;
+};
+
+export type SubscriptionRootHistoryAggregateArgs = {
+	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<HistoryOrderBy>>;
+	where?: InputMaybe<HistoryBoolExp>;
+};
+
+export type SubscriptionRootHistoryByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootHistoryStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<HistoryStreamCursorInput>>;
+	where?: InputMaybe<HistoryBoolExp>;
 };
 
 export type SubscriptionRootManagerArgs = {
@@ -17032,13 +17377,12 @@ export type UpdateSocioProMutationVariables = Exact<{
 	professionalProjectsToUpdate: Array<ProfessionalProjectUpdates> | ProfessionalProjectUpdates;
 	situationsToAdd: Array<NotebookSituationInsertInput> | NotebookSituationInsertInput;
 	situationIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
-	accountId: Scalars['uuid'];
 }>;
 
 export type UpdateSocioProMutation = {
 	__typename?: 'mutation_root';
 	update?: { __typename?: 'notebook'; id: string } | null;
-	delete_with_update?: {
+	delete_professional_project?: {
 		__typename?: 'professional_project_mutation_response';
 		affected_rows: number;
 	} | null;
@@ -25599,14 +25943,6 @@ export const UpdateSocioProDocument = {
 						},
 					},
 				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -25683,8 +26019,7 @@ export const UpdateSocioProDocument = {
 					},
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'delete_with_update' },
-						name: { kind: 'Name', value: 'update_professional_project' },
+						name: { kind: 'Name', value: 'delete_professional_project' },
 						arguments: [
 							{
 								kind: 'Argument',
@@ -25708,25 +26043,6 @@ export const UpdateSocioProDocument = {
 													},
 												],
 											},
-										},
-									],
-								},
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deletedAt' },
-											value: { kind: 'EnumValue', value: 'now' },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'deletedBy' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'accountId' } },
 										},
 									],
 								},
@@ -31371,31 +31687,6 @@ export const GetNotebookDocument = {
 											{
 												kind: 'Field',
 												name: { kind: 'Name', value: 'professionalProjects' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'where' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'deletedAt' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_is_null' },
-																				value: { kind: 'BooleanValue', value: true },
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-												],
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
