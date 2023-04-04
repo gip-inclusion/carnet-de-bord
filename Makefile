@@ -1,6 +1,6 @@
 install:
-	cp -n .env.sample .env
-	cp -n .env.test.sample .env.test
+	-cp -n .env.sample .env
+	-cp -n .env.test.sample .env.test
 	npm ci --prefix app
 	pre-commit install
 	cd backend; \
