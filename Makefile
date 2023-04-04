@@ -11,9 +11,9 @@ seed-database:
 		hasura seed apply; \
 		hasura console
 
-start-front:
+start-app:
 	npm --prefix app run dev
 
-start-back:
+start-backend:
 	cd backend; \
 		poetry run uvicorn --reload cdb.api.main:app
