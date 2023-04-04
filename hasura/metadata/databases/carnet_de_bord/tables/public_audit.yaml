@@ -1,0 +1,25 @@
+table:
+  name: audit
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    created_by:
+      custom_name: createdBy
+    new_val:
+      custom_name: newVal
+    old_val:
+      custom_name: oldVal
+    schema_name:
+      custom_name: schemaName
+    table_name:
+      custom_name: tableName
+  custom_column_names:
+    created_at: createdAt
+    created_by: createdBy
+    new_val: newVal
+    old_val: oldVal
+    schema_name: schemaName
+    table_name: tableName
+  custom_root_fields: {}
