@@ -1514,6 +1514,256 @@ export type AdminStructureUpdates = {
 	where: AdminStructureBoolExp;
 };
 
+/** columns and relationships of "audit" */
+export type Audit = {
+	__typename?: 'audit';
+	createdAt: Scalars['timestamptz'];
+	createdBy?: Maybe<Scalars['uuid']>;
+	id: Scalars['uuid'];
+	newVal?: Maybe<Scalars['jsonb']>;
+	oldVal?: Maybe<Scalars['jsonb']>;
+	operation: Scalars['String'];
+	schemaName: Scalars['String'];
+	tableName: Scalars['String'];
+};
+
+/** columns and relationships of "audit" */
+export type AuditNewValArgs = {
+	path?: InputMaybe<Scalars['String']>;
+};
+
+/** columns and relationships of "audit" */
+export type AuditOldValArgs = {
+	path?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregated selection of "audit" */
+export type AuditAggregate = {
+	__typename?: 'audit_aggregate';
+	aggregate?: Maybe<AuditAggregateFields>;
+	nodes: Array<Audit>;
+};
+
+/** aggregate fields of "audit" */
+export type AuditAggregateFields = {
+	__typename?: 'audit_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<AuditMaxFields>;
+	min?: Maybe<AuditMinFields>;
+};
+
+/** aggregate fields of "audit" */
+export type AuditAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<AuditSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** append existing jsonb value of filtered columns with new jsonb value */
+export type AuditAppendInput = {
+	newVal?: InputMaybe<Scalars['jsonb']>;
+	oldVal?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** Boolean expression to filter rows from the table "audit". All fields are combined with a logical 'AND'. */
+export type AuditBoolExp = {
+	_and?: InputMaybe<Array<AuditBoolExp>>;
+	_not?: InputMaybe<AuditBoolExp>;
+	_or?: InputMaybe<Array<AuditBoolExp>>;
+	createdAt?: InputMaybe<TimestamptzComparisonExp>;
+	createdBy?: InputMaybe<UuidComparisonExp>;
+	id?: InputMaybe<UuidComparisonExp>;
+	newVal?: InputMaybe<JsonbComparisonExp>;
+	oldVal?: InputMaybe<JsonbComparisonExp>;
+	operation?: InputMaybe<StringComparisonExp>;
+	schemaName?: InputMaybe<StringComparisonExp>;
+	tableName?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "audit" */
+export enum AuditConstraint {
+	/** unique or primary key constraint on columns "id" */
+	AuditPkey = 'audit_pkey',
+}
+
+/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+export type AuditDeleteAtPathInput = {
+	newVal?: InputMaybe<Array<Scalars['String']>>;
+	oldVal?: InputMaybe<Array<Scalars['String']>>;
+};
+
+/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+export type AuditDeleteElemInput = {
+	newVal?: InputMaybe<Scalars['Int']>;
+	oldVal?: InputMaybe<Scalars['Int']>;
+};
+
+/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+export type AuditDeleteKeyInput = {
+	newVal?: InputMaybe<Scalars['String']>;
+	oldVal?: InputMaybe<Scalars['String']>;
+};
+
+/** input type for inserting data into table "audit" */
+export type AuditInsertInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	newVal?: InputMaybe<Scalars['jsonb']>;
+	oldVal?: InputMaybe<Scalars['jsonb']>;
+	operation?: InputMaybe<Scalars['String']>;
+	schemaName?: InputMaybe<Scalars['String']>;
+	tableName?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type AuditMaxFields = {
+	__typename?: 'audit_max_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	createdBy?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	operation?: Maybe<Scalars['String']>;
+	schemaName?: Maybe<Scalars['String']>;
+	tableName?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type AuditMinFields = {
+	__typename?: 'audit_min_fields';
+	createdAt?: Maybe<Scalars['timestamptz']>;
+	createdBy?: Maybe<Scalars['uuid']>;
+	id?: Maybe<Scalars['uuid']>;
+	operation?: Maybe<Scalars['String']>;
+	schemaName?: Maybe<Scalars['String']>;
+	tableName?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "audit" */
+export type AuditMutationResponse = {
+	__typename?: 'audit_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<Audit>;
+};
+
+/** on_conflict condition type for table "audit" */
+export type AuditOnConflict = {
+	constraint: AuditConstraint;
+	update_columns?: Array<AuditUpdateColumn>;
+	where?: InputMaybe<AuditBoolExp>;
+};
+
+/** Ordering options when selecting data from "audit". */
+export type AuditOrderBy = {
+	createdAt?: InputMaybe<OrderBy>;
+	createdBy?: InputMaybe<OrderBy>;
+	id?: InputMaybe<OrderBy>;
+	newVal?: InputMaybe<OrderBy>;
+	oldVal?: InputMaybe<OrderBy>;
+	operation?: InputMaybe<OrderBy>;
+	schemaName?: InputMaybe<OrderBy>;
+	tableName?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: audit */
+export type AuditPkColumnsInput = {
+	id: Scalars['uuid'];
+};
+
+/** prepend existing jsonb value of filtered columns with new jsonb value */
+export type AuditPrependInput = {
+	newVal?: InputMaybe<Scalars['jsonb']>;
+	oldVal?: InputMaybe<Scalars['jsonb']>;
+};
+
+/** select columns of table "audit" */
+export enum AuditSelectColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	CreatedBy = 'createdBy',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NewVal = 'newVal',
+	/** column name */
+	OldVal = 'oldVal',
+	/** column name */
+	Operation = 'operation',
+	/** column name */
+	SchemaName = 'schemaName',
+	/** column name */
+	TableName = 'tableName',
+}
+
+/** input type for updating data in table "audit" */
+export type AuditSetInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	newVal?: InputMaybe<Scalars['jsonb']>;
+	oldVal?: InputMaybe<Scalars['jsonb']>;
+	operation?: InputMaybe<Scalars['String']>;
+	schemaName?: InputMaybe<Scalars['String']>;
+	tableName?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "audit" */
+export type AuditStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: AuditStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type AuditStreamCursorValueInput = {
+	createdAt?: InputMaybe<Scalars['timestamptz']>;
+	createdBy?: InputMaybe<Scalars['uuid']>;
+	id?: InputMaybe<Scalars['uuid']>;
+	newVal?: InputMaybe<Scalars['jsonb']>;
+	oldVal?: InputMaybe<Scalars['jsonb']>;
+	operation?: InputMaybe<Scalars['String']>;
+	schemaName?: InputMaybe<Scalars['String']>;
+	tableName?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "audit" */
+export enum AuditUpdateColumn {
+	/** column name */
+	CreatedAt = 'createdAt',
+	/** column name */
+	CreatedBy = 'createdBy',
+	/** column name */
+	Id = 'id',
+	/** column name */
+	NewVal = 'newVal',
+	/** column name */
+	OldVal = 'oldVal',
+	/** column name */
+	Operation = 'operation',
+	/** column name */
+	SchemaName = 'schemaName',
+	/** column name */
+	TableName = 'tableName',
+}
+
+export type AuditUpdates = {
+	/** append existing jsonb value of filtered columns with new jsonb value */
+	_append?: InputMaybe<AuditAppendInput>;
+	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
+	_delete_at_path?: InputMaybe<AuditDeleteAtPathInput>;
+	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
+	_delete_elem?: InputMaybe<AuditDeleteElemInput>;
+	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
+	_delete_key?: InputMaybe<AuditDeleteKeyInput>;
+	/** prepend existing jsonb value of filtered columns with new jsonb value */
+	_prepend?: InputMaybe<AuditPrependInput>;
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<AuditSetInput>;
+	where: AuditBoolExp;
+};
+
 /** columns and relationships of "beneficiary" */
 export type Beneficiary = {
 	__typename?: 'beneficiary';
@@ -3861,256 +4111,6 @@ export type Float8ComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['float8']>>;
 };
 
-/** columns and relationships of "history" */
-export type History = {
-	__typename?: 'history';
-	created_at: Scalars['timestamptz'];
-	created_by?: Maybe<Scalars['uuid']>;
-	id: Scalars['uuid'];
-	new_val?: Maybe<Scalars['jsonb']>;
-	old_val?: Maybe<Scalars['jsonb']>;
-	operation: Scalars['String'];
-	schema_name: Scalars['String'];
-	table_name: Scalars['String'];
-};
-
-/** columns and relationships of "history" */
-export type HistoryNewValArgs = {
-	path?: InputMaybe<Scalars['String']>;
-};
-
-/** columns and relationships of "history" */
-export type HistoryOldValArgs = {
-	path?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregated selection of "history" */
-export type HistoryAggregate = {
-	__typename?: 'history_aggregate';
-	aggregate?: Maybe<HistoryAggregateFields>;
-	nodes: Array<History>;
-};
-
-/** aggregate fields of "history" */
-export type HistoryAggregateFields = {
-	__typename?: 'history_aggregate_fields';
-	count: Scalars['Int'];
-	max?: Maybe<HistoryMaxFields>;
-	min?: Maybe<HistoryMinFields>;
-};
-
-/** aggregate fields of "history" */
-export type HistoryAggregateFieldsCountArgs = {
-	columns?: InputMaybe<Array<HistorySelectColumn>>;
-	distinct?: InputMaybe<Scalars['Boolean']>;
-};
-
-/** append existing jsonb value of filtered columns with new jsonb value */
-export type HistoryAppendInput = {
-	new_val?: InputMaybe<Scalars['jsonb']>;
-	old_val?: InputMaybe<Scalars['jsonb']>;
-};
-
-/** Boolean expression to filter rows from the table "history". All fields are combined with a logical 'AND'. */
-export type HistoryBoolExp = {
-	_and?: InputMaybe<Array<HistoryBoolExp>>;
-	_not?: InputMaybe<HistoryBoolExp>;
-	_or?: InputMaybe<Array<HistoryBoolExp>>;
-	created_at?: InputMaybe<TimestamptzComparisonExp>;
-	created_by?: InputMaybe<UuidComparisonExp>;
-	id?: InputMaybe<UuidComparisonExp>;
-	new_val?: InputMaybe<JsonbComparisonExp>;
-	old_val?: InputMaybe<JsonbComparisonExp>;
-	operation?: InputMaybe<StringComparisonExp>;
-	schema_name?: InputMaybe<StringComparisonExp>;
-	table_name?: InputMaybe<StringComparisonExp>;
-};
-
-/** unique or primary key constraints on table "history" */
-export enum HistoryConstraint {
-	/** unique or primary key constraint on columns "id" */
-	HistoryPkey = 'history_pkey',
-}
-
-/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-export type HistoryDeleteAtPathInput = {
-	new_val?: InputMaybe<Array<Scalars['String']>>;
-	old_val?: InputMaybe<Array<Scalars['String']>>;
-};
-
-/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-export type HistoryDeleteElemInput = {
-	new_val?: InputMaybe<Scalars['Int']>;
-	old_val?: InputMaybe<Scalars['Int']>;
-};
-
-/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-export type HistoryDeleteKeyInput = {
-	new_val?: InputMaybe<Scalars['String']>;
-	old_val?: InputMaybe<Scalars['String']>;
-};
-
-/** input type for inserting data into table "history" */
-export type HistoryInsertInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	created_by?: InputMaybe<Scalars['uuid']>;
-	id?: InputMaybe<Scalars['uuid']>;
-	new_val?: InputMaybe<Scalars['jsonb']>;
-	old_val?: InputMaybe<Scalars['jsonb']>;
-	operation?: InputMaybe<Scalars['String']>;
-	schema_name?: InputMaybe<Scalars['String']>;
-	table_name?: InputMaybe<Scalars['String']>;
-};
-
-/** aggregate max on columns */
-export type HistoryMaxFields = {
-	__typename?: 'history_max_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
-	created_by?: Maybe<Scalars['uuid']>;
-	id?: Maybe<Scalars['uuid']>;
-	operation?: Maybe<Scalars['String']>;
-	schema_name?: Maybe<Scalars['String']>;
-	table_name?: Maybe<Scalars['String']>;
-};
-
-/** aggregate min on columns */
-export type HistoryMinFields = {
-	__typename?: 'history_min_fields';
-	created_at?: Maybe<Scalars['timestamptz']>;
-	created_by?: Maybe<Scalars['uuid']>;
-	id?: Maybe<Scalars['uuid']>;
-	operation?: Maybe<Scalars['String']>;
-	schema_name?: Maybe<Scalars['String']>;
-	table_name?: Maybe<Scalars['String']>;
-};
-
-/** response of any mutation on the table "history" */
-export type HistoryMutationResponse = {
-	__typename?: 'history_mutation_response';
-	/** number of rows affected by the mutation */
-	affected_rows: Scalars['Int'];
-	/** data from the rows affected by the mutation */
-	returning: Array<History>;
-};
-
-/** on_conflict condition type for table "history" */
-export type HistoryOnConflict = {
-	constraint: HistoryConstraint;
-	update_columns?: Array<HistoryUpdateColumn>;
-	where?: InputMaybe<HistoryBoolExp>;
-};
-
-/** Ordering options when selecting data from "history". */
-export type HistoryOrderBy = {
-	created_at?: InputMaybe<OrderBy>;
-	created_by?: InputMaybe<OrderBy>;
-	id?: InputMaybe<OrderBy>;
-	new_val?: InputMaybe<OrderBy>;
-	old_val?: InputMaybe<OrderBy>;
-	operation?: InputMaybe<OrderBy>;
-	schema_name?: InputMaybe<OrderBy>;
-	table_name?: InputMaybe<OrderBy>;
-};
-
-/** primary key columns input for table: history */
-export type HistoryPkColumnsInput = {
-	id: Scalars['uuid'];
-};
-
-/** prepend existing jsonb value of filtered columns with new jsonb value */
-export type HistoryPrependInput = {
-	new_val?: InputMaybe<Scalars['jsonb']>;
-	old_val?: InputMaybe<Scalars['jsonb']>;
-};
-
-/** select columns of table "history" */
-export enum HistorySelectColumn {
-	/** column name */
-	CreatedAt = 'created_at',
-	/** column name */
-	CreatedBy = 'created_by',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	NewVal = 'new_val',
-	/** column name */
-	OldVal = 'old_val',
-	/** column name */
-	Operation = 'operation',
-	/** column name */
-	SchemaName = 'schema_name',
-	/** column name */
-	TableName = 'table_name',
-}
-
-/** input type for updating data in table "history" */
-export type HistorySetInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	created_by?: InputMaybe<Scalars['uuid']>;
-	id?: InputMaybe<Scalars['uuid']>;
-	new_val?: InputMaybe<Scalars['jsonb']>;
-	old_val?: InputMaybe<Scalars['jsonb']>;
-	operation?: InputMaybe<Scalars['String']>;
-	schema_name?: InputMaybe<Scalars['String']>;
-	table_name?: InputMaybe<Scalars['String']>;
-};
-
-/** Streaming cursor of the table "history" */
-export type HistoryStreamCursorInput = {
-	/** Stream column input with initial value */
-	initial_value: HistoryStreamCursorValueInput;
-	/** cursor ordering */
-	ordering?: InputMaybe<CursorOrdering>;
-};
-
-/** Initial value of the column from where the streaming should start */
-export type HistoryStreamCursorValueInput = {
-	created_at?: InputMaybe<Scalars['timestamptz']>;
-	created_by?: InputMaybe<Scalars['uuid']>;
-	id?: InputMaybe<Scalars['uuid']>;
-	new_val?: InputMaybe<Scalars['jsonb']>;
-	old_val?: InputMaybe<Scalars['jsonb']>;
-	operation?: InputMaybe<Scalars['String']>;
-	schema_name?: InputMaybe<Scalars['String']>;
-	table_name?: InputMaybe<Scalars['String']>;
-};
-
-/** update columns of table "history" */
-export enum HistoryUpdateColumn {
-	/** column name */
-	CreatedAt = 'created_at',
-	/** column name */
-	CreatedBy = 'created_by',
-	/** column name */
-	Id = 'id',
-	/** column name */
-	NewVal = 'new_val',
-	/** column name */
-	OldVal = 'old_val',
-	/** column name */
-	Operation = 'operation',
-	/** column name */
-	SchemaName = 'schema_name',
-	/** column name */
-	TableName = 'table_name',
-}
-
-export type HistoryUpdates = {
-	/** append existing jsonb value of filtered columns with new jsonb value */
-	_append?: InputMaybe<HistoryAppendInput>;
-	/** delete the field or element with specified path (for JSON arrays, negative integers count from the end) */
-	_delete_at_path?: InputMaybe<HistoryDeleteAtPathInput>;
-	/** delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array */
-	_delete_elem?: InputMaybe<HistoryDeleteElemInput>;
-	/** delete key/value pair or string element. key/value pairs are matched based on their key value */
-	_delete_key?: InputMaybe<HistoryDeleteKeyInput>;
-	/** prepend existing jsonb value of filtered columns with new jsonb value */
-	_prepend?: InputMaybe<HistoryPrependInput>;
-	/** sets the columns of the filtered rows to the given values */
-	_set?: InputMaybe<HistorySetInput>;
-	where: HistoryBoolExp;
-};
-
 export type JsonbCastExp = {
 	String?: InputMaybe<StringComparisonExp>;
 };
@@ -4416,6 +4416,10 @@ export type MutationRoot = {
 	delete_admin_structure_structure?: Maybe<AdminStructureStructureMutationResponse>;
 	/** delete single row from the table: "admin_structure_structure" */
 	delete_admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
+	/** delete data from the table: "audit" */
+	delete_audit?: Maybe<AuditMutationResponse>;
+	/** delete single row from the table: "audit" */
+	delete_audit_by_pk?: Maybe<Audit>;
 	/** delete data from the table: "beneficiary" */
 	delete_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** delete single row from the table: "beneficiary" */
@@ -4448,10 +4452,6 @@ export type MutationRoot = {
 	delete_external_source?: Maybe<ExternalSourceMutationResponse>;
 	/** delete single row from the table: "external_source" */
 	delete_external_source_by_pk?: Maybe<ExternalSource>;
-	/** delete data from the table: "history" */
-	delete_history?: Maybe<HistoryMutationResponse>;
-	/** delete single row from the table: "history" */
-	delete_history_by_pk?: Maybe<History>;
 	/** delete data from the table: "manager" */
 	delete_manager?: Maybe<ManagerMutationResponse>;
 	/** delete single row from the table: "manager" */
@@ -4582,6 +4582,10 @@ export type MutationRoot = {
 	insert_admin_structure_structure?: Maybe<AdminStructureStructureMutationResponse>;
 	/** insert a single row into the table: "admin_structure_structure" */
 	insert_admin_structure_structure_one?: Maybe<AdminStructureStructure>;
+	/** insert data into the table: "audit" */
+	insert_audit?: Maybe<AuditMutationResponse>;
+	/** insert a single row into the table: "audit" */
+	insert_audit_one?: Maybe<Audit>;
 	/** insert data into the table: "beneficiary" */
 	insert_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** insert a single row into the table: "beneficiary" */
@@ -4614,10 +4618,6 @@ export type MutationRoot = {
 	insert_external_source?: Maybe<ExternalSourceMutationResponse>;
 	/** insert a single row into the table: "external_source" */
 	insert_external_source_one?: Maybe<ExternalSource>;
-	/** insert data into the table: "history" */
-	insert_history?: Maybe<HistoryMutationResponse>;
-	/** insert a single row into the table: "history" */
-	insert_history_one?: Maybe<History>;
 	/** insert data into the table: "manager" */
 	insert_manager?: Maybe<ManagerMutationResponse>;
 	/** insert a single row into the table: "manager" */
@@ -4760,6 +4760,12 @@ export type MutationRoot = {
 	update_admin_structure_structure_many?: Maybe<
 		Array<Maybe<AdminStructureStructureMutationResponse>>
 	>;
+	/** update data of the table: "audit" */
+	update_audit?: Maybe<AuditMutationResponse>;
+	/** update single row of the table: "audit" */
+	update_audit_by_pk?: Maybe<Audit>;
+	/** update multiples rows of table: "audit" */
+	update_audit_many?: Maybe<Array<Maybe<AuditMutationResponse>>>;
 	/** update data of the table: "beneficiary" */
 	update_beneficiary?: Maybe<BeneficiaryMutationResponse>;
 	/** update single row of the table: "beneficiary" */
@@ -4808,12 +4814,6 @@ export type MutationRoot = {
 	update_external_source_by_pk?: Maybe<ExternalSource>;
 	/** update multiples rows of table: "external_source" */
 	update_external_source_many?: Maybe<Array<Maybe<ExternalSourceMutationResponse>>>;
-	/** update data of the table: "history" */
-	update_history?: Maybe<HistoryMutationResponse>;
-	/** update single row of the table: "history" */
-	update_history_by_pk?: Maybe<History>;
-	/** update multiples rows of table: "history" */
-	update_history_many?: Maybe<Array<Maybe<HistoryMutationResponse>>>;
 	/** update data of the table: "manager" */
 	update_manager?: Maybe<ManagerMutationResponse>;
 	/** update single row of the table: "manager" */
@@ -5033,6 +5033,16 @@ export type MutationRootDeleteAdminStructureStructureByPkArgs = {
 };
 
 /** mutation root */
+export type MutationRootDeleteAuditArgs = {
+	where: AuditBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteAuditByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+/** mutation root */
 export type MutationRootDeleteBeneficiaryArgs = {
 	where: BeneficiaryBoolExp;
 };
@@ -5110,16 +5120,6 @@ export type MutationRootDeleteExternalSourceArgs = {
 /** mutation root */
 export type MutationRootDeleteExternalSourceByPkArgs = {
 	value: Scalars['String'];
-};
-
-/** mutation root */
-export type MutationRootDeleteHistoryArgs = {
-	where: HistoryBoolExp;
-};
-
-/** mutation root */
-export type MutationRootDeleteHistoryByPkArgs = {
-	id: Scalars['uuid'];
 };
 
 /** mutation root */
@@ -5456,6 +5456,18 @@ export type MutationRootInsertAdminStructureStructureOneArgs = {
 };
 
 /** mutation root */
+export type MutationRootInsertAuditArgs = {
+	objects: Array<AuditInsertInput>;
+	on_conflict?: InputMaybe<AuditOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertAuditOneArgs = {
+	object: AuditInsertInput;
+	on_conflict?: InputMaybe<AuditOnConflict>;
+};
+
+/** mutation root */
 export type MutationRootInsertBeneficiaryArgs = {
 	objects: Array<BeneficiaryInsertInput>;
 	on_conflict?: InputMaybe<BeneficiaryOnConflict>;
@@ -5549,18 +5561,6 @@ export type MutationRootInsertExternalSourceArgs = {
 export type MutationRootInsertExternalSourceOneArgs = {
 	object: ExternalSourceInsertInput;
 	on_conflict?: InputMaybe<ExternalSourceOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertHistoryArgs = {
-	objects: Array<HistoryInsertInput>;
-	on_conflict?: InputMaybe<HistoryOnConflict>;
-};
-
-/** mutation root */
-export type MutationRootInsertHistoryOneArgs = {
-	object: HistoryInsertInput;
-	on_conflict?: InputMaybe<HistoryOnConflict>;
 };
 
 /** mutation root */
@@ -5978,6 +5978,33 @@ export type MutationRootUpdateAdminStructureStructureManyArgs = {
 };
 
 /** mutation root */
+export type MutationRootUpdateAuditArgs = {
+	_append?: InputMaybe<AuditAppendInput>;
+	_delete_at_path?: InputMaybe<AuditDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<AuditDeleteElemInput>;
+	_delete_key?: InputMaybe<AuditDeleteKeyInput>;
+	_prepend?: InputMaybe<AuditPrependInput>;
+	_set?: InputMaybe<AuditSetInput>;
+	where: AuditBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateAuditByPkArgs = {
+	_append?: InputMaybe<AuditAppendInput>;
+	_delete_at_path?: InputMaybe<AuditDeleteAtPathInput>;
+	_delete_elem?: InputMaybe<AuditDeleteElemInput>;
+	_delete_key?: InputMaybe<AuditDeleteKeyInput>;
+	_prepend?: InputMaybe<AuditPrependInput>;
+	_set?: InputMaybe<AuditSetInput>;
+	pk_columns: AuditPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateAuditManyArgs = {
+	updates: Array<AuditUpdates>;
+};
+
+/** mutation root */
 export type MutationRootUpdateBeneficiaryArgs = {
 	_set?: InputMaybe<BeneficiarySetInput>;
 	where: BeneficiaryBoolExp;
@@ -6141,33 +6168,6 @@ export type MutationRootUpdateExternalSourceByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateExternalSourceManyArgs = {
 	updates: Array<ExternalSourceUpdates>;
-};
-
-/** mutation root */
-export type MutationRootUpdateHistoryArgs = {
-	_append?: InputMaybe<HistoryAppendInput>;
-	_delete_at_path?: InputMaybe<HistoryDeleteAtPathInput>;
-	_delete_elem?: InputMaybe<HistoryDeleteElemInput>;
-	_delete_key?: InputMaybe<HistoryDeleteKeyInput>;
-	_prepend?: InputMaybe<HistoryPrependInput>;
-	_set?: InputMaybe<HistorySetInput>;
-	where: HistoryBoolExp;
-};
-
-/** mutation root */
-export type MutationRootUpdateHistoryByPkArgs = {
-	_append?: InputMaybe<HistoryAppendInput>;
-	_delete_at_path?: InputMaybe<HistoryDeleteAtPathInput>;
-	_delete_elem?: InputMaybe<HistoryDeleteElemInput>;
-	_delete_key?: InputMaybe<HistoryDeleteKeyInput>;
-	_prepend?: InputMaybe<HistoryPrependInput>;
-	_set?: InputMaybe<HistorySetInput>;
-	pk_columns: HistoryPkColumnsInput;
-};
-
-/** mutation root */
-export type MutationRootUpdateHistoryManyArgs = {
-	updates: Array<HistoryUpdates>;
 };
 
 /** mutation root */
@@ -12165,6 +12165,12 @@ export type QueryRoot = {
 	admin_structure_structure_aggregate: AdminStructureStructureAggregate;
 	/** fetch data from the table: "admin_structure_structure" using primary key columns */
 	admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
+	/** fetch data from the table: "audit" */
+	audit: Array<Audit>;
+	/** fetch aggregated fields from the table: "audit" */
+	audit_aggregate: AuditAggregate;
+	/** fetch data from the table: "audit" using primary key columns */
+	audit_by_pk?: Maybe<Audit>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
@@ -12213,12 +12219,6 @@ export type QueryRoot = {
 	external_source_aggregate: ExternalSourceAggregate;
 	/** fetch data from the table: "external_source" using primary key columns */
 	external_source_by_pk?: Maybe<ExternalSource>;
-	/** fetch data from the table: "history" */
-	history: Array<History>;
-	/** fetch aggregated fields from the table: "history" */
-	history_aggregate: HistoryAggregate;
-	/** fetch data from the table: "history" using primary key columns */
-	history_by_pk?: Maybe<History>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -12505,6 +12505,26 @@ export type QueryRootAdminStructureStructureByPkArgs = {
 	id: Scalars['uuid'];
 };
 
+export type QueryRootAuditArgs = {
+	distinct_on?: InputMaybe<Array<AuditSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AuditOrderBy>>;
+	where?: InputMaybe<AuditBoolExp>;
+};
+
+export type QueryRootAuditAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AuditSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AuditOrderBy>>;
+	where?: InputMaybe<AuditBoolExp>;
+};
+
+export type QueryRootAuditByPkArgs = {
+	id: Scalars['uuid'];
+};
+
 export type QueryRootBeneficiaryArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -12663,26 +12683,6 @@ export type QueryRootExternalSourceAggregateArgs = {
 
 export type QueryRootExternalSourceByPkArgs = {
 	value: Scalars['String'];
-};
-
-export type QueryRootHistoryArgs = {
-	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<HistoryOrderBy>>;
-	where?: InputMaybe<HistoryBoolExp>;
-};
-
-export type QueryRootHistoryAggregateArgs = {
-	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<HistoryOrderBy>>;
-	where?: InputMaybe<HistoryBoolExp>;
-};
-
-export type QueryRootHistoryByPkArgs = {
-	id: Scalars['uuid'];
 };
 
 export type QueryRootManagerArgs = {
@@ -15008,6 +15008,14 @@ export type SubscriptionRoot = {
 	admin_structure_structure_by_pk?: Maybe<AdminStructureStructure>;
 	/** fetch data from the table in a streaming manner: "admin_structure_structure" */
 	admin_structure_structure_stream: Array<AdminStructureStructure>;
+	/** fetch data from the table: "audit" */
+	audit: Array<Audit>;
+	/** fetch aggregated fields from the table: "audit" */
+	audit_aggregate: AuditAggregate;
+	/** fetch data from the table: "audit" using primary key columns */
+	audit_by_pk?: Maybe<Audit>;
+	/** fetch data from the table in a streaming manner: "audit" */
+	audit_stream: Array<Audit>;
 	/** fetch data from the table: "beneficiary" */
 	beneficiary: Array<Beneficiary>;
 	/** fetch aggregated fields from the table: "beneficiary" */
@@ -15072,14 +15080,6 @@ export type SubscriptionRoot = {
 	external_source_by_pk?: Maybe<ExternalSource>;
 	/** fetch data from the table in a streaming manner: "external_source" */
 	external_source_stream: Array<ExternalSource>;
-	/** fetch data from the table: "history" */
-	history: Array<History>;
-	/** fetch aggregated fields from the table: "history" */
-	history_aggregate: HistoryAggregate;
-	/** fetch data from the table: "history" using primary key columns */
-	history_by_pk?: Maybe<History>;
-	/** fetch data from the table in a streaming manner: "history" */
-	history_stream: Array<History>;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -15454,6 +15454,32 @@ export type SubscriptionRootAdminStructureStructureStreamArgs = {
 	where?: InputMaybe<AdminStructureStructureBoolExp>;
 };
 
+export type SubscriptionRootAuditArgs = {
+	distinct_on?: InputMaybe<Array<AuditSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AuditOrderBy>>;
+	where?: InputMaybe<AuditBoolExp>;
+};
+
+export type SubscriptionRootAuditAggregateArgs = {
+	distinct_on?: InputMaybe<Array<AuditSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<AuditOrderBy>>;
+	where?: InputMaybe<AuditBoolExp>;
+};
+
+export type SubscriptionRootAuditByPkArgs = {
+	id: Scalars['uuid'];
+};
+
+export type SubscriptionRootAuditStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<AuditStreamCursorInput>>;
+	where?: InputMaybe<AuditBoolExp>;
+};
+
 export type SubscriptionRootBeneficiaryArgs = {
 	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
 	limit?: InputMaybe<Scalars['Int']>;
@@ -15660,32 +15686,6 @@ export type SubscriptionRootExternalSourceStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<ExternalSourceStreamCursorInput>>;
 	where?: InputMaybe<ExternalSourceBoolExp>;
-};
-
-export type SubscriptionRootHistoryArgs = {
-	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<HistoryOrderBy>>;
-	where?: InputMaybe<HistoryBoolExp>;
-};
-
-export type SubscriptionRootHistoryAggregateArgs = {
-	distinct_on?: InputMaybe<Array<HistorySelectColumn>>;
-	limit?: InputMaybe<Scalars['Int']>;
-	offset?: InputMaybe<Scalars['Int']>;
-	order_by?: InputMaybe<Array<HistoryOrderBy>>;
-	where?: InputMaybe<HistoryBoolExp>;
-};
-
-export type SubscriptionRootHistoryByPkArgs = {
-	id: Scalars['uuid'];
-};
-
-export type SubscriptionRootHistoryStreamArgs = {
-	batch_size: Scalars['Int'];
-	cursor: Array<InputMaybe<HistoryStreamCursorInput>>;
-	where?: InputMaybe<HistoryBoolExp>;
 };
 
 export type SubscriptionRootManagerArgs = {
