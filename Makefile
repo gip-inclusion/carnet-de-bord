@@ -8,9 +8,10 @@ install:
 	pre-commit install
 	@$(MAKE) -f $(THIS_FILE) .install-app
 	@$(MAKE) -f $(THIS_FILE) .install-backend
+	npm install --prefix e2e
 
 .install-app:
-	npm ci --prefix app
+	npm install --prefix app
 
 .install-backend:
 	cd backend; \
