@@ -83,10 +83,11 @@ def get_insert_notebook_info_orientation_system_mutation(
                 object={
                     "notebookId": str(notebook_id),
                     "orientationSystemId": str(orientation_system_id),
+                    "orientationReason": None,
                 },
                 on_conflict={
                     "constraint": "notebook_info_pkey",
-                    "update_columns": ["orientationSystemId"],
+                    "update_columns": ["orientationSystemId", "orientationReason"],
                 },
             ).select(dsl_schema.notebook_info.notebookId)
         )

@@ -71,6 +71,10 @@ async def test_add_notebook_member_as_no_referent(
     professional_pierre_chevalier: Professional,
     db_connection: Connection,
 ):
+    former_notebook_info = await get_notebook_info(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
     response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "no_referent"},
@@ -97,6 +101,12 @@ async def test_add_notebook_member_as_no_referent(
     mock_send_email.assert_not_called()
     # Check that former referent is still the referent
     assert_member(members, professional_pierre_chevalier, "referent", True)
+    notebook_info = await get_notebook_info(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
+    # Check that orientation reason has not been changed
+    assert notebook_info.orientation_reason == former_notebook_info.orientation_reason
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -164,6 +174,7 @@ async def test_add_notebook_member_as_referent(
     )
     assert notebook_info.need_orientation is False
     assert notebook_info.orientation_system_id == orientation_system_id
+    assert notebook_info.orientation_reason is None
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
