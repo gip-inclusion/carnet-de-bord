@@ -39,7 +39,7 @@ async def get_notebook_info(
 ) -> NotebookInfo | None:
     record = await connection.fetchrow(
         """
-        SELECT * from public.notebook_info WHERE notebook=$1
+        SELECT * from public.notebook_info WHERE notebook_id=$1
         """,
         notebook_id,
     )
@@ -52,6 +52,7 @@ def get_insert_notebook_info_mutation(
     dsl_schema: DSLSchema,
     notebook_id: UUID,
     orientation_system_id: UUID,
+    orientation_reason: str | None,
 ) -> dict[str, DSLField]:
     return {
         "add_notebook_info": dsl_schema.mutation_root.insert_notebook_info_one.args(
@@ -59,10 +60,15 @@ def get_insert_notebook_info_mutation(
                 "notebookId": str(notebook_id),
                 "orientationSystemId": str(orientation_system_id),
                 "needOrientation": False,
+                "orientationReason": orientation_reason,
             },
             on_conflict={
                 "constraint": "notebook_info_pkey",
-                "update_columns": ["orientationSystemId", "needOrientation"],
+                "update_columns": [
+                    "orientationSystemId",
+                    "needOrientation",
+                    "orientationReason",
+                ],
             },
         ).select(dsl_schema.notebook_info.notebookId)
     }
@@ -77,10 +83,11 @@ def get_insert_notebook_info_orientation_system_mutation(
                 object={
                     "notebookId": str(notebook_id),
                     "orientationSystemId": str(orientation_system_id),
+                    "orientationReason": None,
                 },
                 on_conflict={
                     "constraint": "notebook_info_pkey",
-                    "update_columns": ["orientationSystemId"],
+                    "update_columns": ["orientationSystemId", "orientationReason"],
                 },
             ).select(dsl_schema.notebook_info.notebookId)
         )

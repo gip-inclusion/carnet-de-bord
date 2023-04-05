@@ -6,6 +6,7 @@ from fastapi.testclient import TestClient
 
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
+from cdb.api.db.crud.notebook_info import get_notebook_info
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.professional import Professional
 from tests.utils.assert_helpers import assert_member, assert_structure
@@ -70,6 +71,10 @@ async def test_add_notebook_member_as_no_referent(
     professional_pierre_chevalier: Professional,
     db_connection: Connection,
 ):
+    former_notebook_info = await get_notebook_info(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
     response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "no_referent"},
@@ -96,6 +101,12 @@ async def test_add_notebook_member_as_no_referent(
     mock_send_email.assert_not_called()
     # Check that former referent is still the referent
     assert_member(members, professional_pierre_chevalier, "referent", True)
+    notebook_info = await get_notebook_info(
+        db_connection,
+        notebook_sophie_tifour.id,
+    )
+    # Check that orientation reason has not been changed
+    assert notebook_info.orientation_reason == former_notebook_info.orientation_reason
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -157,17 +168,13 @@ async def test_add_notebook_member_as_referent(
         structure_name="Service Social Départemental",
     )
 
-    rows = await db_connection.fetch(
-        """
-        SELECT need_orientation, orientation_system_id
-          FROM notebook_info
-         WHERE notebook_id = $1
-        """,
+    notebook_info = await get_notebook_info(
+        db_connection,
         notebook_sophie_tifour.id,
     )
-    [row] = rows
-    assert row["need_orientation"] is False
-    assert row["orientation_system_id"] == orientation_system_id
+    assert notebook_info.need_orientation is False
+    assert notebook_info.orientation_system_id == orientation_system_id
+    assert notebook_info.orientation_reason is None
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -230,7 +237,6 @@ async def test_add_notebook_member_as_referent_orientation_not_available(
         structure_name="Centre Communal d'action social Livry-Gargan",
     )
 
-    rows = await db_connection.fetch(
-        "SELECT * FROM notebook_info WHERE notebook_id = $1", notebook_sophie_tifour.id
-    )
-    assert len(rows) == 0
+    notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    # Ensure orientation system has not been updated with not available one
+    assert notebook_info.orientation_system_id != orientation_system_id

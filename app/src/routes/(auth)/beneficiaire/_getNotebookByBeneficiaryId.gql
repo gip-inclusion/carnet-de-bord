@@ -57,6 +57,7 @@ fragment notebookFragment on notebook {
   }
   notebookInfo {
     needOrientation
+    orientationReason
   }
   beneficiary {
     address1

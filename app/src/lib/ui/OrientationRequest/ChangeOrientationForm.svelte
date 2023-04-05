@@ -49,6 +49,7 @@
 				notebook_id: notebook.id,
 				structure_id: values.structureId,
 				new_referent_account_id: values.professionalAccountId,
+				orientation_reason: values.orientationReason,
 			},
 			{ 'jwt-token': $token }
 		);

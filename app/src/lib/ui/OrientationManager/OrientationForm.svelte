@@ -5,6 +5,7 @@
 		orientationSystemId: yup.string().required(),
 		structureId: yup.string().uuid().required().min(1),
 		professionalAccountId: yup.string().nullable(),
+		orientationReason: yup.string().nullable(),
 	});
 	export type OrientationValidationSchema = yup.InferType<typeof validationSchema>;
 </script>
@@ -16,7 +17,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { query, operationStore, type OperationStore } from '@urql/svelte';
 	import { Alert, Button } from '$lib/ui/base';
-	import { Form, Select } from '$lib/ui/forms';
+	import { Form, Select, Textarea } from '$lib/ui/forms';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { openComponent } from '$lib/stores';
 	import { displayFullName } from '../format';
@@ -145,6 +146,12 @@
 				options={professionalOptions}
 				name="professionalAccountId"
 				disabled={!form.structureId || professionalOptions.length === 0}
+			/>
+			<Textarea
+				name="orientationReason"
+				placeholder="Saisir le motif de l’orientation"
+				hint="Le motif de l’orientation sera disponible pour la personne désignée référente unique."
+				label="Motif de l’orientation"
 			/>
 			{#if displayError}
 				<Alert type="error" size="sm">Impossible de modifier l'orientation</Alert>

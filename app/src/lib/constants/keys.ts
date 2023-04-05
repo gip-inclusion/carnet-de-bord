@@ -100,3 +100,9 @@ export const AppointmentsMapping = {
 	present: 'Présent',
 	absent: 'Absent',
 };
+
+export const OrientationRequestStatus = {
+	pending: 'pending',
+	denied: 'denied',
+	accepted: 'accepted',
+};

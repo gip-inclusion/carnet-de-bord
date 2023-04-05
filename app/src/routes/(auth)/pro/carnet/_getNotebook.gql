@@ -57,6 +57,20 @@ query GetNotebook(
         }
       }
     }
+    previousReferent: members(
+      where: {
+        _and: [
+          { memberType: { _eq: "referent" } },
+          { membershipEndedAt: { _is_null: false } }
+        ]
+      },
+      order_by: { membershipEndedAt: desc_nulls_last},
+      limit: 1) {
+      id
+      account {
+        id
+      }
+    }
     members(where: { active: { _eq: true } }, order_by: { lastModifiedAt: desc_nulls_last }) {
       id
       memberType
@@ -107,6 +121,7 @@ query GetNotebook(
       lastJobEndedAt
       notebookInfo {
         needOrientation
+        orientationReason
       }
       professionalProjects {
         id

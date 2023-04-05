@@ -9,6 +9,8 @@ configuration:
       custom_name: needOrientation
     notebook_id:
       custom_name: notebookId
+    orientation_reason:
+      custom_name: orientationReason
     orientation_system_id:
       custom_name: orientationSystemId
     updated_at:
@@ -17,6 +19,7 @@ configuration:
     created_at: createdAt
     need_orientation: needOrientation
     notebook_id: notebookId
+    orientation_reason: orientationReason
     orientation_system_id: orientationSystemId
     updated_at: updatedAt
   custom_root_fields: {}
@@ -38,6 +41,7 @@ insert_permissions:
       columns:
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
   - role: orientation_manager
     permission:
@@ -49,6 +53,7 @@ insert_permissions:
       columns:
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
   - role: professional
     permission:
@@ -71,6 +76,7 @@ insert_permissions:
                       _eq: X-Hasura-User-Id
       columns:
         - notebook_id
+        - orientation_reason
         - orientation_system_id
 select_permissions:
   - role: admin_cdb
@@ -79,6 +85,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter: {}
@@ -88,6 +95,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -105,6 +113,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -119,6 +128,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -133,6 +143,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -147,6 +158,7 @@ select_permissions:
         - created_at
         - need_orientation
         - notebook_id
+        - orientation_reason
         - orientation_system_id
         - updated_at
       filter:
@@ -160,6 +172,7 @@ update_permissions:
     permission:
       columns:
         - need_orientation
+        - orientation_reason
         - orientation_system_id
       filter:
         notebook:
@@ -171,6 +184,7 @@ update_permissions:
     permission:
       columns:
         - need_orientation
+        - orientation_reason
         - orientation_system_id
       filter:
         notebook:
@@ -182,24 +196,9 @@ update_permissions:
     permission:
       columns:
         - notebook_id
+        - orientation_reason
         - orientation_system_id
-      filter:
-        _and:
-          - notebook:
-              members:
-                _and:
-                  - account_id:
-                      _eq: X-Hasura-User-Id
-                  - active:
-                      _eq: true
-                  - member_type:
-                      _eq: referent
-          - orientationSystem:
-              professionalOrientationSystems:
-                professional:
-                  account:
-                    id:
-                      _eq: X-Hasura-User-Id
+      filter: {}
       check:
         _and:
           - notebook:
