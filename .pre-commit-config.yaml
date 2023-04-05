@@ -57,6 +57,12 @@ repos:
         entry: |
           bash -c 'npm --prefix app run fix:eslint "${@#*/}"' --
 
+      - id: app-elm-review
+        name: run elm-review (app)
+        language: system
+        entry: |
+          bash -c 'npm --prefix app run lint:elm-review' --
+
       - id: e2e-prettier
         name: run prettier (e2e)
         language: system
