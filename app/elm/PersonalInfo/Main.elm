@@ -1,4 +1,4 @@
-module PersonalInfo.Main exposing (Flags, Model, Msg(..), beneficiaryRights, extractRightsFromFlags, init, main, personalInfoElement, view)
+module PersonalInfo.Main exposing (Flags, Model, Msg, main, beneficiaryRights)
 
 import Browser
 import Domain.BeneficiaryRights exposing (BeneficiaryRights, rsaRightKeyToString)
@@ -50,8 +50,8 @@ init flags =
 -- UPDATE
 
 
-type Msg
-    = Recv String
+type alias Msg =
+    ()
 
 
 

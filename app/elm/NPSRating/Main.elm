@@ -1,12 +1,12 @@
-module NPSRating.Main exposing (..)
+module NPSRating.Main exposing (Flags, LastRatingDates, Model, Msg(..), main)
 
 import Browser
-import Html exposing (..)
+import Html
 import Html.Attributes exposing (attribute, checked, class, disabled, for, id, method, name, required, title, type_, value)
-import Html.Events exposing (onCheck, onClick, onSubmit, preventDefaultOn)
+import Html.Events exposing (onCheck, onClick, preventDefaultOn)
 import Http
 import Json.Decode as Decode
-import Json.Encode as Encode
+import Json.Encode as Json
 import Task
 import Time
 
@@ -52,7 +52,6 @@ type alias LastRatingDates =
 type Msg
     = DoNothing
     | Close
-    | Open
     | SelectNPS Int
     | Submit
     | RatingSent (Result Http.Error ())
@@ -91,7 +90,7 @@ getLastRatingDates serverUrl token =
         , headers =
             [ Http.header "Authorization" ("Bearer " ++ token) ]
         , body =
-            Http.jsonBody (Encode.object [ ( "query", Encode.string query ) ])
+            Http.jsonBody (Json.object [ ( "query", Json.string query ) ])
         , expect = Http.expectJson LastRatingDatesFetched lastRatingDatesDecoder
         , timeout = Nothing
         , tracker = Nothing
@@ -127,7 +126,7 @@ submitRating model =
                 , headers = [ Http.header "jwt-token" model.token ]
                 , body =
                     Http.jsonBody
-                        (Encode.object [ ( "score", Encode.int score ) ])
+                        (Json.object [ ( "score", Json.int score ) ])
                 , expect = Http.expectWhatever RatingSent
                 , timeout = Nothing
                 , tracker = Nothing
@@ -151,7 +150,7 @@ dismiss model =
         { method = "POST"
         , url = model.serverUrl
         , headers = [ Http.header "Authorization" ("Bearer " ++ model.token) ]
-        , body = Http.jsonBody (Encode.object [ ( "query", Encode.string query ) ])
+        , body = Http.jsonBody (Json.object [ ( "query", Json.string query ) ])
         , expect = Http.expectWhatever RatingSent
         , timeout = Nothing
         , tracker = Nothing
@@ -174,17 +173,18 @@ lastAnsweredAt lastRatingDates =
 shouldShow : Time.Posix -> LastRatingDates -> Bool
 shouldShow time lastRatingDates =
     let
-        timeInt =
-            Time.posixToMillis time
-
-        twoWeeksMs =
-            1000 * 60 * 60 * 24 * 14
-
         maybeAnsweredAt =
             lastAnsweredAt lastRatingDates
     in
     case maybeAnsweredAt of
         Just answeredAt ->
+            let
+                timeInt =
+                    Time.posixToMillis time
+
+                twoWeeksMs =
+                    1000 * 60 * 60 * 24 * 14
+            in
             (timeInt - round answeredAt) > twoWeeksMs
 
         Nothing ->
@@ -196,9 +196,6 @@ update msg model =
     case msg of
         Close ->
             ( model, dismiss model )
-
-        Open ->
-            ( { model | isOpen = True }, Cmd.none )
 
         SelectNPS nps ->
             ( { model | nps = Just nps }, Cmd.none )
@@ -259,7 +256,7 @@ update msg model =
             ( model, Cmd.none )
 
 
-scoreRadio : Model -> Int -> List (Html Msg)
+scoreRadio : Model -> Int -> List (Html.Html Msg)
 scoreRadio model n =
     let
         nAsText =
@@ -290,11 +287,11 @@ scoreRadio model n =
                 10 ->
                     "Probabilité 10 sur 10 : Très probable"
 
-                val ->
+                _ ->
                     "Probabilité " ++ String.fromInt n ++ " sur 10"
     in
-    [ label [ class (btnClasses ++ " relative"), for idText ]
-        [ input
+    [ Html.label [ class (btnClasses ++ " relative"), for idText ]
+        [ Html.input
             [ type_ "radio"
             , id idText
             , name "nps"
@@ -314,15 +311,15 @@ scoreRadio model n =
             , required True
             , value nAsText
             , attribute "aria-label" labelText
-            , onCheck (\checked -> SelectNPS n)
+            , onCheck (\_ -> SelectNPS n)
             ]
             []
-        , text nAsText
+        , Html.text nAsText
         ]
     ]
 
 
-view : Model -> Html Msg
+view : Model -> Html.Html Msg
 view model =
     if model.isOpen then
         Html.node "dialog"
@@ -332,45 +329,44 @@ view model =
             , attribute "role" "dialog"
             , class "fixed bottom-0 z-10 p-0 m-0 fr-col-12 fr-col-md-10 fr-col-lg-8 fr-col-xl-6"
             ]
-            [ form [ method "dialog", preventDefaultOn "submit" (Decode.succeed ( DoNothing, True )) ]
-                [ div
+            [ Html.form [ method "dialog", preventDefaultOn "submit" (Decode.succeed ( DoNothing, True )) ]
+                [ Html.div
                     [ class "fr-modal__body" ]
-                    [ div [ class "fr-modal__header" ]
-                        [ button
+                    [ Html.div [ class "fr-modal__header" ]
+                        [ Html.button
                             [ class "fr-link fr-link--close"
                             , title "Fermer la fenêtre de recueil de la satisfaction"
                             , type_ "button"
                             , attribute "aria-controls" "nps-rating-dialog"
                             , onClick Close
                             ]
-                            [ text "Fermer" ]
+                            [ Html.text "Fermer" ]
                         ]
-                    , div [ class "fr-modal__content" ]
+                    , Html.div [ class "fr-modal__content" ]
                         ((case model.errorText of
                             Just error ->
-                                [ div [ class "fr-alert fr-alert--error fr-alert--sm mb-2", attribute "role" "alert" ]
-                                    [ p [] [ text error ] ]
+                                [ Html.div [ class "fr-alert fr-alert--error fr-alert--sm mb-2", attribute "role" "alert" ]
+                                    [ Html.p [] [ Html.text error ] ]
                                 ]
 
                             Nothing ->
                                 []
                          )
-                            ++ [ fieldset []
-                                    [ legend [] [ strong [] [ text "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?" ] ]
-                                    , div [ class "fr-btns-group--inline fr-btns-group--center fr-btns-group--sm mt-4 mb-2" ]
+                            ++ [ Html.fieldset []
+                                    [ Html.legend [] [ Html.strong [] [ Html.text "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?" ] ]
+                                    , Html.div [ class "fr-btns-group--inline fr-btns-group--center fr-btns-group--sm mt-4 mb-2" ]
                                         (List.range 0 10
-                                            |> List.map (scoreRadio model)
-                                            |> List.concat
+                                            |> List.concatMap (scoreRadio model)
                                         )
-                                    , span [] [ text "Peu probable" ]
-                                    , span [ class "float-right" ] [ text "Très probable" ]
+                                    , Html.span [] [ Html.text "Peu probable" ]
+                                    , Html.span [ class "float-right" ] [ Html.text "Très probable" ]
                                     ]
                                ]
                         )
-                    , div [ class "fr-modal__footer" ]
-                        [ ul
+                    , Html.div [ class "fr-modal__footer" ]
+                        [ Html.ul
                             [ class "fr-btns-group fr-btns-group--right fr-btns-group--inline-reverse fr-btns-group--inline-lg fr-btns-group--icon-left" ]
-                            [ li [] [ button [ class "fr-btn", disabled model.disableSubmit, onClick Submit ] [ text "Envoyer ma réponse" ] ]
+                            [ Html.li [] [ Html.button [ class "fr-btn", disabled model.disableSubmit, onClick Submit ] [ Html.text "Envoyer ma réponse" ] ]
                             ]
                         ]
                     ]
@@ -378,4 +374,4 @@ view model =
             ]
 
     else
-        text ""
+        Html.text ""

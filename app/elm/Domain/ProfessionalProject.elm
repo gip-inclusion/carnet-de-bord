@@ -1,7 +1,18 @@
-module Domain.ProfessionalProject exposing (..)
+module Domain.ProfessionalProject exposing
+    ( ContractType(..)
+    , ProfessionalProject
+    , Rome
+    , WorkingTime(..)
+    , contractTypeStringToType
+    , contractTypeToKey
+    , contractTypeToLabel
+    , workingTimeStringToType
+    , workingTimeToKey
+    , workingTimeToLabel
+    )
 
-import Domain.Account exposing (Account)
 import Decimal exposing (Decimal)
+import Domain.Account exposing (Account)
 import Time
 
 
@@ -19,27 +30,6 @@ type ContractType
     | Professionalization
     | Apprenticeship
     | Portage
-
-
-type ThemeValue
-    = ChoosingAJob
-    | Training
-    | PreparingApplication
-    | FindingAJob
-    | CreatingACompany
-    | International
-
-
-type ThemeType
-    = PointOfSupport
-    | Need
-    | Unexplored
-
-
-type alias Theme =
-    { themeValue : ThemeValue
-    , themeType : ThemeType
-    }
 
 
 type alias ProfessionalProject =

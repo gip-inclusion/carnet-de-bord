@@ -1,11 +1,9 @@
-module PersonalInfo.MainTests exposing (..)
+module PersonalInfo.MainTests exposing (beneficiaryRightsTests)
 
-import Expect exposing (..)
-import Html.Attributes exposing (..)
 import PersonalInfo.Main exposing (beneficiaryRights)
 import Test exposing (..)
 import Test.Html.Query as Query
-import Test.Html.Selector exposing (classes, tag, text)
+import Test.Html.Selector exposing (text)
 
 
 beneficiaryRightsTests : Test

@@ -1,4 +1,4 @@
-port module DiagnosticEdit.Main exposing (..)
+port module DiagnosticEdit.Main exposing (Flags, Model, Msg(..), NotebookSituationFlag, ProfessionalProjectOut, ProfessionalProjectState, RefSituation, RefSituationFlag, RomeData(..), SelectedSituation, main)
 
 import Browser
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
@@ -6,22 +6,21 @@ import Decimal exposing (Decimal)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
 import Domain.ProfessionalProject exposing (ContractType(..), ProfessionalProject, Rome, WorkingTime(..), contractTypeStringToType, contractTypeToKey, contractTypeToLabel, workingTimeStringToType, workingTimeToKey, workingTimeToLabel)
 import Domain.Situation exposing (Situation)
-import Domain.Theme exposing (Theme(..), themeKeyStringToType, themeKeyTypeToLabel)
-import Html exposing (..)
-import Html.Attributes exposing (..)
-import Html.Events exposing (..)
+import Domain.Theme exposing (Theme, themeKeyStringToType, themeKeyTypeToLabel)
+import Html
+import Html.Attributes as Attr
+import Html.Events as Evts
 import Html.Styled as Styled
 import Http
-import Json.Decode
-import Json.Encode
+import Json.Decode as Decode
+import Json.Encode as Json
 import List.Extra
 import Select
 import Set exposing (Set)
 
 
 type RomeData
-    = Failure
-    | Loading
+    = Loading
     | NotAsked
     | Success (List Rome)
 
@@ -95,14 +94,14 @@ parseHourlyRate hourlyRate =
         |> Maybe.andThen Decimal.fromString
 
 
-inputmode : String -> Attribute msg
+inputmode : String -> Html.Attribute msg
 inputmode name =
-    attribute "inputmode" name
+    Attr.attribute "inputmode" name
 
 
-ariaExpanded : Bool -> Attribute Msg
+ariaExpanded : Bool -> Html.Attribute Msg
 ariaExpanded value =
-    attribute "aria-expanded"
+    Attr.attribute "aria-expanded"
         (if value then
             "true"
 
@@ -111,9 +110,9 @@ ariaExpanded value =
         )
 
 
-ariaDescribedBy : String -> Attribute msg
+ariaDescribedBy : String -> Html.Attribute msg
 ariaDescribedBy value =
-    attribute "aria-described-by" value
+    Attr.attribute "aria-described-by" value
 
 
 main : Program Flags Model Msg
@@ -497,31 +496,36 @@ update msg model =
                     ( model, Cmd.none )
 
         OpenRomeSearch professionalProjectIndex ->
-            let
-                ss =
-                    Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt professionalProjectIndex))
-
-                -- Because it's being used as a dropdown we want a fresh state
-                -- every time an action is clicked.
-                ( _, focusedSelectState, cmds ) =
-                    -- Focusing the select. Using the Select Cmd
-                    -- ensures the menu is open on focus which is what you probably want
-                    -- for a dropdown menu.
-                    Select.update Select.focus ss
-
-                newProfessionalProjects =
-                    model.professionalProjects
-                        |> List.Extra.updateAt professionalProjectIndex
-                            (\professionalProjectState ->
-                                { professionalProjectState | selectState = focusedSelectState }
-                            )
-            in
             case model.activeRomeSearchIndex of
                 Just _ ->
                     ( { model | activeRomeSearchIndex = Nothing }, Cmd.none )
 
                 _ ->
-                    ( { model | professionalProjects = newProfessionalProjects, activeRomeSearchIndex = Just professionalProjectIndex }, Cmd.map (SelectMsg professionalProjectIndex) cmds )
+                    let
+                        ss =
+                            Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt professionalProjectIndex))
+
+                        -- Because it's being used as a dropdown we want a fresh state
+                        -- every time an action is clicked.
+                        ( _, focusedSelectState, cmds ) =
+                            -- Focusing the select. Using the Select Cmd
+                            -- ensures the menu is open on focus which is what you probably want
+                            -- for a dropdown menu.
+                            Select.update Select.focus ss
+
+                        newProfessionalProjects =
+                            model.professionalProjects
+                                |> List.Extra.updateAt professionalProjectIndex
+                                    (\professionalProjectState ->
+                                        { professionalProjectState | selectState = focusedSelectState }
+                                    )
+                    in
+                    ( { model
+                        | professionalProjects = newProfessionalProjects
+                        , activeRomeSearchIndex = Just professionalProjectIndex
+                      }
+                    , Cmd.map (SelectMsg professionalProjectIndex) cmds
+                    )
 
         MsgFetchJobTitlesDebouncer subMsg ->
             Debouncer.update update fetchJobTitlesDebouncerConfig subMsg model
@@ -584,11 +588,11 @@ getRome token serverUrl searchString index =
             [ Http.header "Authorization" ("Bearer " ++ token) ]
         , body =
             Http.jsonBody
-                (Json.Encode.object
-                    [ ( "query", Json.Encode.string query )
+                (Json.object
+                    [ ( "query", Json.string query )
                     , ( "variables"
-                      , Json.Encode.object
-                            [ ( "searchString", Json.Encode.string searchString )
+                      , Json.object
+                            [ ( "searchString", Json.string searchString )
                             ]
                       )
                     ]
@@ -599,16 +603,16 @@ getRome token serverUrl searchString index =
         }
 
 
-romeListDecoder : Json.Decode.Decoder (List Rome)
+romeListDecoder : Decode.Decoder (List Rome)
 romeListDecoder =
-    Json.Decode.at [ "data", "rome" ] (Json.Decode.list romeDecoder)
+    Decode.at [ "data", "rome" ] (Decode.list romeDecoder)
 
 
-romeDecoder : Json.Decode.Decoder Rome
+romeDecoder : Decode.Decoder Rome
 romeDecoder =
-    Json.Decode.map2 Rome
-        (Json.Decode.field "id" Json.Decode.string)
-        (Json.Decode.field "label" Json.Decode.string)
+    Decode.map2 Rome
+        (Decode.field "id" Decode.string)
+        (Decode.field "label" Decode.string)
 
 
 situationsByTheme : List Situation -> List RefSituation
@@ -638,26 +642,26 @@ romeDataToMenuItems romeData =
             []
 
 
-view : Model -> Html Msg
+view : Model -> Html.Html Msg
 view model =
-    div [ class "pt-12" ]
-        [ h2
-            [ class "text-france-blue" ]
-            [ text "Projet(s) professionnel(s)" ]
-        , div []
+    Html.div [ Attr.class "pt-12" ]
+        [ Html.h2
+            [ Attr.class "text-france-blue" ]
+            [ Html.text "Projet(s) professionnel(s)" ]
+        , Html.div []
             (model.professionalProjects
                 |> List.indexedMap
                     (\index project ->
-                        div [ class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
-                            [ div [ class "fr-input-group elm-select" ]
-                                [ span [ class "fr-label" ] [ text "Métier recherché" ]
-                                , button
-                                    [ class "fr-select text-left"
-                                    , type_ "button"
-                                    , onClick (OpenRomeSearch index)
+                        Html.div [ Attr.class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
+                            [ Html.div [ Attr.class "fr-input-group elm-select" ]
+                                [ Html.span [ Attr.class "fr-label" ] [ Html.text "Métier recherché" ]
+                                , Html.button
+                                    [ Attr.class "fr-select text-left"
+                                    , Attr.type_ "button"
+                                    , Evts.onClick (OpenRomeSearch index)
                                     , ariaExpanded (Select.isMenuOpen project.selectState)
                                     ]
-                                    [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> text
+                                    [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> Html.text
                                     ]
                                 , case model.activeRomeSearchIndex of
                                     Just _ ->
@@ -670,7 +674,7 @@ view model =
                                                     _ ->
                                                         Select.loading False
                                         in
-                                        div []
+                                        Html.div []
                                             [ Html.map
                                                 (SelectMsg index)
                                                 (Styled.toUnstyled <|
@@ -685,33 +689,38 @@ view model =
                                                         )
                                                 )
                                             , if project.selectState |> Select.isMenuOpen then
-                                                p [ class "sr-only", id ("select-usage-" ++ String.fromInt index) ] [ text "Utilisez les touches flèches pour naviguer dans la liste des suggestions" ]
+                                                Html.p
+                                                    [ Attr.class "sr-only"
+                                                    , Attr.id ("select-usage-" ++ String.fromInt index)
+                                                    ]
+                                                    [ Html.text "Utilisez les touches flèches pour naviguer dans la liste des suggestions"
+                                                    ]
 
                                               else
-                                                text ""
+                                                Html.text ""
                                             , if project.selectState |> Select.isMenuOpen then
-                                                label [ class "sr-only", for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ text "Rechercher un métier ou un code ROME" ]
+                                                Html.label [ Attr.class "sr-only", Attr.for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ Html.text "Rechercher un métier ou un code ROME" ]
 
                                               else
-                                                text ""
+                                                Html.text ""
                                             ]
 
                                     _ ->
-                                        text ""
+                                        Html.text ""
                                 ]
-                            , div
-                                [ class "fr-grid-row fr-grid-row--gutters " ]
-                                [ div [ class "fr-col-4" ]
-                                    [ div [ class "fr-input-group" ]
-                                        [ label
-                                            [ class "fr-label", for ("contract-type-" ++ String.fromInt index) ]
-                                            [ text "Type de contrat" ]
-                                        , select
-                                            [ class "fr-select"
-                                            , id ("contract-type-" ++ String.fromInt index)
-                                            , onInput (\val -> UpdateContractType index (contractTypeStringToType val))
+                            , Html.div
+                                [ Attr.class "fr-grid-row fr-grid-row--gutters " ]
+                                [ Html.div [ Attr.class "fr-col-4" ]
+                                    [ Html.div [ Attr.class "fr-input-group" ]
+                                        [ Html.label
+                                            [ Attr.class "fr-label", Attr.for ("contract-type-" ++ String.fromInt index) ]
+                                            [ Html.text "Type de contrat" ]
+                                        , Html.select
+                                            [ Attr.class "fr-select"
+                                            , Attr.id ("contract-type-" ++ String.fromInt index)
+                                            , Evts.onInput (\val -> UpdateContractType index (contractTypeStringToType val))
                                             ]
-                                            [ option [ value "" ] [ text "Non renseigné" ]
+                                            [ Html.option [ Attr.value "" ] [ Html.text "Non renseigné" ]
                                             , contractTypeOption CDI project.contractType
                                             , contractTypeOption CDD project.contractType
                                             , contractTypeOption Interim project.contractType
@@ -723,40 +732,40 @@ view model =
                                             ]
                                         ]
                                     ]
-                                , div
-                                    [ class "fr-col-4" ]
-                                    [ div [ class "fr-input-group" ]
-                                        [ label
-                                            [ class "fr-label", for ("working-type-" ++ String.fromInt index) ]
-                                            [ text "Durée du temps de travail" ]
-                                        , select
-                                            [ class "fr-select"
-                                            , id ("working-type-" ++ String.fromInt index)
-                                            , onInput (\val -> UpdateWorkingTime index (workingTimeStringToType val))
+                                , Html.div
+                                    [ Attr.class "fr-col-4" ]
+                                    [ Html.div [ Attr.class "fr-input-group" ]
+                                        [ Html.label
+                                            [ Attr.class "fr-label", Attr.for ("working-type-" ++ String.fromInt index) ]
+                                            [ Html.text "Durée du temps de travail" ]
+                                        , Html.select
+                                            [ Attr.class "fr-select"
+                                            , Attr.id ("working-type-" ++ String.fromInt index)
+                                            , Evts.onInput (\val -> UpdateWorkingTime index (workingTimeStringToType val))
                                             ]
-                                            [ option [ value "" ] [ text "Non renseigné" ]
+                                            [ Html.option [ Attr.value "" ] [ Html.text "Non renseigné" ]
                                             , workingTimeTypeOption FullTime project.workingTime
                                             , workingTimeTypeOption PartTime project.workingTime
                                             ]
                                         ]
                                     ]
-                                , div [ class "fr-col-4" ]
-                                    [ div [ class "fr-input-group" ]
-                                        [ label
-                                            [ class "fr-label", for ("mobility-radius-" ++ String.fromInt index) ]
-                                            [ text "Zone de mobilité (km)" ]
-                                        , input
-                                            [ class "fr-input"
-                                            , onInput (UpdateMobilityRadius index)
-                                            , type_ "text"
-                                            , id ("mobility-radius-" ++ String.fromInt index)
-                                            , value (Maybe.map String.fromInt project.mobilityRadius |> Maybe.withDefault "")
+                                , Html.div [ Attr.class "fr-col-4" ]
+                                    [ Html.div [ Attr.class "fr-input-group" ]
+                                        [ Html.label
+                                            [ Attr.class "fr-label", Attr.for ("mobility-radius-" ++ String.fromInt index) ]
+                                            [ Html.text "Zone de mobilité (km)" ]
+                                        , Html.input
+                                            [ Attr.class "fr-input"
+                                            , Evts.onInput (UpdateMobilityRadius index)
+                                            , Attr.type_ "text"
+                                            , Attr.id ("mobility-radius-" ++ String.fromInt index)
+                                            , Attr.value (Maybe.map String.fromInt project.mobilityRadius |> Maybe.withDefault "")
                                             , inputmode "numeric"
                                             ]
                                             []
                                         ]
                                     ]
-                                , div [ class "fr-col-4" ]
+                                , Html.div [ Attr.class "fr-col-4" ]
                                     [ let
                                         showSmicNotice =
                                             case project.hourlyRate of
@@ -786,66 +795,66 @@ view model =
                                                     ariaDescribedBy ("smicNotice" ++ String.fromInt index)
 
                                                 _ ->
-                                                    classList []
-                                            , class "fr-input"
+                                                    Attr.classList []
+                                            , Attr.class "fr-input"
                                             ]
                                       in
-                                      div [ class "fr-input-group" ]
-                                        [ label
-                                            [ class "fr-label", for ("hourly-rate-" ++ String.fromInt index) ]
-                                            [ text "Salaire minimum brut horaire (€)"
-                                            , span [ class "fr-hint-text" ] [ text ("SMIC horaire brut au 1er janvier 2023 : " ++ Decimal.toString smicHourlyValue |> addMoneyUnit) ]
+                                      Html.div [ Attr.class "fr-input-group" ]
+                                        [ Html.label
+                                            [ Attr.class "fr-label", Attr.for ("hourly-rate-" ++ String.fromInt index) ]
+                                            [ Html.text "Salaire minimum brut horaire (€)"
+                                            , Html.span [ Attr.class "fr-hint-text" ] [ Html.text ("SMIC horaire brut au 1er janvier 2023 : " ++ Decimal.toString smicHourlyValue |> addMoneyUnit) ]
                                             ]
-                                        , input
+                                        , Html.input
                                             (attrlist
-                                                ++ [ type_ "text"
-                                                   , id ("hourly-rate-" ++ String.fromInt index)
-                                                   , onInput (UpdateHourlyRate index)
-                                                   , value (Maybe.withDefault "" project.hourlyRate)
+                                                ++ [ Attr.type_ "text"
+                                                   , Attr.id ("hourly-rate-" ++ String.fromInt index)
+                                                   , Evts.onInput (UpdateHourlyRate index)
+                                                   , Attr.value (Maybe.withDefault "" project.hourlyRate)
                                                    , inputmode "numeric"
                                                    ]
                                             )
                                             []
                                         , if showSmicNotice then
-                                            p [ id ("smicNotice" ++ String.fromInt index), class "fr-error-text" ] [ text "Attention, la valeur est inférieure au SMIC." ]
+                                            Html.p [ Attr.id ("smicNotice" ++ String.fromInt index), Attr.class "fr-error-text" ] [ Html.text "Attention, la valeur est inférieure au SMIC." ]
 
                                           else
-                                            text ""
+                                            Html.text ""
                                         , if showInvalidValue then
-                                            p [ id ("hourlyRateErrorMessage" ++ String.fromInt index), class "fr-error-text" ] [ text "Attention, la valeur doit être un nombre." ]
+                                            Html.p [ Attr.id ("hourlyRateErrorMessage" ++ String.fromInt index), Attr.class "fr-error-text" ] [ Html.text "Attention, la valeur doit être un nombre." ]
 
                                           else
-                                            text ""
+                                            Html.text ""
                                         ]
                                     ]
                                 ]
-                            , p [ class "py-4" ]
-                                [ button
-                                    [ class "fr-btn fr-btn--secondary", type_ "button", onClick (RemoveProject index) ]
-                                    [ text "Supprimer" ]
+                            , Html.p [ Attr.class "py-4" ]
+                                [ Html.button
+                                    [ Attr.class "fr-btn fr-btn--secondary", Attr.type_ "button", Evts.onClick (RemoveProject index) ]
+                                    [ Html.text "Supprimer" ]
                                 ]
                             ]
                     )
             )
-        , button
-            [ class "fr-btn fr-btn--secondary"
-            , type_ "button"
-            , onClick AddEmptyProfessionalProject
-            , disabled model.professionalProjectsMaxCountReached
+        , Html.button
+            [ Attr.class "fr-btn fr-btn--secondary"
+            , Attr.type_ "button"
+            , Evts.onClick AddEmptyProfessionalProject
+            , Attr.disabled model.professionalProjectsMaxCountReached
             ]
-            [ text "Ajouter un projet professionnel" ]
-        , h2
-            [ class "text-france-blue pt-12" ]
-            [ text "Situation Personnelle" ]
-        , div []
+            [ Html.text "Ajouter un projet professionnel" ]
+        , Html.h2
+            [ Attr.class "text-france-blue pt-12" ]
+            [ Html.text "Situation Personnelle" ]
+        , Html.div []
             (model.possibleSituationsByTheme
                 |> List.map
                     (\{ theme, situations } ->
-                        div [ class "fr-form-group pl-0 pb-8 border-b" ]
-                            [ fieldset [ class "fr-fieldset" ]
-                                [ legend [ class "fr-fieldset__legend fr-text-bold" ] [ text <| themeKeyTypeToLabel theme ]
-                                , div [ class "fr-fieldset__content" ]
-                                    [ div [ class "fr-grid-row fr-grid-row--gutters" ]
+                        Html.div [ Attr.class "fr-form-group pl-0 pb-8 border-b" ]
+                            [ Html.fieldset [ Attr.class "fr-fieldset" ]
+                                [ Html.legend [ Attr.class "fr-fieldset__legend fr-text-bold" ] [ Html.text <| themeKeyTypeToLabel theme ]
+                                , Html.div [ Attr.class "fr-fieldset__content" ]
+                                    [ Html.div [ Attr.class "fr-grid-row fr-grid-row--gutters" ]
                                         (List.map
                                             (situationCheckboxView model.selectedSituationSet)
                                             situations
@@ -858,40 +867,40 @@ view model =
         ]
 
 
-contractTypeOption : ContractType -> Maybe ContractType -> Html Msg
+contractTypeOption : ContractType -> Maybe ContractType -> Html.Html Msg
 contractTypeOption contractType selectedContractType =
-    option
-        [ value <| contractTypeToLabel contractType
-        , selected (Just contractType == selectedContractType)
+    Html.option
+        [ Attr.value <| contractTypeToLabel contractType
+        , Attr.selected (Just contractType == selectedContractType)
         ]
-        [ text <| contractTypeToLabel contractType ]
+        [ Html.text <| contractTypeToLabel contractType ]
 
 
-workingTimeTypeOption : WorkingTime -> Maybe WorkingTime -> Html Msg
+workingTimeTypeOption : WorkingTime -> Maybe WorkingTime -> Html.Html Msg
 workingTimeTypeOption workingTimeType selectedworkingTimeType =
-    option
-        [ value <| workingTimeToLabel workingTimeType
-        , selected (Just workingTimeType == selectedworkingTimeType)
+    Html.option
+        [ Attr.value <| workingTimeToLabel workingTimeType
+        , Attr.selected (Just workingTimeType == selectedworkingTimeType)
         ]
-        [ text <| workingTimeToLabel workingTimeType ]
+        [ Html.text <| workingTimeToLabel workingTimeType ]
 
 
-situationCheckboxView : Set String -> Situation -> Html Msg
+situationCheckboxView : Set String -> Situation -> Html.Html Msg
 situationCheckboxView selectedSituationSet situation =
     let
         checkboxId =
             "checkbox-radio-group" ++ situation.description
     in
-    div [ class "fr-col-sm-12 fr-col-md-6 fr-col-lg-4 fr-col-xl-4 fr-checkbox-group !mt-0" ]
-        [ input
-            [ type_ "checkbox"
-            , id checkboxId
-            , value situation.description
-            , checked <| Set.member situation.id selectedSituationSet
-            , onClick <| ToggleSelectedSituation { id = situation.id, description = situation.description, theme = situation.theme }
+    Html.div [ Attr.class "fr-col-sm-12 fr-col-md-6 fr-col-lg-4 fr-col-xl-4 fr-checkbox-group !mt-0" ]
+        [ Html.input
+            [ Attr.type_ "checkbox"
+            , Attr.id checkboxId
+            , Attr.value situation.description
+            , Attr.checked <| Set.member situation.id selectedSituationSet
+            , Evts.onClick <| ToggleSelectedSituation { id = situation.id, description = situation.description, theme = situation.theme }
             ]
             []
-        , label [ class "fr-label", for checkboxId ] [ text situation.description ]
+        , Html.label [ Attr.class "fr-label", Attr.for checkboxId ] [ Html.text situation.description ]
         ]
 
 
