@@ -1,3 +1,10 @@
+# [1.213.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.212.1...v1.213.0) (2023-04-05)
+
+
+### Features
+
+* Saisie et affichage du motif d'orientation. ([#1614](https://github.com/gip-inclusion/carnet-de-bord/issues/1614)) ([96fb730](https://github.com/gip-inclusion/carnet-de-bord/commit/96fb730d9914bcc4a4eac2143ce153749dcef814))
+
 ## [1.212.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.212.0...v1.212.1) (2023-04-03)
 
 
