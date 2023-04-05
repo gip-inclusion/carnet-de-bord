@@ -1,3 +1,10 @@
+## [1.213.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.0...v1.213.1) (2023-04-05)
+
+
+### Bug Fixes
+
+* Correction de l'impossibilité de choisir le type de contrat `libéral`. ([#1641](https://github.com/gip-inclusion/carnet-de-bord/issues/1641)) ([a7a2204](https://github.com/gip-inclusion/carnet-de-bord/commit/a7a22047333e0f6a1a8e5a7ca9e303b2c7b07526))
+
 # [1.213.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.212.1...v1.213.0) (2023-04-05)
 
 
