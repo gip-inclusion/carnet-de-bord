@@ -1842,6 +1842,299 @@ schema = build_schema(
     }
 
     """
+    columns and relationships of "audit"
+    """
+    type audit {
+      createdAt: timestamptz!
+      createdBy: uuid
+      id: uuid!
+      newVal(
+        """JSON select path"""
+        path: String
+      ): jsonb
+      oldVal(
+        """JSON select path"""
+        path: String
+      ): jsonb
+      operation: String!
+      schemaName: String!
+      tableName: String!
+    }
+
+    """
+    aggregated selection of "audit"
+    """
+    type audit_aggregate {
+      aggregate: audit_aggregate_fields
+      nodes: [audit!]!
+    }
+
+    """
+    aggregate fields of "audit"
+    """
+    type audit_aggregate_fields {
+      count(columns: [audit_select_column!], distinct: Boolean): Int!
+      max: audit_max_fields
+      min: audit_min_fields
+    }
+
+    """append existing jsonb value of filtered columns with new jsonb value"""
+    input audit_append_input {
+      newVal: jsonb
+      oldVal: jsonb
+    }
+
+    """
+    Boolean expression to filter rows from the table "audit". All fields are combined with a logical 'AND'.
+    """
+    input audit_bool_exp {
+      _and: [audit_bool_exp!]
+      _not: audit_bool_exp
+      _or: [audit_bool_exp!]
+      createdAt: timestamptz_comparison_exp
+      createdBy: uuid_comparison_exp
+      id: uuid_comparison_exp
+      newVal: jsonb_comparison_exp
+      oldVal: jsonb_comparison_exp
+      operation: String_comparison_exp
+      schemaName: String_comparison_exp
+      tableName: String_comparison_exp
+    }
+
+    """
+    unique or primary key constraints on table "audit"
+    """
+    enum audit_constraint {
+      """
+      unique or primary key constraint on columns "id"
+      """
+      audit_pkey
+    }
+
+    """
+    delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+    """
+    input audit_delete_at_path_input {
+      newVal: [String!]
+      oldVal: [String!]
+    }
+
+    """
+    delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+    """
+    input audit_delete_elem_input {
+      newVal: Int
+      oldVal: Int
+    }
+
+    """
+    delete key/value pair or string element. key/value pairs are matched based on their key value
+    """
+    input audit_delete_key_input {
+      newVal: String
+      oldVal: String
+    }
+
+    """
+    input type for inserting data into table "audit"
+    """
+    input audit_insert_input {
+      createdAt: timestamptz
+      createdBy: uuid
+      id: uuid
+      newVal: jsonb
+      oldVal: jsonb
+      operation: String
+      schemaName: String
+      tableName: String
+    }
+
+    """aggregate max on columns"""
+    type audit_max_fields {
+      createdAt: timestamptz
+      createdBy: uuid
+      id: uuid
+      operation: String
+      schemaName: String
+      tableName: String
+    }
+
+    """aggregate min on columns"""
+    type audit_min_fields {
+      createdAt: timestamptz
+      createdBy: uuid
+      id: uuid
+      operation: String
+      schemaName: String
+      tableName: String
+    }
+
+    """
+    response of any mutation on the table "audit"
+    """
+    type audit_mutation_response {
+      """number of rows affected by the mutation"""
+      affected_rows: Int!
+
+      """data from the rows affected by the mutation"""
+      returning: [audit!]!
+    }
+
+    """
+    on_conflict condition type for table "audit"
+    """
+    input audit_on_conflict {
+      constraint: audit_constraint!
+      update_columns: [audit_update_column!]! = []
+      where: audit_bool_exp
+    }
+
+    """Ordering options when selecting data from "audit"."""
+    input audit_order_by {
+      createdAt: order_by
+      createdBy: order_by
+      id: order_by
+      newVal: order_by
+      oldVal: order_by
+      operation: order_by
+      schemaName: order_by
+      tableName: order_by
+    }
+
+    """primary key columns input for table: audit"""
+    input audit_pk_columns_input {
+      id: uuid!
+    }
+
+    """prepend existing jsonb value of filtered columns with new jsonb value"""
+    input audit_prepend_input {
+      newVal: jsonb
+      oldVal: jsonb
+    }
+
+    """
+    select columns of table "audit"
+    """
+    enum audit_select_column {
+      """column name"""
+      createdAt
+
+      """column name"""
+      createdBy
+
+      """column name"""
+      id
+
+      """column name"""
+      newVal
+
+      """column name"""
+      oldVal
+
+      """column name"""
+      operation
+
+      """column name"""
+      schemaName
+
+      """column name"""
+      tableName
+    }
+
+    """
+    input type for updating data in table "audit"
+    """
+    input audit_set_input {
+      createdAt: timestamptz
+      createdBy: uuid
+      id: uuid
+      newVal: jsonb
+      oldVal: jsonb
+      operation: String
+      schemaName: String
+      tableName: String
+    }
+
+    """
+    Streaming cursor of the table "audit"
+    """
+    input audit_stream_cursor_input {
+      """Stream column input with initial value"""
+      initial_value: audit_stream_cursor_value_input!
+
+      """cursor ordering"""
+      ordering: cursor_ordering
+    }
+
+    """Initial value of the column from where the streaming should start"""
+    input audit_stream_cursor_value_input {
+      createdAt: timestamptz
+      createdBy: uuid
+      id: uuid
+      newVal: jsonb
+      oldVal: jsonb
+      operation: String
+      schemaName: String
+      tableName: String
+    }
+
+    """
+    update columns of table "audit"
+    """
+    enum audit_update_column {
+      """column name"""
+      createdAt
+
+      """column name"""
+      createdBy
+
+      """column name"""
+      id
+
+      """column name"""
+      newVal
+
+      """column name"""
+      oldVal
+
+      """column name"""
+      operation
+
+      """column name"""
+      schemaName
+
+      """column name"""
+      tableName
+    }
+
+    input audit_updates {
+      """append existing jsonb value of filtered columns with new jsonb value"""
+      _append: audit_append_input
+
+      """
+      delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+      """
+      _delete_at_path: audit_delete_at_path_input
+
+      """
+      delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+      """
+      _delete_elem: audit_delete_elem_input
+
+      """
+      delete key/value pair or string element. key/value pairs are matched based on their key value
+      """
+      _delete_key: audit_delete_key_input
+
+      """prepend existing jsonb value of filtered columns with new jsonb value"""
+      _prepend: audit_prepend_input
+
+      """sets the columns of the filtered rows to the given values"""
+      _set: audit_set_input
+      where: audit_bool_exp!
+    }
+
+    """
     columns and relationships of "beneficiary"
     """
     type beneficiary {
@@ -5108,6 +5401,19 @@ schema = build_schema(
       delete_admin_structure_structure_by_pk(id: uuid!): admin_structure_structure
 
       """
+      delete data from the table: "audit"
+      """
+      delete_audit(
+        """filter the rows which have to be deleted"""
+        where: audit_bool_exp!
+      ): audit_mutation_response
+
+      """
+      delete single row from the table: "audit"
+      """
+      delete_audit_by_pk(id: uuid!): audit
+
+      """
       delete data from the table: "beneficiary"
       """
       delete_beneficiary(
@@ -5670,6 +5976,28 @@ schema = build_schema(
         """upsert condition"""
         on_conflict: admin_structure_structure_on_conflict
       ): admin_structure_structure
+
+      """
+      insert data into the table: "audit"
+      """
+      insert_audit(
+        """the rows to be inserted"""
+        objects: [audit_insert_input!]!
+
+        """upsert condition"""
+        on_conflict: audit_on_conflict
+      ): audit_mutation_response
+
+      """
+      insert a single row into the table: "audit"
+      """
+      insert_audit_one(
+        """the row to be inserted"""
+        object: audit_insert_input!
+
+        """upsert condition"""
+        on_conflict: audit_on_conflict
+      ): audit
 
       """
       insert data into the table: "beneficiary"
@@ -6590,6 +6918,76 @@ schema = build_schema(
         """updates to execute, in order"""
         updates: [admin_structure_structure_updates!]!
       ): [admin_structure_structure_mutation_response]
+
+      """
+      update data of the table: "audit"
+      """
+      update_audit(
+        """append existing jsonb value of filtered columns with new jsonb value"""
+        _append: audit_append_input
+
+        """
+        delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+        """
+        _delete_at_path: audit_delete_at_path_input
+
+        """
+        delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+        """
+        _delete_elem: audit_delete_elem_input
+
+        """
+        delete key/value pair or string element. key/value pairs are matched based on their key value
+        """
+        _delete_key: audit_delete_key_input
+
+        """prepend existing jsonb value of filtered columns with new jsonb value"""
+        _prepend: audit_prepend_input
+
+        """sets the columns of the filtered rows to the given values"""
+        _set: audit_set_input
+
+        """filter the rows which have to be updated"""
+        where: audit_bool_exp!
+      ): audit_mutation_response
+
+      """
+      update single row of the table: "audit"
+      """
+      update_audit_by_pk(
+        """append existing jsonb value of filtered columns with new jsonb value"""
+        _append: audit_append_input
+
+        """
+        delete the field or element with specified path (for JSON arrays, negative integers count from the end)
+        """
+        _delete_at_path: audit_delete_at_path_input
+
+        """
+        delete the array element with specified index (negative integers count from the end). throws an error if top level container is not an array
+        """
+        _delete_elem: audit_delete_elem_input
+
+        """
+        delete key/value pair or string element. key/value pairs are matched based on their key value
+        """
+        _delete_key: audit_delete_key_input
+
+        """prepend existing jsonb value of filtered columns with new jsonb value"""
+        _prepend: audit_prepend_input
+
+        """sets the columns of the filtered rows to the given values"""
+        _set: audit_set_input
+        pk_columns: audit_pk_columns_input!
+      ): audit
+
+      """
+      update multiples rows of table: "audit"
+      """
+      update_audit_many(
+        """updates to execute, in order"""
+        updates: [audit_updates!]!
+      ): [audit_mutation_response]
 
       """
       update data of the table: "beneficiary"
@@ -13649,6 +14047,7 @@ schema = build_schema(
       """An object relationship"""
       contract_type: contract_type
       createdAt: timestamptz
+      createdBy: uuid
       employmentTypeId: employment_type_enum
 
       """An object relationship"""
@@ -13762,6 +14161,7 @@ schema = build_schema(
       contractTypeId: contract_type_enum_comparison_exp
       contract_type: contract_type_bool_exp
       createdAt: timestamptz_comparison_exp
+      createdBy: uuid_comparison_exp
       employmentTypeId: employment_type_enum_comparison_exp
       employment_type: employment_type_bool_exp
       hourlyRate: Int_comparison_exp
@@ -13807,6 +14207,7 @@ schema = build_schema(
       contractTypeId: contract_type_enum
       contract_type: contract_type_obj_rel_insert_input
       createdAt: timestamptz
+      createdBy: uuid
       employmentTypeId: employment_type_enum
       employment_type: employment_type_obj_rel_insert_input
 
@@ -13826,6 +14227,7 @@ schema = build_schema(
     """aggregate max on columns"""
     type professional_project_max_fields {
       createdAt: timestamptz
+      createdBy: uuid
 
       """in cents (divide by 100 for the EUR value)"""
       hourlyRate: Int
@@ -13842,6 +14244,7 @@ schema = build_schema(
     """
     input professional_project_max_order_by {
       createdAt: order_by
+      createdBy: order_by
 
       """in cents (divide by 100 for the EUR value)"""
       hourlyRate: order_by
@@ -13856,6 +14259,7 @@ schema = build_schema(
     """aggregate min on columns"""
     type professional_project_min_fields {
       createdAt: timestamptz
+      createdBy: uuid
 
       """in cents (divide by 100 for the EUR value)"""
       hourlyRate: Int
@@ -13872,6 +14276,7 @@ schema = build_schema(
     """
     input professional_project_min_order_by {
       createdAt: order_by
+      createdBy: order_by
 
       """in cents (divide by 100 for the EUR value)"""
       hourlyRate: order_by
@@ -13908,6 +14313,7 @@ schema = build_schema(
       contractTypeId: order_by
       contract_type: contract_type_order_by
       createdAt: order_by
+      createdBy: order_by
       employmentTypeId: order_by
       employment_type: employment_type_order_by
       hourlyRate: order_by
@@ -13936,6 +14342,9 @@ schema = build_schema(
 
       """column name"""
       createdAt
+
+      """column name"""
+      createdBy
 
       """column name"""
       employmentTypeId
@@ -13968,6 +14377,7 @@ schema = build_schema(
     input professional_project_set_input {
       contractTypeId: contract_type_enum
       createdAt: timestamptz
+      createdBy: uuid
       employmentTypeId: employment_type_enum
 
       """in cents (divide by 100 for the EUR value)"""
@@ -14043,6 +14453,7 @@ schema = build_schema(
     input professional_project_stream_cursor_value_input {
       contractTypeId: contract_type_enum
       createdAt: timestamptz
+      createdBy: uuid
       employmentTypeId: employment_type_enum
 
       """in cents (divide by 100 for the EUR value)"""
@@ -14080,6 +14491,9 @@ schema = build_schema(
 
       """column name"""
       createdAt
+
+      """column name"""
+      createdBy
 
       """column name"""
       employmentTypeId
@@ -14486,6 +14900,49 @@ schema = build_schema(
       fetch data from the table: "admin_structure_structure" using primary key columns
       """
       admin_structure_structure_by_pk(id: uuid!): admin_structure_structure
+
+      """
+      fetch data from the table: "audit"
+      """
+      audit(
+        """distinct select on columns"""
+        distinct_on: [audit_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [audit_order_by!]
+
+        """filter the rows returned"""
+        where: audit_bool_exp
+      ): [audit!]!
+
+      """
+      fetch aggregated fields from the table: "audit"
+      """
+      audit_aggregate(
+        """distinct select on columns"""
+        distinct_on: [audit_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [audit_order_by!]
+
+        """filter the rows returned"""
+        where: audit_bool_exp
+      ): audit_aggregate!
+
+      """fetch data from the table: "audit" using primary key columns"""
+      audit_by_pk(id: uuid!): audit
 
       """
       fetch data from the table: "beneficiary"
@@ -18528,6 +18985,63 @@ schema = build_schema(
         """filter the rows returned"""
         where: admin_structure_structure_bool_exp
       ): [admin_structure_structure!]!
+
+      """
+      fetch data from the table: "audit"
+      """
+      audit(
+        """distinct select on columns"""
+        distinct_on: [audit_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [audit_order_by!]
+
+        """filter the rows returned"""
+        where: audit_bool_exp
+      ): [audit!]!
+
+      """
+      fetch aggregated fields from the table: "audit"
+      """
+      audit_aggregate(
+        """distinct select on columns"""
+        distinct_on: [audit_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [audit_order_by!]
+
+        """filter the rows returned"""
+        where: audit_bool_exp
+      ): audit_aggregate!
+
+      """fetch data from the table: "audit" using primary key columns"""
+      audit_by_pk(id: uuid!): audit
+
+      """
+      fetch data from the table in a streaming manner: "audit"
+      """
+      audit_stream(
+        """maximum number of rows returned in a single batch"""
+        batch_size: Int!
+
+        """cursor to stream the results returned by the query"""
+        cursor: [audit_stream_cursor_input]!
+
+        """filter the rows returned"""
+        where: audit_bool_exp
+      ): [audit!]!
 
       """
       fetch data from the table: "beneficiary"
