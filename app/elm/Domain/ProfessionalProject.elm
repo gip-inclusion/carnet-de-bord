@@ -105,7 +105,7 @@ contractTypeToKey contractType =
             "saisonnier"
 
         Liberal ->
-            "liberale"
+            "liberal"
 
         Professionalization ->
             "contrat_professionnalisation"
@@ -147,7 +147,7 @@ contractTypeStringToType contractType =
         "Libéral" ->
             Just Liberal
 
-        "liberale" ->
+        "liberal" ->
             Just Liberal
 
         "Contrat de professionnalisation" ->
