@@ -231,6 +231,9 @@ select_permissions:
               structure:
                 deployment_id:
                   _eq: X-Hasura-Deployment-Id
+          - orientation_manager:
+              deployment_id:
+                _eq: X-Hasura-Deployment-Id
   - role: beneficiary
     permission:
       columns:
