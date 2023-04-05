@@ -60,6 +60,8 @@ repos:
       - id: app-elm-review
         name: run elm-review (app)
         language: system
+        files: ^app/.*\.elm$
+        pass_filenames: false
         entry: |
           bash -c 'npm --prefix app run lint:elm-review' --
 
