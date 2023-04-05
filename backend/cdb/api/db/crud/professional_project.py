@@ -36,7 +36,6 @@ async def insert_professional_project_for_notebook(
     rome_code_id: str,
     description: str,
 ) -> ProfessionalProject | None:
-
     rome_code: RomeCode | None = await get_rome_code_by_description_and_code(
         connection, description, rome_code_id
     )
@@ -72,7 +71,6 @@ async def insert_professional_projects(
 ):
     if beneficiary.rome_code_description:
         for job in beneficiary.rome_code_description.split(","):
-
             rome_code_id: UUID = await db.fetchrow(
                 """
 SELECT id from public.rome_code where label = $1
@@ -92,3 +90,18 @@ returning id
                 )
             else:
                 logging.error(f"Notebook {notebook_id} - Rome code not found '({job}'")
+
+
+async def delete_professional_project_by_id(
+    connection: Connection,
+    id: UUID,
+) -> str:
+    return await connection.execute(
+        """
+DELETE FROM
+    public.professional_project
+WHERE
+    id=$1
+    """,
+        id,
+    )

@@ -412,6 +412,12 @@ async def orientation_system_ria_id() -> UUID:
 
 @pytest.fixture
 @pytest.mark.asyncio
+async def professional_project_tifour_id() -> UUID:
+    return UUID("539675a3-ca5b-4fa7-8a34-1c988ac383f3")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
 async def orientation_system_ria(
     db_connection, orientation_system_ria_id
 ) -> OrientationSystem | None:
