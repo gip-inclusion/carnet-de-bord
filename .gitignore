@@ -14,5 +14,6 @@ app/.eslintcache
 e2e/.eslintcache
 node_modules
 
-# Nix
+# Direnv
 .direnv
+.envrc
