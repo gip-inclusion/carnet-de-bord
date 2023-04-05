@@ -20,8 +20,6 @@
             python310Packages.magic
             gnumake
           ];
-          shellHook = ''
-          '';
         };
       });
 }
