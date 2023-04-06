@@ -16,7 +16,7 @@ install:
 
 .install-app:
 	cd app; \
-		npm install
+		npm ci
 
 .install-backend:
 	cd backend; \
@@ -24,7 +24,7 @@ install:
 
 .install-e2e:
 	cd e2e; \
-		npm install
+		npm ci
 
 seed-database:
 	cd hasura; \
