@@ -1,18 +1,7 @@
-const {
-	loginStub,
-	seedDatabase,
-	onBoardingSetup,
-	goToNotebookForLastName,
-	addMember,
-} = require('./fixtures');
+const { loginStub, onBoardingSetup, goToNotebookForLastName, addMember } = require('./fixtures');
 const { Alors, Quand, Soit } = require('./fr');
 
 const { I } = inject();
-
-// The database is sed before each test
-Before(async () => {
-	seedDatabase();
-});
 
 Soit("un utilisateur sur la page d'accueil", () => {
 	I.amOnPage('/');
