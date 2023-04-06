@@ -27,6 +27,8 @@ services:
     volumes:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
+      - ./hasura/seeds:/seeds
+      - ./hasura/config.yaml:/config.yaml
     ports:
       - '${HASURA_ENDPOINT_PORT:-5000}:8080'
     depends_on:

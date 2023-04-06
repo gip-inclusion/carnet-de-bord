@@ -91,7 +91,10 @@ done
 >&2 echo ""
 >&2 echo "-> Hasura is up and running on port 5001!"
 
-HASURA_GRAPHQL_ENDPOINT=http://localhost:5001 hasura --project $ROOT_DIR/hasura seed apply --database-name carnet_de_bord
+docker compose -f "$ROOT_DIR/docker-compose-test.yaml" exec \
+  -e HASURA_GRAPHQL_ENDPOINT=http://localhost:8080 \
+  hasura_test \
+  hasura-cli seed apply --all-databases
 
 function start_svelte() {
   >&2 echo "-> Starting Svelte kit"
