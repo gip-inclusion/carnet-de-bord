@@ -1,3 +1,10 @@
+## [1.213.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.1...v1.213.2) (2023-04-06)
+
+
+### Bug Fixes
+
+* Permettre aux administrateurs de structure de voir les membres de carnet au sein du même déploiement. ([#1656](https://github.com/gip-inclusion/carnet-de-bord/issues/1656)) ([5d9cb3d](https://github.com/gip-inclusion/carnet-de-bord/commit/5d9cb3d505577c51bef8e9dd9e8726c50e4669c1))
+
 ## [1.213.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.0...v1.213.1) (2023-04-05)
 
 
