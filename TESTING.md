@@ -4,18 +4,16 @@ L’application bénéficie de tests frontend, backend et d’intégration (end-
 
 ## Backend
 
-Dans le répertoire racine du projet, lancez `./scripts/launch_tests.sh` pour lancer les dockers de test en local. PostgreSQL devrait alors écouter sur 5433. Pour s'y connecter :
+Lancez dans le répertoire racine du projet:
+```
+make test-backend
+# ou en mode watch
+make test-backend-watch
+```
+Pendant les tests, postgreSQL devrait écouter sur 5433. Pour s'y connecter :
 
     psql -U cdb -h localhost -p 5433 postgres;
 
-Lancez dans le répertoire `backend` les tests pytest avec poetry :
-
-    ENV_FILE=../.env.test poetry run pytest -s tests
-
-Pour lancer les tests en mode watch :
-```
-ENV_FILE=../.env.test poetry run ptw --runner "pytest --testmon"
-```
 
 ## Frontend
 

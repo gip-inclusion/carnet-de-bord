@@ -26,11 +26,6 @@ install:
 	cd e2e; \
 		npm ci
 
-seed-database:
-	cd hasura; \
-		hasura seed apply; \
-		hasura console
-
 # -------------------------------------
 # Start
 # -------------------------------------
@@ -41,3 +36,35 @@ start-app:
 start-backend:
 	cd backend; \
 		poetry run uvicorn --reload cdb.api.main:app
+
+# --------------------------------------
+#  Test
+# --------------------------------------
+test-backend:
+	./scripts/launch_tests.sh
+	cd backend; \
+		ENV_FILE=../.env.test poetry run pytest -s tests
+
+test-backend-watch:
+	./scripts/launch_tests.sh
+	cd backend; \
+		ENV_FILE=../.env.test poetry run ptw --runner "pytest --testmon"
+
+test-app:
+	cd app;
+		npm run test
+
+
+# -------------------------------------
+# Other
+# -------------------------------------
+seed-database:
+	cd hasura; \
+		hasura seed apply; \
+		hasura console
+
+codegen:
+	cd backend; \
+		petry run cdb/scripts/codegen.py
+	cd app; \
+		npm run codegen
