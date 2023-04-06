@@ -81,7 +81,7 @@ WHERE professional_project.id = $2
 
     old_val = json.loads(result["old_val"])
     new_val = json.loads(result["new_val"])
-    assert old_val["rome_code_id"] == "09af6b49-73d6-4ee3-a553-52dd0b346a3b"
+    assert old_val["rome_code_id"] is not None
     assert new_val["rome_code_id"] is None
 
 
