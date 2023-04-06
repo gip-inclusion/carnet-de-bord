@@ -73,7 +73,7 @@ hasura metadata export
 
 **Migration de la base de données**
 
-Si les modifications du schéma de la base de données ont faites à partir de la console hasura `http://localhost:9695/`, hasura génère automatiquement des fichiers de migrations dans `hasura/migrations`.
+Si les modifications du schéma de la base de données ont faites à partir de la console hasura `http://localhost:5000/console`, hasura génère automatiquement des fichiers de migrations dans `hasura/migrations`.
 
 avant de `merge` une PR, ne pas oublier de (squash)[https://hasura.io/docs/latest/graphql/core/hasura-cli/hasura_migrate_squash.html] les fichiers.
 
