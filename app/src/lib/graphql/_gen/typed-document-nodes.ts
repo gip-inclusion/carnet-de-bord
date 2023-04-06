@@ -782,6 +782,7 @@ export enum AccountUpdateColumn {
 export type AccountUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<AccountSetInput>;
+	/** filter the rows which have to be updated */
 	where: AccountBoolExp;
 };
 
@@ -976,6 +977,7 @@ export enum AdminCdbUpdateColumn {
 export type AdminCdbUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<AdminCdbSetInput>;
+	/** filter the rows which have to be updated */
 	where: AdminCdbBoolExp;
 };
 
@@ -1483,6 +1485,7 @@ export enum AdminStructureStructureUpdateColumn {
 export type AdminStructureStructureUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<AdminStructureStructureSetInput>;
+	/** filter the rows which have to be updated */
 	where: AdminStructureStructureBoolExp;
 };
 
@@ -1511,6 +1514,7 @@ export enum AdminStructureUpdateColumn {
 export type AdminStructureUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<AdminStructureSetInput>;
+	/** filter the rows which have to be updated */
 	where: AdminStructureBoolExp;
 };
 
@@ -2338,6 +2342,7 @@ export type BeneficiaryStructureUpdates = {
 	_prepend?: InputMaybe<BeneficiaryStructurePrependInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<BeneficiaryStructureSetInput>;
+	/** filter the rows which have to be updated */
 	where: BeneficiaryStructureBoolExp;
 };
 
@@ -2394,6 +2399,7 @@ export enum BeneficiaryUpdateColumn {
 export type BeneficiaryUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<BeneficiarySetInput>;
+	/** filter the rows which have to be updated */
 	where: BeneficiaryBoolExp;
 };
 
@@ -2607,6 +2613,7 @@ export enum ContractTypeUpdateColumn {
 export type ContractTypeUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ContractTypeSetInput>;
+	/** filter the rows which have to be updated */
 	where: ContractTypeBoolExp;
 };
 
@@ -3009,6 +3016,7 @@ export type DeploymentUpdates = {
 	_prepend?: InputMaybe<DeploymentPrependInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<DeploymentSetInput>;
+	/** filter the rows which have to be updated */
 	where: DeploymentBoolExp;
 };
 
@@ -3164,6 +3172,7 @@ export enum EmploymentTypeUpdateColumn {
 export type EmploymentTypeUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<EmploymentTypeSetInput>;
+	/** filter the rows which have to be updated */
 	where: EmploymentTypeBoolExp;
 };
 
@@ -3499,6 +3508,7 @@ export enum ExternalDataInfoUpdateColumn {
 export type ExternalDataInfoUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ExternalDataInfoSetInput>;
+	/** filter the rows which have to be updated */
 	where: ExternalDataInfoBoolExp;
 };
 
@@ -3666,6 +3676,7 @@ export type ExternalDataUpdates = {
 	_prepend?: InputMaybe<ExternalDataPrependInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ExternalDataSetInput>;
+	/** filter the rows which have to be updated */
 	where: ExternalDataBoolExp;
 };
 
@@ -3845,6 +3856,7 @@ export enum ExternalSourceUpdateColumn {
 export type ExternalSourceUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ExternalSourceSetInput>;
+	/** filter the rows which have to be updated */
 	where: ExternalSourceBoolExp;
 };
 
@@ -4144,6 +4156,7 @@ export enum ManagerUpdateColumn {
 export type ManagerUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ManagerSetInput>;
+	/** filter the rows which have to be updated */
 	where: ManagerBoolExp;
 };
 
@@ -6779,6 +6792,7 @@ export enum NotebookActionUpdateColumn {
 export type NotebookActionUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookActionSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookActionBoolExp;
 };
 
@@ -7082,6 +7096,7 @@ export enum NotebookAppointmentUpdateColumn {
 export type NotebookAppointmentUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookAppointmentSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookAppointmentBoolExp;
 };
 
@@ -7559,6 +7574,7 @@ export enum NotebookEventTypeUpdateColumn {
 export type NotebookEventTypeUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookEventTypeSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookEventTypeBoolExp;
 };
 
@@ -7593,6 +7609,7 @@ export type NotebookEventUpdates = {
 	_prepend?: InputMaybe<NotebookEventPrependInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookEventSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookEventBoolExp;
 };
 
@@ -7875,6 +7892,7 @@ export enum NotebookFocusUpdateColumn {
 export type NotebookFocusUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookFocusSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookFocusBoolExp;
 };
 
@@ -8076,6 +8094,7 @@ export enum NotebookInfoUpdateColumn {
 export type NotebookInfoUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookInfoSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookInfoBoolExp;
 };
 
@@ -8458,6 +8477,7 @@ export enum NotebookMemberUpdateColumn {
 export type NotebookMemberUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookMemberSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookMemberBoolExp;
 };
 
@@ -8698,6 +8718,7 @@ export type NotebookPublicViewStreamCursorValueInput = {
 export type NotebookPublicViewUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookPublicViewSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookPublicViewBoolExp;
 };
 
@@ -9009,6 +9030,7 @@ export enum NotebookSituationUpdateColumn {
 export type NotebookSituationUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookSituationSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookSituationBoolExp;
 };
 
@@ -9319,6 +9341,7 @@ export enum NotebookTargetUpdateColumn {
 export type NotebookTargetUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookTargetSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookTargetBoolExp;
 };
 
@@ -9357,6 +9380,7 @@ export enum NotebookUpdateColumn {
 export type NotebookUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NotebookSetInput>;
+	/** filter the rows which have to be updated */
 	where: NotebookBoolExp;
 };
 
@@ -9569,6 +9593,7 @@ export enum NpsRatingDismissalUpdateColumn {
 export type NpsRatingDismissalUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NpsRatingDismissalSetInput>;
+	/** filter the rows which have to be updated */
 	where: NpsRatingDismissalBoolExp;
 };
 
@@ -9710,6 +9735,7 @@ export type NpsRatingUpdates = {
 	_inc?: InputMaybe<NpsRatingIncInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<NpsRatingSetInput>;
+	/** filter the rows which have to be updated */
 	where: NpsRatingBoolExp;
 };
 
@@ -10050,6 +10076,7 @@ export enum OrientationManagerUpdateColumn {
 export type OrientationManagerUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<OrientationManagerSetInput>;
+	/** filter the rows which have to be updated */
 	where: OrientationManagerBoolExp;
 };
 
@@ -10351,6 +10378,7 @@ export enum OrientationRequestUpdateColumn {
 export type OrientationRequestUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<OrientationRequestSetInput>;
+	/** filter the rows which have to be updated */
 	where: OrientationRequestBoolExp;
 };
 
@@ -10648,6 +10676,7 @@ export enum OrientationSystemUpdateColumn {
 export type OrientationSystemUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<OrientationSystemSetInput>;
+	/** filter the rows which have to be updated */
 	where: OrientationSystemBoolExp;
 };
 
@@ -10831,6 +10860,7 @@ export enum OrientationTypeUpdateColumn {
 export type OrientationTypeUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<OrientationTypeSetInput>;
+	/** filter the rows which have to be updated */
 	where: OrientationTypeBoolExp;
 };
 
@@ -11263,6 +11293,7 @@ export enum ProfessionalOrientationSystemUpdateColumn {
 export type ProfessionalOrientationSystemUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ProfessionalOrientationSystemSetInput>;
+	/** filter the rows which have to be updated */
 	where: ProfessionalOrientationSystemBoolExp;
 };
 
@@ -11676,6 +11707,7 @@ export type ProfessionalProjectUpdates = {
 	_inc?: InputMaybe<ProfessionalProjectIncInput>;
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ProfessionalProjectSetInput>;
+	/** filter the rows which have to be updated */
 	where: ProfessionalProjectBoolExp;
 };
 
@@ -11805,6 +11837,7 @@ export enum ProfessionalUpdateColumn {
 export type ProfessionalUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<ProfessionalSetInput>;
+	/** filter the rows which have to be updated */
 	where: ProfessionalBoolExp;
 };
 
@@ -13126,6 +13159,7 @@ export enum RefActionUpdateColumn {
 export type RefActionUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RefActionSetInput>;
+	/** filter the rows which have to be updated */
 	where: RefActionBoolExp;
 };
 
@@ -13282,6 +13316,7 @@ export enum RefSituationUpdateColumn {
 export type RefSituationUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RefSituationSetInput>;
+	/** filter the rows which have to be updated */
 	where: RefSituationBoolExp;
 };
 
@@ -13431,6 +13466,7 @@ export enum RefTargetUpdateColumn {
 export type RefTargetUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RefTargetSetInput>;
+	/** filter the rows which have to be updated */
 	where: RefTargetBoolExp;
 };
 
@@ -13570,6 +13606,7 @@ export enum RefThemeUpdateColumn {
 export type RefThemeUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RefThemeSetInput>;
+	/** filter the rows which have to be updated */
 	where: RefThemeBoolExp;
 };
 
@@ -13741,6 +13778,7 @@ export enum RoleUpdateColumn {
 export type RoleUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RoleSetInput>;
+	/** filter the rows which have to be updated */
 	where: RoleBoolExp;
 };
 
@@ -13932,6 +13970,7 @@ export enum RomeCodeUpdateColumn {
 export type RomeCodeUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RomeCodeSetInput>;
+	/** filter the rows which have to be updated */
 	where: RomeCodeBoolExp;
 };
 
@@ -14493,6 +14532,7 @@ export enum StructureOrientationSystemUpdateColumn {
 export type StructureOrientationSystemUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<StructureOrientationSystemSetInput>;
+	/** filter the rows which have to be updated */
 	where: StructureOrientationSystemBoolExp;
 };
 
@@ -14612,6 +14652,7 @@ export enum StructureUpdateColumn {
 export type StructureUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<StructureSetInput>;
+	/** filter the rows which have to be updated */
 	where: StructureBoolExp;
 };
 
