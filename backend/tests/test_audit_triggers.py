@@ -6,7 +6,6 @@ from asyncpg.connection import Connection
 from cdb.api.db.crud.professional_project import (
     delete_professional_project_by_id,
     insert_professional_project_for_notebook,
-    update_professionnal_project_rome_code_by_id,
 )
 from cdb.api.db.models.notebook import Notebook
 
@@ -52,16 +51,19 @@ async def test_delete_professionnal_project(
     assert await count_audit(db_connection, "DELETE") == 1
 
 
-async def test_update_professionnal_project(
+async def test_update_professionnal_project_without_session(
     db_connection: Connection,
     professional_project_tifour_id: UUID,
 ) -> None:
     assert await count_audit(db_connection, "UPDATE") == 0
 
-    await update_professionnal_project_rome_code_by_id(
-        db_connection,
-        professional_project_tifour_id,
+    await db_connection.fetchrow(
+        """
+UPDATE professional_project set rome_code_id = $1
+WHERE professional_project.id = $2
+        """,
         None,
+        professional_project_tifour_id,
     )
 
     assert await count_audit(db_connection, "UPDATE") == 1
@@ -69,6 +71,8 @@ async def test_update_professionnal_project(
     query = "SELECT * FROM audit ORDER BY created_at desc"
 
     result = await db_connection.fetchrow(query)
+
+    assert result["created_by"] is None
 
     old_val = json.loads(result["old_val"])
     new_val = json.loads(result["new_val"])
