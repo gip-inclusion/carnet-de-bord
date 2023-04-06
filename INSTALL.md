@@ -51,8 +51,7 @@ make seed-database
 ```
 ou
 ```sh
-cd hasura
-hasura console --envfile ../.env # lancer la console hasura en utilisant les variables définies dans le fichier .env
+hasura --project ./hasura console
 ```
 
 **5/** Compiler et démarrer l'application SvelteKit
