@@ -22,7 +22,6 @@ import NoMissingTypeAnnotation
 import NoMissingTypeExpose
 import NoModuleOnExposedNames
 import NoPrematureLetComputation
-import NoRecursiveUpdate
 import NoSimpleLetBody
 import NoUnnecessaryTrailingUnderscore
 import NoUnoptimizedRecursion
@@ -30,7 +29,6 @@ import NoUnused.CustomTypeConstructorArgs
 import NoUnused.CustomTypeConstructors
 import NoUnused.Dependencies
 import NoUnused.Exports
-import NoUnused.Modules
 import NoUnused.Parameters
 import NoUnused.Patterns
 import NoUnused.Variables
