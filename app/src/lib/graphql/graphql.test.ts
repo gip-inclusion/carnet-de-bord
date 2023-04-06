@@ -2,14 +2,19 @@ import { executeCodegen } from '@graphql-codegen/cli';
 import codegenConfig from '../../../codegen.cjs';
 import { readFileSync } from 'fs';
 import { format, resolveConfig } from 'prettier';
+import { env } from '$env/dynamic/private';
 
 it('has an up-to-date typed-document-nodes.ts', async () => {
 	const testConfig = JSON.parse(JSON.stringify(codegenConfig));
-	const schemaConfig = testConfig.schema.pop();
+	const schemaConfig = testConfig.schema.pop()['http://localhost:5000/v1/graphql'];
+
 	expect(testConfig.schema).toHaveLength(0);
+
+	schemaConfig.headers['x-hasura-admin-secret'] = env.HASURA_GRAPHQL_ADMIN_SECRET;
 	testConfig.schema.push({
-		'http://localhost:5001/v1/graphql': schemaConfig['http://localhost:5000/v1/graphql'],
+		[env.GRAPHQL_API_URL]: schemaConfig,
 	});
+
 	const fileOpts = await executeCodegen(testConfig);
 	expect(fileOpts).toHaveLength(1);
 	const { filename, content: schemaFromGQL } = fileOpts[0];
