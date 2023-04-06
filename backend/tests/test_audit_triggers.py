@@ -1,3 +1,4 @@
+import json
 from uuid import UUID
 
 from asyncpg.connection import Connection
@@ -64,3 +65,12 @@ async def test_update_professionnal_project(
     )
 
     assert await count_audit(db_connection, "UPDATE") == 1
+
+    query = "SELECT * FROM audit ORDER BY created_at desc"
+
+    result = await db_connection.fetchrow(query)
+
+    old_val = json.loads(result["old_val"])
+    new_val = json.loads(result["new_val"])
+    assert old_val["rome_code_id"] == "09af6b49-73d6-4ee3-a553-52dd0b346a3b"
+    assert new_val["rome_code_id"] is None
