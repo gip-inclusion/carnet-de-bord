@@ -105,3 +105,18 @@ WHERE
     """,
         id,
     )
+
+
+async def update_professionnal_project_rome_code_by_id(
+    connection: Connection, id: UUID, rome_code_id: UUID
+) -> bool:
+    record = await connection.fetchrow(
+        """
+UPDATE professional_project set rome_code_id = $1
+WHERE professional_project.id = $2
+        """,
+        rome_code_id,
+        id,
+    )
+
+    return True if record else False
