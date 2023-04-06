@@ -36,7 +36,7 @@ services:
       - .env
     environment:
       HASURA_GRAPHQL_DEV_MODE: 'true'
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, query-log, webhook-log, websocket-log
       HASURA_GRAPHQL_ENABLE_TELEMETRY: 'false'
       HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
 
