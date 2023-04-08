@@ -27254,7 +27254,10 @@ export const GetNotebookByBeneficiaryIdDocument = {
 						name: { kind: 'Name', value: 'notebookInfo' },
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } }],
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'orientationReason' } },
+							],
 						},
 					},
 					{
@@ -28033,7 +28036,10 @@ export const GetNotebookByIdDocument = {
 						name: { kind: 'Name', value: 'notebookInfo' },
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } }],
+							selections: [
+								{ kind: 'Field', name: { kind: 'Name', value: 'needOrientation' } },
+								{ kind: 'Field', name: { kind: 'Name', value: 'orientationReason' } },
+							],
 						},
 					},
 					{
