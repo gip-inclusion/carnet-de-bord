@@ -13,6 +13,8 @@ configuration:
       custom_name: deploymentId
     internal_id:
       custom_name: internalId
+    is_homeless:
+      custom_name: isHomeless
     mobile_number:
       custom_name: mobileNumber
     pe_number:
@@ -31,6 +33,14 @@ configuration:
       custom_name: rightBonus
     right_rsa:
       custom_name: rightRsa
+    rsa_closure_date:
+      custom_name: rsaClosureDate
+    rsa_closure_reason:
+      custom_name: rsaClosureReason
+    rsa_suspension_reason:
+      custom_name: rsaSuspensionReason
+    subject_to_right_and_duty:
+      custom_name: subjectToRightAndDuty
     updated_at:
       custom_name: updatedAt
   custom_column_names:
@@ -39,6 +49,7 @@ configuration:
     date_of_birth: dateOfBirth
     deployment_id: deploymentId
     internal_id: internalId
+    is_homeless: isHomeless
     mobile_number: mobileNumber
     pe_number: peNumber
     pe_unique_import_id: peUniqueId
@@ -48,6 +59,10 @@ configuration:
     right_ass: rightAss
     right_bonus: rightBonus
     right_rsa: rightRsa
+    rsa_closure_date: rsaClosureDate
+    rsa_closure_reason: rsaClosureReason
+    rsa_suspension_reason: rsaSuspensionReason
+    subject_to_right_and_duty: subjectToRightAndDuty
     updated_at: updatedAt
   custom_root_fields: {}
 object_relationships:
@@ -171,6 +186,38 @@ select_permissions:
         - firstname
         - id
         - internal_id
+        - is_homeless
+        - lastname
+        - mobile_number
+        - pe_number
+        - pe_unique_import_id
+        - place_of_birth
+        - postal_code
+        - right_are
+        - right_ass
+        - right_bonus
+        - right_rsa
+        - rsa_closure_date
+        - rsa_closure_reason
+        - rsa_suspension_reason
+        - subject_to_right_and_duty
+        - updated_at
+      filter: {}
+      allow_aggregations: true
+  - role: admin_structure
+    permission:
+      columns:
+        - address1
+        - address2
+        - caf_number
+        - city
+        - created_at
+        - date_of_birth
+        - deployment_id
+        - email
+        - firstname
+        - id
+        - is_homeless
         - lastname
         - mobile_number
         - pe_number
@@ -180,32 +227,11 @@ select_permissions:
         - right_ass
         - right_bonus
         - right_rsa
+        - rsa_closure_date
+        - rsa_closure_reason
+        - rsa_suspension_reason
+        - subject_to_right_and_duty
         - updated_at
-      filter: {}
-      allow_aggregations: true
-  - role: admin_structure
-    permission:
-      columns:
-        - id
-        - email
-        - lastname
-        - firstname
-        - caf_number
-        - pe_number
-        - postal_code
-        - city
-        - address1
-        - address2
-        - mobile_number
-        - date_of_birth
-        - deployment_id
-        - created_at
-        - right_are
-        - right_ass
-        - right_bonus
-        - right_rsa
-        - updated_at
-        - internal_id
       filter:
         _or:
           - structures:
@@ -228,22 +254,28 @@ select_permissions:
   - role: beneficiary
     permission:
       columns:
-        - id
-        - email
-        - lastname
-        - firstname
-        - caf_number
-        - pe_number
-        - postal_code
-        - city
         - address1
         - address2
-        - mobile_number
+        - caf_number
+        - city
         - date_of_birth
+        - email
+        - firstname
+        - id
+        - is_homeless
+        - lastname
+        - mobile_number
+        - pe_number
+        - pe_unique_import_id
+        - postal_code
         - right_are
         - right_ass
         - right_bonus
         - right_rsa
+        - rsa_closure_date
+        - rsa_closure_reason
+        - rsa_suspension_reason
+        - subject_to_right_and_duty
       filter:
         id:
           _eq: X-Hasura-Beneficiary-Id
@@ -261,6 +293,7 @@ select_permissions:
         - email
         - firstname
         - id
+        - is_homeless
         - lastname
         - mobile_number
         - pe_number
@@ -270,6 +303,10 @@ select_permissions:
         - right_ass
         - right_bonus
         - right_rsa
+        - rsa_closure_date
+        - rsa_closure_reason
+        - rsa_suspension_reason
+        - subject_to_right_and_duty
         - updated_at
       filter:
         deployment_id:
@@ -278,27 +315,31 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - id
-        - email
-        - lastname
-        - firstname
-        - caf_number
-        - pe_number
-        - postal_code
-        - city
         - address1
         - address2
-        - mobile_number
+        - caf_number
+        - city
+        - created_at
         - date_of_birth
         - deployment_id
-        - created_at
-        - updated_at
-        - internal_id
-        - right_rsa
+        - email
+        - firstname
+        - id
+        - is_homeless
+        - lastname
+        - mobile_number
+        - pe_number
+        - place_of_birth
+        - postal_code
         - right_are
         - right_ass
         - right_bonus
-        - place_of_birth
+        - right_rsa
+        - rsa_closure_date
+        - rsa_closure_reason
+        - rsa_suspension_reason
+        - subject_to_right_and_duty
+        - updated_at
       filter:
         deployment_id:
           _eq: X-Hasura-Deployment-Id
@@ -316,6 +357,7 @@ select_permissions:
         - email
         - firstname
         - id
+        - is_homeless
         - lastname
         - mobile_number
         - pe_number
@@ -325,6 +367,9 @@ select_permissions:
         - right_ass
         - right_bonus
         - right_rsa
+        - rsa_closure_date
+        - rsa_closure_reason
+        - rsa_suspension_reason
         - updated_at
       filter:
         deployment:
@@ -381,6 +426,7 @@ update_permissions:
         - date_of_birth
         - email
         - firstname
+        - is_homeless
         - lastname
         - mobile_number
         - pe_number
@@ -390,6 +436,10 @@ update_permissions:
         - right_ass
         - right_bonus
         - right_rsa
+        - rsa_closure_date
+        - rsa_closure_reason
+        - rsa_suspension_reason
+        - subject_to_right_and_duty
         - updated_at
       filter:
         deployment_id:

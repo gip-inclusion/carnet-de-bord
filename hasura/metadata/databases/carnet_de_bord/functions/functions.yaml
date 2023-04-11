@@ -1,3 +1,4 @@
+- "!include public_get_beneficiaries_from_nir.yaml"
 - "!include public_search_beneficiaries.yaml"
 - "!include public_search_notebook_members.yaml"
 - "!include public_search_public_notebooks.yaml"

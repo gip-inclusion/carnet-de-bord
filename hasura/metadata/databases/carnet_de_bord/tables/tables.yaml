@@ -38,5 +38,7 @@
 - "!include public_ref_theme.yaml"
 - "!include public_role.yaml"
 - "!include public_rome_code.yaml"
+- "!include public_rsa_closure_reason.yaml"
+- "!include public_rsa_suspension_reason.yaml"
 - "!include public_structure.yaml"
 - "!include public_structure_orientation_system.yaml"
