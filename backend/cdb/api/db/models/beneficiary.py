@@ -52,6 +52,11 @@ class Beneficiary(BaseModel):
     right_are: bool = Field(False, title="Droits ARE")
     right_ass: bool = Field(False, title="Droits ASS")
     right_bonus: bool = Field(False, title="Droits Bonus")
+    rsa_closure_reason: str | None
+    rsa_closure_date: date | None
+    rsa_suspension_reason: str | None
+    is_homeless: bool | None
+    subject_to_right_and_duty: bool | None
 
 
 class BeneficiaryWithAdminStructureEmail(BaseModel):

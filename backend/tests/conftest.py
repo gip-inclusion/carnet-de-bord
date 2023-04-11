@@ -3,13 +3,16 @@ import contextlib
 import io
 import os
 import typing
-from typing import Any
+from typing import Any, AsyncGenerator
 from uuid import UUID
 
 import dask.dataframe as dd
 import httpx
 import pytest
 from dask.dataframe.core import DataFrame
+from gql import Client
+from gql.client import AsyncClientSession
+from gql.transport.aiohttp import AIOHTTPTransport
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.init import create_app
@@ -153,6 +156,21 @@ async def fastapi_app(seeded_db):
 async def test_client(fastapi_app):
     async with httpx.AsyncClient(app=fastapi_app, base_url="http://testserver") as c:
         yield c
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def gql_manager_client(
+    get_manager_jwt_93: str,
+) -> AsyncGenerator[AsyncClientSession, None]:
+    transport = AIOHTTPTransport(
+        url=settings.graphql_api_url,
+        headers={"Authorization": "Bearer " + get_manager_jwt_93},
+    )
+    async with Client(
+        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
+    ) as session:
+        yield session
 
 
 @pytest.fixture
