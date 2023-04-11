@@ -63,6 +63,6 @@ seed-database:
 
 codegen:
 	cd backend; \
-		petry run cdb/scripts/codegen.py
+		poetry run cdb/scripts/codegen.py
 	cd app; \
 		npm run codegen
