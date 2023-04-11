@@ -6,7 +6,7 @@
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { displayFullName } from '../format';
-	import { GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import { type GetNotebookQuery, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import OrientationRequestBanner from '../OrientationRequest/OrientationRequestBanner.svelte';
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
 	import { accountData } from '$lib/stores';

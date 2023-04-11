@@ -2,7 +2,7 @@
 	import { token } from '$lib/stores';
 	import { pluralize } from '$lib/helpers';
 
-	import Dropzone from 'svelte-file-dropzone';
+	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import Alert from '../base/Alert.svelte';
 	import Text from '../utils/Text.svelte';
 	import { postApiFormData } from '$lib/utils/post';
@@ -43,7 +43,12 @@
 				>consulter la notice de remplissage</a
 			>.
 		</div>
-		<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
+		<Dropzone
+			on:drop={handleFilesSelect}
+			multiple={false}
+			accept=".csv,.xls,.xlsx"
+			inputElement={undefined}
+		>
 			Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 		</Dropzone>
 	{:else}
@@ -72,17 +77,17 @@
 				<tbody class="bg-white divide-y divide-gray-300">
 					{#each orientation_managers as orientation_manager}
 						<tr>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								<Text value={orientation_manager.email} />
 							</td>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								<Text value={orientation_manager.lastname} defaultValue="" />
 							</td>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								<Text value={orientation_manager.firstname} defaultValue="" />
 							</td>
 
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								{#if orientation_manager.valid === false}
 									<Text classNames="text-error" value={translateError(orientation_manager.error)} />
 								{:else}

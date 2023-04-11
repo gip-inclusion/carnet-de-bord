@@ -4,7 +4,7 @@
 	import { Button } from '$lib/ui/base';
 	import type { OrientedFilter } from './OrientationFilter';
 	import { Form, Select, Input } from '$lib/ui/forms';
-	import { supportFilterSchema, SupportFilterValues } from './supportFilter.schema';
+	import { supportFilterSchema, type SupportFilterValues } from './supportFilter.schema';
 
 	export let filter: string;
 	export let search: string;

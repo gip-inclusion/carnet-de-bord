@@ -11,7 +11,7 @@
 		GetStructuresForManagerQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { type OperationStore, operationStore, query } from '@urql/svelte';
-	import Dropzone from 'svelte-file-dropzone';
+	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import { GroupCheckbox as Checkbox } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { Alert, Button } from '$lib/ui/base';
@@ -240,6 +240,7 @@
 				multiple={false}
 				accept=".csv,.xls,.xlsx"
 				containerClasses="cursor-pointer dropzone"
+				inputElement={undefined}
 			>
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
@@ -309,7 +310,7 @@
 												{/if}
 											{:else if lineErrors[key]}
 												<i
-													class="ri-alert-line text-error "
+													class="ri-alert-line text-error"
 													title={translateError(lineErrors[key])}
 												/><Text
 													class="text-error border-dashed border-b-1 "
@@ -324,7 +325,7 @@
 									{/each}
 									<td class="px-2 py-2">
 										{#if lineErrors['Structure']}
-											<i class="ri-alert-line text-error " title={lineErrors['Structure']} />
+											<i class="ri-alert-line text-error" title={lineErrors['Structure']} />
 											<Text value={structureValue} class="text-error" />
 										{:else}
 											<Text
@@ -440,16 +441,16 @@
 					<tbody class="bg-white divide-y divide-gray-300">
 						{#each insertResults.filter(({ valid }) => !valid) as beneficiary}
 							<tr>
-								<td class="px-2 py-2 ">
+								<td class="px-2 py-2">
 									<Text value={beneficiary.row['Nom*']} />
 								</td>
-								<td class="px-2 py-2 ">
+								<td class="px-2 py-2">
 									<Text value={beneficiary.row['Prénom*']} />
 								</td>
-								<td class="px-2 py-2 ">
+								<td class="px-2 py-2">
 									<Text value={formatDateLocale(beneficiary.row['Date de naissance*'])} />
 								</td>
-								<td class="px-2 py-2 ">
+								<td class="px-2 py-2">
 									{#if beneficiary.errors}
 										{#each beneficiary.errors as error}
 											<Text class="text-error" value={error.error} />

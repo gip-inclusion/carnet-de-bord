@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
 		RoleEnum,
-		GetBeneficiariesWithOrientationRequestQuery,
+		type GetBeneficiariesWithOrientationRequestQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';

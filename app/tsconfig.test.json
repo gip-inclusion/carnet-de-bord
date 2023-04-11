@@ -8,7 +8,6 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"target": "ES2019",
-		"preserveValueImports": false
 	},
 	"include": [
 		".svelte-kit/ambient.d.ts",

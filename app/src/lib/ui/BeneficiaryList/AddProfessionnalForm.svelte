@@ -3,7 +3,7 @@
 		GetProfessionalsFromStructuresDocument,
 		type GetProfessionalsFromStructuresQuery,
 		UpdateReferentDocument,
-		GetBeneficiariesQuery,
+		type GetBeneficiariesQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Checkbox, Select } from '../base';

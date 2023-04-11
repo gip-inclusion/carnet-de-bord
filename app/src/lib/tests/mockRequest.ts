@@ -14,7 +14,11 @@ const mockHeader = (headers: Record<string, string> = {}) => {
 };
 const mockCookies = (cookies: Record<string, string> = {}) => {
 	const map = new Map(Object.entries(cookies));
-	return Object.assign(map, { append: () => ({}), serialize: () => '' });
+	return Object.assign(map, {
+		append: () => ({}),
+		serialize: () => '',
+		getAll: () => [{ name: '', value: '' }],
+	});
 };
 
 function _mockRequest(data: unknown, headers: Record<string, string> = {}): RequestEvent {
@@ -23,9 +27,10 @@ function _mockRequest(data: unknown, headers: Record<string, string> = {}): Requ
 		fetch: () => Promise.resolve(new Response()),
 		setHeaders: (_: Record<string, string>) => ({}),
 		url: new URL('https://io.io'),
+		isDataRequest: false,
 		locals: {},
 		params: {},
-		routeId: 'route',
+		route: { id: 'route' },
 		getClientAddress: () => '',
 		platform: 'test',
 		request: {

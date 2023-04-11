@@ -6,7 +6,10 @@
 	import { OrientationRequestStatus } from '$lib/constants/keys';
 	import { accountData, openComponent } from '$lib/stores';
 	import { baseUrlForRole } from '$lib/routes';
-	import { GetNotebookEventsQueryStore, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+	import {
+		type GetNotebookEventsQueryStore,
+		RoleEnum,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		GetNotebookDocument,
 		GetNotebookEventsDocument,

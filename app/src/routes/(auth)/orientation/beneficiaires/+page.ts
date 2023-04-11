@@ -1,8 +1,8 @@
 import {
-	BeneficiaryFilter,
+	type BeneficiaryFilter,
 	getBeneficiaryFilter,
 	getOrientedFilter,
-	OrientedFilter,
+	type OrientedFilter,
 } from '$lib/ui/BeneficiaryList/OrientationFilter';
 import type { PageLoad } from './$types';
 

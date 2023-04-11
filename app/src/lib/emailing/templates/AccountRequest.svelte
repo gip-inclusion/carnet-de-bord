@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-	import type { InscriptionRequest } from 'src/routes/(public)/inscription/request/+server';
+	import type { InscriptionRequest } from '../../../routes/(public)/inscription/request/+server';
 	export type AccountRequest = InscriptionRequest['accountRequest'];
 </script>
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { token } from '$lib/stores';
-	import Dropzone from 'svelte-file-dropzone';
+	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import { Button, Checkbox, GroupCheckbox, Spinner } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
 	import { Alert } from '$lib/ui/base';
@@ -101,7 +101,12 @@
 					>consulter la notice de remplissage</a
 				>.
 			</div>
-			<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".csv,.xls,.xlsx">
+			<Dropzone
+				on:drop={handleFilesSelect}
+				multiple={false}
+				accept=".csv,.xls,.xlsx"
+				inputElement={undefined}
+			>
 				Déposez votre fichier ou cliquez pour le rechercher sur votre ordinateur.
 			</Dropzone>
 		{:else}
@@ -238,7 +243,7 @@
 									<Text value={structure.row['Courriel responsable']} />
 								{/if}
 							</td>
-							<td class="px-2 py-2 ">
+							<td class="px-2 py-2">
 								{#if structure.valid === false}
 									<Text classNames="text-error" value={translateError(lineErrors.join(','))} />
 								{:else}

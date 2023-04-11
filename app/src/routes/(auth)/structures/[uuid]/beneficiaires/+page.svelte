@@ -9,14 +9,14 @@
 	import { onDestroy, setContext } from 'svelte';
 	import { operationStore, query } from '@urql/svelte';
 	import {
-		BeneficiaryBoolExp,
+		type BeneficiaryBoolExp,
 		GetBeneficiariesDocument,
-		GetBeneficiariesQuery,
+		type GetBeneficiariesQuery,
 		GetStructureDocument,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import type { PageData } from './$types';
-	import BeneficiaryFilterView, { MemberFilter } from '$lib/ui/BeneficiaryList/Filters.svelte';
+	import BeneficiaryFilterView, { type MemberFilter } from '$lib/ui/BeneficiaryList/Filters.svelte';
 	import BeneficiaryList from '$lib/ui/BeneficiaryList/List.svelte';
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
@@ -190,7 +190,7 @@
 		on:beneficiary-orientation-changed={() => $result.reexecute()}
 	/>
 	<div slot="batch-action" class="flex gap-8 items-center">
-		<span class="fr-text--bold fr-text-label--blue-france "
+		<span class="fr-text--bold fr-text-label--blue-france"
 			>{nbSelectedBeneficiaries} {pluralize('sélectionné', nbSelectedBeneficiaries)}</span
 		>
 		<div class="flex gap-4">

@@ -8,13 +8,12 @@
 	import Container from '$lib/ui/BeneficiaryList/Container.svelte';
 	import { onDestroy, setContext } from 'svelte';
 	import type { PageData } from './$types';
-	import {
+	import type {
 		BeneficiaryBoolExp,
-		GetBeneficiariesDocument,
 		GetBeneficiariesQuery,
 		NotebookBoolExp,
-		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { GetBeneficiariesDocument, RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import { operationStore, query } from '@urql/svelte';
 	import BeneficiaryFilterView from '$lib/ui/BeneficiaryList/SupportFilters.svelte';
 	import BeneficiaryListWithStructure from '$lib/ui/BeneficiaryList/ListWithStructure.svelte';
@@ -170,7 +169,7 @@
 		on:beneficiary-orientation-changed={() => $result.reexecute()}
 	/>
 	<div slot="batch-action" class="flex gap-8 items-center">
-		<span class="fr-text--bold fr-text-label--blue-france "
+		<span class="fr-text--bold fr-text-label--blue-france"
 			>{nbSelectedBeneficiaries} {pluralize('sélectionné', nbSelectedBeneficiaries)}</span
 		>
 		<div class="flex gap-4">

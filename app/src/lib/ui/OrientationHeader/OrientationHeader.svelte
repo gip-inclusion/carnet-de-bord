@@ -1,7 +1,7 @@
 <script lang="ts">
 	import {
-		GetNotebookByBeneficiaryIdQuery,
-		GetNotebookQuery,
+		type GetNotebookByBeneficiaryIdQuery,
+		type GetNotebookQuery,
 		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Button } from '$lib/ui/base';

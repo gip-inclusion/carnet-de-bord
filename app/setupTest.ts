@@ -18,7 +18,8 @@ expect.extend(matchers);
 vi.mock('$app/environment', (): typeof environment => ({
 	browser: false,
 	dev: true,
-	prerendering: false,
+	building: false,
+	version: 'mocked-version',
 }));
 
 // Mock SvelteKit runtime module $app/navigation
@@ -29,8 +30,8 @@ vi.mock('$app/navigation', (): typeof navigation => ({
 	goto: () => Promise.resolve(),
 	invalidate: () => Promise.resolve(),
 	invalidateAll: () => Promise.resolve(),
-	prefetch: () => Promise.resolve(),
-	prefetchRoutes: () => Promise.resolve(),
+	preloadData: () => Promise.resolve(),
+	preloadCode: () => Promise.resolve(),
 }));
 
 // Mock SvelteKit runtime module $app/stores
@@ -40,13 +41,13 @@ vi.mock('$app/stores', (): typeof stores => {
 		const page = readable<Page>({
 			url: new URL('http://localhost'),
 			params: {},
-			routeId: null,
+			route: null,
 			status: 200,
 			error: null,
 			data: {},
 			form: {},
 		});
-		const updated = { subscribe: readable(false).subscribe, check: () => false };
+		const updated = { subscribe: readable(false).subscribe, check: async () => false };
 
 		return { navigating, page, updated };
 	};
@@ -65,7 +66,7 @@ vi.mock('$app/stores', (): typeof stores => {
 		subscribe(fn) {
 			return getStores().updated.subscribe(fn);
 		},
-		check: () => false,
+		check: async () => false,
 	};
 
 	return {
@@ -75,3 +76,5 @@ vi.mock('$app/stores', (): typeof stores => {
 		updated,
 	};
 });
+
+vi.mock('$env/dynamic/public', () => ({ env: {} }));
