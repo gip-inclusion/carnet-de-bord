@@ -41,9 +41,7 @@ start-backend:
 #  Test
 # --------------------------------------
 test-backend:
-	./scripts/launch_tests.sh
-	cd backend; \
-		ENV_FILE=../.env.test poetry run pytest -s tests
+	./scripts/launch_tests.sh python
 
 test-backend-watch:
 	./scripts/launch_tests.sh
