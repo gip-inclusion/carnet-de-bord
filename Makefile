@@ -57,9 +57,7 @@ test-app:
 # Other
 # -------------------------------------
 seed-database:
-	cd hasura; \
-		hasura seed apply; \
-		hasura console
+	hasura --project ./hasura seed apply --database-name carnet_de_bord
 
 codegen:
 	cd backend; \
