@@ -15,7 +15,7 @@ install:
 	@$(MAKE) -f $(THIS_FILE) .install-e2e
 
 .install-app:
-	cd app; \
+	cd app && \
 		npm ci
 
 .install-backend:
