@@ -15,6 +15,28 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 > ⚠️ Assurez-vous que les ports **5000** (Hasura) et **5432** (PostgreSQL) soient libres d'écoute. Le cas échéant, vous pouvez changer les ports dans les fichiers de configuration ou d'environnement de l'application.
 
+### ❄️ Nix et direnv (facultatif)
+Une configuration nix est disponible via le fichier flake.nix.
+
+En conjonction avec [direnv](https://direnv.net/), cette configuration vous permet d'installer les dépendances du projet de manière isolée. Les outils du projet ne seront disponibles que dans le dossier du projet, dans la bonne version.
+
+Pour utiliser cette configuration :
+1. Installer [nix](https://nixos.org/download.html) et [direnv](https://direnv.net/).
+2. Aller dans le dossier racine du projet (avec un terminal)
+3. Configurer nix dans direnv
+```bash
+echo "use flake" >> .envrc
+direnv allow
+```
+
+Pour vérifier l'installation
+```bash
+pre-commit --version # pre-commit X.X.X
+poetry --version # Poetry (version X.X.X)
+node --version # v16.X.X
+```
+
+
 ## Étapes
 
 **1/** Récupérer les sources du projet
