@@ -46,7 +46,7 @@ class PoleEmploiAPIClientTest(TestCase):
         self.assertEqual(ctx.exception.error_code, "http_error")
 
     @respx.mock
-    def test_recherche_recherche_agencs_api_nominal(self):
+    def test_recherche_recherche_agences_api_nominal(self):
         respx.get(self.api_client.agences_url).mock(
             return_value=httpx.Response(200, json=PE_API_AGENCES_RESULT_OK_MOCK)
         )
@@ -54,7 +54,7 @@ class PoleEmploiAPIClientTest(TestCase):
         self.assertEqual(agences[0]["code"], "PDL0031")
 
     @respx.mock
-    def test_recherche_recherche_agencs_api_nominal_pydantic(self):
+    def test_recherche_recherche_agences_api_nominal_pydantic(self):
         respx.get(self.api_client.agences_url).mock(
             return_value=httpx.Response(200, json=PE_API_AGENCES_RESULT_OK_MOCK)
         )
