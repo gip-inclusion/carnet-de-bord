@@ -19,7 +19,12 @@ CREATE TABLE audit (
   "created_at" timestamptz NOT NULL DEFAULT now(),
   "schema_name" text NOT NULL,
   "table_name" text NOT NULL,
-  "operation" text NOT NULL,
+  "operation" text NOT NULL CHECK (
+    operation::text = 'INSERT'::text
+    OR operation::text = 'UPDATE'::text
+    OR operation::text = 'DELETE'::text
+    OR operation::text = 'TRUNCATE'::text
+  ),
   "account_id" uuid,
   "new_val" jsonb,
   "old_val" jsonb,
