@@ -32,7 +32,7 @@ from cdb.cdb_csv.pe import (
     net_email_to_fr_email,
 )
 from cdb.pe.pole_emploi_client import PoleEmploiApiClient
-from tests.mocks.pole_emploi import PE_API_AGENCES_RESULT_OK_MOCK
+from tests.mocks.pole_emploi_agences import PE_API_AGENCES_RESULT_OK_MOCK
 
 
 @respx.mock

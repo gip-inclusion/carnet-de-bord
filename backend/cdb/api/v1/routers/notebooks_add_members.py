@@ -47,12 +47,7 @@ from cdb.api.v1.dependencies import (
 from cdb.api.v1.payloads.notebook import CreateNotebookActionPayload
 
 logger = logging.getLogger(__name__)
-router = APIRouter(
-    dependencies=[
-        Depends(allowed_jwt_roles([RoleEnum.PROFESSIONAL])),
-        Depends(extract_authentified_account),
-    ]
-)
+router = APIRouter()
 
 
 class AddNotebookMemberInput(BaseModel):
