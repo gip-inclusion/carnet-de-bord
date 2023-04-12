@@ -1540,6 +1540,7 @@ export type Beneficiary = {
 	firstname: Scalars['String'];
 	id: Scalars['uuid'];
 	internalId?: Maybe<Scalars['String']>;
+	isHomeless?: Maybe<Scalars['Boolean']>;
 	lastname: Scalars['String'];
 	mobileNumber?: Maybe<Scalars['String']>;
 	nir?: Maybe<Scalars['String']>;
@@ -1559,10 +1560,14 @@ export type Beneficiary = {
 	rightAss: Scalars['Boolean'];
 	rightBonus: Scalars['Boolean'];
 	rightRsa?: Maybe<Scalars['String']>;
+	rsaClosureDate?: Maybe<Scalars['date']>;
+	rsaClosureReason?: Maybe<RsaClosureReasonEnum>;
+	rsaSuspensionReason?: Maybe<RsaSuspensionReasonEnum>;
 	/** An array relationship */
 	structures: Array<BeneficiaryStructure>;
 	/** An aggregate relationship */
 	structures_aggregate: BeneficiaryStructureAggregate;
+	subjectToRightAndDuty?: Maybe<Scalars['Boolean']>;
 	updatedAt: Scalars['timestamptz'];
 };
 
@@ -1702,6 +1707,7 @@ export type BeneficiaryBoolExp = {
 	firstname?: InputMaybe<StringComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	internalId?: InputMaybe<StringComparisonExp>;
+	isHomeless?: InputMaybe<BooleanComparisonExp>;
 	lastname?: InputMaybe<StringComparisonExp>;
 	mobileNumber?: InputMaybe<StringComparisonExp>;
 	nir?: InputMaybe<StringComparisonExp>;
@@ -1717,8 +1723,12 @@ export type BeneficiaryBoolExp = {
 	rightAss?: InputMaybe<BooleanComparisonExp>;
 	rightBonus?: InputMaybe<BooleanComparisonExp>;
 	rightRsa?: InputMaybe<StringComparisonExp>;
+	rsaClosureDate?: InputMaybe<DateComparisonExp>;
+	rsaClosureReason?: InputMaybe<RsaClosureReasonEnumComparisonExp>;
+	rsaSuspensionReason?: InputMaybe<RsaSuspensionReasonEnumComparisonExp>;
 	structures?: InputMaybe<BeneficiaryStructureBoolExp>;
 	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateBoolExp>;
+	subjectToRightAndDuty?: InputMaybe<BooleanComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
 };
 
@@ -1750,6 +1760,7 @@ export type BeneficiaryInsertInput = {
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	internalId?: InputMaybe<Scalars['String']>;
+	isHomeless?: InputMaybe<Scalars['Boolean']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	nir?: InputMaybe<Scalars['String']>;
@@ -1764,7 +1775,11 @@ export type BeneficiaryInsertInput = {
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	rightRsa?: InputMaybe<Scalars['String']>;
+	rsaClosureDate?: InputMaybe<Scalars['date']>;
+	rsaClosureReason?: InputMaybe<RsaClosureReasonEnum>;
+	rsaSuspensionReason?: InputMaybe<RsaSuspensionReasonEnum>;
 	structures?: InputMaybe<BeneficiaryStructureArrRelInsertInput>;
+	subjectToRightAndDuty?: InputMaybe<Scalars['Boolean']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -1790,6 +1805,7 @@ export type BeneficiaryMaxFields = {
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
+	rsaClosureDate?: Maybe<Scalars['date']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1814,6 +1830,7 @@ export type BeneficiaryMaxOrderBy = {
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	rightRsa?: InputMaybe<OrderBy>;
+	rsaClosureDate?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
@@ -1839,6 +1856,7 @@ export type BeneficiaryMinFields = {
 	placeOfBirth?: Maybe<Scalars['String']>;
 	postalCode?: Maybe<Scalars['String']>;
 	rightRsa?: Maybe<Scalars['String']>;
+	rsaClosureDate?: Maybe<Scalars['date']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
 
@@ -1863,6 +1881,7 @@ export type BeneficiaryMinOrderBy = {
 	placeOfBirth?: InputMaybe<OrderBy>;
 	postalCode?: InputMaybe<OrderBy>;
 	rightRsa?: InputMaybe<OrderBy>;
+	rsaClosureDate?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
@@ -1905,6 +1924,7 @@ export type BeneficiaryOrderBy = {
 	firstname?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	internalId?: InputMaybe<OrderBy>;
+	isHomeless?: InputMaybe<OrderBy>;
 	lastname?: InputMaybe<OrderBy>;
 	mobileNumber?: InputMaybe<OrderBy>;
 	nir?: InputMaybe<OrderBy>;
@@ -1919,7 +1939,11 @@ export type BeneficiaryOrderBy = {
 	rightAss?: InputMaybe<OrderBy>;
 	rightBonus?: InputMaybe<OrderBy>;
 	rightRsa?: InputMaybe<OrderBy>;
+	rsaClosureDate?: InputMaybe<OrderBy>;
+	rsaClosureReason?: InputMaybe<OrderBy>;
+	rsaSuspensionReason?: InputMaybe<OrderBy>;
 	structures_aggregate?: InputMaybe<BeneficiaryStructureAggregateOrderBy>;
+	subjectToRightAndDuty?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
 
@@ -1953,6 +1977,8 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	InternalId = 'internalId',
 	/** column name */
+	IsHomeless = 'isHomeless',
+	/** column name */
 	Lastname = 'lastname',
 	/** column name */
 	MobileNumber = 'mobileNumber',
@@ -1975,27 +2001,43 @@ export enum BeneficiarySelectColumn {
 	/** column name */
 	RightRsa = 'rightRsa',
 	/** column name */
+	RsaClosureDate = 'rsaClosureDate',
+	/** column name */
+	RsaClosureReason = 'rsaClosureReason',
+	/** column name */
+	RsaSuspensionReason = 'rsaSuspensionReason',
+	/** column name */
+	SubjectToRightAndDuty = 'subjectToRightAndDuty',
+	/** column name */
 	UpdatedAt = 'updatedAt',
 }
 
 /** select "beneficiary_aggregate_bool_exp_bool_and_arguments_columns" columns of table "beneficiary" */
 export enum BeneficiarySelectColumnBeneficiaryAggregateBoolExpBoolAndArgumentsColumns {
 	/** column name */
+	IsHomeless = 'isHomeless',
+	/** column name */
 	RightAre = 'rightAre',
 	/** column name */
 	RightAss = 'rightAss',
 	/** column name */
 	RightBonus = 'rightBonus',
+	/** column name */
+	SubjectToRightAndDuty = 'subjectToRightAndDuty',
 }
 
 /** select "beneficiary_aggregate_bool_exp_bool_or_arguments_columns" columns of table "beneficiary" */
 export enum BeneficiarySelectColumnBeneficiaryAggregateBoolExpBoolOrArgumentsColumns {
 	/** column name */
+	IsHomeless = 'isHomeless',
+	/** column name */
 	RightAre = 'rightAre',
 	/** column name */
 	RightAss = 'rightAss',
 	/** column name */
 	RightBonus = 'rightBonus',
+	/** column name */
+	SubjectToRightAndDuty = 'subjectToRightAndDuty',
 }
 
 /** input type for updating data in table "beneficiary" */
@@ -2011,6 +2053,7 @@ export type BeneficiarySetInput = {
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	internalId?: InputMaybe<Scalars['String']>;
+	isHomeless?: InputMaybe<Scalars['Boolean']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	nir?: InputMaybe<Scalars['String']>;
@@ -2022,6 +2065,10 @@ export type BeneficiarySetInput = {
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	rightRsa?: InputMaybe<Scalars['String']>;
+	rsaClosureDate?: InputMaybe<Scalars['date']>;
+	rsaClosureReason?: InputMaybe<RsaClosureReasonEnum>;
+	rsaSuspensionReason?: InputMaybe<RsaSuspensionReasonEnum>;
+	subjectToRightAndDuty?: InputMaybe<Scalars['Boolean']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -2046,6 +2093,7 @@ export type BeneficiaryStreamCursorValueInput = {
 	firstname?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	internalId?: InputMaybe<Scalars['String']>;
+	isHomeless?: InputMaybe<Scalars['Boolean']>;
 	lastname?: InputMaybe<Scalars['String']>;
 	mobileNumber?: InputMaybe<Scalars['String']>;
 	nir?: InputMaybe<Scalars['String']>;
@@ -2057,6 +2105,10 @@ export type BeneficiaryStreamCursorValueInput = {
 	rightAss?: InputMaybe<Scalars['Boolean']>;
 	rightBonus?: InputMaybe<Scalars['Boolean']>;
 	rightRsa?: InputMaybe<Scalars['String']>;
+	rsaClosureDate?: InputMaybe<Scalars['date']>;
+	rsaClosureReason?: InputMaybe<RsaClosureReasonEnum>;
+	rsaSuspensionReason?: InputMaybe<RsaSuspensionReasonEnum>;
+	subjectToRightAndDuty?: InputMaybe<Scalars['Boolean']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
 
@@ -2371,6 +2423,8 @@ export enum BeneficiaryUpdateColumn {
 	/** column name */
 	InternalId = 'internalId',
 	/** column name */
+	IsHomeless = 'isHomeless',
+	/** column name */
 	Lastname = 'lastname',
 	/** column name */
 	MobileNumber = 'mobileNumber',
@@ -2392,6 +2446,14 @@ export enum BeneficiaryUpdateColumn {
 	RightBonus = 'rightBonus',
 	/** column name */
 	RightRsa = 'rightRsa',
+	/** column name */
+	RsaClosureDate = 'rsaClosureDate',
+	/** column name */
+	RsaClosureReason = 'rsaClosureReason',
+	/** column name */
+	RsaSuspensionReason = 'rsaSuspensionReason',
+	/** column name */
+	SubjectToRightAndDuty = 'subjectToRightAndDuty',
 	/** column name */
 	UpdatedAt = 'updatedAt',
 }
@@ -3873,6 +3935,10 @@ export type Float8ComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['float8']>>;
 };
 
+export type GetBeneficiariesFromNirArgs = {
+	search_nir?: InputMaybe<Scalars['String']>;
+};
+
 export type JsonbCastExp = {
 	String?: InputMaybe<StringComparisonExp>;
 };
@@ -4317,6 +4383,14 @@ export type MutationRoot = {
 	delete_rome_code?: Maybe<RomeCodeMutationResponse>;
 	/** delete single row from the table: "rome_code" */
 	delete_rome_code_by_pk?: Maybe<RomeCode>;
+	/** delete data from the table: "rsa_closure_reason" */
+	delete_rsa_closure_reason?: Maybe<RsaClosureReasonMutationResponse>;
+	/** delete single row from the table: "rsa_closure_reason" */
+	delete_rsa_closure_reason_by_pk?: Maybe<RsaClosureReason>;
+	/** delete data from the table: "rsa_suspension_reason" */
+	delete_rsa_suspension_reason?: Maybe<RsaSuspensionReasonMutationResponse>;
+	/** delete single row from the table: "rsa_suspension_reason" */
+	delete_rsa_suspension_reason_by_pk?: Maybe<RsaSuspensionReason>;
 	/** delete data from the table: "structure" */
 	delete_structure?: Maybe<StructureMutationResponse>;
 	/** delete single row from the table: "structure" */
@@ -4481,6 +4555,14 @@ export type MutationRoot = {
 	insert_rome_code?: Maybe<RomeCodeMutationResponse>;
 	/** insert a single row into the table: "rome_code" */
 	insert_rome_code_one?: Maybe<RomeCode>;
+	/** insert data into the table: "rsa_closure_reason" */
+	insert_rsa_closure_reason?: Maybe<RsaClosureReasonMutationResponse>;
+	/** insert a single row into the table: "rsa_closure_reason" */
+	insert_rsa_closure_reason_one?: Maybe<RsaClosureReason>;
+	/** insert data into the table: "rsa_suspension_reason" */
+	insert_rsa_suspension_reason?: Maybe<RsaSuspensionReasonMutationResponse>;
+	/** insert a single row into the table: "rsa_suspension_reason" */
+	insert_rsa_suspension_reason_one?: Maybe<RsaSuspensionReason>;
 	/** insert data into the table: "structure" */
 	insert_structure?: Maybe<StructureMutationResponse>;
 	/** insert a single row into the table: "structure" */
@@ -4725,6 +4807,18 @@ export type MutationRoot = {
 	update_rome_code_by_pk?: Maybe<RomeCode>;
 	/** update multiples rows of table: "rome_code" */
 	update_rome_code_many?: Maybe<Array<Maybe<RomeCodeMutationResponse>>>;
+	/** update data of the table: "rsa_closure_reason" */
+	update_rsa_closure_reason?: Maybe<RsaClosureReasonMutationResponse>;
+	/** update single row of the table: "rsa_closure_reason" */
+	update_rsa_closure_reason_by_pk?: Maybe<RsaClosureReason>;
+	/** update multiples rows of table: "rsa_closure_reason" */
+	update_rsa_closure_reason_many?: Maybe<Array<Maybe<RsaClosureReasonMutationResponse>>>;
+	/** update data of the table: "rsa_suspension_reason" */
+	update_rsa_suspension_reason?: Maybe<RsaSuspensionReasonMutationResponse>;
+	/** update single row of the table: "rsa_suspension_reason" */
+	update_rsa_suspension_reason_by_pk?: Maybe<RsaSuspensionReason>;
+	/** update multiples rows of table: "rsa_suspension_reason" */
+	update_rsa_suspension_reason_many?: Maybe<Array<Maybe<RsaSuspensionReasonMutationResponse>>>;
 	/** update data of the table: "structure" */
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
@@ -5124,6 +5218,26 @@ export type MutationRootDeleteRomeCodeArgs = {
 /** mutation root */
 export type MutationRootDeleteRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRsaClosureReasonArgs = {
+	where: RsaClosureReasonBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRsaClosureReasonByPkArgs = {
+	code: Scalars['String'];
+};
+
+/** mutation root */
+export type MutationRootDeleteRsaSuspensionReasonArgs = {
+	where: RsaSuspensionReasonBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteRsaSuspensionReasonByPkArgs = {
+	code: Scalars['String'];
 };
 
 /** mutation root */
@@ -5610,6 +5724,30 @@ export type MutationRootInsertRomeCodeArgs = {
 export type MutationRootInsertRomeCodeOneArgs = {
 	object: RomeCodeInsertInput;
 	on_conflict?: InputMaybe<RomeCodeOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRsaClosureReasonArgs = {
+	objects: Array<RsaClosureReasonInsertInput>;
+	on_conflict?: InputMaybe<RsaClosureReasonOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRsaClosureReasonOneArgs = {
+	object: RsaClosureReasonInsertInput;
+	on_conflict?: InputMaybe<RsaClosureReasonOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRsaSuspensionReasonArgs = {
+	objects: Array<RsaSuspensionReasonInsertInput>;
+	on_conflict?: InputMaybe<RsaSuspensionReasonOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertRsaSuspensionReasonOneArgs = {
+	object: RsaSuspensionReasonInsertInput;
+	on_conflict?: InputMaybe<RsaSuspensionReasonOnConflict>;
 };
 
 /** mutation root */
@@ -6335,6 +6473,40 @@ export type MutationRootUpdateRomeCodeByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateRomeCodeManyArgs = {
 	updates: Array<RomeCodeUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateRsaClosureReasonArgs = {
+	_set?: InputMaybe<RsaClosureReasonSetInput>;
+	where: RsaClosureReasonBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRsaClosureReasonByPkArgs = {
+	_set?: InputMaybe<RsaClosureReasonSetInput>;
+	pk_columns: RsaClosureReasonPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRsaClosureReasonManyArgs = {
+	updates: Array<RsaClosureReasonUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateRsaSuspensionReasonArgs = {
+	_set?: InputMaybe<RsaSuspensionReasonSetInput>;
+	where: RsaSuspensionReasonBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateRsaSuspensionReasonByPkArgs = {
+	_set?: InputMaybe<RsaSuspensionReasonSetInput>;
+	pk_columns: RsaSuspensionReasonPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateRsaSuspensionReasonManyArgs = {
+	updates: Array<RsaSuspensionReasonUpdates>;
 };
 
 /** mutation root */
@@ -11919,6 +12091,10 @@ export type QueryRoot = {
 	external_source_aggregate: ExternalSourceAggregate;
 	/** fetch data from the table: "external_source" using primary key columns */
 	external_source_by_pk?: Maybe<ExternalSource>;
+	/** execute function "get_beneficiaries_from_nir" which returns "beneficiary" */
+	get_beneficiaries_from_nir: Array<Beneficiary>;
+	/** execute function "get_beneficiaries_from_nir" and query aggregates on result of table type "beneficiary" */
+	get_beneficiaries_from_nir_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -12079,6 +12255,18 @@ export type QueryRoot = {
 	rome_code_aggregate: RomeCodeAggregate;
 	/** fetch data from the table: "rome_code" using primary key columns */
 	rome_code_by_pk?: Maybe<RomeCode>;
+	/** fetch data from the table: "rsa_closure_reason" */
+	rsa_closure_reason: Array<RsaClosureReason>;
+	/** fetch aggregated fields from the table: "rsa_closure_reason" */
+	rsa_closure_reason_aggregate: RsaClosureReasonAggregate;
+	/** fetch data from the table: "rsa_closure_reason" using primary key columns */
+	rsa_closure_reason_by_pk?: Maybe<RsaClosureReason>;
+	/** fetch data from the table: "rsa_suspension_reason" */
+	rsa_suspension_reason: Array<RsaSuspensionReason>;
+	/** fetch aggregated fields from the table: "rsa_suspension_reason" */
+	rsa_suspension_reason_aggregate: RsaSuspensionReasonAggregate;
+	/** fetch data from the table: "rsa_suspension_reason" using primary key columns */
+	rsa_suspension_reason_by_pk?: Maybe<RsaSuspensionReason>;
 	/** execute function "search_beneficiaries" which returns "beneficiary" */
 	search_beneficiaries: Array<Beneficiary>;
 	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
@@ -12363,6 +12551,24 @@ export type QueryRootExternalSourceAggregateArgs = {
 
 export type QueryRootExternalSourceByPkArgs = {
 	value: Scalars['String'];
+};
+
+export type QueryRootGetBeneficiariesFromNirArgs = {
+	args: GetBeneficiariesFromNirArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type QueryRootGetBeneficiariesFromNirAggregateArgs = {
+	args: GetBeneficiariesFromNirArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
 export type QueryRootManagerArgs = {
@@ -12899,6 +13105,46 @@ export type QueryRootRomeCodeAggregateArgs = {
 
 export type QueryRootRomeCodeByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+export type QueryRootRsaClosureReasonArgs = {
+	distinct_on?: InputMaybe<Array<RsaClosureReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaClosureReasonOrderBy>>;
+	where?: InputMaybe<RsaClosureReasonBoolExp>;
+};
+
+export type QueryRootRsaClosureReasonAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RsaClosureReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaClosureReasonOrderBy>>;
+	where?: InputMaybe<RsaClosureReasonBoolExp>;
+};
+
+export type QueryRootRsaClosureReasonByPkArgs = {
+	code: Scalars['String'];
+};
+
+export type QueryRootRsaSuspensionReasonArgs = {
+	distinct_on?: InputMaybe<Array<RsaSuspensionReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaSuspensionReasonOrderBy>>;
+	where?: InputMaybe<RsaSuspensionReasonBoolExp>;
+};
+
+export type QueryRootRsaSuspensionReasonAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RsaSuspensionReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaSuspensionReasonOrderBy>>;
+	where?: InputMaybe<RsaSuspensionReasonBoolExp>;
+};
+
+export type QueryRootRsaSuspensionReasonByPkArgs = {
+	code: Scalars['String'];
 };
 
 export type QueryRootSearchBeneficiariesArgs = {
@@ -13974,6 +14220,360 @@ export type RomeCodeUpdates = {
 	where: RomeCodeBoolExp;
 };
 
+/** code and reason for rsa closure reason */
+export type RsaClosureReason = {
+	__typename?: 'rsa_closure_reason';
+	code: Scalars['String'];
+	label: Scalars['String'];
+};
+
+/** aggregated selection of "rsa_closure_reason" */
+export type RsaClosureReasonAggregate = {
+	__typename?: 'rsa_closure_reason_aggregate';
+	aggregate?: Maybe<RsaClosureReasonAggregateFields>;
+	nodes: Array<RsaClosureReason>;
+};
+
+/** aggregate fields of "rsa_closure_reason" */
+export type RsaClosureReasonAggregateFields = {
+	__typename?: 'rsa_closure_reason_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RsaClosureReasonMaxFields>;
+	min?: Maybe<RsaClosureReasonMinFields>;
+};
+
+/** aggregate fields of "rsa_closure_reason" */
+export type RsaClosureReasonAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<RsaClosureReasonSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rsa_closure_reason". All fields are combined with a logical 'AND'. */
+export type RsaClosureReasonBoolExp = {
+	_and?: InputMaybe<Array<RsaClosureReasonBoolExp>>;
+	_not?: InputMaybe<RsaClosureReasonBoolExp>;
+	_or?: InputMaybe<Array<RsaClosureReasonBoolExp>>;
+	code?: InputMaybe<StringComparisonExp>;
+	label?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "rsa_closure_reason" */
+export enum RsaClosureReasonConstraint {
+	/** unique or primary key constraint on columns "code" */
+	RsaClosureReasonPkey = 'rsa_closure_reason_pkey',
+}
+
+export enum RsaClosureReasonEnum {
+	/** Cloture suite à l'annulation de la bascule RMI/API */
+	CafAnnulationBasculeRmi = 'caf_annulation_bascule_rmi',
+	/** cloture suite décision du Président du Conseil général */
+	CafDecisionPcg = 'caf_decision_pcg',
+	/** Cloture suite à échéance (4 mois sans droits) */
+	CafEcheance = 'caf_echeance',
+	/** Cloture suite à mutation du dossier dans un autre organisme */
+	CafMutation = 'caf_mutation',
+	/** radié autre motif */
+	CafRadieAutreMotif = 'caf_radie_autre_motif',
+	/** radié fin de droit */
+	CafRadieFinDroit = 'caf_radie_fin_droit',
+	/** radié option RSO Dom */
+	CafRadieOptionRso = 'caf_radie_option_rso',
+	/** radié option RSTA Dom */
+	CafRadieOptionRsta = 'caf_radie_option_rsta',
+	/** cloture pour regroupement de dossier */
+	CafRegroupement = 'caf_regroupement',
+}
+
+/** Boolean expression to compare columns of type "rsa_closure_reason_enum". All fields are combined with logical 'AND'. */
+export type RsaClosureReasonEnumComparisonExp = {
+	_eq?: InputMaybe<RsaClosureReasonEnum>;
+	_in?: InputMaybe<Array<RsaClosureReasonEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<RsaClosureReasonEnum>;
+	_nin?: InputMaybe<Array<RsaClosureReasonEnum>>;
+};
+
+/** input type for inserting data into table "rsa_closure_reason" */
+export type RsaClosureReasonInsertInput = {
+	code?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type RsaClosureReasonMaxFields = {
+	__typename?: 'rsa_closure_reason_max_fields';
+	code?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type RsaClosureReasonMinFields = {
+	__typename?: 'rsa_closure_reason_min_fields';
+	code?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rsa_closure_reason" */
+export type RsaClosureReasonMutationResponse = {
+	__typename?: 'rsa_closure_reason_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<RsaClosureReason>;
+};
+
+/** on_conflict condition type for table "rsa_closure_reason" */
+export type RsaClosureReasonOnConflict = {
+	constraint: RsaClosureReasonConstraint;
+	update_columns?: Array<RsaClosureReasonUpdateColumn>;
+	where?: InputMaybe<RsaClosureReasonBoolExp>;
+};
+
+/** Ordering options when selecting data from "rsa_closure_reason". */
+export type RsaClosureReasonOrderBy = {
+	code?: InputMaybe<OrderBy>;
+	label?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: rsa_closure_reason */
+export type RsaClosureReasonPkColumnsInput = {
+	code: Scalars['String'];
+};
+
+/** select columns of table "rsa_closure_reason" */
+export enum RsaClosureReasonSelectColumn {
+	/** column name */
+	Code = 'code',
+	/** column name */
+	Label = 'label',
+}
+
+/** input type for updating data in table "rsa_closure_reason" */
+export type RsaClosureReasonSetInput = {
+	code?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "rsa_closure_reason" */
+export type RsaClosureReasonStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RsaClosureReasonStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RsaClosureReasonStreamCursorValueInput = {
+	code?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "rsa_closure_reason" */
+export enum RsaClosureReasonUpdateColumn {
+	/** column name */
+	Code = 'code',
+	/** column name */
+	Label = 'label',
+}
+
+export type RsaClosureReasonUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RsaClosureReasonSetInput>;
+	where: RsaClosureReasonBoolExp;
+};
+
+/** rsa suspension code and reason for enum */
+export type RsaSuspensionReason = {
+	__typename?: 'rsa_suspension_reason';
+	code: Scalars['String'];
+	label: Scalars['String'];
+};
+
+/** aggregated selection of "rsa_suspension_reason" */
+export type RsaSuspensionReasonAggregate = {
+	__typename?: 'rsa_suspension_reason_aggregate';
+	aggregate?: Maybe<RsaSuspensionReasonAggregateFields>;
+	nodes: Array<RsaSuspensionReason>;
+};
+
+/** aggregate fields of "rsa_suspension_reason" */
+export type RsaSuspensionReasonAggregateFields = {
+	__typename?: 'rsa_suspension_reason_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<RsaSuspensionReasonMaxFields>;
+	min?: Maybe<RsaSuspensionReasonMinFields>;
+};
+
+/** aggregate fields of "rsa_suspension_reason" */
+export type RsaSuspensionReasonAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<RsaSuspensionReasonSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "rsa_suspension_reason". All fields are combined with a logical 'AND'. */
+export type RsaSuspensionReasonBoolExp = {
+	_and?: InputMaybe<Array<RsaSuspensionReasonBoolExp>>;
+	_not?: InputMaybe<RsaSuspensionReasonBoolExp>;
+	_or?: InputMaybe<Array<RsaSuspensionReasonBoolExp>>;
+	code?: InputMaybe<StringComparisonExp>;
+	label?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "rsa_suspension_reason" */
+export enum RsaSuspensionReasonConstraint {
+	/** unique or primary key constraint on columns "code" */
+	RsaSuspensionReasonPkey = 'rsa_suspension_reason_pkey',
+}
+
+export enum RsaSuspensionReasonEnum {
+	/** Action non engagée */
+	CafActionNonEngagee = 'caf_action_non_engagee',
+	/** Activité antérieure insuffisante */
+	CafActiviteAnterieurInsuffisante = 'caf_activite_anterieur_insuffisante',
+	/** Activité antérieure absente */
+	CafActiviteAnterieureAbsente = 'caf_activite_anterieure_absente',
+	/** Activité antérieure non conforme */
+	CafActiviteAnterieureNonConforme = 'caf_activite_anterieure_non_conforme',
+	/** Activité non conforme */
+	CafActiviteNonConforme = 'caf_activite_non_conforme',
+	/** Allocataire absent du foyer */
+	CafAllocataireAbsent = 'caf_allocataire_absent',
+	/** Attente décision PCG (le droit reste théorique jusqu'au retour) */
+	CafAttenteDecisionPcg = 'caf_attente_decision_PCG',
+	/** Bénéficiaire AAH réduite */
+	CafBeneficiaireAah = 'caf_beneficiaire_aah',
+	/** Déclaration Trimestrielle Ressources non fournie */
+	CafDeclarationRessourceNonFournie = 'caf_declaration_ressource_non_fournie',
+	/** Demande avantage vielliesse absent ou tardif */
+	CafDemandeAvantageVieillesseAbsent = 'caf_demande_avantage_vieillesse_absent',
+	/** Droit éteint ou autre cas  !L8207! */
+	CafDroitEteinsAutre = 'caf_droit_eteins_autre',
+	/** Etudiant rémunération insuff. */
+	CafEtudiantRemunerationInsuffisante = 'caf_etudiant_remuneration_insuffisante',
+	/** Hospitalisation */
+	CafHospitalisation = 'caf_hospitalisation',
+	/** Moins 25 ans sans enft/autre person. à charge */
+	CafMoins_25SansEnfPersonneCharge = 'caf_moins_25_sans_enf_personne_charge',
+	/** Pas d'allocataire */
+	CafPasAllocataire = 'caf_pas_allocataire',
+	/** Pas d'isolement */
+	CafPasIsolement = 'caf_pas_isolement',
+	/** Prestation exclue affil partielle */
+	CafPrestationExclue = 'caf_prestation_exclue',
+	/** Régime non conforme */
+	CafRegimeNonConforme = 'caf_regime_non_conforme',
+	/** Résidence non conforme */
+	CafResidenceNonConforme = 'caf_residence_non_conforme',
+	/** Ressources trop élévées */
+	CafRessourcesTropEleve = 'caf_ressources_trop_eleve',
+	/** RSA inférieur au seuil */
+	CafRsaInferieurSeuil = 'caf_rsa_inferieur_seuil',
+	/** Surface pondérée > plafond ou inconnue */
+	CafSurfacePondereeSup = 'caf_surface_ponderee_sup',
+	/** Titre de séjour absent */
+	CafTitreSejourAbsent = 'caf_titre_sejour_absent',
+	/** Titre de séjour non valide */
+	CafTitreSejourInvalid = 'caf_titre_sejour_invalid',
+}
+
+/** Boolean expression to compare columns of type "rsa_suspension_reason_enum". All fields are combined with logical 'AND'. */
+export type RsaSuspensionReasonEnumComparisonExp = {
+	_eq?: InputMaybe<RsaSuspensionReasonEnum>;
+	_in?: InputMaybe<Array<RsaSuspensionReasonEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<RsaSuspensionReasonEnum>;
+	_nin?: InputMaybe<Array<RsaSuspensionReasonEnum>>;
+};
+
+/** input type for inserting data into table "rsa_suspension_reason" */
+export type RsaSuspensionReasonInsertInput = {
+	code?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type RsaSuspensionReasonMaxFields = {
+	__typename?: 'rsa_suspension_reason_max_fields';
+	code?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type RsaSuspensionReasonMinFields = {
+	__typename?: 'rsa_suspension_reason_min_fields';
+	code?: Maybe<Scalars['String']>;
+	label?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "rsa_suspension_reason" */
+export type RsaSuspensionReasonMutationResponse = {
+	__typename?: 'rsa_suspension_reason_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<RsaSuspensionReason>;
+};
+
+/** on_conflict condition type for table "rsa_suspension_reason" */
+export type RsaSuspensionReasonOnConflict = {
+	constraint: RsaSuspensionReasonConstraint;
+	update_columns?: Array<RsaSuspensionReasonUpdateColumn>;
+	where?: InputMaybe<RsaSuspensionReasonBoolExp>;
+};
+
+/** Ordering options when selecting data from "rsa_suspension_reason". */
+export type RsaSuspensionReasonOrderBy = {
+	code?: InputMaybe<OrderBy>;
+	label?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: rsa_suspension_reason */
+export type RsaSuspensionReasonPkColumnsInput = {
+	code: Scalars['String'];
+};
+
+/** select columns of table "rsa_suspension_reason" */
+export enum RsaSuspensionReasonSelectColumn {
+	/** column name */
+	Code = 'code',
+	/** column name */
+	Label = 'label',
+}
+
+/** input type for updating data in table "rsa_suspension_reason" */
+export type RsaSuspensionReasonSetInput = {
+	code?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "rsa_suspension_reason" */
+export type RsaSuspensionReasonStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: RsaSuspensionReasonStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type RsaSuspensionReasonStreamCursorValueInput = {
+	code?: InputMaybe<Scalars['String']>;
+	label?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "rsa_suspension_reason" */
+export enum RsaSuspensionReasonUpdateColumn {
+	/** column name */
+	Code = 'code',
+	/** column name */
+	Label = 'label',
+}
+
+export type RsaSuspensionReasonUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<RsaSuspensionReasonSetInput>;
+	where: RsaSuspensionReasonBoolExp;
+};
+
 export type SearchBeneficiariesArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
@@ -14760,6 +15360,10 @@ export type SubscriptionRoot = {
 	external_source_by_pk?: Maybe<ExternalSource>;
 	/** fetch data from the table in a streaming manner: "external_source" */
 	external_source_stream: Array<ExternalSource>;
+	/** execute function "get_beneficiaries_from_nir" which returns "beneficiary" */
+	get_beneficiaries_from_nir: Array<Beneficiary>;
+	/** execute function "get_beneficiaries_from_nir" and query aggregates on result of table type "beneficiary" */
+	get_beneficiaries_from_nir_aggregate: BeneficiaryAggregate;
 	/** fetch data from the table: "manager" */
 	manager: Array<Manager>;
 	/** fetch aggregated fields from the table: "manager" */
@@ -14974,6 +15578,22 @@ export type SubscriptionRoot = {
 	rome_code_by_pk?: Maybe<RomeCode>;
 	/** fetch data from the table in a streaming manner: "rome_code" */
 	rome_code_stream: Array<RomeCode>;
+	/** fetch data from the table: "rsa_closure_reason" */
+	rsa_closure_reason: Array<RsaClosureReason>;
+	/** fetch aggregated fields from the table: "rsa_closure_reason" */
+	rsa_closure_reason_aggregate: RsaClosureReasonAggregate;
+	/** fetch data from the table: "rsa_closure_reason" using primary key columns */
+	rsa_closure_reason_by_pk?: Maybe<RsaClosureReason>;
+	/** fetch data from the table in a streaming manner: "rsa_closure_reason" */
+	rsa_closure_reason_stream: Array<RsaClosureReason>;
+	/** fetch data from the table: "rsa_suspension_reason" */
+	rsa_suspension_reason: Array<RsaSuspensionReason>;
+	/** fetch aggregated fields from the table: "rsa_suspension_reason" */
+	rsa_suspension_reason_aggregate: RsaSuspensionReasonAggregate;
+	/** fetch data from the table: "rsa_suspension_reason" using primary key columns */
+	rsa_suspension_reason_by_pk?: Maybe<RsaSuspensionReason>;
+	/** fetch data from the table in a streaming manner: "rsa_suspension_reason" */
+	rsa_suspension_reason_stream: Array<RsaSuspensionReason>;
 	/** execute function "search_beneficiaries" which returns "beneficiary" */
 	search_beneficiaries: Array<Beneficiary>;
 	/** execute function "search_beneficiaries" and query aggregates on result of table type "beneficiary" */
@@ -15340,6 +15960,24 @@ export type SubscriptionRootExternalSourceStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<ExternalSourceStreamCursorInput>>;
 	where?: InputMaybe<ExternalSourceBoolExp>;
+};
+
+export type SubscriptionRootGetBeneficiariesFromNirArgs = {
+	args: GetBeneficiariesFromNirArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
+};
+
+export type SubscriptionRootGetBeneficiariesFromNirAggregateArgs = {
+	args: GetBeneficiariesFromNirArgs;
+	distinct_on?: InputMaybe<Array<BeneficiarySelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<BeneficiaryOrderBy>>;
+	where?: InputMaybe<BeneficiaryBoolExp>;
 };
 
 export type SubscriptionRootManagerArgs = {
@@ -16038,6 +16676,58 @@ export type SubscriptionRootRomeCodeStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<RomeCodeStreamCursorInput>>;
 	where?: InputMaybe<RomeCodeBoolExp>;
+};
+
+export type SubscriptionRootRsaClosureReasonArgs = {
+	distinct_on?: InputMaybe<Array<RsaClosureReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaClosureReasonOrderBy>>;
+	where?: InputMaybe<RsaClosureReasonBoolExp>;
+};
+
+export type SubscriptionRootRsaClosureReasonAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RsaClosureReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaClosureReasonOrderBy>>;
+	where?: InputMaybe<RsaClosureReasonBoolExp>;
+};
+
+export type SubscriptionRootRsaClosureReasonByPkArgs = {
+	code: Scalars['String'];
+};
+
+export type SubscriptionRootRsaClosureReasonStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RsaClosureReasonStreamCursorInput>>;
+	where?: InputMaybe<RsaClosureReasonBoolExp>;
+};
+
+export type SubscriptionRootRsaSuspensionReasonArgs = {
+	distinct_on?: InputMaybe<Array<RsaSuspensionReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaSuspensionReasonOrderBy>>;
+	where?: InputMaybe<RsaSuspensionReasonBoolExp>;
+};
+
+export type SubscriptionRootRsaSuspensionReasonAggregateArgs = {
+	distinct_on?: InputMaybe<Array<RsaSuspensionReasonSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RsaSuspensionReasonOrderBy>>;
+	where?: InputMaybe<RsaSuspensionReasonBoolExp>;
+};
+
+export type SubscriptionRootRsaSuspensionReasonByPkArgs = {
+	code: Scalars['String'];
+};
+
+export type SubscriptionRootRsaSuspensionReasonStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<RsaSuspensionReasonStreamCursorInput>>;
+	where?: InputMaybe<RsaSuspensionReasonBoolExp>;
 };
 
 export type SubscriptionRootSearchBeneficiariesArgs = {
