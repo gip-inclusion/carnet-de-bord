@@ -8,7 +8,6 @@
         "direct": {
             "Confidenceman02/elm-select": "8.2.0",
             "Gizra/elm-debouncer": "2.0.0",
-            "austinshenk/elm-w3": "4.0.0",
             "danhandrea/elm-date-format": "2.0.2",
             "elm/browser": "1.0.2",
             "elm/core": "1.0.5",
@@ -16,7 +15,6 @@
             "elm/http": "2.0.0",
             "elm/json": "1.1.3",
             "elm/time": "1.0.0",
-            "elm-community/json-extra": "4.3.0",
             "elm-community/list-extra": "8.7.0",
             "justinmimbs/date": "4.0.1",
             "justinmimbs/timezone-data": "9.0.0",

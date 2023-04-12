@@ -1,4 +1,4 @@
-module Domain.PoleEmploi.GeneralData exposing (..)
+module Domain.PoleEmploi.GeneralData exposing (GeneralData)
 
 import Date exposing (Date)
 

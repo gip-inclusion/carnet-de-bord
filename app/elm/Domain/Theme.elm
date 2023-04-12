@@ -1,4 +1,4 @@
-module Domain.Theme exposing (..)
+module Domain.Theme exposing (Theme(..), themeKeyStringToString, themeKeyStringToType, themeKeyTypeToLabel)
 
 
 type Theme
@@ -12,7 +12,6 @@ type Theme
     | ContraintesFamiliales
     | MaitriseLangue
     | Numerique
-    | Inconnu
 
 
 themeKeyStringToType : String -> Maybe Theme
@@ -121,43 +120,3 @@ themeKeyTypeToLabel key =
 
         Numerique ->
             "Numérique"
-
-        Inconnu ->
-            "Inconnu"
-
-
-themeTypeToKeyString : Theme -> String
-themeTypeToKeyString key =
-    case key of
-        Logement ->
-            "logement"
-
-        Emploi ->
-            "emploi"
-
-        Formation ->
-            "formation"
-
-        DifficulteAdministrative ->
-            "difficulte_administrative"
-
-        DifficulteFinanciere ->
-            "difficulte_financiere"
-
-        Mobilite ->
-            "mobilite"
-
-        Sante ->
-            "sante"
-
-        ContraintesFamiliales ->
-            "contraintes_familiales"
-
-        MaitriseLangue ->
-            "maitrise_langue"
-
-        Numerique ->
-            "numerique"
-
-        Inconnu ->
-            "inconnu"

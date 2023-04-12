@@ -7,8 +7,12 @@ output
 __pycache__
 *.pyc
 
+# Elm
+*/**/elm-stuff
+
 # IDE
 .idea
+.vscode
 .testmondata
 app/.eslintcache
 e2e/.eslintcache

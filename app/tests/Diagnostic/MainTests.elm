@@ -1,10 +1,9 @@
-module Diagnostic.MainTests exposing (..)
+module Diagnostic.MainTests exposing (workSituationDateFormatTests)
 
 import Date
 import Diagnostic.Main exposing (workSituationDateFormat)
-import Expect exposing (..)
+import Expect
 import Html
-import Html.Attributes exposing (..)
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (classes, tag, text)

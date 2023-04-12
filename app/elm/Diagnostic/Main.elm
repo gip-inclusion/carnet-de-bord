@@ -1,4 +1,20 @@
-module Diagnostic.Main exposing (..)
+module Diagnostic.Main exposing
+    ( ContractTypeFlags
+    , Flags
+    , GenderType(..)
+    , Model
+    , PeFlags
+    , PersonalSituation
+    , PersonalSituationFlags
+    , PersonalSituationsByTheme
+    , ProfessionalProjectFlags
+    , ProfessionalSituationFlags
+    , WorkingTimeFlags
+    , addMoneyUnit
+    , extractProfessionalProjectFromFlags
+    , main
+    , workSituationDateFormat
+    )
 
 import Browser
 import Date exposing (Date, fromIsoString)
@@ -9,7 +25,7 @@ import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
-import Html exposing (..)
+import Html
 import Html.Attributes exposing (class, rowspan)
 import Iso8601
 import List.Extra
@@ -76,13 +92,6 @@ type alias PersonalSituation =
 type alias PersonalSituationsByTheme =
     { theme : String
     , situations : List PersonalSituation
-    }
-
-
-type alias Creator =
-    { firstname : String
-    , lastname : String
-    , structure : Maybe String
     }
 
 
@@ -230,6 +239,7 @@ extractWorkingTimeType workingTimeFlag =
 
 -- VIEW
 
+
 formatAccount : Maybe Account -> String
 formatAccount account =
     account
@@ -276,12 +286,12 @@ unfilled genderType =
            )
 
 
-view : Model -> Html msg
+view : Model -> Html.Html msg
 view model =
-    div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model, personalSituationView model ])
+    Html.div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model, personalSituationView model ])
 
 
-workSituationDateFormat : Maybe Date -> Maybe Date -> Maybe (Html msg)
+workSituationDateFormat : Maybe Date -> Maybe Date -> Maybe (Html.Html msg)
 workSituationDateFormat startDate endDate =
     let
         prettyDate : Date -> String -> String
@@ -292,16 +302,16 @@ workSituationDateFormat startDate endDate =
     in
     case ( startDate, endDate ) of
         ( Just start, Nothing ) ->
-            Just (span [ class "text-sm" ] [ text (prettyDate start "Depuis le ") ])
+            Just (Html.span [ class "text-sm" ] [ Html.text (prettyDate start "Depuis le ") ])
 
         ( Nothing, Just end ) ->
-            Just (span [ class "text-sm" ] [ text (prettyDate end "Jusqu'au ") ])
+            Just (Html.span [ class "text-sm" ] [ Html.text (prettyDate end "Jusqu'au ") ])
 
         ( Just start, Just end ) ->
             Just
-                (span [ class "text-sm" ]
-                    [ text (prettyDate start "Du " ++ prettyDate end " au ")
-                    , span [ class "italic font-bold" ] [ text (" (" ++ (Date.diff Date.Months start end |> String.fromInt) ++ " mois)") ]
+                (Html.span [ class "text-sm" ]
+                    [ Html.text (prettyDate start "Du " ++ prettyDate end " au ")
+                    , Html.span [ class "italic font-bold" ] [ Html.text (" (" ++ (Date.diff Date.Months start end |> String.fromInt) ++ " mois)") ]
                     ]
                 )
 
@@ -309,10 +319,10 @@ workSituationDateFormat startDate endDate =
             Nothing
 
 
-socioProDiagFirstRowView : Model -> List (Html msg)
+socioProDiagFirstRowView : Model -> List (Html.Html msg)
 socioProDiagFirstRowView { professionalSituation, peGeneralData } =
-    [ div [ class "fr-container--fluid" ]
-        [ div [ class "fr-grid-row fr-grid-row--gutters flex" ]
+    [ Html.div [ class "fr-container--fluid" ]
+        [ Html.div [ class "fr-grid-row fr-grid-row--gutters flex" ]
             [ socioProView professionalSituation
             , peInformationsView peGeneralData
             ]
@@ -320,41 +330,41 @@ socioProDiagFirstRowView { professionalSituation, peGeneralData } =
     ]
 
 
-socioProView : ProfessionalSituation -> Html msg
+socioProView : ProfessionalSituation -> Html.Html msg
 socioProView professionalSituation =
-    div [ class "fr-col-6 flex flex-col" ]
-        [ h3 [ class "text-xl" ]
-            [ text "Situation professionnelle" ]
-        , div [ class "fr-container shadow-dsfr rounded-lg flex-1 pt-4" ]
-            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                [ div [ class "fr-col-6" ]
+    Html.div [ class "fr-col-6 flex flex-col" ]
+        [ Html.h3 [ class "text-xl" ]
+            [ Html.text "Situation professionnelle" ]
+        , Html.div [ class "fr-container shadow-dsfr rounded-lg flex-1 pt-4" ]
+            [ Html.div [ class "fr-grid-row fr-grid-row--gutters" ]
+                [ Html.div [ class "fr-col-6" ]
                     [ situationElement "Situation actuelle"
-                        (Maybe.map (workSituationKeyToString >> text) professionalSituation.workSituation)
+                        (Maybe.map (workSituationKeyToString >> Html.text) professionalSituation.workSituation)
                         (unfilled Feminine)
                         (workSituationDateFormat professionalSituation.workSituationDate professionalSituation.workSituationEndDate)
                     ]
-                , div [ class "fr-col-6" ]
+                , Html.div [ class "fr-col-6" ]
                     [ situationElement "Date du dernier emploi"
-                        (Maybe.map (Date.format "dd/MM/yyyy" >> text) professionalSituation.lastJobEndedAt)
+                        (Maybe.map (Date.format "dd/MM/yyyy" >> Html.text) professionalSituation.lastJobEndedAt)
                         "Non renseigné"
                         Nothing
                     ]
-                , div [ class "fr-col-6" ]
+                , Html.div [ class "fr-col-6" ]
                     [ situationElement "Dispose d'un RQTH"
                         (Just
                             (if professionalSituation.rightRqth then
-                                text "Oui"
+                                Html.text "Oui"
 
                              else
-                                text "Non"
+                                Html.text "Non"
                             )
                         )
                         (unfilled Masculine)
                         Nothing
                     ]
-                , div [ class "fr-col-6" ]
+                , Html.div [ class "fr-col-6" ]
                     [ situationElement "Diplôme"
-                        (Maybe.map (educationLevelKeyToString >> text) professionalSituation.educationLevel)
+                        (Maybe.map (educationLevelKeyToString >> Html.text) professionalSituation.educationLevel)
                         (unfilled Masculine)
                         Nothing
                     ]
@@ -379,34 +389,34 @@ peWorkstream principal secondary =
             Nothing
 
 
-peInformationsView : GeneralData -> Html msg
+peInformationsView : GeneralData -> Html.Html msg
 peInformationsView peGeneralData =
-    div [ class "fr-col-6 flex flex-col" ]
-        [ h3 [ class "text-xl" ]
-            [ text "Informations Pôle emploi" ]
-        , div [ class "fr-container shadow-dsfr rounded-lg flex-1 pt-4" ]
-            [ div [ class "fr-grid-row fr-grid-row--gutters" ]
-                [ div [ class "fr-col-6" ]
+    Html.div [ class "fr-col-6 flex flex-col" ]
+        [ Html.h3 [ class "text-xl" ]
+            [ Html.text "Informations Pôle emploi" ]
+        , Html.div [ class "fr-container shadow-dsfr rounded-lg flex-1 pt-4" ]
+            [ Html.div [ class "fr-grid-row fr-grid-row--gutters" ]
+                [ Html.div [ class "fr-col-6" ]
                     [ situationElement "Date d'inscription à Pôle emploi"
-                        (Maybe.map (Date.format dateFormat >> text) peGeneralData.dateInscription)
+                        (Maybe.map (Date.format dateFormat >> Html.text) peGeneralData.dateInscription)
                         (unfilled Feminine)
                         Nothing
                     ]
-                , div [ class "fr-col-6" ]
+                , Html.div [ class "fr-col-6" ]
                     [ situationElement "Motif d'inscription"
-                        (Maybe.map text peGeneralData.motifInscription)
+                        (Maybe.map Html.text peGeneralData.motifInscription)
                         (unfilled Masculine)
                         Nothing
                     ]
-                , div [ class "fr-col-6" ]
+                , Html.div [ class "fr-col-6" ]
                     [ situationElement "Dernière mise à jour du PPAE"
-                        (Maybe.map (Date.format dateFormat >> text) peGeneralData.dateDerEntretienPpae)
+                        (Maybe.map (Date.format dateFormat >> Html.text) peGeneralData.dateDerEntretienPpae)
                         (unfilled Feminine)
                         Nothing
                     ]
-                , div [ class "fr-col-6" ]
+                , Html.div [ class "fr-col-6" ]
                     [ situationElement "Axe de travail"
-                        (Maybe.map text (peWorkstream peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
+                        (Maybe.map Html.text (peWorkstream peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
                         (unfilled Masculine)
                         Nothing
                     ]
@@ -418,7 +428,9 @@ peInformationsView peGeneralData =
 formatLastUpdateInformation : ProfessionalProject -> String
 formatLastUpdateInformation professionalProject =
     let
-        formattedUpdater = formatAccount professionalProject.updater
+        formattedUpdater =
+            formatAccount professionalProject.updater
+
         updater =
             if formattedUpdater == "" then
                 ""
@@ -437,61 +449,61 @@ formatLastUpdateInformation professionalProject =
     "Mis à jour" ++ updater ++ updatedAt
 
 
-professionalProjectView : Model -> Html msg
+professionalProjectView : Model -> Html.Html msg
 professionalProjectView { professionalProjects } =
-    div [ class "pt-10 flex flex-col" ]
-        [ h3
+    Html.div [ class "pt-10 flex flex-col" ]
+        [ Html.h3
             [ class "text-xl" ]
-            [ text "Projets professionnels" ]
+            [ Html.text "Projets professionnels" ]
         , if List.isEmpty professionalProjects then
-            span [ class "fr-container shadow-dsfr rounded-lg py-8" ] [ text "Aucun projet professionel défini" ]
+            Html.span [ class "fr-container shadow-dsfr rounded-lg py-8" ] [ Html.text "Aucun projet professionel défini" ]
 
           else
-            div [ class "space-y-8" ]
+            Html.div [ class "space-y-8" ]
                 (professionalProjects
                     |> List.map
                         (\professionalProject ->
-                            div [ class "fr-container shadow-dsfr rounded-lg" ]
-                                [ div [ class "pt-8 mb-8" ]
-                                    [ h4 [ class "text-france-bleu mb-0" ]
-                                        [ text (Maybe.withDefault "Projet en construction" (Maybe.map .label professionalProject.rome)) ]
-                                    , div [ class "text-sm" ] [ professionalProject |> formatLastUpdateInformation |> text ]
+                            Html.div [ class "fr-container shadow-dsfr rounded-lg" ]
+                                [ Html.div [ class "pt-8 mb-8" ]
+                                    [ Html.h4 [ class "text-france-bleu mb-0" ]
+                                        [ Html.text (Maybe.withDefault "Projet en construction" (Maybe.map .label professionalProject.rome)) ]
+                                    , Html.div [ class "text-sm" ] [ professionalProject |> formatLastUpdateInformation |> Html.text ]
                                     ]
-                                , div
+                                , Html.div
                                     [ class "fr-grid-row fr-grid-row--gutters" ]
-                                    [ div [ class "fr-col-4" ]
+                                    [ Html.div [ class "fr-col-4" ]
                                         [ situationElement "Type de contrat"
                                             (professionalProject.contractType
                                                 |> Maybe.map contractTypeToLabel
-                                                |> Maybe.map text
+                                                |> Maybe.map Html.text
                                             )
                                             (unfilled Masculine)
                                             Nothing
                                         , situationElement "Durée de temps de travail"
                                             (professionalProject.workingTimeType
                                                 |> Maybe.map workingTimeToLabel
-                                                |> Maybe.map text
+                                                |> Maybe.map Html.text
                                             )
                                             (unfilled Feminine)
                                             Nothing
                                         ]
-                                    , div
+                                    , Html.div
                                         [ class "fr-col-4" ]
                                         [ situationElement "Salaire minimum brut horaire"
                                             (professionalProject.hourlyRate
                                                 |> Maybe.map Decimal.toString
                                                 |> Maybe.map addMoneyUnit
-                                                |> Maybe.map text
+                                                |> Maybe.map Html.text
                                             )
                                             (unfilled Masculine)
                                             Nothing
                                         ]
-                                    , div [ class "fr-col-4" ]
+                                    , Html.div [ class "fr-col-4" ]
                                         [ situationElement "Zone de mobilité"
                                             (professionalProject.mobilityRadius
                                                 |> Maybe.map String.fromInt
                                                 |> Maybe.map addDistanceUnit
-                                                |> Maybe.map text
+                                                |> Maybe.map Html.text
                                             )
                                             (unfilled Feminine)
                                             Nothing
@@ -518,30 +530,30 @@ nonbreakableSpaceChar =
     '\u{00A0}'
 
 
-personalSituationView : Model -> Html msg
+personalSituationView : Model -> Html.Html msg
 personalSituationView { personalSituations } =
-    div [ class "pt-10 flex flex-col" ]
-        [ h3 [ class "text-xl" ] [ text "Situation personnelle" ]
-        , div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
+    Html.div [ class "pt-10 flex flex-col" ]
+        [ Html.h3 [ class "text-xl" ] [ Html.text "Situation personnelle" ]
+        , Html.div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
             [ if List.isEmpty personalSituations then
-                span [] [ text "Aucune situation renseignée" ]
+                Html.span [] [ Html.text "Aucune situation renseignée" ]
 
               else
-                table [ class "w-full" ]
-                    [ thead [ class "text-left pb-4" ]
-                        [ th [ class "font-normal text-sm leading-10 pl-2" ] [ text "Thématique" ]
-                        , th [ class "font-normal text-sm" ] [ text "Situation" ]
-                        , th [ class "font-normal text-sm" ] [ text "Ajouté le" ]
-                        , th [ class "font-normal text-sm" ] [ text "Ajouté par" ]
+                Html.table [ class "w-full" ]
+                    [ Html.thead [ class "text-left pb-4" ]
+                        [ Html.th [ class "font-normal text-sm leading-10 pl-2" ] [ Html.text "Thématique" ]
+                        , Html.th [ class "font-normal text-sm" ] [ Html.text "Situation" ]
+                        , Html.th [ class "font-normal text-sm" ] [ Html.text "Ajouté le" ]
+                        , Html.th [ class "font-normal text-sm" ] [ Html.text "Ajouté par" ]
                         ]
-                    , tbody []
+                    , Html.tbody []
                         (personalSituations
                             |> List.indexedMap
                                 (\personalIndex personalSituation ->
                                     personalSituation.situations
                                         |> List.indexedMap
                                             (\index situation ->
-                                                tr
+                                                Html.tr
                                                     [ if modBy 2 personalIndex == 0 then
                                                         class "bg-gray-100 align-text-top text-left"
 
@@ -549,17 +561,17 @@ personalSituationView { personalSituations } =
                                                         class "align-text-top text-left"
                                                     ]
                                                     [ if index == 0 then
-                                                        th [ class "font-bold pr-8 pl-2 py-3", rowspan (List.length personalSituation.situations) ]
-                                                            [ personalSituation.theme |> themeKeyStringToString |> text ]
+                                                        Html.th [ class "font-bold pr-8 pl-2 py-3", rowspan (List.length personalSituation.situations) ]
+                                                            [ personalSituation.theme |> themeKeyStringToString |> Html.text ]
 
                                                       else
-                                                        text ""
-                                                    , td [ class "font-bold pr-8 py-3" ]
-                                                        [ text situation.description ]
-                                                    , td [ class "pr-8 py-3" ]
-                                                        [ text situation.createdAt ]
-                                                    , td [ class "py-3" ]
-                                                        [ situation.creator |> formatAccount |> text ]
+                                                        Html.text ""
+                                                    , Html.td [ class "font-bold pr-8 py-3" ]
+                                                        [ Html.text situation.description ]
+                                                    , Html.td [ class "pr-8 py-3" ]
+                                                        [ Html.text situation.createdAt ]
+                                                    , Html.td [ class "py-3" ]
+                                                        [ situation.creator |> formatAccount |> Html.text ]
                                                     ]
                                             )
                                 )
@@ -570,11 +582,11 @@ personalSituationView { personalSituations } =
         ]
 
 
-situationElement : String -> Maybe (Html msg) -> String -> Maybe (Html msg) -> Html msg
+situationElement : String -> Maybe (Html.Html msg) -> String -> Maybe (Html.Html msg) -> Html.Html msg
 situationElement label someValue defaultText someHint =
-    p [ class "text-sm" ]
-        [ span [ class "block" ] [ text label ]
-        , span [ class "block font-bold" ]
-            [ Maybe.withDefault (text defaultText) someValue ]
-        , Maybe.withDefault (text "") someHint
+    Html.p [ class "text-sm" ]
+        [ Html.span [ class "block" ] [ Html.text label ]
+        , Html.span [ class "block font-bold" ]
+            [ Maybe.withDefault (Html.text defaultText) someValue ]
+        , Maybe.withDefault (Html.text "") someHint
         ]

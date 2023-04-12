@@ -1,11 +1,11 @@
-module OrientationHome.Main exposing (..)
+module OrientationHome.Main exposing (Flags, GqlQuery, Model, Msg(..), OrientationHomeInfos, OrientationInfosVariables, Token, main)
 
 import Browser
 import Html exposing (Html, a, div, h2, h3, p, text)
 import Html.Attributes exposing (class, href, title)
 import Http
-import Json.Decode
-import Json.Encode
+import Json.Decode as Decode
+import Json.Encode as Json
 
 
 type alias Token =
@@ -47,74 +47,74 @@ type alias GqlQuery =
     }
 
 
-orientationHomeInfoDecoder : Json.Decode.Decoder OrientationHomeInfos
+orientationHomeInfoDecoder : Decode.Decoder OrientationHomeInfos
 orientationHomeInfoDecoder =
     let
         beneficiaryWithReferentParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "beneficiaryWitReferentCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "beneficiaryWitReferentCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
 
         beneficiaryWithoutReferentParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "beneficiaryWithoutReferentCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "beneficiaryWithoutReferentCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
 
         beneficiaryWithoutStructureParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "beneficiaryWithoutStructureCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "beneficiaryWithoutStructureCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
 
         orientationRequestParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "orientationRequestCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "orientationRequestCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
 
         otherBeneficiaryWithReferentParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "otherBeneficiaryWithReferentCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "otherBeneficiaryWithReferentCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
 
         otherBeneficiaryWithoutReferentParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "otherBeneficiaryWithoutReferentCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "otherBeneficiaryWithoutReferentCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
 
         otherBeneficiaryWithoutStructureParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "otherBeneficiaryWithoutStructureCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "otherBeneficiaryWithoutStructureCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
 
         otherOrientationRequestParser =
-            Json.Decode.field "data"
-                (Json.Decode.field "otherOrientationRequestCount"
-                    (Json.Decode.field "aggregate"
-                        (Json.Decode.field "count" Json.Decode.int)
+            Decode.field "data"
+                (Decode.field "otherOrientationRequestCount"
+                    (Decode.field "aggregate"
+                        (Decode.field "count" Decode.int)
                     )
                 )
     in
-    Json.Decode.map8 OrientationHomeInfos
+    Decode.map8 OrientationHomeInfos
         beneficiaryWithReferentParser
         beneficiaryWithoutReferentParser
         beneficiaryWithoutStructureParser
@@ -125,18 +125,18 @@ orientationHomeInfoDecoder =
         otherOrientationRequestParser
 
 
-encodeGqlQuery : GqlQuery -> Json.Encode.Value
+encodeGqlQuery : GqlQuery -> Json.Value
 encodeGqlQuery record =
-    Json.Encode.object
-        [ ( "query", Json.Encode.string <| record.query )
+    Json.object
+        [ ( "query", Json.string <| record.query )
         , ( "variables", encodeGqlQueryVariables <| record.variables )
         ]
 
 
-encodeGqlQueryVariables : OrientationInfosVariables -> Json.Encode.Value
+encodeGqlQueryVariables : OrientationInfosVariables -> Json.Value
 encodeGqlQueryVariables record =
-    Json.Encode.object
-        [ ( "id", Json.Encode.string <| record.id )
+    Json.object
+        [ ( "id", Json.string <| record.id )
         ]
 
 
@@ -273,7 +273,7 @@ main =
         { init = init
         , view = view
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = always Sub.none
         }
 
 
@@ -289,11 +289,6 @@ init flags =
         model.accountId
         HomeInfosResult
     )
-
-
-subscriptions : Model -> Sub Msg
-subscriptions _ =
-    Sub.none
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -314,10 +309,6 @@ view model =
         extractString : (OrientationHomeInfos -> Int) -> String
         extractString accessor =
             Maybe.withDefault "--" (Maybe.map (accessor >> String.fromInt) model.orientationHomeInfos)
-
-        extractInt : (OrientationHomeInfos -> Int) -> Int
-        extractInt accessor =
-            Maybe.withDefault 0 (Maybe.map accessor model.orientationHomeInfos)
 
         -- -- For educational purpose, same as above
         -- extractIntCase : (OrientationHomeInfos -> Int) -> Int
