@@ -63,7 +63,7 @@ repos:
         files: ^app/.*\.elm$
         pass_filenames: false
         entry: |
-          bash -c 'npm --prefix app run lint:elm-review' --
+          bash -c 'yes Y | npm --prefix app run lint:elm-review -- --fix-all' --
 
       - id: e2e-prettier
         name: run prettier (e2e)
