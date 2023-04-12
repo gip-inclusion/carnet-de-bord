@@ -1845,8 +1845,8 @@ schema = build_schema(
     columns and relationships of "audit"
     """
     type audit {
+      accountId: uuid
       createdAt: timestamptz!
-      createdBy: uuid
       id: uuid!
       newVal(
         """JSON select path"""
@@ -1891,8 +1891,8 @@ schema = build_schema(
       _and: [audit_bool_exp!]
       _not: audit_bool_exp
       _or: [audit_bool_exp!]
+      accountId: uuid_comparison_exp
       createdAt: timestamptz_comparison_exp
-      createdBy: uuid_comparison_exp
       id: uuid_comparison_exp
       newVal: jsonb_comparison_exp
       oldVal: jsonb_comparison_exp
@@ -1939,8 +1939,8 @@ schema = build_schema(
     input type for inserting data into table "audit"
     """
     input audit_insert_input {
+      accountId: uuid
       createdAt: timestamptz
-      createdBy: uuid
       id: uuid
       newVal: jsonb
       oldVal: jsonb
@@ -1951,8 +1951,8 @@ schema = build_schema(
 
     """aggregate max on columns"""
     type audit_max_fields {
+      accountId: uuid
       createdAt: timestamptz
-      createdBy: uuid
       id: uuid
       operation: String
       schemaName: String
@@ -1961,8 +1961,8 @@ schema = build_schema(
 
     """aggregate min on columns"""
     type audit_min_fields {
+      accountId: uuid
       createdAt: timestamptz
-      createdBy: uuid
       id: uuid
       operation: String
       schemaName: String
@@ -1991,8 +1991,8 @@ schema = build_schema(
 
     """Ordering options when selecting data from "audit"."""
     input audit_order_by {
+      accountId: order_by
       createdAt: order_by
-      createdBy: order_by
       id: order_by
       newVal: order_by
       oldVal: order_by
@@ -2017,10 +2017,10 @@ schema = build_schema(
     """
     enum audit_select_column {
       """column name"""
-      createdAt
+      accountId
 
       """column name"""
-      createdBy
+      createdAt
 
       """column name"""
       id
@@ -2045,8 +2045,8 @@ schema = build_schema(
     input type for updating data in table "audit"
     """
     input audit_set_input {
+      accountId: uuid
       createdAt: timestamptz
-      createdBy: uuid
       id: uuid
       newVal: jsonb
       oldVal: jsonb
@@ -2068,8 +2068,8 @@ schema = build_schema(
 
     """Initial value of the column from where the streaming should start"""
     input audit_stream_cursor_value_input {
+      accountId: uuid
       createdAt: timestamptz
-      createdBy: uuid
       id: uuid
       newVal: jsonb
       oldVal: jsonb
@@ -2083,10 +2083,10 @@ schema = build_schema(
     """
     enum audit_update_column {
       """column name"""
-      createdAt
+      accountId
 
       """column name"""
-      createdBy
+      createdAt
 
       """column name"""
       id

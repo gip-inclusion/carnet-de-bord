@@ -1517,8 +1517,8 @@ export type AdminStructureUpdates = {
 /** columns and relationships of "audit" */
 export type Audit = {
 	__typename?: 'audit';
+	accountId?: Maybe<Scalars['uuid']>;
 	createdAt: Scalars['timestamptz'];
-	createdBy?: Maybe<Scalars['uuid']>;
 	id: Scalars['uuid'];
 	newVal?: Maybe<Scalars['jsonb']>;
 	oldVal?: Maybe<Scalars['jsonb']>;
@@ -1569,8 +1569,8 @@ export type AuditBoolExp = {
 	_and?: InputMaybe<Array<AuditBoolExp>>;
 	_not?: InputMaybe<AuditBoolExp>;
 	_or?: InputMaybe<Array<AuditBoolExp>>;
+	accountId?: InputMaybe<UuidComparisonExp>;
 	createdAt?: InputMaybe<TimestamptzComparisonExp>;
-	createdBy?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	newVal?: InputMaybe<JsonbComparisonExp>;
 	oldVal?: InputMaybe<JsonbComparisonExp>;
@@ -1605,8 +1605,8 @@ export type AuditDeleteKeyInput = {
 
 /** input type for inserting data into table "audit" */
 export type AuditInsertInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	createdBy?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	newVal?: InputMaybe<Scalars['jsonb']>;
 	oldVal?: InputMaybe<Scalars['jsonb']>;
@@ -1618,8 +1618,8 @@ export type AuditInsertInput = {
 /** aggregate max on columns */
 export type AuditMaxFields = {
 	__typename?: 'audit_max_fields';
+	accountId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
-	createdBy?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	operation?: Maybe<Scalars['String']>;
 	schemaName?: Maybe<Scalars['String']>;
@@ -1629,8 +1629,8 @@ export type AuditMaxFields = {
 /** aggregate min on columns */
 export type AuditMinFields = {
 	__typename?: 'audit_min_fields';
+	accountId?: Maybe<Scalars['uuid']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
-	createdBy?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
 	operation?: Maybe<Scalars['String']>;
 	schemaName?: Maybe<Scalars['String']>;
@@ -1655,8 +1655,8 @@ export type AuditOnConflict = {
 
 /** Ordering options when selecting data from "audit". */
 export type AuditOrderBy = {
+	accountId?: InputMaybe<OrderBy>;
 	createdAt?: InputMaybe<OrderBy>;
-	createdBy?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	newVal?: InputMaybe<OrderBy>;
 	oldVal?: InputMaybe<OrderBy>;
@@ -1679,9 +1679,9 @@ export type AuditPrependInput = {
 /** select columns of table "audit" */
 export enum AuditSelectColumn {
 	/** column name */
-	CreatedAt = 'createdAt',
+	AccountId = 'accountId',
 	/** column name */
-	CreatedBy = 'createdBy',
+	CreatedAt = 'createdAt',
 	/** column name */
 	Id = 'id',
 	/** column name */
@@ -1698,8 +1698,8 @@ export enum AuditSelectColumn {
 
 /** input type for updating data in table "audit" */
 export type AuditSetInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	createdBy?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	newVal?: InputMaybe<Scalars['jsonb']>;
 	oldVal?: InputMaybe<Scalars['jsonb']>;
@@ -1718,8 +1718,8 @@ export type AuditStreamCursorInput = {
 
 /** Initial value of the column from where the streaming should start */
 export type AuditStreamCursorValueInput = {
+	accountId?: InputMaybe<Scalars['uuid']>;
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
-	createdBy?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	newVal?: InputMaybe<Scalars['jsonb']>;
 	oldVal?: InputMaybe<Scalars['jsonb']>;
@@ -1731,9 +1731,9 @@ export type AuditStreamCursorValueInput = {
 /** update columns of table "audit" */
 export enum AuditUpdateColumn {
 	/** column name */
-	CreatedAt = 'createdAt',
+	AccountId = 'accountId',
 	/** column name */
-	CreatedBy = 'createdBy',
+	CreatedAt = 'createdAt',
 	/** column name */
 	Id = 'id',
 	/** column name */
