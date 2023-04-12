@@ -5,7 +5,9 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from gql import gql
 from gql.dsl import DSLField, DSLSchema
+from graphql import DocumentNode
 
 from cdb.api.core.exceptions import InsertFailError
 from cdb.api.db.crud.notebook import (
@@ -428,3 +430,30 @@ def get_insert_beneficiary_mutation(
             ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
         ),
     }
+
+
+def get_beneficiary_by_notebook_id_query() -> DocumentNode:
+    return gql(
+        """
+        query GetBeneficiaryQuery($notebook_id:uuid!) {
+            beneficiaries: beneficiary(where: {
+                notebook: {
+                    id: { _eq: $notebook_id }
+                    }
+                }) {
+                    id
+                    nir
+                    dateOfBirth
+                    externalDataInfos(where: {
+                        externalData: { source: { _eq: peio }  } }
+                        order_by: {created_at: desc}
+                        limit: 1
+                    ) {
+                        externalData { hash }
+                        created_at
+                        updated_at
+                }
+            }
+        }
+        """
+    )

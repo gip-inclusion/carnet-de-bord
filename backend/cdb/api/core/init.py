@@ -10,8 +10,10 @@ from cdb.api.v1.exception_handler import (
     gql_transport_exception_handler,
     http_500_exception_handler,
     http_exception_handler,
+    pole_emploi_api_exception_handler,
 )
 from cdb.api.v1.middlewares import logging_middleware
+from cdb.pe.pole_emploi_client import PoleEmploiAPIBadResponse, PoleEmploiAPIException
 
 logger = logging.getLogger(__name__)
 
@@ -69,6 +71,14 @@ def create_app(*, db=None) -> FastAPI:
     @app.exception_handler(TransportQueryError)
     async def format_gql_transport_exception(*args):
         return await gql_transport_exception_handler(*args)
+
+    @app.exception_handler(PoleEmploiAPIException)
+    async def format_pole_emploi_api_exception(*args):
+        return await pole_emploi_api_exception_handler(*args)
+
+    @app.exception_handler(PoleEmploiAPIBadResponse)
+    async def format_pole_emploi_api_bad_response_exception(*args):
+        return await pole_emploi_api_exception_handler(*args)
 
     return app
 

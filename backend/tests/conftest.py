@@ -9,13 +9,16 @@ from uuid import UUID
 import dask.dataframe as dd
 import httpx
 import pytest
+from asyncpg import Connection
 from dask.dataframe.core import DataFrame
 from gql.client import AsyncClientSession
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.init import create_app
 from cdb.api.core.settings import settings
-from cdb.api.db.crud.beneficiary import get_beneficiary_by_id
+from cdb.api.db.crud.beneficiary import (
+    get_beneficiary_by_id,
+)
 from cdb.api.db.crud.notebook import get_notebook_by_id
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
 from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
@@ -165,6 +168,13 @@ async def gql_manager_client(
     async with gql_client_backend_only(
         bearer_token="Bearer " + get_manager_jwt_93
     ) as client:
+        yield client
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def gql_admin_client() -> AsyncGenerator[AsyncClientSession, None]:
+    async with gql_client_backend_only() as client:
         yield client
 
 
@@ -646,3 +656,12 @@ async def beneficiary_import_alain_die() -> BeneficiaryImport:
         right_rsa="rsa_droit_ouvert_versable",
         right_ass=True,
     )
+
+
+@pytest.fixture
+async def situation_id_contrainte_horaire(db_connection: Connection) -> UUID:
+    record = await db_connection.fetchrow(
+        "SELECT id from ref_situation WHERE description='Contrainte horaires'"
+    )
+    assert record
+    return record["id"]

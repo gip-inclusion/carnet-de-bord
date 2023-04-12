@@ -1,7 +1,7 @@
 module Diagnostic.MainTests exposing (workSituationDateFormatTests)
 
 import Date
-import Diagnostic.Main exposing (workSituationDateFormat)
+import Diagnostic.SocioPro exposing (workSituationDateFormat)
 import Expect
 import Html
 import Test exposing (..)

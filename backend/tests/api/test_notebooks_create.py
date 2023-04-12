@@ -37,7 +37,6 @@ async def test_returns_409_when_nir_already_exists(
     test_client: AsyncClient,
     deployment_id_cd93,
     get_manager_cd_93_account_id,
-    db_connection: Connection,
 ):
     response = await test_client.post(
         "/v1/notebooks",
@@ -78,7 +77,6 @@ async def test_returns_400_when_nir_already_exists_in_another_deployment(
     deployment_id_cd51,
     get_manager_cd_51_account_id,
     get_manager_cd_93_account_id,
-    db_connection: Connection,
 ):
     response = await test_client.post(
         "/v1/notebooks",

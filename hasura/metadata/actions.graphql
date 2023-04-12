@@ -11,6 +11,12 @@ type Mutation {
 }
 
 type Mutation {
+  refresh_notebook_situations_from_pole_emploi(
+    notebookId: uuid!
+  ): RefreshNotebookSituationsFromPoleEmploiOutput
+}
+
+type Mutation {
   update_socio_pro(
     id: uuid!
     workSituation: String
@@ -92,4 +98,12 @@ type UpdateSocioProOutput {
 
 type CreateNotebookOutput {
   notebookId: uuid!
+}
+
+type UpdateNotebookSituationsOutput {
+  data_has_been_updated: Boolean!
+}
+
+type RefreshNotebookSituationsFromPoleEmploiOutput {
+  data_has_been_updated: Boolean!
 }

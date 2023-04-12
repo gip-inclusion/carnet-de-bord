@@ -33,7 +33,7 @@ async def main():
         scope=settings.PE_SCOPE,
     )
 
-    agences = client.recherche_agences_pydantic(os.getenv("DEPARTEMENT") or "26")
+    agences = await client.recherche_agences(os.getenv("DEPARTEMENT") or "26")
 
     print(json.dumps([agence.dict() for agence in agences], indent=2))
 

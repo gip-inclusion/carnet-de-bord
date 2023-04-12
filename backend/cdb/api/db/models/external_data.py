@@ -6,8 +6,9 @@ from strenum import StrEnum
 
 
 class ExternalSource(StrEnum):
-    PE = "pe"
+    PE_FTP = "pe"
     CAFMSA = "cafmsa"
+    PE_IO = "peio"
 
 
 class ExternalDataInsert(BaseModel):
@@ -24,6 +25,7 @@ class ExternalDataInfoInsert(BaseModel):
     beneficiary_id: UUID | None = None
     professional_id: UUID | None = None
     external_data_id: UUID
+    created_at: datetime = datetime.now()
 
 
 class ExternalDataInfo(ExternalDataInfoInsert):

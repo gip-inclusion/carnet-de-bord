@@ -10,7 +10,6 @@
             "Confidenceman02/elm-select": "8.2.1",
             "Gizra/elm-debouncer": "2.0.0",
             "betagouv/elm-dsfr": "5.1.0",
-            "danhandrea/elm-date-format": "2.0.2",
             "dillonkearns/elm-graphql": "5.0.11",
             "eeue56/elm-graphql-debug-errors": "1.0.0",
             "elm/browser": "1.0.2",

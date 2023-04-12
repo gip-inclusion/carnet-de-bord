@@ -1,3 +1,5 @@
+from uuid import UUID
+
 from pydantic import BaseModel, Field
 
 from cdb.api.db.models.validator import nir_validator
@@ -27,3 +29,11 @@ class CreateNotebookInput(BaseModel):
 
 class CreateNotebookActionPayload(HasuraActionPayload):
     input: CreateNotebookInput
+
+
+class NotebookSituationInput(BaseModel):
+    notebook_id: UUID = Field(alias="notebookId")
+
+
+class NotebookSituationInputPayload(HasuraActionPayload):
+    input: NotebookSituationInput

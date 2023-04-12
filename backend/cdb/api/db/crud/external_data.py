@@ -1,8 +1,12 @@
+import hashlib
 import json
+from typing import Any
 from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from gql import gql
+from gql.client import AsyncClientSession
 
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.external_data import (
@@ -185,11 +189,12 @@ async def insert_external_data_info(
 ) -> ExternalDataInfo | None:
     v = await connection.fetchrow(
         """
-        INSERT INTO public.external_data_info (external_data_id, beneficiary_id)
-        VALUES ($1, $2) returning external_data_id, beneficiary_id, created_at, updated_at
+        INSERT INTO public.external_data_info(external_data_id, beneficiary_id, created_at)
+        VALUES ($1, $2, $3) returning external_data_id, beneficiary_id, created_at, updated_at
         """,  # noqa: E501
         external_info_insert.external_data_id,
         external_info_insert.beneficiary_id,
+        external_info_insert.created_at,
     )
 
     if v:
@@ -225,3 +230,46 @@ async def insert_external_data_for_beneficiary_and_professional(
         external_data.info = external_info
 
         return external_data
+
+
+async def save_external_data_with_info(
+    client: AsyncClientSession, beneficiary_id: UUID, data: Any, source: ExternalSource
+) -> UUID | None:
+    hash_value = hashlib.sha256(str(data).encode()).hexdigest()
+    mutation = gql(
+        """
+mutation save_external_data_with_info(
+    $beneficiaryId: uuid!,
+    $data: jsonb!,
+    $source: external_source_enum!,
+    $hash: String!
+) {
+  insert_external_data_info_one(
+    object: {
+        beneficiary_id: $beneficiaryId,
+        externalData: {
+            data: {
+                data: $data,
+                source: $source,
+                hash: $hash
+            }
+        }
+    }
+    ) {
+    external_data_id
+  }
+}
+
+    """
+    )
+
+    result = await client.execute(
+        mutation,
+        variable_values={
+            "beneficiaryId": beneficiary_id,
+            "data": data,
+            "source": source,
+            "hash": hash_value,
+        },
+    )
+    return result["insert_external_data_info_one"]["external_data_id"]

@@ -20,10 +20,14 @@ class Settings(BaseSettings):
     max_pool_size: int = 20
 
     PE_AUTH_BASE_URL: str = "https://entreprise.pole-emploi.fr"
-    PE_BASE_URL: str = "https://api.emploi-store.fr"
-    PE_SCOPE = "api_referentielagencesv1 organisationpe"
-    PE_CLIENT_ID: str = "CLIENT_ID"
-    PE_CLIENT_SECRET: str = "CLIENT_SECRET"
+    PE_BASE_URL: str = "https://api.pole-emploi.io"
+    # PE_AUTH_BASE_URL: str = "https://entreprise.pe-qvr.fr"
+    # PE_BASE_URL: str = "https://api.peio.pe-qvr.fr"
+    PE_SCOPE = "api_rechercher-usagerv1 api_diagnosticargumentev1 api_metiers-profil-competencesv1 ciblepro api_projet-creation-entreprisev1"  # noqa: E501
+    PE_CLIENT_ID: str = ""
+    PE_CLIENT_SECRET: str = (
+        "91af19b3c8612594f37856a88269449f9f460dbc51ab45afa7af0585044abba0"
+    )
 
     action_secret: str
 
@@ -33,6 +37,7 @@ class Settings(BaseSettings):
     LOG_LEVEL: str = "INFO"
     LOG_AS_JSON: bool = True
     GQL_LOG_LEVEL: str = "WARNING"
+    ENABLE_SITUATION_API: bool = False
 
     SENTRY_DSN: str | None
     SENTRY_ENVIRONMENT: str | None

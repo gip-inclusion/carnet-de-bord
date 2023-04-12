@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from uuid import UUID
 
@@ -22,9 +23,10 @@ class ProfessionalProjectToUpdate(ProfessionalProjectCommon):
     id: UUID
 
 
-class SituationsToAdd(BaseModel):
+class SituationToAdd(BaseModel):
     notebookId: UUID
     situationId: UUID
+    createdAt: datetime | None = None
 
 
 class Input(BaseModel):
@@ -36,7 +38,7 @@ class Input(BaseModel):
     professionalProjectsToUpdate: List[ProfessionalProjectToUpdate]
     rightRqth: bool
     situationIdsToDelete: List[UUID]
-    situationsToAdd: List[SituationsToAdd]
+    situationsToAdd: List[SituationToAdd]
     workSituation: str | None
     workSituationDate: str | None
     workSituationEndDate: str | None
