@@ -6,8 +6,9 @@ from cdb.api.v1.routers import (
     csv2json,
     deployment,
     managers,
-    notebooks,
     notify_admin_structures,
+    notebooks_add_members,
+    notebooks_get_pole_emploi_diagnostic,
     nps_rating,
     orientation_requests,
     orientations,
@@ -55,7 +56,12 @@ api_router.include_router(
     orientations.router, prefix="/orientations", tags=["Orientation"]
 )
 
-api_router.include_router(notebooks.router, prefix="/notebooks", tags=["Notebooks"])
+api_router.include_router(
+    notebooks_add_members.router, prefix="/notebooks", tags=["Notebooks"]
+)
+api_router.include_router(
+    notebooks_get_pole_emploi_diagnostic.router, prefix="/notebooks", tags=["Notebooks"]
+)
 
 api_router.include_router(nps_rating.router, prefix="/nps-rating", tags=["NPS ratings"])
 
