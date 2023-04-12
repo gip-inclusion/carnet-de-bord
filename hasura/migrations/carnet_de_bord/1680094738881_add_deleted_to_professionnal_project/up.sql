@@ -20,36 +20,36 @@ CREATE TABLE audit (
   "schema_name" text NOT NULL,
   "table_name" text NOT NULL,
   "operation" text NOT NULL,
-  "created_by" uuid,
+  "account_id" uuid,
   "new_val" jsonb,
   "old_val" jsonb,
   PRIMARY KEY ("id"),
-  FOREIGN KEY ("created_by") REFERENCES "public"."account"("id") ON UPDATE restrict ON DELETE restrict
+  FOREIGN KEY ("account_id") REFERENCES "public"."account"("id") ON UPDATE restrict ON DELETE restrict
 );
 
 CREATE FUNCTION change_trigger() RETURNS trigger AS $$
 DECLARE
   session_variables json;
-  creator_id uuid;
+  account_id uuid;
 BEGIN
   session_variables := current_setting('hasura.user', 't');
   IF session_variables IS NOT NULL then
-    creator_id := session_variables ->> 'x-hasura-user-id';
+    account_id := session_variables ->> 'x-hasura-user-id';
   END IF;
   IF      TG_OP = 'INSERT'
   THEN
-    INSERT INTO audit (table_name, schema_name, operation, new_val, created_by)
-      VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, row_to_json(NEW), creator_id);
+    INSERT INTO audit (table_name, schema_name, operation, new_val, account_id)
+      VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, row_to_json(NEW), account_id);
     RETURN NEW;
   ELSIF   TG_OP = 'UPDATE'
   THEN
-    INSERT INTO audit (table_name, schema_name, operation, new_val, old_val, created_by)
-      VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, row_to_json(NEW), row_to_json(OLD), creator_id);
+    INSERT INTO audit (table_name, schema_name, operation, new_val, old_val, account_id)
+      VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, row_to_json(NEW), row_to_json(OLD), account_id);
     RETURN NEW;
   ELSIF   TG_OP = 'DELETE'
   THEN
-    INSERT INTO audit (table_name, schema_name, operation, old_val, created_by)
-      VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, row_to_json(OLD), creator_id);
+    INSERT INTO audit (table_name, schema_name, operation, old_val, account_id)
+      VALUES (TG_RELNAME, TG_TABLE_SCHEMA, TG_OP, row_to_json(OLD), account_id);
     RETURN OLD;
   END IF;
 END;

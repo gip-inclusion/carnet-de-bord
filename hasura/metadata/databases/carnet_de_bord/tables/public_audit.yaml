@@ -5,8 +5,8 @@ configuration:
   column_config:
     created_at:
       custom_name: createdAt
-    created_by:
-      custom_name: createdBy
+    account_id:
+      custom_name: accountId
     new_val:
       custom_name: newVal
     old_val:
@@ -17,7 +17,7 @@ configuration:
       custom_name: tableName
   custom_column_names:
     created_at: createdAt
-    created_by: createdBy
+    account_id: accountId
     new_val: newVal
     old_val: oldVal
     schema_name: schemaName

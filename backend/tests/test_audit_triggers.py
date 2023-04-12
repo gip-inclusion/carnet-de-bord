@@ -77,7 +77,7 @@ WHERE professional_project.id = $2
 
     result = await db_connection.fetchrow(query)
 
-    assert result["created_by"] is None
+    assert result["account_id"] is None
 
     old_val = json.loads(result["old_val"])
     new_val = json.loads(result["new_val"])
@@ -125,7 +125,7 @@ async def test_update_professional_project_with_graphql(
 
     result = await db_connection.fetchrow(query)
 
-    assert result["created_by"] == professional_pierre_chevalier.account_id
+    assert result["account_id"] == professional_pierre_chevalier.account_id
 
 
 async def test_insert_professional_project_with_graphql(
@@ -174,4 +174,4 @@ async def test_insert_professional_project_with_graphql(
 
     result = await db_connection.fetchrow(query)
 
-    assert result["created_by"] == professional_pierre_chevalier.account_id
+    assert result["account_id"] == professional_pierre_chevalier.account_id
