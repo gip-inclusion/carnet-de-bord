@@ -9,6 +9,7 @@ type SentryInterface = {
 let sentry: SentryInterface;
 
 export function initSentry(Sentry: SentryInterface) {
+	if (sentry) return;
 	if (!env.PUBLIC_SENTRY_DSN) {
 		return;
 	}
