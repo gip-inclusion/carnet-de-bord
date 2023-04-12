@@ -29,7 +29,7 @@ async def count_audit(db_connection: Connection, operation_type: str):
 async def test_insert_professional_project(
     db_connection: Connection, notebook_sophie_tifour: Notebook
 ) -> None:
-    assert await count_audit(db_connection, "INSERT") == 34
+    nb_insert = await count_audit(db_connection, "INSERT")
 
     professional_project = await insert_professional_project_for_notebook(
         db_connection,
@@ -40,27 +40,27 @@ async def test_insert_professional_project(
 
     assert professional_project is not None
 
-    assert await count_audit(db_connection, "INSERT") == 35
+    assert await count_audit(db_connection, "INSERT") - nb_insert == 1
 
 
 async def test_delete_professional_project(
     db_connection: Connection,
     professional_project_tifour_id: UUID,
 ) -> None:
-    assert await count_audit(db_connection, "DELETE") == 0
+    nb_delete = await count_audit(db_connection, "DELETE")
 
     await delete_professional_project_by_id(
         db_connection, professional_project_tifour_id
     )
 
-    assert await count_audit(db_connection, "DELETE") == 1
+    assert await count_audit(db_connection, "DELETE") - nb_delete == 1
 
 
 async def test_update_professional_project_without_session(
     db_connection: Connection,
     professional_project_tifour_id: UUID,
 ) -> None:
-    assert await count_audit(db_connection, "UPDATE") == 0
+    nb_update = await count_audit(db_connection, "UPDATE")
 
     await db_connection.fetchrow(
         """
@@ -71,7 +71,7 @@ WHERE professional_project.id = $2
         professional_project_tifour_id,
     )
 
-    assert await count_audit(db_connection, "UPDATE") == 1
+    assert await count_audit(db_connection, "UPDATE") - nb_update == 1
 
     query = "SELECT * FROM audit ORDER BY created_at desc"
 
@@ -91,7 +91,7 @@ async def test_update_professional_project_with_graphql(
     get_professional_pierre_chevalier_jwt: str,
     professional_pierre_chevalier: Professional,
 ) -> None:
-    assert await count_audit(db_connection, "UPDATE") == 0
+    nb_update = await count_audit(db_connection, "UPDATE")
 
     update_professional_project_gql = gql(
         """
@@ -119,7 +119,7 @@ async def test_update_professional_project_with_graphql(
             variable_values={"id": professional_project_tifour_id},
         )
 
-        assert await count_audit(db_connection, "UPDATE") == 1
+        assert await count_audit(db_connection, "UPDATE") - nb_update == 1
 
     query = "SELECT * FROM audit ORDER BY created_at desc"
 
@@ -133,7 +133,7 @@ async def test_insert_professional_project_with_graphql(
     get_professional_pierre_chevalier_jwt: str,
     professional_pierre_chevalier: Professional,
 ) -> None:
-    assert await count_audit(db_connection, "INSERT") == 34
+    nb_insert = await count_audit(db_connection, "INSERT")
 
     insert_professional_project_gql = gql(
         """
@@ -163,12 +163,12 @@ async def test_insert_professional_project_with_graphql(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        result = await session.execute(
+        await session.execute(
             insert_professional_project_gql,
             variable_values=professional_project_object,
         )
 
-        assert await count_audit(db_connection, "INSERT") == 35
+        assert await count_audit(db_connection, "INSERT") - nb_insert == 1
 
     query = "SELECT * FROM audit ORDER BY created_at desc"
 
