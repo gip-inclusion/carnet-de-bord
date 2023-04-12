@@ -24,12 +24,14 @@ services:
       - full_page_writes=off
 
   hasura_test:
-    image: hasura/graphql-engine:v2.15.2-ce.cli-migrations-v3
+    image: hasura/graphql-engine:v2.22.0-ce.cli-migrations-v3
     extra_hosts:
       host.docker.internal: host-gateway
     volumes:
       - ./hasura/migrations:/hasura-migrations
       - ./hasura/metadata:/hasura-metadata
+      - ./hasura/seeds:/seeds
+      - ./hasura/config.yaml:/config.yaml
     ports:
       - '5001:8080'
     depends_on:
@@ -39,8 +41,9 @@ services:
       - .env.test
     environment:
       HASURA_GRAPHQL_DEV_MODE: 'true'
-      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, webhook-log
+      HASURA_GRAPHQL_ENABLED_LOG_TYPES: startup, http-log, query-log, webhook-log, websocket-log
       HASURA_GRAPHQL_ENABLE_TELEMETRY: 'false'
+      HASURA_GRAPHQL_ENABLE_CONSOLE: 'true'
 
 volumes:
   cdb-pgdata-test:

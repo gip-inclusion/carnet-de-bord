@@ -24,6 +24,9 @@ exports.config = {
 			url: process.env.CODECEPT_BASEURL || 'http://localhost:3000',
 			video: true,
 		},
+		Seed: {
+			require: './step_definitions/seed_helper.js',
+		},
 	},
 	hooks: [],
 	mocha: {},

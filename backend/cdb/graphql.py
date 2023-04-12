@@ -11,7 +11,8 @@ from cdb.api.core.settings import settings
 
 async def generate_schema_module() -> str:
     transport = AIOHTTPTransport(
-        url=settings.graphql_api_url, headers={"X-Hasura-Admin-Secret": "admin"}
+        url=settings.graphql_api_url,
+        headers={"X-Hasura-Admin-Secret": settings.hasura_graphql_admin_secret},
     )
     async with Client(transport=transport, fetch_schema_from_transport=True) as session:
         await session.fetch_schema()

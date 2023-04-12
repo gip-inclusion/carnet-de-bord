@@ -981,6 +981,8 @@ schema = build_schema(
     input account_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: account_set_input
+
+      """filter the rows which have to be updated"""
       where: account_bool_exp!
     }
 
@@ -1207,6 +1209,8 @@ schema = build_schema(
     input admin_cdb_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: admin_cdb_set_input
+
+      """filter the rows which have to be updated"""
       where: admin_cdb_bool_exp!
     }
 
@@ -1800,6 +1804,8 @@ schema = build_schema(
     input admin_structure_structure_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: admin_structure_structure_set_input
+
+      """filter the rows which have to be updated"""
       where: admin_structure_structure_bool_exp!
     }
 
@@ -1838,6 +1844,8 @@ schema = build_schema(
     input admin_structure_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: admin_structure_set_input
+
+      """filter the rows which have to be updated"""
       where: admin_structure_bool_exp!
     }
 
@@ -2826,6 +2834,8 @@ schema = build_schema(
 
       """sets the columns of the filtered rows to the given values"""
       _set: beneficiary_structure_set_input
+
+      """filter the rows which have to be updated"""
       where: beneficiary_structure_bool_exp!
     }
 
@@ -2906,6 +2916,8 @@ schema = build_schema(
     input beneficiary_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: beneficiary_set_input
+
+      """filter the rows which have to be updated"""
       where: beneficiary_bool_exp!
     }
 
@@ -3175,6 +3187,8 @@ schema = build_schema(
     input contract_type_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: contract_type_set_input
+
+      """filter the rows which have to be updated"""
       where: contract_type_bool_exp!
     }
 
@@ -3707,6 +3721,8 @@ schema = build_schema(
 
       """sets the columns of the filtered rows to the given values"""
       _set: deployment_set_input
+
+      """filter the rows which have to be updated"""
       where: deployment_bool_exp!
     }
 
@@ -3886,6 +3902,8 @@ schema = build_schema(
     input employment_type_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: employment_type_set_input
+
+      """filter the rows which have to be updated"""
       where: employment_type_bool_exp!
     }
 
@@ -4272,6 +4290,8 @@ schema = build_schema(
     input external_data_info_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: external_data_info_set_input
+
+      """filter the rows which have to be updated"""
       where: external_data_info_bool_exp!
     }
 
@@ -4480,6 +4500,8 @@ schema = build_schema(
 
       """sets the columns of the filtered rows to the given values"""
       _set: external_data_set_input
+
+      """filter the rows which have to be updated"""
       where: external_data_bool_exp!
     }
 
@@ -4696,6 +4718,8 @@ schema = build_schema(
     input external_source_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: external_source_set_input
+
+      """filter the rows which have to be updated"""
       where: external_source_bool_exp!
     }
 
@@ -5050,6 +5074,8 @@ schema = build_schema(
     input manager_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: manager_set_input
+
+      """filter the rows which have to be updated"""
       where: manager_bool_exp!
     }
 
@@ -8354,6 +8380,8 @@ schema = build_schema(
     input notebook_action_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_action_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_action_bool_exp!
     }
 
@@ -8696,6 +8724,8 @@ schema = build_schema(
     input notebook_appointment_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_appointment_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_appointment_bool_exp!
     }
 
@@ -9256,6 +9286,8 @@ schema = build_schema(
     input notebook_event_type_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_event_type_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_event_type_bool_exp!
     }
 
@@ -9309,6 +9341,8 @@ schema = build_schema(
 
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_event_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_event_bool_exp!
     }
 
@@ -9647,6 +9681,8 @@ schema = build_schema(
     input notebook_focus_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_focus_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_focus_bool_exp!
     }
 
@@ -9883,6 +9919,8 @@ schema = build_schema(
     input notebook_info_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_info_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_info_bool_exp!
     }
 
@@ -10323,6 +10361,8 @@ schema = build_schema(
     input notebook_member_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_member_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_member_bool_exp!
     }
 
@@ -10597,6 +10637,8 @@ schema = build_schema(
     input notebook_public_view_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_public_view_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_public_view_bool_exp!
     }
 
@@ -10969,6 +11011,8 @@ schema = build_schema(
     input notebook_situation_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_situation_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_situation_bool_exp!
     }
 
@@ -11340,6 +11384,8 @@ schema = build_schema(
     input notebook_target_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_target_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_target_bool_exp!
     }
 
@@ -11393,6 +11439,8 @@ schema = build_schema(
     input notebook_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: notebook_set_input
+
+      """filter the rows which have to be updated"""
       where: notebook_bool_exp!
     }
 
@@ -11625,6 +11673,8 @@ schema = build_schema(
     input nps_rating_dismissal_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: nps_rating_dismissal_set_input
+
+      """filter the rows which have to be updated"""
       where: nps_rating_dismissal_bool_exp!
     }
 
@@ -11784,6 +11834,8 @@ schema = build_schema(
 
       """sets the columns of the filtered rows to the given values"""
       _set: nps_rating_set_input
+
+      """filter the rows which have to be updated"""
       where: nps_rating_bool_exp!
     }
 
@@ -12192,6 +12244,8 @@ schema = build_schema(
     input orientation_manager_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: orientation_manager_set_input
+
+      """filter the rows which have to be updated"""
       where: orientation_manager_bool_exp!
     }
 
@@ -12539,6 +12593,8 @@ schema = build_schema(
     input orientation_request_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: orientation_request_set_input
+
+      """filter the rows which have to be updated"""
       where: orientation_request_bool_exp!
     }
 
@@ -12907,6 +12963,8 @@ schema = build_schema(
     input orientation_system_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: orientation_system_set_input
+
+      """filter the rows which have to be updated"""
       where: orientation_system_bool_exp!
     }
 
@@ -13127,6 +13185,8 @@ schema = build_schema(
     input orientation_type_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: orientation_type_set_input
+
+      """filter the rows which have to be updated"""
       where: orientation_type_bool_exp!
     }
 
@@ -13634,6 +13694,8 @@ schema = build_schema(
     input professional_orientation_system_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: professional_orientation_system_set_input
+
+      """filter the rows which have to be updated"""
       where: professional_orientation_system_bool_exp!
     }
 
@@ -14112,6 +14174,8 @@ schema = build_schema(
 
       """sets the columns of the filtered rows to the given values"""
       _set: professional_project_set_input
+
+      """filter the rows which have to be updated"""
       where: professional_project_bool_exp!
     }
 
@@ -14269,6 +14333,8 @@ schema = build_schema(
     input professional_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: professional_set_input
+
+      """filter the rows which have to be updated"""
       where: professional_bool_exp!
     }
 
@@ -16465,6 +16531,8 @@ schema = build_schema(
     input ref_action_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: ref_action_set_input
+
+      """filter the rows which have to be updated"""
       where: ref_action_bool_exp!
     }
 
@@ -16645,6 +16713,8 @@ schema = build_schema(
     input ref_situation_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: ref_situation_set_input
+
+      """filter the rows which have to be updated"""
       where: ref_situation_bool_exp!
     }
 
@@ -16815,6 +16885,8 @@ schema = build_schema(
     input ref_target_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: ref_target_set_input
+
+      """filter the rows which have to be updated"""
       where: ref_target_bool_exp!
     }
 
@@ -16973,6 +17045,8 @@ schema = build_schema(
     input ref_theme_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: ref_theme_set_input
+
+      """filter the rows which have to be updated"""
       where: ref_theme_bool_exp!
     }
 
@@ -17176,6 +17250,8 @@ schema = build_schema(
     input role_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: role_set_input
+
+      """filter the rows which have to be updated"""
       where: role_bool_exp!
     }
 
@@ -17409,6 +17485,8 @@ schema = build_schema(
     input rome_code_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: rome_code_set_input
+
+      """filter the rows which have to be updated"""
       where: rome_code_bool_exp!
     }
 
@@ -18087,6 +18165,8 @@ schema = build_schema(
     input structure_orientation_system_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: structure_orientation_system_set_input
+
+      """filter the rows which have to be updated"""
       where: structure_orientation_system_bool_exp!
     }
 
@@ -18241,6 +18321,8 @@ schema = build_schema(
     input structure_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: structure_set_input
+
+      """filter the rows which have to be updated"""
       where: structure_bool_exp!
     }
 

@@ -5,45 +5,55 @@ import re
 import sys
 
 
-def read_hasura_docker_version(filepath):
+def check_hasura_docker_version(filepath, expected_version):
     # image: hasura/graphql-engine:v2.15.2-ce.cli-migrations-v3
     image_pattern = re.compile(
         r"""
-        ^\s*                    # Tolerate leading whitespaces
-        image:\s*               # Docker compose image spec
-        hasura/graphql-engine   # Image name
-        :                        # Version delimiter
-        v(?P<version>[0-9]+\.[0-9]+\.[0-9]+?)
+        (?P<prefix>
+            ^\s*                    # Tolerate leading whitespaces
+            image:\s*               # Docker compose image spec
+            hasura/graphql-engine   # Image name
+            :                        # Version delimiter
+            v)
+        (?P<version>[0-9]+\.[0-9]+\.[0-9]+?)
         """,
-        re.VERBOSE,
+        re.VERBOSE | re.MULTILINE,
     )
-    with open(filepath) as docker_compose_f:
-        for line in docker_compose_f:
-            match = image_pattern.match(line)
-            if match:
-                return match.group("version")
-    sys.exit("Could not read hasura docker image version from docker-compose.yml")
+
+    path = pathlib.Path(filepath)
+
+    contents = path.read_text()
+    image_pattern.search(contents)
+
+    (patched, subs_made) = image_pattern.subn(
+        rf"\g<prefix>{expected_version}", contents
+    )
+
+    if subs_made != 1:
+        sys.exit(f"Could not read hasura docker image version from {filepath}")
+
+    if patched != contents:
+        path.write_text(patched)
+        return False
+
+    return True
 
 
 def main():
-    hasura_version = pathlib.Path("hasura/.hasura_version").read_text().strip()
+    hasura_fp = "hasura/.hasura_version"
+    hasura_version = pathlib.Path(hasura_fp).read_text().strip()
     print(f"--> Version from .hasura_version file is {hasura_version}")
 
-    compose_versions = {}
-    for file in ["docker-compose.yaml", "docker-compose-test.yaml"]:
-        version = read_hasura_docker_version(file)
-        compose_versions[file] = version
-        print(f"--> Version from {file} is {version}")
-
     errors = []
-    hasura_fp = "hasura/.hasura_version"
-    for file, version in compose_versions.items():
-        if hasura_version == version:
-            print(f"--> Version in {file} matches version in {hasura_fp}")
-        else:
+    for file in ["docker-compose.yaml", "docker-compose-test.yaml"]:
+        ok = check_hasura_docker_version(file, hasura_version)
+        print(f"--> Version in {file} matches? {'Yes' if ok else 'No'}")
+        if not ok:
             errors.append(
-                f"--> Error: Version in {file} mismatches version in {hasura_fp}"
+                f"--> Error: Version in {file} mismatches version in {hasura_fp}.\n"
+                f"    The file was modified to match the correct version."
             )
+
     if errors:
         sys.exit("\n".join(errors))
 

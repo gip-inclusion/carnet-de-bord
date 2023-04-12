@@ -75,14 +75,6 @@ async function removeMember(email) {
 	);
 }
 
-function seedDatabase() {
-	const { execSync } = require('child_process');
-	const graphqlEndpoint = process.env.HASURA_BASEURL ?? 'http://localhost:5000';
-	execSync(
-		`HASURA_GRAPHQL_ENDPOINT=${graphqlEndpoint} hasura seed apply --project ../hasura --database-name carnet_de_bord --log-level INFO --no-color`
-	);
-}
-
 async function onBoardingSetup(userType, email, onBoardingDone) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	return await I.sendMutation(
@@ -114,5 +106,4 @@ module.exports = {
 	loginStub,
 	onBoardingSetup,
 	removeMember,
-	seedDatabase,
 };
