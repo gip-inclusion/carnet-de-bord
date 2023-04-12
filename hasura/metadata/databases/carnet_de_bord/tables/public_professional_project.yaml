@@ -100,8 +100,8 @@ insert_permissions:
               - active:
                   _eq: true
       set:
-        created_by: x-hasura-User-Id
-        updated_by: x-hasura-User-Id
+        created_by: X-Hasura-User-Id
+        updated_by: X-Hasura-User-Id
       columns:
         - contract_type_id
         - employment_type_id
@@ -120,8 +120,8 @@ insert_permissions:
               - active:
                   _eq: true
       set:
-        created_by: x-hasura-User-Id
-        updated_by: x-hasura-User-Id
+        created_by: X-Hasura-User-Id
+        updated_by: X-Hasura-User-Id
       columns:
         - contract_type_id
         - employment_type_id
@@ -272,7 +272,7 @@ update_permissions:
                   _eq: true
       check: null
       set:
-        updated_by: x-hasura-User-Id
+        updated_by: X-Hasura-User-Id
   - role: professional
     permission:
       columns:
@@ -291,7 +291,7 @@ update_permissions:
                   _eq: true
       check: null
       set:
-        updated_by: x-hasura-User-Id
+        updated_by: X-Hasura-User-Id
 delete_permissions:
   - role: orientation_manager
     permission:
