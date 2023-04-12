@@ -1,8 +1,13 @@
+import json
+
+import pytest
 from asyncpg.connection import Connection
+from gql.client import AsyncClientSession
 
 from cdb.api.db.crud.external_data import (
     get_all_external_datas_by_beneficiary_id_and_source,
     get_last_external_data_by_beneficiary_id_and_source,
+    save_external_data_with_info,
 )
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.external_data import ExternalSource, format_external_data
@@ -27,7 +32,7 @@ async def test_insert_external_data(
     await insert_external_data_for_beneficiary_and_professional(
         db_connection,
         beneficiary_sophie_tifour,
-        ExternalSource.PE,
+        ExternalSource.PE_FTP,
         format_external_data(
             csv_row.dict(), {"beneficiary": beneficiary_sophie_tifour.dict()}
         ),
@@ -36,7 +41,7 @@ async def test_insert_external_data(
     )
 
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
-        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
+        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE_FTP
     )
 
     assert external_data is not None
@@ -51,7 +56,7 @@ async def test_check_existing_external_data(
     pe_principal_csv_series,
 ):
     external_data = await get_last_external_data_by_beneficiary_id_and_source(
-        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
+        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE_FTP
     )
 
     assert external_data is None
@@ -76,7 +81,7 @@ async def test_check_existing_external_data(
     assert external_data.data["source"]["nom"] == "TIFOUR"
 
     datas = await get_all_external_datas_by_beneficiary_id_and_source(
-        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
+        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE_FTP
     )
 
     assert len(datas) == 1
@@ -106,7 +111,38 @@ async def test_check_existing_external_data(
     )
 
     datas = await get_all_external_datas_by_beneficiary_id_and_source(
-        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE
+        db_connection, beneficiary_sophie_tifour.id, ExternalSource.PE_FTP
     )
 
     assert len(datas) == 2
+
+
+@pytest.mark.graphql
+async def test_save_external_data_with_info(
+    gql_admin_client: AsyncClientSession,
+    db_connection: Connection,
+    beneficiary_edwina_skinner: Beneficiary,
+):
+    data = {"test": "choucroute"}
+    external_data_id = await save_external_data_with_info(
+        gql_admin_client,
+        beneficiary_edwina_skinner.id,
+        data,
+        ExternalSource.PE_IO,
+    )
+    result = await db_connection.fetchrow(
+        """
+        SELECT beneficiary_id, data, source, hash
+        FROM external_data
+        LEFT JOIN external_data_info ON external_data_id = id
+        WHERE id = $1
+        """,
+        external_data_id,
+    )
+    assert result
+    assert result["beneficiary_id"] == beneficiary_edwina_skinner.id
+    assert result["data"] == json.dumps(data)
+    assert (
+        result["hash"]
+        == "573836d0c6192bdebdaf246803617e7960a59f6c419dbc8e5dbc8912f85a4dd3"
+    )

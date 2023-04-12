@@ -2,11 +2,15 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime, timedelta
 from typing import List
+from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
 import httpx
 
+from cdb.pe.models.contrainte import Contrainte
+
 from .models.agence import Agence
+from .models.beneficiary import Beneficiary
 
 logger = logging.getLogger(__name__)
 
@@ -34,7 +38,6 @@ API_TIMEOUT_SECONDS = 60  # this API is pretty slow, let's give it a chance
 
 @dataclass
 class PoleEmploiApiClient:
-
     auth_base_url: str
     base_url: str
     client_id: str
@@ -52,24 +55,42 @@ class PoleEmploiApiClient:
     def agences_url(self) -> str:
         return f"{self.base_url}/partenaire/referentielagences/v1/agences"
 
-    def _refresh_token(self, at=None) -> None:
+    @property
+    def usagers_url(self) -> str:
+        # rechercher-usager/v1/usagers/recherche
+        #   dateNaissance=1981-03-15
+        #   nir=181036290874034
+        return f"{self.base_url}/partenaire/rechercher-usager/v1/usagers/recherche"
+
+    def contraintes_url(self, usager_id: str) -> str:
+        return (
+            f"{self.base_url}/partenaire/diagnosticargumente/v1/individus/"
+            f"{quote(usager_id)}/contraintes"
+        )
+
+    async def _refresh_token(self, at=None) -> None:
         if not at:
             at = datetime.now(tz=ZoneInfo(self.tz))
         if self.expires_at and self.expires_at > at:
             return
 
-        response = httpx.post(
-            self.token_url,
-            params={"realm": "/partenaire"},
-            data={
-                "client_id": self.client_id,
-                "client_secret": self.client_secret,
-                "grant_type": "client_credentials",
-                "scope": self.scope,
-            },
-            headers={"Content-Type": "application/x-www-form-urlencoded"},
-        )
-        response.raise_for_status()
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                self.token_url,
+                params={"realm": "/partenaire"},
+                data={
+                    "client_id": self.client_id,
+                    "client_secret": self.client_secret,
+                    "grant_type": "client_credentials",
+                    "scope": self.scope,
+                },
+                headers={"Content-Type": "application/x-www-form-urlencoded"},
+            )
+        try:
+            response.raise_for_status()
+        except Exception as e:
+            raise PoleEmploiAPIException(e) from e
+
         auth_data = response.json()
         self.token = f"{auth_data['token_type']} {auth_data['access_token']}"
         self.expires_at = at + timedelta(seconds=auth_data["expires_in"])
@@ -78,12 +99,13 @@ class PoleEmploiApiClient:
     def _headers(self) -> dict:
         return {"Authorization": self.token, "Content-Type": "application/json"}
 
-    def _get_request(self, url: str, params: dict):
+    async def _post_request(self, url: str, params: dict):
         try:
-            self._refresh_token()
-            response = httpx.get(
-                url, params=params, headers=self._headers, timeout=API_TIMEOUT_SECONDS
-            )
+            await self._refresh_token()
+            async with httpx.AsyncClient() as client:
+                response = await client.post(
+                    url, json=params, headers=self._headers, timeout=API_TIMEOUT_SECONDS
+                )
             if response.status_code != 200:
                 raise PoleEmploiAPIException(response.status_code)
             data = response.json()
@@ -91,7 +113,24 @@ class PoleEmploiApiClient:
         except httpx.RequestError as exc:
             raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
 
-    def recherche_agences(
+    async def _get_request(self, url: str, params: dict | None = None):
+        try:
+            await self._refresh_token()
+            async with httpx.AsyncClient() as client:
+                response = await client.get(
+                    url,
+                    params=params,
+                    headers=self._headers,
+                    timeout=API_TIMEOUT_SECONDS,
+                )
+            if response.status_code != 200:
+                raise PoleEmploiAPIException(response.status_code)
+            data = response.json()
+            return data
+        except httpx.RequestError as exc:
+            raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
+
+    async def recherche_pole_emploi_agences(
         self,
         commune: str,
         horaire: bool = False,
@@ -305,11 +344,11 @@ class PoleEmploiApiClient:
         """
 
         if add_padding:
-            # By default, if your looking for the department number 8
+            # By default, if you are looking for the department number 8
             # you need to pass "08" to the API
             commune = commune.rjust(2, "0")
 
-        data = self._get_request(
+        data = await self._get_request(
             self.agences_url if agences_url is None else agences_url,
             params={
                 "horaire": horaire,
@@ -319,6 +358,17 @@ class PoleEmploiApiClient:
         )
         return data
 
-    def recherche_agences_pydantic(self, *args, **kwargs) -> List[Agence]:
-        agences: List[dict] = self.recherche_agences(*args, **kwargs)
+    async def recherche_agences(self, *args, **kwargs) -> List[Agence]:
+        agences: List[dict] = await self.recherche_pole_emploi_agences(*args, **kwargs)
         return [Agence.parse_obj(agence) for agence in agences]
+
+    async def search_beneficiary(self, nir: str, date_of_birth: str) -> Beneficiary:
+        usager: dict = await self._post_request(
+            url=self.usagers_url, params={"nir": nir, "dateNaissance": date_of_birth}
+        )
+        # Todo test si on ne trouve pas l'usager
+        return Beneficiary.parse_obj(usager)
+
+    async def get_contraintes(self, usager_id: str) -> List[Contrainte]:
+        result: dict = await self._get_request(url=self.contraintes_url(usager_id))
+        return [Contrainte.parse_obj(obj) for obj in result["contraintes"]]

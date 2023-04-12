@@ -3,6 +3,7 @@ import type {
 	ProfessionalProject,
 	RefSituation as _RefSituation,
 } from '$lib/graphql/_gen/typed-document-nodes';
+import type { ports as sentryPorts } from '$elm/Sentry';
 
 export type Creator = {
 	professional?: { firstname?: string; lastname?: string; structure: { name: string } };
@@ -36,16 +37,16 @@ export type Flags = {
 	};
 	professionalProjects: ProfessionalProjectElm[];
 	peGeneralData: { [name: string]: string };
-	personalSituations: {
-		refSituation?: RefSituation;
-		createdAt: string;
-		creator?: Creator;
-	}[];
+	notebookId: string;
 };
 
 export type Ports = {};
 
+export interface ElmApp {
+	ports: sentryPorts;
+}
+
 export namespace Elm.Diagnostic.Main {
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	function init(options: { node?: HTMLElement | null; flags: Flags }): void;
+	function init(options: { node?: HTMLElement | null; flags: Flags }): ElmApp;
 }

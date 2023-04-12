@@ -1,4 +1,4 @@
-module Domain.Theme exposing (Theme(..), themeKeyStringToString, themeKeyStringToType, themeKeyTypeToLabel)
+module Domain.Theme exposing (Theme(..), printTheme, themeKeyStringToType, themeKeyTypeToLabel)
 
 
 type Theme
@@ -51,8 +51,8 @@ themeKeyStringToType key =
             Nothing
 
 
-themeKeyStringToString : String -> String
-themeKeyStringToString key =
+printTheme : String -> String
+printTheme key =
     case key of
         "logement" ->
             "Logement"

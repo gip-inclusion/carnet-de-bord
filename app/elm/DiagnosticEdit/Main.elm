@@ -13,7 +13,7 @@ port module DiagnosticEdit.Main exposing
 
 import Browser
 import Decimal exposing (Decimal)
-import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
+import Diagnostic.ProfessionalProject
 import DiagnosticEdit.RomeSelect
 import Domain.ProfessionalProject
     exposing
@@ -62,7 +62,7 @@ type alias NotebookSituationFlag =
 type alias Flags =
     { refSituations : List RefSituationFlag
     , situations : List NotebookSituationFlag
-    , professionalProjects : List ProfessionalProjectFlags
+    , professionalProjects : List Diagnostic.ProfessionalProject.ProjectFlag
     }
 
 
@@ -193,9 +193,9 @@ extractSituationOptionFromFlag flag =
         (themeKeyStringToType flag.theme)
 
 
-extractProfessionalProjectsFromFlags : List ProfessionalProjectFlags -> List ProfessionalProject
+extractProfessionalProjectsFromFlags : List Diagnostic.ProfessionalProject.ProjectFlag -> List ProfessionalProject
 extractProfessionalProjectsFromFlags professionalProjects =
-    List.map extractProfessionalProjectFromFlags professionalProjects
+    List.map Diagnostic.ProfessionalProject.extractProfessionalProjectFromFlags professionalProjects
 
 
 initProfessionalProjectState : ProfessionalProject -> ProfessionalProjectState
@@ -557,7 +557,12 @@ view model =
                                         [ Html.label
                                             [ Attr.class "fr-label", Attr.for ("hourly-rate-" ++ String.fromInt index) ]
                                             [ Html.text "Salaire minimum brut horaire (€)"
-                                            , Html.span [ Attr.class "fr-hint-text" ] [ Html.text ("SMIC horaire brut au 1er janvier 2023 : " ++ Decimal.toString smicHourlyValue |> addMoneyUnit) ]
+                                            , Html.span [ Attr.class "fr-hint-text" ]
+                                                [ Html.text
+                                                    ("SMIC horaire brut au 1er janvier 2023 : "
+                                                        ++ Diagnostic.ProfessionalProject.printEuros smicHourlyValue
+                                                    )
+                                                ]
                                             ]
                                         , Html.input
                                             (attrlist

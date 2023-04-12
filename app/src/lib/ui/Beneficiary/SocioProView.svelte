@@ -1,8 +1,6 @@
 <script lang="ts" context="module">
 	import type { ExternalData, GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
-	import { formatDateLocale } from '$lib/utils/date';
-
 	export type SocioProInfo = Pick<
 		GetNotebookQuery['notebook_public_view'][number]['notebook'],
 		| 'workSituation'
@@ -25,13 +23,10 @@
 
 	import { Elm as DiagnosticElm } from '$elm/Diagnostic/Main.elm';
 	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
+	import { captureException } from '@sentry/svelte';
 
 	const elmSetup = (node: HTMLElement) => {
-		const situationsWithFormattedDates = notebook.situations?.map((situation) => {
-			return { ...situation, createdAt: formatDateLocale(situation.createdAt) };
-		});
-
-		DiagnosticElm.Diagnostic.Main.init({
+		const app = DiagnosticElm.Diagnostic.Main.init({
 			node,
 			flags: {
 				professionalSituation: {
@@ -42,32 +37,25 @@
 					educationLevel: notebook.educationLevel,
 					lastJobEndedAt: notebook.lastJobEndedAt,
 				},
-				professionalProjects: notebook.professionalProjects.map(
-					({
-						rome_code,
-						id,
-						mobilityRadius,
-						createdAt,
-						updatedAt,
-						contract_type,
-						employment_type,
-						hourlyRate,
-						updater,
-					}) => ({
-						id,
-						createdAt,
-						updatedAt,
-						mobilityRadius,
-						rome: rome_code,
-						hourlyRate,
-						contractType: contract_type,
-						employmentType: employment_type,
-						updater,
-					})
-				),
+				professionalProjects: notebook.professionalProjects.map((professionalProject) => ({
+					id: professionalProject.id,
+					createdAt: professionalProject.createdAt,
+					updatedAt: professionalProject.updatedAt,
+					mobilityRadius: professionalProject.mobilityRadius,
+					rome: professionalProject.rome_code,
+					hourlyRate: professionalProject.hourlyRate,
+					contractType: professionalProject.contract_type,
+					employmentType: professionalProject.employment_type,
+					updater: professionalProject.updater,
+				})),
 				peGeneralData: externalDataDetail?.data?.source || null,
-				personalSituations: situationsWithFormattedDates || null,
+				notebookId: notebook.id,
 			},
+		});
+
+		app.ports.sendError.subscribe((message: string) => {
+			console.error({ message });
+			return captureException(new Error(message));
 		});
 	};
 </script>
