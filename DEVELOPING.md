@@ -64,7 +64,7 @@ export const load: Load = async ({ page }) => {
 
 **Modification des metadata Hasura**
 
-après avoir modifié des metadatas hasura dans la console (permissions, GraphQL field name, etc), ne pas oublier de les exporter
+Après avoir modifié des metadatas hasura dans la console (permissions, GraphQL field name, etc), ne pas oublier de les exporter
 
 ```sh
 # depuis le répertoire ~/hasura
@@ -73,9 +73,9 @@ hasura metadata export
 
 **Migration de la base de données**
 
-Si les modifications du schéma de la base de données ont faites à partir de la console hasura `http://localhost:5000/console`, hasura génère automatiquement des fichiers de migrations dans `hasura/migrations`.
+Si les modifications du schéma de la base de données sont faites à partir de la console hasura `http://localhost:9695/console`, hasura génère automatiquement des fichiers de migrations dans `hasura/migrations`.
 
-avant de `merge` une PR, ne pas oublier de (squash)[https://hasura.io/docs/latest/graphql/core/hasura-cli/hasura_migrate_squash.html] les fichiers.
+Avant de `merge` une PR, ne pas oublier de (squash)[https://hasura.io/docs/latest/graphql/core/hasura-cli/hasura_migrate_squash.html] les fichiers.
 
 Les migrations sont appliquées automatiquement au lancement de hasura
 
