@@ -6,13 +6,10 @@ THIS_FILE := $(lastword $(MAKEFILE_LIST))
 # Install
 # -------------------------------------
 
-install:
+install: .install-app .install-backend .install-e2e
 	-cp -n .env.sample .env
 	-cp -n .env.test.sample .env.test
 	pre-commit install
-	@$(MAKE) -f $(THIS_FILE) .install-app
-	@$(MAKE) -f $(THIS_FILE) .install-backend
-	@$(MAKE) -f $(THIS_FILE) .install-e2e
 
 .install-app:
 	cd app && \
@@ -45,11 +42,11 @@ test-backend:
 
 test-backend-watch:
 	./scripts/launch_tests.sh
-	cd backend; \
+	cd backend && \
 		ENV_FILE=../.env.test poetry run ptw --runner "pytest --testmon"
 
 test-app:
-	cd app;
+	cd app && \
 		npm run test
 
 
@@ -60,7 +57,7 @@ seed-database:
 	hasura --project ./hasura seed apply --database-name carnet_de_bord
 
 codegen:
-	cd backend; \
+	cd backend && \
 		poetry run cdb/scripts/codegen.py
-	cd app; \
+	cd app && \
 		npm run codegen
