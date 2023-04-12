@@ -272,7 +272,11 @@ async def create_beneficiary_with_notebook_and_referent(
 
     await insert_professional_projects(connection, new_notebook_id, beneficiary)
     await add_referent_and_structure_to_beneficiary(
-        connection, beneficiary_id, new_notebook_id, beneficiary
+        connection,
+        beneficiary_id,
+        new_notebook_id,
+        beneficiary,
+        deployment_id,
     )
     logger.info("inserted new beneficiary %s", beneficiary_id)
     return beneficiary_id
@@ -283,10 +287,13 @@ async def add_referent_and_structure_to_beneficiary(
     beneficiary_id: UUID,
     notebook_id: UUID,
     beneficiary: BeneficiaryImport,
+    deployment_id: UUID,
 ):
     structure = None
     if beneficiary.structure_name:
-        structure = await get_structure_by_name(connection, beneficiary.structure_name)
+        structure = await get_structure_by_name(
+            connection, beneficiary.structure_name, deployment_id
+        )
         if structure is None:
             logger.info(
                 "Trying to associate structure with beneficiary: "

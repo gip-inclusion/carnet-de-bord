@@ -67,13 +67,17 @@ async def insert_structure(
         return parse_structure_from_record(record)
 
 
-async def get_structure_by_name(connection: Connection, name: str) -> Structure | None:
+async def get_structure_by_name(
+    connection: Connection, name: str, deployment_id: UUID
+) -> Structure | None:
     return await get_structure_with_query(
         connection,
         """
         WHERE trim(lower(unaccent(name)))=trim(lower(unaccent($1)))
+        AND deployment_id=$2
         """,
         name,
+        deployment_id,
     )
 
 
