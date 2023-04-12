@@ -41,17 +41,9 @@ query SearchBeneficiaries($filter: String) {
 Avec **l’environnement de dev démarré**, on génère les types avec `codegen` :
 
 ```sh
-# Pour Python, depuis le répertoire backend/
-poetry run cdb/scripts/codegen.py
+make codegen
 ```
-
 Le schéma est écrit dans un module Python `backend.cdb.api._gen.schema_gql`.
-
-```sh
-# Pour JavaScript, depuis le répertoire app/
-npm run codegen
-```
-
 Les types graphql sont générés dans `src/_gen`. On peut alors les utiliser dans les composants
 
 ```ts
