@@ -17,6 +17,7 @@ const pierreChevalierAccount = {
 		structure: {
 			id: 's1',
 			name: 'Centre communal Livry gargan',
+			deployment: { label: 'CD93' },
 		},
 	},
 };
@@ -34,6 +35,7 @@ const sankaAccount = {
 		structure: {
 			id: 's2',
 			name: 'Groupe NS',
+			deployment: { label: 'CD93' },
 		},
 	},
 };

@@ -17588,8 +17588,8 @@ schema = build_schema(
       createdAt: timestamptz
 
       """An object relationship"""
-      deployment: deployment
-      deploymentId: uuid
+      deployment: deployment!
+      deploymentId: uuid!
       email: String
       id: uuid!
       name: citext!
