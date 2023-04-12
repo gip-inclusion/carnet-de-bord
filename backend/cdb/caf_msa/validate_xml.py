@@ -40,7 +40,6 @@ class XMLTagStream:
 
     def __exit__(self, *args, **kwargs):
         self.stream.close()
-        self.file.close()
 
     def __iter__(self) -> Generator[etree._ElementTree, Any, Any]:
         end = 0

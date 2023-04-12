@@ -1,4 +1,5 @@
 import io
+from datetime import date
 from unittest import TestCase
 
 import lxml.etree as etree
@@ -30,8 +31,10 @@ async def test_validate_correct_file(flux_mensuel_caf: io.BufferedReader):
 async def test_extract_data_using_xml_tag_stream(
     flux_mensuel_caf: io.BufferedReader, snapshot
 ):
-    foyers = parse_caf_file(flux_mensuel_caf)
-
+    (metadata, foyers) = parse_caf_file(flux_mensuel_caf)
+    assert metadata
+    assert metadata.date == date(2022, 3, 5)
+    assert metadata.type == "M"
     assert len(foyers) == 2
     assert foyers == snapshot
 

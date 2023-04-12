@@ -3810,6 +3810,8 @@ export enum ExternalSourceConstraint {
 }
 
 export enum ExternalSourceEnum {
+	/** Flux caf / msa */
+	Cafmsa = 'cafmsa',
 	/** Pôle Emploi */
 	Pe = 'pe',
 }
@@ -19045,10 +19047,14 @@ export type GetNotebookQuery = {
 			rightAss: boolean;
 			rightBonus: boolean;
 			rightRsa?: string | null;
-			externalDataInfos: Array<{
+			peInfos: Array<{
 				__typename?: 'external_data_info';
 				external_data_id: string;
 				externalData: { __typename?: 'external_data'; data: any; source: ExternalSourceEnum };
+			}>;
+			cafInfos: Array<{
+				__typename?: 'external_data_info';
+				externalData: { __typename?: 'external_data'; data: any };
 			}>;
 			orientationRequest?: Array<{
 				__typename?: 'orientation_request';
@@ -31661,7 +31667,47 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
 											{
 												kind: 'Field',
+												alias: { kind: 'Name', value: 'peInfos' },
 												name: { kind: 'Name', value: 'externalDataInfos' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'externalData' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'source' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: { kind: 'EnumValue', value: 'pe' },
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'limit' },
+														value: { kind: 'IntValue', value: '1' },
+													},
+												],
 												selectionSet: {
 													kind: 'SelectionSet',
 													selections: [
@@ -31674,6 +31720,65 @@ export const GetNotebookDocument = {
 																selections: [
 																	{ kind: 'Field', name: { kind: 'Name', value: 'data' } },
 																	{ kind: 'Field', name: { kind: 'Name', value: 'source' } },
+																],
+															},
+														},
+													],
+												},
+											},
+											{
+												kind: 'Field',
+												alias: { kind: 'Name', value: 'cafInfos' },
+												name: { kind: 'Name', value: 'externalDataInfos' },
+												arguments: [
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'where' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'externalData' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'source' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: { kind: 'EnumValue', value: 'cafmsa' },
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+															],
+														},
+													},
+													{
+														kind: 'Argument',
+														name: { kind: 'Name', value: 'limit' },
+														value: { kind: 'IntValue', value: '1' },
+													},
+												],
+												selectionSet: {
+													kind: 'SelectionSet',
+													selections: [
+														{
+															kind: 'Field',
+															name: { kind: 'Name', value: 'externalData' },
+															selectionSet: {
+																kind: 'SelectionSet',
+																selections: [
+																	{ kind: 'Field', name: { kind: 'Name', value: 'data' } },
 																],
 															},
 														},

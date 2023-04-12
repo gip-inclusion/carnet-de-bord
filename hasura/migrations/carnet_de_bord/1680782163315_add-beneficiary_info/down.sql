@@ -13,3 +13,5 @@ alter table "public"."beneficiary" drop column "is_homeless";
 DROP TABLE "public"."rsa_suspension_reason";
 
 DROP TABLE "public"."rsa_closure_reason";
+
+DELETE FROM "public"."external_source" WHERE value = 'cafmsa';

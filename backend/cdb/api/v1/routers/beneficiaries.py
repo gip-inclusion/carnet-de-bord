@@ -2,11 +2,14 @@ import logging
 from uuid import UUID
 
 from asyncpg.connection import Connection
-from fastapi import APIRouter, Depends, Request, UploadFile
+from fastapi import APIRouter, Depends, Header, Request, UploadFile
+from gql import Client
+from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
 from cdb.api.core.exceptions import InsertFailError, UpdateFailError
 from cdb.api.core.init import connection
+from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import (
     create_beneficiary_with_notebook_and_referent,
     get_beneficiaries_like,
@@ -24,6 +27,7 @@ from cdb.api.db.models.beneficiary import (
 from cdb.api.db.models.csv import CsvFieldError
 from cdb.api.db.models.role import RoleEnum
 from cdb.api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
+from cdb.caf_msa.update_beneficiary import update_beneficiaries
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
@@ -52,7 +56,6 @@ async def import_beneficiaries(
     request: Request,
     db=Depends(connection),
 ) -> list[BeneficiaryCsvRowResponse]:
-
     deployment_id: UUID = UUID(request.state.deployment_id)
     result = [
         await import_beneficiary(db, beneficiary, deployment_id, data.need_orientation)
@@ -61,14 +64,27 @@ async def import_beneficiaries(
     return result
 
 
-@router.post("/update-from-caf-msa", status_code=201)
+@router.post("/update-from-caf-msa", status_code=200)
 async def import_caf_msa_xml(
-    request: Request,
     upload_file: UploadFile,
-) -> None:
-    xmldata = await upload_file.read()
-    print(xmldata)
-    pass
+    jwt_token: str = Header(default=None),
+) -> dict[str, int]:
+    transport = AIOHTTPTransport(
+        url=settings.graphql_api_url,
+        headers={
+            "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
+            "x-hasura-use-backend-only-permissions": "true",
+            "Authorization": "Bearer " + jwt_token,
+        },
+    )
+    async with Client(
+        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
+    ) as session:
+        # don't know how to handle it
+        result: dict[str, int] = await update_beneficiaries(
+            session, upload_file.file  # type: ignore
+        )
+        return result
 
 
 async def import_beneficiary(

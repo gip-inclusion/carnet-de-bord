@@ -4666,6 +4666,9 @@ schema = build_schema(
     }
 
     enum external_source_enum {
+      """Flux caf / msa"""
+      cafmsa
+
       """Pôle Emploi"""
       pe
     }

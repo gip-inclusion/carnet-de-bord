@@ -1,3 +1,4 @@
+import json
 from datetime import date
 from typing import List
 from uuid import UUID
@@ -12,6 +13,7 @@ from cdb.api.db.models.validator import (
     date_validator,
 )
 from cdb.caf_msa.parse_infos_foyer_rsa import CdbBeneficiaryInfos
+from cdb.cdb_csv.json_encoder import CustomEncoder
 
 
 class BeneficiaryRsaInfos(BaseModel):
@@ -42,11 +44,20 @@ async def get_beneficiary_by_nir(
 
 
 async def update_beneficiary(
-    gql_session: AsyncClientSession, id: UUID, beneficiary_infos: CdbBeneficiaryInfos
+    gql_session: AsyncClientSession,
+    id: UUID,
+    beneficiary_infos: CdbBeneficiaryInfos,
+    sha: str,
+    external_data: dict,
 ) -> BeneficiaryRsaInfos | None:
     result: dict[str, dict] = await gql_session.execute(
         update_beneficiary_mutation(),
-        variable_values={"id": str(id), "data": beneficiary_infos.dict()},
+        variable_values={
+            "id": str(id),
+            "rsaInfos": beneficiary_infos.dict(),
+            "hash": sha,
+            "externalData": json.dumps(external_data, cls=CustomEncoder),
+        },
     )
     beneficiary = result.get("beneficiary")
     if beneficiary:
@@ -88,8 +99,13 @@ query beneficiary($nir: String!) {
 def update_beneficiary_mutation() -> DocumentNode:
     return gql(
         """
-mutation update_beneficiary($id: uuid!, $data: beneficiary_set_input!){
-  beneficiary: update_beneficiary_by_pk(pk_columns: {id: $id}, _set: $data ) {
+mutation update_beneficiary(
+    $id: uuid!,
+    $rsaInfos: beneficiary_set_input!,
+    $externalData: jsonb!,
+    $hash: String!
+) {
+  beneficiary: update_beneficiary_by_pk(pk_columns: {id: $id}, _set: $rsaInfos ) {
     id
     rightRsa
     rsaClosureReason
@@ -99,7 +115,18 @@ mutation update_beneficiary($id: uuid!, $data: beneficiary_set_input!){
     subjectToRightAndDuty
     cafNumber
     lastname
-
+  }
+  insert_external_data_info_one(object: {
+    beneficiary_id: $id
+    externalData: {
+      data: {
+        data: $externalData
+        source: cafmsa
+        hash: $hash
+      }
+    }
+  }){
+    external_data_id
   }
 }
         """

@@ -20,10 +20,7 @@
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 	$: isMember = notebook.members.some((member) => member.account.id === $accountData.id);
 
-	$: externalData =
-		beneficiary?.externalDataInfos.length > 0
-			? beneficiary.externalDataInfos[0].externalData
-			: null;
+	$: externalData = beneficiary?.peInfos.length > 0 ? beneficiary.peInfos[0].externalData : null;
 </script>
 
 <svelte:head>

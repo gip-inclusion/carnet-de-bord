@@ -28,11 +28,16 @@ query GetNotebook(
       rightAss
       rightBonus
       rightRsa
-      externalDataInfos {
+      peInfos: externalDataInfos(where: { externalData: { source: { _eq: pe } } }, limit: 1) {
         external_data_id
         externalData {
           data
           source
+        }
+      }
+      cafInfos: externalDataInfos(where: { externalData: { source: { _eq: cafmsa } } }, limit: 1) {
+        externalData {
+          data
         }
       }
       orientationRequest(order_by: { createdAt: desc }, limit: 1)
@@ -59,13 +64,11 @@ query GetNotebook(
     }
     previousReferent: members(
       where: {
-        _and: [
-          { memberType: { _eq: "referent" } },
-          { membershipEndedAt: { _is_null: false } }
-        ]
-      },
-      order_by: { membershipEndedAt: desc_nulls_last},
-      limit: 1) {
+        _and: [{ memberType: { _eq: "referent" } }, { membershipEndedAt: { _is_null: false } }]
+      }
+      order_by: { membershipEndedAt: desc_nulls_last }
+      limit: 1
+    ) {
       id
       account {
         id

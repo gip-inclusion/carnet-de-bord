@@ -30,6 +30,18 @@ async def import_beneficiaries(
     )
 
 
+async def test_upload_caf_msa(test_client, fichier_mensuel_caf, get_manager_jwt_93):
+    with open(fichier_mensuel_caf, "rb") as file:
+        response = await test_client.post(
+            "/v1/beneficiaries/update-from-caf-msa",
+            files={"upload_file": ("filename", file, "text/csv")},
+            headers={"jwt-token": get_manager_jwt_93},
+        )
+        assert response.status_code == 200
+        assert response.json()["nb_file"] == 3
+        assert response.json()["nb_success"] == 3
+
+
 async def test_import_beneficiaries_must_be_done_by_a_manager(
     test_client,
     get_professional_jwt,
@@ -134,7 +146,6 @@ async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
 async def test_update_beneficiary_with_different_capitalization_and_spacing(
     test_client, get_manager_jwt_93, db_connection, caplog
 ):
-
     with caplog.at_level(logging.INFO):
         await import_beneficiaries(
             test_client, get_manager_jwt_93, [sophie_tifour_bad_caps]

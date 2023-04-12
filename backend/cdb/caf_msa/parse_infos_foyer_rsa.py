@@ -1,10 +1,16 @@
 import io
-from typing import List
+from datetime import date
+from typing import List, Tuple
 
 import lxml.etree as etree
 from pydantic import BaseModel, Field, validator
 
 from cdb.caf_msa.validate_xml import XMLTagStream
+
+
+class CafInfoFlux(BaseModel):
+    date: date
+    type: str
 
 
 class CafInfoPersonne(BaseModel):
@@ -38,6 +44,12 @@ class CdbBeneficiaryInfos(BaseModel):
     rsaClosureReason: str | None = Field(alias="rsa_closure_reason")
     rsaClosureDate: str | None = Field(alias="rsa_closure_date")
     isHomeless: bool = Field(alias="is_homeless")
+
+
+def parse_infos_flux(node: etree._ElementTree) -> CafInfoFlux:
+    date_str = node.findtext("DTCREAFLUX", default=None, namespaces=None)
+    type_flux = node.findtext("TYPEFLUX", default=None, namespaces=None)
+    return CafInfoFlux(date=date.fromisoformat(date_str), type=type_flux)
 
 
 def parse_infos_foyer_rsa(node: etree._ElementTree) -> CafMsaInfosFoyer:
@@ -98,13 +110,23 @@ def parse_infos_foyer_rsa(node: etree._ElementTree) -> CafMsaInfosFoyer:
     )
 
 
-def parse_caf_file(file: io.BufferedReader) -> List[CafMsaInfosFoyer]:
-    foyers = []
+def parse_caf_file(
+    file: io.BufferedReader,
+) -> Tuple[CafInfoFlux, List[CafMsaInfosFoyer]]:
+    foyers: List[CafMsaInfosFoyer] = []
+    infos = None
+
     with XMLTagStream(file, "InfosFoyerRSA") as stream:
         for infosFoyer in stream:
             foyers.append(parse_infos_foyer_rsa(infosFoyer))
 
-    return foyers
+    with XMLTagStream(file, "IdentificationFlux") as stream:
+        for infoFlux in stream:
+            infos = parse_infos_flux(infoFlux)
+    if not infos:
+        raise Exception("Parsing caf/msa IdentificationFlux failed")
+
+    return (infos, foyers)
 
 
 def transform_right_rsa(value: str) -> str:

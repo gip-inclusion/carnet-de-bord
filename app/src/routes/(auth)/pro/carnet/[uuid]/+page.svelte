@@ -202,10 +202,7 @@
 	$: isPreviousReferent = $accountData.id === previousReferent?.account?.id;
 	$: isMember = members.some(({ account }) => $accountData.id === account.id);
 
-	$: externalData =
-		beneficiary?.externalDataInfos.length > 0
-			? beneficiary.externalDataInfos[0].externalData
-			: null;
+	$: peData = beneficiary?.peInfos.length > 0 ? beneficiary.peInfos[0].externalData : null;
 </script>
 
 <svelte:head>
@@ -275,7 +272,7 @@
 				<MainSection title="Diagnostic socioprofessionnel">
 					<ProNotebookSocioProView
 						{notebook}
-						externalDataDetail={externalData}
+						externalDataDetail={peData}
 						on:click={() =>
 							goto(`${baseUrlForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostic`)}
 					/>

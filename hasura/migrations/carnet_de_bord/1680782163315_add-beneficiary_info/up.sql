@@ -1,8 +1,11 @@
+INSERT INTO external_source VALUES ('cafmsa', 'Flux caf / msa');
+
 CREATE TABLE "public"."rsa_closure_reason" (
 	"code" text NOT NULL,
 	"label" text NOT NULL,
 	PRIMARY KEY ("code")
 );
+
 COMMENT ON TABLE "public"."rsa_closure_reason" IS E'code and reason for rsa closure reason';
 
 INSERT INTO rsa_closure_reason VALUES ('caf_decision_pcg','cloture suite décision du Président du Conseil général');

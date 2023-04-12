@@ -12,6 +12,18 @@ object_relationships:
   - name: external_source
     using:
       foreign_key_constraint_on: source
+insert_permissions:
+  - role: manager
+    permission:
+      check:
+        externalDataInfo:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      columns:
+        - data
+        - hash
+        - source
 select_permissions:
   - role: admin_structure
     permission:

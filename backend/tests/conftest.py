@@ -165,7 +165,11 @@ async def gql_manager_client(
 ) -> AsyncGenerator[AsyncClientSession, None]:
     transport = AIOHTTPTransport(
         url=settings.graphql_api_url,
-        headers={"Authorization": "Bearer " + get_manager_jwt_93},
+        headers={
+            "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
+            "x-hasura-use-backend-only-permissions": "true",
+            "Authorization": "Bearer " + get_manager_jwt_93,
+        },
     )
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
@@ -207,6 +211,11 @@ def orientation_manager_xls_filepath() -> str:
         "fixtures",
         "import_charges_orientation.xls",
     )
+
+
+@pytest.fixture
+def fichier_mensuel_caf() -> str:
+    return os.path.join(test_dir, "fixtures", "RSABEM.xml")
 
 
 @pytest.fixture
