@@ -22,7 +22,7 @@
 	import {
 		Elm as DiagnosticEditElm,
 		type ProfessionalProjectOut,
-	} from '../../../../elm/DiagnosticEdit/Main.elm';
+	} from '$elm/DiagnosticEdit/Main.elm';
 	import type { GraphQLError } from 'graphql';
 	import { token, graphqlAPI } from '$lib/stores';
 	import { onMount } from 'svelte';

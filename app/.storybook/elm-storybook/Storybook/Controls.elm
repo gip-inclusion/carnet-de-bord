@@ -2,7 +2,7 @@ module Storybook.Controls exposing
     ( Decoder, none
     , withInt, withEnum
     , decode
-    , withString
+    , new, withBool, withString
     )
 
 {-|
@@ -78,11 +78,7 @@ withString :
 withString options =
     with <|
         Decoder
-            { decoder =
-                Decode.oneOf
-                    [ Decode.field options.name Decode.string
-                    , Decode.succeed options.fallback
-                    ]
+            { decoder = Decode.field options.name Decode.string
             , fallback = options.fallback
             }
 
@@ -96,11 +92,21 @@ withInt :
 withInt options =
     with <|
         Decoder
-            { decoder =
-                Decode.oneOf
-                    [ Decode.field options.name Decode.int
-                    , Decode.succeed options.fallback
-                    ]
+            { decoder = Decode.field options.name Decode.int
+            , fallback = options.fallback
+            }
+
+
+withBool :
+    { name : String
+    , fallback : Bool
+    }
+    -> Decoder (Bool -> output)
+    -> Decoder output
+withBool options =
+    with <|
+        Decoder
+            { decoder = Decode.field options.name Decode.bool
             , fallback = options.fallback
             }
 
@@ -121,8 +127,8 @@ withEnum options =
                         |> Decode.andThen
                             (\str ->
                                 case Dict.fromList options.options |> Dict.get str of
-                                    Just enum_ ->
-                                        Decode.succeed enum_
+                                    Just enum ->
+                                        Decode.succeed enum
 
                                     Nothing ->
                                         Decode.fail ""

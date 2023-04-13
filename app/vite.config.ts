@@ -1,5 +1,6 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { plugin as elmPlugin } from 'vite-plugin-elm';
+import path from 'path';
 
 const config = {
 	server: {
@@ -26,6 +27,11 @@ const config = {
 		__version__: JSON.stringify(process.env.npm_package_version),
 		// Eliminate in-source test code
 		'import.meta.vitest': 'undefined',
+	},
+	resolve: {
+		alias: {
+			$elm: path.resolve('./elm'),
+		},
 	},
 	test: {
 		// jest like globals

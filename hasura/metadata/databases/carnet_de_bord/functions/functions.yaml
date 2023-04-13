@@ -3,3 +3,4 @@
 - "!include public_search_notebook_members.yaml"
 - "!include public_search_public_notebooks.yaml"
 - "!include public_search_rome_codes.yaml"
+- "!include public_search_ref_action.yaml"

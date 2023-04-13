@@ -4,8 +4,11 @@ module UI.SearchSelect.Component exposing (Model, Msg(..), getSelected, init, up
 -}
 
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
+import Extra.Http
 import Html
+import Http
 import Select
+import Sentry
 import UI.SearchSelect.View
 
 
@@ -15,10 +18,11 @@ import UI.SearchSelect.View
 
 type alias Model a =
     { props : UI.SearchSelect.View.Props a
+    , selected : Maybe a
     , debouncer : Debouncer.Debouncer (Msg a)
     , api :
         { search : String
-        , callbackMsg : Result () (List a) -> Msg a
+        , callbackMsg : Result Http.Error (List a) -> Msg a
         }
         -> Cmd (Msg a)
     }
@@ -29,7 +33,7 @@ init :
     , selected : Maybe a
     , api :
         { search : String
-        , callbackMsg : Result () (List a) -> Msg a
+        , callbackMsg : Result Http.Error (List a) -> Msg a
         }
         -> Cmd (Msg a)
     , optionLabel : a -> String
@@ -48,6 +52,7 @@ init props =
             , searchPlaceholder = props.searchPlaceholder
             , defaultOption = props.defaultOption
             }
+    , selected = props.selected
     , debouncer = debounce (fromSeconds 0.5) |> toDebouncer
     , api = props.api
     }
@@ -63,10 +68,11 @@ getSelected model =
 
 
 type Msg a
-    = Fetched (Result () (List a))
+    = Fetched (Result Http.Error (List a))
     | Search String
     | Open
     | SelectMsg (Select.Msg a)
+    | Select a
     | DebouncerMsg (Debouncer.Msg (Msg a))
 
 
@@ -128,28 +134,25 @@ update msg model =
             )
 
         Search searchString ->
-            if String.isEmpty searchString then
-                ( model |> updateStatus UI.SearchSelect.View.NotAsked
-                , Cmd.none
-                )
-
-            else
-                ( model |> updateStatus UI.SearchSelect.View.Loading
-                , model.api { search = searchString, callbackMsg = Fetched }
-                )
+            ( model |> updateStatus UI.SearchSelect.View.Loading
+            , model.api { search = searchString, callbackMsg = Fetched }
+            )
 
         Fetched result ->
-            ( model
-                |> updateStatus
-                    (result
-                        |> Result.map UI.SearchSelect.View.Success
-                        |> Result.withDefault UI.SearchSelect.View.Failed
+            case result of
+                Ok values ->
+                    ( model |> updateStatus (UI.SearchSelect.View.Success values), Cmd.none )
+
+                Err httpError ->
+                    ( model |> updateStatus UI.SearchSelect.View.Failed
+                    , Sentry.sendError <| Extra.Http.toString httpError
                     )
-            , Cmd.none
-            )
 
         DebouncerMsg subMsg ->
             Debouncer.update update debouncerConfig subMsg model
+
+        Select value ->
+            ( model |> updateSelected (Just value), Cmd.none )
 
 
 updateStatus : UI.SearchSelect.View.Status a -> Model a -> Model a
@@ -176,7 +179,7 @@ updateSelected next model =
         props =
             model.props
     in
-    { model | props = { props | selected = next } }
+    { model | props = { props | selected = next }, selected = next }
 
 
 debouncerConfig : Debouncer.UpdateConfig (Msg a) (Model a)

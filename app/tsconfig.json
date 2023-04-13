@@ -9,9 +9,16 @@
 		"skipLibCheck": true,
 		"sourceMap": true,
 		"target": "ES2019",
-		"types": [
-			"vitest/globals"
-		],
+		"types": ["vitest/globals"],
+		"paths": {
+			"$elm/*": ["./elm/*"],
+			"$lib": [
+				"./src/lib"
+			],
+			"$lib/*": [
+				"./src/lib/*"
+			]
+		}
 	},
 	"include": [
 		".svelte-kit/ambient.d.ts",

@@ -10,7 +10,7 @@ Bien faire attention que le nom du dossier corresponde au nom du namespace car c
 Pour utiliser le composant Elm dans svelte
 
 ```svelte
-	import { Elm } from '../../../../elm/MainApp/Main.elm';
+	import { Elm } from '$elm/MainApp/Main.elm';
 	import { afterUpdate } from 'svelte';
 
 	let elmNode: HTMLElement;
