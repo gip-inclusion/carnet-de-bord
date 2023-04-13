@@ -14381,6 +14381,7 @@ export enum RsaClosureReasonUpdateColumn {
 export type RsaClosureReasonUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RsaClosureReasonSetInput>;
+	/** filter the rows which have to be updated */
 	where: RsaClosureReasonBoolExp;
 };
 
@@ -14573,6 +14574,7 @@ export enum RsaSuspensionReasonUpdateColumn {
 export type RsaSuspensionReasonUpdates = {
 	/** sets the columns of the filtered rows to the given values */
 	_set?: InputMaybe<RsaSuspensionReasonSetInput>;
+	/** filter the rows which have to be updated */
 	where: RsaSuspensionReasonBoolExp;
 };
 

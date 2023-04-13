@@ -18024,6 +18024,8 @@ schema = build_schema(
     input rsa_closure_reason_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: rsa_closure_reason_set_input
+
+      """filter the rows which have to be updated"""
       where: rsa_closure_reason_bool_exp!
     }
 
@@ -18257,6 +18259,8 @@ schema = build_schema(
     input rsa_suspension_reason_updates {
       """sets the columns of the filtered rows to the given values"""
       _set: rsa_suspension_reason_set_input
+
+      """filter the rows which have to be updated"""
       where: rsa_suspension_reason_bool_exp!
     }
 
