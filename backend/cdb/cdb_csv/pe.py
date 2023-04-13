@@ -333,7 +333,7 @@ async def import_pe_referent(
             scope=settings.PE_SCOPE,
         )
 
-        agences: list[Agence] = client.recherche_agences_pydantic(
+        agences: list[Agence] = client.recherche_agences(
             deployment.department_code or "", horaire=False, zonecompetence=False
         )
         structure: Structure | None = await create_structure_from_agences_list(

@@ -42,7 +42,7 @@ class PoleEmploiAPIClientTest(TestCase):
     def test_get_token_fails(self):
         respx.post(self.api_client.token_url).mock(side_effect=httpx.ConnectTimeout)
         with self.assertRaises(PoleEmploiAPIException) as ctx:
-            self.api_client.recherche_agences("67")
+            self.api_client.recherche_pole_emploi_agences("67")
         self.assertEqual(ctx.exception.error_code, "http_error")
 
     @respx.mock
@@ -50,7 +50,7 @@ class PoleEmploiAPIClientTest(TestCase):
         respx.get(self.api_client.agences_url).mock(
             return_value=httpx.Response(200, json=PE_API_AGENCES_RESULT_OK_MOCK)
         )
-        agences = self.api_client.recherche_agences("72")
+        agences = self.api_client.recherche_pole_emploi_agences("72")
         self.assertEqual(agences[0]["code"], "PDL0031")
 
     @respx.mock
@@ -58,6 +58,6 @@ class PoleEmploiAPIClientTest(TestCase):
         respx.get(self.api_client.agences_url).mock(
             return_value=httpx.Response(200, json=PE_API_AGENCES_RESULT_OK_MOCK)
         )
-        agences: List[Agence] = self.api_client.recherche_agences_pydantic("72")
+        agences: List[Agence] = self.api_client.recherche_agences("72")
         self.assertEqual(agences[0].code, "PDL0031")
         self.assertEqual(agences[0].adressePrincipale.ligne4, "2 AVENUE GEORGES AURIC")

@@ -91,7 +91,7 @@ class PoleEmploiApiClient:
         except httpx.RequestError as exc:
             raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
 
-    def recherche_agences(
+    def recherche_pole_emploi_agences(
         self,
         commune: str,
         horaire: bool = False,
@@ -305,7 +305,7 @@ class PoleEmploiApiClient:
         """
 
         if add_padding:
-            # By default, if your looking for the department number 8
+            # By default, if you are looking for the department number 8
             # you need to pass "08" to the API
             commune = commune.rjust(2, "0")
 
@@ -319,6 +319,6 @@ class PoleEmploiApiClient:
         )
         return data
 
-    def recherche_agences_pydantic(self, *args, **kwargs) -> List[Agence]:
-        agences: List[dict] = self.recherche_agences(*args, **kwargs)
+    def recherche_agences(self, *args, **kwargs) -> List[Agence]:
+        agences: List[dict] = self.recherche_pole_emploi_agences(*args, **kwargs)
         return [Agence.parse_obj(agence) for agence in agences]
