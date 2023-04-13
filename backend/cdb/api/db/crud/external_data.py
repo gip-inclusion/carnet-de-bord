@@ -45,7 +45,6 @@ async def update_external_data_for_beneficiary_and_professional(
     beneficiary: Beneficiary,
     professional: Professional | None,
 ) -> ExternalData | None:
-
     record = await connection.fetchrow(
         """
             UPDATE external_data set source = $1, data = $2, hash = $3
@@ -92,7 +91,6 @@ async def get_external_datas_with_query(
     connection: Connection, query: str, *args
 ) -> list[ExternalData]:
     async with connection.transaction():
-
         external_data_records: list[Record] = await connection.fetch(
             SELECT_ALL_QUERY + query, *args
         )
@@ -107,7 +105,6 @@ async def get_external_data_with_query(
     connection: Connection, query: str, *args
 ) -> ExternalData | None:
     async with connection.transaction():
-
         external_data_record: Record | None = await connection.fetchrow(
             SELECT_ALL_QUERY + query, *args
         )
@@ -119,7 +116,6 @@ async def get_external_data_with_query(
 async def create_external_data_from_record(
     external_data_record: Record,
 ) -> ExternalData:
-
     info = ExternalDataInfo(
         external_data_id=external_data_record["id"],
         beneficiary_id=external_data_record["info_beneficiary_id"],
@@ -143,7 +139,6 @@ async def get_last_external_data_by_beneficiary_id_and_source(
     connection: Connection, beneficiary_id: UUID, source: ExternalSource
 ) -> ExternalData | None:
     async with connection.transaction():
-
         return await get_external_data_with_query(
             connection,
             "WHERE external_data_info.beneficiary_id = $1 "
@@ -158,7 +153,6 @@ async def get_all_external_datas_by_beneficiary_id_and_source(
     connection: Connection, beneficiary_id: UUID, source: ExternalSource
 ) -> list[ExternalData]:
     async with connection.transaction():
-
         return await get_external_datas_with_query(
             connection,
             "WHERE external_data_info.beneficiary_id = $1 "
@@ -172,7 +166,6 @@ async def get_all_external_datas_by_beneficiary_id_and_source(
 async def insert_external_data(
     connection: Connection, external_data_insert: ExternalDataInsert
 ) -> ExternalData | None:
-
     record = await connection.fetchrow(
         """
             INSERT INTO public.external_data (source, data, hash)
@@ -190,7 +183,6 @@ async def insert_external_data(
 async def insert_external_data_info(
     connection: Connection, external_info_insert: ExternalDataInfoInsert
 ) -> ExternalDataInfo | None:
-
     v = await connection.fetchrow(
         """
         INSERT INTO public.external_data_info (external_data_id, beneficiary_id)
@@ -212,7 +204,6 @@ async def insert_external_data_for_beneficiary_and_professional(
     hash: str,
     professional: Professional | None,
 ) -> ExternalData | None:
-
     external_data_insert = ExternalDataInsert(source=source, data=data, hash=hash)
     external_data: ExternalData | None = await insert_external_data(
         connection, external_data_insert

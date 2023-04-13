@@ -56,7 +56,13 @@ async def update_beneficiary(
             "id": str(id),
             "rsaInfos": beneficiary_infos.dict(),
             "hash": sha,
-            "externalData": json.dumps(external_data, cls=CustomEncoder),
+            # Hack @lionelb:
+            # Using a custom encoder on gql save a string containing
+            # the stringify version on the json
+            # that's why we use a encode / decode strategy
+            # to transform non serializable object into string
+            # so final dict can be save into jsonb field
+            "externalData": json.loads(json.dumps(external_data, cls=CustomEncoder)),
         },
     )
     beneficiary = result.get("beneficiary")

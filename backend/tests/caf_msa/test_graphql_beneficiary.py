@@ -9,7 +9,7 @@ from cdb.api.db.graphql.beneficiary import (
     get_beneficiary_by_nir,
     update_beneficiary,
 )
-from cdb.api.db.models.external_data import ExternalData, ExternalSource
+from cdb.api.db.models.external_data import ExternalData
 from cdb.caf_msa.parse_infos_foyer_rsa import CdbBeneficiaryInfos
 
 
@@ -59,8 +59,7 @@ async def test_update_beneficiary_by_id(
 
 
 async def test_update_beneficiary_create_external_data(
-    gql_manager_client: AsyncClientSession,
-    db_connection: Connection,
+    gql_manager_client: AsyncClientSession, db_connection: Connection, snapshot
 ):
     personne = CdbBeneficiaryInfos(
         right_rsa="rsa_droit_ouvert_et_suspendu",
@@ -73,7 +72,7 @@ async def test_update_beneficiary_create_external_data(
     )
 
     sha = "123"
-    external_data_payload = {"payload": "payload"}
+    external_data_payload = {"payload": "payload", "madate": date(2003, 2, 1)}
     beneficiary = await update_beneficiary(
         gql_manager_client,
         UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"),
@@ -82,7 +81,6 @@ async def test_update_beneficiary_create_external_data(
         external_data_payload,
     )
     assert beneficiary
-
     external_data: ExternalData | None = await get_external_data_with_query(
         db_connection,
         "WHERE external_data_info.beneficiary_id = $1 "
@@ -92,9 +90,7 @@ async def test_update_beneficiary_create_external_data(
         "cafmsa",
     )
     assert external_data
-    assert external_data.source == ExternalSource.CAFMSA
-    assert external_data.hash == sha
-    assert external_data.data == external_data_payload
+    assert external_data.data == snapshot
 
 
 async def test_update_beneficiary_rsa_closure(gql_manager_client: AsyncClientSession):
@@ -139,7 +135,7 @@ async def test_update_beneficiary_rsa_suspension(
         caf_number="XXXXXXXX",
     )
     sha = "123"
-    external_data = {"payload": "payload", "infos": {"date": date(2003, 2, 1)}}
+    external_data = {"payload": "payload", "infos": {"madate": date(2003, 2, 1)}}
     beneficiary = await update_beneficiary(
         gql_manager_client,
         UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"),

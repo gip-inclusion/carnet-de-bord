@@ -3,8 +3,6 @@ from uuid import UUID
 
 from asyncpg.connection import Connection
 from fastapi import APIRouter, Depends, Header, Request, UploadFile
-from gql import Client
-from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
 from cdb.api.core.exceptions import InsertFailError, UpdateFailError
@@ -18,6 +16,7 @@ from cdb.api.db.crud.beneficiary import (
 from cdb.api.db.crud.notebook import update_notebook
 from cdb.api.db.crud.notebook_info import insert_or_update_need_orientation
 from cdb.api.db.crud.professional_project import insert_professional_projects
+from cdb.api.db.graphql.get_client import gql_client
 from cdb.api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryCsvRowResponse,
@@ -69,18 +68,14 @@ async def import_caf_msa_xml(
     upload_file: UploadFile,
     jwt_token: str = Header(default=None),
 ) -> dict[str, int]:
-    transport = AIOHTTPTransport(
+    async with await gql_client(
         url=settings.graphql_api_url,
         headers={
             "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
             "x-hasura-use-backend-only-permissions": "true",
             "Authorization": "Bearer " + jwt_token,
         },
-    )
-    async with Client(
-        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        # don't know how to handle it
         result: dict[str, int] = await update_beneficiaries(
             session, upload_file.file  # type: ignore
         )
