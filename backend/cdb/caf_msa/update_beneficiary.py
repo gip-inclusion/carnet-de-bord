@@ -46,10 +46,13 @@ async def update_beneficiaries(
                         count_success += 1
                     except Exception as error:
                         logging.error(
-                            "fail to update beneficiary %s caf/msa data %s",
+                            "échec de la mise à jour du bénéficiaire %s caf/msa; %s",
                             beneficiary.id,
                             error,
                         )
             except Exception as error:
-                logging.error("fail to get beneficiary by nir %s", error)
+                logging.error(
+                    "echec lors de la récupération du bénéficiaire depuis le nir %s",
+                    error,
+                )
     return {"nb_file": count, "nb_success": count_success}

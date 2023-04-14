@@ -11,7 +11,7 @@
 		const file = event.detail.acceptedFiles[0];
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		resultPromise = postApiFormData(`/v1/beneficiaries/update-from-caf-msa`, formData, {
+		resultPromise = postApiFormData('/v1/beneficiaries/update-from-caf-msa', formData, {
 			'jwt-token': $token,
 		});
 	}
@@ -20,7 +20,7 @@
 <div class="flex flex-col gap-6">
 	{#if resultPromise === undefined}
 		<div>
-			Fichier de flux (mensuel ou quotidien) fourni par la caf ou la MSA.
+			Fichier de flux (mensuel ou quotidien) fourni par la CAF ou la MSA.
 			<br />
 		</div>
 		<Dropzone on:drop={handleFilesSelect} multiple={false} accept=".xml" inputElement={undefined}>

@@ -148,13 +148,13 @@
 		</div>
 		<div class="fr-col-sm-4 flex">
 			<Dialog
-				label="Importer un flux CAF/MSA"
-				title="Importer un flux CAF/MSA"
+				label="Importer un fichier CAF/MSA"
+				title="Importer un fichier CAF/MSA"
 				size={'large'}
 				showButtons={false}
 			>
 				<svelte:fragment slot="buttonLabel">
-					<span class="block w-44">Importer un flux CAF/MSA</span>
+					<span class="block w-44">Importer un fichier CAF/MSA</span>
 				</svelte:fragment>
 				<ImportCafMsa />
 			</Dialog>
