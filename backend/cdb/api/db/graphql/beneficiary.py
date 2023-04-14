@@ -61,7 +61,7 @@ async def update_beneficiary(
             # the stringify version on the json
             # that's why we use a encode / decode strategy
             # to transform non serializable object into string
-            # so final dict can be save into jsonb field
+            # so final dict can be saved into jsonb field
             "externalData": json.loads(json.dumps(external_data, cls=CustomEncoder)),
         },
     )
