@@ -436,12 +436,12 @@
 		<PrestationRSA>
 			<SituationDossierRSA>
 				<EtatDossierRSA>
-					<ETATDOSRSA>2</ETATDOSRSA>
+					<ETATDOSRSA>4</ETATDOSRSA>
 				</EtatDossierRSA>
-				<FinDroit>
-					<MOTICLORSA>PCG</MOTICLORSA>
-					<DTCLORSA>2021-11-30</DTCLORSA>
-				</FinDroit>
+				<SuspensionVersement>
+					<MOTISUSVERSRSA>06</MOTISUSVERSRSA>
+					<DDSUSVERSRSA>2021-11-01</DDSUSVERSRSA>
+				</SuspensionVersement>
 			</SituationDossierRSA>
 			<DetailDroitRSA>
 				<TroncCommunDroitRSA>

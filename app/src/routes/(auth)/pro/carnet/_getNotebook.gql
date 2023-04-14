@@ -28,6 +28,9 @@ query GetNotebook(
       rightAss
       rightBonus
       rightRsa
+      rsaClosureDate
+      rsaSuspensionReason
+      rsaClosureReason
       peInfos: externalDataInfos(where: { externalData: { source: { _eq: pe } } }, limit: 1) {
         external_data_id
         externalData {

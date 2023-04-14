@@ -19049,6 +19049,9 @@ export type GetNotebookQuery = {
 			rightAss: boolean;
 			rightBonus: boolean;
 			rightRsa?: string | null;
+			rsaClosureDate?: string | null;
+			rsaSuspensionReason?: RsaSuspensionReasonEnum | null;
+			rsaClosureReason?: RsaClosureReasonEnum | null;
 			peInfos: Array<{
 				__typename?: 'external_data_info';
 				external_data_id: string;
@@ -31667,6 +31670,9 @@ export const GetNotebookDocument = {
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightAss' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightBonus' } },
 											{ kind: 'Field', name: { kind: 'Name', value: 'rightRsa' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'rsaClosureDate' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'rsaSuspensionReason' } },
+											{ kind: 'Field', name: { kind: 'Name', value: 'rsaClosureReason' } },
 											{
 												kind: 'Field',
 												alias: { kind: 'Name', value: 'peInfos' },
