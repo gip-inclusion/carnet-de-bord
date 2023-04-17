@@ -35,7 +35,7 @@
 		"format": "npm run fix:prettier",
 		"codegen": "graphql-codegen --config codegen.cjs",
 		"test": "npm run test:elm && npm run test:svelte",
-		"test:elm": "elm-test",
+		"test:elm": "elm-test tests \"elm/**/*_Tests.elm\"",
 		"test:elm:watch": "npm run test:elm -- --watch",
 		"test:svelte": "vitest run ",
 		"test:svelte:watch": "vitest watch",
