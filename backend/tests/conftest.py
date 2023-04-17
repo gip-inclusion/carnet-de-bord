@@ -215,6 +215,11 @@ def fichier_mensuel_caf() -> str:
 
 
 @pytest.fixture
+def fichier_mensuel_caf_reouvert() -> str:
+    return os.path.join(test_dir, "fixtures", "RSABEM-ouvert.xml")
+
+
+@pytest.fixture
 def flux_mensuel_caf() -> typing.Generator[io.BufferedReader, Any, Any]:
     file_path = os.path.join(test_dir, "fixtures", "RSABEM.xml")
     with open(file_path, "rb") as file:
@@ -310,6 +315,24 @@ async def beneficiary_martin_gal(db_connection) -> Beneficiary | None:
     return await get_beneficiary_by_id(
         db_connection, UUID("1f0d3401-67ad-4ea7-8f3a-a0876c4f79bd")
     )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def sophie_tifour_beneficiary_id() -> UUID:
+    return UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def sophie_tifour_nir() -> str:
+    return "2820251108030"
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def eta_bullock_beneficiary_id() -> UUID:
+    return UUID("3c1a9fdf-a231-4659-9a91-630ff12c5774")
 
 
 @pytest.fixture

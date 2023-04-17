@@ -13,11 +13,15 @@ from cdb.api.db.models.external_data import ExternalData
 from cdb.caf_msa.parse_infos_foyer_rsa import CdbBeneficiaryInfos
 
 
-async def test_get_beneficiary_by_nir(gql_manager_client: AsyncClientSession):
-    beneficiary = await get_beneficiary_by_nir(gql_manager_client, "2820251108030")
+async def test_get_beneficiary_by_nir(
+    gql_manager_client: AsyncClientSession,
+    sophie_tifour_beneficiary_id: UUID,
+    sophie_tifour_nir: str,
+):
+    beneficiary = await get_beneficiary_by_nir(gql_manager_client, sophie_tifour_nir)
 
     assert beneficiary
-    assert beneficiary.id == UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
+    assert beneficiary.id == sophie_tifour_beneficiary_id
     assert beneficiary.right_rsa == "rsa_droit_ouvert_et_suspendu"
     assert beneficiary.rsa_closure_reason is None
     assert beneficiary.rsa_closure_date is None
@@ -28,7 +32,7 @@ async def test_get_beneficiary_by_nir(gql_manager_client: AsyncClientSession):
 
 
 async def test_update_beneficiary_by_id(
-    gql_manager_client: AsyncClientSession,
+    gql_manager_client: AsyncClientSession, sophie_tifour_beneficiary_id: UUID
 ):
     personne = CdbBeneficiaryInfos(
         right_rsa="rsa_droit_ouvert_et_suspendu",
@@ -44,7 +48,7 @@ async def test_update_beneficiary_by_id(
     external_data_payload = {"payload": "payload"}
     beneficiary = await update_beneficiary(
         gql_manager_client,
-        UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"),
+        sophie_tifour_beneficiary_id,
         personne,
         sha,
         external_data_payload,
@@ -59,7 +63,10 @@ async def test_update_beneficiary_by_id(
 
 
 async def test_update_beneficiary_create_external_data(
-    gql_manager_client: AsyncClientSession, db_connection: Connection, snapshot
+    gql_manager_client: AsyncClientSession,
+    db_connection: Connection,
+    sophie_tifour_beneficiary_id: UUID,
+    snapshot,
 ):
     personne = CdbBeneficiaryInfos(
         right_rsa="rsa_droit_ouvert_et_suspendu",
@@ -75,7 +82,7 @@ async def test_update_beneficiary_create_external_data(
     external_data_payload = {"payload": "payload", "madate": date(2003, 2, 1)}
     beneficiary = await update_beneficiary(
         gql_manager_client,
-        UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"),
+        sophie_tifour_beneficiary_id,
         personne,
         sha,
         external_data_payload,
@@ -93,7 +100,9 @@ async def test_update_beneficiary_create_external_data(
     assert external_data.data == snapshot
 
 
-async def test_update_beneficiary_rsa_closure(gql_manager_client: AsyncClientSession):
+async def test_update_beneficiary_rsa_closure(
+    gql_manager_client: AsyncClientSession, sophie_tifour_beneficiary_id: UUID
+):
     personne = CdbBeneficiaryInfos(
         right_rsa="rsa_clot",
         rsa_closure_date="2023-01-01",
@@ -107,7 +116,7 @@ async def test_update_beneficiary_rsa_closure(gql_manager_client: AsyncClientSes
     external_data = {"payload": "payload"}
     beneficiary = await update_beneficiary(
         gql_manager_client,
-        UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"),
+        sophie_tifour_beneficiary_id,
         personne,
         sha,
         external_data,
@@ -124,6 +133,7 @@ async def test_update_beneficiary_rsa_closure(gql_manager_client: AsyncClientSes
 
 async def test_update_beneficiary_rsa_suspension(
     gql_manager_client: AsyncClientSession,
+    sophie_tifour_beneficiary_id: UUID,
 ):
     personne = CdbBeneficiaryInfos(
         right_rsa="rsa_droit_ouvert_et_suspendu",
@@ -138,7 +148,7 @@ async def test_update_beneficiary_rsa_suspension(
     external_data = {"payload": "payload", "infos": {"madate": date(2003, 2, 1)}}
     beneficiary = await update_beneficiary(
         gql_manager_client,
-        UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b"),
+        sophie_tifour_beneficiary_id,
         personne,
         sha,
         external_data,

@@ -42,6 +42,43 @@ async def test_upload_caf_msa(test_client, fichier_mensuel_caf, get_manager_jwt_
         assert response.json()["nb_success"] == 3
 
 
+async def test_upload_caf_msa_reouvert(
+    test_client,
+    fichier_mensuel_caf,
+    fichier_mensuel_caf_reouvert,
+    get_manager_jwt_93,
+    db_connection,
+    sophie_tifour_beneficiary_id,
+):
+    with open(fichier_mensuel_caf, "rb") as file:
+        response = await test_client.post(
+            "/v1/beneficiaries/update-from-caf-msa",
+            files={"upload_file": ("filename", file, "text/csv")},
+            headers={"jwt-token": get_manager_jwt_93},
+        )
+        assert response.status_code == 200
+        assert response.json()["nb_file"] == 3
+        assert response.json()["nb_success"] == 3
+
+    with open(fichier_mensuel_caf_reouvert, "rb") as file:
+        response = await test_client.post(
+            "/v1/beneficiaries/update-from-caf-msa",
+            files={"upload_file": ("filename", file, "text/csv")},
+            headers={"jwt-token": get_manager_jwt_93},
+        )
+        assert response.status_code == 200
+        assert response.json()["nb_file"] == 1
+        assert response.json()["nb_success"] == 1
+
+        beneficiary = await db_connection.fetchrow(
+            """
+        select * from beneficiary where id = $1
+        """,
+            sophie_tifour_beneficiary_id,
+        )
+        assert beneficiary["rsa_suspension_reason"] is None
+
+
 async def test_import_beneficiaries_must_be_done_by_a_manager(
     test_client,
     get_professional_jwt,

@@ -21,11 +21,11 @@ from cdb.caf_msa.validate_xml import validate_xml
 
 async def test_validate_incorrect_file(flux_quotidien_caf_invalid: io.BufferedReader):
     with pytest.raises(etree.DocumentInvalid):
-        validate_xml(flux_quotidien_caf_invalid)
+        validate_xml(data=flux_quotidien_caf_invalid)
 
 
 async def test_validate_correct_file(flux_mensuel_caf: io.BufferedReader):
-    assert validate_xml(flux_mensuel_caf)
+    assert validate_xml(data=flux_mensuel_caf)
 
 
 async def test_extract_data_using_xml_tag_stream(
