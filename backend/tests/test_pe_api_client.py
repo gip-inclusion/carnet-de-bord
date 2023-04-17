@@ -7,8 +7,12 @@ import httpx
 import respx
 
 from cdb.pe.models.agence import Agence
+from cdb.pe.models.beneficiary import Beneficiary
 from cdb.pe.pole_emploi_client import PoleEmploiApiClient, PoleEmploiAPIException
 from tests.mocks.pole_emploi_agences import PE_API_AGENCES_RESULT_OK_MOCK
+from tests.mocks.pole_emploi_recherche_usagers import (
+    PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK,
+)
 
 
 class PoleEmploiAPIClientTest(TestCase):
@@ -61,3 +65,15 @@ class PoleEmploiAPIClientTest(TestCase):
         agences: List[Agence] = self.api_client.recherche_agences("72")
         self.assertEqual(agences[0].code, "PDL0031")
         self.assertEqual(agences[0].adressePrincipale.ligne4, "2 AVENUE GEORGES AURIC")
+
+    @respx.mock
+    def test_recherche_recherche_usagers(self):
+        respx.post(self.api_client.usagers_url).mock(
+            return_value=httpx.Response(
+                200, json=PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK
+            )
+        )
+        beneficiary: Beneficiary | None = self.api_client.search_beneficiary(
+            "181036290874034", "1981-03-15"
+        )
+        self.assertEqual(beneficiary.identifiant, "ID_POLE_EMPLOI")

@@ -7,6 +7,7 @@ from zoneinfo import ZoneInfo
 import httpx
 
 from .models.agence import Agence
+from .models.beneficiary import Beneficiary
 
 logger = logging.getLogger(__name__)
 
@@ -52,6 +53,13 @@ class PoleEmploiApiClient:
     def agences_url(self) -> str:
         return f"{self.base_url}/partenaire/referentielagences/v1/agences"
 
+    @property
+    def usagers_url(self) -> str:
+        # rechercher-usager/v1/usagers/recherche
+        #   dateNaissance=1981-03-15
+        #   nir=181036290874034
+        return f"{self.base_url}/partenaire/rechercher-usager/v1/usagers/recherche"
+
     def _refresh_token(self, at=None) -> None:
         if not at:
             at = datetime.now(tz=ZoneInfo(self.tz))
@@ -77,6 +85,19 @@ class PoleEmploiApiClient:
     @property
     def _headers(self) -> dict:
         return {"Authorization": self.token, "Content-Type": "application/json"}
+
+    def _post_request(self, url: str, params: dict):
+        try:
+            self._refresh_token()
+            response = httpx.post(
+                url, json=params, headers=self._headers, timeout=API_TIMEOUT_SECONDS
+            )
+            if response.status_code != 200:
+                raise PoleEmploiAPIException(response.status_code)
+            data = response.json()
+            return data
+        except httpx.RequestError as exc:
+            raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
 
     def _get_request(self, url: str, params: dict):
         try:
@@ -322,3 +343,9 @@ class PoleEmploiApiClient:
     def recherche_agences(self, *args, **kwargs) -> List[Agence]:
         agences: List[dict] = self.recherche_pole_emploi_agences(*args, **kwargs)
         return [Agence.parse_obj(agence) for agence in agences]
+
+    def search_beneficiary(self, nir: str, date_of_birth: str) -> Beneficiary:
+        usager: dict = self._post_request(
+            url=self.usagers_url, params={"nir": nir, "dateNaissance": date_of_birth}
+        )
+        return Beneficiary.parse_obj(usager)

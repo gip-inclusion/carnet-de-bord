@@ -2,8 +2,10 @@ import logging
 
 from fastapi import APIRouter, Depends
 
+from cdb.api.core.settings import settings
 from cdb.api.db.models.role import RoleEnum
 from cdb.api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
+from cdb.pe.pole_emploi_client import PoleEmploiApiClient
 
 logger = logging.getLogger(__name__)
 
@@ -26,3 +28,12 @@ async def get_notebook_pole_emploi_diagnostic():
     Le diagnostic professionnel est lu directement dans le SI de Pôle-Emploi
         via les API dédiées.
     """
+    pole_emploi_client = PoleEmploiApiClient(
+        auth_base_url=settings.PE_AUTH_BASE_URL,
+        base_url=settings.PE_BASE_URL,
+        client_id=settings.PE_CLIENT_ID,
+        client_secret=settings.PE_CLIENT_SECRET,
+        scope=settings.PE_SCOPE,
+    )
+
+    pole_emploi_client.search_beneficiary(nir="", date_of_birth="")
