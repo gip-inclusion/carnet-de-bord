@@ -1,7 +1,6 @@
-module Domain.BeneficiaryRights exposing (BeneficiaryRights, ReasonKey, RsaRight(..), closureReasonKeyToString, extractRsaFlagsToRsa, rsaRightKeyToString, suspensionReasonKeyToString)
+module Domain.BeneficiaryRights exposing (BeneficiaryRights, ReasonKey, RsaRight(..), closureReasonKeyToString, rsaRightKeyToString, suspensionReasonKeyToString)
 
 import Date exposing (Date)
-import Result exposing (toMaybe)
 
 
 type alias BeneficiaryRights =
@@ -46,6 +45,11 @@ type alias ReasonKey =
     String
 
 
+
+-- TODO Rendre les infos (raison, date) obligatoires
+-- pour simplifier la gestion de l'affichage
+
+
 type RsaRight
     = OuvertSuspendu
     | OuvertVersable
@@ -54,34 +58,6 @@ type RsaRight
     | Refuse
     | Clot (Maybe ReasonKey) (Maybe Date)
     | ClotMoisAnterieur (Maybe ReasonKey) (Maybe Date)
-
-
-extractRsaFlagsToRsa : Maybe String -> Maybe String -> Maybe String -> Maybe String -> Maybe RsaRight
-extractRsaFlagsToRsa key suspensionReason closureReason closureDate =
-    case key of
-        Just "rsa_droit_ouvert_et_suspendu" ->
-            Just OuvertSuspendu
-
-        Just "rsa_droit_ouvert_versable" ->
-            Just OuvertVersable
-
-        Just "rsa_droit_ouvert_versement_suspendu" ->
-            Just (OuvertVersementSuspendu suspensionReason)
-
-        Just "rsa_demande_en_attente" ->
-            Just DemandeEnAttente
-
-        Just "rsa_refuse" ->
-            Just Refuse
-
-        Just "rsa_clot" ->
-            Just (Clot closureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) closureDate))
-
-        Just "rsa_clot_anterieur" ->
-            Just (ClotMoisAnterieur closureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) closureDate))
-
-        _ ->
-            Nothing
 
 
 suspensionReasonKeyToString : String -> String

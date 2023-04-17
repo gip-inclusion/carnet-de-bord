@@ -2,9 +2,10 @@ module RsaRightNotice.Main exposing (Flags, Model, Msg, main)
 
 import Browser
 import Date
-import Domain.BeneficiaryRights exposing (RsaRight(..), closureReasonKeyToString, extractRsaFlagsToRsa, suspensionReasonKeyToString)
+import Domain.BeneficiaryRights exposing (RsaRight(..), closureReasonKeyToString, suspensionReasonKeyToString)
 import Html exposing (Html, div, p, text)
 import Html.Attributes exposing (attribute, class)
+import Result exposing (toMaybe)
 
 
 type alias Flags =
@@ -56,44 +57,64 @@ type alias Msg =
 
 view : Model -> Html Msg
 view model =
-    case model.rsaRight of
-        Just rsaRight ->
-            case rsaRight of
-                OuvertVersementSuspendu (Just reason) ->
-                    header ("Droit RSA ouvert mais versement suspendu (" ++ suspensionReasonKeyToString reason ++ ")") "text-warning"
+    model.rsaRight
+        |> Maybe.andThen getNoticeProps
+        |> Maybe.map header
+        |> Maybe.withDefault (text "")
 
-                OuvertVersementSuspendu Nothing ->
-                    header "Droit RSA ouvert mais versement suspendu" "text-warning"
 
-                Clot (Just reason) (Just closureDate) ->
-                    header ("Droit RSA clot au " ++ formatDate closureDate ++ " (" ++ closureReasonKeyToString reason ++ ")") "text-error"
+getNoticeProps : RsaRight -> Maybe { label : String, colorClass : String }
+getNoticeProps droit =
+    case droit of
+        OuvertVersementSuspendu reason ->
+            Just
+                { label =
+                    "Droit RSA ouvert mais versement suspendu"
+                        ++ maybePrintInParens suspensionReasonKeyToString reason
+                , colorClass =
+                    "text-warning"
+                }
 
-                Clot (Just reason) Nothing ->
-                    header ("Droit RSA clot (" ++ closureReasonKeyToString reason ++ ")") "text-error"
+        Clot reason closureDate ->
+            Just
+                { label =
+                    "Droit RSA clot"
+                        ++ maybePrintDate closureDate
+                        ++ maybePrintInParens closureReasonKeyToString reason
+                , colorClass = "text-error"
+                }
 
-                Clot Nothing (Just closureDate) ->
-                    header ("Droit RSA clot au " ++ formatDate closureDate) "text-error"
+        ClotMoisAnterieur reason closureDate ->
+            Just
+                { label =
+                    "Droit RSA clot"
+                        ++ maybePrintDate closureDate
+                        ++ maybePrintInParens closureReasonKeyToString reason
+                , colorClass = "text-error"
+                }
 
-                Clot Nothing Nothing ->
-                    header "Droit RSA clot" "text-error"
+        _ ->
+            Nothing
 
-                ClotMoisAnterieur (Just reason) (Just closureDate) ->
-                    header ("Droit RSA clot au " ++ formatDate closureDate ++ " (" ++ closureReasonKeyToString reason ++ ")") "text-error"
 
-                ClotMoisAnterieur (Just reason) Nothing ->
-                    header ("Droit RSA clot (" ++ closureReasonKeyToString reason ++ ")") "text-error"
-
-                ClotMoisAnterieur Nothing (Just closureDate) ->
-                    header ("Droit RSA clot au " ++ formatDate closureDate) "text-error"
-
-                ClotMoisAnterieur Nothing Nothing ->
-                    header "Droit RSA clot" "text-error"
-
-                _ ->
-                    text ""
+maybePrintDate : Maybe Date.Date -> String
+maybePrintDate closureDate =
+    case closureDate of
+        Just date ->
+            " au" ++ formatDate date
 
         Nothing ->
-            text ""
+            ""
+
+
+maybePrintInParens : (a -> String) -> Maybe a -> String
+maybePrintInParens f maybe =
+    case maybe of
+        Just value ->
+            " (" ++ f value ++ ")"
+
+        Nothing ->
+            ""
 
 
 formatDate : Date.Date -> String
@@ -101,8 +122,8 @@ formatDate date =
     date |> Date.format "dd/MM/yyyy"
 
 
-header : String -> String -> Html Msg
-header label colorClass =
+header : { label : String, colorClass : String } -> Html Msg
+header { label, colorClass } =
     div [ class "bg-gray-100" ]
         [ div [ class "fr-container" ]
             [ div [ class "flex flex-row gap-4 items-top fr-py-3w" ]
@@ -120,15 +141,28 @@ extractRsaRightFromFlags flags =
     flags.rsaRight
         |> Maybe.andThen
             (\_ ->
-                let
-                    closureDate =
-                        flags.rsaClosureDate
+                case flags.rsaRight of
+                    Just "rsa_droit_ouvert_et_suspendu" ->
+                        Just OuvertSuspendu
 
-                    closureReason =
-                        flags.rsaClosureReason
+                    Just "rsa_droit_ouvert_versable" ->
+                        Just OuvertVersable
 
-                    suspensionReason =
-                        flags.rsaSuspensionReason
-                in
-                extractRsaFlagsToRsa flags.rsaRight suspensionReason closureReason closureDate
+                    Just "rsa_droit_ouvert_versement_suspendu" ->
+                        Just (OuvertVersementSuspendu flags.rsaSuspensionReason)
+
+                    Just "rsa_demande_en_attente" ->
+                        Just DemandeEnAttente
+
+                    Just "rsa_refuse" ->
+                        Just Refuse
+
+                    Just "rsa_clot" ->
+                        Just (Clot flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
+
+                    Just "rsa_clot_anterieur" ->
+                        Just (ClotMoisAnterieur flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
+
+                    _ ->
+                        Nothing
             )
