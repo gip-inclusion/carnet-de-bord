@@ -47,6 +47,7 @@ config =
         ++ [ Simplify.rule Simplify.defaults
            , NoUnoptimizedRecursion.rule (NoUnoptimizedRecursion.optOutWithComment "IGNORE TCO")
            , NoUrlStringConcatenation.rule
+                |> Review.Rule.ignoreErrorsForDirectories [ "tests/" ]
            , NoUnnecessaryTrailingUnderscore.rule
            , NoSimpleLetBody.rule
            , NoInconsistentAliases.config
@@ -97,4 +98,5 @@ noDebug : List Rule
 noDebug =
     [ NoDebug.Log.rule
     , NoDebug.TodoOrToString.rule
+        |> Review.Rule.ignoreErrorsForDirectories [ "tests/" ]
     ]

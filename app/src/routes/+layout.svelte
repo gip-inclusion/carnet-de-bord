@@ -19,6 +19,7 @@
 	import { Client, setClient } from '@urql/svelte';
 	import LayerCdb from '$lib/ui/LayerCDB.svelte';
 	import { getMatomoUrl, getMatomoSiteId } from '$lib/config/variables/public';
+	import * as Sentry from '@sentry/svelte';
 
 	yup.setLocale(yupFrLocale);
 
@@ -39,9 +40,7 @@
 	}
 
 	onMount(async () => {
-		const Sentry = await import('@sentry/svelte');
 		initSentry(Sentry);
-
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
 		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
 
