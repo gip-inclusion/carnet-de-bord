@@ -52,6 +52,14 @@ async def extract_authentified_account(
     )
 
 
+async def verify_secret_token(secret_token: str | None = Header(default=None)):
+    if not secret_token:
+        raise HTTPException(status_code=401, detail="Missing credentials")
+
+    if secret_token != settings.action_secret:
+        raise HTTPException(status_code=403, detail="Provided credentials are invalid")
+
+
 @dataclass
 class Account:
     id: UUID

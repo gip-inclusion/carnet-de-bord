@@ -26,6 +26,8 @@ class Settings(BaseSettings):
     PE_CLIENT_ID: str = "CLIENT_ID"
     PE_CLIENT_SECRET: str = "CLIENT_SECRET"
 
+    action_secret: str
+
     V1_PREFIX: str = "/v1"
     MAIL_FROM: str = "contact@carnetdebord.inclusion.beta.gouv.fr"
     LOG_FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"

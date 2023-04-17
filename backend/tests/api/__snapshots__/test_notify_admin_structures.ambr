@@ -1,0 +1,284 @@
+# name: TestNotifyAdminStructure.test_notify_admin_structures_when_one_beneficiary_without_referent_with_one_admin_structure
+  '''
+  <!DOCTYPE html>
+  <html lang="fr">
+  	<head>
+  		<meta charset="UTF-8" />
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  		<title>Bénéficiaires en attente de la désignation d'un référent</title>
+  	</head>
+  	<body>
+  		<h1>Bénéficiaires en attente de la désignation d'un référent</h1>
+  		<p>
+  			Bonjour,
+  		</p>
+  
+  		
+  			<p>
+  				Ci-dessous, la liste de(s) bénéficiaire(s) orienté(s) vers la structure
+  				structure 123 pour lesquels un référent doit être désigné.
+  			</p>
+  
+  			<table>
+  				<tr>
+  					<th>Bénéficiaire</th>
+  					<th>Date de naissance</th>
+  					<th>Accompagnement</th>
+  				</tr>
+  				
+  				<tr>
+  					<td>Jay Pasderéférent</td>
+  					<td>20/12/1981</td>
+  					<td>-</td>
+  				</tr>
+  				
+  			</table>
+  		
+  
+  			<p>
+  			Pour accéder à Carnet de bord, veuillez cliquer sur le lien
+  			ci-dessous&nbsp;:
+  		</p>
+  		<p style="padding-left: 20%">
+  			<a
+  				rel="nofollow"
+  				href="http://localhost:3001"
+  				style="
+  					background-color: #6a20ae;
+  					font-size: 14px;
+  					font-family: Helvetica, Arial, sans-serif;
+  					font-weight: bold;
+  					text-decoration: none;
+  					padding: 8px 10px;
+  					color: #ffffff;
+  					border-radius: 5px;
+  					display: inline-block;
+  				"
+  			>
+  				<span>Accédez à Carnet de bord</span>
+  			</a>
+  		</p>
+  		<p>L'équipe Carnet de bord</p>
+  	</body>
+  </html>
+  '''
+# ---
+# name: TestNotifyAdminStructure.test_notify_admin_structures_when_one_beneficiary_without_referent_with_two_admin_structures
+  list([
+    '''
+      <!DOCTYPE html>
+      <html lang="fr">
+      	<head>
+      		<meta charset="UTF-8" />
+      		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      		<title>Bénéficiaires en attente de la désignation d'un référent</title>
+      	</head>
+      	<body>
+      		<h1>Bénéficiaires en attente de la désignation d'un référent</h1>
+      		<p>
+      			Bonjour,
+      		</p>
+      
+      		
+      			<p>
+      				Ci-dessous, la liste de(s) bénéficiaire(s) orienté(s) vers la structure
+      				structure 123 pour lesquels un référent doit être désigné.
+      			</p>
+      
+      			<table>
+      				<tr>
+      					<th>Bénéficiaire</th>
+      					<th>Date de naissance</th>
+      					<th>Accompagnement</th>
+      				</tr>
+      				
+      				<tr>
+      					<td>Jay Pasderéférent</td>
+      					<td>20/12/1981</td>
+      					<td>-</td>
+      				</tr>
+      				
+      			</table>
+      		
+      
+      			<p>
+      			Pour accéder à Carnet de bord, veuillez cliquer sur le lien
+      			ci-dessous&nbsp;:
+      		</p>
+      		<p style="padding-left: 20%">
+      			<a
+      				rel="nofollow"
+      				href="http://localhost:3001"
+      				style="
+      					background-color: #6a20ae;
+      					font-size: 14px;
+      					font-family: Helvetica, Arial, sans-serif;
+      					font-weight: bold;
+      					text-decoration: none;
+      					padding: 8px 10px;
+      					color: #ffffff;
+      					border-radius: 5px;
+      					display: inline-block;
+      				"
+      			>
+      				<span>Accédez à Carnet de bord</span>
+      			</a>
+      		</p>
+      		<p>L'équipe Carnet de bord</p>
+      	</body>
+      </html>
+    ''',
+    '''
+      <!DOCTYPE html>
+      <html lang="fr">
+      	<head>
+      		<meta charset="UTF-8" />
+      		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      		<title>Bénéficiaires en attente de la désignation d'un référent</title>
+      	</head>
+      	<body>
+      		<h1>Bénéficiaires en attente de la désignation d'un référent</h1>
+      		<p>
+      			Bonjour,
+      		</p>
+      
+      		
+      			<p>
+      				Ci-dessous, la liste de(s) bénéficiaire(s) orienté(s) vers la structure
+      				structure 123 pour lesquels un référent doit être désigné.
+      			</p>
+      
+      			<table>
+      				<tr>
+      					<th>Bénéficiaire</th>
+      					<th>Date de naissance</th>
+      					<th>Accompagnement</th>
+      				</tr>
+      				
+      				<tr>
+      					<td>Jay Pasderéférent</td>
+      					<td>20/12/1981</td>
+      					<td>Professionnel</td>
+      				</tr>
+      				
+      			</table>
+      		
+      
+      			<p>
+      			Pour accéder à Carnet de bord, veuillez cliquer sur le lien
+      			ci-dessous&nbsp;:
+      		</p>
+      		<p style="padding-left: 20%">
+      			<a
+      				rel="nofollow"
+      				href="http://localhost:3001"
+      				style="
+      					background-color: #6a20ae;
+      					font-size: 14px;
+      					font-family: Helvetica, Arial, sans-serif;
+      					font-weight: bold;
+      					text-decoration: none;
+      					padding: 8px 10px;
+      					color: #ffffff;
+      					border-radius: 5px;
+      					display: inline-block;
+      				"
+      			>
+      				<span>Accédez à Carnet de bord</span>
+      			</a>
+      		</p>
+      		<p>L'équipe Carnet de bord</p>
+      	</body>
+      </html>
+    ''',
+  ])
+# ---
+# name: TestNotifyAdminStructure.test_notify_admin_structures_when_two_beneficiaries_without_referent_with_one_admin_structure_and_two_structures
+  '''
+  <!DOCTYPE html>
+  <html lang="fr">
+  	<head>
+  		<meta charset="UTF-8" />
+  		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  		<title>Bénéficiaires en attente de la désignation d'un référent</title>
+  	</head>
+  	<body>
+  		<h1>Bénéficiaires en attente de la désignation d'un référent</h1>
+  		<p>
+  			Bonjour,
+  		</p>
+  
+  		
+  			<p>
+  				Ci-dessous, la liste de(s) bénéficiaire(s) orienté(s) vers la structure
+  				structure 123 pour lesquels un référent doit être désigné.
+  			</p>
+  
+  			<table>
+  				<tr>
+  					<th>Bénéficiaire</th>
+  					<th>Date de naissance</th>
+  					<th>Accompagnement</th>
+  				</tr>
+  				
+  				<tr>
+  					<td>Jay Pasderéférent</td>
+  					<td>20/12/1981</td>
+  					<td>PE (Professionnel)</td>
+  				</tr>
+  				
+  			</table>
+  		
+  			<p>
+  				Ci-dessous, la liste de(s) bénéficiaire(s) orienté(s) vers la structure
+  				structure ABC pour lesquels un référent doit être désigné.
+  			</p>
+  
+  			<table>
+  				<tr>
+  					<th>Bénéficiaire</th>
+  					<th>Date de naissance</th>
+  					<th>Accompagnement</th>
+  				</tr>
+  				
+  				<tr>
+  					<td>Jean Naipanonplu</td>
+  					<td>07/05/1980</td>
+  					<td>RIA (Professionnel)</td>
+  				</tr>
+  				
+  			</table>
+  		
+  
+  			<p>
+  			Pour accéder à Carnet de bord, veuillez cliquer sur le lien
+  			ci-dessous&nbsp;:
+  		</p>
+  		<p style="padding-left: 20%">
+  			<a
+  				rel="nofollow"
+  				href="http://localhost:3001"
+  				style="
+  					background-color: #6a20ae;
+  					font-size: 14px;
+  					font-family: Helvetica, Arial, sans-serif;
+  					font-weight: bold;
+  					text-decoration: none;
+  					padding: 8px 10px;
+  					color: #ffffff;
+  					border-radius: 5px;
+  					display: inline-block;
+  				"
+  			>
+  				<span>Accédez à Carnet de bord</span>
+  			</a>
+  		</p>
+  		<p>L'équipe Carnet de bord</p>
+  	</body>
+  </html>
+  '''
+# ---
