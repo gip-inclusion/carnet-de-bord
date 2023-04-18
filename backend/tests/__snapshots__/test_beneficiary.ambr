@@ -1,3 +1,4 @@
+# serializer version: 1
 # name: test_get_beneficiaries_without_referent
   list([
     BeneficiaryWithAdminStructureEmail(lastname='Gônzalez', firstname='Bolton', date_of_birth=datetime.date(1994, 9, 22), admin_structure_email='jacques.celaire@livry-gargan.fr', structure_name="Centre Communal d'action social Livry-Gargan", orientation=None),

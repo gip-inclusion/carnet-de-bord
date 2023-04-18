@@ -1,3 +1,4 @@
+# serializer version: 1
 # name: test_send_email_to_members_first_orientation
   dict({
     'email_new_referent': '''
