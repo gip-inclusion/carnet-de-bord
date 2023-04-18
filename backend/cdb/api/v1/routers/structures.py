@@ -51,10 +51,8 @@ async def create_structures(
     for structure_row in data.structures:
         try:
             async with db.transaction():
-                # TODO Filter By Deployement Id
-                # TODO deployement should be not nullable on DB
                 structure: Structure | None = await get_structure_by_name(
-                    db, structure_row.name
+                    db, structure_row.name, deployment_id
                 )
 
                 # 1 create structure if not exist

@@ -18,7 +18,7 @@ class BaseStructure(BaseModel):
     city: str | None
     address1: str | None
     address2: str | None
-    deployment_id: UUID | None
+    deployment_id: UUID
 
 
 class StructureInsert(BaseStructure):

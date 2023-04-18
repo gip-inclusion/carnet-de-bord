@@ -1,10 +1,11 @@
 from unittest import mock
+from uuid import UUID
 
 from asyncpg.connection import Connection
 
 from cdb.api.db.crud.account import get_accounts_from_email
 from cdb.api.db.crud.admin_structure import get_admin_structure_by_email
-from cdb.api.db.crud.structure import get_structure_by_name
+from cdb.api.db.crud.structure import get_structure_by_name, get_structures_with_query
 
 ENDPOINT_PATH = "/v1/structures/import"
 
@@ -16,6 +17,7 @@ async def test_structure_import_json(
     import_structures_json: list[dict],
     get_manager_jwt_93: str,
     db_connection: Connection,
+    deployment_id_cd93: UUID,
 ):
 
     response = await test_client.post(
@@ -31,7 +33,11 @@ async def test_structure_import_json(
     assert response.status_code == 200
     assert len(structure_with_errors) == 0
 
-    structure = await get_structure_by_name(db_connection, "ins'Hair")
+    structure = await get_structure_by_name(
+        db_connection,
+        "ins'Hair",
+        deployment_id_cd93,
+    )
     assert structure
     admin = await get_admin_structure_by_email(db_connection, "admin@inshair.fr")
     assert admin
@@ -153,3 +159,37 @@ async def test_structure_with_fail_admin_structure_structure_insert(
         == f"import structure {structure_name}: add admin structure to structure failed"
     )
     assert len(structure_with_errors) == 1
+
+
+async def test_structure_import_same_name_on_another_deployment(
+    test_client,
+    import_structures_json: list[dict],
+    get_manager_jwt_51: str,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
+):
+    # Insert structure into deployment 51
+    await test_client.post(
+        ENDPOINT_PATH,
+        json={"structures": import_structures_json},
+        headers={"jwt-token": get_manager_jwt_51},
+    )
+
+    # Insert same structure into deployment 93
+    response = await test_client.post(
+        ENDPOINT_PATH,
+        json={"structures": import_structures_json},
+        headers={"jwt-token": get_manager_jwt_93},
+    )
+
+    data = response.json()
+    structure_with_errors = [
+        structure for structure in data if structure["valid"] is False
+    ]
+    assert response.status_code == 200
+    assert len(structure_with_errors) == 0
+
+    structures = await get_structures_with_query(
+        db_connection, "where name=$1", "ins'Hair"
+    )
+    assert len(structures) == 2

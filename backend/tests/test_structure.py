@@ -1,10 +1,13 @@
+from uuid import UUID
+
+from asyncpg.connection import Connection
 from pydantic import EmailStr, HttpUrl
 
 from cdb.api.db.crud.structure import get_structure_by_name, insert_structure
 from cdb.api.db.models.structure import Structure, StructureInsert
 
 
-async def test_insert_structure(db_connection):
+async def test_insert_structure(db_connection: Connection, deployment_id_cd93: UUID):
 
     structure_insert: StructureInsert = StructureInsert(
         siret="test siret",
@@ -17,7 +20,7 @@ async def test_insert_structure(db_connection):
         address1="Rue des coquelicots",
         address2="addresse 2",
         website=HttpUrl(url="www.test.com", scheme="https"),
-        deployment_id=None,
+        deployment_id=deployment_id_cd93,
     )
     structure: Structure | None = await insert_structure(
         db_connection, structure_insert=structure_insert
@@ -26,25 +29,31 @@ async def test_insert_structure(db_connection):
     assert structure is not None
 
 
-async def test_get_structure_by_name(db_connection):
+async def test_get_structure_by_name(
+    db_connection: Connection, deployment_id_cd93: UUID
+):
 
     structure: Structure | None = await get_structure_by_name(
-        db_connection, "Pole Emploi Agence Livry-Gargnan"
+        db_connection, "Pole Emploi Agence Livry-Gargnan", deployment_id_cd93
     )
 
     assert structure is not None
 
 
-async def test_get_structure_by_name_case_insensitive(db_connection):
+async def test_get_structure_by_name_case_insensitive(
+    db_connection: Connection, deployment_id_cd93: UUID
+):
 
     structure: Structure | None = await get_structure_by_name(
-        db_connection, "pole emploi agence livry-gargnan"
+        db_connection, "pole emploi agence livry-gargnan", deployment_id_cd93
     )
 
     assert structure is not None
 
 
-async def test_get_structure_does_not_validate_email_nor_website(db_connection):
+async def test_get_structure_does_not_validate_email_nor_website(
+    db_connection: Connection, deployment_id_cd93: UUID
+):
 
     await db_connection.fetchrow(
         """
@@ -60,12 +69,12 @@ async def test_get_structure_does_not_validate_email_nor_website(db_connection):
             "postal_code": "",
             "city": "",
             "website": "",
-            "deployment_id": None,
+            "deployment_id": deployment_id_cd93,
         }.values(),
     )
 
     structure: Structure | None = await get_structure_by_name(
-        db_connection, "test validate"
+        db_connection, "test validate", deployment_id_cd93
     )
 
     assert structure is not None

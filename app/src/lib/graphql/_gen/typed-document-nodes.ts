@@ -14006,8 +14006,8 @@ export type Structure = {
 	city?: Maybe<Scalars['String']>;
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	/** An object relationship */
-	deployment?: Maybe<Deployment>;
-	deploymentId?: Maybe<Scalars['uuid']>;
+	deployment: Deployment;
+	deploymentId: Scalars['uuid'];
 	email?: Maybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	name: Scalars['citext'];
@@ -17244,7 +17244,7 @@ export type GetAccountByPkQuery = {
 				postalCode?: string | null;
 				city?: string | null;
 				website?: string | null;
-				deployment?: { __typename?: 'deployment'; label: string } | null;
+				deployment: { __typename?: 'deployment'; label: string };
 			};
 		} | null;
 		admin_structure?: {
@@ -18061,7 +18061,7 @@ export type GetStructureByIdQuery = {
 		address1?: string | null;
 		address2?: string | null;
 		website?: string | null;
-		deployment?: {
+		deployment: {
 			__typename?: 'deployment';
 			id: string;
 			label: string;
@@ -18071,7 +18071,7 @@ export type GetStructureByIdQuery = {
 				name: string;
 				orientationType: OrientationTypeEnum;
 			}>;
-		} | null;
+		};
 		orientationSystems: Array<{
 			__typename?: 'structure_orientation_system';
 			orientationSystem: { __typename?: 'orientation_system'; id: string };
@@ -18853,10 +18853,10 @@ export type GetDeploymentManagersForStructureQuery = {
 	__typename?: 'query_root';
 	structure?: {
 		__typename?: 'structure';
-		deployment?: {
+		deployment: {
 			__typename?: 'deployment';
 			managers: Array<{ __typename?: 'manager'; email: string }>;
-		} | null;
+		};
 	} | null;
 };
 
@@ -18951,7 +18951,7 @@ export type GetAccountInfoQuery = {
 		orientationManagerId?: string | null;
 		professional?: {
 			__typename?: 'professional';
-			structure: { __typename?: 'structure'; id: string; deploymentId?: string | null };
+			structure: { __typename?: 'structure'; id: string; deploymentId: string };
 		} | null;
 		manager?: { __typename?: 'manager'; deploymentId: string } | null;
 		adminStructure?: { __typename?: 'admin_structure'; deploymentId: string } | null;
