@@ -11,8 +11,8 @@ main =
     book "Carnet de bord"
         |> withChapterGroups
             [ ( "UI"
-              , [ UI.SearchSelect.Doc.doc
-                , UI.Select.Doc.doc
+              , [ UI.Select.Doc.doc
+                , UI.SearchSelect.Doc.doc
                 ]
               )
             , ( "Pages", [ Pages.Pro.Carnet.Action.List.Doc.doc ] )

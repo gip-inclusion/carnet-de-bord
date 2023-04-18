@@ -46,14 +46,11 @@ type alias ProfessionalProject =
     }
 
 
-<<<<<<< HEAD
 type alias Rome =
     { id : String
     , label : String
     }
 
-=======
->>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 contractTypeToLabel : ContractType -> String
 contractTypeToLabel contractType =
     case contractType of

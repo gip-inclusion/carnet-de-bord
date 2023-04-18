@@ -24,6 +24,7 @@ import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
+import Domain.Rome.Rome exposing (Rome)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html
 import Html.Attributes exposing (class, rowspan)
@@ -31,11 +32,8 @@ import Iso8601
 import List.Extra
 import Time
 import TimeZone
-<<<<<<< HEAD
 import Domain.ProfessionalProject exposing (Rome)
-=======
 import Domain.Rome.Rome exposing (Rome)
->>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 
 
 type alias Flags =
@@ -112,7 +110,6 @@ type alias PersonalSituationFlags =
 
 type GenderType
     = Feminine
-    | Plural
     | FemininePlural
     | Masculine
 
@@ -279,9 +276,6 @@ unfilled genderType =
         ++ (case genderType of
                 Feminine ->
                     "e"
-
-                Plural ->
-                    "s"
 
                 FemininePlural ->
                     "es"
