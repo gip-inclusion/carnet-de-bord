@@ -1,3 +1,10 @@
+## [1.213.12](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.11...v1.213.12) (2023-04-18)
+
+
+### Bug Fixes
+
+* Vérifier le déploiement lors de la recherche d'une structure par nom. ([#1667](https://github.com/gip-inclusion/carnet-de-bord/issues/1667)) ([1fa88a3](https://github.com/gip-inclusion/carnet-de-bord/commit/1fa88a35442e30b9cddbb1f2851de9b43587d546))
+
 ## [1.213.11](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.10...v1.213.11) (2023-04-17)
 
 ## [1.213.10](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.9...v1.213.10) (2023-04-13)
