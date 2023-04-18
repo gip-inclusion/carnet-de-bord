@@ -15,7 +15,10 @@ import Api exposing (Api)
 import Browser
 import Decimal exposing (Decimal)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
+<<<<<<< HEAD
 import DiagnosticEdit.RomeSelect
+=======
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 import Domain.ProfessionalProject
     exposing
         ( ContractType(..)
@@ -28,6 +31,10 @@ import Domain.ProfessionalProject
         , workingTimeToKey
         , workingTimeToLabel
         )
+<<<<<<< HEAD
+=======
+import Domain.Rome.Select
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme, themeKeyStringToType, themeKeyTypeToLabel)
 import Html
@@ -46,8 +53,11 @@ port sendSelectedSituations : List String -> Cmd msg
 
 port sendUpdatedProfessionalProjects : List ProfessionalProjectOut -> Cmd msg
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 --
 
 
@@ -150,7 +160,11 @@ type alias ProfessionalProjectState =
     , hourlyRate : Maybe String
     , contractType : Maybe ContractType
     , workingTime : Maybe WorkingTime
+<<<<<<< HEAD
     , romeSelect : DiagnosticEdit.RomeSelect.Model
+=======
+    , romeSelect : Domain.Rome.Select.Model
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
     }
 
 
@@ -168,10 +182,14 @@ toProfessionalProjectOut : ProfessionalProjectState -> ProfessionalProjectOut
 toProfessionalProjectOut state =
     { id = state.id
     , mobilityRadius = state.mobilityRadius
+<<<<<<< HEAD
     , romeCodeId =
         state.romeSelect
             |> DiagnosticEdit.RomeSelect.getSelected
             |> Maybe.map .id
+=======
+    , romeCodeId = state.romeSelect |> Domain.Rome.Select.getSelectedId
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
     , hourlyRate =
         state.hourlyRate
             |> parseHourlyRate
@@ -214,11 +232,18 @@ initProfessionalProjectState api professionalProject =
     , contractType = professionalProject.contractType
     , workingTime = professionalProject.workingTimeType
     , romeSelect =
+<<<<<<< HEAD
         DiagnosticEdit.RomeSelect.init
             { id = professionalProject.id
             , selected = professionalProject.rome
             , api = api
             , errorLog = always Cmd.none -- TODO envoyer sur Sentry
+=======
+        Domain.Rome.Select.init
+            { id = professionalProject.id
+            , selected = professionalProject.rome
+            , api = api
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
             }
     }
 
@@ -270,7 +295,11 @@ type Msg
     | UpdateWorkingTime Int (Maybe WorkingTime)
     | UpdateContractType Int (Maybe ContractType)
     | UpdateHourlyRate Int String
+<<<<<<< HEAD
     | RomeSelectMsg Int DiagnosticEdit.RomeSelect.Msg
+=======
+    | RomeSelectMsg Int Domain.Rome.Select.Msg
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -288,11 +317,18 @@ update msg model =
                                      , workingTime = Nothing
                                      , contractType = Nothing
                                      , romeSelect =
+<<<<<<< HEAD
                                         DiagnosticEdit.RomeSelect.init
                                             { id = String.fromInt (List.length model.professionalProjects)
                                             , selected = Nothing
                                             , api = model.api
                                             , errorLog = always Cmd.none -- TODO envoyer sur Sentry
+=======
+                                        Domain.Rome.Select.init
+                                            { id = String.fromInt (List.length model.professionalProjects)
+                                            , selected = Nothing
+                                            , api = model.api
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
                                             }
                                      }
                                    ]
@@ -425,7 +461,11 @@ update msg model =
                 Just project ->
                     let
                         ( nextSelect, command ) =
+<<<<<<< HEAD
                             DiagnosticEdit.RomeSelect.update subMsg project.romeSelect
+=======
+                            Domain.Rome.Select.update subMsg project.romeSelect
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 
                         nextModel =
                             { project | romeSelect = nextSelect }
@@ -477,7 +517,11 @@ view model =
                 |> List.indexedMap
                     (\index project ->
                         Html.div [ Attr.class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
+<<<<<<< HEAD
                             [ DiagnosticEdit.RomeSelect.view project.romeSelect
+=======
+                            [ Domain.Rome.Select.view project.romeSelect
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
                                 |> Html.map (RomeSelectMsg index)
                             , Html.div
                                 [ Attr.class "fr-grid-row fr-grid-row--gutters " ]

@@ -31,7 +31,11 @@ import Iso8601
 import List.Extra
 import Time
 import TimeZone
+<<<<<<< HEAD
 import Domain.ProfessionalProject exposing (Rome)
+=======
+import Domain.Rome.Rome exposing (Rome)
+>>>>>>> 25d89c4e (refactor(diagnostic): :recycle: extrait un composant de sélection de métier par code rome)
 
 
 type alias Flags =
