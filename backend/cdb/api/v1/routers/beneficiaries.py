@@ -2,12 +2,11 @@ import logging
 from uuid import UUID
 
 from asyncpg.connection import Connection
-from fastapi import APIRouter, Depends, Header, Request, UploadFile
+from fastapi import APIRouter, BackgroundTasks, Depends, Header, Request, UploadFile
 from pydantic import BaseModel
 
 from cdb.api.core.exceptions import InsertFailError, UpdateFailError
 from cdb.api.core.init import connection
-from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import (
     create_beneficiary_with_notebook_and_referent,
     get_beneficiaries_like,
@@ -16,7 +15,6 @@ from cdb.api.db.crud.beneficiary import (
 from cdb.api.db.crud.notebook import update_notebook
 from cdb.api.db.crud.notebook_info import insert_or_update_need_orientation
 from cdb.api.db.crud.professional_project import insert_professional_projects
-from cdb.api.db.graphql.get_client import gql_client
 from cdb.api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryCsvRowResponse,
@@ -25,12 +23,23 @@ from cdb.api.db.models.beneficiary import (
 )
 from cdb.api.db.models.csv import CsvFieldError
 from cdb.api.db.models.role import RoleEnum
-from cdb.api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
-from cdb.caf_msa.update_beneficiary import update_beneficiaries
+from cdb.api.v1.dependencies import (
+    Account,
+    allowed_jwt_roles,
+    extract_authentified_account,
+    extract_deployment_id,
+)
+from cdb.caf_msa.update_beneficiary import update_beneficiaries_from_cafmsa
 from cdb.caf_msa.validate_xml import validate_xml
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
-router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
+router = APIRouter(
+    dependencies=[
+        Depends(manager_only),
+        Depends(extract_deployment_id),
+        Depends(extract_authentified_account),
+    ]
+)
 logger = logging.getLogger(__name__)
 
 
@@ -64,25 +73,21 @@ async def import_beneficiaries(
     return result
 
 
-@router.post("/update-from-caf-msa", status_code=200)
+@router.post("/update-from-caf-msa", status_code=201)
 async def import_caf_msa_xml(
     upload_file: UploadFile,
+    request: Request,
+    background_tasks: BackgroundTasks,
     jwt_token: str = Header(default=None),
-) -> dict[str, int]:
+) -> None:
+    account: Account = request.state.account
     validate_xml(upload_file.file)  # type: ignore
-
-    async with await gql_client(
-        url=settings.graphql_api_url,
-        headers={
-            "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
-            "x-hasura-use-backend-only-permissions": "true",
-            "Authorization": "Bearer " + jwt_token,
-        },
-    ) as session:
-        result: dict[str, int] = await update_beneficiaries(
-            session, upload_file.file  # type: ignore
-        )
-        return result
+    background_tasks.add_task(
+        update_beneficiaries_from_cafmsa,
+        account.id,
+        jwt_token,
+        upload_file.file,  # type: ignore
+    )
 
 
 async def import_beneficiary(

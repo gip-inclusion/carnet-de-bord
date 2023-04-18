@@ -89,3 +89,22 @@ def send_beneficiaries_without_referent_to_admin_structure_email(
         url=settings.app_url,
     )
     send_mail(to=to_email, subject=subject, message=message)
+
+
+def notify_manager_after_cafmsa_import(
+    to_email: str, date: str, count: int, count_success: int, count_error: int
+) -> None:
+    print("notify_manager_after_cafmsa_import")
+    template = jinja_env.get_template("caf_msa_update_report.html")
+    subject = f"Récapitulatif suite à l'import du fichier CAF/MSA du {date}"
+    message = template.render(
+        subject=subject,
+        count=count,
+        count_success=count_success,
+        count_error=count_error,
+    )
+    send_mail(
+        to=to_email,
+        subject=subject,
+        message=message,
+    )

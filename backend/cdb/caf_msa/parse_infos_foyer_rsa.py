@@ -114,6 +114,8 @@ def parse_caf_file(
     foyers: List[CafMsaInfosFoyer] = []
     infos = None
 
+    # Rewind the file in case it has been already walked through
+    file.seek(0)
     items = etree.iterparse(file, tag="IdentificationFlux")
     for _, infoFluxTree in items:
         infos = parse_infos_flux(infoFluxTree)
