@@ -38,7 +38,7 @@ async def test_update_beneficiary_by_id(
         right_rsa="rsa_droit_ouvert_et_suspendu",
         rsa_closure_date=None,
         rsa_closure_reason=None,
-        rsa_suspension_reason="caf_ressources_trop_eleve",
+        rsa_suspension_reason="caf_ressources_trop_elevees",
         is_homeless=False,
         subject_right_and_duty=False,
         caf_number="2055990",
@@ -57,7 +57,7 @@ async def test_update_beneficiary_by_id(
     assert beneficiary.right_rsa == "rsa_droit_ouvert_et_suspendu"
     assert beneficiary.rsa_closure_reason is None
     assert beneficiary.rsa_closure_date is None
-    assert beneficiary.rsa_suspension_reason == "caf_ressources_trop_eleve"
+    assert beneficiary.rsa_suspension_reason == "caf_ressources_trop_elevees"
     assert beneficiary.is_homeless is False
     assert beneficiary.subject_to_right_and_duty is False
 
@@ -72,7 +72,7 @@ async def test_update_beneficiary_create_external_data(
         right_rsa="rsa_droit_ouvert_et_suspendu",
         rsa_closure_date=None,
         rsa_closure_reason=None,
-        rsa_suspension_reason="caf_ressources_trop_eleve",
+        rsa_suspension_reason="caf_ressources_trop_elevees",
         is_homeless=False,
         subject_right_and_duty=False,
         caf_number="2055990",
@@ -104,7 +104,7 @@ async def test_update_beneficiary_rsa_closure(
     gql_manager_client: AsyncClientSession, sophie_tifour_beneficiary_id: UUID
 ):
     personne = CdbBeneficiaryInfos(
-        right_rsa="rsa_clot",
+        right_rsa="rsa_clos",
         rsa_closure_date="2023-01-01",
         rsa_closure_reason="caf_regroupement",
         rsa_suspension_reason=None,
@@ -122,7 +122,7 @@ async def test_update_beneficiary_rsa_closure(
         external_data,
     )
     assert beneficiary
-    assert beneficiary.right_rsa == "rsa_clot"
+    assert beneficiary.right_rsa == "rsa_clos"
     assert beneficiary.rsa_closure_reason == "caf_regroupement"
     assert beneficiary.rsa_closure_date == date(2023, 1, 1)
     assert beneficiary.rsa_suspension_reason is None
@@ -139,7 +139,7 @@ async def test_update_beneficiary_rsa_suspension(
         right_rsa="rsa_droit_ouvert_et_suspendu",
         rsa_closure_date=None,
         rsa_closure_reason=None,
-        rsa_suspension_reason="caf_ressources_trop_eleve",
+        rsa_suspension_reason="caf_ressources_trop_elevees",
         is_homeless=False,
         subject_right_and_duty=True,
         caf_number="XXXXXXXX",
@@ -157,7 +157,7 @@ async def test_update_beneficiary_rsa_suspension(
     assert beneficiary.right_rsa == "rsa_droit_ouvert_et_suspendu"
     assert beneficiary.rsa_closure_reason is None
     assert beneficiary.rsa_closure_date is None
-    assert beneficiary.rsa_suspension_reason == "caf_ressources_trop_eleve"
+    assert beneficiary.rsa_suspension_reason == "caf_ressources_trop_elevees"
     assert beneficiary.is_homeless is False
     assert beneficiary.subject_to_right_and_duty is True
     assert beneficiary.caf_number == "XXXXXXXX"

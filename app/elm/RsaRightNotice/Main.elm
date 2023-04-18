@@ -157,10 +157,10 @@ extractRsaRightFromFlags flags =
                     Just "rsa_refuse" ->
                         Just Refuse
 
-                    Just "rsa_clot" ->
+                    Just "rsa_clos" ->
                         Just (Clot flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
 
-                    Just "rsa_clot_anterieur" ->
+                    Just "rsa_clos_anterieur" ->
                         Just (ClotMoisAnterieur flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
 
                     _ ->

@@ -14266,23 +14266,23 @@ export enum RsaClosureReasonConstraint {
 }
 
 export enum RsaClosureReasonEnum {
-	/** Cloture suite à l'annulation de la bascule RMI/API */
+	/** Clôture suite à l'annulation de la bascule RMI/API */
 	CafAnnulationBasculeRmi = 'caf_annulation_bascule_rmi',
-	/** cloture suite décision du Président du Conseil général */
+	/** Clôture suite décision du Président du Conseil général */
 	CafDecisionPcg = 'caf_decision_pcg',
-	/** Cloture suite à échéance (4 mois sans droits) */
+	/** Clôture suite à échéance (4 mois sans droits) */
 	CafEcheance = 'caf_echeance',
-	/** Cloture suite à mutation du dossier dans un autre organisme */
+	/** Clôture suite à mutation du dossier dans un autre organisme */
 	CafMutation = 'caf_mutation',
-	/** radié autre motif */
+	/** Radié autre motif */
 	CafRadieAutreMotif = 'caf_radie_autre_motif',
-	/** radié fin de droit */
+	/** Radié fin de droit */
 	CafRadieFinDroit = 'caf_radie_fin_droit',
-	/** radié option RSO Dom */
+	/** Radié option RSO DOM */
 	CafRadieOptionRso = 'caf_radie_option_rso',
-	/** radié option RSTA Dom */
+	/** Radié option RSTA DOM */
 	CafRadieOptionRsta = 'caf_radie_option_rsta',
-	/** cloture pour regroupement de dossier */
+	/** Clôture pour regroupement de dossier */
 	CafRegroupement = 'caf_regroupement',
 }
 
@@ -14447,31 +14447,31 @@ export enum RsaSuspensionReasonEnum {
 	CafBeneficiaireAah = 'caf_beneficiaire_aah',
 	/** Déclaration Trimestrielle Ressources non fournie */
 	CafDeclarationRessourceNonFournie = 'caf_declaration_ressource_non_fournie',
-	/** Demande avantage vielliesse absent ou tardif */
+	/** Demande avantage vieillesse absent ou tardif */
 	CafDemandeAvantageVieillesseAbsent = 'caf_demande_avantage_vieillesse_absent',
-	/** Droit éteint ou autre cas  !L8207! */
-	CafDroitEteinsAutre = 'caf_droit_eteins_autre',
-	/** Etudiant rémunération insuff. */
+	/** Droit éteint ou autre cas */
+	CafDroitEteint = 'caf_droit_eteint',
+	/** Étudiant rémunération insuffisante */
 	CafEtudiantRemunerationInsuffisante = 'caf_etudiant_remuneration_insuffisante',
 	/** Hospitalisation */
 	CafHospitalisation = 'caf_hospitalisation',
-	/** Moins 25 ans sans enft/autre person. à charge */
-	CafMoins_25SansEnfPersonneCharge = 'caf_moins_25_sans_enf_personne_charge',
+	/** Moins de 25 ans sans enfant ni autre personne à charge */
+	CafMoins_25SansPersonneCharge = 'caf_moins_25_sans_personne_charge',
 	/** Pas d'allocataire */
 	CafPasAllocataire = 'caf_pas_allocataire',
 	/** Pas d'isolement */
 	CafPasIsolement = 'caf_pas_isolement',
-	/** Prestation exclue affil partielle */
+	/** Prestation exclue affiliation partielle */
 	CafPrestationExclue = 'caf_prestation_exclue',
 	/** Régime non conforme */
 	CafRegimeNonConforme = 'caf_regime_non_conforme',
 	/** Résidence non conforme */
 	CafResidenceNonConforme = 'caf_residence_non_conforme',
 	/** Ressources trop élévées */
-	CafRessourcesTropEleve = 'caf_ressources_trop_eleve',
+	CafRessourcesTropElevees = 'caf_ressources_trop_elevees',
 	/** RSA inférieur au seuil */
 	CafRsaInferieurSeuil = 'caf_rsa_inferieur_seuil',
-	/** Surface pondérée > plafond ou inconnue */
+	/** Surface pondérée supérieure au plafond ou inconnue */
 	CafSurfacePondereeSup = 'caf_surface_ponderee_sup',
 	/** Titre de séjour absent */
 	CafTitreSejourAbsent = 'caf_titre_sejour_absent',

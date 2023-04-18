@@ -17884,31 +17884,31 @@ schema = build_schema(
     }
 
     enum rsa_closure_reason_enum {
-      """Cloture suite à l'annulation de la bascule RMI/API"""
+      """Clôture suite à l'annulation de la bascule RMI/API"""
       caf_annulation_bascule_rmi
 
-      """cloture suite décision du Président du Conseil général"""
+      """Clôture suite décision du Président du Conseil général"""
       caf_decision_pcg
 
-      """Cloture suite à échéance (4 mois sans droits)"""
+      """Clôture suite à échéance (4 mois sans droits)"""
       caf_echeance
 
-      """Cloture suite à mutation du dossier dans un autre organisme"""
+      """Clôture suite à mutation du dossier dans un autre organisme"""
       caf_mutation
 
-      """radié autre motif"""
+      """Radié autre motif"""
       caf_radie_autre_motif
 
-      """radié fin de droit"""
+      """Radié fin de droit"""
       caf_radie_fin_droit
 
-      """radié option RSO Dom"""
+      """Radié option RSO DOM"""
       caf_radie_option_rso
 
-      """radié option RSTA Dom"""
+      """Radié option RSTA DOM"""
       caf_radie_option_rsta
 
-      """cloture pour regroupement de dossier"""
+      """Clôture pour regroupement de dossier"""
       caf_regroupement
     }
 
@@ -18101,20 +18101,20 @@ schema = build_schema(
       """Déclaration Trimestrielle Ressources non fournie"""
       caf_declaration_ressource_non_fournie
 
-      """Demande avantage vielliesse absent ou tardif"""
+      """Demande avantage vieillesse absent ou tardif"""
       caf_demande_avantage_vieillesse_absent
 
-      """Droit éteint ou autre cas  !L8207!"""
-      caf_droit_eteins_autre
+      """Droit éteint ou autre cas"""
+      caf_droit_eteint
 
-      """Etudiant rémunération insuff."""
+      """Étudiant rémunération insuffisante"""
       caf_etudiant_remuneration_insuffisante
 
       """Hospitalisation"""
       caf_hospitalisation
 
-      """Moins 25 ans sans enft/autre person. à charge"""
-      caf_moins_25_sans_enf_personne_charge
+      """Moins de 25 ans sans enfant ni autre personne à charge"""
+      caf_moins_25_sans_personne_charge
 
       """Pas d'allocataire"""
       caf_pas_allocataire
@@ -18122,7 +18122,7 @@ schema = build_schema(
       """Pas d'isolement"""
       caf_pas_isolement
 
-      """Prestation exclue affil partielle"""
+      """Prestation exclue affiliation partielle"""
       caf_prestation_exclue
 
       """Régime non conforme"""
@@ -18132,12 +18132,12 @@ schema = build_schema(
       caf_residence_non_conforme
 
       """Ressources trop élévées"""
-      caf_ressources_trop_eleve
+      caf_ressources_trop_elevees
 
       """RSA inférieur au seuil"""
       caf_rsa_inferieur_seuil
 
-      """Surface pondérée > plafond ou inconnue"""
+      """Surface pondérée supérieure au plafond ou inconnue"""
       caf_surface_ponderee_sup
 
       """Titre de séjour absent"""

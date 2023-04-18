@@ -5,8 +5,6 @@ from typing import List, Tuple
 import lxml.etree as etree
 from pydantic import BaseModel, Field, validator
 
-from cdb.caf_msa.validate_xml import XMLTagStream
-
 
 class CafInfoFlux(BaseModel):
     date: date
@@ -116,13 +114,19 @@ def parse_caf_file(
     foyers: List[CafMsaInfosFoyer] = []
     infos = None
 
-    with XMLTagStream(file, "InfosFoyerRSA") as stream:
-        for infosFoyer in stream:
-            foyers.append(parse_infos_foyer_rsa(infosFoyer))
+    items = etree.iterparse(file, tag="IdentificationFlux")
+    for _, infoFluxTree in items:
+        infos = parse_infos_flux(infoFluxTree)
 
-    with XMLTagStream(file, "IdentificationFlux") as stream:
-        for infoFlux in stream:
-            infos = parse_infos_flux(infoFlux)
+    # Once the file had been parse a first time,
+    # we need to move to start to do another iteration
+    file.seek(0)
+
+    infosFoyers = etree.iterparse(file, tag="InfosFoyerRSA")
+    for _, infosFoyerTree in infosFoyers:
+        foyer = parse_infos_foyer_rsa(infosFoyerTree)
+        foyers.append(foyer)
+
     if not infos:
         raise Exception("Parsing caf/msa IdentificationFlux failed")
 
@@ -136,15 +140,15 @@ def transform_right_rsa(value: str) -> str:
         "2": "rsa_droit_ouvert_versable",
         "3": "rsa_droit_ouvert_et_suspendu",
         "4": "rsa_droit_ouvert_versement_suspendu",
-        "5": "rsa_clot",
-        "6": "rsa_clot_anterieur",
+        "5": "rsa_clos",
+        "6": "rsa_clos_anterieur",
     }[value.strip()]
 
 
 def transform_suspension_reason(value: str | None) -> str | None:
     return {
-        "01": "caf_ressources_trop_eleve",
-        "02": "caf_moins_25_sans_enf_personne_charge",
+        "01": "caf_ressources_trop_elevees",
+        "02": "caf_moins_25_sans_personne_charge",
         "03": "caf_activite_non_conforme",
         "04": "caf_titre_sejour_invalid",
         "05": "caf_rsa_inferieur_seuil",
@@ -158,7 +162,7 @@ def transform_suspension_reason(value: str | None) -> str | None:
         "44": "caf_hospitalisation",
         "70": "caf_action_non_engagee",
         "78": "caf_surface_ponderee_sup",
-        "84": "caf_droit_eteins_autre",
+        "84": "caf_droit_eteint",
         "85": "caf_pas_allocataire",
         "97": "caf_beneficiaire_aah",
         "AB": "caf_allocataire_absent",

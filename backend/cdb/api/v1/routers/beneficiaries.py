@@ -27,6 +27,7 @@ from cdb.api.db.models.csv import CsvFieldError
 from cdb.api.db.models.role import RoleEnum
 from cdb.api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
 from cdb.caf_msa.update_beneficiary import update_beneficiaries
+from cdb.caf_msa.validate_xml import validate_xml
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
@@ -68,6 +69,8 @@ async def import_caf_msa_xml(
     upload_file: UploadFile,
     jwt_token: str = Header(default=None),
 ) -> dict[str, int]:
+    validate_xml(upload_file.file)  # type: ignore
+
     async with await gql_client(
         url=settings.graphql_api_url,
         headers={

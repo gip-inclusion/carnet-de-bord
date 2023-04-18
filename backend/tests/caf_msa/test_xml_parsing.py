@@ -45,8 +45,8 @@ rsa_right_test_data = [
     ("2", "rsa_droit_ouvert_versable"),
     ("3", "rsa_droit_ouvert_et_suspendu"),
     ("4", "rsa_droit_ouvert_versement_suspendu"),
-    ("5", "rsa_clot"),
-    ("6", "rsa_clot_anterieur"),
+    ("5", "rsa_clos"),
+    ("6", "rsa_clos_anterieur"),
 ]
 
 
@@ -61,8 +61,8 @@ class TestTranformRightRsa(TestCase):
 
 
 rsa_suspension_test_data = [
-    ("01", "caf_ressources_trop_eleve"),
-    ("02", "caf_moins_25_sans_enf_personne_charge"),
+    ("01", "caf_ressources_trop_elevees"),
+    ("02", "caf_moins_25_sans_personne_charge"),
     ("03", "caf_activite_non_conforme"),
     ("04", "caf_titre_sejour_invalid"),
     ("05", "caf_rsa_inferieur_seuil"),
@@ -76,7 +76,7 @@ rsa_suspension_test_data = [
     ("44", "caf_hospitalisation"),
     ("70", "caf_action_non_engagee"),
     ("78", "caf_surface_ponderee_sup"),
-    ("84", "caf_droit_eteins_autre"),
+    ("84", "caf_droit_eteint"),
     ("85", "caf_pas_allocataire"),
     ("97", "caf_beneficiaire_aah"),
     ("AB", "caf_allocataire_absent"),

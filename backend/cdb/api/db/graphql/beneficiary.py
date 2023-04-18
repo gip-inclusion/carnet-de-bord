@@ -38,7 +38,7 @@ async def get_beneficiary_by_nir(
 ) -> BeneficiaryRsaInfos | None:
     beneficiary_object: dict[str, List[dict]] = await gql_session.execute(
         beneficiary_by_nir_request(),
-        variable_values={"nir": nir + "%"},
+        variable_values={"nir": nir},
     )
     return parse_beneficiaries(beneficiary_object)
 

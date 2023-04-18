@@ -30,10 +30,10 @@ rsaRightKeyToString key =
                 "rsa_refuse" ->
                     "Droit refusé"
 
-                "rsa_clot" ->
+                "rsa_clos" ->
                     "Droit clos"
 
-                "rsa_clot_anterieur" ->
+                "rsa_clos_anterieur" ->
                     "Droit clos sur mois antérieur ayant eu un contrôle dans le mois de référence pour une période antérieure."
 
                 _ ->
@@ -63,10 +63,10 @@ type RsaRight
 suspensionReasonKeyToString : String -> String
 suspensionReasonKeyToString key =
     case key of
-        "caf_ressources_trop_eleve" ->
+        "caf_ressources_trop_elevees" ->
             "Ressources trop élévées"
 
-        "caf_moins_25_sans_enf_personne_charge" ->
+        "caf_moins_25_sans_personne_charge" ->
             "Moins 25 ans sans enft/autre person. à charge"
 
         "caf_activite_non_conforme" ->
@@ -108,7 +108,7 @@ suspensionReasonKeyToString key =
         "caf_surface_ponderee_sup" ->
             "Surface pondérée > plafond ou inconnue"
 
-        "caf_droit_eteins_autre" ->
+        "caf_droit_eteint" ->
             "Droit éteint ou autre cas"
 
         "caf_pas_allocataire" ->
