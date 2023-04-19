@@ -2,6 +2,7 @@ module Domain.ProfessionalProject exposing
     ( ContractType(..)
     , ProfessionalProject
     , WorkingTime(..)
+    , Rome
     , contractTypeStringToType
     , contractTypeToKey
     , contractTypeToLabel
@@ -13,7 +14,6 @@ module Domain.ProfessionalProject exposing
 import Decimal exposing (Decimal)
 import Domain.Account exposing (Account)
 import Time
-import Domain.Rome.Select exposing (Rome)
 
 
 type WorkingTime
@@ -44,6 +44,11 @@ type alias ProfessionalProject =
     , workingTimeType : Maybe WorkingTime
     }
 
+
+type alias Rome =
+    { id : String
+    , label : String
+    }
 
 contractTypeToLabel : ContractType -> String
 contractTypeToLabel contractType =

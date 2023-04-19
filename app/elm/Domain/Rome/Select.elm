@@ -1,4 +1,4 @@
-module Domain.Rome.Select exposing (Model, Msg, Rome, getSelected, init, update, view)
+module Domain.Rome.Select exposing (Model, Msg, getSelected, init, update, view)
 
 import Api exposing (Api)
 import Html
@@ -6,15 +6,9 @@ import Http
 import Json.Decode as Decode
 import Json.Encode as Json
 import UI.SearchSelect.Component
-
+import Domain.ProfessionalProject exposing (Rome)
 
 -- Init
-
-type alias Rome =
-    { id : String
-    , label : String
-    }
-
 
 decoder : Decode.Decoder Rome
 decoder =

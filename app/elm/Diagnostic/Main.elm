@@ -31,7 +31,7 @@ import Iso8601
 import List.Extra
 import Time
 import TimeZone
-import Domain.Rome.Select exposing (Rome)
+import Domain.ProfessionalProject exposing (Rome)
 
 
 type alias Flags =
