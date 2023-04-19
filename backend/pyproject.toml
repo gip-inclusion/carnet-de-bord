@@ -36,6 +36,7 @@ structlog-sentry = "^2.0.0"
 typer = "0.7.0"
 uvicorn = "0.21.1"
 xlrd = "^2.0.1"
+lxml = "^4.9.2"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.1.1"

@@ -1,6 +1,9 @@
 import asyncio
 import contextlib
+import io
 import os
+import typing
+from typing import Any
 from uuid import UUID
 
 import dask.dataframe as dd
@@ -186,6 +189,34 @@ def orientation_manager_xls_filepath() -> str:
         "fixtures",
         "import_charges_orientation.xls",
     )
+
+
+@pytest.fixture
+def flux_mensuel_caf() -> typing.Generator[io.BufferedReader, Any, Any]:
+    file_path = os.path.join(test_dir, "fixtures", "RSABEM.xml")
+    with open(file_path, "rb") as file:
+        yield file
+
+
+@pytest.fixture
+def flux_quotidien_caf() -> typing.Generator[io.BufferedReader, Any, Any]:
+    file_path = os.path.join(test_dir, "fixtures", "RSABEI.xml")
+    with open(file_path, "rb") as file:
+        yield file
+
+
+@pytest.fixture
+def flux_mensuel_msa() -> typing.Generator[io.BufferedReader, Any, Any]:
+    file_path = os.path.join(test_dir, "fixtures", "MSABEM.xml")
+    with open(file_path, "rb") as file:
+        yield file
+
+
+@pytest.fixture
+def flux_quotidien_msa() -> typing.Generator[io.BufferedReader, Any, Any]:
+    file_path = os.path.join(test_dir, "fixtures", "MSABEI.xml")
+    with open(file_path, "rb") as file:
+        yield file
 
 
 @pytest.fixture

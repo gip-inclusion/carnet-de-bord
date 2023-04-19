@@ -2,7 +2,7 @@ import logging
 from uuid import UUID
 
 from asyncpg.connection import Connection
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, Depends, Request, UploadFile
 from pydantic import BaseModel
 
 from cdb.api.core.exceptions import InsertFailError, UpdateFailError
@@ -59,6 +59,16 @@ async def import_beneficiaries(
         for beneficiary in data.beneficiaries
     ]
     return result
+
+
+@router.post("/update-from-caf-msa", status_code=201)
+async def import_caf_msa_xml(
+    request: Request,
+    upload_file: UploadFile,
+) -> None:
+    xmldata = await upload_file.read()
+    print(xmldata)
+    pass
 
 
 async def import_beneficiary(
