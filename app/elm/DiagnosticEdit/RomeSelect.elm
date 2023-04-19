@@ -1,14 +1,17 @@
-module Domain.Rome.Select exposing (Model, Msg, getSelected, init, update, view)
+module DiagnosticEdit.RomeSelect exposing (Model, Msg, getSelected, init, update, view)
 
 import Api exposing (Api)
+import Domain.ProfessionalProject exposing (Rome)
 import Html
 import Http
 import Json.Decode as Decode
 import Json.Encode as Json
 import UI.SearchSelect.Component
-import Domain.ProfessionalProject exposing (Rome)
+
+
 
 -- Init
+
 
 decoder : Decode.Decoder Rome
 decoder =

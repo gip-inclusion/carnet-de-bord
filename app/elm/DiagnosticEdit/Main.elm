@@ -15,6 +15,7 @@ import Api exposing (Api)
 import Browser
 import Decimal exposing (Decimal)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
+import DiagnosticEdit.RomeSelect
 import Domain.ProfessionalProject
     exposing
         ( ContractType(..)
@@ -27,7 +28,6 @@ import Domain.ProfessionalProject
         , workingTimeToKey
         , workingTimeToLabel
         )
-import Domain.Rome.Select
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme, themeKeyStringToType, themeKeyTypeToLabel)
 import Html
@@ -150,7 +150,7 @@ type alias ProfessionalProjectState =
     , hourlyRate : Maybe String
     , contractType : Maybe ContractType
     , workingTime : Maybe WorkingTime
-    , romeSelect : Domain.Rome.Select.Model
+    , romeSelect : DiagnosticEdit.RomeSelect.Model
     }
 
 
@@ -170,7 +170,7 @@ toProfessionalProjectOut state =
     , mobilityRadius = state.mobilityRadius
     , romeCodeId =
         state.romeSelect
-            |> Domain.Rome.Select.getSelected
+            |> DiagnosticEdit.RomeSelect.getSelected
             |> Maybe.map .id
     , hourlyRate =
         state.hourlyRate
@@ -214,7 +214,7 @@ initProfessionalProjectState api professionalProject =
     , contractType = professionalProject.contractType
     , workingTime = professionalProject.workingTimeType
     , romeSelect =
-        Domain.Rome.Select.init
+        DiagnosticEdit.RomeSelect.init
             { id = professionalProject.id
             , selected = professionalProject.rome
             , api = api
@@ -270,7 +270,7 @@ type Msg
     | UpdateWorkingTime Int (Maybe WorkingTime)
     | UpdateContractType Int (Maybe ContractType)
     | UpdateHourlyRate Int String
-    | RomeSelectMsg Int Domain.Rome.Select.Msg
+    | RomeSelectMsg Int DiagnosticEdit.RomeSelect.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -288,7 +288,7 @@ update msg model =
                                      , workingTime = Nothing
                                      , contractType = Nothing
                                      , romeSelect =
-                                        Domain.Rome.Select.init
+                                        DiagnosticEdit.RomeSelect.init
                                             { id = String.fromInt (List.length model.professionalProjects)
                                             , selected = Nothing
                                             , api = model.api
@@ -425,7 +425,7 @@ update msg model =
                 Just project ->
                     let
                         ( nextSelect, command ) =
-                            Domain.Rome.Select.update subMsg project.romeSelect
+                            DiagnosticEdit.RomeSelect.update subMsg project.romeSelect
 
                         nextModel =
                             { project | romeSelect = nextSelect }
@@ -477,7 +477,7 @@ view model =
                 |> List.indexedMap
                     (\index project ->
                         Html.div [ Attr.class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
-                            [ Domain.Rome.Select.view project.romeSelect
+                            [ DiagnosticEdit.RomeSelect.view project.romeSelect
                                 |> Html.map (RomeSelectMsg index)
                             , Html.div
                                 [ Attr.class "fr-grid-row fr-grid-row--gutters " ]
