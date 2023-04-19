@@ -14,7 +14,6 @@ module Domain.ProfessionalProject exposing
 import Decimal exposing (Decimal)
 import Domain.Account exposing (Account)
 import Time
-import Domain.Rome.Rome exposing (Rome)
 
 
 type WorkingTime
