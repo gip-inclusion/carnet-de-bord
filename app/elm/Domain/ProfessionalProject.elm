@@ -1,8 +1,8 @@
 module Domain.ProfessionalProject exposing
     ( ContractType(..)
     , ProfessionalProject
-    , Rome
     , WorkingTime(..)
+    , Rome
     , contractTypeStringToType
     , contractTypeToKey
     , contractTypeToLabel
@@ -49,7 +49,6 @@ type alias Rome =
     { id : String
     , label : String
     }
-
 
 contractTypeToLabel : ContractType -> String
 contractTypeToLabel contractType =
