@@ -3,8 +3,8 @@ from datetime import date
 from typing import List
 from uuid import UUID
 
-from gql import Client, gql
-from gql.client import SyncClientSession
+from gql import gql
+from gql.client import AsyncClientSession, SyncClientSession
 from graphql import DocumentNode
 from pydantic import BaseModel, Field
 
@@ -34,9 +34,9 @@ class BeneficiaryRsaInfos(BaseModel):
 
 
 async def get_beneficiary_by_nir(
-    gql_session: Client, nir: str
+    gql_session: AsyncClientSession, nir: str
 ) -> BeneficiaryRsaInfos | None:
-    beneficiary_object: dict[str, List[dict]] = await gql_session.execute_async(
+    beneficiary_object: dict[str, List[dict]] = await gql_session.execute(
         beneficiary_by_nir_request(),
         variable_values={"nir": nir},
     )
@@ -81,13 +81,13 @@ def update_beneficiary_sync(
 
 
 async def update_beneficiary(
-    gql_session: Client,
+    gql_session: AsyncClientSession,
     id: UUID,
     beneficiary_infos: CdbBeneficiaryInfos,
     sha: str,
     external_data: dict,
 ) -> BeneficiaryRsaInfos | None:
-    result: dict[str, dict] = await gql_session.execute_async(
+    result: dict[str, dict] = await gql_session.execute(
         update_beneficiary_mutation(),
         variable_values={
             "id": str(id),

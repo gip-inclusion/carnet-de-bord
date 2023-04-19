@@ -7,7 +7,7 @@ from cdb.api.core.settings import settings
 from cdb.api.db.graphql.graphql_scalars import DateScalar
 
 
-def gql_client(url: str, token: str) -> Client:
+def gql_client(token: str) -> Client:
     return _get_client(
         headers={
             "Authorization": "Bearer " + token,

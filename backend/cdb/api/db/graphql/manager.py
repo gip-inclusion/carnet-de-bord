@@ -1,8 +1,8 @@
 from typing import List
 from uuid import UUID
 
-from gql import Client, gql
-from gql.client import SyncClientSession
+from gql import gql
+from gql.client import AsyncClientSession, SyncClientSession
 from graphql import DocumentNode
 from pydantic import BaseModel
 
@@ -27,9 +27,9 @@ def get_manager_by_account_id_sync(
 
 
 async def get_manager_by_account_id(
-    gql_session: Client, account_id: UUID
+    gql_session: AsyncClientSession, account_id: UUID
 ) -> Manager | None:
-    data: dict[str, List[dict]] = await gql_session.execute_async(
+    data: dict[str, List[dict]] = await gql_session.execute(
         query_manager_by_account_id(),
         variable_values={"id": account_id},
     )
