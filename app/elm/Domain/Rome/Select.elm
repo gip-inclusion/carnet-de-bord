@@ -1,7 +1,6 @@
-module Domain.Rome.Select exposing (Model, Msg, getSelected, init, update, view)
+module Domain.Rome.Select exposing (Model, Msg, Rome, getSelected, init, update, view)
 
 import Api exposing (Api)
-import Domain.Rome.Rome as Rome exposing (Rome)
 import Html
 import Http
 import Json.Decode as Decode
@@ -9,8 +8,19 @@ import Json.Encode as Json
 import UI.SearchSelect.Component
 
 
-
 -- Init
+
+type alias Rome =
+    { id : String
+    , label : String
+    }
+
+
+decoder : Decode.Decoder Rome
+decoder =
+    Decode.map2 Rome
+        (Decode.field "id" Decode.string)
+        (Decode.field "label" Decode.string)
 
 
 type alias Model =
@@ -69,7 +79,7 @@ getRome api { search, callbackMsg } =
             Http.expectJson
                 (Result.mapError (always ()) >> callbackMsg)
                 (Decode.at [ "data", "rome" ]
-                    (Decode.list Rome.decoder)
+                    (Decode.list decoder)
                 )
         , timeout = Nothing
         , tracker = Nothing
