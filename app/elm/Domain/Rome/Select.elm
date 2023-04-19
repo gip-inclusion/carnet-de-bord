@@ -1,4 +1,4 @@
-module Domain.Rome.Select exposing (Model, Msg, init, update, view, getSelected)
+module Domain.Rome.Select exposing (Model, Msg, getSelected, init, update, view)
 
 import Api exposing (Api)
 import Domain.Rome.Rome as Rome exposing (Rome)
@@ -21,6 +21,7 @@ init :
     { id : String
     , selected : Maybe Rome
     , api : Api
+    , errorLog : String -> Cmd msg
     }
     -> Model
 init props =
@@ -35,8 +36,8 @@ init props =
         }
 
 
-getRome : Api -> String -> Cmd Msg
-getRome api searchString =
+getRome : Api -> { search : String, callbackMsg : Result () (List Rome) -> Msg } -> Cmd Msg
+getRome api { search, callbackMsg } =
     let
         query =
             """
@@ -59,14 +60,14 @@ getRome api searchString =
                     [ ( "query", Json.string query )
                     , ( "variables"
                       , Json.object
-                            [ ( "searchString", Json.string searchString )
+                            [ ( "searchString", Json.string search )
                             ]
                       )
                     ]
                 )
         , expect =
             Http.expectJson
-                UI.SearchSelect.Component.Fetched
+                (Result.mapError (always ()) >> callbackMsg)
                 (Decode.at [ "data", "rome" ]
                     (Decode.list Rome.decoder)
                 )
