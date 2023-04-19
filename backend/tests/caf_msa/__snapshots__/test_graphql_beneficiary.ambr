@@ -1,3 +1,4 @@
+# serializer version: 1
 # name: test_update_beneficiary_create_external_data
   dict({
     'madate': '2003-02-01',
