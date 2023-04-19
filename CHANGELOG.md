@@ -1,3 +1,10 @@
+## [1.213.13](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.12...v1.213.13) (2023-04-19)
+
+
+### Reverts
+
+* Revert "chore: Ne pas annuler le déploiement d'une release en cours." (#1683) ([4fafb56](https://github.com/gip-inclusion/carnet-de-bord/commit/4fafb56424896440d4e3992e3723a9eb4f12ae40)), closes [#1683](https://github.com/gip-inclusion/carnet-de-bord/issues/1683) [#1617](https://github.com/gip-inclusion/carnet-de-bord/issues/1617)
+
 ## [1.213.12](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.11...v1.213.12) (2023-04-18)
 
 
