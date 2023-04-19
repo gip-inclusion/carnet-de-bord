@@ -3,8 +3,8 @@ from datetime import date
 from typing import List
 from uuid import UUID
 
-from gql import gql
-from gql.client import AsyncClientSession
+from gql import Client, gql
+from gql.client import SyncClientSession
 from graphql import DocumentNode
 from pydantic import BaseModel, Field
 
@@ -34,23 +34,60 @@ class BeneficiaryRsaInfos(BaseModel):
 
 
 async def get_beneficiary_by_nir(
-    gql_session: AsyncClientSession, nir: str
+    gql_session: Client, nir: str
 ) -> BeneficiaryRsaInfos | None:
-    beneficiary_object: dict[str, List[dict]] = await gql_session.execute(
+    beneficiary_object: dict[str, List[dict]] = await gql_session.execute_async(
         beneficiary_by_nir_request(),
         variable_values={"nir": nir},
     )
     return parse_beneficiaries(beneficiary_object)
 
 
-async def update_beneficiary(
-    gql_session: AsyncClientSession,
+def get_beneficiary_by_nir_sync(
+    gql_session: SyncClientSession, nir: str
+) -> BeneficiaryRsaInfos | None:
+    beneficiary_object: dict[str, List[dict]] = gql_session.execute(
+        beneficiary_by_nir_request(),
+        variable_values={"nir": nir},
+    )
+    return parse_beneficiaries(beneficiary_object)
+
+
+def update_beneficiary_sync(
+    gql_session: SyncClientSession,
     id: UUID,
     beneficiary_infos: CdbBeneficiaryInfos,
     sha: str,
     external_data: dict,
 ) -> BeneficiaryRsaInfos | None:
-    result: dict[str, dict] = await gql_session.execute(
+    result: dict[str, dict] = gql_session.execute(
+        update_beneficiary_mutation(),
+        variable_values={
+            "id": str(id),
+            "rsaInfos": beneficiary_infos.dict(),
+            "hash": sha,
+            # Hack @lionelb:
+            # Using a custom encoder on gql save a string containing
+            # the stringify version on the json
+            # that's why we use a encode / decode strategy
+            # to transform non serializable object into string
+            # so final dict can be saved into jsonb field
+            "externalData": json.loads(json.dumps(external_data, cls=CustomEncoder)),
+        },
+    )
+    beneficiary = result.get("beneficiary")
+    if beneficiary:
+        return parse_beneficiary(beneficiary)
+
+
+async def update_beneficiary(
+    gql_session: Client,
+    id: UUID,
+    beneficiary_infos: CdbBeneficiaryInfos,
+    sha: str,
+    external_data: dict,
+) -> BeneficiaryRsaInfos | None:
+    result: dict[str, dict] = await gql_session.execute_async(
         update_beneficiary_mutation(),
         variable_values={
             "id": str(id),
@@ -71,7 +108,7 @@ async def update_beneficiary(
 
 
 def parse_beneficiaries(data: dict[str, List[dict]]) -> BeneficiaryRsaInfos | None:
-    beneficiaries = data.get("beneficaries")
+    beneficiaries = data.get("beneficiaries")
     if isinstance(beneficiaries, List):
         if len(beneficiaries) != 1:
             raise FindResultException
@@ -86,7 +123,7 @@ def beneficiary_by_nir_request() -> DocumentNode:
     return gql(
         """
 query beneficiary($nir: String!) {
-  beneficaries:get_beneficiaries_from_nir(args:{search_nir: $nir}){
+  beneficiaries:get_beneficiaries_from_nir(args:{search_nir: $nir}){
     id
     rightRsa
     rsaClosureReason

@@ -1,4 +1,5 @@
 import io
+import logging
 from datetime import date
 from typing import List, Tuple
 
@@ -113,10 +114,11 @@ def parse_caf_file(
 ) -> Tuple[CafInfoFlux, List[CafMsaInfosFoyer]]:
     foyers: List[CafMsaInfosFoyer] = []
     infos = None
-
+    logging.info("demarage du parsing xml")
     items = etree.iterparse(file, tag=("IdentificationFlux", "InfosFoyerRSA"))
     for _, node in items:
         if node.tag == "IdentificationFlux":
+            logging.info("Noeud IdentificationFlux trouvé")
             infos = parse_infos_flux(node)
         else:
             foyer = parse_infos_foyer_rsa(node)
@@ -125,6 +127,7 @@ def parse_caf_file(
     if not infos:
         raise Exception("Parsing caf/msa IdentificationFlux failed")
 
+    logging.info("%s Noeud InfosFoyerRSA trouvés", len(foyers))
     return (infos, foyers)
 
 

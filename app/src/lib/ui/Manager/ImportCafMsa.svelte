@@ -29,7 +29,7 @@
 	{:else}
 		{#await resultPromise}
 			<Spinner label="Envoi du fichier en cours..." />
-		{:then}
+		{:then _}
 			<Alert
 				type="success"
 				title="Envoi du fichier terminé."
