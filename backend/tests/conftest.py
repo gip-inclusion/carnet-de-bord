@@ -20,7 +20,7 @@ from cdb.api.db.crud.notebook import get_notebook_by_id
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
 from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
 from cdb.api.db.crud.professional import get_professional_by_email
-from cdb.api.db.graphql.get_client import gql_client
+from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
@@ -162,14 +162,7 @@ async def test_client(fastapi_app):
 async def gql_manager_client(
     get_manager_jwt_93: str,
 ) -> AsyncGenerator[AsyncClientSession, None]:
-    async with await gql_client(
-        url=settings.graphql_api_url,
-        headers={
-            "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
-            "x-hasura-use-backend-only-permissions": "true",
-            "Authorization": "Bearer " + get_manager_jwt_93,
-        },
-    ) as client:
+    async with gql_client_backend_only(get_manager_jwt_93) as client:
         yield client
 
 
