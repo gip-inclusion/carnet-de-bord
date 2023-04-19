@@ -1,28 +1,54 @@
-port module DiagnosticEdit.Main exposing (Flags, Model, Msg(..), NotebookSituationFlag, ProfessionalProjectOut, ProfessionalProjectState, RefSituation, RefSituationFlag, RomeData(..), SelectedSituation, main)
+port module DiagnosticEdit.Main exposing
+    ( Flags
+    , Model
+    , Msg(..)
+    , NotebookSituationFlag
+    , ProfessionalProjectOut
+    , ProfessionalProjectState
+    , RefSituation
+    , RefSituationFlag
+    , SelectedSituation
+    , main
+    )
 
+import Api exposing (Api)
 import Browser
-import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
 import Decimal exposing (Decimal)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
-import Domain.ProfessionalProject exposing (ContractType(..), ProfessionalProject, Rome, WorkingTime(..), contractTypeStringToType, contractTypeToKey, contractTypeToLabel, workingTimeStringToType, workingTimeToKey, workingTimeToLabel)
+import Domain.ProfessionalProject
+    exposing
+        ( ContractType(..)
+        , ProfessionalProject
+        , WorkingTime(..)
+        , contractTypeStringToType
+        , contractTypeToKey
+        , contractTypeToLabel
+        , workingTimeStringToType
+        , workingTimeToKey
+        , workingTimeToLabel
+        )
+import Domain.Rome.Select
 import Domain.Situation exposing (Situation)
 import Domain.Theme exposing (Theme, themeKeyStringToType, themeKeyTypeToLabel)
 import Html
 import Html.Attributes as Attr
 import Html.Events as Evts
-import Html.Styled as Styled
-import Http
-import Json.Decode as Decode
-import Json.Encode as Json
 import List.Extra
-import Select
 import Set exposing (Set)
 
 
-type RomeData
-    = Loading
-    | NotAsked
-    | Success (List Rome)
+
+-- PORTS
+
+
+port sendSelectedSituations : List String -> Cmd msg
+
+
+port sendUpdatedProfessionalProjects : List ProfessionalProjectOut -> Cmd msg
+
+
+
+--
 
 
 type alias RefSituationFlag =
@@ -47,46 +73,6 @@ type alias Flags =
     }
 
 
-type alias ProfessionalProjectState =
-    { id : Maybe String
-    , rome : Maybe Rome
-    , mobilityRadius : Maybe Int
-    , hourlyRate : Maybe String
-    , contractType : Maybe ContractType
-    , workingTime : Maybe WorkingTime
-    , romeData : RomeData
-    , selectedRome : Maybe Rome
-    , selectState : Select.State
-    }
-
-
-type alias ProfessionalProjectOut =
-    { id : Maybe String
-    , mobilityRadius : Maybe Int
-    , romeCodeId : Maybe String
-    , hourlyRate : Maybe Int
-    , contractTypeId : Maybe String
-    , employmentTypeId : Maybe String
-    }
-
-
-toProfessionalProjectOut : ProfessionalProjectState -> ProfessionalProjectOut
-toProfessionalProjectOut state =
-    { id = state.id
-    , mobilityRadius = state.mobilityRadius
-    , romeCodeId = Maybe.map .id state.selectedRome
-    , hourlyRate =
-        state.hourlyRate
-            |> parseHourlyRate
-            |> Maybe.map (Decimal.fromInt 100 |> Decimal.mul)
-            |> Maybe.map (Decimal.truncate 0)
-            |> Maybe.map Decimal.toString
-            |> Maybe.andThen String.toInt
-    , contractTypeId = Maybe.map contractTypeToKey state.contractType
-    , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
-    }
-
-
 parseHourlyRate : Maybe String -> Maybe Decimal
 parseHourlyRate hourlyRate =
     hourlyRate
@@ -97,17 +83,6 @@ parseHourlyRate hourlyRate =
 inputmode : String -> Html.Attribute msg
 inputmode name =
     Attr.attribute "inputmode" name
-
-
-ariaExpanded : Bool -> Html.Attribute Msg
-ariaExpanded value =
-    Attr.attribute "aria-expanded"
-        (if value then
-            "true"
-
-         else
-            "false"
-        )
 
 
 ariaDescribedBy : String -> Html.Attribute msg
@@ -134,21 +109,6 @@ type alias SelectedSituation =
 
 type alias RefSituation =
     { theme : Theme, situations : List Situation, id : Maybe String }
-
-
-type Msg
-    = ToggleSelectedSituation SelectedSituation
-    | AddEmptyProfessionalProject
-    | RemoveProject Int
-    | UpdateMobilityRadius Int String
-    | UpdateWorkingTime Int (Maybe WorkingTime)
-    | UpdateContractType Int (Maybe ContractType)
-    | UpdateHourlyRate Int String
-    | OpenRomeSearch Int
-    | SelectMsg Int (Select.Msg Rome)
-    | MsgFetchJobTitlesDebouncer (Debouncer.Msg Msg)
-    | FetchJobTitles Int String
-    | JobTitlesFetched Int (Result Http.Error (List Rome))
 
 
 professionalProjetsMaxCount : Int
@@ -179,11 +139,48 @@ type alias Model =
     { possibleSituationsByTheme : List RefSituation
     , selectedSituationSet : Set String
     , professionalProjects : List ProfessionalProjectState
-    , token : String
-    , serverUrl : String
-    , fetchJobTitlesDebouncer : Debouncer.Debouncer Msg
-    , activeRomeSearchIndex : Maybe Int
+    , api : Api
     , professionalProjectsMaxCountReached : Bool
+    }
+
+
+type alias ProfessionalProjectState =
+    { id : Maybe String
+    , mobilityRadius : Maybe Int
+    , hourlyRate : Maybe String
+    , contractType : Maybe ContractType
+    , workingTime : Maybe WorkingTime
+    , romeSelect : Domain.Rome.Select.Model
+    }
+
+
+type alias ProfessionalProjectOut =
+    { id : Maybe String
+    , mobilityRadius : Maybe Int
+    , romeCodeId : Maybe String
+    , hourlyRate : Maybe Int
+    , contractTypeId : Maybe String
+    , employmentTypeId : Maybe String
+    }
+
+
+toProfessionalProjectOut : ProfessionalProjectState -> ProfessionalProjectOut
+toProfessionalProjectOut state =
+    { id = state.id
+    , mobilityRadius = state.mobilityRadius
+    , romeCodeId =
+        state.romeSelect
+            |> Domain.Rome.Select.getSelected
+            |> Maybe.map .id
+    , hourlyRate =
+        state.hourlyRate
+            |> parseHourlyRate
+            |> Maybe.map (Decimal.fromInt 100 |> Decimal.mul)
+            |> Maybe.map (Decimal.truncate 0)
+            |> Maybe.map Decimal.toString
+            |> Maybe.andThen String.toInt
+    , contractTypeId = Maybe.map contractTypeToKey state.contractType
+    , employmentTypeId = Maybe.map workingTimeToKey state.workingTime
     }
 
 
@@ -209,17 +206,20 @@ extractProfessionalProjectsFromFlags professionalProjects =
     List.map extractProfessionalProjectFromFlags professionalProjects
 
 
-initProfessionalProjectState : ProfessionalProject -> ProfessionalProjectState
-initProfessionalProjectState professionalProject =
+initProfessionalProjectState : Api -> ProfessionalProject -> ProfessionalProjectState
+initProfessionalProjectState api professionalProject =
     { id = Just professionalProject.id
-    , rome = professionalProject.rome
     , mobilityRadius = professionalProject.mobilityRadius
     , hourlyRate = Maybe.map Decimal.toString professionalProject.hourlyRate
     , contractType = professionalProject.contractType
     , workingTime = professionalProject.workingTimeType
-    , romeData = Maybe.withDefault NotAsked (Maybe.map (\value -> Success [ value ]) professionalProject.rome)
-    , selectedRome = professionalProject.rome
-    , selectState = Select.initState (Select.selectIdentifier ("RomeSelector" ++ professionalProject.id))
+    , romeSelect =
+        Domain.Rome.Select.init
+            { id = professionalProject.id
+            , selected = professionalProject.rome
+            , api = api
+            , errorLog = always Cmd.none -- TODO envoyer sur Sentry
+            }
     }
 
 
@@ -234,6 +234,12 @@ hasReachedProfessionalProjectMaxCount list =
 
 init : Flags -> ( Model, Cmd msg )
 init flags =
+    let
+        api =
+            { url = flags.serverUrl
+            , authToken = flags.token
+            }
+    in
     ( { possibleSituationsByTheme =
             extractSituationOptionsFromFlags flags.refSituations
                 |> situationsByTheme
@@ -244,32 +250,27 @@ init flags =
                 |> Set.fromList
       , professionalProjects =
             extractProfessionalProjectsFromFlags flags.professionalProjects
-                |> List.map initProfessionalProjectState
-      , token = flags.token
-      , serverUrl = flags.serverUrl
-      , fetchJobTitlesDebouncer = debounce (fromSeconds 0.5) |> toDebouncer
-      , activeRomeSearchIndex = Nothing
+                |> List.map (initProfessionalProjectState api)
+      , api = api
       , professionalProjectsMaxCountReached = flags.professionalProjects |> hasReachedProfessionalProjectMaxCount
       }
     , Cmd.none
     )
 
 
-romeSelectorKey : String
-romeSelectorKey =
-    "RomeSelector"
-
-
 
 -- UPDATE
 
 
-fetchJobTitlesDebouncerConfig : Debouncer.UpdateConfig Msg Model
-fetchJobTitlesDebouncerConfig =
-    { mapMsg = MsgFetchJobTitlesDebouncer
-    , getDebouncer = .fetchJobTitlesDebouncer
-    , setDebouncer = \debouncer model -> { model | fetchJobTitlesDebouncer = debouncer }
-    }
+type Msg
+    = ToggleSelectedSituation SelectedSituation
+    | AddEmptyProfessionalProject
+    | RemoveProject Int
+    | UpdateMobilityRadius Int String
+    | UpdateWorkingTime Int (Maybe WorkingTime)
+    | UpdateContractType Int (Maybe ContractType)
+    | UpdateHourlyRate Int String
+    | RomeSelectMsg Int Domain.Rome.Select.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -282,14 +283,17 @@ update msg model =
                         | professionalProjects =
                             model.professionalProjects
                                 ++ [ { id = Nothing
-                                     , rome = Nothing
                                      , mobilityRadius = Nothing
-                                     , romeData = NotAsked
-                                     , selectedRome = Nothing
                                      , hourlyRate = Nothing
                                      , workingTime = Nothing
                                      , contractType = Nothing
-                                     , selectState = Select.initState (Select.selectIdentifier (romeSelectorKey ++ String.fromInt (List.length model.professionalProjects)))
+                                     , romeSelect =
+                                        Domain.Rome.Select.init
+                                            { id = String.fromInt (List.length model.professionalProjects)
+                                            , selected = Nothing
+                                            , api = model.api
+                                            , errorLog = always Cmd.none -- TODO envoyer sur Sentry
+                                            }
                                      }
                                    ]
                     }
@@ -416,203 +420,38 @@ update msg model =
                 |> sendSelectedSituations
             )
 
-        SelectMsg indexToUpdate selectMsg ->
-            case
-                List.Extra.getAt indexToUpdate model.professionalProjects
-                    |> Maybe.map .selectState
-                    |> Maybe.map (Select.update selectMsg)
-            of
-                Just ( maybeAction, updatedSelectState, selectCmds ) ->
+        RomeSelectMsg projectIndex subMsg ->
+            case List.Extra.getAt projectIndex model.professionalProjects of
+                Just project ->
                     let
-                        newModel =
-                            { model
-                                | professionalProjects =
-                                    model.professionalProjects
-                                        |> List.Extra.updateAt indexToUpdate
-                                            (\professionalProjectState ->
-                                                { professionalProjectState | selectState = updatedSelectState }
-                                            )
-                            }
+                        ( nextSelect, command ) =
+                            Domain.Rome.Select.update subMsg project.romeSelect
 
-                        newCmds =
-                            Cmd.map (SelectMsg indexToUpdate) selectCmds
+                        nextModel =
+                            { project | romeSelect = nextSelect }
+                                |> updateProject projectIndex model
                     in
-                    case maybeAction of
-                        Just (Select.Select someRome) ->
-                            let
-                                newProfessionalProject =
-                                    newModel.professionalProjects
-                                        |> List.Extra.updateAt indexToUpdate
-                                            (\professionalProjectState ->
-                                                { professionalProjectState | selectedRome = Just someRome }
-                                            )
-                            in
-                            ( { newModel
-                                | professionalProjects = newProfessionalProject
-                                , activeRomeSearchIndex = Nothing
-                              }
-                            , Cmd.batch
-                                [ newCmds
-                                , newProfessionalProject
-                                    |> List.map toProfessionalProjectOut
-                                    |> sendUpdatedProfessionalProjects
-                                ]
-                            )
-
-                        Just (Select.InputChange value) ->
-                            let
-                                ( debouncerModel, debouncerCmds ) =
-                                    Debouncer.update update
-                                        fetchJobTitlesDebouncerConfig
-                                        (FetchJobTitles indexToUpdate value
-                                            |> provideInput
-                                        )
-                                        newModel
-                            in
-                            ( debouncerModel, Cmd.batch [ newCmds, debouncerCmds ] )
-
-                        _ ->
-                            if Select.isMenuOpen updatedSelectState then
-                                ( newModel
-                                , Cmd.batch
-                                    [ newCmds
-                                    , newModel.professionalProjects
-                                        |> List.map toProfessionalProjectOut
-                                        |> sendUpdatedProfessionalProjects
-                                    ]
-                                )
-
-                            else
-                                ( { newModel | activeRomeSearchIndex = Nothing }
-                                , Cmd.batch
-                                    [ newCmds
-                                    , newModel.professionalProjects
-                                        |> List.map toProfessionalProjectOut
-                                        |> sendUpdatedProfessionalProjects
-                                    ]
-                                )
-
-                _ ->
-                    ( model, Cmd.none )
-
-        OpenRomeSearch professionalProjectIndex ->
-            case model.activeRomeSearchIndex of
-                Just _ ->
-                    ( { model | activeRomeSearchIndex = Nothing }, Cmd.none )
-
-                _ ->
-                    let
-                        ss =
-                            Select.initState (Select.selectIdentifier ("RomeSelector" ++ String.fromInt professionalProjectIndex))
-
-                        -- Because it's being used as a dropdown we want a fresh state
-                        -- every time an action is clicked.
-                        ( _, focusedSelectState, cmds ) =
-                            -- Focusing the select. Using the Select Cmd
-                            -- ensures the menu is open on focus which is what you probably want
-                            -- for a dropdown menu.
-                            Select.update Select.focus ss
-
-                        newProfessionalProjects =
-                            model.professionalProjects
-                                |> List.Extra.updateAt professionalProjectIndex
-                                    (\professionalProjectState ->
-                                        { professionalProjectState | selectState = focusedSelectState }
-                                    )
-                    in
-                    ( { model
-                        | professionalProjects = newProfessionalProjects
-                        , activeRomeSearchIndex = Just professionalProjectIndex
-                      }
-                    , Cmd.map (SelectMsg professionalProjectIndex) cmds
+                    ( nextModel
+                    , Cmd.batch
+                        [ command |> Cmd.map (RomeSelectMsg projectIndex)
+                        , nextModel.professionalProjects
+                            |> List.map toProfessionalProjectOut
+                            |> sendUpdatedProfessionalProjects
+                        ]
                     )
 
-        MsgFetchJobTitlesDebouncer subMsg ->
-            Debouncer.update update fetchJobTitlesDebouncerConfig subMsg model
-
-        FetchJobTitles index searchString ->
-            if String.isEmpty searchString then
-                ( { model
-                    | professionalProjects =
-                        model.professionalProjects
-                            |> List.Extra.updateAt index (\project -> { project | romeData = NotAsked })
-                  }
-                , Cmd.none
-                )
-
-            else
-                ( { model
-                    | professionalProjects =
-                        model.professionalProjects
-                            |> List.Extra.updateAt index (\project -> { project | romeData = Loading })
-                  }
-                , getRome model.token model.serverUrl searchString index
-                )
-
-        JobTitlesFetched index result ->
-            case result of
-                Ok romeData ->
-                    ( { model
-                        | professionalProjects =
-                            model.professionalProjects
-                                |> List.Extra.updateAt index
-                                    (\professionalProjectState ->
-                                        { professionalProjectState | romeData = Success romeData }
-                                    )
-                      }
-                    , Cmd.none
-                    )
-
-                Err _ ->
-                    -- TODO: Que fait-on des erreurs http ?
+                Nothing ->
                     ( model, Cmd.none )
 
 
-getRome : String -> String -> String -> Int -> Cmd Msg
-getRome token serverUrl searchString index =
-    let
-        query =
-            """
-            query searchRomes($searchString: String!) {
-              rome: search_rome_codes(args: {search: $searchString}, limit: 50) {
-                id
-                label
-              }
-            }
-            """
-    in
-    Http.request
-        { method = "POST"
-        , url = serverUrl
-        , headers =
-            [ Http.header "Authorization" ("Bearer " ++ token) ]
-        , body =
-            Http.jsonBody
-                (Json.object
-                    [ ( "query", Json.string query )
-                    , ( "variables"
-                      , Json.object
-                            [ ( "searchString", Json.string searchString )
-                            ]
-                      )
-                    ]
-                )
-        , expect = Http.expectJson (JobTitlesFetched index) romeListDecoder
-        , timeout = Nothing
-        , tracker = Nothing
-        }
-
-
-romeListDecoder : Decode.Decoder (List Rome)
-romeListDecoder =
-    Decode.at [ "data", "rome" ] (Decode.list romeDecoder)
-
-
-romeDecoder : Decode.Decoder Rome
-romeDecoder =
-    Decode.map2 Rome
-        (Decode.field "id" Decode.string)
-        (Decode.field "label" Decode.string)
+updateProject : Int -> Model -> ProfessionalProjectState -> Model
+updateProject index model project =
+    { model
+        | professionalProjects =
+            List.Extra.setAt index
+                project
+                model.professionalProjects
+    }
 
 
 situationsByTheme : List Situation -> List RefSituation
@@ -627,21 +466,6 @@ situationsByTheme situations =
 -- VIEW
 
 
-selectedRomeToMenuItem : Rome -> Select.MenuItem Rome
-selectedRomeToMenuItem rome =
-    Select.basicMenuItem { item = rome, label = rome.label } |> Select.filterableMenuItem False
-
-
-romeDataToMenuItems : RomeData -> List (Select.MenuItem Rome)
-romeDataToMenuItems romeData =
-    case romeData of
-        Success data ->
-            data |> List.map selectedRomeToMenuItem
-
-        _ ->
-            []
-
-
 view : Model -> Html.Html Msg
 view model =
     Html.div [ Attr.class "pt-12" ]
@@ -653,61 +477,8 @@ view model =
                 |> List.indexedMap
                     (\index project ->
                         Html.div [ Attr.class "fr-container shadow-dsfr rounded-lg pt-4 mt-4" ]
-                            [ Html.div [ Attr.class "fr-input-group elm-select" ]
-                                [ Html.span [ Attr.class "fr-label" ] [ Html.text "Métier recherché" ]
-                                , Html.button
-                                    [ Attr.class "fr-select text-left"
-                                    , Attr.type_ "button"
-                                    , Evts.onClick (OpenRomeSearch index)
-                                    , ariaExpanded (Select.isMenuOpen project.selectState)
-                                    ]
-                                    [ Maybe.withDefault "Projet en construction" (Maybe.map .label project.selectedRome) |> Html.text
-                                    ]
-                                , case model.activeRomeSearchIndex of
-                                    Just _ ->
-                                        let
-                                            showloading =
-                                                case project.romeData of
-                                                    Loading ->
-                                                        Select.loading True
-
-                                                    _ ->
-                                                        Select.loading False
-                                        in
-                                        Html.div []
-                                            [ Html.map
-                                                (SelectMsg index)
-                                                (Styled.toUnstyled <|
-                                                    Select.view
-                                                        (Select.menu
-                                                            |> Select.state project.selectState
-                                                            |> Select.menuItems (romeDataToMenuItems project.romeData)
-                                                            |> Select.placeholder "Rechercher un métier ou un code ROME"
-                                                            |> Select.loadingMessage "Chargement..."
-                                                            |> Select.ariaDescribedBy ("select-usage-" ++ String.fromInt index)
-                                                            |> showloading
-                                                        )
-                                                )
-                                            , if project.selectState |> Select.isMenuOpen then
-                                                Html.p
-                                                    [ Attr.class "sr-only"
-                                                    , Attr.id ("select-usage-" ++ String.fromInt index)
-                                                    ]
-                                                    [ Html.text "Utilisez les touches flèches pour naviguer dans la liste des suggestions"
-                                                    ]
-
-                                              else
-                                                Html.text ""
-                                            , if project.selectState |> Select.isMenuOpen then
-                                                Html.label [ Attr.class "sr-only", Attr.for (romeSelectorKey ++ String.fromInt index ++ "__elm-select") ] [ Html.text "Rechercher un métier ou un code ROME" ]
-
-                                              else
-                                                Html.text ""
-                                            ]
-
-                                    _ ->
-                                        Html.text ""
-                                ]
+                            [ Domain.Rome.Select.view project.romeSelect
+                                |> Html.map (RomeSelectMsg index)
                             , Html.div
                                 [ Attr.class "fr-grid-row fr-grid-row--gutters " ]
                                 [ Html.div [ Attr.class "fr-col-4" ]
@@ -902,13 +673,3 @@ situationCheckboxView selectedSituationSet situation =
             []
         , Html.label [ Attr.class "fr-label", Attr.for checkboxId ] [ Html.text situation.description ]
         ]
-
-
-
--- PORTS
-
-
-port sendSelectedSituations : List String -> Cmd msg
-
-
-port sendUpdatedProfessionalProjects : List ProfessionalProjectOut -> Cmd msg

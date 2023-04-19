@@ -40,7 +40,8 @@
 		"test:svelte": "vitest run ",
 		"test:svelte:watch": "vitest watch",
 		"test:experimental": "./scripts/launch_tests.sh",
-		"sync": "svelte-kit sync"
+		"sync": "svelte-kit sync",
+		"dev:doc": "vite --config elm-book.vite.config.ts -- --hot"
 	},
 	"devDependencies": {
 		"@babel/core": "7.21.4",

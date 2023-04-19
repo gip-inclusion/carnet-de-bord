@@ -22,7 +22,7 @@ import DateFormat
 import Decimal
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
-import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
+import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html
@@ -31,6 +31,7 @@ import Iso8601
 import List.Extra
 import Time
 import TimeZone
+import Domain.Rome.Rome exposing (Rome)
 
 
 type alias Flags =
