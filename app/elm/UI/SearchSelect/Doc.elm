@@ -6,7 +6,7 @@ import Html
 import Html.Attributes as Attr
 import Json.Encode as Json
 import Select
-import UI.SearchSelect.View exposing (Status(..), view)
+import UI.SearchSelect.View as SearchSelect exposing (Status(..))
 
 
 doc : Chapter x
@@ -14,8 +14,8 @@ doc =
     chapter "Liste déroulante avec recherche"
         |> withComponentList
             [ ( "Fermée, sans sélection"
-              , view
-                    { id = "id"
+              , SearchSelect.view
+                    { id = "id-1"
                     , selected = Nothing
                     , optionLabel = always ""
                     , label = "Label"
@@ -29,8 +29,8 @@ doc =
                     }
               )
             , ( "Fermée, avec sélection"
-              , view
-                    { id = "id"
+              , SearchSelect.view
+                    { id = "id-2"
                     , selected = Just "Option 1"
                     , optionLabel = identity
                     , label = "Label"
@@ -45,8 +45,8 @@ doc =
               )
             , ( "Ouverte sans sélection"
               , Html.div [ Attr.property "style" <| Json.string "height: 200px" ]
-                    [ view
-                        { id = "id"
+                    [ SearchSelect.view
+                        { id = "id-3"
                         , selected = Nothing
                         , optionLabel = always ""
                         , label = "Label"
@@ -66,14 +66,14 @@ doc =
               )
             , ( "Recherche, en chargement"
               , Html.div [ Attr.property "style" <| Json.string "height: 200px" ]
-                    [ view
-                        { id = "id"
+                    [ SearchSelect.view
+                        { id = "id-4"
                         , selected = Nothing
                         , optionLabel = always ""
                         , label = "Label"
                         , searchPlaceholder = "Placeholder"
                         , defaultOption = "Option par défaut"
-                        , status = Loading
+                        , status = SearchSelect.Loading
                         , state =
                             Select.selectIdentifier "id"
                                 |> Select.initState
@@ -87,8 +87,8 @@ doc =
               )
             , ( "Recherche, chargée"
               , Html.div [ Attr.property "style" <| Json.string "height: 250px" ]
-                    [ view
-                        { id = "id"
+                    [ SearchSelect.view
+                        { id = "id-5"
                         , selected = Nothing
                         , optionLabel = identity
                         , label = "Label"
@@ -108,8 +108,8 @@ doc =
               )
             , ( "Recherche, en erreur"
               , Html.div []
-                    [ view
-                        { id = "id"
+                    [ SearchSelect.view
+                        { id = "id-6"
                         , selected = Nothing
                         , optionLabel = identity
                         , label = "Label"

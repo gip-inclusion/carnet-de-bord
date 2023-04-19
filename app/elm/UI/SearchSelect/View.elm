@@ -64,13 +64,16 @@ view props { onOpen, onSelectMsg } =
                 |> Html.text
             ]
         , case props.status of
-            Success values ->
+            Failed ->
+                Html.p [ Attr.class "fr-error-text" ] [ Html.text "Votre recherche a échoué. Essayez en une autre ou contactez le support." ]
+
+            _ ->
                 if props.state |> Select.isMenuOpen then
                     Html.div []
                         [ Select.view
                             (Select.menu
                                 |> Select.state props.state
-                                |> Select.menuItems (menuItems props.optionLabel values)
+                                |> Select.menuItems (menuItems props)
                                 |> Select.placeholder props.searchPlaceholder
                                 |> Select.loadingMessage "Chargement..."
                                 |> Select.ariaDescribedBy ("select-usage-" ++ props.id)
@@ -93,23 +96,22 @@ view props { onOpen, onSelectMsg } =
 
                 else
                     Html.text ""
-
-            Failed ->
-                Html.p [ Attr.class "fr-error-text" ] [ Html.text "Votre recherche a échoué. Essayez en une autre ou contactez le support." ]
-
-            _ ->
-                Html.text ""
         ]
 
 
-menuItems : (a -> String) -> List a -> List (Select.MenuItem a)
-menuItems print data =
-    data
-        |> List.map
-            (\value ->
-                Select.basicMenuItem
-                    { item = value
-                    , label = print value
-                    }
-                    |> Select.filterableMenuItem False
-            )
+menuItems : Props a x -> List (Select.MenuItem a)
+menuItems props =
+    case props.status of
+        Success data ->
+            data
+                |> List.map
+                    (\value ->
+                        Select.basicMenuItem
+                            { item = value
+                            , label = props.optionLabel value
+                            }
+                            |> Select.filterableMenuItem False
+                    )
+
+        _ ->
+            []
