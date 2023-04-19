@@ -4,7 +4,7 @@ from typing import List
 from uuid import UUID
 
 from gql import gql
-from gql.client import AsyncClientSession, SyncClientSession
+from gql.client import AsyncClientSession
 from graphql import DocumentNode
 from pydantic import BaseModel, Field
 
@@ -41,43 +41,6 @@ async def get_beneficiary_by_nir(
         variable_values={"nir": nir},
     )
     return parse_beneficiaries(beneficiary_object)
-
-
-def get_beneficiary_by_nir_sync(
-    gql_session: SyncClientSession, nir: str
-) -> BeneficiaryRsaInfos | None:
-    beneficiary_object: dict[str, List[dict]] = gql_session.execute(
-        beneficiary_by_nir_request(),
-        variable_values={"nir": nir},
-    )
-    return parse_beneficiaries(beneficiary_object)
-
-
-def update_beneficiary_sync(
-    gql_session: SyncClientSession,
-    id: UUID,
-    beneficiary_infos: CdbBeneficiaryInfos,
-    sha: str,
-    external_data: dict,
-) -> BeneficiaryRsaInfos | None:
-    result: dict[str, dict] = gql_session.execute(
-        update_beneficiary_mutation(),
-        variable_values={
-            "id": str(id),
-            "rsaInfos": beneficiary_infos.dict(),
-            "hash": sha,
-            # Hack @lionelb:
-            # Using a custom encoder on gql save a string containing
-            # the stringify version on the json
-            # that's why we use a encode / decode strategy
-            # to transform non serializable object into string
-            # so final dict can be saved into jsonb field
-            "externalData": json.loads(json.dumps(external_data, cls=CustomEncoder)),
-        },
-    )
-    beneficiary = result.get("beneficiary")
-    if beneficiary:
-        return parse_beneficiary(beneficiary)
 
 
 async def update_beneficiary(

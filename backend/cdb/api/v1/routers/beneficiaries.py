@@ -35,7 +35,9 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
     CafMsaInfosFoyer,
     parse_caf_file,
 )
-from cdb.caf_msa.update_cafmsa_infos import update_cafmsa_for_beneficiaries_sync
+from cdb.caf_msa.update_cafmsa_infos import (
+    update_cafmsa_for_beneficiaries,
+)
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
 router = APIRouter(
@@ -95,7 +97,7 @@ async def import_caf_msa_xml(
         len(data[1]),
     )
     background_tasks.add_task(
-        update_cafmsa_for_beneficiaries_sync,
+        update_cafmsa_for_beneficiaries,
         account.id,
         jwt_token,
         data,
