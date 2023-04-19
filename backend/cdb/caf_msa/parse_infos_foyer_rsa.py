@@ -114,20 +114,13 @@ def parse_caf_file(
     foyers: List[CafMsaInfosFoyer] = []
     infos = None
 
-    # Rewind the file in case it has been already walked through
-    file.seek(0)
-    items = etree.iterparse(file, tag="IdentificationFlux")
-    for _, infoFluxTree in items:
-        infos = parse_infos_flux(infoFluxTree)
-
-    # Once the file had been parse a first time,
-    # we need to move to start to do another iteration
-    file.seek(0)
-
-    infosFoyers = etree.iterparse(file, tag="InfosFoyerRSA")
-    for _, infosFoyerTree in infosFoyers:
-        foyer = parse_infos_foyer_rsa(infosFoyerTree)
-        foyers.append(foyer)
+    items = etree.iterparse(file, tag=("IdentificationFlux", "InfosFoyerRSA"))
+    for _, node in items:
+        if node.tag == "IdentificationFlux":
+            infos = parse_infos_flux(node)
+        else:
+            foyer = parse_infos_foyer_rsa(node)
+            foyers.append(foyer)
 
     if not infos:
         raise Exception("Parsing caf/msa IdentificationFlux failed")

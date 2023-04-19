@@ -17,7 +17,7 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
 )
 
 
-async def test_extract_data(flux_mensuel_caf: io.BufferedReader, snapshot):
+async def test_parse_caf_file(flux_mensuel_caf: io.BufferedReader, snapshot):
     (metadata, foyers) = parse_caf_file(flux_mensuel_caf)
     assert metadata
     assert metadata.date == date(2022, 3, 5)
