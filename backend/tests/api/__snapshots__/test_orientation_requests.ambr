@@ -1,3 +1,4 @@
+# serializer version: 1
 # name: test_deny_orientation_request_email
   dict({
     'email_new_referent': '''
