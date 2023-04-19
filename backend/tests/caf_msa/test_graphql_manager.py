@@ -5,7 +5,7 @@ from gql.client import AsyncClientSession
 from cdb.api.db.graphql.manager import get_manager_by_account_id
 
 
-async def test_get_mananger_by_account_id(
+async def test_get_manager_by_account_id(
     gql_manager_client: AsyncClientSession,
     get_manager_cd_93_account_id: UUID,
     get_manager_cd_93_id: UUID,

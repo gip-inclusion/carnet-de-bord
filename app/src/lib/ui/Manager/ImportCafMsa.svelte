@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { token } from '$lib/stores';
-	import { pluralize } from '$lib/helpers';
 
 	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import Alert from '../base/Alert.svelte';
 	import { postApiFormData } from '$lib/utils/post';
+	import Spinner from '../base/Spinner.svelte';
 	let resultPromise;
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: FileList }>): void {
@@ -28,14 +28,12 @@
 		</Dropzone>
 	{:else}
 		{#await resultPromise}
-			<Alert type="info" title={`Importation en cours...`} />
-		{:then results}
+			<Spinner label="Envoi du fichier en cours..." />
+		{:then}
 			<Alert
-				type={results.nb_success ? 'success' : 'error'}
-				title={`${results.nb_success || 'Aucun'}
-					${pluralize('dossier', results.nb_success)}
-					mis à jour
-					sur ${results.nb_file}.`}
+				type="success"
+				title="Envoi du fichier terminé."
+				description="Le traitement du fichier est en cours, vous recevrez un mail un fois le traitement terminé."
 			/>
 		{:catch error}
 			<Alert type="error" title="import du fichier impossible, veuillez contacter le support." />

@@ -1,4 +1,5 @@
 import logging
+from typing import List, Tuple
 from uuid import UUID
 
 from asyncpg.connection import Connection
@@ -29,7 +30,12 @@ from cdb.api.v1.dependencies import (
     extract_authentified_account,
     extract_deployment_id,
 )
-from cdb.caf_msa.update_beneficiary import update_beneficiaries_from_cafmsa
+from cdb.caf_msa.parse_infos_foyer_rsa import (
+    CafInfoFlux,
+    CafMsaInfosFoyer,
+    parse_caf_file,
+)
+from cdb.caf_msa.update_cafmsa_infos import update_cafmsa_for_beneficiaries
 from cdb.caf_msa.validate_xml import validate_xml
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
@@ -82,11 +88,12 @@ async def import_caf_msa_xml(
 ) -> None:
     account: Account = request.state.account
     validate_xml(upload_file.file)  # type: ignore
+    data: Tuple[CafInfoFlux, List[CafMsaInfosFoyer]] = parse_caf_file(upload_file.file)  # type: ignore  # noqa: E501
     background_tasks.add_task(
-        update_beneficiaries_from_cafmsa,
+        update_cafmsa_for_beneficiaries,
         account.id,
         jwt_token,
-        upload_file.file,  # type: ignore
+        data,
     )
 
 

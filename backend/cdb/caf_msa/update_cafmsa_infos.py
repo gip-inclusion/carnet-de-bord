@@ -1,5 +1,4 @@
 import hashlib
-import io
 import logging
 from datetime import date
 from typing import List, Tuple
@@ -14,15 +13,13 @@ from cdb.api.db.graphql.manager import get_manager_by_account_id
 from cdb.caf_msa.parse_infos_foyer_rsa import (
     CafInfoFlux,
     CafMsaInfosFoyer,
-    parse_caf_file,
     transform_cafMsaFoyer_to_beneficiary,
 )
 
 
-async def update_beneficiaries_from_cafmsa(
-    account_id: UUID, jwt_token: str, file: io.BufferedReader
+async def update_cafmsa_for_beneficiaries(
+    account_id: UUID, jwt_token: str, data: Tuple[CafInfoFlux, List[CafMsaInfosFoyer]]
 ) -> None:
-    data: Tuple[CafInfoFlux, List[CafMsaInfosFoyer]] = parse_caf_file(file)
     infos, foyers = data
     count = 0
     count_error = 0
