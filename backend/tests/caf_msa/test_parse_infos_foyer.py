@@ -1,11 +1,13 @@
-import io
 from datetime import date
+from tempfile import SpooledTemporaryFile
+from typing import List
 from unittest import TestCase
 
 import pytest
 
 from cdb.caf_msa.parse_infos_foyer_rsa import (
-    CafInfoPersonne,
+    CafBeneficiary,
+    CafInfoFlux,
     CafMsaInfosFoyer,
     CdbBeneficiaryInfos,
     parse_caf_file,
@@ -17,11 +19,20 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
 )
 
 
-async def test_parse_caf_file(flux_mensuel_caf: io.BufferedReader, snapshot):
-    (metadata, foyers) = parse_caf_file(flux_mensuel_caf)
-    assert metadata
+async def test_parse_caf_file(flux_mensuel_caf: SpooledTemporaryFile, snapshot):
+    parsed = parse_caf_file(flux_mensuel_caf)
+    metadata = next(parsed)
+
+    assert isinstance(metadata, CafInfoFlux)
     assert metadata.date == date(2022, 3, 5)
     assert metadata.type == "M"
+
+    foyers: List[CafMsaInfosFoyer] = []
+    for foyer in parsed:
+        print(foyer)
+        assert isinstance(foyer, CafMsaInfosFoyer)
+        foyers.append(foyer)
+
     assert len(foyers) == 2
     assert foyers == snapshot
 
@@ -115,7 +126,7 @@ def test_transform_bool(a, expected):
 
 
 def test_transform_cafMsaFoyer_to_beneficiary():
-    personne = CafInfoPersonne(nir="1231231231231", soumis_droit_et_devoir=False)
+    personne = CafBeneficiary(nir="1231231231231", soumis_droit_et_devoir=False)
     foyer = CafMsaInfosFoyer(
         date_cloture_rsa=None,
         motif_cloture_rsa=None,

@@ -1,7 +1,7 @@
-import io
 import logging
 from datetime import date
-from typing import List, Tuple
+from tempfile import SpooledTemporaryFile
+from typing import Generator, List
 
 import lxml.etree as etree
 from pydantic import BaseModel, Field, validator
@@ -12,7 +12,7 @@ class CafInfoFlux(BaseModel):
     type: str
 
 
-class CafInfoPersonne(BaseModel):
+class CafBeneficiary(BaseModel):
     nir: str
     soumis_droit_et_devoir: bool
 
@@ -28,7 +28,7 @@ class CafInfoPersonne(BaseModel):
 class CafMsaInfosFoyer(BaseModel):
     matricule: str
     etat_droit_rsa: str
-    personnes: List[CafInfoPersonne]
+    personnes: List[CafBeneficiary]
     motif_suspension_versement_rsa: str | None
     motif_cloture_rsa: str | None
     date_cloture_rsa: str | None
@@ -55,7 +55,7 @@ def parse_infos_foyer_rsa(node: etree._ElementTree) -> CafMsaInfosFoyer:
     personneNodes: list[etree._ElementTree] = node.findall("Personne", namespaces=None)
 
     personnes = [
-        CafInfoPersonne(
+        CafBeneficiary(
             nir=personne.findtext("Identification/NIR", default=None, namespaces=None),
             soumis_droit_et_devoir=personne.findtext(
                 "MontantCalculDroitRSAPersonne/TOPPERSDRODEVORSA",
@@ -110,25 +110,16 @@ def parse_infos_foyer_rsa(node: etree._ElementTree) -> CafMsaInfosFoyer:
 
 
 def parse_caf_file(
-    file: io.BufferedReader,
-) -> Tuple[CafInfoFlux, List[CafMsaInfosFoyer]]:
-    foyers: List[CafMsaInfosFoyer] = []
-    infos = None
+    file: SpooledTemporaryFile,
+) -> Generator[CafInfoFlux | CafMsaInfosFoyer, None, None]:
     logging.info("demarage du parsing xml")
     items = etree.iterparse(file, tag=("IdentificationFlux", "InfosFoyerRSA"))
     for _, node in items:
         if node.tag == "IdentificationFlux":
             logging.info("Noeud IdentificationFlux trouvé")
-            infos = parse_infos_flux(node)
+            yield parse_infos_flux(node)
         else:
-            foyer = parse_infos_foyer_rsa(node)
-            foyers.append(foyer)
-
-    if not infos:
-        raise Exception("Parsing caf/msa IdentificationFlux failed")
-
-    logging.info("%s Noeud InfosFoyerRSA trouvés", len(foyers))
-    return (infos, foyers)
+            yield parse_infos_foyer_rsa(node)
 
 
 def transform_right_rsa(value: str) -> str:
@@ -191,7 +182,7 @@ def transform_bool(value: str) -> bool:
 
 
 def transform_cafMsaFoyer_to_beneficiary(
-    personne: CafInfoPersonne,
+    personne: CafBeneficiary,
     cafMsaFoyer: CafMsaInfosFoyer,
 ) -> CdbBeneficiaryInfos:
     return CdbBeneficiaryInfos(

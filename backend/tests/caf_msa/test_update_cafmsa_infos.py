@@ -6,8 +6,8 @@ import pytest
 
 from cdb.api.core.exceptions import FindResultException
 from cdb.caf_msa.parse_infos_foyer_rsa import (
+    CafBeneficiary,
     CafInfoFlux,
-    CafInfoPersonne,
     CafMsaInfosFoyer,
 )
 from cdb.caf_msa.update_cafmsa_infos import update_cafmsa_for_beneficiaries
@@ -30,7 +30,7 @@ class TestUpdateCAFMSA(TestCase):
                 motif_cloture_rsa=None,
                 matricule="1234567",
                 personnes=[
-                    CafInfoPersonne(nir="1234567891234", soumis_droit_et_devoir=True)
+                    CafBeneficiary(nir="1234567891234", soumis_droit_et_devoir=True)
                 ],
                 motif_suspension_versement_rsa=None,
                 sans_domicile_fixe="0",

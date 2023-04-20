@@ -2,8 +2,10 @@ import hashlib
 import logging
 import time
 from datetime import date, timedelta
-from typing import List, Tuple
+from tempfile import SpooledTemporaryFile
 from uuid import UUID
+
+from gql.client import AsyncClientSession
 
 from cdb.api.core.emails import notify_manager_after_cafmsa_import
 from cdb.api.core.exceptions import FindResultException
@@ -12,72 +14,57 @@ from cdb.api.db.graphql.beneficiary import (
     update_beneficiary,
 )
 from cdb.api.db.graphql.get_client import gql_client_backend_only
-from cdb.api.db.graphql.manager import (
-    get_manager_by_account_id,
-)
+from cdb.api.db.graphql.manager import get_manager_by_account_id
 from cdb.caf_msa.parse_infos_foyer_rsa import (
+    CafBeneficiary,
     CafInfoFlux,
     CafMsaInfosFoyer,
+    parse_caf_file,
     transform_cafMsaFoyer_to_beneficiary,
 )
 
 
 async def update_cafmsa_for_beneficiaries(
-    account_id: UUID, jwt_token: str, data: Tuple[CafInfoFlux, List[CafMsaInfosFoyer]]
+    account_id: UUID, jwt_token: str, file: SpooledTemporaryFile
 ) -> None:
-    infos, foyers = data
     count = 0
     count_error = 0
     count_success = 0
-    start_time = time.time()
+    time.time()
 
-    async with gql_client_backend_only(token=jwt_token) as gql_session:
-        for foyer in foyers:
-            for personne in foyer.personnes:
-                count += 1
+    infos: CafInfoFlux | None = None
+
+    async with gql_client_backend_only(token=jwt_token) as session:
+        start_time = time.time()
+
+        parsed = parse_caf_file(file)
+        maybe_infos = next(parsed)
+        if not isinstance(maybe_infos, CafInfoFlux):
+            raise CafXMLMissingNodeException
+
+        infos = maybe_infos
+
+        for node in parsed:
+            if not isinstance(node, CafMsaInfosFoyer) or not infos:
+                raise CafXMLMissingNodeException
+            for personne in node.personnes:
                 try:
-                    beneficiary = await get_beneficiary_by_nir(
-                        gql_session, personne.nir
+                    await save_cafmsa_infos_for_beneficiary(
+                        gql_session=session,
+                        flux_info=infos,
+                        foyer=node,
+                        caf_beneficiary=personne,
                     )
-
-                    if beneficiary:
-                        beneficiary_update = transform_cafMsaFoyer_to_beneficiary(
-                            personne, foyer
-                        )
-                        external_data_to_save = {
-                            "flux": infos.dict(),
-                            "foyer": foyer.dict(),
-                        }
-                        sha = hashlib.sha256(str(data).encode()).hexdigest()
-                        try:
-                            await update_beneficiary(
-                                gql_session,
-                                beneficiary.id,
-                                beneficiary_update,
-                                sha,
-                                external_data_to_save,
-                            )
-                            count_success += 1
-                        except Exception as error:
-                            count_error += 1
-                            logging.error(
-                                "échec de la mise à jour du bénéficiaire %s "
-                                "caf/msa; %s",
-                                beneficiary.id,
-                                error,
-                            )
-                    else:
-                        logging.info(
-                            "beneficiary with matricule %s not found", foyer.matricule
-                        )
+                    count_success += 1
                 except Exception as error:
-                    count_error += 1
                     logging.error(
-                        "echec lors de la récupération du bénéficiaire "
-                        "depuis le nir"
-                        "%s",
+                        "Erreur lors du traitement du dossier %s: %s",
+                        personne.nir,
                         error,
                     )
+                    count_error += 1
+                finally:
+                    count += 1
 
         logging.info(
             "Mise à jour de %s/%s dossiers (%s erreurs)",
@@ -86,7 +73,7 @@ async def update_cafmsa_for_beneficiaries(
             count_error,
         )
 
-        manager = await get_manager_by_account_id(gql_session, account_id)
+        manager = await get_manager_by_account_id(session, account_id)
         duration = timedelta(seconds=time.time() - start_time)
         logging.info("Traitement des %s dossiers en %s", count, duration)
         if manager:
@@ -103,3 +90,39 @@ async def update_cafmsa_for_beneficiaries(
             )
         else:
             raise FindResultException
+
+
+async def save_cafmsa_infos_for_beneficiary(
+    gql_session: AsyncClientSession,
+    flux_info: CafInfoFlux,
+    foyer: CafMsaInfosFoyer,
+    caf_beneficiary: CafBeneficiary,
+) -> None:
+    beneficiary = await get_beneficiary_by_nir(gql_session, caf_beneficiary.nir)
+
+    if beneficiary:
+        beneficiary_update = transform_cafMsaFoyer_to_beneficiary(
+            caf_beneficiary, foyer
+        )
+        external_data_to_save = {
+            "flux": flux_info.dict(),
+            "foyer": foyer.dict(),
+        }
+        sha = hashlib.sha256(str(external_data_to_save).encode()).hexdigest()
+
+        await update_beneficiary(
+            gql_session,
+            beneficiary.id,
+            beneficiary_update,
+            sha,
+            external_data_to_save,
+        )
+
+    else:
+        logging.info("beneficiary with nir %s not found", caf_beneficiary.nir)
+
+
+class CafXMLMissingNodeException(Exception):
+    """
+    utility class when some node in xml are missing
+    """
