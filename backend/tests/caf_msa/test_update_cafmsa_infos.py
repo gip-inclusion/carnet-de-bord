@@ -29,7 +29,7 @@ class TestUpdateCAFMSA(TestCase):
                 etat_droit_rsa="2",
                 motif_cloture_rsa=None,
                 matricule="1234567",
-                personnes=[
+                beneficiaries=[
                     CafBeneficiary(nir="1234567891234", soumis_droit_et_devoir=True)
                 ],
                 motif_suspension_versement_rsa=None,

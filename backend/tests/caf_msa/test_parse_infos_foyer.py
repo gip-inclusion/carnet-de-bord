@@ -132,7 +132,7 @@ def test_transform_cafMsaFoyer_to_beneficiary():
         motif_cloture_rsa=None,
         matricule="AAAAAAA",
         motif_suspension_versement_rsa=None,
-        personnes=[personne],
+        beneficiaries=[personne],
         sans_domicile_fixe="0",
         etat_droit_rsa="2",
     )

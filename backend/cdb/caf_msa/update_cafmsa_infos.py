@@ -47,19 +47,20 @@ async def update_cafmsa_for_beneficiaries(
         for node in parsed:
             if not isinstance(node, CafMsaInfosFoyer) or not infos:
                 raise CafXMLMissingNodeException
-            for personne in node.personnes:
+            for beneficiary in node.beneficiaries:
                 try:
                     await save_cafmsa_infos_for_beneficiary(
                         gql_session=session,
                         flux_info=infos,
                         foyer=node,
-                        caf_beneficiary=personne,
+                        caf_beneficiary=beneficiary,
                     )
                     count_success += 1
+                    logging.info("Dossier %s traité", beneficiary.nir)
                 except Exception as error:
                     logging.error(
                         "Erreur lors du traitement du dossier %s: %s",
-                        personne.nir,
+                        beneficiary.nir,
                         error,
                     )
                     count_error += 1

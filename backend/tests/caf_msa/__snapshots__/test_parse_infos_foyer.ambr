@@ -1,7 +1,7 @@
 # serializer version: 1
 # name: test_parse_caf_file
   list([
-    CafMsaInfosFoyer(matricule='205599000000000', etat_droit_rsa='5', personnes=[CafBeneficiary(nir='2820251108030', soumis_droit_et_devoir=True), CafBeneficiary(nir='1770393050005', soumis_droit_et_devoir=False)], motif_suspension_versement_rsa=None, motif_cloture_rsa='PCG', date_cloture_rsa='2021-11-30', sans_domicile_fixe='0'),
-    CafMsaInfosFoyer(matricule='208956400000000', etat_droit_rsa='4', personnes=[CafBeneficiary(nir='2730799404078', soumis_droit_et_devoir=True)], motif_suspension_versement_rsa='06', motif_cloture_rsa=None, date_cloture_rsa=None, sans_domicile_fixe='0'),
+    CafMsaInfosFoyer(matricule='205599000000000', etat_droit_rsa='5', beneficiaries=[CafBeneficiary(nir='2820251108030', soumis_droit_et_devoir=True), CafBeneficiary(nir='1770393050005', soumis_droit_et_devoir=False)], motif_suspension_versement_rsa=None, motif_cloture_rsa='PCG', date_cloture_rsa='2021-11-30', sans_domicile_fixe='0'),
+    CafMsaInfosFoyer(matricule='208956400000000', etat_droit_rsa='4', beneficiaries=[CafBeneficiary(nir='2730799404078', soumis_droit_et_devoir=True)], motif_suspension_versement_rsa='06', motif_cloture_rsa=None, date_cloture_rsa=None, sans_domicile_fixe='0'),
   ])
 # ---

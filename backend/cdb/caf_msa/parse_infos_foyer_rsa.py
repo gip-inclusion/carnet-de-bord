@@ -28,7 +28,7 @@ class CafBeneficiary(BaseModel):
 class CafMsaInfosFoyer(BaseModel):
     matricule: str
     etat_droit_rsa: str
-    personnes: List[CafBeneficiary]
+    beneficiaries: List[CafBeneficiary]
     motif_suspension_versement_rsa: str | None
     motif_cloture_rsa: str | None
     date_cloture_rsa: str | None
@@ -70,7 +70,7 @@ def parse_infos_foyer_rsa(node: etree._ElementTree) -> CafMsaInfosFoyer:
         matricule=node.findtext(
             "IdentificationRSA/Organisme/MATRICULE", default=None, namespaces=None
         ),
-        personnes=personnes,
+        beneficiaries=personnes,
         etat_droit_rsa=node.findtext(
             "PrestationRSA/SituationDossierRSA/EtatDossierRSA/ETATDOSRSA",
             default=None,
