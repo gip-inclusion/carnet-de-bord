@@ -121,6 +121,8 @@ def parse_caf_file(
         else:
             yield parse_infos_foyer_rsa(node)
 
+        node.getparent().remove(node)  # free memory
+
 
 def transform_right_rsa(value: str) -> str:
     return {
