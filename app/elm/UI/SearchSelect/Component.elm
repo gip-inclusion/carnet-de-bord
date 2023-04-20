@@ -40,14 +40,15 @@ init :
     }
     -> Model a
 init props =
-    { props = UI.SearchSelect.View.init
-        { id = props.id
-        , selected = props.selected
-        , optionLabel = props.optionLabel
-        , label = props.label
-        , searchPlaceholder = props.searchPlaceholder
-        , defaultOption = props.defaultOption
-        }
+    { props =
+        UI.SearchSelect.View.init
+            { id = props.id
+            , selected = props.selected
+            , optionLabel = props.optionLabel
+            , label = props.label
+            , searchPlaceholder = props.searchPlaceholder
+            , defaultOption = props.defaultOption
+            }
     , debouncer = debounce (fromSeconds 0.5) |> toDebouncer
     , api = props.api
     }

@@ -121,8 +121,8 @@ withEnum options =
                         |> Decode.andThen
                             (\str ->
                                 case Dict.fromList options.options |> Dict.get str of
-                                    Just enum ->
-                                        Decode.succeed enum
+                                    Just enum_ ->
+                                        Decode.succeed enum_
 
                                     Nothing ->
                                         Decode.fail ""
