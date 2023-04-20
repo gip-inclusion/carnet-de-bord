@@ -33,7 +33,7 @@
 			<Alert
 				type="success"
 				title="Envoi du fichier terminé."
-				description="Le traitement du fichier est en cours, vous recevrez un mail un fois le traitement terminé."
+				description="Le traitement du fichier est en cours, vous recevrez un mail une fois le traitement terminé."
 			/>
 		{:catch error}
 			<Alert type="error" title="import du fichier impossible, veuillez contacter le support." />

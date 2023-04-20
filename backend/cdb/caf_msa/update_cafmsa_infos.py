@@ -8,8 +8,8 @@ from uuid import UUID
 from gql.client import AsyncClientSession
 
 from cdb.api.core.emails import notify_manager_after_cafmsa_import
-from cdb.api.core.exceptions import FindResultException
 from cdb.api.db.graphql.beneficiary import (
+    BeneficiaryRsaInfos,
     get_beneficiary_by_nir,
     update_beneficiary,
 )
@@ -49,18 +49,17 @@ async def update_cafmsa_for_beneficiaries(
                 raise CafXMLMissingNodeException
             for beneficiary in node.beneficiaries:
                 try:
-                    await save_cafmsa_infos_for_beneficiary(
+                    result = await save_cafmsa_infos_for_beneficiary(
                         gql_session=session,
                         flux_info=infos,
                         foyer=node,
                         caf_beneficiary=beneficiary,
                     )
-                    count_success += 1
-                    logging.info("Dossier %s traité", beneficiary.nir)
+                    if result:
+                        count_success += 1
                 except Exception as error:
                     logging.error(
-                        "Erreur lors du traitement du dossier %s: %s",
-                        beneficiary.nir,
+                        "Erreur lors du traitement du dossier %s",
                         error,
                     )
                     count_error += 1
@@ -68,15 +67,14 @@ async def update_cafmsa_for_beneficiaries(
                     count += 1
 
         logging.info(
-            "Mise à jour de %s/%s dossiers (%s erreurs)",
+            "Mise à jour de %s/%s dossiers reçus (%s erreurs) en %s",
             count_success,
             count,
             count_error,
+            timedelta(seconds=time.time() - start_time),
         )
 
         manager = await get_manager_by_account_id(session, account_id)
-        duration = timedelta(seconds=time.time() - start_time)
-        logging.info("Traitement des %s dossiers en %s", count, duration)
         if manager:
             logging.info(
                 "Notification de la fin du traitement au manager %s",
@@ -90,7 +88,10 @@ async def update_cafmsa_for_beneficiaries(
                 count_error,
             )
         else:
-            raise FindResultException
+            logging.warn(
+                "manager (id=%s) introuvable",
+                account_id,
+            )
 
 
 async def save_cafmsa_infos_for_beneficiary(
@@ -98,7 +99,7 @@ async def save_cafmsa_infos_for_beneficiary(
     flux_info: CafInfoFlux,
     foyer: CafMsaInfosFoyer,
     caf_beneficiary: CafBeneficiary,
-) -> None:
+) -> BeneficiaryRsaInfos | None:
     beneficiary = await get_beneficiary_by_nir(gql_session, caf_beneficiary.nir)
 
     if beneficiary:
@@ -111,7 +112,7 @@ async def save_cafmsa_infos_for_beneficiary(
         }
         sha = hashlib.sha256(str(external_data_to_save).encode()).hexdigest()
 
-        await update_beneficiary(
+        return await update_beneficiary(
             gql_session,
             beneficiary.id,
             beneficiary_update,
@@ -120,7 +121,7 @@ async def save_cafmsa_infos_for_beneficiary(
         )
 
     else:
-        logging.info("beneficiary with nir %s not found", caf_beneficiary.nir)
+        logging.info("Bénéficiaire non trouvé.", caf_beneficiary.nir)
 
 
 class CafXMLMissingNodeException(Exception):
