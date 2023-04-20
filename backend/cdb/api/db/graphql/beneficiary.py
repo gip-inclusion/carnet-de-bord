@@ -8,7 +8,6 @@ from gql.client import AsyncClientSession
 from graphql import DocumentNode
 from pydantic import BaseModel, Field
 
-from cdb.api.core.exceptions import FindResultException
 from cdb.api.db.models.validator import (
     date_validator,
 )
@@ -72,9 +71,7 @@ async def update_beneficiary(
 
 def parse_beneficiaries(data: dict[str, List[dict]]) -> BeneficiaryRsaInfos | None:
     beneficiaries = data.get("beneficiaries")
-    if isinstance(beneficiaries, List):
-        if len(beneficiaries) != 1:
-            raise FindResultException
+    if isinstance(beneficiaries, List) and len(beneficiaries) == 1:
         return parse_beneficiary(beneficiaries[0])
 
 
