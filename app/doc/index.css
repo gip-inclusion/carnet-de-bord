@@ -1,1 +1,16 @@
 @import url('../src/app.css');
+
+.elm-book--wrapper--sidebar {
+    font-family: sans-serif;
+    font-weight: 400;
+}
+.elm-book--wrapper--sidebar * {
+    line-height: 1;
+    letter-spacing: 0.5px;
+}
+.elm-book--wrapper--sidebar [href] {
+    background: none;
+}
+.elm-book--wrapper--sidebar h1 {
+    color: white;
+}

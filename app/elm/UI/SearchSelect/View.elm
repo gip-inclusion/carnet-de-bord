@@ -1,4 +1,11 @@
-module UI.SearchSelect.View exposing (Props, Status(..), view)
+module UI.SearchSelect.View exposing
+    ( Init
+    , Messages
+    , Props
+    , Status(..)
+    , init
+    , view
+    )
 
 import Html
 import Html.Attributes as Attr
@@ -8,16 +15,25 @@ import Select
 import UI.Attributes
 
 
-type alias Props a x =
-    { x
-        | id : String
-        , status : Status a
-        , label : String
-        , state : Select.State
-        , selected : Maybe a
-        , optionLabel : a -> String
-        , defaultOption : String
-        , searchPlaceholder : String
+
+-- Props
+
+
+type alias Props a =
+    { id : String
+    , status : Status a
+    , label : String
+    , state : Select.State
+    , selected : Maybe a
+    , optionLabel : a -> String
+    , defaultOption : String
+    , searchPlaceholder : String
+    }
+
+
+type alias Messages a msg =
+    { onOpen : msg
+    , onSelectMsg : Select.Msg a -> msg
     }
 
 
@@ -28,12 +44,39 @@ type Status a
     | Failed
 
 
+
+-- Init
+
+
+type alias Init a =
+    { id : String
+    , label : String
+    , optionLabel : a -> String
+    , defaultOption : String
+    , searchPlaceholder : String
+    }
+
+
+init : Init a -> Props a
+init params =
+    { id = params.id
+    , status = NotAsked
+    , label = params.label
+    , state = Select.initState <| Select.selectIdentifier params.id
+    , selected = Nothing
+    , optionLabel = params.optionLabel
+    , defaultOption = params.defaultOption
+    , searchPlaceholder = params.searchPlaceholder
+    }
+
+
+
+-- View
+
+
 view :
-    Props a x
-    ->
-        { onOpen : msg
-        , onSelectMsg : Select.Msg a -> msg
-        }
+    Props a
+    -> Messages a msg
     -> Html.Html msg
 view props { onOpen, onSelectMsg } =
     Html.div
@@ -99,7 +142,7 @@ view props { onOpen, onSelectMsg } =
         ]
 
 
-menuItems : Props a x -> List (Select.MenuItem a)
+menuItems : Props a -> List (Select.MenuItem a)
 menuItems props =
     case props.status of
         Success data ->
