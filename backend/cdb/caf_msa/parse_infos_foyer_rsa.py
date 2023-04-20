@@ -6,6 +6,8 @@ from typing import Generator, List
 import lxml.etree as etree
 from pydantic import BaseModel, Field, validator
 
+_XML_CHUNK_SIZE = 262144
+
 
 class CafInfoFlux(BaseModel):
     date: date
@@ -109,19 +111,73 @@ def parse_infos_foyer_rsa(node: etree._ElementTree) -> CafMsaInfosFoyer:
     )
 
 
+class SubtreeXMLTarget:
+    def __init__(self, *, taglist, foundNodes):
+        self.taglist = taglist
+        self.foundNodes = foundNodes
+
+        self.currentBuilder = None
+        self.currentDepth = 0
+
+    def start(self, tag, attrib):
+        if tag in self.taglist:
+            if self.currentBuilder is not None:
+                raise Exception("Unexpected nesting of XML elements")
+
+            self.currentBuilder = etree.TreeBuilder()
+            self.currentDepth = 0
+
+        if self.currentBuilder:
+            self.currentBuilder.start(tag, attrib)
+            self.currentDepth = self.currentDepth + 1
+
+    def end(self, tag):
+        if self.currentBuilder:
+            result = self.currentBuilder.end(tag)
+            self.currentDepth = self.currentDepth - 1
+
+            if self.currentDepth == 0:
+                self.currentBuilder = None
+                self.foundNodes.append(result)
+
+    def data(self, data):
+        if self.currentBuilder:
+            self.currentBuilder.data(data)
+
+    def close(self):
+        pass
+
+
 def parse_caf_file(
     file: SpooledTemporaryFile,
 ) -> Generator[CafInfoFlux | CafMsaInfosFoyer, None, None]:
-    logging.info("demarage du parsing xml")
-    items = etree.iterparse(file, tag=("IdentificationFlux", "InfosFoyerRSA"))
-    for _, node in items:
-        if node.tag == "IdentificationFlux":
-            logging.info("Noeud IdentificationFlux trouvé")
-            yield parse_infos_flux(node)
-        else:
-            yield parse_infos_foyer_rsa(node)
+    logging.info("Starting XML parsing")
 
-        node.getparent().remove(node)  # free memory
+    foundNodes = []
+
+    target = SubtreeXMLTarget(
+        taglist=["IdentificationFlux", "InfosFoyerRSA"], foundNodes=foundNodes
+    )
+    parser = etree.XMLParser(target=target)
+
+    while True:
+        data = file.read(_XML_CHUNK_SIZE)
+        if not data:
+            break
+
+        parser.feed(data)
+
+        if not foundNodes:
+            raise Exception("No element found in XML chunk")
+
+        for node in foundNodes:
+            if node.tag == "IdentificationFlux":
+                logging.info("Noeud IdentificationFlux trouvé")
+                yield parse_infos_flux(node)
+            else:
+                yield parse_infos_foyer_rsa(node)
+
+        foundNodes.clear()
 
 
 def transform_right_rsa(value: str) -> str:
