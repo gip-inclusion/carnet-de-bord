@@ -1,67 +1,84 @@
-module Pages.Pro.Carnet.Action.List.View exposing (Init, Props, init, view)
+module Pages.Pro.Carnet.Action.List.Page exposing (Model, Msg, init, update, view)
 
+import Api exposing (Api)
+import Dict exposing (Dict)
 import Domain.Action.Action exposing (Action)
 import Domain.Action.Id
-import Domain.Action.Statut
+import Domain.Action.Statut exposing (StatutAction)
 import Domain.Person
 import Extra.Date
 import Html
 import Html.Attributes as Attr
 import Html.Events as Evts
-import Select
-import UI.SearchSelect.View
-
-
-
--- Props
-
-
-type alias Props msg =
-    { actions : List Action
-    , messages :
-        { onStatusSelect : Domain.Action.Id.ActionId -> Domain.Action.Statut.StatutAction -> msg
-        , onAdd : msg
-        }
-    , search :
-        { messages : UI.SearchSelect.View.Messages Action msg
-        , props : UI.SearchSelect.View.Props Action
-        }
-    }
+import Pages.Pro.Carnet.Action.List.ActionSelect
+import Sentry
 
 
 
 -- Init
 
 
-type alias Init msg =
-    { actions : List Action
-    , messages :
-        { onStatusSelect : Domain.Action.Id.ActionId -> Domain.Action.Statut.StatutAction -> msg
-        , onAdd : msg
-        }
-    , search :
-        { messages : UI.SearchSelect.View.Messages Action msg
-        , init : UI.SearchSelect.View.Init Action
-        }
+type alias Model =
+    { actions : Dict String Action
+    , theme : String
+    , searchSelect : Pages.Pro.Carnet.Action.List.ActionSelect.Model
+    , api : Api
     }
 
 
-init : Init msg -> Props msg
-init params =
-    { actions = params.actions
-    , messages = params.messages
-    , search =
-        { messages = params.search.messages
-        , props = UI.SearchSelect.View.init params.search.init
-        }
+init : { actions : List Action, api : Api, theme : String } -> Model
+init { actions, api, theme } =
+    { actions =
+        actions
+            |> List.map (\action -> ( action.id |> Domain.Action.Id.printId, action ))
+            |> Dict.fromList
+    , theme = theme
+    , searchSelect =
+        Pages.Pro.Carnet.Action.List.ActionSelect.init
+            { api = api
+            , errorLog = Sentry.sendError
+            }
+    , api = api
     }
+
+
+
+-- Update
+
+
+type Msg
+    = Add
+    | ChangedStatus String StatutAction
+    | ActionSelectMsg Pages.Pro.Carnet.Action.List.ActionSelect.Msg
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    case msg of
+        Add ->
+            ( model, Cmd.none )
+
+        ChangedStatus id statut ->
+            ( { model
+                | actions =
+                    model.actions
+                        |> Dict.update id (Maybe.map (\action -> { action | statut = statut }))
+              }
+            , Cmd.none
+            )
+
+        ActionSelectMsg subMsg ->
+            Pages.Pro.Carnet.Action.List.ActionSelect.update subMsg model.searchSelect
+                |> Tuple.mapBoth
+                    (\next -> { model | searchSelect = next })
+                    (Cmd.map ActionSelectMsg)
 
 
 
 -- View
 
 
-view : Props msg -> Html.Html msg
+view : Model -> Html.Html Msg
 view props =
     Html.div [ Attr.class "pb-8" ]
         [ viewActions props
@@ -69,8 +86,8 @@ view props =
         ]
 
 
-viewActions : Props msg -> Html.Html msg
-viewActions props =
+viewActions : Model -> Html.Html Msg
+viewActions model =
     Html.div
         [ Attr.class "w-full fr-table fr-table--layout-fixed" ]
         [ Html.table
@@ -101,13 +118,13 @@ viewActions props =
             , Html.tbody
                 [ Attr.class "w-full"
                 ]
-                (props.actions |> List.map (viewAction props))
+                (model.actions |> Dict.toList |> List.map viewAction)
             ]
         ]
 
 
-viewAction : Props msg -> Action -> Html.Html msg
-viewAction props action =
+viewAction : ( String, Action ) -> Html.Html Msg
+viewAction ( id, action ) =
     Html.tr []
         [ Html.td []
             [ Html.text action.description ]
@@ -115,8 +132,9 @@ viewAction props action =
             [ Html.text <| Domain.Person.printNom action.creePar ]
         , Html.td []
             [ Domain.Action.Statut.select
-                { onSelect = props.messages.onStatusSelect action.id
+                { onSelect = ChangedStatus id
                 , value = action.statut
+                , id = id
                 }
             ]
         , Html.td
@@ -126,7 +144,7 @@ viewAction props action =
         ]
 
 
-viewCreate : Props msg -> Html.Html msg
+viewCreate : Model -> Html.Html Msg
 viewCreate props =
     Html.div
         [ Attr.class "py-1"
@@ -140,32 +158,23 @@ viewCreate props =
                 [ Html.div
                     [ Attr.class "w-9/12"
                     ]
-                    [ UI.SearchSelect.View.view
-                        { id = "action-select"
-                        , status = UI.SearchSelect.View.NotAsked
-                        , label = "Actions"
-                        , state = Select.initState <| Select.selectIdentifier "action-select"
-                        , selected = Nothing
-                        , optionLabel = always "Pas traduit encore"
-                        , defaultOption = "Sélectionner une action"
-                        , searchPlaceholder = "Rechercher une action"
-                        }
-                        props.search.messages
+                    [ Pages.Pro.Carnet.Action.List.ActionSelect.view props.searchSelect
+                        |> Html.map ActionSelectMsg
                     ]
                 , Html.div
                     [ Attr.class "self-end w-3/12"
                     ]
-                    [ addButton props
+                    [ addButton
                     ]
                 ]
             ]
         ]
 
 
-addButton : Props msg -> Html.Html msg
-addButton props =
+addButton : Html.Html Msg
+addButton =
     Html.button
-        [ Evts.onClick props.messages.onAdd
+        [ Evts.onClick Add
         , Attr.class "fr-btn"
         ]
         [ Html.text "Ajouter" ]

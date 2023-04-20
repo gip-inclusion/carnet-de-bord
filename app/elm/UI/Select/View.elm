@@ -7,7 +7,10 @@ import Html.Events as Evts
 
 type alias Props option msg =
     { id : String
-    , label : String
+    , label :
+        { text : String
+        , visible : Bool
+        }
     , options : List option
     , print : option -> String
     , onSelect : option -> msg
@@ -23,11 +26,18 @@ view props =
         [ Html.label
             [ Attr.class "fr-label"
             , Attr.for props.id
+            , Attr.style "display" <|
+                if props.label.visible then
+                    ""
+
+                else
+                    "none"
             ]
-            [ Html.text props.label ]
+            [ Html.text props.label.text ]
         , Html.select
             [ Attr.class "fr-select"
             , Attr.id props.id
+            , Attr.title props.label.text
             ]
             (viewLabelOption props :: viewOptions props)
         ]

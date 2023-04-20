@@ -23,11 +23,11 @@ printStatus status =
             "Realisée"
 
 
-select : { onSelect : StatutAction -> msg, value : StatutAction } -> Html msg
+select : { id : String, onSelect : StatutAction -> msg, value : StatutAction } -> Html msg
 select props =
     UI.Select.View.view
-        { id = "select-action"
-        , label = ""
+        { id = "select-action-" ++ props.id
+        , label = { text = "Statut", visible = False }
         , options = [ EnCours, Realisee, Abandonnee ]
         , print = printStatus
         , onSelect = props.onSelect

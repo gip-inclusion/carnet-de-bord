@@ -51,6 +51,7 @@ type Status a
 type alias Init a =
     { id : String
     , label : String
+    , selected : Maybe a
     , optionLabel : a -> String
     , defaultOption : String
     , searchPlaceholder : String
@@ -60,10 +61,12 @@ type alias Init a =
 init : Init a -> Props a
 init params =
     { id = params.id
-    , status = NotAsked
+    , status = params.selected
+                |> Maybe.map (List.singleton >> Success)
+                |> Maybe.withDefault NotAsked
     , label = params.label
     , state = Select.initState <| Select.selectIdentifier params.id
-    , selected = Nothing
+    , selected = params.selected
     , optionLabel = params.optionLabel
     , defaultOption = params.defaultOption
     , searchPlaceholder = params.searchPlaceholder

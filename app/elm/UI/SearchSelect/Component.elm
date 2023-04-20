@@ -40,14 +40,9 @@ init :
     }
     -> Model a
 init props =
-    { props =
+    { props = UI.SearchSelect.View.init
         { id = props.id
-        , state = Select.initState (Select.selectIdentifier ("api-search-selector" ++ props.id))
         , selected = props.selected
-        , status =
-            props.selected
-                |> Maybe.map (List.singleton >> UI.SearchSelect.View.Success)
-                |> Maybe.withDefault UI.SearchSelect.View.NotAsked
         , optionLabel = props.optionLabel
         , label = props.label
         , searchPlaceholder = props.searchPlaceholder
@@ -198,4 +193,9 @@ debouncerConfig =
 
 view : Model a -> Html.Html (Msg a)
 view model =
-    Html.div [ Attr.style "width" "300px" ] [ UI.SearchSelect.View.view model.props { onOpen = Open, onSelectMsg = SelectMsg } ]
+    Html.div [ Attr.style "width" "300px" ]
+        [ UI.SearchSelect.View.view model.props
+            { onOpen = Open
+            , onSelectMsg = SelectMsg
+            }
+        ]
