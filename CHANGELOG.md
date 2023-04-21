@@ -1,3 +1,10 @@
+# [1.214.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.15...v1.214.0) (2023-04-21)
+
+
+### Features
+
+* **manager:** import de fichiers xml caf / msa  ([#1635](https://github.com/gip-inclusion/carnet-de-bord/issues/1635)) ([26d008a](https://github.com/gip-inclusion/carnet-de-bord/commit/26d008a00a83169219de2e2b37a32501f6aeb4de))
+
 ## [1.213.15](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.14...v1.213.15) (2023-04-19)
 
 ## [1.213.14](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.13...v1.213.14) (2023-04-19)
