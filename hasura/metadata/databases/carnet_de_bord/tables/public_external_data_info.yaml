@@ -8,6 +8,18 @@ object_relationships:
   - name: externalData
     using:
       foreign_key_constraint_on: external_data_id
+insert_permissions:
+  - role: manager
+    permission:
+      check:
+        beneficiary:
+          deployment_id:
+            _eq: X-Hasura-Deployment-Id
+      columns:
+        - beneficiary_id
+        - external_data_id
+        - professional_id
+      backend_only: true
 select_permissions:
   - role: admin_structure
     permission:

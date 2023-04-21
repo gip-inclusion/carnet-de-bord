@@ -30,12 +30,29 @@
 	import { addMonths } from 'date-fns';
 	import { focusThemeKeys } from '$lib/constants/keys';
 	import ProOrientationRequestBanner from '$lib/ui/OrientationRequest/ProOrientationRequestBanner.svelte';
-
 	import Portal from 'svelte-portal';
+	import { Elm as RsaRightNotice } from '../../../../../../elm/RsaRightNotice/Main.elm';
 
 	import type { PageData } from './$types';
 	import NotebookMembers from '$lib/ui/Beneficiary/NotebookMembers.svelte';
 	import { goto } from '$app/navigation';
+	import { afterUpdate } from 'svelte';
+
+	let elmRsaHeaderNode: HTMLDivElement;
+
+	afterUpdate(() => {
+		if (!elmRsaHeaderNode || !notebook) return;
+		console.log(notebook);
+		RsaRightNotice.RsaRightNotice.Main.init({
+			node: elmRsaHeaderNode,
+			flags: {
+				rsaRight: publicNotebook?.beneficiary.rightRsa,
+				rsaClosureDate: publicNotebook?.beneficiary.rsaClosureDate,
+				rsaClosureReason: publicNotebook?.beneficiary.rsaClosureReason,
+				rsaSuspensionReason: publicNotebook?.beneficiary.rsaSuspensionReason,
+			},
+		});
+	});
 
 	function toDateFormat(date: Date) {
 		const yyyy = date.getFullYear().toString().padStart(4, '0');
@@ -202,10 +219,7 @@
 	$: isPreviousReferent = $accountData.id === previousReferent?.account?.id;
 	$: isMember = members.some(({ account }) => $accountData.id === account.id);
 
-	$: externalData =
-		beneficiary?.externalDataInfos.length > 0
-			? beneficiary.externalDataInfos[0].externalData
-			: null;
+	$: peData = beneficiary?.peInfos.length > 0 ? beneficiary.peInfos[0].externalData : null;
 </script>
 
 <svelte:head>
@@ -221,11 +235,12 @@
 			> pour rechercher le bénéficiaire.</Alert
 		>
 	{:else}
-		{#if reorientationRequest}
-			<Portal target="#bandeau">
+		<Portal target="#bandeau">
+			<div bind:this={elmRsaHeaderNode} />
+			{#if reorientationRequest}
 				<ProOrientationRequestBanner {reorientationRequest} />
-			</Portal>
-		{/if}
+			{/if}
+		</Portal>
 		<div>
 			{#if !reorientationRequest || reorientationRequest.status != OrientationRequestStatus.pending}
 				{#if notebook?.notebookInfo?.orientationReason && (isReferent || isPreviousReferent)}
@@ -275,7 +290,7 @@
 				<MainSection title="Diagnostic socioprofessionnel">
 					<ProNotebookSocioProView
 						{notebook}
-						externalDataDetail={externalData}
+						externalDataDetail={peData}
 						on:click={() =>
 							goto(`${baseUrlForRole(RoleEnum.Professional)}/carnet/${notebook.id}/diagnostic`)}
 					/>
@@ -359,3 +374,13 @@
 		</div>
 	{/if}
 </LoaderIndicator>
+
+<style>
+	:global(.text-warning) {
+		color: var(--text-default-warning);
+	}
+
+	:global(.text-error) {
+		color: var(--text-default-error);
+	}
+</style>

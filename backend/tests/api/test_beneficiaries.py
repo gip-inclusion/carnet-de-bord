@@ -2,7 +2,11 @@ import json
 import logging
 from datetime import date
 from typing import List
+from unittest import mock
 
+import pytest
+from asyncpg import Record
+from asyncpg.connection import Connection
 from pydantic import BaseModel
 
 from cdb.api.db.crud.beneficiary import (
@@ -28,6 +32,75 @@ async def import_beneficiaries(
             default=str,
         ),
     )
+
+
+@pytest.mark.graphql
+@mock.patch("cdb.api.core.emails.send_mail")
+async def test_upload_caf_msa(
+    sendmail_mock: mock.Mock,
+    db_connection: Connection,
+    test_client,
+    fichier_mensuel_caf,
+    get_manager_jwt_93,
+    sophie_tifour_beneficiary_id,
+):
+    with open(fichier_mensuel_caf, "rb") as file:
+        response = await test_client.post(
+            "/v1/beneficiaries/update-from-caf-msa",
+            files={"upload_file": ("filename", file, "text/csv")},
+            headers={"jwt-token": get_manager_jwt_93},
+        )
+        assert response.status_code == 201
+        assert sendmail_mock.call_count == 1
+        beneficiary = await db_connection.fetchrow(
+            """
+    select * from beneficiary where id = $1
+    """,
+            sophie_tifour_beneficiary_id,
+        )
+    assert beneficiary
+    assert beneficiary["right_rsa"] == "rsa_clos"
+    assert sendmail_mock.call_count == 1
+
+
+@pytest.mark.graphql
+@mock.patch("cdb.api.core.emails.send_mail")
+async def test_upload_caf_msa_reouvert(
+    sendmail_mock: mock.MagicMock,
+    test_client,
+    fichier_mensuel_caf_reouvert,
+    get_manager_jwt_93,
+    db_connection: Connection,
+    eta_bullock_beneficiary_id,
+):
+    await db_connection.fetchrow(
+        """
+    update beneficiary
+    set
+        rsa_suspension_reason='caf_moins_25_sans_personne_charge',
+        right_rsa='rsa_droit_ouvert_et_suspendu'
+    where id=$1
+    """,
+        eta_bullock_beneficiary_id,
+    )
+
+    with open(fichier_mensuel_caf_reouvert, "rb") as file:
+        response = await test_client.post(
+            "/v1/beneficiaries/update-from-caf-msa",
+            files={"upload_file": ("filename", file, "text/csv")},
+            headers={"jwt-token": get_manager_jwt_93},
+        )
+        assert response.status_code == 201
+
+    beneficiary: Record = await db_connection.fetchrow(
+        """
+    select * from beneficiary where id = $1
+    """,
+        eta_bullock_beneficiary_id,
+    )
+    assert beneficiary
+    assert beneficiary["rsa_suspension_reason"] is None
+    assert sendmail_mock.call_count == 1
 
 
 async def test_import_beneficiaries_must_be_done_by_a_manager(
@@ -134,7 +207,6 @@ async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
 async def test_update_beneficiary_with_different_capitalization_and_spacing(
     test_client, get_manager_jwt_93, db_connection, caplog
 ):
-
     with caplog.at_level(logging.INFO):
         await import_beneficiaries(
             test_client, get_manager_jwt_93, [sophie_tifour_bad_caps]

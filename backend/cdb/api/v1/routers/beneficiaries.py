@@ -2,7 +2,7 @@ import logging
 from uuid import UUID
 
 from asyncpg.connection import Connection
-from fastapi import APIRouter, Depends, Request
+from fastapi import APIRouter, BackgroundTasks, Depends, Header, Request, UploadFile
 from pydantic import BaseModel
 
 from cdb.api.core.exceptions import InsertFailError, UpdateFailError
@@ -23,10 +23,24 @@ from cdb.api.db.models.beneficiary import (
 )
 from cdb.api.db.models.csv import CsvFieldError
 from cdb.api.db.models.role import RoleEnum
-from cdb.api.v1.dependencies import allowed_jwt_roles, extract_deployment_id
+from cdb.api.v1.dependencies import (
+    Account,
+    allowed_jwt_roles,
+    extract_authentified_account,
+    extract_deployment_id,
+)
+from cdb.caf_msa.update_cafmsa_infos import (
+    update_cafmsa_for_beneficiaries,
+)
 
 manager_only = allowed_jwt_roles([RoleEnum.MANAGER])
-router = APIRouter(dependencies=[Depends(manager_only), Depends(extract_deployment_id)])
+router = APIRouter(
+    dependencies=[
+        Depends(manager_only),
+        Depends(extract_deployment_id),
+        Depends(extract_authentified_account),
+    ]
+)
 logger = logging.getLogger(__name__)
 
 
@@ -52,13 +66,29 @@ async def import_beneficiaries(
     request: Request,
     db=Depends(connection),
 ) -> list[BeneficiaryCsvRowResponse]:
-
     deployment_id: UUID = UUID(request.state.deployment_id)
     result = [
         await import_beneficiary(db, beneficiary, deployment_id, data.need_orientation)
         for beneficiary in data.beneficiaries
     ]
     return result
+
+
+@router.post("/update-from-caf-msa", status_code=201)
+async def import_caf_msa_xml(
+    upload_file: UploadFile,
+    request: Request,
+    background_tasks: BackgroundTasks,
+    jwt_token: str = Header(default=None),
+) -> None:
+    account: Account = request.state.account
+    logging.info("Réception d'un fichier CAF/MSA")
+    background_tasks.add_task(
+        update_cafmsa_for_beneficiaries,
+        account.id,
+        jwt_token,
+        upload_file.file,  # type: ignore
+    )
 
 
 async def import_beneficiary(

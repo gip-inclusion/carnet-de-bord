@@ -4,6 +4,7 @@
 	import { pluralize } from '$lib/helpers';
 	import ImportBeneficiaries from '$lib/ui/Manager/ImportBeneficiaries.svelte';
 	import ImportStructures from '$lib/ui/Manager/ImportStructures.svelte';
+	import ImportCafMsa from '$lib/ui/Manager/ImportCafMsa.svelte';
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 
@@ -143,6 +144,19 @@
 					<span class="block w-44">Importer une liste de chargés d'orientation</span>
 				</svelte:fragment>
 				<ImportOrientationManager />
+			</Dialog>
+		</div>
+		<div class="fr-col-sm-4 flex">
+			<Dialog
+				label="Importer un fichier CAF/MSA"
+				title="Importer un fichier CAF/MSA"
+				size={'large'}
+				showButtons={false}
+			>
+				<svelte:fragment slot="buttonLabel">
+					<span class="block w-44">Importer un fichier CAF/MSA</span>
+				</svelte:fragment>
+				<ImportCafMsa />
 			</Dialog>
 		</div>
 	</div>

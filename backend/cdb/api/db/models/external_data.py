@@ -7,6 +7,7 @@ from strenum import StrEnum
 
 class ExternalSource(StrEnum):
     PE = "pe"
+    CAFMSA = "cafmsa"
 
 
 class ExternalDataInsert(BaseModel):

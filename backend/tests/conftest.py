@@ -1,12 +1,16 @@
 import asyncio
 import contextlib
+import io
 import os
+import typing
+from typing import Any, AsyncGenerator
 from uuid import UUID
 
 import dask.dataframe as dd
 import httpx
 import pytest
 from dask.dataframe.core import DataFrame
+from gql.client import AsyncClientSession
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.init import create_app
@@ -16,6 +20,7 @@ from cdb.api.db.crud.notebook import get_notebook_by_id
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
 from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
 from cdb.api.db.crud.professional import get_professional_by_email
+from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
@@ -153,6 +158,15 @@ async def test_client(fastapi_app):
 
 
 @pytest.fixture
+@pytest.mark.asyncio
+async def gql_manager_client(
+    get_manager_jwt_93: str,
+) -> AsyncGenerator[AsyncClientSession, None]:
+    async with gql_client_backend_only(get_manager_jwt_93) as client:
+        yield client
+
+
+@pytest.fixture
 def pe_principal_csv_filepath() -> str:
     return os.path.join(
         test_dir,
@@ -186,6 +200,30 @@ def orientation_manager_xls_filepath() -> str:
         "fixtures",
         "import_charges_orientation.xls",
     )
+
+
+@pytest.fixture
+def fichier_mensuel_caf() -> str:
+    return os.path.join(test_dir, "fixtures", "RSABEM.xml")
+
+
+@pytest.fixture
+def fichier_mensuel_caf_reouvert() -> str:
+    return os.path.join(test_dir, "fixtures", "RSABEM-ouvert.xml")
+
+
+@pytest.fixture
+def flux_mensuel_caf() -> typing.Generator[io.BufferedReader, Any, Any]:
+    file_path = os.path.join(test_dir, "fixtures", "RSABEM.xml")
+    with open(file_path, "rb") as file:
+        yield file
+
+
+@pytest.fixture
+def flux_quotidien_caf_invalid() -> typing.Generator[io.BufferedReader, Any, Any]:
+    file_path = os.path.join(test_dir, "fixtures", "RSABEI_invalid.xml")
+    with open(file_path, "rb") as file:
+        yield file
 
 
 @pytest.fixture
@@ -270,6 +308,24 @@ async def beneficiary_martin_gal(db_connection) -> Beneficiary | None:
     return await get_beneficiary_by_id(
         db_connection, UUID("1f0d3401-67ad-4ea7-8f3a-a0876c4f79bd")
     )
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def sophie_tifour_beneficiary_id() -> UUID:
+    return UUID("c6e84ed6-eb31-47f0-bd71-9e4d7843cf0b")
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def sophie_tifour_nir() -> str:
+    return "2820251108030"
+
+
+@pytest.fixture
+@pytest.mark.asyncio
+async def eta_bullock_beneficiary_id() -> UUID:
+    return UUID("3c1a9fdf-a231-4659-9a91-630ff12c5774")
 
 
 @pytest.fixture
@@ -467,6 +523,16 @@ def get_admin_structure_jwt() -> str:
 @pytest.fixture
 def get_admin_cdb_jwt() -> str:
     return "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwczovL2hhc3VyYS5pby9qd3QvY2xhaW1zIjp7IngtaGFzdXJhLWFsbG93ZWQtcm9sZXMiOlsiYWRtaW5fY2RiIl0sIngtaGFzdXJhLWRlZmF1bHQtcm9sZSI6ImFkbWluX2NkYiIsIngtaGFzdXJhLXVzZXItaWQiOiI5ZWVlOWZlYS1iZjNlLTRlYjgtOGY0My1kOWI3ZmQ2ZmFlNzYifSwiaWQiOiI5ZWVlOWZlYS1iZjNlLTRlYjgtOGY0My1kOWI3ZmQ2ZmFlNzYiLCJyb2xlIjoiYWRtaW5fY2RiIiwiaWF0IjoxNjU2OTQ4NzY0LCJleHAiOjE5NzI1MjQ3NjQsInN1YiI6IjllZWU5ZmVhLWJmM2UtNGViOC04ZjQzLWQ5YjdmZDZmYWU3NiJ9.pOA5uQoIWlmkxETNBoLUf7oidru06EBNz_O74yGi-OQ"  # noqa: E501
+
+
+@pytest.fixture
+def get_manager_cd_93_account_id() -> UUID:
+    return UUID("96cb6e09-81fa-44e9-9b3f-75c93ad96f94")
+
+
+@pytest.fixture
+def get_manager_cd_93_id() -> UUID:
+    return UUID("01a3d906-70d9-42e6-9b61-2ccf030e5d8f")
 
 
 @pytest.fixture

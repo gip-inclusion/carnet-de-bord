@@ -1905,6 +1905,7 @@ schema = build_schema(
       firstname: String!
       id: uuid!
       internalId: String
+      isHomeless: Boolean
       lastname: String!
       mobileNumber: String
       nir: String
@@ -1958,6 +1959,9 @@ schema = build_schema(
       rightAss: Boolean!
       rightBonus: Boolean!
       rightRsa: String
+      rsaClosureDate: date
+      rsaClosureReason: rsa_closure_reason_enum
+      rsaSuspensionReason: rsa_suspension_reason_enum
 
       """An array relationship"""
       structures(
@@ -1994,6 +1998,7 @@ schema = build_schema(
         """filter the rows returned"""
         where: beneficiary_structure_bool_exp
       ): beneficiary_structure_aggregate!
+      subjectToRightAndDuty: Boolean
       updatedAt: timestamptz!
     }
 
@@ -2082,6 +2087,7 @@ schema = build_schema(
       firstname: String_comparison_exp
       id: uuid_comparison_exp
       internalId: String_comparison_exp
+      isHomeless: Boolean_comparison_exp
       lastname: String_comparison_exp
       mobileNumber: String_comparison_exp
       nir: String_comparison_exp
@@ -2097,8 +2103,12 @@ schema = build_schema(
       rightAss: Boolean_comparison_exp
       rightBonus: Boolean_comparison_exp
       rightRsa: String_comparison_exp
+      rsaClosureDate: date_comparison_exp
+      rsaClosureReason: rsa_closure_reason_enum_comparison_exp
+      rsaSuspensionReason: rsa_suspension_reason_enum_comparison_exp
       structures: beneficiary_structure_bool_exp
       structures_aggregate: beneficiary_structure_aggregate_bool_exp
+      subjectToRightAndDuty: Boolean_comparison_exp
       updatedAt: timestamptz_comparison_exp
     }
 
@@ -2145,6 +2155,7 @@ schema = build_schema(
       firstname: String
       id: uuid
       internalId: String
+      isHomeless: Boolean
       lastname: String
       mobileNumber: String
       nir: String
@@ -2159,7 +2170,11 @@ schema = build_schema(
       rightAss: Boolean
       rightBonus: Boolean
       rightRsa: String
+      rsaClosureDate: date
+      rsaClosureReason: rsa_closure_reason_enum
+      rsaSuspensionReason: rsa_suspension_reason_enum
       structures: beneficiary_structure_arr_rel_insert_input
+      subjectToRightAndDuty: Boolean
       updatedAt: timestamptz
     }
 
@@ -2184,6 +2199,7 @@ schema = build_schema(
       placeOfBirth: String
       postalCode: String
       rightRsa: String
+      rsaClosureDate: date
       updatedAt: timestamptz
     }
 
@@ -2210,6 +2226,7 @@ schema = build_schema(
       placeOfBirth: order_by
       postalCode: order_by
       rightRsa: order_by
+      rsaClosureDate: order_by
       updatedAt: order_by
     }
 
@@ -2234,6 +2251,7 @@ schema = build_schema(
       placeOfBirth: String
       postalCode: String
       rightRsa: String
+      rsaClosureDate: date
       updatedAt: timestamptz
     }
 
@@ -2260,6 +2278,7 @@ schema = build_schema(
       placeOfBirth: order_by
       postalCode: order_by
       rightRsa: order_by
+      rsaClosureDate: order_by
       updatedAt: order_by
     }
 
@@ -2309,6 +2328,7 @@ schema = build_schema(
       firstname: order_by
       id: order_by
       internalId: order_by
+      isHomeless: order_by
       lastname: order_by
       mobileNumber: order_by
       nir: order_by
@@ -2323,7 +2343,11 @@ schema = build_schema(
       rightAss: order_by
       rightBonus: order_by
       rightRsa: order_by
+      rsaClosureDate: order_by
+      rsaClosureReason: order_by
+      rsaSuspensionReason: order_by
       structures_aggregate: beneficiary_structure_aggregate_order_by
+      subjectToRightAndDuty: order_by
       updatedAt: order_by
     }
 
@@ -2370,6 +2394,9 @@ schema = build_schema(
       internalId
 
       """column name"""
+      isHomeless
+
+      """column name"""
       lastname
 
       """column name"""
@@ -2403,6 +2430,18 @@ schema = build_schema(
       rightRsa
 
       """column name"""
+      rsaClosureDate
+
+      """column name"""
+      rsaClosureReason
+
+      """column name"""
+      rsaSuspensionReason
+
+      """column name"""
+      subjectToRightAndDuty
+
+      """column name"""
       updatedAt
     }
 
@@ -2411,6 +2450,9 @@ schema = build_schema(
     """
     enum beneficiary_select_column_beneficiary_aggregate_bool_exp_bool_and_arguments_columns {
       """column name"""
+      isHomeless
+
+      """column name"""
       rightAre
 
       """column name"""
@@ -2418,6 +2460,9 @@ schema = build_schema(
 
       """column name"""
       rightBonus
+
+      """column name"""
+      subjectToRightAndDuty
     }
 
     """
@@ -2425,6 +2470,9 @@ schema = build_schema(
     """
     enum beneficiary_select_column_beneficiary_aggregate_bool_exp_bool_or_arguments_columns {
       """column name"""
+      isHomeless
+
+      """column name"""
       rightAre
 
       """column name"""
@@ -2432,6 +2480,9 @@ schema = build_schema(
 
       """column name"""
       rightBonus
+
+      """column name"""
+      subjectToRightAndDuty
     }
 
     """
@@ -2449,6 +2500,7 @@ schema = build_schema(
       firstname: String
       id: uuid
       internalId: String
+      isHomeless: Boolean
       lastname: String
       mobileNumber: String
       nir: String
@@ -2460,6 +2512,10 @@ schema = build_schema(
       rightAss: Boolean
       rightBonus: Boolean
       rightRsa: String
+      rsaClosureDate: date
+      rsaClosureReason: rsa_closure_reason_enum
+      rsaSuspensionReason: rsa_suspension_reason_enum
+      subjectToRightAndDuty: Boolean
       updatedAt: timestamptz
     }
 
@@ -2487,6 +2543,7 @@ schema = build_schema(
       firstname: String
       id: uuid
       internalId: String
+      isHomeless: Boolean
       lastname: String
       mobileNumber: String
       nir: String
@@ -2498,6 +2555,10 @@ schema = build_schema(
       rightAss: Boolean
       rightBonus: Boolean
       rightRsa: String
+      rsaClosureDate: date
+      rsaClosureReason: rsa_closure_reason_enum
+      rsaSuspensionReason: rsa_suspension_reason_enum
+      subjectToRightAndDuty: Boolean
       updatedAt: timestamptz
     }
 
@@ -2877,6 +2938,9 @@ schema = build_schema(
       internalId
 
       """column name"""
+      isHomeless
+
+      """column name"""
       lastname
 
       """column name"""
@@ -2908,6 +2972,18 @@ schema = build_schema(
 
       """column name"""
       rightRsa
+
+      """column name"""
+      rsaClosureDate
+
+      """column name"""
+      rsaClosureReason
+
+      """column name"""
+      rsaSuspensionReason
+
+      """column name"""
+      subjectToRightAndDuty
 
       """column name"""
       updatedAt
@@ -4590,6 +4666,9 @@ schema = build_schema(
     }
 
     enum external_source_enum {
+      """Flux caf / msa"""
+      cafmsa
+
       """Pôle Emploi"""
       pe
     }
@@ -4738,6 +4817,10 @@ schema = build_schema(
       _lte: float8
       _neq: float8
       _nin: [float8!]
+    }
+
+    input get_beneficiaries_from_nir_args {
+      search_nir: String
     }
 
     scalar jsonb
@@ -5582,6 +5665,32 @@ schema = build_schema(
       delete single row from the table: "rome_code"
       """
       delete_rome_code_by_pk(id: uuid!): rome_code
+
+      """
+      delete data from the table: "rsa_closure_reason"
+      """
+      delete_rsa_closure_reason(
+        """filter the rows which have to be deleted"""
+        where: rsa_closure_reason_bool_exp!
+      ): rsa_closure_reason_mutation_response
+
+      """
+      delete single row from the table: "rsa_closure_reason"
+      """
+      delete_rsa_closure_reason_by_pk(code: String!): rsa_closure_reason
+
+      """
+      delete data from the table: "rsa_suspension_reason"
+      """
+      delete_rsa_suspension_reason(
+        """filter the rows which have to be deleted"""
+        where: rsa_suspension_reason_bool_exp!
+      ): rsa_suspension_reason_mutation_response
+
+      """
+      delete single row from the table: "rsa_suspension_reason"
+      """
+      delete_rsa_suspension_reason_by_pk(code: String!): rsa_suspension_reason
 
       """
       delete data from the table: "structure"
@@ -6460,6 +6569,50 @@ schema = build_schema(
         """upsert condition"""
         on_conflict: rome_code_on_conflict
       ): rome_code
+
+      """
+      insert data into the table: "rsa_closure_reason"
+      """
+      insert_rsa_closure_reason(
+        """the rows to be inserted"""
+        objects: [rsa_closure_reason_insert_input!]!
+
+        """upsert condition"""
+        on_conflict: rsa_closure_reason_on_conflict
+      ): rsa_closure_reason_mutation_response
+
+      """
+      insert a single row into the table: "rsa_closure_reason"
+      """
+      insert_rsa_closure_reason_one(
+        """the row to be inserted"""
+        object: rsa_closure_reason_insert_input!
+
+        """upsert condition"""
+        on_conflict: rsa_closure_reason_on_conflict
+      ): rsa_closure_reason
+
+      """
+      insert data into the table: "rsa_suspension_reason"
+      """
+      insert_rsa_suspension_reason(
+        """the rows to be inserted"""
+        objects: [rsa_suspension_reason_insert_input!]!
+
+        """upsert condition"""
+        on_conflict: rsa_suspension_reason_on_conflict
+      ): rsa_suspension_reason_mutation_response
+
+      """
+      insert a single row into the table: "rsa_suspension_reason"
+      """
+      insert_rsa_suspension_reason_one(
+        """the row to be inserted"""
+        object: rsa_suspension_reason_insert_input!
+
+        """upsert condition"""
+        on_conflict: rsa_suspension_reason_on_conflict
+      ): rsa_suspension_reason
 
       """
       insert data into the table: "structure"
@@ -7767,6 +7920,62 @@ schema = build_schema(
         """updates to execute, in order"""
         updates: [rome_code_updates!]!
       ): [rome_code_mutation_response]
+
+      """
+      update data of the table: "rsa_closure_reason"
+      """
+      update_rsa_closure_reason(
+        """sets the columns of the filtered rows to the given values"""
+        _set: rsa_closure_reason_set_input
+
+        """filter the rows which have to be updated"""
+        where: rsa_closure_reason_bool_exp!
+      ): rsa_closure_reason_mutation_response
+
+      """
+      update single row of the table: "rsa_closure_reason"
+      """
+      update_rsa_closure_reason_by_pk(
+        """sets the columns of the filtered rows to the given values"""
+        _set: rsa_closure_reason_set_input
+        pk_columns: rsa_closure_reason_pk_columns_input!
+      ): rsa_closure_reason
+
+      """
+      update multiples rows of table: "rsa_closure_reason"
+      """
+      update_rsa_closure_reason_many(
+        """updates to execute, in order"""
+        updates: [rsa_closure_reason_updates!]!
+      ): [rsa_closure_reason_mutation_response]
+
+      """
+      update data of the table: "rsa_suspension_reason"
+      """
+      update_rsa_suspension_reason(
+        """sets the columns of the filtered rows to the given values"""
+        _set: rsa_suspension_reason_set_input
+
+        """filter the rows which have to be updated"""
+        where: rsa_suspension_reason_bool_exp!
+      ): rsa_suspension_reason_mutation_response
+
+      """
+      update single row of the table: "rsa_suspension_reason"
+      """
+      update_rsa_suspension_reason_by_pk(
+        """sets the columns of the filtered rows to the given values"""
+        _set: rsa_suspension_reason_set_input
+        pk_columns: rsa_suspension_reason_pk_columns_input!
+      ): rsa_suspension_reason
+
+      """
+      update multiples rows of table: "rsa_suspension_reason"
+      """
+      update_rsa_suspension_reason_many(
+        """updates to execute, in order"""
+        updates: [rsa_suspension_reason_updates!]!
+      ): [rsa_suspension_reason_mutation_response]
 
       """
       update data of the table: "structure"
@@ -14898,6 +15107,56 @@ schema = build_schema(
       external_source_by_pk(value: String!): external_source
 
       """
+      execute function "get_beneficiaries_from_nir" which returns "beneficiary"
+      """
+      get_beneficiaries_from_nir(
+        """
+        input parameters for function "get_beneficiaries_from_nir"
+        """
+        args: get_beneficiaries_from_nir_args!
+
+        """distinct select on columns"""
+        distinct_on: [beneficiary_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [beneficiary_order_by!]
+
+        """filter the rows returned"""
+        where: beneficiary_bool_exp
+      ): [beneficiary!]!
+
+      """
+      execute function "get_beneficiaries_from_nir" and query aggregates on result of table type "beneficiary"
+      """
+      get_beneficiaries_from_nir_aggregate(
+        """
+        input parameters for function "get_beneficiaries_from_nir_aggregate"
+        """
+        args: get_beneficiaries_from_nir_args!
+
+        """distinct select on columns"""
+        distinct_on: [beneficiary_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [beneficiary_order_by!]
+
+        """filter the rows returned"""
+        where: beneficiary_bool_exp
+      ): beneficiary_aggregate!
+
+      """
       fetch data from the table: "manager"
       """
       manager(
@@ -16074,6 +16333,96 @@ schema = build_schema(
 
       """fetch data from the table: "rome_code" using primary key columns"""
       rome_code_by_pk(id: uuid!): rome_code
+
+      """
+      fetch data from the table: "rsa_closure_reason"
+      """
+      rsa_closure_reason(
+        """distinct select on columns"""
+        distinct_on: [rsa_closure_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_closure_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_closure_reason_bool_exp
+      ): [rsa_closure_reason!]!
+
+      """
+      fetch aggregated fields from the table: "rsa_closure_reason"
+      """
+      rsa_closure_reason_aggregate(
+        """distinct select on columns"""
+        distinct_on: [rsa_closure_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_closure_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_closure_reason_bool_exp
+      ): rsa_closure_reason_aggregate!
+
+      """
+      fetch data from the table: "rsa_closure_reason" using primary key columns
+      """
+      rsa_closure_reason_by_pk(code: String!): rsa_closure_reason
+
+      """
+      fetch data from the table: "rsa_suspension_reason"
+      """
+      rsa_suspension_reason(
+        """distinct select on columns"""
+        distinct_on: [rsa_suspension_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_suspension_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_suspension_reason_bool_exp
+      ): [rsa_suspension_reason!]!
+
+      """
+      fetch aggregated fields from the table: "rsa_suspension_reason"
+      """
+      rsa_suspension_reason_aggregate(
+        """distinct select on columns"""
+        distinct_on: [rsa_suspension_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_suspension_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_suspension_reason_bool_exp
+      ): rsa_suspension_reason_aggregate!
+
+      """
+      fetch data from the table: "rsa_suspension_reason" using primary key columns
+      """
+      rsa_suspension_reason_by_pk(code: String!): rsa_suspension_reason
 
       """
       execute function "search_beneficiaries" which returns "beneficiary"
@@ -17488,6 +17837,431 @@ schema = build_schema(
 
       """filter the rows which have to be updated"""
       where: rome_code_bool_exp!
+    }
+
+    """code and reason for rsa closure reason"""
+    type rsa_closure_reason {
+      code: String!
+      label: String!
+    }
+
+    """
+    aggregated selection of "rsa_closure_reason"
+    """
+    type rsa_closure_reason_aggregate {
+      aggregate: rsa_closure_reason_aggregate_fields
+      nodes: [rsa_closure_reason!]!
+    }
+
+    """
+    aggregate fields of "rsa_closure_reason"
+    """
+    type rsa_closure_reason_aggregate_fields {
+      count(columns: [rsa_closure_reason_select_column!], distinct: Boolean): Int!
+      max: rsa_closure_reason_max_fields
+      min: rsa_closure_reason_min_fields
+    }
+
+    """
+    Boolean expression to filter rows from the table "rsa_closure_reason". All fields are combined with a logical 'AND'.
+    """
+    input rsa_closure_reason_bool_exp {
+      _and: [rsa_closure_reason_bool_exp!]
+      _not: rsa_closure_reason_bool_exp
+      _or: [rsa_closure_reason_bool_exp!]
+      code: String_comparison_exp
+      label: String_comparison_exp
+    }
+
+    """
+    unique or primary key constraints on table "rsa_closure_reason"
+    """
+    enum rsa_closure_reason_constraint {
+      """
+      unique or primary key constraint on columns "code"
+      """
+      rsa_closure_reason_pkey
+    }
+
+    enum rsa_closure_reason_enum {
+      """Clôture suite à l'annulation de la bascule RMI/API"""
+      caf_annulation_bascule_rmi
+
+      """Clôture suite décision du Président du Conseil général"""
+      caf_decision_pcg
+
+      """Clôture suite à échéance (4 mois sans droits)"""
+      caf_echeance
+
+      """Clôture suite à mutation du dossier dans un autre organisme"""
+      caf_mutation
+
+      """Radié autre motif"""
+      caf_radie_autre_motif
+
+      """Radié fin de droit"""
+      caf_radie_fin_droit
+
+      """Radié option RSO DOM"""
+      caf_radie_option_rso
+
+      """Radié option RSTA DOM"""
+      caf_radie_option_rsta
+
+      """Clôture pour regroupement de dossier"""
+      caf_regroupement
+    }
+
+    """
+    Boolean expression to compare columns of type "rsa_closure_reason_enum". All fields are combined with logical 'AND'.
+    """
+    input rsa_closure_reason_enum_comparison_exp {
+      _eq: rsa_closure_reason_enum
+      _in: [rsa_closure_reason_enum!]
+      _is_null: Boolean
+      _neq: rsa_closure_reason_enum
+      _nin: [rsa_closure_reason_enum!]
+    }
+
+    """
+    input type for inserting data into table "rsa_closure_reason"
+    """
+    input rsa_closure_reason_insert_input {
+      code: String
+      label: String
+    }
+
+    """aggregate max on columns"""
+    type rsa_closure_reason_max_fields {
+      code: String
+      label: String
+    }
+
+    """aggregate min on columns"""
+    type rsa_closure_reason_min_fields {
+      code: String
+      label: String
+    }
+
+    """
+    response of any mutation on the table "rsa_closure_reason"
+    """
+    type rsa_closure_reason_mutation_response {
+      """number of rows affected by the mutation"""
+      affected_rows: Int!
+
+      """data from the rows affected by the mutation"""
+      returning: [rsa_closure_reason!]!
+    }
+
+    """
+    on_conflict condition type for table "rsa_closure_reason"
+    """
+    input rsa_closure_reason_on_conflict {
+      constraint: rsa_closure_reason_constraint!
+      update_columns: [rsa_closure_reason_update_column!]! = []
+      where: rsa_closure_reason_bool_exp
+    }
+
+    """Ordering options when selecting data from "rsa_closure_reason"."""
+    input rsa_closure_reason_order_by {
+      code: order_by
+      label: order_by
+    }
+
+    """primary key columns input for table: rsa_closure_reason"""
+    input rsa_closure_reason_pk_columns_input {
+      code: String!
+    }
+
+    """
+    select columns of table "rsa_closure_reason"
+    """
+    enum rsa_closure_reason_select_column {
+      """column name"""
+      code
+
+      """column name"""
+      label
+    }
+
+    """
+    input type for updating data in table "rsa_closure_reason"
+    """
+    input rsa_closure_reason_set_input {
+      code: String
+      label: String
+    }
+
+    """
+    Streaming cursor of the table "rsa_closure_reason"
+    """
+    input rsa_closure_reason_stream_cursor_input {
+      """Stream column input with initial value"""
+      initial_value: rsa_closure_reason_stream_cursor_value_input!
+
+      """cursor ordering"""
+      ordering: cursor_ordering
+    }
+
+    """Initial value of the column from where the streaming should start"""
+    input rsa_closure_reason_stream_cursor_value_input {
+      code: String
+      label: String
+    }
+
+    """
+    update columns of table "rsa_closure_reason"
+    """
+    enum rsa_closure_reason_update_column {
+      """column name"""
+      code
+
+      """column name"""
+      label
+    }
+
+    input rsa_closure_reason_updates {
+      """sets the columns of the filtered rows to the given values"""
+      _set: rsa_closure_reason_set_input
+
+      """filter the rows which have to be updated"""
+      where: rsa_closure_reason_bool_exp!
+    }
+
+    """rsa suspension code and reason for enum"""
+    type rsa_suspension_reason {
+      code: String!
+      label: String!
+    }
+
+    """
+    aggregated selection of "rsa_suspension_reason"
+    """
+    type rsa_suspension_reason_aggregate {
+      aggregate: rsa_suspension_reason_aggregate_fields
+      nodes: [rsa_suspension_reason!]!
+    }
+
+    """
+    aggregate fields of "rsa_suspension_reason"
+    """
+    type rsa_suspension_reason_aggregate_fields {
+      count(columns: [rsa_suspension_reason_select_column!], distinct: Boolean): Int!
+      max: rsa_suspension_reason_max_fields
+      min: rsa_suspension_reason_min_fields
+    }
+
+    """
+    Boolean expression to filter rows from the table "rsa_suspension_reason". All fields are combined with a logical 'AND'.
+    """
+    input rsa_suspension_reason_bool_exp {
+      _and: [rsa_suspension_reason_bool_exp!]
+      _not: rsa_suspension_reason_bool_exp
+      _or: [rsa_suspension_reason_bool_exp!]
+      code: String_comparison_exp
+      label: String_comparison_exp
+    }
+
+    """
+    unique or primary key constraints on table "rsa_suspension_reason"
+    """
+    enum rsa_suspension_reason_constraint {
+      """
+      unique or primary key constraint on columns "code"
+      """
+      rsa_suspension_reason_pkey
+    }
+
+    enum rsa_suspension_reason_enum {
+      """Action non engagée"""
+      caf_action_non_engagee
+
+      """Activité antérieure insuffisante"""
+      caf_activite_anterieur_insuffisante
+
+      """Activité antérieure absente"""
+      caf_activite_anterieure_absente
+
+      """Activité antérieure non conforme"""
+      caf_activite_anterieure_non_conforme
+
+      """Activité non conforme"""
+      caf_activite_non_conforme
+
+      """Allocataire absent du foyer"""
+      caf_allocataire_absent
+
+      """Attente décision PCG (le droit reste théorique jusqu'au retour)"""
+      caf_attente_decision_PCG
+
+      """Bénéficiaire AAH réduite"""
+      caf_beneficiaire_aah
+
+      """Déclaration Trimestrielle Ressources non fournie"""
+      caf_declaration_ressource_non_fournie
+
+      """Demande avantage vieillesse absent ou tardif"""
+      caf_demande_avantage_vieillesse_absent
+
+      """Droit éteint ou autre cas"""
+      caf_droit_eteint
+
+      """Étudiant rémunération insuffisante"""
+      caf_etudiant_remuneration_insuffisante
+
+      """Hospitalisation"""
+      caf_hospitalisation
+
+      """Moins de 25 ans sans enfant ni autre personne à charge"""
+      caf_moins_25_sans_personne_charge
+
+      """Pas d'allocataire"""
+      caf_pas_allocataire
+
+      """Pas d'isolement"""
+      caf_pas_isolement
+
+      """Prestation exclue affiliation partielle"""
+      caf_prestation_exclue
+
+      """Régime non conforme"""
+      caf_regime_non_conforme
+
+      """Résidence non conforme"""
+      caf_residence_non_conforme
+
+      """Ressources trop élévées"""
+      caf_ressources_trop_elevees
+
+      """RSA inférieur au seuil"""
+      caf_rsa_inferieur_seuil
+
+      """Surface pondérée supérieure au plafond ou inconnue"""
+      caf_surface_ponderee_sup
+
+      """Titre de séjour absent"""
+      caf_titre_sejour_absent
+
+      """Titre de séjour non valide"""
+      caf_titre_sejour_invalid
+    }
+
+    """
+    Boolean expression to compare columns of type "rsa_suspension_reason_enum". All fields are combined with logical 'AND'.
+    """
+    input rsa_suspension_reason_enum_comparison_exp {
+      _eq: rsa_suspension_reason_enum
+      _in: [rsa_suspension_reason_enum!]
+      _is_null: Boolean
+      _neq: rsa_suspension_reason_enum
+      _nin: [rsa_suspension_reason_enum!]
+    }
+
+    """
+    input type for inserting data into table "rsa_suspension_reason"
+    """
+    input rsa_suspension_reason_insert_input {
+      code: String
+      label: String
+    }
+
+    """aggregate max on columns"""
+    type rsa_suspension_reason_max_fields {
+      code: String
+      label: String
+    }
+
+    """aggregate min on columns"""
+    type rsa_suspension_reason_min_fields {
+      code: String
+      label: String
+    }
+
+    """
+    response of any mutation on the table "rsa_suspension_reason"
+    """
+    type rsa_suspension_reason_mutation_response {
+      """number of rows affected by the mutation"""
+      affected_rows: Int!
+
+      """data from the rows affected by the mutation"""
+      returning: [rsa_suspension_reason!]!
+    }
+
+    """
+    on_conflict condition type for table "rsa_suspension_reason"
+    """
+    input rsa_suspension_reason_on_conflict {
+      constraint: rsa_suspension_reason_constraint!
+      update_columns: [rsa_suspension_reason_update_column!]! = []
+      where: rsa_suspension_reason_bool_exp
+    }
+
+    """Ordering options when selecting data from "rsa_suspension_reason"."""
+    input rsa_suspension_reason_order_by {
+      code: order_by
+      label: order_by
+    }
+
+    """primary key columns input for table: rsa_suspension_reason"""
+    input rsa_suspension_reason_pk_columns_input {
+      code: String!
+    }
+
+    """
+    select columns of table "rsa_suspension_reason"
+    """
+    enum rsa_suspension_reason_select_column {
+      """column name"""
+      code
+
+      """column name"""
+      label
+    }
+
+    """
+    input type for updating data in table "rsa_suspension_reason"
+    """
+    input rsa_suspension_reason_set_input {
+      code: String
+      label: String
+    }
+
+    """
+    Streaming cursor of the table "rsa_suspension_reason"
+    """
+    input rsa_suspension_reason_stream_cursor_input {
+      """Stream column input with initial value"""
+      initial_value: rsa_suspension_reason_stream_cursor_value_input!
+
+      """cursor ordering"""
+      ordering: cursor_ordering
+    }
+
+    """Initial value of the column from where the streaming should start"""
+    input rsa_suspension_reason_stream_cursor_value_input {
+      code: String
+      label: String
+    }
+
+    """
+    update columns of table "rsa_suspension_reason"
+    """
+    enum rsa_suspension_reason_update_column {
+      """column name"""
+      code
+
+      """column name"""
+      label
+    }
+
+    input rsa_suspension_reason_updates {
+      """sets the columns of the filtered rows to the given values"""
+      _set: rsa_suspension_reason_set_input
+
+      """filter the rows which have to be updated"""
+      where: rsa_suspension_reason_bool_exp!
     }
 
     input search_beneficiaries_args {
@@ -19068,6 +19842,56 @@ schema = build_schema(
       ): [external_source!]!
 
       """
+      execute function "get_beneficiaries_from_nir" which returns "beneficiary"
+      """
+      get_beneficiaries_from_nir(
+        """
+        input parameters for function "get_beneficiaries_from_nir"
+        """
+        args: get_beneficiaries_from_nir_args!
+
+        """distinct select on columns"""
+        distinct_on: [beneficiary_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [beneficiary_order_by!]
+
+        """filter the rows returned"""
+        where: beneficiary_bool_exp
+      ): [beneficiary!]!
+
+      """
+      execute function "get_beneficiaries_from_nir" and query aggregates on result of table type "beneficiary"
+      """
+      get_beneficiaries_from_nir_aggregate(
+        """
+        input parameters for function "get_beneficiaries_from_nir_aggregate"
+        """
+        args: get_beneficiaries_from_nir_args!
+
+        """distinct select on columns"""
+        distinct_on: [beneficiary_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [beneficiary_order_by!]
+
+        """filter the rows returned"""
+        where: beneficiary_bool_exp
+      ): beneficiary_aggregate!
+
+      """
       fetch data from the table: "manager"
       """
       manager(
@@ -20622,6 +21446,124 @@ schema = build_schema(
         """filter the rows returned"""
         where: rome_code_bool_exp
       ): [rome_code!]!
+
+      """
+      fetch data from the table: "rsa_closure_reason"
+      """
+      rsa_closure_reason(
+        """distinct select on columns"""
+        distinct_on: [rsa_closure_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_closure_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_closure_reason_bool_exp
+      ): [rsa_closure_reason!]!
+
+      """
+      fetch aggregated fields from the table: "rsa_closure_reason"
+      """
+      rsa_closure_reason_aggregate(
+        """distinct select on columns"""
+        distinct_on: [rsa_closure_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_closure_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_closure_reason_bool_exp
+      ): rsa_closure_reason_aggregate!
+
+      """
+      fetch data from the table: "rsa_closure_reason" using primary key columns
+      """
+      rsa_closure_reason_by_pk(code: String!): rsa_closure_reason
+
+      """
+      fetch data from the table in a streaming manner: "rsa_closure_reason"
+      """
+      rsa_closure_reason_stream(
+        """maximum number of rows returned in a single batch"""
+        batch_size: Int!
+
+        """cursor to stream the results returned by the query"""
+        cursor: [rsa_closure_reason_stream_cursor_input]!
+
+        """filter the rows returned"""
+        where: rsa_closure_reason_bool_exp
+      ): [rsa_closure_reason!]!
+
+      """
+      fetch data from the table: "rsa_suspension_reason"
+      """
+      rsa_suspension_reason(
+        """distinct select on columns"""
+        distinct_on: [rsa_suspension_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_suspension_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_suspension_reason_bool_exp
+      ): [rsa_suspension_reason!]!
+
+      """
+      fetch aggregated fields from the table: "rsa_suspension_reason"
+      """
+      rsa_suspension_reason_aggregate(
+        """distinct select on columns"""
+        distinct_on: [rsa_suspension_reason_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [rsa_suspension_reason_order_by!]
+
+        """filter the rows returned"""
+        where: rsa_suspension_reason_bool_exp
+      ): rsa_suspension_reason_aggregate!
+
+      """
+      fetch data from the table: "rsa_suspension_reason" using primary key columns
+      """
+      rsa_suspension_reason_by_pk(code: String!): rsa_suspension_reason
+
+      """
+      fetch data from the table in a streaming manner: "rsa_suspension_reason"
+      """
+      rsa_suspension_reason_stream(
+        """maximum number of rows returned in a single batch"""
+        batch_size: Int!
+
+        """cursor to stream the results returned by the query"""
+        cursor: [rsa_suspension_reason_stream_cursor_input]!
+
+        """filter the rows returned"""
+        where: rsa_suspension_reason_bool_exp
+      ): [rsa_suspension_reason!]!
 
       """
       execute function "search_beneficiaries" which returns "beneficiary"

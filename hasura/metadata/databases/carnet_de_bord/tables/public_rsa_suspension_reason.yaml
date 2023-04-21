@@ -1,0 +1,4 @@
+table:
+  name: rsa_suspension_reason
+  schema: public
+is_enum: true

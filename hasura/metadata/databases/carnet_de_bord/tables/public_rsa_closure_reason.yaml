@@ -1,0 +1,4 @@
+table:
+  name: rsa_closure_reason
+  schema: public
+is_enum: true

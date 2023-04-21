@@ -1,0 +1,1871 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--DII-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="Racine">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit de l'élément racine du flux XML RSA bénéficaires.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="IdentificationFlux" />
+				<xsd:element ref="InfosFoyerRSA" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="TransmissionFlux" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="IdentificationFlux">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 2 du flux XML RSA bénéficaires. Ce
+				bloc est unique et obligatoire. Il contient des informations qui identifient de façon unique
+				ce flux.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="APPLIEME">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMVERSIONAPPLIEME">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="4" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TYPEFLUX">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NATFLUX">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTCREAFLUX" type="xsd:date" />
+				<xsd:element name="HEUCREAFLUX" type="xsd:time" />
+				<xsd:element name="DTREF" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InfosFoyerRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 2 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de dossiers RSA non radiés ds la période de réf ou radiés ou clos
+				et non encore transmis au CG ou ayant eu une régul ds la période de réf.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="IdentificationRSA" />
+				<xsd:element ref="Personne" minOccurs="1" maxOccurs="unbounded" />
+				<xsd:element ref="DonneesAdministratives" />
+				<xsd:element ref="PrestationRSA" />
+				<xsd:element ref="Evenement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="Controle" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="Anomalie" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="IdentificationRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 3 du flux XML. Ce bloc est unique et
+				obligatoire par dossier RSA et contient des identifiants associés à cette demande.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Organisme" />
+				<xsd:element ref="Partenaire" />
+				<xsd:element ref="DemandeRSA" />
+				<xsd:element ref="DemandeRMI" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="OrganismeCedant" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="OrganismePrenant" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Organisme">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				obligatoire par dossier RSA et contient des informations sur l'organisme assurant le service
+				du RSA</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="FONORG">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMORG">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MATRICULE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="15" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Partenaire">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				obligatoire par dossier RSA et contient des informations qui identifie l'organisme récepteur
+				ou émetteur du flux.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="TYPEPARTE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="4" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="IDEPARTE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DemandeRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				obligatoire par dossier RSA et contient des informations qui identifie de façon unique le
+				dossier RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DTDEMRSA" type="xsd:date" />
+				<xsd:element name="NUMDEMRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="11" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DemandeRMI">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif par dossier RSA. Il n'est présent que si la demande RSA a relevée auparavant du
+				RMI.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="DateDemandeRMI" />
+				<xsd:element ref="NumeroInstructionRMI" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DateDemandeRMI">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire si le dossier RSA a relevé auparavant du RMI.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DTDEMRMI" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="NumeroInstructionRMI">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire si le dossier RSA a relevé auparavant du RMI. Il contient des informations sur
+				la constitution du numéro de l'instruction RMI.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="NUMDEPINSRMI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TYPEINSRMI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMCOMINSRMI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMAGRINSRMI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMDOSINSRMI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="5" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMCLI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OrganismeCedant">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="FONORGCEDMUT">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMORGCEDMUT">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MATRICULEORGCEDMUT" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="15" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDARRMUT" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="OrganismePrenant">
+		<xsd:annotation>
+			<xsd:documentation>Sous élément de niveau 4 du flux XML. Bloc unique et facultatif par dossier
+				RSA. Contient des infos sur l'organisme prenant le dossier allocataire. Transmis dans les
+				flux quotidiens et dans le flux mensuel du mois de mutation sortante.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="FONORGPRENMUT">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMORGPRENMUT">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDDEPAMUT" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Personne">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 3 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de personnes rattachées au dossier RSA. Il contient des
+				informations sur la personne.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Identification" />
+				<xsd:element ref="DossierCAF" />
+				<xsd:element ref="Prestations" minOccurs="2" maxOccurs="2" />
+				<xsd:element ref="Rattachement" minOccurs="0" maxOccurs="2" />
+				<xsd:element ref="DossierPoleEmploi" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="Ressources" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="MontantCalculDroitRSAPersonne" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="Activite" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="PensionAlimentaire" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="Grossesse" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="InformationsAgricoles" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="AvisPCGPersonne" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="AvisCGSSDOMPersonne" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Identification">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément Personne. Il contient des informations qui identifient de façon
+				unique la personne.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="QUAL" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="28" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NOMNAI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="28" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="PRENOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="32" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="PRENOM2" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="15" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="PRENOM3" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="15" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NOMCOMNAI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="26" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTNAI" type="xsd:date" />
+				<xsd:element name="RGNAI" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TYPEDTNAI" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NIR" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="15" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TOPVALIEC" minOccurs="0" maxOccurs="1" type="xsd:boolean" />
+				<xsd:element name="SEXE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DossierCAF">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément Personne. Il contient des informations sur la responsabilité de
+				la personne vis à vis de son dossier CAF.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="TOPRESPDOS" type="xsd:boolean" />
+				<xsd:element name="DDRATDOS" type="xsd:date" />
+				<xsd:element name="DFRATDOS" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="NUMDEMRSAPRECE" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="11" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Prestations">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est répété
+				deux fois pour l'élément Personne. Il contient des informations sur le role de la personne
+				par rapport aux familles de prestations PFA (Prestations familiales) et RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="NATPREST">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="ROLEPERS">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TOPCHAPERS" type="xsd:boolean" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Rattachement">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est facultatif
+				pour l'élément Personne. Il permet d'identifier le lien de parenté de la personne traitée
+				(enfants ou autres personnes) avec le demandeur et le conjoint si il y en a un.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="NOMNAI">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="28" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="PRENOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="32" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTNAI" type="xsd:date" />
+				<xsd:element name="NIR" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="15" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TYPEPAR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DossierPoleEmploi">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément Personne. Il contient les références de la personne traitée chez
+				Pôle Emploi.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="IDASSEDIC">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="8" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Ressources">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément Personne. Il contient des informations sur les ressources de la
+				personne traitée pour le trimestre de référence correspondant au mois traité.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="GeneraliteRessourcesTrimestre" />
+				<xsd:element ref="RessourcesMensuelles" minOccurs="0" maxOccurs="3" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="GeneraliteRessourcesTrimestre">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément Ressources. Il contient des informations générales sur les
+				ressources trimestrielles de la personne.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="TOPRESSNUL" type="xsd:boolean" />
+				<xsd:element name="DDRESS" type="xsd:date" />
+				<xsd:element name="DFRESS" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="RessourcesMensuelles">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est
+				falcultatif et limité à 3 occurences pour l'élément Ressources. Il contient des informations
+				sur les ressources de la personne pour le trimestre de ref., ventilées par mois.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="GeneraliteRessourcesMensuelles" />
+				<xsd:element ref="DetailRessourcesMensuelles" minOccurs="1" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="GeneraliteRessourcesMensuelles">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 6 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément RessourcesMensuelles. Il contient des informations générales sur
+				les ressources mensuelles de la personne.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MOISRESS" type="xsd:date" />
+				<xsd:element name="NBHEUMENTRA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DetailRessourcesMensuelles">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 6 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de nature Ressources Mensuelles. Il contient des informations sur
+				les ressources mensuelles de la personne par nature de ressources.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="NATRESS">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTNATRESSMEN">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="ABANEU" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MontantCalculDroitRSAPersonne">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément Personne. Il contient des informations sur les montants par
+				personne pris en compte pour déterminer le montant total du droit au RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="TOPPERSDRODEVORSA" type="xsd:boolean" />
+				<xsd:element name="TOPPERSENTDRODEVORSA" minOccurs="0" maxOccurs="1" type="xsd:boolean" />
+				<xsd:element name="MTPERSRESSMENRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTPERSABANEURSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Activite">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a d'activités sur la période correspondant à la Déclaration
+				Trimestrielle RSA. Il contient des informations sur chaque activité de la personne.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="REG" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="ACT">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDACT" type="xsd:date" />
+				<xsd:element name="DFACT" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="NATCONTRTRA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TOPCONDADMETI" minOccurs="0" maxOccurs="1" type="xsd:boolean" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PensionAlimentaire">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour la personne traitée. Il contient des informations sur l'Allocation Soutien
+				Familiale et les créances alimentaires.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="Asf" minOccurs="0" maxOccurs="2" />
+				<xsd:element ref="CreanceAlimentaire" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Asf">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc concerne
+				uniquement les personnes de type enfant. Il permet de restituer la dernière situation
+				Allocation Soutien Familial de la personne traitée vis à vis du père ou de la mère.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="SITASF">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="PARASSOASF">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDASF" type="xsd:date" />
+				<xsd:element name="DFASF" minOccurs="0" maxOccurs="1" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="CreanceAlimentaire">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est facultatif
+				pour l'élement PensionAlimentaire. Il est répété autant qu'il y a de créances alimentaires
+				concernant la personne traitée.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ETATCREALIM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDCREALIM" type="xsd:date" />
+				<xsd:element name="DFCREALIM" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="ORIOBLALIM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MOTIDISCREALIM" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="COMMCREALIM" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="50" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTSANCREALIM" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Grossesse">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément personne (uniquement pour le conjoint ou le demandeur). Il
+				contient des informations sur la grossesse de la personne.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DDGRO" type="xsd:date" />
+				<xsd:element name="DFGRO" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="DTDECLGRO" type="xsd:date" />
+				<xsd:element name="NATFINGRO" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="InformationsAgricoles">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément personne (uniquement pour le conjoint ou le demandeur). Il
+				contient des informations sur l'activité agricole de la personne.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MTBENAGRI" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="10" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="REGFISAGRI" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTBENAGRI" minOccurs="0" maxOccurs="1" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AvisPCGPersonne">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément Personne. Il contient le regroupement des décisions du CG liées à
+				la personne traitée.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ConditionETI" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="Derogation" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="ExclueRSA" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="Liberalite" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ConditionETI">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément AvisPCGPersonne. Il contient des informations sur l'avis PCG
+				concernant les conditions travailleur non salarié.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="AVISEVARESSNONSAL">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTSOURESSNONSAL" type="xsd:date" />
+				<xsd:element name="DTEVARESSNONSAL" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="MTEVARESSNONSAL" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Derogation">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de dérogations associées à la personne traitée sur la période de
+				référence.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="TYPEDERO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="AVISDERO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDAVISDERO" type="xsd:date" />
+				<xsd:element name="DFAVISDERO" minOccurs="0" maxOccurs="1" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ExclueRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément AvisPCGPersonne. Il informe le PCG de l'exclusion de la personne
+				traitée dans le calcul du droit RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="EXCL">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDEXCL" type="xsd:date" />
+				<xsd:element name="DFEXCL" minOccurs="0" maxOccurs="1" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Liberalite">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de libéralités non déclarées pour la personne traitée. Il fait
+				suite à un contrôle où il a été constaté des pensions (ou assimilées) allouées en espèces</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MTLIBERNONDECL">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTABSDECLLIBER" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AvisCGSSDOMPersonne">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément Personne. Regroupement des décisions de la CGSS (Caisse Générale
+				Sécurité Sociale) liées à la personne traitée (ETI, Expl agricole ou marin pêcheur)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="JUSACTDOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="RESUJUSACTDOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DonneesAdministratives">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 3 du flux XML. Ce bloc est unique et
+				obligatoire pour le dossier RSA. Il contient des données administratives liées au dossier.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SituationFamille" />
+				<xsd:element ref="Adresse" minOccurs="1" maxOccurs="3" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SituationFamille">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du du flux XML. Ce bloc est unique
+				et obligatoire pour l'élément DonneesAdministratives. Il contient des informations sur la
+				situation familiale du resp. dossier RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="SITFAM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDSITFAM" type="xsd:date" />
+				<xsd:element name="REGAGRIFAM" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Adresse">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est
+				obligatoire et limité à 3 occurences pour l'élément DonneesAdministratives. Il contient des
+				informations liées aux adresses du dossier RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="TroncCommunAdresse" />
+				<xsd:element ref="AdresseDetailleeFrance" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="AdresseHorsFrance" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="TroncCommunAdresse">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est
+				obligatoire et limité à 3 occurences pour l'élément Adresse. Il contient des informations
+				communes à une adresse française ou étrangère.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="RGADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTEMM" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="PAYS">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TYPEADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="ETATADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AdresseDetailleeFrance">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est facultatif
+				pour l'élément Adresse. Il contient des informations détaillées des adresses françaises.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="COMPLIDEADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="COMPLADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMVOIE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="6" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LIBTYPEVOIE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="30" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NOMVOIE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="32" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LIEUDIST">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NUMCOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="5" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="CODEPOS">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="5" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NOMCOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="32" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AdresseHorsFrance">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est facultatif
+				pour l'élément Adresse. Restitution des adresses étrangères.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="LIBLIG2ADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LIBLIG3ADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LIBLIG4ADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LIBLIG5ADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LIBLIG6ADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="LIBLIG7ADR">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="38" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PrestationRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 3 du flux XML. Ce bloc est unique et
+				obligatoire pour le dossier RSA. Il contient des données concernant la prestation RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="SituationDossierRSA" />
+				<xsd:element ref="DetailDroitRSA" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SituationDossierRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément PrestationRSA. Il contient des informations liées à la situation
+				du dossier RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="EtatDossierRSA" />
+				<xsd:element ref="Refus" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="SuspensionDroit" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="SuspensionVersement" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="FinDroit" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="FinDroitMoisAnterieur" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="EtatDossierRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément SituationDossierRSA. Il contient des informations liées à l'état
+				du dossier RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ETATDOSRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Refus">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément SituationDossierRSA. Il contient des informations liées aux
+				dossiers RSA refusés.(ETATDOSRSA=1)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DTREFURSA" type="xsd:date" />
+				<xsd:element name="MOTIREFURSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SuspensionDroit">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc facultatif est
+				répété autant de fois qu'il y a de suspensions droits en cours dans la période de référence
+				pour le dossier RSA. (ETATDOSRSA=3)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MOTISUSDRORSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDSUSDRORSA" type="xsd:date" />
+				<xsd:element name="NATGROUPFSUS" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SuspensionVersement">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc facultatif est
+				répété autant de fois qu'il y a de suspensions versements en cours dans lla période de
+				référence pour le dossier RSA. (ETATDOSRSA=4)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MOTISUSVERSRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDSUSVERSRSA" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinDroit">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément SituationDossierRSA. Il contient des informations liées aux
+				dossiers RSA en fin de droits.(ETATDOSRSA=5)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MOTICLORSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTCLORSA" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="FinDroitMoisAnterieur">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément SituationDossierRSA. Il contient des informations liées aux
+				dossiers RSA en fin de droits ayant eu une régul dans le mois de référence (ETATDOSRSA=6)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MOTICLORSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTCLORSA" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DetailDroitRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément PrestationRSA. Il contient le détail des droits théoriques ou
+				réels RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="TroncCommunDroitRSA" />
+				<xsd:element ref="SpecificiteDOM" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="MontantsCalculDroitRSA" minOccurs="0" maxOccurs="1" />
+				<xsd:element ref="DetailCalculDroitRSA" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="AvisPCGDroitRSA" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="TroncCommunDroitRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire pour l'élément DetailDroitRSA. Il contient des informations communes aux droits
+				RSA associés au dossier.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="TOPSANSDOMFIXE" type="xsd:boolean" />
+				<xsd:element name="NBENFAUTCHA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="ORIDEMRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTORIDEMRSA" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="TOPFOYDRODEVORSA" minOccurs="0" maxOccurs="1" type="xsd:boolean" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="SpecificiteDOM">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément DetailDroitRSA. Il contient des informations spécifiques aux DOM
+				pour l'appréciation des droits RSA des exploitants agricoles.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="SURFAGRIDOM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="5" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDSURFAGRIDOM" type="xsd:date" />
+				<xsd:element name="SURFAGRIDOMPLA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="5" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NBTOTAIDEFAMSURFDOM" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NBTOTPERSMAJOSURFDOM" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="MontantsCalculDroitRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément DetailDroitRSA. Il contient des informations sur les mt pris en
+				cpt pour déterminer le mt total du droit au Rsa. Correspond au dernier droit calculé</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DDELECAL" type="xsd:date" />
+				<xsd:element name="DFELECAL" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="MTREVMINIGARARSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTPENTRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTLOCALRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTREVGARARSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTPFRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTALRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTRESSMENRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTSANOBLALIMRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTREDHOSRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTREDCGRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTCUMINTEGRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTABANEURSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTTOTDRORSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="DetailCalculDroitRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Restitution du détail
+				par nature de prestation et sous nature de prestation. Il contient des informations sur le
+				détail du calcul du droit RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="NATPF">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="SOUSNATPF">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="5" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDNATDRO" type="xsd:date" />
+				<xsd:element name="DFNATDRO" minOccurs="0" maxOccurs="1" type="xsd:date" />
+				<xsd:element name="MTRSAVERS" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTDERRSAVERS" minOccurs="0" maxOccurs="1" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="AvisPCGDroitRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément DetailDroitRSA. Il contient le regroupement des décisions du CG
+				liées au dossier RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ConditionAdministrative" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="ReductionRSA" minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element ref="PaiementTiers" minOccurs="0" maxOccurs="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ConditionAdministrative">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 6 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de demandes de décisions PCG sur les conditions administratives du
+				dossier RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="AVISCONDADMRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MOTICONDADMRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="COMM1CONDADMRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="60" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="COMM2CONDADMRSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="60" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTEFFAVISCONDADMRSA" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ReductionRSA">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 6 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de réductions du montant RSA demandées par PCG. Pénalité sur
+				l'ensemble du droit. Cette réduction s'applique après calcul du droit.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="MTREDRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="9" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DDREDRSA" type="xsd:date" />
+				<xsd:element name="DFREDRSA" minOccurs="0" maxOccurs="1" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="PaiementTiers">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 6 du flux XML. Ce bloc est unique et
+				facultatif pour l'élément AvisPCGDroitRsa. Il contient des informations sur le Tiers
+				destinataire du paiement RSA.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="AVISDESTPAIRSA">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="DTAVISDESTPAIRSA" type="xsd:date" />
+				<xsd:element name="NOMTIE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="64" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TYPEPERSTIE">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Evenement">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 3 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a d'évènements ou faits générateurs rattachés au dossier RSA.
+				Uniquement pour les échanges infra mensuels.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DTLIQ" type="xsd:date" />
+				<xsd:element name="HEULIQ" type="xsd:time" />
+				<xsd:element name="FG">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="9" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Controle">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 3 du flux XML. Ce bloc est unique et
+				facultatif. Il regroupe tous les contrôles clotûrés sur le mois de référence pour le dossier
+				RSA traité.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="ControleAdministratif" minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ControleAdministratif">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 4 du flux XML. Ce bloc est répété
+				autant de fois qu'il y a de contrôles administratifs clôturés sur le mois de référence pour
+				le dossier RSA traité.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="IdentificationCibleControleAdministratif" />
+				<xsd:element ref="IdentificationControleAdministratif" />
+				<xsd:element ref="ModaliteControleAdministratif" />
+				<xsd:element ref="ResultatControleAdministratif" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="IdentificationCibleControleAdministratif">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire pour chaque contrôle administratif. Il contient des données qui identifient de
+				façon unique la cible du contrôle administratif.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DTEFFCIBCONTRO" type="xsd:date" />
+				<xsd:element name="CIBCONTRO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="CIBCONTROMSA" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="IdentificationControleAdministratif">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire pour chaque contrôle administratif. Il contient des données qui identifient de
+				façon unique le contrôle administratif.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="DTDETECCONTRO" type="xsd:date" />
+				<xsd:element name="DTCLOCONTRO" type="xsd:date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ModaliteControleAdministratif">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire pour chaque contrôle administratif. Il contient des données qui précisent les
+				modalités du contrôle administratif.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="LIBCIBCONTRO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="45" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="FAMCIBCONTRO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NATCIBCONTRO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="COMMACONTRO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="3" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="TYPECONTRO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="ResultatControleAdministratif">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 5 du flux XML. Ce bloc est unique et
+				obligatoire pour chaque contrôle administratif. Il contient des données qui indiquent le
+				résultat du contrôle administratif.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="TYPEIMPACCONTRO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="1" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTINDURSACGCONTRO" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="11" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="MTRAPRSACGCONTRO" minOccurs="0" maxOccurs="1">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:decimal">
+							<xsd:totalDigits value="11" />
+							<xsd:fractionDigits value="2" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="Anomalie">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 3 du flux XML. Ce bloc est présent
+				uniquement dans les flux anomalies mensuels et quotidiens. Il est répété autant de fois
+				qu'il y a d'anomalies au niveau du bloc "InfosFoyerRSA".</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="LIBANO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:string">
+							<xsd:maxLength value="200" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:element name="TransmissionFlux">
+		<xsd:annotation>
+			<xsd:documentation>Il s'agit d'un sous élément de niveau 2 du flux XML. Ce bloc est unique et
+				obligatoire. Il contient des informations qui permettent de vérifier le nombre total de
+				dossiers RSA transmis dans les flux XML. (y compris dans le flux anomalie).</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="NBTOTDOSRSATRANSM">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="8" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+				<xsd:element name="NBTOTDOSRSATRANSMANO">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:integer">
+							<xsd:totalDigits value="8" />
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

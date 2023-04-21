@@ -52,6 +52,11 @@ class Beneficiary(BaseModel):
     right_are: bool = Field(False, title="Droits ARE")
     right_ass: bool = Field(False, title="Droits ASS")
     right_bonus: bool = Field(False, title="Droits Bonus")
+    rsa_closure_reason: str | None
+    rsa_closure_date: date | None
+    rsa_suspension_reason: str | None
+    is_homeless: bool | None
+    subject_to_right_and_duty: bool | None
 
 
 class BeneficiaryWithAdminStructureEmail(BaseModel):
@@ -121,6 +126,10 @@ class BeneficiaryImport(BaseModel):
             "rsa_droit_ouvert_et_suspendu",
             "rsa_droit_ouvert_versable",
             "rsa_droit_ouvert_versement_suspendu",
+            "rsa_demande_en_attente",
+            "rsa_refuse",
+            "rsa_clos",
+            "rsa_clos_anterieur",
         ]:
             raise ValueError("value unknown")
         return right_rsa
