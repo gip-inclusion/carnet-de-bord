@@ -26,12 +26,7 @@
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
 	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
-	import {
-		FOLLOWED_BRSA_PARAM_NAME,
-		ORIENTATION_STATUS_PARAM_NAME,
-		RSA_RIGHT_AND_DUTY_PARAM_NAME,
-		WITH_ORIENTATION_MANAGER_PARAM_NAME,
-	} from './url_params';
+	import { OrientationManagerFilterUrlParameters as filterParams } from './url_params';
 
 	export let data: PageData;
 
@@ -135,22 +130,22 @@
 
 		// reset filter when a user do a search
 		if (data.search != event.detail.search) {
-			urlParams.set(FOLLOWED_BRSA_PARAM_NAME, 'tous');
-			urlParams.set(ORIENTATION_STATUS_PARAM_NAME, 'tous');
-			urlParams.set(WITH_ORIENTATION_MANAGER_PARAM_NAME, 'sans');
-			urlParams.delete(RSA_RIGHT_AND_DUTY_PARAM_NAME);
+			urlParams.set(filterParams.FollowedBrsa, 'tous');
+			urlParams.set(filterParams.OrientationStatus, 'tous');
+			urlParams.set(filterParams.WithOrientationManager, 'sans');
+			urlParams.delete(filterParams.RsaRightAndDuty);
 		} else {
-			urlParams.set(FOLLOWED_BRSA_PARAM_NAME, event.detail.beneficiaryFilter);
-			urlParams.set(ORIENTATION_STATUS_PARAM_NAME, event.detail.orientationStatusFilter);
+			urlParams.set(filterParams.FollowedBrsa, event.detail.beneficiaryFilter);
+			urlParams.set(filterParams.OrientationStatus, event.detail.orientationStatusFilter);
 			urlParams.set(
-				WITH_ORIENTATION_MANAGER_PARAM_NAME,
+				filterParams.WithOrientationManager,
 				event.detail.withoutOrientationManager ? 'avec' : 'sans'
 			);
 		}
 		if (event.detail.rsaRightAndDuty) {
-			urlParams.set(RSA_RIGHT_AND_DUTY_PARAM_NAME, 'oui');
+			urlParams.set(filterParams.RsaRightAndDuty, 'oui');
 		} else {
-			urlParams.delete(RSA_RIGHT_AND_DUTY_PARAM_NAME);
+			urlParams.delete(filterParams.RsaRightAndDuty);
 		}
 
 		urlParams.set('search', event.detail.search);

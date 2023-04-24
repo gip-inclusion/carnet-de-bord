@@ -5,28 +5,23 @@ import {
 	type OrientedFilter,
 } from '$lib/ui/BeneficiaryList/OrientationFilter';
 import type { PageLoad } from './$types';
-import {
-	FOLLOWED_BRSA_PARAM_NAME,
-	ORIENTATION_STATUS_PARAM_NAME,
-	RSA_RIGHT_AND_DUTY_PARAM_NAME,
-	WITH_ORIENTATION_MANAGER_PARAM_NAME,
-} from './url_params';
+import { OrientationManagerFilterUrlParameters as filterParams } from './url_params';
 
 export const load: PageLoad = async (event) => {
 	const params = event.url.searchParams;
 	const beneficiaryFilter: BeneficiaryFilter = getBeneficiaryFilter(
-		params.get(FOLLOWED_BRSA_PARAM_NAME)
+		params.get(filterParams.FollowedBrsa)
 	);
 	const orientationStatusFilter: OrientedFilter = getOrientedFilter(
-		params.get(ORIENTATION_STATUS_PARAM_NAME)
+		params.get(filterParams.OrientationStatus)
 	);
 	let withoutOrientationManager = false;
 	let rsaRightAndDuty = false;
 
-	if (params.get(WITH_ORIENTATION_MANAGER_PARAM_NAME) === 'avec') {
+	if (params.get(filterParams.WithOrientationManager) === 'avec') {
 		withoutOrientationManager = true;
 	}
-	if (params.get(RSA_RIGHT_AND_DUTY_PARAM_NAME) === 'oui') {
+	if (params.get(filterParams.RsaRightAndDuty) === 'oui') {
 		rsaRightAndDuty = true;
 	}
 	return {
