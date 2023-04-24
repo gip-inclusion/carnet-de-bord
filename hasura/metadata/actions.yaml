@@ -20,9 +20,15 @@ actions:
       - role: admin_structure
       - role: admin_cdb
     comment: Create NPS Rating
+  - name: update_socio_pro
+    definition:
+      kind: synchronous
+      handler: '{{APP_URL}}/v1/update_socio_pro'
+    comment: Update professionnal project and create notebook event
 custom_types:
   enums: []
   input_objects: []
   objects:
-    - name: NPSRatingOutput
+    - name: NPSRatingOutput 
+    - name: UpdateSocioProOutput
   scalars: []

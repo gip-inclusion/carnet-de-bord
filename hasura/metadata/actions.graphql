@@ -7,3 +7,19 @@ type Mutation {
 type NPSRatingOutput {
   void: String
 }
+type Mutation {
+  update_socio_pro(
+    id: uuid!
+    workSituation: String
+    workSituationDate: date
+    workSituationEndDate: date
+    rightRqth: Boolean
+    educationLevel: String
+    lastJobEndedAt: date
+    situationIdsToDelete: [uuid!]!
+  ): UpdateSocioProOutput
+}
+
+type UpdateSocioProOutput {
+  id: uuid!
+}
