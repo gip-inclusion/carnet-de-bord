@@ -1,6 +1,3 @@
-import { backendAPI } from '$lib/stores';
-import { get } from 'svelte/store';
-
 const defaultHeaders = {
 	Accept: 'application/json; version=1.0',
 	'Content-Type': 'application/json',
@@ -24,9 +21,11 @@ export function post<T = Data>(
 export function postApiFormData<T>(
 	endpoint: string,
 	data: unknown,
-	headers: Record<string, string> = defaultHeaders
+	headers: Record<string, string> = {
+		Accept: 'application/json; version=1.0',
+	}
 ): Promise<T> {
-	return post(`${get(backendAPI)}${endpoint}`, data, headers);
+	return post(endpoint, data, headers);
 }
 
 export function postApiJson<T>(
@@ -34,7 +33,7 @@ export function postApiJson<T>(
 	data: unknown,
 	headers: Record<string, string> = defaultHeaders
 ): Promise<T> {
-	return post(`${get(backendAPI)}${endpoint}`, data, { ...defaultHeaders, ...headers });
+	return post(endpoint, data, { ...defaultHeaders, ...headers });
 }
 
 async function handleResponse<T>(response: Response): Promise<T> {

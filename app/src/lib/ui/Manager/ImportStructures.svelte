@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { token } from '$lib/stores';
 	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import { Button, Checkbox, GroupCheckbox, Spinner } from '$lib/ui/base';
 	import { Text } from '$lib/ui/utils';
@@ -29,10 +28,7 @@
 	async function convertCsvFile(formData: FormData): Promise<StructureCsvResponse[]> {
 		const structures = await postApiFormData<StructureCsvResponse[]>(
 			'/v1/convert-file/structures',
-			formData,
-			{
-				Authorization: `Bearer ${$token}`,
-			}
+			formData
 		);
 
 		return structures.map((structure) => {
@@ -59,9 +55,7 @@
 				structurestoImport.includes(uuid) ? data : []
 			),
 		});
-		insertPromise = postApiJson<StructureCsvResponse[]>('/v1/structures/import', payload, {
-			Authorization: `Bearer ${$token}`,
-		});
+		insertPromise = postApiJson<StructureCsvResponse[]>('/v1/structures/import', payload);
 	}
 
 	function backToFileSelect() {

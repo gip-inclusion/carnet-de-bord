@@ -2,7 +2,7 @@
 	import { openComponent } from '$lib/stores';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
 	import AdminStructureForm from './AdminStructureForm.svelte';
-	import { connectedUser, token } from '$lib/stores';
+	import { connectedUser } from '$lib/stores';
 	import Alert from '../base/Alert.svelte';
 	import { postApiJson } from '$lib/utils/post';
 
@@ -18,16 +18,10 @@
 	async function insertAdminSubmitHandler(data: AdminStructureAccountInput) {
 		const admin = Object.assign(data, { deployment_id: $connectedUser.deploymentId });
 		try {
-			await postApiJson(
-				'/v1/admin_structures/create',
-				{
-					admin,
-					structure_id: structureId,
-				},
-				{
-					Authorization: `Bearer ${$token}`,
-				}
-			);
+			await postApiJson('/v1/admin_structures/create', {
+				admin,
+				structure_id: structureId,
+			});
 			if (onClose) {
 				onClose();
 			}

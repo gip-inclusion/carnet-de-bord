@@ -7,10 +7,6 @@ export const getBackendAPI = (): string => {
 };
 
 export const getGraphqlAPI = (): string => {
-	return `${getAppUrl()}/graphql`;
-};
-
-export const getRealGraphqlAPI = (): string => {
 	return env['GRAPHQL_API_URL'];
 };
 

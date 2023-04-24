@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { token } from '$lib/stores';
-
 	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
 	import Alert from '../base/Alert.svelte';
 	import { postApiFormData } from '$lib/utils/post';
@@ -11,9 +9,7 @@
 		const file = event.detail.acceptedFiles[0];
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		resultPromise = postApiFormData('/v1/beneficiaries/update-from-caf-msa', formData, {
-			Authorization: `Bearer ${$token}`,
-		});
+		resultPromise = postApiFormData('/v1/beneficiaries/update-from-caf-msa', formData);
 	}
 </script>
 

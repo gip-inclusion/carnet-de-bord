@@ -11,7 +11,6 @@ port module DiagnosticEdit.Main exposing
     , main
     )
 
-import Api exposing (Api)
 import Browser
 import Decimal exposing (Decimal)
 import Diagnostic.Main exposing (ProfessionalProjectFlags, addMoneyUnit, extractProfessionalProjectFromFlags)
@@ -64,8 +63,6 @@ type alias Flags =
     { refSituations : List RefSituationFlag
     , situations : List NotebookSituationFlag
     , professionalProjects : List ProfessionalProjectFlags
-    , token : String
-    , serverUrl : String
     }
 
 
@@ -135,7 +132,6 @@ type alias Model =
     { possibleSituationsByTheme : List RefSituation
     , selectedSituationSet : Set String
     , professionalProjects : List ProfessionalProjectState
-    , api : Api
     , professionalProjectsMaxCountReached : Bool
     }
 
@@ -202,8 +198,8 @@ extractProfessionalProjectsFromFlags professionalProjects =
     List.map extractProfessionalProjectFromFlags professionalProjects
 
 
-initProfessionalProjectState : Api -> ProfessionalProject -> ProfessionalProjectState
-initProfessionalProjectState api professionalProject =
+initProfessionalProjectState : ProfessionalProject -> ProfessionalProjectState
+initProfessionalProjectState professionalProject =
     { id = Just professionalProject.id
     , mobilityRadius = professionalProject.mobilityRadius
     , hourlyRate = Maybe.map Decimal.toString professionalProject.hourlyRate
@@ -213,7 +209,6 @@ initProfessionalProjectState api professionalProject =
         DiagnosticEdit.RomeSelect.init
             { id = professionalProject.id
             , selected = professionalProject.rome
-            , api = api
             , errorLog = always Cmd.none -- TODO envoyer sur Sentry
             }
     }
@@ -230,12 +225,6 @@ hasReachedProfessionalProjectMaxCount list =
 
 init : Flags -> ( Model, Cmd msg )
 init flags =
-    let
-        api =
-            { url = flags.serverUrl
-            , token = flags.token
-            }
-    in
     ( { possibleSituationsByTheme =
             extractSituationOptionsFromFlags flags.refSituations
                 |> situationsByTheme
@@ -246,8 +235,7 @@ init flags =
                 |> Set.fromList
       , professionalProjects =
             extractProfessionalProjectsFromFlags flags.professionalProjects
-                |> List.map (initProfessionalProjectState api)
-      , api = api
+                |> List.map initProfessionalProjectState
       , professionalProjectsMaxCountReached = flags.professionalProjects |> hasReachedProfessionalProjectMaxCount
       }
     , Cmd.none
@@ -287,7 +275,6 @@ update msg model =
                                         DiagnosticEdit.RomeSelect.init
                                             { id = String.fromInt (List.length model.professionalProjects)
                                             , selected = Nothing
-                                            , api = model.api
                                             , errorLog = always Cmd.none -- TODO envoyer sur Sentry
                                             }
                                      }

@@ -6,7 +6,6 @@
 	import type { PageData } from './$types';
 	//import { Elm } from '../../../../elm/BeneficiaryApp/Main.elm';
 	//import { onMount } from 'svelte';
-	//import { graphqlAPI, token, connectedUser } from '$lib/stores';
 
 	export let data: PageData;
 
@@ -20,8 +19,6 @@
 	//	let app = Elm.BeneficiaryApp.Main.init({
 	//		node,
 	//		flags: {
-	//			token: $token,
-	//			serverUrl: $graphqlAPI,
 	//			beneficiaryId: $connectedUser.beneficiaryId,
 	//		},
 	//	});

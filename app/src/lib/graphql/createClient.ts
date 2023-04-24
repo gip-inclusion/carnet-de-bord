@@ -2,31 +2,9 @@
 import { createClient } from '@urql/core';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export default (
-	fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>,
-	apiUrl: string,
-	token?: string
-) => {
+export default (fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>) => {
 	return createClient({
-		url: apiUrl,
+		url: '/graphql',
 		fetch,
-		fetchOptions: () => {
-			if (token) {
-				return {
-					headers: {
-						Accept: 'application/json; version=1.0',
-						'Content-Type': 'application/json',
-						authorization: token ? `Bearer ${token}` : '',
-					},
-				};
-			}
-			return {
-				headers: {
-					Accept: 'application/json; version=1.0',
-					'Content-Type': 'application/json',
-					'X-Hasura-Role': 'anonymous',
-				},
-			};
-		},
 	});
 };

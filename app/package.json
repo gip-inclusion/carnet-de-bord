@@ -21,7 +21,7 @@
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"lint": "npm run lint:prettier && npm run lint:eslint && npm run svelte-check && npm run lint:elm-review",
+		"lint": "npm run lint:prettier:all && npm run lint:eslint:all && npm run svelte-check && npm run lint:elm-review",
 		"lint:pre-commit": "pre-commit run --all-files",
 		"lint:prettier": "prettier --config .prettierrc --check",
 		"lint:prettier:all": "npm run lint:prettier ./**/*.{svelte,cjs,js,ts,json}",

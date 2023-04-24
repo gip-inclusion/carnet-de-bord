@@ -6,7 +6,6 @@
 		type DeploymentAdminPdiType,
 		deploymentAdminPdiSchema,
 	} from '../Deployment/adminDeployment.schema';
-	import { token } from '$lib/stores';
 	import { postApiJson } from '$lib/utils/post';
 
 	export let deploymentId = '';
@@ -23,9 +22,7 @@
 	async function handleSubmit(values: DeploymentAdminPdiType) {
 		const data = Object.assign(values, { deployment_id: deploymentId });
 		try {
-			await postApiJson('/v1/managers/create', data, {
-				Authorization: `Bearer ${$token}`,
-			});
+			await postApiJson('/v1/managers/create', data);
 			close();
 		} catch (error) {
 			console.error(error);

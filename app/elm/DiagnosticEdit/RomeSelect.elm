@@ -1,6 +1,5 @@
 module DiagnosticEdit.RomeSelect exposing (Model, Msg, getSelected, init, update, view)
 
-import Api exposing (Api)
 import Domain.ProfessionalProject exposing (Rome)
 import Html
 import Http
@@ -27,7 +26,6 @@ type alias Model =
 init :
     { id : String
     , selected : Maybe Rome
-    , api : Api
     , errorLog : String -> Cmd msg
     }
     -> Model
@@ -35,7 +33,7 @@ init props =
     UI.SearchSelect.Component.init
         { id = props.id
         , selected = props.selected
-        , api = getRome props.api
+        , api = getRome
         , optionLabel = .label
         , label = "Métier recherché"
         , searchPlaceholder = "Rechercher un métier ou un code ROME"
@@ -43,8 +41,8 @@ init props =
         }
 
 
-getRome : Api -> { search : String, callbackMsg : Result Http.Error (List Rome) -> Msg } -> Cmd Msg
-getRome api { search, callbackMsg } =
+getRome : { search : String, callbackMsg : Result Http.Error (List Rome) -> Msg } -> Cmd Msg
+getRome { search, callbackMsg } =
     let
         query =
             """
@@ -58,9 +56,8 @@ getRome api { search, callbackMsg } =
     in
     Http.request
         { method = "POST"
-        , url = api.url
-        , headers =
-            [ Http.header "Authorization" ("Bearer " ++ api.token) ]
+        , url = "/graphql"
+        , headers = []
         , body =
             Http.jsonBody
                 (Json.object

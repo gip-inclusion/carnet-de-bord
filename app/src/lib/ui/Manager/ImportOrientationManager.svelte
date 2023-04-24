@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { token } from '$lib/stores';
 	import { pluralize } from '$lib/helpers';
 
 	import Dropzone from 'svelte-file-dropzone/Dropzone.svelte';
@@ -12,9 +11,7 @@
 		const file = event.detail.acceptedFiles[0];
 		const formData = new FormData();
 		formData.append('upload_file', file);
-		resultPromise = postApiFormData(`/v1/uploads/orientation_manager`, formData, {
-			Authorization: `Bearer ${$token}`,
-		});
+		resultPromise = postApiFormData(`/v1/uploads/orientation_manager`, formData);
 	}
 
 	export function translateError(error = ''): string {

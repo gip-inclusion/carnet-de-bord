@@ -12,7 +12,7 @@ import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async (event) => {
 	const data = await event.parent();
-	const client: Client = createClient(event.fetch, data.graphqlAPI, data.token);
+	const client: Client = createClient(event.fetch);
 	const accountInfo = await getAccount(client, data.user.id);
 	if (!accountInfo) {
 		throw error(400, 'récupération du compte impossible');

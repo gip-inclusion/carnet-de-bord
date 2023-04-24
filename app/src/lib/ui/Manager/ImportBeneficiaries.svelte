@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { token } from '$lib/stores';
 	import {
 		GetProfessionalsForManagerDocument,
 		GetStructuresForManagerDocument,
@@ -100,10 +99,7 @@
 	async function convertCsvFile(formData: FormData): Promise<BeneficiaryCsvResponse[]> {
 		const beneficiaries = await postApiFormData<BeneficiaryCsvResponse[]>(
 			'/v1/convert-file/beneficiaries',
-			formData,
-			{
-				Authorization: `Bearer ${$token}`,
-			}
+			formData
 		);
 
 		return beneficiaries.map((beneficiary) => {
@@ -154,9 +150,7 @@
 				beneficiariesToImport.includes(uuid) ? data : []
 			),
 		});
-		insertPromise = postApiJson<BeneficiaryCsvResponse[]>('/v1/beneficiaries/bulk', payload, {
-			Authorization: `Bearer ${$token}`,
-		});
+		insertPromise = postApiJson<BeneficiaryCsvResponse[]>('/v1/beneficiaries/bulk', payload);
 	}
 
 	const headers = [

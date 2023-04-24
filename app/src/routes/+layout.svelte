@@ -9,7 +9,7 @@
 	import * as Matomo from '$lib/tracking/matomo';
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
-	import { backendAPI, connectedUser, graphqlAPI, offCanvas, token } from '$lib/stores';
+	import { connectedUser, offCanvas } from '$lib/stores';
 	import type { PageData } from './$types';
 
 	import * as yup from 'yup';
@@ -25,15 +25,11 @@
 
 	export let data: PageData;
 
-	backendAPI.set(data.backendAPI);
-	graphqlAPI.set(data.graphqlAPI);
-
 	let client: Client;
 
 	$: {
-		client = createClient(fetch, data.graphqlAPI, data.token);
+		client = createClient(fetch);
 		setClient(client);
-		$token = data.token;
 		$connectedUser = data.user;
 	}
 
@@ -99,7 +95,7 @@
 
 <slot />
 
-{#key data.token}
+{#key data.user}
 	<LayerCdb />
 {/key}
 
