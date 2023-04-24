@@ -7,7 +7,7 @@
     "elm-version": "0.19.1",
     "dependencies": {
         "direct": {
-            "Confidenceman02/elm-select": "8.2.0",
+            "Confidenceman02/elm-select": "8.2.1",
             "Gizra/elm-debouncer": "2.0.0",
             "danhandrea/elm-date-format": "2.0.2",
             "dtwrks/elm-book": "1.4.3",
@@ -20,15 +20,14 @@
             "elm/url": "1.0.0",
             "elm-community/list-extra": "8.7.0",
             "justinmimbs/date": "4.0.1",
-            "justinmimbs/timezone-data": "9.0.0",
+            "justinmimbs/timezone-data": "10.0.2",
             "prikhi/decimal": "2.0.0",
-            "rtfeldman/elm-css": "17.1.1",
+            "rtfeldman/elm-css": "18.0.0",
             "rtfeldman/elm-iso8601-date-strings": "1.1.4"
         },
         "indirect": {
             "cmditch/elm-bigint": "1.0.1",
             "dillonkearns/elm-markdown": "7.0.1",
-            "dzuk-mutant/elm-html-styled-aria": "1.0.1",
             "elm/bytes": "1.0.8",
             "elm/file": "1.0.5",
             "elm/parser": "1.1.0",
