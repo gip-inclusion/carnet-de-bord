@@ -2,8 +2,14 @@ from cdb.api.db.models.nir import nir_format
 
 
 async def test_nir_length():
-    assert nir_format("12345678901234") == "The NIR must be 15 digits long"
-    assert nir_format("1234567890123456") == "The NIR must be 15 digits long"
+    assert (
+        nir_format("12345678901234")
+        == "The NIR must be 13 or 15 (with control key) digits long"
+    )
+    assert (
+        nir_format("1234567890123456")
+        == "The NIR must be 13 or 15 (with control key) digits long"
+    )
     assert nir_format("185077505612323") is None
 
 
