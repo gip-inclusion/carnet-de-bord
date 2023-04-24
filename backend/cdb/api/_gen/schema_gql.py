@@ -104,6 +104,10 @@ schema = build_schema(
       _similar: String
     }
 
+    type UpdateSocioProOutput {
+      id: uuid!
+    }
+
     """
     columns and relationships of "account"
     """
@@ -7983,6 +7987,9 @@ schema = build_schema(
         """updates to execute, in order"""
         updates: [rsa_suspension_reason_updates!]!
       ): [rsa_suspension_reason_mutation_response]
+
+      """Update professionnal project and create notebook event"""
+      update_socio_pro(educationLevel: String, id: uuid!, lastJobEndedAt: date, rightRqth: Boolean, situationIdsToDelete: [uuid!]!, workSituation: String, workSituationDate: date, workSituationEndDate: date): UpdateSocioProOutput
 
       """
       update data of the table: "structure"

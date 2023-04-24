@@ -86,6 +86,11 @@ export type StringComparisonExp = {
 	_similar?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateSocioProOutput = {
+	__typename?: 'UpdateSocioProOutput';
+	id: Scalars['uuid'];
+};
+
 /** columns and relationships of "account" */
 export type Account = {
 	__typename?: 'account';
@@ -4828,6 +4833,8 @@ export type MutationRoot = {
 	update_rsa_suspension_reason_by_pk?: Maybe<RsaSuspensionReason>;
 	/** update multiples rows of table: "rsa_suspension_reason" */
 	update_rsa_suspension_reason_many?: Maybe<Array<Maybe<RsaSuspensionReasonMutationResponse>>>;
+	/** Update professionnal project and create notebook event */
+	update_socio_pro?: Maybe<UpdateSocioProOutput>;
 	/** update data of the table: "structure" */
 	update_structure?: Maybe<StructureMutationResponse>;
 	/** update single row of the table: "structure" */
@@ -6521,6 +6528,18 @@ export type MutationRootUpdateRsaSuspensionReasonByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateRsaSuspensionReasonManyArgs = {
 	updates: Array<RsaSuspensionReasonUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateSocioProArgs = {
+	educationLevel?: InputMaybe<Scalars['String']>;
+	id: Scalars['uuid'];
+	lastJobEndedAt?: InputMaybe<Scalars['date']>;
+	rightRqth?: InputMaybe<Scalars['Boolean']>;
+	situationIdsToDelete: Array<Scalars['uuid']>;
+	workSituation?: InputMaybe<Scalars['String']>;
+	workSituationDate?: InputMaybe<Scalars['date']>;
+	workSituationEndDate?: InputMaybe<Scalars['date']>;
 };
 
 /** mutation root */
