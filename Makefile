@@ -30,6 +30,9 @@ start-backend:
 	cd backend; \
 		poetry run uvicorn --reload cdb.api.main:app
 
+start-storybook:
+	cd app && npm run dev:storybook
+
 # --------------------------------------
 #  Test
 # --------------------------------------
