@@ -14,3 +14,12 @@ async def test_nir_only_digits():
 
 async def test_nir_wrong_key():
     assert nir_format("185077505612324") == "The provided NIR is not valid"
+
+
+async def test_nir_corse():
+    assert nir_format("192102A131123") is None
+    assert nir_format("192102B131123") is None
+
+    assert nir_format("192102A13112318") == "The provided NIR is not valid"
+
+    assert nir_format("192102A13112357") is None
