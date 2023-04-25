@@ -86,9 +86,59 @@ export type StringComparisonExp = {
 	_similar?: InputMaybe<Scalars['String']>;
 };
 
+export enum UpdateSocioProContractTypeEnum {
+	/** Apprentissage */
+	Apprentissage = 'apprentissage',
+	/** CDD */
+	Cdd = 'cdd',
+	/** CDI */
+	Cdi = 'cdi',
+	/** Contrat de professionnalisation */
+	ContratProfessionnalisation = 'contrat_professionnalisation',
+	/** Interim */
+	Interim = 'interim',
+	/** Libéral */
+	Liberal = 'liberal',
+	/** Portage salarial */
+	PortageSalarial = 'portage_salarial',
+	/** Saisonnier */
+	Saisonnier = 'saisonnier',
+}
+
+export enum UpdateSocioProEmploymentTypeEnum {
+	/** Temps plein */
+	FullTime = 'full_time',
+	/** Temps partiel */
+	PartTime = 'part_time',
+}
+
+export type UpdateSocioProNotebookSituationInsertInput = {
+	notebookId: Scalars['uuid'];
+	situationId: Scalars['uuid'];
+};
+
 export type UpdateSocioProOutput = {
 	__typename?: 'UpdateSocioProOutput';
 	id: Scalars['uuid'];
+};
+
+export type UpdateSocioProProfessionalProjectInsertInput = {
+	contractTypeId?: InputMaybe<UpdateSocioProContractTypeEnum>;
+	employmentTypeId?: InputMaybe<UpdateSocioProEmploymentTypeEnum>;
+	hourlyRate?: InputMaybe<Scalars['Int']>;
+	mobilityRadius?: InputMaybe<Scalars['Int']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	romeCodeId?: InputMaybe<Scalars['uuid']>;
+};
+
+export type UpdateSocioProProfessionalProjectSetInput = {
+	contractTypeId?: InputMaybe<UpdateSocioProContractTypeEnum>;
+	employmentTypeId?: InputMaybe<UpdateSocioProEmploymentTypeEnum>;
+	hourlyRate?: InputMaybe<Scalars['Int']>;
+	id: Scalars['uuid'];
+	mobilityRadius?: InputMaybe<Scalars['Int']>;
+	notebookId?: InputMaybe<Scalars['uuid']>;
+	romeCodeId?: InputMaybe<Scalars['uuid']>;
 };
 
 /** columns and relationships of "account" */
@@ -6535,8 +6585,12 @@ export type MutationRootUpdateSocioProArgs = {
 	educationLevel?: InputMaybe<Scalars['String']>;
 	id: Scalars['uuid'];
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
+	professionalProjectIdsToDelete: Array<Scalars['uuid']>;
+	professionalProjectsToAdd: Array<UpdateSocioProProfessionalProjectInsertInput>;
+	professionalProjectsToUpdate: Array<UpdateSocioProProfessionalProjectSetInput>;
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
 	situationIdsToDelete: Array<Scalars['uuid']>;
+	situationsToAdd: Array<UpdateSocioProNotebookSituationInsertInput>;
 	workSituation?: InputMaybe<Scalars['String']>;
 	workSituationDate?: InputMaybe<Scalars['date']>;
 	workSituationEndDate?: InputMaybe<Scalars['date']>;
