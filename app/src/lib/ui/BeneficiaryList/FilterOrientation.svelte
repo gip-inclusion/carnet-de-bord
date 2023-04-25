@@ -5,6 +5,7 @@
 
 	export let orientationStatusFilter: string;
 	export let withoutOrientationManager: boolean;
+	export let rsaRightAndDuty: boolean;
 	export let beneficiaryFilter: string;
 	export let search: string;
 
@@ -28,6 +29,7 @@
 		dispatch('filter-update', {
 			orientationStatusFilter,
 			withoutOrientationManager,
+			rsaRightAndDuty,
 			beneficiaryFilter,
 			search: search.trim(),
 		});
@@ -37,6 +39,7 @@
 			orientationStatusFilter,
 			withoutOrientationManager,
 			beneficiaryFilter,
+			rsaRightAndDuty,
 			search: search.trim(),
 		});
 	}
@@ -85,6 +88,14 @@
 			label="Bénéficiaires non pris en charge par un chargé d'orientation"
 			name="hasOrientationManager"
 			bind:checked={withoutOrientationManager}
+			on:change={updateFilters}
+		/>
+	</p>
+	<p class="flex items-center gap-4 font-medium fr-mt-2w">
+		<Checkbox
+			label="Bénéficiaires tenus aux obligations « droits et devoirs RSA »"
+			name="rsaRightAndDuty"
+			bind:checked={rsaRightAndDuty}
 			on:change={updateFilters}
 		/>
 	</p>

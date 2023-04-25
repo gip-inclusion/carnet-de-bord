@@ -26,12 +26,14 @@
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
 	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
+	import { OrientationManagerFilterUrlParameters as filterParams } from './url_params';
 
 	export let data: PageData;
 
 	const graphqlBeneficiaryFilter = {
 		members: { active: { _eq: true }, accountId: { _eq: $connectedUser.id } },
 	};
+
 	function getBeneficiaryFilter(filter: BeneficiaryFilter): NotebookBoolExp {
 		switch (filter) {
 			case 'suivi':
@@ -79,12 +81,20 @@
 		}
 	}
 
+	function getRightandDutyFilter() {
+		if (data.rsaRightAndDuty) {
+			return { beneficiary: { subjectToRightAndDuty: { _eq: true } } };
+		}
+		return {};
+	}
+
 	function getWhereFilter(): BeneficiaryBoolExp {
 		return {
 			notebook: {
 				_and: [
 					getBeneficiaryFilter(data.beneficiaryFilter),
 					getOrientationStatusFilter(data.orientationStatusFilter),
+					getRightandDutyFilter(),
 				],
 			},
 		};
@@ -111,6 +121,7 @@
 		event: CustomEvent<{
 			orientationStatusFilter: OrientedFilter;
 			withoutOrientationManager: boolean;
+			rsaRightAndDuty: boolean;
 			beneficiaryFilter: BeneficiaryFilter;
 			search;
 		}>
@@ -119,13 +130,22 @@
 
 		// reset filter when a user do a search
 		if (data.search != event.detail.search) {
-			urlParams.set('brsa', 'tous');
-			urlParams.set('statut', 'tous');
-			urlParams.set('co', 'sans');
+			urlParams.set(filterParams.FollowedBrsa, 'tous');
+			urlParams.set(filterParams.OrientationStatus, 'tous');
+			urlParams.set(filterParams.WithOrientationManager, 'sans');
+			urlParams.delete(filterParams.RsaRightAndDuty);
 		} else {
-			urlParams.set('brsa', event.detail.beneficiaryFilter);
-			urlParams.set('statut', event.detail.orientationStatusFilter);
-			urlParams.set('co', event.detail.withoutOrientationManager ? 'avec' : 'sans');
+			urlParams.set(filterParams.FollowedBrsa, event.detail.beneficiaryFilter);
+			urlParams.set(filterParams.OrientationStatus, event.detail.orientationStatusFilter);
+			urlParams.set(
+				filterParams.WithOrientationManager,
+				event.detail.withoutOrientationManager ? 'avec' : 'sans'
+			);
+		}
+		if (event.detail.rsaRightAndDuty) {
+			urlParams.set(filterParams.RsaRightAndDuty, 'oui');
+		} else {
+			urlParams.delete(filterParams.RsaRightAndDuty);
 		}
 
 		urlParams.set('search', event.detail.search);
@@ -181,6 +201,7 @@
 		search={data.search}
 		on:filter-update={updateOrientationFilter}
 		orientationStatusFilter={data.orientationStatusFilter}
+		rsaRightAndDuty={data.rsaRightAndDuty}
 		beneficiaryFilter={data.beneficiaryFilter}
 		withoutOrientationManager={data.withoutOrientationManager}
 		slot="filter"

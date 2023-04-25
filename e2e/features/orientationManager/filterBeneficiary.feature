@@ -40,6 +40,10 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois 2 lignes dans le tableau "Liste des bénéficiaires"
 		Alors je vois "Non rattaché" sur la ligne "Craig Reilly"
 		Alors je vois "Non rattaché" sur la ligne "Hoffman Buckley"
+		Quand je sélectionne l'option "tous" dans la liste "Statut"
+		Quand je sélectionne l'option "tous" dans la liste "Bénéficiaires"
+		Quand je coche "Bénéficiaires tenus aux obligations « droits et devoirs RSA »"
+		Alors je vois "Groupe NS" sur la ligne "Keller Noel"
 
 
 	Scénario: Rechercher un bénéficiaire sans chargé d'orientation dans la liste des autres bénéficiaires accompagnés
