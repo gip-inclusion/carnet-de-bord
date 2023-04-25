@@ -107,7 +107,7 @@ function set_backend_env() {
 
 function set_hasura_env() {
   env_set hasura ACTION_BASE_URL "$APP_URL/actions"
-  env_set app BACKEND_API_URL "$BACKEND_URL"
+  env_set hasura BACKEND_API_URL "$BACKEND_URL"
 }
 
 function set_app_env() {
