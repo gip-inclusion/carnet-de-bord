@@ -48,6 +48,11 @@ export type IntComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['Int']>>;
 };
 
+export type NpsRatingOutput = {
+	__typename?: 'NPSRatingOutput';
+	void?: Maybe<Scalars['String']>;
+};
+
 /** Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'. */
 export type StringComparisonExp = {
 	_eq?: InputMaybe<Scalars['String']>;
@@ -4231,6 +4236,8 @@ export type ManagerUpdates = {
 /** mutation root */
 export type MutationRoot = {
 	__typename?: 'mutation_root';
+	/** Create NPS Rating */
+	create_nps_rating?: Maybe<NpsRatingOutput>;
 	/** delete data from the table: "account" */
 	delete_account?: Maybe<AccountMutationResponse>;
 	/** delete single row from the table: "account" */
@@ -4835,6 +4842,11 @@ export type MutationRoot = {
 	update_structure_orientation_system_many?: Maybe<
 		Array<Maybe<StructureOrientationSystemMutationResponse>>
 	>;
+};
+
+/** mutation root */
+export type MutationRootCreateNpsRatingArgs = {
+	score: Scalars['Int'];
 };
 
 /** mutation root */

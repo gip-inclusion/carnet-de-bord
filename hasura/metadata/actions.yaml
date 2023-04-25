@@ -1,6 +1,28 @@
-actions: []
+actions:
+  - name: create_nps_rating
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/nps-rating'
+      forward_client_headers: true
+      request_transform:
+        body:
+          action: transform
+          template: |-
+            {
+              "score":  {{$body.input.score}}
+            }
+        template_engine: Kriti
+        version: 2
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: manager
+      - role: admin_structure
+      - role: admin_cdb
+    comment: Create NPS Rating
 custom_types:
   enums: []
   input_objects: []
-  objects: []
+  objects:
+    - name: NPSRatingOutput
   scalars: []

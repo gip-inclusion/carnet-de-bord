@@ -3,7 +3,9 @@ import time
 
 import sentry_sdk
 import structlog
-from fastapi import Request, Response
+from fastapi import HTTPException, Request, Response
+from starlette.exceptions import HTTPException as StartletteHTTPException
+from starlette.responses import JSONResponse
 from uvicorn.protocols.utils import get_path_with_query_string
 
 from cdb.api.core.init import create_app
@@ -60,3 +62,11 @@ async def logging_middleware(request: Request, call_next) -> Response:
     )
     response.headers["X-Process-Time"] = str(process_time / 10**9)
     return response
+
+
+@app.exception_handler(StartletteHTTPException)
+async def http_exception_handler(request: Request, exception: HTTPException):
+    return JSONResponse(
+        status_code=exception.status_code,
+        content={"detail": exception.detail, "message": exception.detail},
+    )
