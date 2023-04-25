@@ -1,3 +1,10 @@
+# [1.215.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.214.1...v1.215.0) (2023-04-25)
+
+
+### Features
+
+* **co:** filtrer les bénéficiaires sousmis aux droits et devoirs ([#1694](https://github.com/gip-inclusion/carnet-de-bord/issues/1694)) ([8a4d317](https://github.com/gip-inclusion/carnet-de-bord/commit/8a4d31717993ae37e32aac1baaf748fa3cfb6f22))
+
 ## [1.214.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.214.0...v1.214.1) (2023-04-24)
 
 # [1.214.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.213.15...v1.214.0) (2023-04-21)
