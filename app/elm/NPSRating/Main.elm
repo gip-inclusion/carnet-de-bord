@@ -154,17 +154,28 @@ lastRatingDatesDecoder =
         )
 
 
+createNpsRatingMutation : Int -> String
+createNpsRatingMutation score =
+    String.concat [ """
+    mutation CreateNpsRating {
+      create_nps_rating(score: """, String.fromInt score, """) {
+        void
+      }
+    }
+    """ ]
+
+
 submitRating : Model -> Cmd Msg
 submitRating model =
     case model.nps of
         Just score ->
             Http.request
                 { method = "POST"
-                , url = BaseUrl.buildUrl model.urls.backend [ "v1", "nps-rating" ] []
+                , url = BaseUrl.toString model.urls.server
                 , headers = [ Http.header "Authorization" ("Bearer " ++ model.token) ]
                 , body =
                     Http.jsonBody
-                        (Json.object [ ( "score", Json.int score ) ])
+                        (Json.object [ ( "query", Json.string (createNpsRatingMutation score) ) ])
                 , expect = Http.expectWhatever RatingSent
                 , timeout = Nothing
                 , tracker = Nothing
