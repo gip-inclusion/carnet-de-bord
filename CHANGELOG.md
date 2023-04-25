@@ -1,3 +1,10 @@
+## [1.215.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.215.2...v1.215.3) (2023-04-25)
+
+
+### Bug Fixes
+
+* allow NIR from corse ([#1696](https://github.com/gip-inclusion/carnet-de-bord/issues/1696)) ([d8749b2](https://github.com/gip-inclusion/carnet-de-bord/commit/d8749b26273a77815f96b5b6883b0ef511269188))
+
 ## [1.215.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.215.1...v1.215.2) (2023-04-25)
 
 ## [1.215.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.215.0...v1.215.1) (2023-04-25)
