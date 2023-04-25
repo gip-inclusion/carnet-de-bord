@@ -23,7 +23,7 @@ actions:
   - name: update_socio_pro
     definition:
       kind: synchronous
-      handler: '{{APP_URL}}/v1/update_socio_pro'
+      handler: '{{APP_URL}}/v1/socio_pro/update'
       forward_client_headers: true
     comment: Update professionnal project and create notebook event
 custom_types:
