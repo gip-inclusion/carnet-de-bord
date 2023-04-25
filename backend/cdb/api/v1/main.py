@@ -11,6 +11,7 @@ from cdb.api.v1.routers import (
     nps_rating,
     orientation_requests,
     orientations,
+    socio_pro,
     structures,
     uploads,
 )
@@ -41,6 +42,13 @@ api_router.include_router(
     orientation_requests.router,
     prefix="/orientation_requests",
     tags=["Orientation request"],
+)
+
+
+api_router.include_router(
+    socio_pro.router,
+    prefix="/socio_pro",
+    tags=["Socio pro information"],
 )
 
 api_router.include_router(
