@@ -7,6 +7,8 @@
       isolation_level: read-committed
       pool_settings:
         connection_lifetime: 600
+        idle_timeout: 5
+        max_connections: 1
         retries: 5
       use_prepared_statements: false
   tables: "!include carnet_de_bord/tables/tables.yaml"

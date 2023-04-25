@@ -7,6 +7,7 @@ from cdb.api.v1.routers import (
     deployment,
     managers,
     notebooks,
+    notify_admin_structures,
     nps_rating,
     orientation_requests,
     orientations,
@@ -20,6 +21,12 @@ api_router.include_router(managers.router, prefix="/managers", tags=["Managers"]
 api_router.include_router(
     admin_structures.router, prefix="/admin_structures", tags=["Admin structures"]
 )
+api_router.include_router(
+    notify_admin_structures.router,
+    prefix="/admin_structures",
+    tags=["Admin structures"],
+)
+
 api_router.include_router(
     csv2json.router, prefix="/convert-file", tags=["Csv to Json parsing"]
 )

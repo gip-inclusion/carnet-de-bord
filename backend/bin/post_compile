@@ -1,12 +1,1 @@
 pip install --quiet --disable-pip-version-check --progress-bar off .
-
-cat > cron.json <<EOF
-{
-  "jobs": [
-    {
-      "command": "${REMINDER_EMAIL_SCHEDULE:-0 22 * * 0-4} python cdb/scripts/notify_admin_structures/main.py",
-      "size": "S"
-    }
-  ]
-}
-EOF

@@ -75,7 +75,7 @@ def send_deny_orientation_request_email(
     send_mail(to=to_email, subject=subject, message=message)
 
 
-def send_beneficiaries_without_referent_to_admin_structure_email(
+async def send_beneficiaries_without_referent_to_admin_structure_email(
     to_email: str,
     structures: list[StructureWithBeneficiaries],
 ) -> None:

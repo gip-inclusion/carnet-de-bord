@@ -22,3 +22,18 @@ class AdminStructure(AdminStructureInput):
 class AdminStructureStructureInput(BaseModel):
     admin: AdminStructureInput
     structure_id: UUID
+
+
+class Beneficiary(BaseModel):
+    firstname: str
+    lastname: str
+
+
+class Structure(BaseModel):
+    name: str
+    beneficiaries: list[Beneficiary]
+
+
+class NotifiedAdminStructure(BaseModel):
+    email: EmailStr
+    structures: list[Structure]

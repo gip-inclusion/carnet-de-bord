@@ -1,31 +1,66 @@
-import logging
 from itertools import groupby
 
-import sentry_sdk
-from asyncpg.connection import Connection
+from fastapi import APIRouter, BackgroundTasks, Depends
 
 from cdb.api.core.emails import (
     send_beneficiaries_without_referent_to_admin_structure_email,
 )
-from cdb.api.core.settings import settings
+from cdb.api.core.init import connection
 from cdb.api.db.crud.beneficiary import get_beneficiaries_without_referent
+from cdb.api.db.models.admin_structure import (
+    Beneficiary,
+    NotifiedAdminStructure,
+    Structure,
+)
 from cdb.api.db.models.beneficiary import BeneficiaryWithAdminStructureEmail
 from cdb.api.db.models.email import PersonWithDateOfBirth, StructureWithBeneficiaries
+from cdb.api.v1.dependencies import verify_secret_token
 
-sentry_sdk.init(attach_stacktrace=True)
-
-logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
+router = APIRouter(dependencies=[Depends(verify_secret_token)])
 
 
-async def notify_admin_structures(db_connection: Connection):
-    beneficiaries = await get_beneficiaries_without_referent(db_connection)
+@router.post("/notify", response_model=list[NotifiedAdminStructure])
+async def notify_admin_structures(
+    background_tasks: BackgroundTasks,
+    db=Depends(connection),
+):
+    beneficiaries = await get_beneficiaries_without_referent(db)
 
     admin_structures = groupBeneficiariesByAdminStructure(beneficiaries)
 
+    response: list[NotifiedAdminStructure] = []
+
     for admin_structure in admin_structures:
-        send_beneficiaries_without_referent_to_admin_structure_email(
-            to_email=admin_structure[0], structures=admin_structure[1]
+        response.append(formatNotifiedAdminStructure(admin_structure))
+
+        background_tasks.add_task(
+            send_beneficiaries_without_referent_to_admin_structure_email,
+            to_email=admin_structure[0],
+            structures=admin_structure[1],
         )
+
+    return response
+
+
+def formatNotifiedAdminStructure(
+    admin_structure: tuple[str, list[StructureWithBeneficiaries]]
+) -> NotifiedAdminStructure:
+    return NotifiedAdminStructure(
+        email=admin_structure[0],
+        structures=[
+            Structure(
+                name=structure.name,
+                beneficiaries=[
+                    Beneficiary(
+                        firstname=beneficiary.firstname,
+                        lastname=beneficiary.lastname,
+                    )
+                    for beneficiary in structure.beneficiaries
+                ],
+            )
+            for structure in admin_structure[1]
+        ],
+    )
 
 
 def groupBeneficiariesByAdminStructure(

@@ -3,35 +3,64 @@ from unittest import mock
 
 from cdb.api.db.models.beneficiary import BeneficiaryWithAdminStructureEmail
 from cdb.api.db.models.orientation_system import OrientationSystem
-from cdb.scripts.notify_admin_structures.notify_admin_structures import (
-    notify_admin_structures,
-)
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
 @mock.patch(
-    "cdb.scripts.notify_admin_structures.notify_admin_structures.get_beneficiaries_without_referent"
+    "cdb.api.v1.routers.notify_admin_structures.get_beneficiaries_without_referent"
 )
 class TestNotifyAdminStructure:
+    async def test_return_unauthorized_when_no_secret_token(
+        self,
+        mock_get_beneficiaries_without_referent: mock.Mock,
+        mock_send_email: mock.Mock,
+        test_client,
+    ):
+        response = await test_client.post("/v1/admin_structures/notify")
+
+        assert response.status_code == 401
+        json = response.json()
+        assert json["detail"] == "Missing credentials"
+
+    async def test_return_forbidden_when_no_secret_token(
+        self,
+        mock_get_beneficiaries_without_referent: mock.Mock,
+        mock_send_email: mock.Mock,
+        test_client,
+    ):
+        response = await test_client.post(
+            "/v1/admin_structures/notify", headers={"secret-token": "bad token"}
+        )
+
+        assert response.status_code == 403
+        json = response.json()
+        assert json["detail"] == "Provided credentials are invalid"
+
     async def test_notify_admin_structures_when_no_beneficiaries_without_referent(
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
+        test_client,
     ):
-        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = []
 
-        await notify_admin_structures(db_connection)
+        response = await test_client.post(
+            "/v1/admin_structures/notify",
+            headers={"secret-token": "action_secret_token"},
+        )
+        json = response.json()
 
+        assert response.status_code == 200
+        assert json == []
         mock_send_email.assert_not_called()
 
     async def test_notify_admin_structures_when_one_beneficiary_without_referent_with_one_admin_structure(  # noqa: E501
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
+        test_client,
         snapshot,
     ):
-        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
                 firstname="Jay",
@@ -43,7 +72,29 @@ class TestNotifyAdminStructure:
             )
         ]
 
-        await notify_admin_structures(db_connection)
+        response = await test_client.post(
+            "/v1/admin_structures/notify",
+            headers={"secret-token": "action_secret_token"},
+        )
+        json = response.json()
+
+        assert response.status_code == 200
+        assert json == [
+            {
+                "email": "admin@structure.cdb",
+                "structures": [
+                    {
+                        "name": "structure 123",
+                        "beneficiaries": [
+                            {
+                                "firstname": "Jay",
+                                "lastname": "Pasderéférent",
+                            }
+                        ],
+                    }
+                ],
+            }
+        ]
 
         mock_send_email.assert_called_once()
         assert (
@@ -58,9 +109,9 @@ class TestNotifyAdminStructure:
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
         snapshot,
+        test_client,
         orientation_system_pro: OrientationSystem,
     ):
-        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
                 firstname="Jay",
@@ -80,7 +131,43 @@ class TestNotifyAdminStructure:
             ),
         ]
 
-        await notify_admin_structures(db_connection)
+        response = await test_client.post(
+            "/v1/admin_structures/notify",
+            headers={"secret-token": "action_secret_token"},
+        )
+        json = response.json()
+
+        assert response.status_code == 200
+        assert json == [
+            {
+                "email": "admin@structure.cdb",
+                "structures": [
+                    {
+                        "name": "structure 123",
+                        "beneficiaries": [
+                            {
+                                "firstname": "Jay",
+                                "lastname": "Pasderéférent",
+                            }
+                        ],
+                    }
+                ],
+            },
+            {
+                "email": "second_admin@structure.cdb",
+                "structures": [
+                    {
+                        "name": "structure 123",
+                        "beneficiaries": [
+                            {
+                                "firstname": "Jay",
+                                "lastname": "Pasderéférent",
+                            }
+                        ],
+                    }
+                ],
+            },
+        ]
 
         assert mock_send_email.call_count == 2
         assert (
@@ -106,10 +193,10 @@ class TestNotifyAdminStructure:
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
         snapshot,
+        test_client,
         orientation_system_pe: OrientationSystem,
         orientation_system_ria: OrientationSystem,
     ):
-        db_connection = mock.MagicMock()
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
                 firstname="Jay",
@@ -129,8 +216,39 @@ class TestNotifyAdminStructure:
             ),
         ]
 
-        await notify_admin_structures(db_connection)
+        response = await test_client.post(
+            "/v1/admin_structures/notify",
+            headers={"secret-token": "action_secret_token"},
+        )
 
+        json = response.json()
+
+        assert response.status_code == 200
+        assert json == [
+            {
+                "email": "admin@structure.cdb",
+                "structures": [
+                    {
+                        "name": "structure 123",
+                        "beneficiaries": [
+                            {
+                                "firstname": "Jay",
+                                "lastname": "Pasderéférent",
+                            }
+                        ],
+                    },
+                    {
+                        "name": "structure ABC",
+                        "beneficiaries": [
+                            {
+                                "firstname": "Jean",
+                                "lastname": "Naipanonplu",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ]
         assert mock_send_email.call_count == 1
         assert (
             mock_send_email.call_args_list[0].kwargs["subject"]
