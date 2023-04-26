@@ -4,11 +4,10 @@ import type { RequestHandler } from './$types';
 
 export const POST = (async ({ request, cookies, params }) => {
 	const url = `${getBackendAPI()}/v1/${params.endpoint}`;
-	const body = request.body;
 	const jwt = cookies.get('jwt');
 	return fetch(url, {
 		method: 'POST',
-		body,
+		body: request.body,
 		duplex: 'half',
 		headers: {
 			'Content-Type': request.headers.get('content-type'),
