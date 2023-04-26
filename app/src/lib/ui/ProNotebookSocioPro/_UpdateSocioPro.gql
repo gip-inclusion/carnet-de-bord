@@ -6,46 +6,26 @@ mutation UpdateSocioPro(
   $rightRqth: Boolean
   $educationLevel: String
   $lastJobEndedAt: date
-  $professionalProjectsToAdd: [professional_project_insert_input!]!
+  $professionalProjectsToAdd: [UpdateSocioProProfessionalProjectInsertInput!]!
   $professionalProjectIdsToDelete: [uuid!]!
-  $professionalProjectsToUpdate: [professional_project_updates!]!
-  $situationsToAdd: [notebook_situation_insert_input!]!
+  $professionalProjectsToUpdate: [UpdateSocioProProfessionalProjectSetInput!]!
+  $situationsToAdd: [UpdateSocioProNotebookSituationInsertInput!]!
   $situationIdsToDelete: [uuid!]!
 ) {
-  update: update_notebook_by_pk(
-    pk_columns: { id: $id }
-    _set: {
-      workSituation: $workSituation
-      workSituationDate: $workSituationDate
-      workSituationEndDate: $workSituationEndDate
-      rightRqth: $rightRqth
-      educationLevel: $educationLevel
-      lastJobEndedAt: $lastJobEndedAt
-    }
+  update_socio_pro(
+    id: $id
+    workSituation: $workSituation
+    workSituationDate: $workSituationDate
+    workSituationEndDate: $workSituationEndDate
+    rightRqth: $rightRqth
+    educationLevel: $educationLevel
+    lastJobEndedAt: $lastJobEndedAt
+    professionalProjectIdsToDelete: $professionalProjectIdsToDelete
+    professionalProjectsToAdd: $professionalProjectsToAdd
+    professionalProjectsToUpdate: $professionalProjectsToUpdate
+    situationIdsToDelete: $situationIdsToDelete
+    situationsToAdd: $situationsToAdd
   ) {
     id
-  }
-  delete_professional_project(where: { id: { _in: $professionalProjectIdsToDelete } }) {
-    affected_rows
-  }
-  update_professional_project_many(updates: $professionalProjectsToUpdate) {
-    affected_rows
-  }
-  insert_professional_project(objects: $professionalProjectsToAdd) {
-    affected_rows
-  }
-  update_notebook_situation(
-    where: {
-      _and: [
-        { notebookId: { _eq: $id } }
-        { situationId: { _in: $situationIdsToDelete } }
-        { deletedAt: { _is_null: true } }
-      ]
-    }
-  ) {
-    affected_rows
-  }
-  insert_notebook_situation(objects: $situationsToAdd) {
-    affected_rows
   }
 }

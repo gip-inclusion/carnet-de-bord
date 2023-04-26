@@ -3,9 +3,12 @@
 	import type {
 		ContractTypeEnum,
 		EmploymentTypeEnum,
+		UpdateSocioProContractTypeEnum,
+		UpdateSocioProEmploymentTypeEnum,
 		GetNotebookQuery,
 		ProfessionalProjectInsertInput,
-		ProfessionalProjectUpdates,
+		UpdateSocioProProfessionalProjectSetInput,
+		UpdateSocioProProfessionalProjectInsertInput,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { UpdateSocioProDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { trackEvent } from '$lib/tracking/matomo';
@@ -152,36 +155,36 @@
 			.map(({ id }) => id)
 			.filter((id) => !professionalProjectIds.includes(id));
 
-		const professionalProjectsToAdd: ProfessionalProjectInsertInput[] = professionalProjects
-			.filter(({ id }) => !id)
-			.map((project) => {
-				return {
-					notebookId: notebook.id,
-					romeCodeId: project.romeCodeId,
-					hourlyRate: project.hourlyRate,
-					mobilityRadius: project.mobilityRadius,
-					contractTypeId: project.contractTypeId,
-					employmentTypeId: project.employmentTypeId,
-				};
-			});
+		const professionalProjectsToAdd: UpdateSocioProProfessionalProjectInsertInput[] =
+			professionalProjects
+				.filter(({ id }) => !id)
+				.map((project) => {
+					return {
+						notebookId: notebook.id,
+						romeCodeId: project.romeCodeId,
+						hourlyRate: project.hourlyRate,
+						mobilityRadius: project.mobilityRadius,
+						contractTypeId: project.contractTypeId as unknown as UpdateSocioProContractTypeEnum,
+						employmentTypeId:
+							project.employmentTypeId as unknown as UpdateSocioProEmploymentTypeEnum,
+					};
+				});
 
-		const professionalProjectsToUpdate: ProfessionalProjectUpdates[] = professionalProjects
-			.filter(({ id }) => id)
-			.filter(professionalProjectIsModified)
-			.map((project) => {
-				return {
-					where: {
-						id: { _eq: project.id },
-					},
-					_set: {
+		const professionalProjectsToUpdate: UpdateSocioProProfessionalProjectSetInput[] =
+			professionalProjects
+				.filter(({ id }) => id)
+				.filter(professionalProjectIsModified)
+				.map((project) => {
+					return {
+						id: project.id,
 						mobilityRadius: project.mobilityRadius,
 						romeCodeId: project.romeCodeId,
-						contractTypeId: project.contractTypeId,
-						employmentTypeId: project.employmentTypeId,
+						contractTypeId: project.contractTypeId as unknown as UpdateSocioProContractTypeEnum,
+						employmentTypeId:
+							project.employmentTypeId as unknown as UpdateSocioProEmploymentTypeEnum,
 						hourlyRate: project.hourlyRate,
-					},
-				};
-			});
+					};
+				});
 
 		const payload = {
 			id: notebook.id,

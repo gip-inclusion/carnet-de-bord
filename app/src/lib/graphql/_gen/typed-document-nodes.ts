@@ -17805,36 +17805,22 @@ export type UpdateSocioProMutationVariables = Exact<{
 	rightRqth?: InputMaybe<Scalars['Boolean']>;
 	educationLevel?: InputMaybe<Scalars['String']>;
 	lastJobEndedAt?: InputMaybe<Scalars['date']>;
-	professionalProjectsToAdd: Array<ProfessionalProjectInsertInput> | ProfessionalProjectInsertInput;
+	professionalProjectsToAdd:
+		| Array<UpdateSocioProProfessionalProjectInsertInput>
+		| UpdateSocioProProfessionalProjectInsertInput;
 	professionalProjectIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
-	professionalProjectsToUpdate: Array<ProfessionalProjectUpdates> | ProfessionalProjectUpdates;
-	situationsToAdd: Array<NotebookSituationInsertInput> | NotebookSituationInsertInput;
+	professionalProjectsToUpdate:
+		| Array<UpdateSocioProProfessionalProjectSetInput>
+		| UpdateSocioProProfessionalProjectSetInput;
+	situationsToAdd:
+		| Array<UpdateSocioProNotebookSituationInsertInput>
+		| UpdateSocioProNotebookSituationInsertInput;
 	situationIdsToDelete: Array<Scalars['uuid']> | Scalars['uuid'];
 }>;
 
 export type UpdateSocioProMutation = {
 	__typename?: 'mutation_root';
-	update?: { __typename?: 'notebook'; id: string } | null;
-	delete_professional_project?: {
-		__typename?: 'professional_project_mutation_response';
-		affected_rows: number;
-	} | null;
-	update_professional_project_many?: Array<{
-		__typename?: 'professional_project_mutation_response';
-		affected_rows: number;
-	} | null> | null;
-	insert_professional_project?: {
-		__typename?: 'professional_project_mutation_response';
-		affected_rows: number;
-	} | null;
-	update_notebook_situation?: {
-		__typename?: 'notebook_situation_mutation_response';
-		affected_rows: number;
-	} | null;
-	insert_notebook_situation?: {
-		__typename?: 'notebook_situation_mutation_response';
-		affected_rows: number;
-	} | null;
+	update_socio_pro?: { __typename?: 'UpdateSocioProOutput'; id: string } | null;
 };
 
 export type AddNotebookTargetMutationVariables = Exact<{
@@ -26309,7 +26295,7 @@ export const UpdateSocioProDocument = {
 								kind: 'NonNullType',
 								type: {
 									kind: 'NamedType',
-									name: { kind: 'Name', value: 'professional_project_insert_input' },
+									name: { kind: 'Name', value: 'UpdateSocioProProfessionalProjectInsertInput' },
 								},
 							},
 						},
@@ -26346,7 +26332,7 @@ export const UpdateSocioProDocument = {
 								kind: 'NonNullType',
 								type: {
 									kind: 'NamedType',
-									name: { kind: 'Name', value: 'professional_project_updates' },
+									name: { kind: 'Name', value: 'UpdateSocioProProfessionalProjectSetInput' },
 								},
 							},
 						},
@@ -26363,7 +26349,7 @@ export const UpdateSocioProDocument = {
 								kind: 'NonNullType',
 								type: {
 									kind: 'NamedType',
-									name: { kind: 'Name', value: 'notebook_situation_insert_input' },
+									name: { kind: 'Name', value: 'UpdateSocioProNotebookSituationInsertInput' },
 								},
 							},
 						},
@@ -26389,250 +26375,81 @@ export const UpdateSocioProDocument = {
 				selections: [
 					{
 						kind: 'Field',
-						alias: { kind: 'Name', value: 'update' },
-						name: { kind: 'Name', value: 'update_notebook_by_pk' },
+						name: { kind: 'Name', value: 'update_socio_pro' },
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'pk_columns' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
-										},
-									],
-								},
+								name: { kind: 'Name', value: 'id' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'id' } },
 							},
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: '_set' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'workSituation' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'workSituationDate' },
-											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'workSituationDate' },
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'workSituationEndDate' },
-											value: {
-												kind: 'Variable',
-												name: { kind: 'Name', value: 'workSituationEndDate' },
-											},
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'rightRqth' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'educationLevel' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
-										},
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'lastJobEndedAt' },
-											value: { kind: 'Variable', name: { kind: 'Name', value: 'lastJobEndedAt' } },
-										},
-									],
-								},
+								name: { kind: 'Name', value: 'workSituation' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituation' } },
 							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'delete_professional_project' },
-						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
-								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'id' },
-											value: {
-												kind: 'ObjectValue',
-												fields: [
-													{
-														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_in' },
-														value: {
-															kind: 'Variable',
-															name: { kind: 'Name', value: 'professionalProjectIdsToDelete' },
-														},
-													},
-												],
-											},
-										},
-									],
-								},
+								name: { kind: 'Name', value: 'workSituationDate' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituationDate' } },
 							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_professional_project_many' },
-						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'updates' },
+								name: { kind: 'Name', value: 'workSituationEndDate' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'workSituationEndDate' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'rightRqth' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'rightRqth' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'educationLevel' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'educationLevel' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'lastJobEndedAt' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'lastJobEndedAt' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'professionalProjectIdsToDelete' },
 								value: {
 									kind: 'Variable',
-									name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
+									name: { kind: 'Name', value: 'professionalProjectIdsToDelete' },
 								},
 							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_professional_project' },
-						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
+								name: { kind: 'Name', value: 'professionalProjectsToAdd' },
 								value: {
 									kind: 'Variable',
 									name: { kind: 'Name', value: 'professionalProjectsToAdd' },
 								},
 							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'update_notebook_situation' },
-						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'where' },
+								name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
 								value: {
-									kind: 'ObjectValue',
-									fields: [
-										{
-											kind: 'ObjectField',
-											name: { kind: 'Name', value: '_and' },
-											value: {
-												kind: 'ListValue',
-												values: [
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'notebookId' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: '_eq' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'id' },
-																			},
-																		},
-																	],
-																},
-															},
-														],
-													},
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'situationId' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: '_in' },
-																			value: {
-																				kind: 'Variable',
-																				name: { kind: 'Name', value: 'situationIdsToDelete' },
-																			},
-																		},
-																	],
-																},
-															},
-														],
-													},
-													{
-														kind: 'ObjectValue',
-														fields: [
-															{
-																kind: 'ObjectField',
-																name: { kind: 'Name', value: 'deletedAt' },
-																value: {
-																	kind: 'ObjectValue',
-																	fields: [
-																		{
-																			kind: 'ObjectField',
-																			name: { kind: 'Name', value: '_is_null' },
-																			value: { kind: 'BooleanValue', value: true },
-																		},
-																	],
-																},
-															},
-														],
-													},
-												],
-											},
-										},
-									],
+									kind: 'Variable',
+									name: { kind: 'Name', value: 'professionalProjectsToUpdate' },
 								},
 							},
-						],
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
-						},
-					},
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'insert_notebook_situation' },
-						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'objects' },
+								name: { kind: 'Name', value: 'situationIdsToDelete' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'situationIdsToDelete' } },
+							},
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'situationsToAdd' },
 								value: { kind: 'Variable', name: { kind: 'Name', value: 'situationsToAdd' } },
 							},
 						],
 						selectionSet: {
 							kind: 'SelectionSet',
-							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'affected_rows' } }],
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'id' } }],
 						},
 					},
 				],
