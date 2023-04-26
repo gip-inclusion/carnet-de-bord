@@ -95,7 +95,7 @@
 
 <slot />
 
-{#key data.user}
+{#key data.user?.id}
 	<LayerCdb />
 {/key}
 
