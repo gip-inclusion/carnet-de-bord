@@ -26,7 +26,7 @@
 					label: data.deployment,
 				},
 				{
-					'jwt-token': $token,
+					Authorization: `Bearer ${$token}`,
 				}
 			);
 			close();

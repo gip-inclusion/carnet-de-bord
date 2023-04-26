@@ -1,6 +1,7 @@
 from datetime import date
 
 from asyncpg.connection import Connection
+from syrupy.data import Snapshot
 
 from cdb.api.db.crud.beneficiary import (
     get_beneficiaries_without_referent,
@@ -216,7 +217,7 @@ def test_beneficiary_get_values_for_keys(
 
 
 async def test_get_beneficiaries_without_referent(
-    db_connection: Connection, snapshot
+    db_connection: Connection, snapshot: Snapshot
 ) -> None:
     beneficiaries_without_referent: list[
         BeneficiaryWithAdminStructureEmail

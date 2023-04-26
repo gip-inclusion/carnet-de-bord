@@ -18,7 +18,7 @@
 				{
 					orientation_request_id: orientationRequest.id,
 				},
-				{ 'jwt-token': $token }
+				{ Authorization: `Bearer ${$token}` }
 			);
 		} catch (err) {
 			captureException(err);

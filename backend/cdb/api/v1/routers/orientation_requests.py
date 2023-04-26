@@ -58,7 +58,7 @@ orientation_request: update_orientation_request_by_pk(
 async def deny_orientation_request(
     data: DenyBeneficiaryOrientationInput,
     background_tasks: BackgroundTasks,
-    jwt_token: str = Header(default=None),
+    authorization: str = Header(default=None),
 ):
     """
     Deny an orientation request
@@ -66,7 +66,8 @@ async def deny_orientation_request(
     """
 
     transport = AIOHTTPTransport(
-        url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
+        url=settings.graphql_api_url,
+        headers={"Authorization": authorization},
     )
 
     async with Client(

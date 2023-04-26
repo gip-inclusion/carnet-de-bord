@@ -3,7 +3,8 @@ from uuid import UUID
 
 import pytest
 from asyncpg.connection import Connection
-from fastapi.testclient import TestClient
+from httpx import AsyncClient
+from syrupy.data import Snapshot
 
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
@@ -24,7 +25,7 @@ UPDATE_ORIENTATION_ENDPOINT_PATH = "/v1/orientations/change"
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_verify_no_token(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     orientation_system_social_id: UUID,
@@ -46,7 +47,7 @@ async def test_verify_no_token(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_professional_not_allowed_to_change_orientation(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     get_professional_jwt: str,
@@ -60,7 +61,7 @@ async def test_professional_not_allowed_to_change_orientation(
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
-        headers={"jwt-token": get_professional_jwt},
+        headers={"Authorization": "Bearer " + get_professional_jwt},
     )
     assert response.status_code == 403
     json = response.json()
@@ -70,7 +71,7 @@ async def test_professional_not_allowed_to_change_orientation(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_admin_structure_not_allowed_to_change_orientation(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     get_admin_structure_jwt: str,
@@ -84,7 +85,7 @@ async def test_admin_structure_not_allowed_to_change_orientation(
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
-        headers={"jwt-token": get_admin_structure_jwt},
+        headers={"Authorization": "Bearer " + get_admin_structure_jwt},
     )
     assert response.status_code == 403
     json = response.json()
@@ -94,7 +95,7 @@ async def test_admin_structure_not_allowed_to_change_orientation(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_change_orientation_while_keeping_same_referent(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
@@ -111,7 +112,7 @@ async def test_change_orientation_while_keeping_same_referent(
             "new_referent_account_id": professional_pierre_chevalier.account_id,
             "orientation_reason": orientation_reason,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -132,7 +133,7 @@ async def test_change_orientation_while_keeping_same_referent(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_change_orientation_assign_to_structure_not_referent(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_paul_camara: Professional,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
@@ -150,7 +151,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
             "new_referent_account_id": None,
             "orientation_reason": orientation_reason,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -193,7 +194,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_change_orientation_with_new_referent(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_paul_camara: Professional,
     professional_pierre_chevalier: Professional,
     beneficiary_sophie_tifour: Beneficiary,
@@ -212,7 +213,7 @@ async def test_change_orientation_with_new_referent(
             "new_referent_account_id": professional_paul_camara.account_id,
             "orientation_reason": orientation_reason,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -259,7 +260,7 @@ async def test_change_orientation_with_new_referent(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_change_orientation_with_new_referent_when_beneficiary_has_no_structure(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_paul_camara: Professional,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_craig_reilly: Notebook,
@@ -275,7 +276,7 @@ async def test_change_orientation_with_new_referent_when_beneficiary_has_no_stru
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
         },
-        headers={"jwt-token": samy_rouate_jwt},
+        headers={"Authorization": "Bearer " + samy_rouate_jwt},
     )
     assert response.status_code == 200
     members = await get_notebook_members_by_notebook_id(
@@ -304,7 +305,7 @@ async def test_change_orientation_with_new_referent_when_beneficiary_has_no_stru
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_change_orientation_with_orientation_request(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_pierre_chevalier: Professional,
     notebook_jennings_dee: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
@@ -321,7 +322,7 @@ async def test_change_orientation_with_orientation_request(
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
 
     orientation_request = await get_orientation_request_by_id(
@@ -342,8 +343,8 @@ async def test_change_orientation_with_orientation_request(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_send_email_to_members_with_orientation_request(
     mock_send_email: mock.Mock,
-    snapshot,
-    test_client: TestClient,
+    snapshot: Snapshot,
+    test_client: AsyncClient,
     professional_paul_camara: Professional,
     professional_edith_orial: Professional,
     notebook_jennings_dee: Notebook,
@@ -360,7 +361,7 @@ async def test_send_email_to_members_with_orientation_request(
             "new_referent_account_id": professional_paul_camara.account_id,
             "orientation_request_id": orientation_request_jennings_dee.id,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 2
@@ -382,8 +383,8 @@ async def test_send_email_to_members_with_orientation_request(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_send_email_to_members_without_orientation_request(
     mock_send_email: mock.Mock,
-    snapshot,
-    test_client: TestClient,
+    snapshot: Snapshot,
+    test_client: AsyncClient,
     professional_paul_camara: Professional,
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
@@ -398,7 +399,7 @@ async def test_send_email_to_members_without_orientation_request(
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 2
@@ -420,8 +421,8 @@ async def test_send_email_to_members_without_orientation_request(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_send_email_to_members_first_orientation(
     mock_send_email: mock.Mock,
-    test_client: TestClient,
-    snapshot,
+    test_client: AsyncClient,
+    snapshot: Snapshot,
     professional_paul_camara: Professional,
     notebook_noel_keller: Beneficiary,
     giulia_diaby_jwt: str,
@@ -435,7 +436,7 @@ async def test_send_email_to_members_first_orientation(
             "structure_id": professional_paul_camara.structure_id,
             "new_referent_account_id": professional_paul_camara.account_id,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
     assert mock_send_email.call_count == 1
@@ -449,7 +450,7 @@ async def test_send_email_to_members_first_orientation(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_unconsistent_orientation_request(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_paul_camara: Professional,
     notebook_sophie_tifour: Notebook,
     orientation_request_jennings_dee: OrientationRequest,
@@ -464,7 +465,7 @@ async def test_unconsistent_orientation_request(
             "structure_id": professional_paul_camara.structure_id,
             "orientation_request_id": orientation_request_jennings_dee.id,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
 
     assert response.status_code == 400
@@ -480,7 +481,7 @@ async def test_orientation_system_label(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_set_orientation_reason_to_null_when_not_defined(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     professional_pierre_chevalier: Professional,
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
@@ -495,7 +496,7 @@ async def test_set_orientation_reason_to_null_when_not_defined(
             "structure_id": professional_pierre_chevalier.structure_id,
             "new_referent_account_id": professional_pierre_chevalier.account_id,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
     notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)

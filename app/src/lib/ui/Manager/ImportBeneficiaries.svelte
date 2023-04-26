@@ -102,7 +102,7 @@
 			'/v1/convert-file/beneficiaries',
 			formData,
 			{
-				'jwt-token': $token,
+				Authorization: `Bearer ${$token}`,
 			}
 		);
 
@@ -155,7 +155,7 @@
 			),
 		});
 		insertPromise = postApiJson<BeneficiaryCsvResponse[]>('/v1/beneficiaries/bulk', payload, {
-			'jwt-token': $token,
+			Authorization: `Bearer ${$token}`,
 		});
 	}
 

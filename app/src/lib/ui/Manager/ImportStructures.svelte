@@ -31,7 +31,7 @@
 			'/v1/convert-file/structures',
 			formData,
 			{
-				'jwt-token': $token,
+				Authorization: `Bearer ${$token}`,
 			}
 		);
 
@@ -60,7 +60,7 @@
 			),
 		});
 		insertPromise = postApiJson<StructureCsvResponse[]>('/v1/structures/import', payload, {
-			'jwt-token': $token,
+			Authorization: `Bearer ${$token}`,
 		});
 	}
 

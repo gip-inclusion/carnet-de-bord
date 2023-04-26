@@ -161,7 +161,7 @@ submitRating model =
             Http.request
                 { method = "POST"
                 , url = BaseUrl.buildUrl model.urls.backend [ "v1", "nps-rating" ] []
-                , headers = [ Http.header "jwt-token" model.token ]
+                , headers = [ Http.header "Authorization" ("Bearer " ++ model.token) ]
                 , body =
                     Http.jsonBody
                         (Json.object [ ( "score", Json.int score ) ])

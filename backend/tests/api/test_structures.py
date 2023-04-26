@@ -2,6 +2,7 @@ from unittest import mock
 from uuid import UUID
 
 from asyncpg.connection import Connection
+from httpx import AsyncClient
 
 from cdb.api.db.crud.account import get_accounts_from_email
 from cdb.api.db.crud.admin_structure import get_admin_structure_by_email
@@ -13,7 +14,7 @@ ENDPOINT_PATH = "/v1/structures/import"
 @mock.patch("cdb.api.v1.routers.structures.send_invitation_email")
 async def test_structure_import_json(
     mock_send_invitation_mail: mock.Mock,
-    test_client,
+    test_client: AsyncClient,
     import_structures_json: list[dict],
     get_manager_jwt_93: str,
     db_connection: Connection,
@@ -23,7 +24,7 @@ async def test_structure_import_json(
     response = await test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json, "sendAccountEmail": True},
-        headers={"jwt-token": get_manager_jwt_93},
+        headers={"Authorization": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -55,17 +56,16 @@ async def test_structure_import_json(
 
 @mock.patch("cdb.api.v1.routers.structures.send_invitation_email")
 async def test_structure_with_buggy_import_json(
-    mock_send_invitation_mail: mock.Mock,
-    test_client,
+    _: mock.Mock,
+    test_client: AsyncClient,
     import_structures_json_with_errors: list[dict],
     get_manager_jwt_93: str,
-    db_connection: Connection,
 ):
 
     response = await test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json_with_errors},
-        headers={"jwt-token": get_manager_jwt_93},
+        headers={"Authorization": get_manager_jwt_93},
     )
 
     response.json()
@@ -74,8 +74,8 @@ async def test_structure_with_buggy_import_json(
 
 @mock.patch("cdb.api.v1.routers.structures.insert_structure", return_value=None)
 async def test_structure_with_fail_structure_insert(
-    mock_insert_structure: mock.Mock,
-    test_client,
+    _: mock.Mock,
+    test_client: AsyncClient,
     import_structures_json: list[dict],
     get_manager_jwt_93: str,
 ):
@@ -83,7 +83,7 @@ async def test_structure_with_fail_structure_insert(
     response = await test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt_93},
+        headers={"Authorization": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -104,8 +104,8 @@ async def test_structure_with_fail_structure_insert(
     return_value=None,
 )
 async def test_structure_with_fail_admin_insert(
-    mock_create_admin_structure_with_account: mock.Mock,
-    test_client,
+    _: mock.Mock,
+    test_client: AsyncClient,
     import_structures_json: list[dict],
     get_manager_jwt_93: str,
 ):
@@ -113,7 +113,7 @@ async def test_structure_with_fail_admin_insert(
     response = await test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt_93},
+        headers={"Authorization": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -135,9 +135,9 @@ async def test_structure_with_fail_admin_insert(
 )
 @mock.patch("cdb.api.v1.routers.structures.send_invitation_email")
 async def test_structure_with_fail_admin_structure_structure_insert(
-    mock_create_admin_structure_with_account: mock.Mock,
-    mock_send_invitation_email: mock.Mock,
-    test_client,
+    _: mock.Mock,
+    __: mock.Mock,
+    test_client: AsyncClient,
     import_structures_json: list[dict],
     get_manager_jwt_93: str,
 ):
@@ -145,7 +145,7 @@ async def test_structure_with_fail_admin_structure_structure_insert(
     response = await test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt_93},
+        headers={"Authorization": get_manager_jwt_93},
     )
 
     data = response.json()
@@ -162,7 +162,7 @@ async def test_structure_with_fail_admin_structure_structure_insert(
 
 
 async def test_structure_import_same_name_on_another_deployment(
-    test_client,
+    test_client: AsyncClient,
     import_structures_json: list[dict],
     get_manager_jwt_51: str,
     get_manager_jwt_93: str,
@@ -172,14 +172,14 @@ async def test_structure_import_same_name_on_another_deployment(
     await test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt_51},
+        headers={"Authorization": get_manager_jwt_51},
     )
 
     # Insert same structure into deployment 93
     response = await test_client.post(
         ENDPOINT_PATH,
         json={"structures": import_structures_json},
-        headers={"jwt-token": get_manager_jwt_93},
+        headers={"Authorization": get_manager_jwt_93},
     )
 
     data = response.json()

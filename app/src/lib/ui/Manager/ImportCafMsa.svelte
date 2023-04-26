@@ -12,7 +12,7 @@
 		const formData = new FormData();
 		formData.append('upload_file', file);
 		resultPromise = postApiFormData('/v1/beneficiaries/update-from-caf-msa', formData, {
-			'jwt-token': $token,
+			Authorization: `Bearer ${$token}`,
 		});
 	}
 </script>

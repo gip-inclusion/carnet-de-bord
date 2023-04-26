@@ -24,7 +24,7 @@
 		const data = Object.assign(values, { deployment_id: deploymentId });
 		try {
 			await postApiJson('/v1/managers/create', data, {
-				'jwt-token': $token,
+				Authorization: `Bearer ${$token}`,
 			});
 			close();
 		} catch (error) {

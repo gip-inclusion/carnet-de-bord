@@ -7,20 +7,20 @@ from cdb.api.core.settings import settings
 from cdb.api.db.graphql.graphql_scalars import DateScalar
 
 
-def gql_client(token: str) -> Client:
+def gql_client(bearer_token: str) -> Client:
     return _get_client(
         headers={
-            "Authorization": "Bearer " + token,
+            "Authorization": bearer_token,
         }
     )
 
 
-def gql_client_backend_only(token: str) -> Client:
+def gql_client_backend_only(bearer_token: str) -> Client:
     return _get_client(
         headers={
             "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
             "x-hasura-use-backend-only-permissions": "true",
-            "Authorization": "Bearer " + token,
+            "Authorization": bearer_token,
         }
     )
 

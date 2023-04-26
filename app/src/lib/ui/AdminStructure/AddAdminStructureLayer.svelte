@@ -25,7 +25,7 @@
 					structure_id: structureId,
 				},
 				{
-					'jwt-token': $token,
+					Authorization: `Bearer ${$token}`,
 				}
 			);
 			if (onClose) {

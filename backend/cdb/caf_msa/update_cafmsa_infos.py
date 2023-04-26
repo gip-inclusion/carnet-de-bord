@@ -25,7 +25,7 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
 
 
 async def update_cafmsa_for_beneficiaries(
-    account_id: UUID, jwt_token: str, file: SpooledTemporaryFile
+    account_id: UUID, authorization: str, file: SpooledTemporaryFile
 ) -> None:
     count = 0
     count_error = 0
@@ -34,7 +34,7 @@ async def update_cafmsa_for_beneficiaries(
 
     infos: CafInfoFlux | None = None
 
-    async with gql_client_backend_only(token=jwt_token) as session:
+    async with gql_client_backend_only(bearer_token=authorization) as session:
         start_time = time.time()
 
         parsed = parse_caf_file(file)

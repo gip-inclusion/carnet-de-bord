@@ -61,7 +61,7 @@ class ChangeBeneficiaryOrientationInput(BaseModel):
 async def change_beneficiary_orientation(
     data: ChangeBeneficiaryOrientationInput,
     background_tasks: BackgroundTasks,
-    jwt_token: str = Header(default=None),
+    authorization: str = Header(default=None),
     db=Depends(connection),
 ):
     """
@@ -87,7 +87,8 @@ async def change_beneficiary_orientation(
 
     """
     transport = AIOHTTPTransport(
-        url=settings.graphql_api_url, headers={"Authorization": "Bearer " + jwt_token}
+        url=settings.graphql_api_url,
+        headers={"Authorization": authorization},
     )
 
     async with Client(

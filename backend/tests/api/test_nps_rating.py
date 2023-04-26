@@ -1,14 +1,19 @@
 from datetime import datetime, timedelta, timezone
 from uuid import UUID
 
+from asyncpg.connection import Connection
+from httpx import AsyncClient
+
 pro_uuid = UUID("f29ca78a-4719-4658-8d19-48d3df9178b5")
 
 
-async def test_nps_rating(test_client, db_connection, laure_loge_jwt):
+async def test_nps_rating(
+    test_client: AsyncClient, db_connection: Connection, laure_loge_jwt: str
+):
     response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 0},
-        headers={"jwt-token": laure_loge_jwt},
+        headers={"Authorization": "Bearer " + laure_loge_jwt},
     )
     assert response.status_code == 201
     row = await db_connection.fetchrow("SELECT * FROM nps_rating")
@@ -18,7 +23,9 @@ async def test_nps_rating(test_client, db_connection, laure_loge_jwt):
     assert row["score"] == 0
 
 
-async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_jwt):
+async def test_nps_rating_with_existing(
+    test_client: AsyncClient, db_connection: Connection, laure_loge_jwt: str
+):
     await db_connection.execute(
         "INSERT INTO nps_rating (account_id, created_at, score) VALUES ($1, $2, $3)",
         pro_uuid,
@@ -28,7 +35,7 @@ async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_j
     response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 10},
-        headers={"jwt-token": laure_loge_jwt},
+        headers={"Authorization": "Bearer " + laure_loge_jwt},
     )
     assert response.status_code == 201
     row_count = await db_connection.fetchrow("SELECT COUNT(*) as count FROM nps_rating")
@@ -42,11 +49,13 @@ async def test_nps_rating_with_existing(test_client, db_connection, laure_loge_j
     assert row["score"] == 10
 
 
-async def test_nps_rating_invalid_score(test_client, db_connection, laure_loge_jwt):
+async def test_nps_rating_invalid_score(
+    test_client: AsyncClient, db_connection: Connection, laure_loge_jwt: str
+):
     response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 9001},  # Over-promoter.
-        headers={"jwt-token": laure_loge_jwt},
+        headers={"Authorization": "Bearer " + laure_loge_jwt},
     )
     assert response.status_code == 422
     assert response.json() == {
@@ -65,7 +74,9 @@ async def test_nps_rating_invalid_score(test_client, db_connection, laure_loge_j
     assert row["count"] == 0
 
 
-async def test_nps_rating_double_submission(test_client, db_connection, laure_loge_jwt):
+async def test_nps_rating_double_submission(
+    test_client: AsyncClient, db_connection: Connection, laure_loge_jwt: str
+):
     row = await db_connection.fetchrow(
         """
         INSERT INTO nps_rating (account_id, score)
@@ -80,7 +91,7 @@ async def test_nps_rating_double_submission(test_client, db_connection, laure_lo
     response = await test_client.post(
         "/v1/nps-rating",
         json={"score": 0},
-        headers={"jwt-token": laure_loge_jwt},
+        headers={"Authorization": "Bearer " + laure_loge_jwt},
     )
     assert response.status_code == 403
     assert response.json() == {

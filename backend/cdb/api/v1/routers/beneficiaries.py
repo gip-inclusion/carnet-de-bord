@@ -79,14 +79,14 @@ async def import_caf_msa_xml(
     upload_file: UploadFile,
     request: Request,
     background_tasks: BackgroundTasks,
-    jwt_token: str = Header(default=None),
+    authorization: str = Header(default=None),
 ) -> None:
     account: Account = request.state.account
     logging.info("Réception d'un fichier CAF/MSA")
     background_tasks.add_task(
         update_cafmsa_for_beneficiaries,
         account.id,
-        jwt_token,
+        authorization,
         upload_file.file,  # type: ignore
     )
 
