@@ -25,9 +25,11 @@ const config = {
 					...(process.env?.VITE_ENVIRONMENT === 'local' ? ['ws:'] : []),
 					'wss://client.relay.crisp.chat/',
 					'https://client.crisp.chat/static/',
-					'https://matomo.inclusion.beta.gouv.fr/',
-					'https://sentry.fabrique.social.gouv.fr',
-					'https://*.sentry.fabrique.social.gouv.fr',
+					// Note that in development, PUBLIC_MATOMO_URL(or PUBLIC_SENTRY_DSN) will not be read from .env
+					// (because dotenv has not been loaded at this point), you have to set it
+					// in the environment explicitly, e.g. `PUBLIC_MATOMO_URL=... npm run dev`
+					...(process.env.PUBLIC_MATOMO_URL ? [process.env.PUBLIC_MATOMO_URL] : []),
+					...(process.env.PUBLIC_SENTRY_DSN ? [process.env.PUBLIC_SENTRY_DSN] : []),
 				],
 			},
 		},
