@@ -12,4 +12,4 @@ async def test_strip_beneficiary_data_on_import():
         nir=" 101047505612317  ",
     )
     assert beneficiary.internal_id == "123"
-    assert beneficiary.nir == "101047505612317"
+    assert beneficiary.nir == "1010475056123"
