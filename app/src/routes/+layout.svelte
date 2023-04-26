@@ -14,8 +14,7 @@
 
 	import * as yup from 'yup';
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
-	import createClient from '$lib/graphql/createClient';
-	import { Client, setClient } from '@urql/svelte';
+	import { Client, createClient, setClient } from '@urql/svelte';
 	import LayerCdb from '$lib/ui/LayerCDB.svelte';
 	import { getMatomoUrl, getMatomoSiteId } from '$lib/config/variables/public';
 
@@ -25,11 +24,10 @@
 
 	export let data: PageData;
 
-	let client: Client;
+	const client: Client = createClient({ url: '/graphql', fetch });
+	setClient(client);
 
 	$: {
-		client = createClient(fetch);
-		setClient(client);
 		$connectedUser = data.user;
 	}
 
@@ -95,9 +93,7 @@
 
 <slot />
 
-{#key data.user?.id}
-	<LayerCdb />
-{/key}
+<LayerCdb />
 
 <style>
 	:global(body::after) {
