@@ -13,7 +13,7 @@
 		const formData = new FormData();
 		formData.append('upload_file', file);
 		resultPromise = postApiFormData(`/v1/uploads/orientation_manager`, formData, {
-			'jwt-token': $token,
+			Authorization: `Bearer ${$token}`,
 		});
 	}
 

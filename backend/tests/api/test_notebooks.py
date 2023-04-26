@@ -2,7 +2,8 @@ from unittest import mock
 
 import pytest
 from asyncpg.connection import Connection
-from fastapi.testclient import TestClient
+from httpx import AsyncClient
+from syrupy.data import Snapshot
 
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
@@ -17,7 +18,7 @@ pytestmark = pytest.mark.graphql
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_verify_no_token(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     notebook_sophie_tifour: Notebook,
 ):
     response = await test_client.post(
@@ -31,13 +32,13 @@ async def test_verify_no_token(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_orientation_manager_not_allowed_to_add_notebook_member(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     giulia_diaby_jwt: str,
     notebook_sophie_tifour: Notebook,
 ):
     response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 403
     json = response.json()
@@ -47,14 +48,16 @@ async def test_orientation_manager_not_allowed_to_add_notebook_member(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_add_notebook_member_as_no_referent_with_no_structure_id_in_token(
     _: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     notebook_sophie_tifour: Notebook,
     get_professional_jwt_without_structure_id: str,
 ):
     response = await test_client.post(
         f"/v1/notebooks/{str(notebook_sophie_tifour.id)}/members",
         json={"member_type": "no_referent"},
-        headers={"jwt-token": f"{get_professional_jwt_without_structure_id}"},
+        headers={
+            "Authorization": "Bearer " + f"{get_professional_jwt_without_structure_id}"
+        },
     )
     assert response.status_code == 403
     json = response.json()
@@ -64,7 +67,7 @@ async def test_add_notebook_member_as_no_referent_with_no_structure_id_in_token(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_add_notebook_member_as_no_referent(
     mock_send_email: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     notebook_sophie_tifour: Notebook,
     get_professional_paul_camara_jwt: str,
     professional_paul_camara: Professional,
@@ -78,7 +81,7 @@ async def test_add_notebook_member_as_no_referent(
     response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "no_referent"},
-        headers={"jwt-token": get_professional_paul_camara_jwt},
+        headers={"Authorization": "Bearer " + get_professional_paul_camara_jwt},
     )
     assert response.status_code == 204
     members = await get_notebook_members_by_notebook_id(
@@ -112,8 +115,8 @@ async def test_add_notebook_member_as_no_referent(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_add_notebook_member_as_referent(
     mock_send_email: mock.Mock,
-    snapshot,
-    test_client: TestClient,
+    snapshot: Snapshot,
+    test_client: AsyncClient,
     notebook_sophie_tifour: Notebook,
     get_professional_paul_camara_jwt: str,
     professional_paul_camara: Professional,
@@ -131,7 +134,7 @@ async def test_add_notebook_member_as_referent(
     response = await test_client.post(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/members",
         json={"member_type": "referent", "orientation": str(orientation_system_id)},
-        headers={"jwt-token": get_professional_paul_camara_jwt},
+        headers={"Authorization": "Bearer " + get_professional_paul_camara_jwt},
     )
     assert response.status_code == 204
     members = await get_notebook_members_by_notebook_id(
@@ -180,7 +183,7 @@ async def test_add_notebook_member_as_referent(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_add_notebook_member_as_referent_orientation_not_available(
     mock_send_email: mock.Mock,
-    test_client: TestClient,
+    test_client: AsyncClient,
     notebook_sophie_tifour: Notebook,
     get_professional_paul_camara_jwt: str,
     professional_paul_camara: Professional,
@@ -208,7 +211,7 @@ async def test_add_notebook_member_as_referent_orientation_not_available(
             "member_type": "referent",
             "orientation": str(orientation_system_id),
         },
-        headers={"jwt-token": get_professional_paul_camara_jwt},
+        headers={"Authorization": "Bearer " + get_professional_paul_camara_jwt},
     )
     assert response.status_code == 422
     assert response.json() == {

@@ -51,7 +51,7 @@
 				new_referent_account_id: values.professionalAccountId,
 				orientation_reason: values.orientationReason,
 			},
-			{ 'jwt-token': $token }
+			{ Authorization: `Bearer ${$token}` }
 		);
 	}
 </script>

@@ -53,7 +53,7 @@
 			await postApiJson(
 				`/v1/notebooks/${notebookId}/members`,
 				{ member_type: values.memberType, orientation: values.orientation },
-				{ 'jwt-token': $token }
+				{ Authorization: `Bearer ${$token}` }
 			);
 			dispatch('notebook-member-added');
 		} catch (err) {

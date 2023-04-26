@@ -38,6 +38,8 @@ class TestUpdateCAFMSA(TestCase):
         ]
         get_manager_mock.return_value = []
         await update_cafmsa_for_beneficiaries(
-            get_manager_cd_93_account_id, get_manager_jwt_93, (infos, foyers)
+            get_manager_cd_93_account_id,
+            "Bearer " + get_manager_jwt_93,
+            (infos, foyers),
         )
         self.assertRaises(FindResultException)

@@ -1,6 +1,9 @@
 from datetime import date
 from unittest import mock
 
+from httpx import AsyncClient
+from syrupy.data import Snapshot
+
 from cdb.api.db.models.beneficiary import BeneficiaryWithAdminStructureEmail
 from cdb.api.db.models.orientation_system import OrientationSystem
 
@@ -12,9 +15,9 @@ from cdb.api.db.models.orientation_system import OrientationSystem
 class TestNotifyAdminStructure:
     async def test_return_unauthorized_when_no_secret_token(
         self,
-        mock_get_beneficiaries_without_referent: mock.Mock,
-        mock_send_email: mock.Mock,
-        test_client,
+        _: mock.Mock,
+        __: mock.Mock,
+        test_client: AsyncClient,
     ):
         response = await test_client.post("/v1/admin_structures/notify")
 
@@ -40,7 +43,7 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        test_client,
+        test_client: AsyncClient,
     ):
         mock_get_beneficiaries_without_referent.return_value = []
 
@@ -58,8 +61,8 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        test_client,
-        snapshot,
+        test_client: AsyncClient,
+        snapshot: Snapshot,
     ):
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
@@ -108,8 +111,8 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        snapshot,
-        test_client,
+        snapshot: Snapshot,
+        test_client: AsyncClient,
         orientation_system_pro: OrientationSystem,
     ):
         mock_get_beneficiaries_without_referent.return_value = [
@@ -192,8 +195,8 @@ class TestNotifyAdminStructure:
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        snapshot,
-        test_client,
+        snapshot: Snapshot,
+        test_client: AsyncClient,
         orientation_system_pe: OrientationSystem,
         orientation_system_ria: OrientationSystem,
     ):

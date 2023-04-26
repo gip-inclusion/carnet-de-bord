@@ -14,9 +14,10 @@ class allowed_jwt_roles:
     def __init__(self, allowed_roles: List[RoleEnum]) -> None:
         self.allowed_roles = allowed_roles
 
-    def __call__(self, jwt_token: str | None = Header(default=None)) -> None:
-        if not jwt_token:
+    def __call__(self, authorization: str | None = Header(default=None)) -> None:
+        if not authorization:
             raise HTTPException(status_code=401, detail="Missing credentials")
+        jwt_token = authorization.removeprefix("Bearer ")
         jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
         token = jwt.decode(
             jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]]
@@ -28,20 +29,22 @@ class allowed_jwt_roles:
 
 
 async def extract_deployment_id(
-    request: Request, jwt_token: str | None = Header(default=None)
+    request: Request, authorization: str | None = Header(default=None)
 ):
-    if not jwt_token:
+    if not authorization:
         raise HTTPException(status_code=401, detail="Missing credentials")
+    jwt_token = authorization.removeprefix("Bearer ")
     jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
     token = jwt.decode(jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]])
     request.state.deployment_id = token["deploymentId"]
 
 
 async def extract_authentified_account(
-    request: Request, jwt_token: str | None = Header(default=None)
+    request: Request, authorization: str | None = Header(default=None)
 ):
-    if not jwt_token:
+    if not authorization:
         raise HTTPException(status_code=401, detail="Missing credentials")
+    jwt_token = authorization.removeprefix("Bearer ")
     jwt_config = json.loads(settings.hasura_graphql_jwt_secret)
     token = jwt.decode(jwt_token, jwt_config["key"], algorithms=[jwt_config["type"]])
     request.state.account = Account(

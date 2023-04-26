@@ -2,6 +2,7 @@ from unittest import mock
 from uuid import UUID
 
 from asyncpg.connection import Connection
+from httpx import AsyncClient
 
 ENDPOINT_PATH = "/v1/admin_structures/create"
 sender_email = "test@toto.fr"
@@ -10,8 +11,8 @@ sender_email = "test@toto.fr"
 @mock.patch("cdb.api.v1.routers.admin_structures.send_invitation_email")
 async def test_jwt_token_verification(
     _: mock.Mock,
-    test_client,
-    get_professional_jwt,
+    test_client: AsyncClient,
+    get_professional_jwt: str,
     deployment_id_cd93: UUID,
     structure_id_pe_livry: UUID,
 ):
@@ -29,7 +30,7 @@ async def test_jwt_token_verification(
             },
             "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": get_professional_jwt},
+        headers={"Authorization": "Bearer " + get_professional_jwt},
     )
 
     json = response.json()
@@ -41,9 +42,9 @@ async def test_jwt_token_verification(
 @mock.patch("cdb.api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_admin_structure_with_structure_in_db(
     mock_send_invitation_mail: mock.Mock,
-    test_client,
+    test_client: AsyncClient,
     db_connection: Connection,
-    get_admin_structure_jwt,
+    get_admin_structure_jwt: str,
     deployment_id_cd93: UUID,
     structure_id_pe_livry: UUID,
 ):
@@ -61,7 +62,7 @@ async def test_insert_admin_structure_with_structure_in_db(
             },
             "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": get_admin_structure_jwt},
+        headers={"Authorization": "Bearer " + get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -97,9 +98,9 @@ async def test_insert_admin_structure_with_structure_in_db(
 @mock.patch("cdb.api.v1.routers.admin_structures.send_invitation_email")
 async def test_insert_existing_admin_structure_in_structure_in_db(
     _: mock.Mock,
-    test_client,
+    test_client: AsyncClient,
     db_connection: Connection,
-    get_admin_structure_jwt,
+    get_admin_structure_jwt: str,
     deployment_id_cd93: UUID,
     structure_id_pe_livry: UUID,
 ):
@@ -116,7 +117,7 @@ async def test_insert_existing_admin_structure_in_structure_in_db(
             },
             "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": get_admin_structure_jwt},
+        headers={"Authorization": "Bearer " + get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -163,7 +164,7 @@ async def test_insert_existing_admin_structure_in_existing_structure(
             },
             "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": get_admin_structure_jwt},
+        headers={"Authorization": "Bearer " + get_admin_structure_jwt},
     )
 
     assert response.status_code == 200
@@ -208,7 +209,7 @@ async def test_insert_deleted_admin_structure_in_structure_in_db(
             },
             "structure_id": structure_id_pe_livry,
         },
-        headers={"jwt-token": get_admin_structure_jwt},
+        headers={"Authorization": "Bearer " + get_admin_structure_jwt},
     )
 
     assert response.status_code == 200

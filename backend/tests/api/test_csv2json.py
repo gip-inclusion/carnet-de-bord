@@ -1,13 +1,16 @@
+from httpx import AsyncClient
+
+
 async def test_parse_csv(
-    test_client,
-    csv_beneficiary_filepath,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    csv_beneficiary_filepath: str,
+    get_manager_jwt_93: str,
 ):
     with open(csv_beneficiary_filepath, "rb") as file:
         response = await test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
 
         assert response.status_code == 200
@@ -17,15 +20,15 @@ async def test_parse_csv(
 
 
 async def test_parse_csv_with_all_date_formats(
-    test_client,
-    csv_beneficiary_with_all_date_formats_filepath,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    csv_beneficiary_with_all_date_formats_filepath: str,
+    get_manager_jwt_93: str,
 ):
     with open(csv_beneficiary_with_all_date_formats_filepath, "rb") as file:
         response = await test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
 
         assert response.json()[0]["data"]["Identifiant dans le SI*"] == "1234"
@@ -35,14 +38,14 @@ async def test_parse_csv_with_all_date_formats(
 
 
 async def test_parse_csv_errors(
-    test_client,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
 ):
     with open("tests/fixtures/import_beneficiaires_buggy.csv", "rb") as file:
         response = await test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
 
         assert response.json()[0]["errors"][0]["key"] == "Date de naissance*"
@@ -58,30 +61,30 @@ async def test_parse_csv_errors(
 
 
 async def test_structure_parse_csv(
-    test_client,
-    csv_structure_filepath,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    csv_structure_filepath: str,
+    get_manager_jwt_93: str,
 ):
     with open(csv_structure_filepath, "rb") as file:
         response = await test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
 
         assert response.status_code == 200
 
 
 async def test_structure_parse_csv_with_error(
-    test_client,
-    csv_structure_buggy_filepath,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    csv_structure_buggy_filepath: str,
+    get_manager_jwt_93: str,
 ):
     with open(csv_structure_buggy_filepath, "rb") as file:
         response = await test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
         data = response.json()
 
@@ -135,15 +138,15 @@ async def test_structure_parse_csv_with_error(
 
 
 async def test_structure_parse_csv_with_missing_column_should_not_fail(
-    test_client,
-    csv_structure_missing_key_filepath,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    csv_structure_missing_key_filepath: str,
+    get_manager_jwt_93: str,
 ):
     with open(csv_structure_missing_key_filepath, "rb") as file:
         response = await test_client.post(
             "/v1/convert-file/structures",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
         data = response.json()
 

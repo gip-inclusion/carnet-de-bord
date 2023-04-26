@@ -1,7 +1,8 @@
 from unittest import mock
 
 import pytest
-from fastapi.testclient import TestClient
+from httpx import AsyncClient
+from syrupy.data import Snapshot
 
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.professional import Professional
@@ -14,8 +15,8 @@ DENY_ORIENTATION_ENDPOINT_PATH = "/v1/orientation_requests/deny"
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_deny_orientation_request_email(
     mock_send_email: mock.Mock,
-    test_client: TestClient,
-    snapshot,
+    test_client: AsyncClient,
+    snapshot: Snapshot,
     professional_edith_orial: Professional,
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
@@ -25,7 +26,7 @@ async def test_deny_orientation_request_email(
         json={
             "orientation_request_id": orientation_request_jennings_dee.id,
         },
-        headers={"jwt-token": giulia_diaby_jwt},
+        headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     print(response.json())
     assert response.status_code == 200

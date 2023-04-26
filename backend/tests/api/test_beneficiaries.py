@@ -7,6 +7,7 @@ from unittest import mock
 import pytest
 from asyncpg import Record
 from asyncpg.connection import Connection
+from httpx import AsyncClient
 from pydantic import BaseModel
 
 from cdb.api.db.crud.beneficiary import (
@@ -23,7 +24,7 @@ async def import_beneficiaries(
 ):
     return await client.post(
         "/v1/beneficiaries/bulk",
-        headers={"jwt-token": token},
+        headers={"Authorization": "Bearer " + token},
         content=json.dumps(
             {
                 "need_orientation": True,
@@ -39,16 +40,16 @@ async def import_beneficiaries(
 async def test_upload_caf_msa(
     sendmail_mock: mock.Mock,
     db_connection: Connection,
-    test_client,
-    fichier_mensuel_caf,
-    get_manager_jwt_93,
-    sophie_tifour_beneficiary_id,
+    test_client: AsyncClient,
+    fichier_mensuel_caf: str,
+    get_manager_jwt_93: str,
+    sophie_tifour_beneficiary_id: str,
 ):
     with open(fichier_mensuel_caf, "rb") as file:
         response = await test_client.post(
             "/v1/beneficiaries/update-from-caf-msa",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
         assert response.status_code == 201
         assert sendmail_mock.call_count == 1
@@ -67,11 +68,11 @@ async def test_upload_caf_msa(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_upload_caf_msa_reouvert(
     sendmail_mock: mock.MagicMock,
-    test_client,
-    fichier_mensuel_caf_reouvert,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    fichier_mensuel_caf_reouvert: str,
+    get_manager_jwt_93: str,
     db_connection: Connection,
-    eta_bullock_beneficiary_id,
+    eta_bullock_beneficiary_id: str,
 ):
     await db_connection.fetchrow(
         """
@@ -88,7 +89,7 @@ async def test_upload_caf_msa_reouvert(
         response = await test_client.post(
             "/v1/beneficiaries/update-from-caf-msa",
             files={"upload_file": ("filename", file, "text/csv")},
-            headers={"jwt-token": get_manager_jwt_93},
+            headers={"Authorization": "Bearer " + get_manager_jwt_93},
         )
         assert response.status_code == 201
 
@@ -104,12 +105,12 @@ async def test_upload_caf_msa_reouvert(
 
 
 async def test_import_beneficiaries_must_be_done_by_a_manager(
-    test_client,
-    get_professional_jwt,
+    test_client: AsyncClient,
+    get_professional_jwt: str,
 ):
     response = await test_client.post(
         "/v1/beneficiaries/bulk",
-        headers={"jwt-token": get_professional_jwt},
+        headers={"Authorization": "Bearer " + get_professional_jwt},
         content=json.dumps(
             {
                 "beneficiaries": [],
@@ -122,17 +123,17 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
 
 
 async def test_import_beneficiaries(
-    test_client,
-    get_manager_jwt_93,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
 ):
     response = await import_beneficiaries(test_client, get_manager_jwt_93, [])
     assert response.status_code == 200
 
 
 async def test_import_a_new_beneficiary(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     response = await import_beneficiaries(
         test_client, get_manager_jwt_93, [harry_covert]
@@ -145,7 +146,7 @@ async def test_import_a_new_beneficiary(
 
 
 async def test_update_existing_beneficiary_same_name(
-    test_client, get_manager_jwt_93, db_connection
+    test_client: AsyncClient, get_manager_jwt_93: str, db_connection: Connection
 ):
     await import_beneficiaries(
         test_client, get_manager_jwt_93, [harry_covert_phoneless]
@@ -165,7 +166,7 @@ async def test_update_existing_beneficiary_same_name(
 
 
 async def test_insert_beneficiary_with_existing_si_id_in_other_deployment(
-    test_client, get_manager_jwt_93, get_manager_jwt_51
+    test_client: AsyncClient, get_manager_jwt_93: str, get_manager_jwt_51: str
 ):
     await import_beneficiaries(
         test_client, get_manager_jwt_51, [harry_covert_phoneless]
@@ -177,9 +178,9 @@ async def test_insert_beneficiary_with_existing_si_id_in_other_deployment(
 
 
 async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: str,
 ):
     await import_beneficiaries(
         test_client, get_manager_jwt_93, [harry_covert_phoneless]
@@ -205,7 +206,7 @@ async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
 
 
 async def test_update_beneficiary_with_different_capitalization_and_spacing(
-    test_client, get_manager_jwt_93, db_connection, caplog
+    test_client: AsyncClient, get_manager_jwt_93: str, db_connection: Connection, caplog
 ):
     with caplog.at_level(logging.INFO):
         await import_beneficiaries(
@@ -224,9 +225,9 @@ async def test_update_beneficiary_with_different_capitalization_and_spacing(
 
 
 async def test_insert_beneficiary_check_all_fields(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     await import_beneficiaries(test_client, get_manager_jwt_93, [harry_covert])
 
@@ -270,9 +271,9 @@ async def test_insert_beneficiary_check_all_fields(
 
 
 async def test_update_beneficiary_check_all_fields(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     await import_beneficiaries(
         test_client, get_manager_jwt_93, [harry_covert_phoneless]
@@ -308,9 +309,9 @@ async def test_update_beneficiary_check_all_fields(
 
 
 async def test_dont_update_beneficiary_with_empty_fields(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     await import_beneficiaries(test_client, get_manager_jwt_93, [harry_covert])
     beneficiary_in_db = await get_beneficiary_from_personal_information(
@@ -341,9 +342,9 @@ async def test_dont_update_beneficiary_with_empty_fields(
 
 
 async def test_only_update_beneficiary_with_not_null_fields(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     await import_beneficiaries(test_client, get_manager_jwt_93, [harry_covert])
     beneficiary_in_db = await get_beneficiary_from_personal_information(
@@ -372,9 +373,9 @@ async def test_only_update_beneficiary_with_not_null_fields(
 
 
 async def test_import_multiple_beneficiaries(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     response = await import_beneficiaries(
         test_client, get_manager_jwt_93, [harry_covert, betty_bois]
@@ -391,9 +392,9 @@ async def test_import_multiple_beneficiaries(
 
 
 async def test_import_multiple_professional_projects(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     harry_covert_wants_more = harry_covert.copy()
     harry_covert_wants_more.rome_code_description = (
@@ -425,9 +426,9 @@ async def test_import_multiple_professional_projects(
 
 
 async def test_matched_existing_referent_and_structure(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     await import_beneficiaries(test_client, get_manager_jwt_93, [harry_covert])
 
@@ -453,9 +454,9 @@ async def test_matched_existing_referent_and_structure(
 
 
 async def test_existing_structure_no_referent(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     harry = harry_covert.copy()
     harry.advisor_email = None
@@ -475,9 +476,9 @@ async def test_existing_structure_no_referent(
 
 
 async def test_existing_referent_no_structure(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     harry = harry_covert.copy()
     harry.structure_name = None
@@ -504,9 +505,9 @@ async def test_existing_referent_no_structure(
 
 
 async def test_existing_referent_not_in_existing_structure(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     harry = harry_covert.copy()
     harry.structure_name = "Service Social Départemental"
@@ -525,9 +526,9 @@ async def test_existing_referent_not_in_existing_structure(
 
 
 async def test_non_existing_structure(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     harry = harry_covert.copy()
     harry.structure_name = "Not an existing Structure"
@@ -545,9 +546,9 @@ async def test_non_existing_structure(
 
 
 async def test_existing_structure_non_existing_referent(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     harry = harry_covert.copy()
     harry.advisor_email = "jean.biche@nullepart.fr"
@@ -566,9 +567,9 @@ async def test_existing_structure_non_existing_referent(
 
 
 async def test_no_structure_non_existing_referent(
-    test_client,
-    get_manager_jwt_93,
-    db_connection,
+    test_client: AsyncClient,
+    get_manager_jwt_93: str,
+    db_connection: Connection,
 ):
     harry = harry_covert.copy()
     harry.structure_name = None

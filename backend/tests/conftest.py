@@ -162,7 +162,9 @@ async def test_client(fastapi_app):
 async def gql_manager_client(
     get_manager_jwt_93: str,
 ) -> AsyncGenerator[AsyncClientSession, None]:
-    async with gql_client_backend_only(get_manager_jwt_93) as client:
+    async with gql_client_backend_only(
+        bearer_token="Bearer " + get_manager_jwt_93
+    ) as client:
         yield client
 
 

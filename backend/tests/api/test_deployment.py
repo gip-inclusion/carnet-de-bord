@@ -2,6 +2,7 @@ from unittest import mock
 from uuid import UUID
 
 from asyncpg import Record
+from asyncpg.connection import Connection
 from httpx import AsyncClient
 
 manager_email = "test@toto.fr"
@@ -9,13 +10,13 @@ ENDPOINT_PATH = "/v1/deployment"
 
 
 async def test_jwt_token_verification(
-    test_client,
-    get_admin_structure_jwt,
+    test_client: AsyncClient,
+    get_admin_structure_jwt: str,
 ):
     response = await test_client.post(
         ENDPOINT_PATH,
         json={"email": manager_email, "firstname": "lionel", "lastname": "Bé"},
-        headers={"jwt-token": get_admin_structure_jwt},
+        headers={"Authorization": "Bearer " + get_admin_structure_jwt},
     )
     json = response.json()
     assert response.status_code == 403
@@ -26,8 +27,8 @@ async def test_jwt_token_verification(
 async def test_deployment(
     mock_send_invitation_mail: mock.Mock,
     test_client: AsyncClient,
-    db_connection,
-    get_admin_cdb_jwt,
+    db_connection: Connection,
+    get_admin_cdb_jwt: str,
 ):
     response = await test_client.post(
         url=ENDPOINT_PATH,
@@ -36,7 +37,7 @@ async def test_deployment(
             "label": "26 - Drôme",
             "department_code": "26",
         },
-        headers={"jwt-token": get_admin_cdb_jwt},
+        headers={"Authorization": "Bearer " + get_admin_cdb_jwt},
     )
     assert response.status_code == 201
     deployment_row: Record = await db_connection.fetchrow(
