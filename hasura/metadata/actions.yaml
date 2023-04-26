@@ -25,6 +25,10 @@ actions:
       kind: synchronous
       handler: '{{APP_URL}}/v1/socio_pro/update'
       forward_client_headers: true
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: manager
     comment: Update professionnal project and create notebook event
 custom_types:
   enums:
