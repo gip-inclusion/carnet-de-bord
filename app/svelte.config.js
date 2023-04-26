@@ -47,5 +47,5 @@ const config = {
 	},
 	preprocess: vitePreprocess(),
 };
-console.log(config.kit.csp);
+
 export default config;
