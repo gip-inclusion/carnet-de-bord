@@ -12,7 +12,7 @@ export const POST = (async ({ request, cookies, params }) => {
 		headers: {
 			'Content-Type': request.headers.get('content-type'),
 			accept: request.headers.get('accept'),
-			'jwt-token': jwt,
+			Authorization: `Bearer ${jwt}`,
 			...(request.headers.get('content-disposition')
 				? { 'Content-Disposition': request.headers.get('content-disposition') }
 				: null),
