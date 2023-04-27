@@ -1,3 +1,10 @@
+# [1.216.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.215.4...v1.216.0) (2023-04-27)
+
+
+### Features
+
+* Accepter 13 chiffres/lettres pour le NIR ([#1709](https://github.com/gip-inclusion/carnet-de-bord/issues/1709)) ([d1e59df](https://github.com/gip-inclusion/carnet-de-bord/commit/d1e59df7c13ffc353a3d7bd111944ac69f6c5531))
+
 ## [1.215.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.215.3...v1.215.4) (2023-04-26)
 
 ## [1.215.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.215.2...v1.215.3) (2023-04-25)
