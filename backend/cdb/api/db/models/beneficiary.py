@@ -190,7 +190,7 @@ class BeneficiaryImport(BaseModel):
         validation_error = nir_format(nir)
         if validation_error:
             raise ValueError(validation_error)
-        return nir
+        return nir[:13] if nir else nir
 
     # TODO Should be possible to use decorator to mark field for beneficiary
     def get_beneficiary_editable_keys(self) -> list[str]:
