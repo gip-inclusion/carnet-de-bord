@@ -36,6 +36,7 @@ import NoUrlStringConcatenation
 import NoUselessSubscriptions
 import Review.Rule exposing (Rule)
 import Simplify
+import HtmlToElm
 
 
 config : List Rule
@@ -59,6 +60,7 @@ config =
                 |> NoInconsistentAliases.noMissingAliases
                 |> NoInconsistentAliases.rule
            , NoModuleOnExposedNames.rule
+           , HtmlToElm.rule
            ]
 
 

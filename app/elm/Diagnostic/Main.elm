@@ -108,7 +108,6 @@ type alias PersonalSituationFlags =
 
 type GenderType
     = Feminine
-    | Plural
     | FemininePlural
     | Masculine
 
@@ -275,9 +274,6 @@ unfilled genderType =
         ++ (case genderType of
                 Feminine ->
                     "e"
-
-                Plural ->
-                    "s"
 
                 FemininePlural ->
                     "es"

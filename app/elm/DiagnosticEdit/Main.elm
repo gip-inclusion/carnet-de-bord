@@ -47,10 +47,6 @@ port sendSelectedSituations : List String -> Cmd msg
 port sendUpdatedProfessionalProjects : List ProfessionalProjectOut -> Cmd msg
 
 
-
---
-
-
 type alias RefSituationFlag =
     { id : String
     , description : String
