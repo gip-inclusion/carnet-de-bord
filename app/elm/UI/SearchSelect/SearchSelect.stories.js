@@ -3,7 +3,7 @@ import elmSource from './Stories.elm?raw';
 import { ElmComponent } from 'elm-storybook';
 
 export default {
-	title: 'SearchSelect',
+	title: 'UI/SearchSelect',
 	parameters: { elmSource },
 	argTypes: {
 		onAction: { action: 'Elm' },

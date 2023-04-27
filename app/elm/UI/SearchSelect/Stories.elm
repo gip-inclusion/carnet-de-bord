@@ -1,5 +1,7 @@
 module UI.SearchSelect.Stories exposing (Model, Msg, main)
 
+import Html
+import Html.Attributes as Attr
 import Storybook.Component exposing (Component)
 import Storybook.Controls
 import Task
@@ -21,7 +23,7 @@ main =
                 , api = searchApi
                 }
         , update = \msg model -> SearchSelect.update msg model
-        , view = always <| SearchSelect.view
+        , view = always (SearchSelect.view >> List.singleton >> Html.div [ Attr.class "w-96" ])
         }
 
 

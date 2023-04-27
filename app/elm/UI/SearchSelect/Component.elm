@@ -5,7 +5,6 @@ module UI.SearchSelect.Component exposing (Model, Msg(..), getSelected, init, up
 
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
 import Html
-import Html.Attributes as Attr
 import Select
 import UI.SearchSelect.View
 
@@ -194,9 +193,7 @@ debouncerConfig =
 
 view : Model a -> Html.Html (Msg a)
 view model =
-    Html.div [ Attr.style "width" "300px" ]
-        [ UI.SearchSelect.View.view model.props
-            { onOpen = Open
-            , onSelectMsg = SelectMsg
-            }
-        ]
+    UI.SearchSelect.View.view model.props
+        { onOpen = Open
+        , onSelectMsg = SelectMsg
+        }

@@ -14,6 +14,7 @@ module.exports = {
 	settings: {
 		'svelte3/typescript': () => require('typescript'), // pass the TypeScript package to the Svelte plugin
 	},
+
 	rules: {
 		'no-unused-vars': 'off',
 		'@typescript-eslint/no-unused-vars': 'error',
@@ -22,4 +23,5 @@ module.exports = {
 	globals: {
 		__version__: 'readonly',
 	},
+	extends: ['plugin:storybook/recommended'],
 };
