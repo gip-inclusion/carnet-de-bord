@@ -57,13 +57,13 @@ def create_app(*, db=None) -> FastAPI:
     def get_status() -> dict[str, str]:
         return {"status": "running", "version": get_version()}
 
-    # manually decorate http middleware
-    http_middleware_decorator = app.middleware("http")
-    http_middleware_decorator(logging_middleware)
+    @app.middleware("http")
+    async def format_logging(*args):
+        return await logging_middleware(*args)
 
-    # manually decorate exception_handler
-    exception_handler_decorator = app.exception_handler(HTTPException)
-    exception_handler_decorator(http_exception_handler)
+    @app.exception_handler(HTTPException)
+    async def format_exception(*args):
+        return await http_exception_handler(*args)
 
     return app
 
