@@ -20,15 +20,15 @@ class Action(BaseModel):
 class ProfessionalProjectCommon(BaseModel):
     contractTypeId: str | None
     employmentTypeId: str | None
-    hourlyRate: str | None
-    mobilityRadius: str | None
+    hourlyRate: int | None
+    mobilityRadius: int | None
     romeCodeId: UUID | None
 
     def gql_variables(self):
         return {
             "contractTypeId": self.contractTypeId,
             "employmentTypeId": self.employmentTypeId,
-            "hourlyRate": self.employmentTypeId,
+            "hourlyRate": self.hourlyRate,
             "mobilityRadius": self.mobilityRadius,
             "romeCodeId": str(self.romeCodeId) if self.romeCodeId is not None else None,
         }
