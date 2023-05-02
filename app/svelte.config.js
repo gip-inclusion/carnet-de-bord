@@ -16,7 +16,7 @@ const config = {
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
 				'script-src': [
 					'self',
-					...(process.env.NODE_ENV === 'production' ? [''] : ['strict-dynamic']),
+					...(process.env.NODE_ENV === 'production' ? [''] : ['unsafe-eval']),
 					'https://client.crisp.chat/',
 				],
 				'connect-src': [
