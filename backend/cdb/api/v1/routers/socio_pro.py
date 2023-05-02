@@ -116,7 +116,7 @@ class UpdateSocioProMutation(BaseModel):
             "educationLevel": self.input.educationLevel,
             "lastJobEndedAt": self.input.lastJobEndedAt,
             "professionalProjectIdsToDelete": [
-                p.gql_variables() for p in self.input.professionalProjectIdsToDelete
+                str(id) for id in self.input.professionalProjectIdsToDelete
             ],
             "professionalProjectsToAdd": [
                 p.gql_variables() for p in self.input.professionalProjectsToAdd
@@ -125,9 +125,7 @@ class UpdateSocioProMutation(BaseModel):
                 p.gql_variables() for p in self.input.professionalProjectsToUpdate
             ],
             "situationsToAdd": [p.gql_variables() for p in self.input.situationsToAdd],
-            "situationIdsToDelete": [
-                p.gql_variables() for p in self.input.situationIdsToDelete
-            ],
+            "situationIdsToDelete": [str(id) for id in self.input.situationIdsToDelete],
         }
 
 
