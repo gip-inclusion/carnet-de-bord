@@ -2,10 +2,14 @@ import logging
 import sys
 
 import structlog
+from gql.transport.aiohttp import log as requests_logger
 from structlog.types import EventDict, Processor
 from structlog_sentry import SentryProcessor
 
+requests_logger.setLevel(logging.WARNING)
+
 # inspired by https://gist.github.com/nymous/f138c7f06062b7c43c060bf03759c29e
+
 
 # https://github.com/hynek/structlog/issues/35#issuecomment-591321744
 def rename_event_key(_, __, event_dict: EventDict) -> EventDict:
