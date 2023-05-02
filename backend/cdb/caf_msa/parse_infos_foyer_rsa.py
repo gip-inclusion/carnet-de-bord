@@ -8,6 +8,8 @@ from pydantic import BaseModel, Field, validator
 
 _XML_CHUNK_SIZE = 262144
 
+logger = logging.getLogger(__name__)
+
 
 class CafInfoFlux(BaseModel):
     date: date
@@ -151,7 +153,7 @@ class SubtreeXMLTarget:
 def parse_caf_file(
     file: SpooledTemporaryFile,
 ) -> Generator[CafInfoFlux | CafMsaInfosFoyer, None, None]:
-    logging.info("Starting XML parsing")
+    logger.info("Starting XML parsing")
 
     foundNodes = []
 
@@ -172,7 +174,7 @@ def parse_caf_file(
 
         for node in foundNodes:
             if node.tag == "IdentificationFlux":
-                logging.info("Noeud IdentificationFlux trouvé")
+                logger.info("Noeud IdentificationFlux trouvé")
                 yield parse_infos_flux(node)
             else:
                 yield parse_infos_foyer_rsa(node)

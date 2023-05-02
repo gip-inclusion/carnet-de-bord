@@ -23,6 +23,8 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
     transform_cafMsaFoyer_to_beneficiary,
 )
 
+logger = logging.getLogger(__name__)
+
 
 async def update_cafmsa_for_beneficiaries(
     account_id: UUID, authorization: str, file: SpooledTemporaryFile
@@ -48,6 +50,14 @@ async def update_cafmsa_for_beneficiaries(
             if not isinstance(node, CafMsaInfosFoyer) or not infos:
                 raise CafXMLMissingNodeException
             for beneficiary in node.beneficiaries:
+                if count % 100 == 0:
+                    logger.info(
+                        "Traitement du fichier en cours "
+                        "%s/%s dossiers traités (%s erreurs)",
+                        count_success,
+                        count,
+                        count_error,
+                    )
                 try:
                     result = await save_cafmsa_infos_for_beneficiary(
                         gql_session=session,
@@ -58,7 +68,7 @@ async def update_cafmsa_for_beneficiaries(
                     if result:
                         count_success += 1
                 except Exception as error:
-                    logging.error(
+                    logger.error(
                         "Erreur lors du traitement du dossier %s",
                         error,
                     )
@@ -66,7 +76,7 @@ async def update_cafmsa_for_beneficiaries(
                 finally:
                     count += 1
 
-        logging.info(
+        logger.info(
             "Mise à jour de %s/%s dossiers reçus (%s erreurs) en %s",
             count_success,
             count,
@@ -76,7 +86,7 @@ async def update_cafmsa_for_beneficiaries(
 
         manager = await get_manager_by_account_id(session, account_id)
         if manager:
-            logging.info(
+            logger.info(
                 "Notification de la fin du traitement au manager %s",
                 manager.email,
             )
@@ -88,7 +98,7 @@ async def update_cafmsa_for_beneficiaries(
                 count_error,
             )
         else:
-            logging.warn(
+            logger.warn(
                 "manager (id=%s) introuvable",
                 account_id,
             )
@@ -119,9 +129,6 @@ async def save_cafmsa_infos_for_beneficiary(
             sha,
             external_data_to_save,
         )
-
-    else:
-        logging.info("Bénéficiaire non trouvé.", caf_beneficiary.nir)
 
 
 class CafXMLMissingNodeException(Exception):
