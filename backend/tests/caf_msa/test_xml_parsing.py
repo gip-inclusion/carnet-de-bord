@@ -9,7 +9,3 @@ from cdb.caf_msa.validate_xml import validate_xml
 async def test_validate_incorrect_file(flux_quotidien_caf_invalid: io.BufferedReader):
     with pytest.raises(etree.DocumentInvalid):
         validate_xml(data=flux_quotidien_caf_invalid)
-
-
-# async def test_validate_large_file(flux_quotidien_caf_large: io.BufferedReader):
-#     assert validate_xml(data=flux_quotidien_caf_large)
