@@ -1,3 +1,10 @@
+## [1.216.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.3...v1.216.4) (2023-05-02)
+
+
+### Bug Fixes
+
+* mise à jour des csp en dev (ajout unsafe eval) ([#1713](https://github.com/gip-inclusion/carnet-de-bord/issues/1713)) ([d7ce8fe](https://github.com/gip-inclusion/carnet-de-bord/commit/d7ce8fe2c70000c9409a9957027ea07f4dc1d1f7))
+
 ## [1.216.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.2...v1.216.3) (2023-05-02)
 
 ## [1.216.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.1...v1.216.2) (2023-05-02)
