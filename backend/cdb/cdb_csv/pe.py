@@ -294,7 +294,6 @@ def compute_action_date(
     date_fin: datetime | None,
     label: str,
 ) -> datetime:
-
     if (
         label != FORMATION_DOMAINE_SUIVANT_LABEL
         and date_fin is not None
@@ -302,7 +301,6 @@ def compute_action_date(
     ):
         return date_realisation_action
     elif date_fin:
-
         return date_fin
 
     return date_prescription
@@ -387,7 +385,7 @@ async def import_pe_referent(
 
         if professional:
             logging.info(
-                "%S - Professional %s inserted and attached to structure %s",
+                "%s - Professional %s inserted and attached to structure %s",
                 csv_row.identifiant_unique_de,
                 csv_row.referent_mail,
                 structure.name,

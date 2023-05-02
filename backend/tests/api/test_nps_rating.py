@@ -95,7 +95,8 @@ async def test_nps_rating_double_submission(
     )
     assert response.status_code == 403
     assert response.json() == {
-        "detail": "Le dernier score NPS a été enregistré il y a moins de 14 jours."
+        "detail": "Le dernier score NPS a été enregistré il y a moins de 14 jours.",
+        "message": "Le dernier score NPS a été enregistré il y a moins de 14 jours.",
     }
     row = await db_connection.fetchrow("SELECT * FROM nps_rating")
     assert len(row) == 4

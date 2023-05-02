@@ -1,11 +1,12 @@
 import importlib.metadata
 import logging
 
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.settings import settings
+from cdb.api.v1.middlewares import http_exception_handler, logging_middleware
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +36,6 @@ def create_app(*, db=None) -> FastAPI:
 
     @app.on_event("shutdown")
     async def shutdown():
-
         # cleanup
         pass
 
@@ -56,6 +56,14 @@ def create_app(*, db=None) -> FastAPI:
 
     def get_status() -> dict[str, str]:
         return {"status": "running", "version": get_version()}
+
+    # manually decorate http middleware
+    http_middleware_decorator = app.middleware("http")
+    http_middleware_decorator(logging_middleware)
+
+    # manually decorate exception_handler
+    exception_handler_decorator = app.exception_handler(HTTPException)
+    exception_handler_decorator(http_exception_handler)
 
     return app
 
