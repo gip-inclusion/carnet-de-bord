@@ -12,14 +12,12 @@
 	import { backendAPI, connectedUser, graphqlAPI, offCanvas, token } from '$lib/stores';
 	import type { PageData } from './$types';
 
-	import { initSentry } from '$lib/utils/sentry';
 	import * as yup from 'yup';
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	import createClient from '$lib/graphql/createClient';
 	import { Client, setClient } from '@urql/svelte';
 	import LayerCdb from '$lib/ui/LayerCDB.svelte';
 	import { getMatomoUrl, getMatomoSiteId } from '$lib/config/variables/public';
-	import * as Sentry from '@sentry/svelte';
 
 	yup.setLocale(yupFrLocale);
 
@@ -40,7 +38,6 @@
 	}
 
 	onMount(async () => {
-		initSentry(Sentry);
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
 		await import('@gouvfr/dsfr/dist/dsfr/dsfr.module.min.js');
 
