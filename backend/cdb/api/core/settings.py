@@ -1,3 +1,4 @@
+import logging
 import os
 
 from pydantic import BaseSettings, validator
@@ -6,7 +7,6 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
 class Settings(BaseSettings):
-
     app_url: str
     database_url: str
     hasura_graphql_jwt_secret: str
@@ -33,6 +33,7 @@ class Settings(BaseSettings):
     LOG_FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
     LOG_LEVEL: str = "INFO"
     LOG_AS_JSON: bool = True
+    GQL_LOG_LEVEL: int = logging.WARNING
 
     SENTRY_DSN: str | None
     SENTRY_ENVIRONMENT: str | None

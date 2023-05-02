@@ -6,7 +6,9 @@ from gql.transport.aiohttp import log as requests_logger
 from structlog.types import EventDict, Processor
 from structlog_sentry import SentryProcessor
 
-requests_logger.setLevel(logging.WARNING)
+from cdb.api.core.settings import settings
+
+requests_logger.setLevel(settings.GQL_LOG_LEVEL)
 
 # inspired by https://gist.github.com/nymous/f138c7f06062b7c43c060bf03759c29e
 
