@@ -122,7 +122,19 @@ class UpdateSocioProMutation(BaseModel):
                 p.gql_variables() for p in self.input.professionalProjectsToAdd
             ],
             "professionalProjectsToUpdate": [
-                p.gql_variables() for p in self.input.professionalProjectsToUpdate
+                {
+                    "where": {
+                        "id": {"_eq": p.id},
+                    },
+                    "_set": {
+                        "mobilityRadius": p.mobilityRadius,
+                        "romeCodeId": p.romeCodeId,
+                        "contractTypeId": p.contractTypeId,
+                        "employmentTypeId": p.employmentTypeId,
+                        "hourlyRate": p.hourlyRate,
+                    },
+                }
+                for p in self.input.professionalProjectsToUpdate
             ],
             "situationsToAdd": [p.gql_variables() for p in self.input.situationsToAdd],
             "situationIdsToDelete": [str(id) for id in self.input.situationIdsToDelete],
