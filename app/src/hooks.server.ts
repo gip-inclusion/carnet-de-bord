@@ -2,6 +2,7 @@ import type { Handle, HandleServerError } from '@sveltejs/kit';
 import { logger } from '$lib/utils/logger';
 import * as Sentry from '@sentry/node';
 import { initSentry, captureException } from '$lib/utils/sentry';
+import { expandURLsInCSP } from '$lib/utils/csp';
 
 initSentry(Sentry);
 
@@ -14,6 +15,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 		// @see https://kit.svelte.dev/docs/hooks#server-hooks-handle
 		filterSerializedResponseHeaders: (name) => name.toLowerCase().startsWith('content'),
 	});
+
+	const csp = response.headers.get('content-security-policy');
+	if (csp) {
+		response.headers.set('content-security-policy', expandURLsInCSP(csp));
+	}
 
 	logger.info({
 		startTime: new Date(requestStartTime).toISOString(),
