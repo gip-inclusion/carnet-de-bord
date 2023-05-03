@@ -80,9 +80,7 @@ class Input(BaseModel):
 
 class SessionVariables(BaseModel):
     x_hasura_deployment_id: str = Field(..., alias="x-hasura-deployment-id")
-    x_hasura_professional_id: str = Field(..., alias="x-hasura-professional-id")
     x_hasura_role: str = Field(..., alias="x-hasura-role")
-    x_hasura_structure_id: str = Field(..., alias="x-hasura-structure-id")
     x_hasura_user_id: str = Field(..., alias="x-hasura-user-id")
 
 
@@ -213,7 +211,11 @@ async def update(
 
     transport = AIOHTTPTransport(
         url=settings.graphql_api_url,
-        headers={"Authorization": authorization},
+        headers={
+            "Authorization": authorization,
+            "x-hasura-use-backend-only-permissions": "true",
+            "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
+        },
     )
 
     async with Client(
