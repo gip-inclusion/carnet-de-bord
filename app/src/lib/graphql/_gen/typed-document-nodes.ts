@@ -12293,6 +12293,10 @@ export type QueryRoot = {
 	search_public_notebooks: Array<NotebookPublicView>;
 	/** execute function "search_public_notebooks" and query aggregates on result of table type "notebook_public_view" */
 	search_public_notebooks_aggregate: NotebookPublicViewAggregate;
+	/** execute function "search_ref_action" which returns "ref_action" */
+	search_ref_action: Array<RefAction>;
+	/** execute function "search_ref_action" and query aggregates on result of table type "ref_action" */
+	search_ref_action_aggregate: RefActionAggregate;
 	/** execute function "search_rome_codes" which returns "rome_code" */
 	search_rome_codes: Array<RomeCode>;
 	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_code" */
@@ -13213,6 +13217,24 @@ export type QueryRootSearchPublicNotebooksAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookPublicViewOrderBy>>;
 	where?: InputMaybe<NotebookPublicViewBoolExp>;
+};
+
+export type QueryRootSearchRefActionArgs = {
+	args: SearchRefActionArgs;
+	distinct_on?: InputMaybe<Array<RefActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefActionOrderBy>>;
+	where?: InputMaybe<RefActionBoolExp>;
+};
+
+export type QueryRootSearchRefActionAggregateArgs = {
+	args: SearchRefActionArgs;
+	distinct_on?: InputMaybe<Array<RefActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefActionOrderBy>>;
+	where?: InputMaybe<RefActionBoolExp>;
 };
 
 export type QueryRootSearchRomeCodesArgs = {
@@ -14602,6 +14624,10 @@ export type SearchPublicNotebooksArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
 
+export type SearchRefActionArgs = {
+	search?: InputMaybe<Scalars['String']>;
+};
+
 export type SearchRomeCodesArgs = {
 	search?: InputMaybe<Scalars['String']>;
 };
@@ -15622,6 +15648,10 @@ export type SubscriptionRoot = {
 	search_public_notebooks: Array<NotebookPublicView>;
 	/** execute function "search_public_notebooks" and query aggregates on result of table type "notebook_public_view" */
 	search_public_notebooks_aggregate: NotebookPublicViewAggregate;
+	/** execute function "search_ref_action" which returns "ref_action" */
+	search_ref_action: Array<RefAction>;
+	/** execute function "search_ref_action" and query aggregates on result of table type "ref_action" */
+	search_ref_action_aggregate: RefActionAggregate;
 	/** execute function "search_rome_codes" which returns "rome_code" */
 	search_rome_codes: Array<RomeCode>;
 	/** execute function "search_rome_codes" and query aggregates on result of table type "rome_code" */
@@ -16798,6 +16828,24 @@ export type SubscriptionRootSearchPublicNotebooksAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<NotebookPublicViewOrderBy>>;
 	where?: InputMaybe<NotebookPublicViewBoolExp>;
+};
+
+export type SubscriptionRootSearchRefActionArgs = {
+	args: SearchRefActionArgs;
+	distinct_on?: InputMaybe<Array<RefActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefActionOrderBy>>;
+	where?: InputMaybe<RefActionBoolExp>;
+};
+
+export type SubscriptionRootSearchRefActionAggregateArgs = {
+	args: SearchRefActionArgs;
+	distinct_on?: InputMaybe<Array<RefActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<RefActionOrderBy>>;
+	where?: InputMaybe<RefActionBoolExp>;
 };
 
 export type SubscriptionRootSearchRomeCodesArgs = {
