@@ -1,3 +1,10 @@
+## [1.216.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.4...v1.216.5) (2023-05-03)
+
+
+### Bug Fixes
+
+* Corrige les CSP. ([#1715](https://github.com/gip-inclusion/carnet-de-bord/issues/1715)) ([f887bea](https://github.com/gip-inclusion/carnet-de-bord/commit/f887bea552d237f3a7b6c1a9e8c309e8a5170631))
+
 ## [1.216.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.3...v1.216.4) (2023-05-02)
 
 
