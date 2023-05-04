@@ -17,7 +17,18 @@ import UI.SearchSelect.Component
 suite : Test
 suite =
     describe "Action List"
-        [ describe "Action status update"
+        [ test "empty list shows placeholder" <|
+            \_ ->
+                initModel
+                    { actions = []
+                    , theme = "theme"
+                    , targetId = "targetId"
+                    , api = { url = "", token = "" }
+                    }
+                    |> Page.view
+                    |> Test.Html.Query.fromHtml
+                    |> Test.Html.Query.has [ text "Aucune action entreprise pour le moment." ]
+        , describe "Action status update"
             [ test "shows an alert message after failure" <|
                 \_ ->
                     initModel

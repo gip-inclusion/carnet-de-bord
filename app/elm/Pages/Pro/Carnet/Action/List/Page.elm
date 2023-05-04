@@ -222,7 +222,12 @@ viewActions model =
             , Html.tbody
                 [ Attr.class "w-full"
                 ]
-                (model.actions |> Dict.toList |> List.map viewAction)
+                (if model.actions |> Dict.isEmpty then
+                    [ Html.tr [] [ Html.td [ Attr.colspan 4 ] [ Html.text "Aucune action entreprise pour le moment." ] ] ]
+
+                 else
+                    model.actions |> Dict.toList |> List.map viewAction
+                )
             ]
         ]
 
@@ -233,7 +238,7 @@ viewAction ( id, action ) =
         [ Html.td []
             [ Html.text action.description ]
         , Html.td []
-            [ Html.text <| action.creePar.firstName ++ " " ++ String.toUpper action.creePar.lastName ]
+            [ Html.text <| action.creePar.firstName ++ " " ++ action.creePar.lastName ]
         , Html.td []
             [ Domain.Action.Statut.select
                 { onSelect = ChangedStatus id
