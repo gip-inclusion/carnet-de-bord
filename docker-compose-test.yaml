@@ -33,7 +33,7 @@ services:
       - ./hasura/seeds:/seeds
       - ./hasura/config.yaml:/config.yaml
     ports:
-      - '${HASURA_ENDPOINT_PORT:-5001}:8080'
+      - '5001:8080'
     depends_on:
       - 'db_test'
     stop_signal: SIGKILL
