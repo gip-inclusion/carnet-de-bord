@@ -1,19 +1,20 @@
-module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId)
+module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId, sort)
 
 import Date
 import Domain.Action.Id exposing (ActionId)
-import Domain.Action.Status exposing (ActionStatus)
+import Domain.Action.Status exposing (ActionStatus(..))
 import Extra.Date
 import Http
 import Json.Decode as Decode
 import Json.Decode.Pipeline as Decode
 import Json.Encode as Json
+import Select exposing (Action)
 
 
 type alias Action =
     { id : ActionId
     , description : String
-    , statut : ActionStatus
+    , status : ActionStatus
     , startingAt : Date.Date
     , creator : Creator
     }
@@ -29,7 +30,7 @@ decoder =
         |> Decode.required "id" Domain.Action.Id.decoder
         |> Decode.required "action" Decode.string
         |> Decode.required "status" Domain.Action.Status.decoder
-        |> Decode.required "createdAt" Extra.Date.decoder
+        |> Decode.required "startingAt" Extra.Date.decoder
         |> Decode.required "creator" creatorDecoder
 
 
@@ -60,11 +61,11 @@ fetchAllByTargetId { id, responseMsg } =
 query GetActionsByTargetId($id: uuid!) {
   target: notebook_target_by_pk(id: $id) {
     id
-    actions {
+    actions(order_by: {startingAt: desc}) {
       id
       action
       status
-      createdAt
+      startingAt
       creator {
         orientation_manager {
           firstname, lastname
@@ -82,7 +83,7 @@ query GetActionsByTargetId($id: uuid!) {
         { method = "POST"
         , url = "/graphql"
         , headers =
-            [ ]
+            []
         , body =
             Http.jsonBody
                 (Json.object
@@ -99,7 +100,21 @@ query GetActionsByTargetId($id: uuid!) {
                 responseMsg
                 (Decode.at [ "data", "target", "actions" ]
                     (Decode.list decoder)
+                    |> Decode.map sort
                 )
         , timeout = Nothing
         , tracker = Nothing
         }
+
+
+sort : List Action -> List Action
+sort =
+    List.sortBy
+        (\action ->
+            case action.status of
+                InProgress ->
+                    1
+
+                _ ->
+                    2
+        )
