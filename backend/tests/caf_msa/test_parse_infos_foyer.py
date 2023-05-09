@@ -150,3 +150,18 @@ def test_transform_cafMsaFoyer_to_beneficiary():
     )
 
     assert transform_cafMsaFoyer_to_beneficiary(personne, foyer) == beneficiary
+
+
+soumis_droit_et_devoir_test_data = [
+    ("0", False),
+    (False, False),
+    ("1", True),
+    (True, True),
+    (None, None),
+]
+
+
+@pytest.mark.parametrize("a,expected", soumis_droit_et_devoir_test_data)
+def test_transform_soumis_droit_et_devoir(a, expected):
+    beneficiary = CafBeneficiary(nir="1231231231231", soumis_droit_et_devoir=a)
+    assert beneficiary.soumis_droit_et_devoir == expected
