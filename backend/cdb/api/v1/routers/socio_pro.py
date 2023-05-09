@@ -37,6 +37,7 @@ async def update(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
+        # @TODO: Null from the first level should not be removed or e2e test will fail
         variables = remove_none_from_dict(mutation.gql_variables())
 
         await session.execute(
