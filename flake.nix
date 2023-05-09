@@ -12,12 +12,16 @@
       in
       {
         devShell = pkgs.mkShell {
+          buildInputs = with pkgs; [
+            libxml2 # Libxml2 is required for the python lib lxml
+            # Indirect dependencies of libxml2
+            zlib
+            pkg-config
+          ];
           packages = with pkgs; [
             nodejs-16_x
-            python310
             pre-commit
             poetry
-            python310Packages.magic
             gnumake
           ];
         };
