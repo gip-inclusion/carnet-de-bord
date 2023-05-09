@@ -8,6 +8,8 @@ from pydantic import BaseModel, Field, validator
 
 _XML_CHUNK_SIZE = 262144
 
+logger = logging.getLogger(__name__)
+
 
 class CafInfoFlux(BaseModel):
     date: date
@@ -16,7 +18,7 @@ class CafInfoFlux(BaseModel):
 
 class CafBeneficiary(BaseModel):
     nir: str
-    soumis_droit_et_devoir: bool
+    soumis_droit_et_devoir: bool | None
 
     @validator("soumis_droit_et_devoir", pre=True)
     def validate_soumis_droit_devoir(value):
@@ -40,7 +42,7 @@ class CafMsaInfosFoyer(BaseModel):
 class CdbBeneficiaryInfos(BaseModel):
     cafNumber: str = Field(alias="caf_number")
     rightRsa: str = Field(alias="right_rsa")
-    subjectToRightAndDuty: bool = Field(alias="subject_right_and_duty")
+    subjectToRightAndDuty: bool | None = Field(alias="subject_right_and_duty")
     rsaSuspensionReason: str | None = Field(alias="rsa_suspension_reason")
     rsaClosureReason: str | None = Field(alias="rsa_closure_reason")
     rsaClosureDate: str | None = Field(alias="rsa_closure_date")
@@ -151,7 +153,7 @@ class SubtreeXMLTarget:
 def parse_caf_file(
     file: SpooledTemporaryFile,
 ) -> Generator[CafInfoFlux | CafMsaInfosFoyer, None, None]:
-    logging.info("Starting XML parsing")
+    logger.info("Starting XML parsing")
 
     foundNodes = []
 
@@ -172,7 +174,7 @@ def parse_caf_file(
 
         for node in foundNodes:
             if node.tag == "IdentificationFlux":
-                logging.info("Noeud IdentificationFlux trouvé")
+                logger.info("Noeud IdentificationFlux trouvé")
                 yield parse_infos_flux(node)
             else:
                 yield parse_infos_foyer_rsa(node)
