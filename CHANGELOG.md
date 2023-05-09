@@ -1,3 +1,10 @@
+## [1.216.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.7...v1.216.8) (2023-05-09)
+
+
+### Bug Fixes
+
+* Rend optionnelle la donnée soumis aux droits et devoirs lors de l'import. ([#1720](https://github.com/gip-inclusion/carnet-de-bord/issues/1720)) ([671bed2](https://github.com/gip-inclusion/carnet-de-bord/commit/671bed239caf5dff57ce9ae3c2d3462c4b7bfe34))
+
 ## [1.216.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.6...v1.216.7) (2023-05-03)
 
 ## [1.216.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.5...v1.216.6) (2023-05-03)
