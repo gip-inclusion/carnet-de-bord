@@ -40,7 +40,7 @@
 				<li class="fr-footer__bottom-item">
 					<a
 						class="fr-footer__bottom-link"
-						href="https://github.com/gip-inclusion/carnet-de-bord/blob/master/CHANGELOG.md"
+						href="https://github.com/gip-inclusion/carnet-de-bord/blob/main/CHANGELOG.md"
 						target="_blank"
 						rel="noreferrer"
 					>

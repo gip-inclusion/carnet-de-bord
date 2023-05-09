@@ -2,8 +2,8 @@ name: Test
 
 on:
   push:
-    # as every commit on master leads to a release tag
-    # we do not want to test every commit on master
+    # as every commit on main leads to a release tag
+    # we do not want to test every commit on main
     # but only every release tag
     tags:
       - v*
