@@ -73,7 +73,9 @@
 			};
 		}) ?? [];
 
-	const updateSocioProStore = operationStore(UpdateSocioProDocument);
+	const updateSocioProStore = operationStore(UpdateSocioProDocument, null, {
+		additionalTypenames: ['professional_project', 'notebook'],
+	});
 	const updateSocioPro = mutation(updateSocioProStore);
 
 	const initialValues = {
