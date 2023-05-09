@@ -1,4 +1,3 @@
-import json
 from typing import Annotated, List
 from uuid import UUID
 
@@ -206,9 +205,6 @@ async def update(
     It will create a notebook_event that will keep track of the modifications performed
     """
 
-    print(authorization)
-    print(mutation)
-
     transport = AIOHTTPTransport(
         url=settings.graphql_api_url,
         headers={
@@ -222,11 +218,8 @@ async def update(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
         variables = remove_none_from_dict(mutation.gql_variables())
-        print(json.dumps(variables))
 
-        update_socio_pro_response = await session.execute(
+        await session.execute(
             deny_orientation_gql,
             variable_values=variables,
         )
-
-        print(update_socio_pro_response)
