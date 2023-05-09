@@ -45,7 +45,7 @@ jobs:
           fetch-depth: 0
 
       - name: Find last deployed commit
-        uses: SamhammerAG/last-successful-build-action@a54c030db88e60c06a9e50c25418748afc623c20
+        uses: SamhammerAG/last-successful-build-action@1c368a27a90596574a71ac0ede422a897d0e8e84
         id: latest-deployment
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
