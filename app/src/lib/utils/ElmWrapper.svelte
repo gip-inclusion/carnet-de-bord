@@ -1,9 +1,9 @@
 <script lang="ts">
-	import { afterUpdate } from 'svelte';
+	import { onMount } from 'svelte';
 
 	export let setup: (node: HTMLElement) => void;
 	let elmNode: HTMLElement;
-	afterUpdate(() => {
+	onMount(() => {
 		if (!elmNode || !elmNode.parentNode) return;
 		setup(elmNode);
 	});
