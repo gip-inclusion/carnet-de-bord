@@ -182,7 +182,7 @@ viewActionsError model =
     if model.error == Just LineError then
         BetaGouv.DSFR.Alert.small
             { title = Nothing
-            , description = "La mise à jour du statut a échoué. Essayez de rafraîchir la page puis de recommencer. Si le problème persiste, contactez le support."
+            , description = "La mise à jour du statut a échoué. Essayez de rafraîchir la page puis de recommencer. Si le problème persiste, merci de contacter le support."
             }
             |> BetaGouv.DSFR.Alert.alert Nothing BetaGouv.DSFR.Alert.error
 
