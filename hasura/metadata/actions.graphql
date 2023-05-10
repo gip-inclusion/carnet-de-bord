@@ -4,9 +4,6 @@ type Mutation {
   ): NPSRatingOutput
 }
 
-type NPSRatingOutput {
-  void: String
-}
 type Mutation {
   update_socio_pro(
     id: uuid!
@@ -63,6 +60,10 @@ input UpdateSocioProProfessionalProjectSetInput {
 input UpdateSocioProNotebookSituationInsertInput {
   notebookId: uuid!
   situationId: uuid!
+}
+
+type NPSRatingOutput {
+  void: String
 }
 
 type UpdateSocioProOutput {

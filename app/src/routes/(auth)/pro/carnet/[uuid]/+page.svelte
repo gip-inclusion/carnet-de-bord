@@ -42,7 +42,6 @@
 
 	afterUpdate(() => {
 		if (!elmRsaHeaderNode || !notebook) return;
-		console.log(notebook);
 		RsaRightNotice.RsaRightNotice.Main.init({
 			node: elmRsaHeaderNode,
 			flags: {
@@ -236,7 +235,9 @@
 		>
 	{:else}
 		<Portal target="#bandeau">
-			<div bind:this={elmRsaHeaderNode} />
+			<div class="test">
+				<div bind:this={elmRsaHeaderNode} />
+			</div>
 			{#if reorientationRequest}
 				<ProOrientationRequestBanner {reorientationRequest} />
 			{/if}

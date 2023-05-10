@@ -8,11 +8,12 @@ from cdb.api.core.settings import settings
 from cdb.api.db.graphql.socio_pro import (
     UpdateSocioProMutation,
     deny_orientation_gql,
-    remove_none_from_dict,
 )
-from cdb.api.v1.dependencies import verify_secret_token
+from cdb.api.v1.dependencies import extract_authentified_account, verify_secret_token
 
-router = APIRouter(dependencies=[Depends(verify_secret_token)])
+router = APIRouter(
+    dependencies=[Depends(extract_authentified_account), Depends(verify_secret_token)]
+)
 
 
 @router.post("/update")
@@ -37,10 +38,7 @@ async def update(
     async with Client(
         transport=transport, fetch_schema_from_transport=False, serialize_variables=True
     ) as session:
-        # @TODO: Null from the first level should not be removed or e2e test will fail
-        variables = remove_none_from_dict(mutation.gql_variables())
-
         await session.execute(
             deny_orientation_gql,
-            variable_values=variables,
+            variable_values=mutation.gql_variables(),
         )
