@@ -36,7 +36,7 @@ decoder =
 
 creatorDecoder : Decode.Decoder Creator
 creatorDecoder =
-    Decode.keyValuePairs (Decode.maybe createurDecoder)
+    Decode.keyValuePairs (Decode.maybe personDecoder)
         |> Decode.andThen
             (List.filterMap Tuple.second
                 >> List.head
@@ -46,8 +46,8 @@ creatorDecoder =
             )
 
 
-createurDecoder : Decode.Decoder Creator
-createurDecoder =
+personDecoder : Decode.Decoder Creator
+personDecoder =
     Decode.succeed Creator
         |> Decode.required "firstname" Decode.string
         |> Decode.required "lastname" Decode.string
