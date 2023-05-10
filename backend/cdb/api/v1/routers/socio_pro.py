@@ -18,7 +18,6 @@ async def update(request: Request, payload: UpdateSocioProActionPayload):
     Update the socio pro information of a notebook.
     It will create a notebook_event that will keep track of the modifications performed
     """
-    print(await request.json(), payload.session_variables)
     transport = AIOHTTPTransport(
         url=settings.graphql_api_url,
         headers={
