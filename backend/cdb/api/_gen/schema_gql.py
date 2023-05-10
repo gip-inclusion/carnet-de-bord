@@ -47,6 +47,10 @@ schema = build_schema(
       _nin: [Int!]
     }
 
+    type NPSRatingOutput {
+      void: String
+    }
+
     """
     Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
     """
@@ -5164,6 +5168,9 @@ schema = build_schema(
 
     """mutation root"""
     type mutation_root {
+      """Create NPS Rating"""
+      create_nps_rating(score: Int!): NPSRatingOutput
+
       """
       delete data from the table: "account"
       """

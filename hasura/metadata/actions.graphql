@@ -1,0 +1,9 @@
+type Mutation {
+  create_nps_rating(
+    score: Int!
+  ): NPSRatingOutput
+}
+
+type NPSRatingOutput {
+  void: String
+}

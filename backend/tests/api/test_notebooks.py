@@ -217,7 +217,10 @@ async def test_add_notebook_member_as_referent_orientation_not_available(
     assert response.json() == {
         "detail": [
             "Le référent doit être rattaché au dispositif d’accompagnement spécifié."
-        ]
+        ],
+        "message": [
+            "Le référent doit être rattaché au dispositif d’accompagnement spécifié."
+        ],
     }
     members = await get_notebook_members_by_notebook_id(
         db_connection,
