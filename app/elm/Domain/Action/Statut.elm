@@ -56,8 +56,8 @@ parse code =
         |> Result.fromMaybe ("'" ++ code ++ "' n'est pas un statut géré. Les status suivants sont possibles : " ++ (statutParCode |> Dict.keys |> String.join ", "))
 
 
-statutParCode : Dict String StatutAction
-statutParCode =
+statusByCode : Dict String StatutAction
+statusByCode =
     all
         |> List.map (\statut -> ( codeOf statut, statut ))
         |> Dict.fromList
