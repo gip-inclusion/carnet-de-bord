@@ -36,15 +36,11 @@
 	import type { PageData } from './$types';
 	import NotebookMembers from '$lib/ui/Beneficiary/NotebookMembers.svelte';
 	import { goto } from '$app/navigation';
-	import { afterUpdate } from 'svelte';
+	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
 
-	let elmRsaHeaderNode: HTMLDivElement;
-
-	afterUpdate(() => {
-		if (!elmRsaHeaderNode || !notebook) return;
-		console.log(notebook);
+	const elmSetup = (node: HTMLElement) => {
 		RsaRightNotice.RsaRightNotice.Main.init({
-			node: elmRsaHeaderNode,
+			node,
 			flags: {
 				rsaRight: publicNotebook?.beneficiary.rightRsa,
 				rsaClosureDate: publicNotebook?.beneficiary.rsaClosureDate,
@@ -52,7 +48,7 @@
 				rsaSuspensionReason: publicNotebook?.beneficiary.rsaSuspensionReason,
 			},
 		});
-	});
+	};
 
 	function toDateFormat(date: Date) {
 		const yyyy = date.getFullYear().toString().padStart(4, '0');
@@ -236,7 +232,7 @@
 		>
 	{:else}
 		<Portal target="#bandeau">
-			<div bind:this={elmRsaHeaderNode} />
+			<ElmWrapper setup={elmSetup} />
 			{#if reorientationRequest}
 				<ProOrientationRequestBanner {reorientationRequest} />
 			{/if}
