@@ -8,6 +8,7 @@ AS $function$
 	FROM
 			ref_action
 	WHERE
-			search = ''
-			OR unaccent(search) <% description
+			 unaccent(lower(description)) LIKE
+                         '%' || array_to_string(string_to_array(unaccent(lower(search)), ' '), '%') || '%'
+        ORDER BY unaccent(lower(search)) <<-> unaccent(lower(description)) ASC
 $function$;
