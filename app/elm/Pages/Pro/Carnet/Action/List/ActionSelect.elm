@@ -28,11 +28,7 @@ type alias Model =
     UI.SearchSelect.Component.Model Action
 
 
-init :
-    { api : Api
-    , errorLog : String -> Cmd msg
-    }
-    -> ( Model, Cmd Msg )
+init : { api : Api } -> ( Model, Cmd Msg )
 init props =
     UI.SearchSelect.Component.init
         { id = "select-action"
@@ -43,6 +39,7 @@ init props =
         , searchPlaceholder = "Rechercher une action"
         , defaultOption = "Sélectionner une action"
         }
+        -- On forwarde vers update afin d'avoir la liste des actions visible à l'ouverture
         |> update (UI.SearchSelect.Component.Search "")
 
 
@@ -69,7 +66,7 @@ query searchRefActions($searchString: String = "") {
         theme
     }
 }
-            """ |> String.trim
+"""
     in
     Http.request
         { method = "POST"

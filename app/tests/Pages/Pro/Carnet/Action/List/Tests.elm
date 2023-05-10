@@ -1,11 +1,9 @@
 module Pages.Pro.Carnet.Action.List.Tests exposing (suite)
 
-import Api exposing (Api)
 import Domain.Action.Id
-import Domain.Action.Statut
+import Domain.Action.Status
 import Html
 import Html.Attributes as Attr
-import Pages.Pro.Carnet.Action.List.AllActions exposing (Action)
 import Pages.Pro.Carnet.Action.List.Fixtures as Fixtures
 import Pages.Pro.Carnet.Action.List.Page as Page
 import Test exposing (..)
@@ -20,11 +18,6 @@ suite =
         [ test "empty list shows placeholder" <|
             \_ ->
                 initModel
-                    { actions = []
-                    , theme = "theme"
-                    , targetId = "targetId"
-                    , api = { url = "", token = "" }
-                    }
                     |> Page.view
                     |> Test.Html.Query.fromHtml
                     |> Test.Html.Query.has [ text "Aucune action entreprise pour le moment." ]
@@ -32,12 +25,6 @@ suite =
             [ test "shows an alert message after failure" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
-                        |> updateModel (Page.ChangedStatus (Fixtures.action1.id |> Domain.Action.Id.printId) Domain.Action.Statut.EnCours)
                         |> updateModel Page.StatusUpdateFailed
                         |> Page.view
                         |> Test.Html.Query.fromHtml
@@ -45,34 +32,18 @@ suite =
             , test "changing status hides alert" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
-                        |> updateModel (Page.ChangedStatus (Fixtures.action1.id |> Domain.Action.Id.printId) Domain.Action.Statut.EnCours)
+                        |> updateModel (Page.Refreshed [ Fixtures.action1 ])
                         |> updateModel Page.StatusUpdateFailed
-                        |> updateModel (Page.ChangedStatus (Fixtures.action1.id |> Domain.Action.Id.printId) Domain.Action.Statut.EnCours)
+                        |> updateModel (Page.ChangedStatus (Fixtures.action1.id |> Domain.Action.Id.printId) Domain.Action.Status.InProgress)
                         |> Page.view
                         |> Test.Html.Query.fromHtml
                         |> Test.Html.Query.hasNot [ Test.Html.Selector.attribute <| Attr.attribute "role" "alert" ]
             , test "hides create errors also" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
-                        |> updateModel Page.Add
-                        |> updateModel
-                            (Page.Refreshed
-                                [ Fixtures.action1
-                                , Fixtures.action2
-                                ]
-                            )
+                        |> updateModel (Page.Refreshed [ Fixtures.action1 ])
                         |> updateModel Page.AddFailed
-                        |> updateModel (Page.ChangedStatus (Fixtures.action1.id |> Domain.Action.Id.printId) Domain.Action.Statut.EnCours)
+                        |> updateModel (Page.ChangedStatus (Fixtures.action1.id |> Domain.Action.Id.printId) Domain.Action.Status.InProgress)
                         |> Page.view
                         |> Test.Html.Query.fromHtml
                         |> Test.Html.Query.find [ Test.Html.Selector.attribute <| Attr.attribute "role" "alert" ]
@@ -82,11 +53,6 @@ suite =
             [ test "calls a port to add it via svelte" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
                         |> updateModel Page.Add
                         |> updateModel
                             (Page.Refreshed
@@ -100,13 +66,6 @@ suite =
             , test "shows an alert after failure" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
-                        |> updateModel Page.Add
-                        |> updateModel (Page.Refreshed [ Fixtures.action1, Fixtures.action2 ])
                         |> updateModel Page.AddFailed
                         |> Page.view
                         |> Test.Html.Query.fromHtml
@@ -115,12 +74,6 @@ suite =
             , test "hides status update errors" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
-                        |> updateModel (Page.ChangedStatus (Fixtures.action1.id |> Domain.Action.Id.printId) Domain.Action.Statut.EnCours)
                         |> updateModel Page.StatusUpdateFailed
                         |> updateModel Page.Add
                         |> Page.view
@@ -129,11 +82,6 @@ suite =
             , test "hides add errors" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
                         |> updateModel Page.AddFailed
                         |> updateModel Page.Add
                         |> Page.view
@@ -144,11 +92,6 @@ suite =
             [ test "is disabled at first" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
                         |> Page.view
                         |> Test.Html.Query.fromHtml
                         |> Test.Html.Query.find [ all [ tag "button", Test.Html.Selector.attribute <| Attr.disabled True ] ]
@@ -156,11 +99,7 @@ suite =
             , test "is enabled after option is selected" <|
                 \_ ->
                     initModel
-                        { actions = [ Fixtures.action1 ]
-                        , theme = "theme"
-                        , targetId = "targetId"
-                        , api = { url = "", token = "" }
-                        }
+                        |> updateModel (Page.Refreshed [ Fixtures.action1 ])
                         |> updateModel
                             (Page.ActionSelectMsg
                                 (UI.SearchSelect.Component.Select
@@ -177,15 +116,15 @@ suite =
         ]
 
 
-initModel :
-    { actions : List Action
-    , api : Api
-    , theme : String
-    , targetId : String
-    }
-    -> Page.Model
+initModel : Page.Model
 initModel =
-    Page.init >> Tuple.first
+    Page.init
+        { actions = []
+        , theme = "theme"
+        , targetId = "targetId"
+        , api = { url = "", token = "" }
+        }
+        |> Tuple.first
 
 
 updateModel : Page.Msg -> Page.Model -> Page.Model

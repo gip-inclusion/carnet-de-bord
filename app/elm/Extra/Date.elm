@@ -13,5 +13,9 @@ print date =
 decoder : Decode.Decoder Date
 decoder =
     Decode.string
-        |> Extra.Json.Decode.mapOrFail (String.split "T" >> List.head >> Result.fromMaybe "Expected an ISO date time")
+        |> Extra.Json.Decode.mapOrFail
+            (String.split "T"
+                >> List.head
+                >> Result.fromMaybe "Le format attendu est un datetime au format ISO"
+            )
         |> Extra.Json.Decode.mapOrFail Date.fromIsoString

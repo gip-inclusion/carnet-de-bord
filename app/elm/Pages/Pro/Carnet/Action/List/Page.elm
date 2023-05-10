@@ -4,14 +4,13 @@ import Api exposing (Api)
 import BetaGouv.DSFR.Alert
 import Dict exposing (Dict)
 import Domain.Action.Id
-import Domain.Action.Statut exposing (StatutAction)
+import Domain.Action.Status exposing (ActionStatus)
 import Extra.Date
 import Html
 import Html.Attributes as Attr
 import Html.Events as Evts
 import Pages.Pro.Carnet.Action.List.ActionSelect
 import Pages.Pro.Carnet.Action.List.AllActions exposing (Action)
-import Sentry
 
 
 type alias StatusUpdateOut =
@@ -64,10 +63,7 @@ init :
 init { actions, api, theme, targetId } =
     let
         ( actionSelect, actionSelectCmd ) =
-            Pages.Pro.Carnet.Action.List.ActionSelect.init
-                { api = api
-                , errorLog = Sentry.sendError
-                }
+            Pages.Pro.Carnet.Action.List.ActionSelect.init { api = api }
     in
     ( { actions = toActionDict actions
       , theme = theme
@@ -95,7 +91,7 @@ type Msg
     = Add
     | Refreshed (List Action)
     | AddFailed
-    | ChangedStatus String StatutAction
+    | ChangedStatus String ActionStatus
     | StatusUpdateFailed
     | ActionSelectMsg Pages.Pro.Carnet.Action.List.ActionSelect.Msg
 
@@ -110,7 +106,7 @@ update msg model =
                     addAction
                         { targetId = model.targetId
                         , action = action.description
-                        , status = Domain.Action.Statut.EnCours |> Domain.Action.Statut.codeOf
+                        , status = Domain.Action.Status.InProgress |> Domain.Action.Status.codeOf
                         }
 
                 Nothing ->
@@ -124,7 +120,7 @@ update msg model =
                         |> Dict.update id (Maybe.map (\action -> { action | statut = statut }))
                 , error = Nothing
               }
-            , updateStatus { actionId = id, status = Domain.Action.Statut.codeOf statut }
+            , updateStatus { actionId = id, status = Domain.Action.Status.codeOf statut }
             )
 
         ActionSelectMsg subMsg ->
@@ -238,9 +234,9 @@ viewAction ( id, action ) =
         [ Html.td []
             [ Html.text action.description ]
         , Html.td []
-            [ Html.text <| action.creePar.firstName ++ " " ++ action.creePar.lastName ]
+            [ Html.text <| action.creator.firstName ++ " " ++ action.creator.lastName ]
         , Html.td []
-            [ Domain.Action.Statut.select
+            [ Domain.Action.Status.select
                 { onSelect = ChangedStatus id
                 , value = action.statut
                 , id = id
@@ -249,7 +245,7 @@ viewAction ( id, action ) =
         , Html.td
             [ Attr.class "!text-right"
             ]
-            [ Html.text <| Extra.Date.print action.dateDeDebut ]
+            [ Html.text <| Extra.Date.print action.startingAt ]
         ]
 
 

@@ -91,12 +91,8 @@ update msg model =
                 RefreshedActions result ->
                     case result of
                         Ok actions ->
-                            pageModel
-                                |> Page.update
-                                    (Page.Refreshed actions)
-                                |> Tuple.mapBoth
-                                    (\next -> { model | state = Ready next })
-                                    (Cmd.map (ReadyMsg << PageMsg))
+                            Page.update (Page.Refreshed actions) pageModel
+                                |> updateReady model
 
                         Err error ->
                             ( { model | state = Failed }, Sentry.sendError <| Extra.Http.toString error )
@@ -104,16 +100,13 @@ update msg model =
         ( Loading, LoadedActions result ) ->
             case result of
                 Ok actions ->
-                    let
-                        ( page, pageCmd ) =
-                            Page.init
-                                { theme = model.flags.theme
-                                , api = model.flags.api
-                                , targetId = model.flags.targetId
-                                , actions = actions
-                                }
-                    in
-                    ( { model | state = Ready page }, Cmd.map (PageMsg >> ReadyMsg) pageCmd )
+                    Page.init
+                        { theme = model.flags.theme
+                        , api = model.flags.api
+                        , targetId = model.flags.targetId
+                        , actions = actions
+                        }
+                        |> updateReady model
 
                 Err error ->
                     ( { model | state = Failed }, Sentry.sendError <| Extra.Http.toString error )
@@ -123,10 +116,10 @@ update msg model =
 
 
 updateReady : Model -> ( Page.Model, Cmd Page.Msg ) -> ( Model, Cmd Msg )
-updateReady model =
-    Tuple.mapBoth
-        (\next -> { model | state = Ready next })
-        (Cmd.map (ReadyMsg << PageMsg))
+updateReady model ( next, command ) =
+    ( { model | state = Ready next }
+    , Cmd.map (ReadyMsg << PageMsg) command
+    )
 
 
 

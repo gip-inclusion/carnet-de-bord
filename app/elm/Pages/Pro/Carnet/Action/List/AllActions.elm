@@ -1,9 +1,9 @@
-module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Createur, fetchAllByTargetId)
+module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId)
 
 import Api exposing (Api)
 import Date
 import Domain.Action.Id exposing (ActionId)
-import Domain.Action.Statut exposing (StatutAction)
+import Domain.Action.Status exposing (ActionStatus)
 import Extra.Date
 import Http
 import Json.Decode as Decode
@@ -14,13 +14,13 @@ import Json.Encode as Json
 type alias Action =
     { id : ActionId
     , description : String
-    , statut : StatutAction
-    , dateDeDebut : Date.Date
-    , creePar : Createur
+    , statut : ActionStatus
+    , startingAt : Date.Date
+    , creator : Creator
     }
 
 
-type alias Createur =
+type alias Creator =
     { firstName : String, lastName : String }
 
 
@@ -29,13 +29,13 @@ decoder =
     Decode.succeed Action
         |> Decode.required "id" Domain.Action.Id.decoder
         |> Decode.required "action" Decode.string
-        |> Decode.required "status" Domain.Action.Statut.decoder
+        |> Decode.required "status" Domain.Action.Status.decoder
         |> Decode.required "createdAt" Extra.Date.decoder
-        |> Decode.required "creator" creeParDecoder
+        |> Decode.required "creator" creatorDecoder
 
 
-creeParDecoder : Decode.Decoder Createur
-creeParDecoder =
+creatorDecoder : Decode.Decoder Creator
+creatorDecoder =
     Decode.keyValuePairs (Decode.maybe createurDecoder)
         |> Decode.andThen
             (List.filterMap Tuple.second
@@ -46,9 +46,9 @@ creeParDecoder =
             )
 
 
-createurDecoder : Decode.Decoder Createur
+createurDecoder : Decode.Decoder Creator
 createurDecoder =
-    Decode.succeed Createur
+    Decode.succeed Creator
         |> Decode.required "firstname" Decode.string
         |> Decode.required "lastname" Decode.string
 
