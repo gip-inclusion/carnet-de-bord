@@ -43,7 +43,7 @@ init props =
         }
 
 
-getRome : Api -> { search : String, callbackMsg : Result () (List Rome) -> Msg } -> Cmd Msg
+getRome : Api -> { search : String, callbackMsg : Result Http.Error (List Rome) -> Msg } -> Cmd Msg
 getRome api { search, callbackMsg } =
     let
         query =
@@ -60,7 +60,7 @@ getRome api { search, callbackMsg } =
         { method = "POST"
         , url = api.url
         , headers =
-            [ Http.header "Authorization" ("Bearer " ++ api.authToken) ]
+            [ Http.header "Authorization" ("Bearer " ++ api.token) ]
         , body =
             Http.jsonBody
                 (Json.object
@@ -74,7 +74,7 @@ getRome api { search, callbackMsg } =
                 )
         , expect =
             Http.expectJson
-                (Result.mapError (always ()) >> callbackMsg)
+                callbackMsg
                 (Decode.at [ "data", "rome" ]
                     (Decode.list decoder)
                 )

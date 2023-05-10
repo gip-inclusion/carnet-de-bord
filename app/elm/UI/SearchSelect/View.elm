@@ -61,9 +61,10 @@ type alias Init a =
 init : Init a -> Props a
 init params =
     { id = params.id
-    , status = params.selected
-                |> Maybe.map (List.singleton >> Success)
-                |> Maybe.withDefault NotAsked
+    , status =
+        params.selected
+            |> Maybe.map (List.singleton >> Success)
+            |> Maybe.withDefault NotAsked
     , label = params.label
     , state = Select.initState <| Select.selectIdentifier params.id
     , selected = params.selected

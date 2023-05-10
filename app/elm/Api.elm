@@ -2,4 +2,4 @@ module Api exposing (Api)
 
 
 type alias Api =
-    { url : String, authToken : String }
+    { url : String, token : String }

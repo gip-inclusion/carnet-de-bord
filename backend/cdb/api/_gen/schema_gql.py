@@ -16582,6 +16582,56 @@ schema = build_schema(
       ): notebook_public_view_aggregate!
 
       """
+      execute function "search_ref_action" which returns "ref_action"
+      """
+      search_ref_action(
+        """
+        input parameters for function "search_ref_action"
+        """
+        args: search_ref_action_args!
+
+        """distinct select on columns"""
+        distinct_on: [ref_action_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_action_order_by!]
+
+        """filter the rows returned"""
+        where: ref_action_bool_exp
+      ): [ref_action!]!
+
+      """
+      execute function "search_ref_action" and query aggregates on result of table type "ref_action"
+      """
+      search_ref_action_aggregate(
+        """
+        input parameters for function "search_ref_action_aggregate"
+        """
+        args: search_ref_action_args!
+
+        """distinct select on columns"""
+        distinct_on: [ref_action_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_action_order_by!]
+
+        """filter the rows returned"""
+        where: ref_action_bool_exp
+      ): ref_action_aggregate!
+
+      """
       execute function "search_rome_codes" which returns "rome_code"
       """
       search_rome_codes(
@@ -18280,6 +18330,10 @@ schema = build_schema(
     }
 
     input search_public_notebooks_args {
+      search: String
+    }
+
+    input search_ref_action_args {
       search: String
     }
 
@@ -21721,6 +21775,56 @@ schema = build_schema(
         """filter the rows returned"""
         where: notebook_public_view_bool_exp
       ): notebook_public_view_aggregate!
+
+      """
+      execute function "search_ref_action" which returns "ref_action"
+      """
+      search_ref_action(
+        """
+        input parameters for function "search_ref_action"
+        """
+        args: search_ref_action_args!
+
+        """distinct select on columns"""
+        distinct_on: [ref_action_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_action_order_by!]
+
+        """filter the rows returned"""
+        where: ref_action_bool_exp
+      ): [ref_action!]!
+
+      """
+      execute function "search_ref_action" and query aggregates on result of table type "ref_action"
+      """
+      search_ref_action_aggregate(
+        """
+        input parameters for function "search_ref_action_aggregate"
+        """
+        args: search_ref_action_args!
+
+        """distinct select on columns"""
+        distinct_on: [ref_action_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [ref_action_order_by!]
+
+        """filter the rows returned"""
+        where: ref_action_bool_exp
+      ): ref_action_aggregate!
 
       """
       execute function "search_rome_codes" which returns "rome_code"

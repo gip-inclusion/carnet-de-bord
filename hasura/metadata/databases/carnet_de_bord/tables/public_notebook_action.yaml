@@ -32,12 +32,13 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - id
         - action
-        - target_id
-        - status
-        - creator_id
         - created_at
+        - creator_id
+        - id
+        - initial_id
+        - status
+        - target_id
   - role: orientation_manager
     permission:
       check:
@@ -84,6 +85,7 @@ select_permissions:
         - created_at
         - creator_id
         - id
+        - initial_id
         - status
         - target_id
         - updated_at
@@ -92,14 +94,14 @@ select_permissions:
   - role: admin_structure
     permission:
       columns:
-        - id
         - action
-        - target_id
-        - status
-        - creator_id
         - created_at
-        - updated_at
+        - creator_id
+        - id
         - initial_id
+        - status
+        - target_id
+        - updated_at
       filter:
         target:
           focus:
@@ -122,14 +124,14 @@ select_permissions:
   - role: beneficiary
     permission:
       columns:
-        - id
         - action
-        - target_id
-        - status
-        - creator_id
         - created_at
-        - updated_at
+        - creator_id
+        - id
         - initial_id
+        - status
+        - target_id
+        - updated_at
       filter:
         target:
           focus:
@@ -139,14 +141,14 @@ select_permissions:
   - role: manager
     permission:
       columns:
-        - id
         - action
-        - target_id
-        - status
-        - creator_id
         - created_at
-        - updated_at
+        - creator_id
+        - id
         - initial_id
+        - status
+        - target_id
+        - updated_at
       filter:
         target:
           focus:
@@ -158,14 +160,14 @@ select_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - id
         - action
-        - target_id
-        - status
-        - creator_id
         - created_at
-        - updated_at
+        - creator_id
+        - id
         - initial_id
+        - status
+        - target_id
+        - updated_at
       filter:
         target:
           focus:

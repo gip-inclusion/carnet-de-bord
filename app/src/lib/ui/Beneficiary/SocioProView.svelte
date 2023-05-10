@@ -23,7 +23,7 @@
 	export let notebook: SocioProInfo;
 	export let externalDataDetail: ExternalDataDetail | null;
 
-	import { Elm as DiagnosticElm } from '../../../../elm/Diagnostic/Main.elm';
+	import { Elm as DiagnosticElm } from '$elm/Diagnostic/Main.elm';
 	import { afterUpdate } from 'svelte';
 
 	let elmNode: HTMLElement;

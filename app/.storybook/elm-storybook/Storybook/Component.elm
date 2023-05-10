@@ -53,19 +53,22 @@ stateless options =
 
 sandbox :
     { controls : Storybook.Controls.Decoder controls
-    , init : model
+    , init : ( model, Cmd msg )
     , update : msg -> model -> ( model, Cmd msg )
     , view : controls -> model -> Html msg
     }
     -> Component model msg
 sandbox options =
     let
+        ( componentModel, componentCmd ) =
+            options.init
+
         init : Json.Value -> ( ComponentModel model, Cmd msg )
         init json =
             ( { controls = json
-              , component = options.init
+              , component = componentModel
               }
-            , Cmd.none
+            , componentCmd
             )
 
         view : ComponentModel model -> Html msg

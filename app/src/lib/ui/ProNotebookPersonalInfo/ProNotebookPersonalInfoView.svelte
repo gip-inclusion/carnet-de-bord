@@ -10,7 +10,7 @@
 	import { displayFullName, displayMobileNumber } from '$lib/ui/format';
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
-	import { Elm as PersonalInfoElm } from '../../../../elm/PersonalInfo/Main.elm';
+	import { Elm as PersonalInfoElm } from '$elm/PersonalInfo/Main.elm';
 	import { afterUpdate } from 'svelte';
 
 	type Pro =

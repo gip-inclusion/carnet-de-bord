@@ -233,7 +233,7 @@ init flags =
     let
         api =
             { url = flags.serverUrl
-            , authToken = flags.token
+            , token = flags.token
             }
     in
     ( { possibleSituationsByTheme =
