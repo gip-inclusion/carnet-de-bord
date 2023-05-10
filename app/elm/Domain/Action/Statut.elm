@@ -24,19 +24,19 @@ all =
 
 
 next : List StatutAction -> List StatutAction
-next liste =
-    case liste |> List.head of
+next list =
+    case list |> List.head of
         Nothing ->
-            next (EnCours :: liste)
+            next (EnCours :: list)
 
         Just EnCours ->
-            next (Realisee :: liste)
+            next (Realisee :: list)
 
         Just Realisee ->
-            next (Abandonnee :: liste)
+            next (Abandonnee :: list)
 
         Just Abandonnee ->
-            liste
+            list
 
 
 
