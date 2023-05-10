@@ -74,8 +74,7 @@
 		}) ?? [];
 
 	const updateSocioProStore = operationStore(UpdateSocioProDocument, null, {
-		// @TODO: check if we need to add notebook_situtation here
-		additionalTypenames: ['professional_project', 'notebook'],
+		additionalTypenames: ['professional_project', 'notebook', 'notebook_situation'],
 	});
 	const updateSocioPro = mutation(updateSocioProStore);
 
