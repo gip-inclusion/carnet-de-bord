@@ -6,7 +6,8 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.settings import settings
-from cdb.api.v1.middlewares import http_exception_handler, logging_middleware
+from cdb.api.v1.exception_handler import http_exception_handler
+from cdb.api.v1.middlewares import logging_middleware
 
 logger = logging.getLogger(__name__)
 

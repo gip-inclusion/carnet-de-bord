@@ -1,8 +1,7 @@
 import time
 
 import structlog
-from fastapi import HTTPException, Request, Response
-from starlette.responses import JSONResponse
+from fastapi import Request, Response
 from uvicorn.protocols.utils import get_path_with_query_string
 
 from cdb.api.core.logging import setup_logging
@@ -48,10 +47,3 @@ async def logging_middleware(request: Request, call_next) -> Response:
     )
     response.headers["X-Process-Time"] = str(process_time / 10**9)
     return response
-
-
-async def http_exception_handler(request: Request, exception: HTTPException):
-    return JSONResponse(
-        status_code=exception.status_code,
-        content={"detail": exception.detail, "message": exception.detail},
-    )
