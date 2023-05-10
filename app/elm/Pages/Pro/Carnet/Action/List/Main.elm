@@ -104,15 +104,16 @@ update msg model =
         ( Loading, LoadedActions result ) ->
             case result of
                 Ok actions ->
-                    Page.init
-                        { theme = model.flags.theme
-                        , api = model.flags.api
-                        , targetId = model.flags.targetId
-                        , actions = actions
-                        }
-                        |> Tuple.mapBoth
-                            (\next -> { model | state = Ready next })
-                            (Cmd.map (ReadyMsg << PageMsg))
+                    let
+                        ( page, pageCmd ) =
+                            Page.init
+                                { theme = model.flags.theme
+                                , api = model.flags.api
+                                , targetId = model.flags.targetId
+                                , actions = actions
+                                }
+                    in
+                    ( { model | state = Ready page }, Cmd.map (PageMsg >> ReadyMsg) pageCmd )
 
                 Err error ->
                     ( { model | state = Failed }, Sentry.sendError <| Extra.Http.toString error )
