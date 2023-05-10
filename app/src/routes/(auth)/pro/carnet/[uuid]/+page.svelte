@@ -224,7 +224,6 @@
 <svelte:head>
 	<title>Carnet bénéficiaire - Carnet de bord</title>
 </svelte:head>
-
 <LoaderIndicator result={getNotebook}>
 	{#if !publicNotebook}
 		<Alert type="info" title="erreur"
@@ -235,9 +234,7 @@
 		>
 	{:else}
 		<Portal target="#bandeau">
-			<div class="test">
-				<div bind:this={elmRsaHeaderNode} />
-			</div>
+			<div bind:this={elmRsaHeaderNode} />
 			{#if reorientationRequest}
 				<ProOrientationRequestBanner {reorientationRequest} />
 			{/if}
