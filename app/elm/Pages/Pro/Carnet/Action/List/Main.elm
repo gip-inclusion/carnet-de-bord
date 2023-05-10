@@ -164,7 +164,7 @@ view model =
                 , description =
                     "Les actions n'ont pas pu être chargées. "
                         ++ "L'équipe a été notifiée. "
-                        ++ "Réessayez plus tard ou ontactez le support."
+                        ++ "Veuillez réessayer plus tard ou contactez le support."
                 }
                 |> Alert.alert Nothing Alert.error
 
