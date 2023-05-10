@@ -202,6 +202,9 @@ update_permissions:
             account_id:
               _eq: X-Hasura-User-Id
       check: null
+      set:
+        deleted_at: now
+        deleted_by: x-hasura-User-Id
       backend_only: true
   - role: professional
     permission:
@@ -216,4 +219,5 @@ update_permissions:
       check: null
       set:
         deleted_at: now
+        deleted_by: x-hasura-User-Id
       backend_only: true

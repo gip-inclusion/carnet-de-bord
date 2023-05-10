@@ -1,8 +1,8 @@
-from typing import List
+from typing import Dict, List
 from uuid import UUID
 
 from gql import gql
-from pydantic import BaseModel, Field
+from pydantic import BaseModel
 
 
 class Action(BaseModel):
@@ -16,9 +16,8 @@ class ProfessionalProjectCommon(BaseModel):
     mobilityRadius: int | None
     romeCodeId: UUID | None
 
-    def gql_variables(self, account_id: UUID):
+    def gql_variables(self):
         return {
-            "updatedBy": str(account_id),
             "contractTypeId": self.contractTypeId,
             "employmentTypeId": self.employmentTypeId,
             "hourlyRate": self.hourlyRate,
@@ -30,8 +29,8 @@ class ProfessionalProjectCommon(BaseModel):
 class ProfessionalProjectToAdd(ProfessionalProjectCommon):
     notebookId: UUID
 
-    def gql_variables(self, account_id: UUID):
-        return super().gql_variables(account_id) | {
+    def gql_variables(self):
+        return super().gql_variables() | {
             "notebookId": str(self.notebookId),
         }
 
@@ -39,8 +38,8 @@ class ProfessionalProjectToAdd(ProfessionalProjectCommon):
 class ProfessionalProjectToUpdate(ProfessionalProjectCommon):
     id: UUID
 
-    def gql_variables(self, account_id: UUID):
-        return super().gql_variables(account_id) | {
+    def gql_variables(self):
+        return super().gql_variables() | {
             "id": str(self.id),
         }
 
@@ -49,11 +48,10 @@ class SituationsToAdd(BaseModel):
     notebookId: UUID
     situationId: UUID
 
-    def gql_variables(self, account_id: UUID):
+    def gql_variables(self):
         return {
             "notebookId": str(self.notebookId),
             "situationId": str(self.situationId),
-            "createdBy": str(account_id),
         }
 
 
@@ -72,20 +70,21 @@ class Input(BaseModel):
     workSituationEndDate: str | None
 
 
-class SessionVariables(BaseModel):
-    x_hasura_user_id: UUID = Field(..., alias="x-hasura-user-id")
+# class SessionVariables(BaseModel):
+#     x_hasura_user_id: UUID = Field(..., alias="x-hasura-user-id")
+#     x_hasura_allowed_roles: List[str] = Field(..., alias="x-hasura-allowed-roles")
+#     x_hasura_default_role: str = Field(..., alias="x-hasura-defaul-roles")
 
 
 class UpdateSocioProActionPayload(BaseModel):
     action: Action
     input: Input
     request_query: str
-    session_variables: SessionVariables
+    session_variables: Dict[str, str]
 
     def gql_variables(self):
         return {
             "id": str(self.input.id),
-            "accountId": str(self.session_variables.x_hasura_user_id),
             "workSituation": self.input.workSituation,
             "workSituationDate": self.input.workSituationDate,
             "workSituationEndDate": self.input.workSituationEndDate,
@@ -96,8 +95,7 @@ class UpdateSocioProActionPayload(BaseModel):
                 str(id) for id in self.input.professionalProjectIdsToDelete
             ],
             "professionalProjectsToAdd": [
-                p.gql_variables(self.session_variables.x_hasura_user_id)
-                for p in self.input.professionalProjectsToAdd
+                p.gql_variables() for p in self.input.professionalProjectsToAdd
             ],
             "professionalProjectsToUpdate": [
                 {
@@ -114,10 +112,7 @@ class UpdateSocioProActionPayload(BaseModel):
                 }
                 for p in self.input.professionalProjectsToUpdate
             ],
-            "situationsToAdd": [
-                s.gql_variables(self.session_variables.x_hasura_user_id)
-                for s in self.input.situationsToAdd
-            ],
+            "situationsToAdd": [s.gql_variables() for s in self.input.situationsToAdd],
             "situationIdsToDelete": [str(id) for id in self.input.situationIdsToDelete],
         }
 
@@ -126,7 +121,6 @@ update_socio_pro_gql = gql(
     """
 mutation UpdateSocioPro(
   $id: uuid!
-  $accountId: uuid!
   $workSituation: String
   $workSituationDate: date
   $workSituationEndDate: date
@@ -162,10 +156,6 @@ mutation UpdateSocioPro(
     affected_rows
   }
   update_notebook_situation(
-    _set:{
-        deletedAt: now
-        deletedBy: $accountId
-    }
     where: {
       _and: [
         { notebookId: { _eq: $id } }
