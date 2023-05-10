@@ -76,7 +76,7 @@ class SessionVariables(BaseModel):
     x_hasura_user_id: UUID = Field(..., alias="x-hasura-user-id")
 
 
-class UpdateSocioProMutation(BaseModel):
+class UpdateSocioProActionPayload(BaseModel):
     action: Action
     input: Input
     request_query: str
@@ -122,7 +122,7 @@ class UpdateSocioProMutation(BaseModel):
         }
 
 
-deny_orientation_gql = gql(
+update_socio_pro_gql = gql(
     """
 mutation UpdateSocioPro(
   $id: uuid!
