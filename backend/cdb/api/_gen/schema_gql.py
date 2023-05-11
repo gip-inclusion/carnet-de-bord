@@ -5012,9 +5012,9 @@ schema = build_schema(
     """
     enum manager_constraint {
       """
-      unique or primary key constraint on columns "email"
+      unique or primary key constraint on columns "email", "deployment_id"
       """
-      manager_email_key
+      manager_email_deployment_id_key
 
       """
       unique or primary key constraint on columns "id"

@@ -4109,8 +4109,8 @@ export type ManagerBoolExp = {
 
 /** unique or primary key constraints on table "manager" */
 export enum ManagerConstraint {
-	/** unique or primary key constraint on columns "email" */
-	ManagerEmailKey = 'manager_email_key',
+	/** unique or primary key constraint on columns "email", "deployment_id" */
+	ManagerEmailDeploymentIdKey = 'manager_email_deployment_id_key',
 	/** unique or primary key constraint on columns "id" */
 	ManagerPkey = 'manager_pkey',
 }
