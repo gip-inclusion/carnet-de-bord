@@ -30,8 +30,6 @@ const config = {
 					...(process.env.NODE_ENV === 'production' ? [] : ['ws:', 'http:']),
 					'wss://client.relay.crisp.chat/',
 					'https://client.crisp.chat/static/',
-					'%GRAPHQL_API_URL%',
-					'%BACKEND_API_URL%',
 					'%PUBLIC_MATOMO_URL%',
 					'%PUBLIC_SENTRY_DSN%',
 				],
