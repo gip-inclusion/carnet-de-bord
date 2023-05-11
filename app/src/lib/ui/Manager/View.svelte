@@ -26,7 +26,7 @@
 			<strong>{deploymentName}</strong>
 		{/if}
 	</span>
-	<h2 class="fr-h5 !mb-0 text-france-blue truncate" title={displayFullName(manager)}>
+	<h2 class="fr-h5 !mb-0 text-vert-cdb truncate" title={displayFullName(manager)}>
 		{displayFullName(manager)}
 	</h2>
 	<div class="flex flex-col gap-1">

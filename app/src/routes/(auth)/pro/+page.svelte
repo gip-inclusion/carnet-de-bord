@@ -54,7 +54,7 @@
 
 <LoaderIndicator {result}>
 	<div>
-		<h2 class="fr-h5 text-france-blue">Derniers profils consultés</h2>
+		<h2 class="fr-h5 text-vert-cdb">Derniers profils consultés</h2>
 		<div class="fr-grid-row fr-grid-row--gutters">
 			{#each lastVisitedNotebooks as lastVisitedNotebook, i (i)}
 				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
@@ -69,7 +69,7 @@
 		</div>
 	</div>
 	<div>
-		<h2 class="fr-h5 text-france-blue">Derniers profils modifiés</h2>
+		<h2 class="fr-h5 text-vert-cdb">Derniers profils modifiés</h2>
 		<div class="fr-grid-row fr-grid-row--gutters">
 			{#each lastModifiedNotebooks as lastModifiedNotebook, i (i)}
 				<div class="fr-col-12 fr-col-sm-6 fr-col-md-4 fr-col-lg-3">
@@ -85,7 +85,7 @@
 	</div>
 
 	<div>
-		<h2 class="fr-h5 text-france-blue">Mes bénéficiaires</h2>
+		<h2 class="fr-h5 text-vert-cdb">Mes bénéficiaires</h2>
 		<ProSearchResults {notebooks} accountId={$accountData.id} />
 	</div>
 </LoaderIndicator>

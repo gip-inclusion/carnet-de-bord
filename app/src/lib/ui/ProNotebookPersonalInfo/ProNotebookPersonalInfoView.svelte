@@ -72,14 +72,14 @@
 			</div>
 		{/if}
 		<div class="flex">
-			<h1 class="fr-h1 flex-1 text-france-blue">
+			<h1 class="fr-h1 flex-1 text-vert-cdb">
 				{displayFullName(beneficiary)}
 			</h1>
 		</div>
 		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>
 	</div>
 
-	<h2 class="fr-h4 text-france-blue">Informations personnelles</h2>
+	<h2 class="fr-h4 text-vert-cdb">Informations personnelles</h2>
 	<div class="flex flex-row space-x-4">
 		<div class="w-full">
 			<div class="text-lg font-bold">

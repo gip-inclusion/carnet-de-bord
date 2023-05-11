@@ -12,7 +12,7 @@
 	<span class="mb-1 text-sm">
 		{mainTitle}
 	</span>
-	<h2 class="fr-h5 !mb-0 text-france-blue truncate" title={displayFullName(orientationManager)}>
+	<h2 class="fr-h5 !mb-0 text-vert-cdb truncate" title={displayFullName(orientationManager)}>
 		{displayFullName(orientationManager)}
 	</h2>
 	<div class="flex flex-col gap-1">

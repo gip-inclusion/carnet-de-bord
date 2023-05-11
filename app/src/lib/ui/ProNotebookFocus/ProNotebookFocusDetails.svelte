@@ -101,7 +101,7 @@
 			</div>
 		</div>
 		<div class="flex flex-col gap-4">
-			<h2 class="fr-h4 text-france-blue">Objectifs</h2>
+			<h2 class="fr-h4 text-vert-cdb">Objectifs</h2>
 			<div>
 				<Accordions>
 					{#each targets as target (target.id)}
@@ -132,7 +132,7 @@
 		<div class="flex flex-row gap-4">
 			<div class="w-1/2 items-stretch">
 				{#if focus?.creator?.professional || focus?.creator?.orientation_manager}
-					<h2 class="fr-h4 text-france-blue">Créé par</h2>
+					<h2 class="fr-h4 text-vert-cdb">Créé par</h2>
 					<Card onClick={viewCreator}>
 						<span slot="title">
 							{displayFullName(focus?.creator?.professional || focus?.creator?.orientation_manager)}

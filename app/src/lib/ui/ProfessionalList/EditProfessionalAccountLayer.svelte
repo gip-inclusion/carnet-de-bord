@@ -93,7 +93,7 @@
 		let:isValid
 	>
 		<div class="max-w-sm">
-			<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
+			<h2 class="text-vert-cdb fr-h4">Informations personnelles</h2>
 
 			<Input placeholder="Jean Baptiste" inputLabel="Prénom" name="firstname" required />
 			<Input placeholder="Poquelin" inputLabel="Nom" name="lastname" required />
@@ -101,7 +101,7 @@
 			<Input placeholder="0789542136" inputLabel="Numéro de téléphone" name="mobileNumber" />
 			<Input placeholder="Conseiller en insertion" inputLabel="Position" name="position" />
 
-			<h2 class="text-france-blue fr-h4">Dispositifs d'accompagnement</h2>
+			<h2 class="text-vert-cdb fr-h4">Dispositifs d'accompagnement</h2>
 
 			{#if orientationSystemOptions.length === 0}
 				<p>Aucun dispositif d'accompagnement affecté à cette structure.</p>

@@ -40,7 +40,7 @@
 				<span class="fr-text--bold">
 					<Text value="Demande de réorientation" />
 				</span>
-				<span class="fr-text--bold text-france-blue">
+				<span class="fr-text--bold text-vert-cdb">
 					<Text value="{status} le {date}" />
 				</span>
 			</div>

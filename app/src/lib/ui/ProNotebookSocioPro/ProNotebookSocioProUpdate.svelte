@@ -307,7 +307,7 @@
 </script>
 
 <section class="flex flex-col w-full">
-	<h1 class="text-france-blue">Diagnostic socioprofessionnel</h1>
+	<h1 class="text-vert-cdb">Diagnostic socioprofessionnel</h1>
 	<Form
 		{initialValues}
 		validationSchema={proNotebookSocioproSchema}
@@ -318,7 +318,7 @@
 		let:isSubmitting
 		let:isValid
 	>
-		<h2 class="text-france-blue">Situation professionnelle</h2>
+		<h2 class="text-vert-cdb">Situation professionnelle</h2>
 		<div class="fr-form-group">
 			<Select
 				name="workSituation"
@@ -339,7 +339,7 @@
 							inputLabel="Jusqu'au"
 							type="date"
 						/>
-						<div class="col-end-3 italic text-xs mt-1 text-france-blue-500">
+						<div class="col-end-3 italic text-xs mt-1 text-vert-cdb-500">
 							<span>Durée : </span>
 							<button
 								aria-controls="work-situation-end-date"

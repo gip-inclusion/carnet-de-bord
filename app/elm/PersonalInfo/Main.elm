@@ -1,4 +1,4 @@
-module PersonalInfo.Main exposing (Flags, Model, Msg, main, beneficiaryRights)
+module PersonalInfo.Main exposing (Flags, Model, Msg, beneficiaryRights, main)
 
 import Browser
 import Domain.BeneficiaryRights exposing (BeneficiaryRights, rsaRightKeyToString)
@@ -117,7 +117,7 @@ extractIdentifiersFromFlags flags =
 personalInfoElement : String -> Maybe (Html msg) -> String -> Html msg
 personalInfoElement label someValue defaultText =
     div []
-        [ strong [ class "texte-base text-france-blue" ] [ text label ]
+        [ strong [ class "texte-base text-vert-cdb" ] [ text label ]
         , div [ class "mb-2" ]
             [ Maybe.withDefault (text defaultText) someValue ]
         ]

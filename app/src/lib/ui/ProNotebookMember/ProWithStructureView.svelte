@@ -17,10 +17,7 @@
 		<div class="w-1/2 flex flex-col">
 			<span class="mb-1 text-sm">Structure</span>
 
-			<h2
-				class="fr-h5 !mb-0 text-france-blue truncate"
-				title={account.professional.structure?.name}
-			>
+			<h2 class="fr-h5 !mb-0 text-vert-cdb truncate" title={account.professional.structure?.name}>
 				{account.professional.structure?.name}
 			</h2>
 			<div class="flex flex-col gap-1">
@@ -41,10 +38,7 @@
 		</div>
 		<div class="w-1/2 flex flex-col">
 			<span class="mb-1 text-sm">{mainTitle}</span>
-			<h2
-				class="fr-h5 !mb-0 text-france-blue truncate"
-				title={displayFullName(account.professional)}
-			>
+			<h2 class="fr-h5 !mb-0 text-vert-cdb truncate" title={displayFullName(account.professional)}>
 				{displayFullName(account.professional)}
 			</h2>
 			<div class="flex flex-col gap-1">
@@ -70,7 +64,7 @@
 		<div class="w-1/2 flex flex-col">
 			<span class="mb-1 text-sm">Chargé d'orientation</span>
 			<h2
-				class="fr-h5 !mb-0 text-france-blue truncate"
+				class="fr-h5 !mb-0 text-vert-cdb truncate"
 				title={displayFullName(account.orientation_manager)}
 			>
 				{displayFullName(account.orientation_manager)}

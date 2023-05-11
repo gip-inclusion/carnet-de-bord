@@ -17,12 +17,7 @@ const config = {
 				dark: '#2E2E2E',
 				bg: '#F8F8F8',
 			},
-			'france-blue': {
-				DEFAULT: 'var(--vert-cdb)',
-				100: '#F2F2F9',
-				500: 'var(--vert-cdb)',
-			},
-			'france-bleu': {
+			'vert-cdb': {
 				DEFAULT: 'var(--vert-cdb)',
 				100: '#F2F2F9',
 				500: 'var(--vert-cdb)',

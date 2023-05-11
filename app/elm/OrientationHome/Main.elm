@@ -320,7 +320,7 @@ view model =
         --             0
     in
     div [ class "flex flex-col gap-4" ]
-        [ h2 [ class "fr-h4 text-france-blue" ]
+        [ h2 [ class "fr-h4 text-vert-cdb" ]
             [ text "Mon portefeuille  d'orientation" ]
         , div
             [ class "fr-grid-row fr-grid-row--gutters" ]
@@ -341,7 +341,7 @@ view model =
                 "/orientation/beneficiaires?statut=demande-reo&brsa=suivi"
                 (extractString .nbOrientationRequest)
             ]
-        , h2 [ class "fr-h4 text-france-blue" ]
+        , h2 [ class "fr-h4 text-vert-cdb" ]
             [ text "Autres bénéficiaires de mon territoire" ]
         , div
             [ class "fr-grid-row fr-grid-row--gutters" ]

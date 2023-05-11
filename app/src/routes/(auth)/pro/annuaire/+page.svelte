@@ -83,7 +83,7 @@
 	{#if search}
 		{#if notebooks.length === 0}
 			<div class="flex flex-col space-y-4 items-center">
-				<p class="text-france-blue font-bold">
+				<p class="text-vert-cdb font-bold">
 					Désolé, aucun bénéficiaire ne correspond à votre recherche.
 				</p>
 				<p>

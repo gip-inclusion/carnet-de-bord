@@ -119,7 +119,7 @@
 					</div>
 					<div class="w-full">
 						<Input class="mb-0" name="contractEndDate" inputLabel="Fin du contrat" type="date" />
-						<div class="col-end-3 italic text-xs mt-1 text-france-blue-500">
+						<div class="col-end-3 italic text-xs mt-1 text-vert-cdb-500">
 							<span>Durée : </span>
 							<button
 								id="3-months"
