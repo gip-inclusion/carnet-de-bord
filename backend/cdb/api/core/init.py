@@ -62,8 +62,8 @@ def create_app(*, db=None) -> FastAPI:
         return {"status": "running", "version": get_version()}
 
     @app.middleware("http")
-    def format_logging(*args):
-        return logging_middleware(*args)
+    async def format_logging(*args):
+        return await logging_middleware(*args)
 
     @app.exception_handler(HTTPException)
     async def format_http_exception(*args):
