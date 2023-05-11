@@ -83,6 +83,7 @@ insert_permissions:
         - mobility_radius
         - notebook_id
         - rome_code_id
+      backend_only: true
   - role: orientation_manager
     permission:
       check:
@@ -102,6 +103,7 @@ insert_permissions:
         - mobility_radius
         - notebook_id
         - rome_code_id
+      backend_only: true
   - role: professional
     permission:
       check:
@@ -121,6 +123,7 @@ insert_permissions:
         - mobility_radius
         - notebook_id
         - rome_code_id
+      backend_only: true
 select_permissions:
   - role: admin_cdb
     permission:
@@ -259,6 +262,7 @@ update_permissions:
       check: null
       set:
         updated_by: x-hasura-User-Id
+      backend_only: true
   - role: professional
     permission:
       columns:
@@ -278,6 +282,7 @@ update_permissions:
       check: null
       set:
         updated_by: x-hasura-User-Id
+      backend_only: true
 delete_permissions:
   - role: orientation_manager
     permission:
@@ -289,6 +294,7 @@ delete_permissions:
                   _eq: X-Hasura-User-Id
               - active:
                   _eq: true
+      backend_only: true
   - role: professional
     permission:
       filter:
@@ -299,3 +305,4 @@ delete_permissions:
                   _eq: X-Hasura-User-Id
               - active:
                   _eq: true
+      backend_only: true

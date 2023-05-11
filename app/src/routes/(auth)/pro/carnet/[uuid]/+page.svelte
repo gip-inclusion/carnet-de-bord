@@ -221,7 +221,6 @@
 <svelte:head>
 	<title>Carnet bénéficiaire - Carnet de bord</title>
 </svelte:head>
-
 <LoaderIndicator result={getNotebook}>
 	{#if !publicNotebook}
 		<Alert type="info" title="erreur"

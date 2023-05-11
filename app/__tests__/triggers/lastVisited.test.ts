@@ -93,22 +93,25 @@ describe('lastModified trigger', () => {
 	});
 
 	it('should update notebook_member.lastModified when notebook is updated', async () => {
-		const updateSocioProMutation = fs.readFileSync(
-			path.join(__dirname, '../../src/lib/ui/ProNotebookSocioPro/', '_UpdateSocioPro.gql'),
-			'utf8'
-		);
+		const updateSocioProMutation = `
+			mutation update_notebook (
+					$id: uuid!
+					$workSituation: String
+			) {
+				update: update_notebook_by_pk(
+					pk_columns: { id: $id }
+					_set: {
+						workSituation: $workSituation
+					}
+				) {
+					id
+				}
+			}
+		`;
 
 		await graphqlPro(updateSocioProMutation, {
-			educationLevel: 'NV4',
 			id: sofieTifourNotebookId,
-			rightRqth: false,
 			workSituation: 'iae',
-			workSituationDate: '2021-10-22',
-			professionalProjectsToAdd: [],
-			professionalProjectIdsToDelete: [],
-			professionalProjectsToUpdate: [],
-			situationsToAdd: [],
-			situationIdsToDelete: [],
 		});
 
 		const payload = await graphqlPro(lastModifiedQuery);

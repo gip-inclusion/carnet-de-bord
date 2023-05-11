@@ -20,9 +20,59 @@ actions:
       - role: admin_structure
       - role: admin_cdb
     comment: Create NPS Rating
+  - name: update_socio_pro
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/socio_pro/update'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: manager
+    comment: Update professionnal project and create notebook event
 custom_types:
-  enums: []
-  input_objects: []
+  enums:
+    - name: UpdateSocioProContractTypeEnum
+      values:
+        - description: Apprentissage
+          is_deprecated: null
+          value: apprentissage
+        - description: CDD
+          is_deprecated: null
+          value: cdd
+        - description: CDI
+          is_deprecated: null
+          value: cdi
+        - description: Contrat de professionnalisation
+          is_deprecated: null
+          value: contrat_professionnalisation
+        - description: Interim
+          is_deprecated: null
+          value: interim
+        - description: Libéral
+          is_deprecated: null
+          value: liberal
+        - description: Portage salarial
+          is_deprecated: null
+          value: portage_salarial
+        - description: Saisonnier
+          is_deprecated: null
+          value: saisonnier
+    - name: UpdateSocioProEmploymentTypeEnum
+      values:
+        - description: Temps plein
+          is_deprecated: null
+          value: full_time
+        - description: Temps partiel
+          is_deprecated: null
+          value: part_time
+  input_objects:
+    - name: UpdateSocioProProfessionalProjectInsertInput
+    - name: UpdateSocioProProfessionalProjectSetInput
+    - name: UpdateSocioProNotebookSituationInsertInput
   objects:
     - name: NPSRatingOutput
+    - name: UpdateSocioProOutput
   scalars: []

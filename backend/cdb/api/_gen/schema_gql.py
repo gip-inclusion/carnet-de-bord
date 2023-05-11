@@ -104,6 +104,68 @@ schema = build_schema(
       _similar: String
     }
 
+    enum UpdateSocioProContractTypeEnum {
+      """Apprentissage"""
+      apprentissage
+
+      """CDD"""
+      cdd
+
+      """CDI"""
+      cdi
+
+      """Contrat de professionnalisation"""
+      contrat_professionnalisation
+
+      """Interim"""
+      interim
+
+      """Libéral"""
+      liberal
+
+      """Portage salarial"""
+      portage_salarial
+
+      """Saisonnier"""
+      saisonnier
+    }
+
+    enum UpdateSocioProEmploymentTypeEnum {
+      """Temps plein"""
+      full_time
+
+      """Temps partiel"""
+      part_time
+    }
+
+    input UpdateSocioProNotebookSituationInsertInput {
+      notebookId: uuid!
+      situationId: uuid!
+    }
+
+    type UpdateSocioProOutput {
+      id: uuid!
+    }
+
+    input UpdateSocioProProfessionalProjectInsertInput {
+      contractTypeId: UpdateSocioProContractTypeEnum
+      employmentTypeId: UpdateSocioProEmploymentTypeEnum
+      hourlyRate: Int
+      mobilityRadius: Int
+      notebookId: uuid
+      romeCodeId: uuid
+    }
+
+    input UpdateSocioProProfessionalProjectSetInput {
+      contractTypeId: UpdateSocioProContractTypeEnum
+      employmentTypeId: UpdateSocioProEmploymentTypeEnum
+      hourlyRate: Int
+      id: uuid!
+      mobilityRadius: Int
+      notebookId: uuid
+      romeCodeId: uuid
+    }
+
     """
     columns and relationships of "account"
     """
@@ -7983,6 +8045,9 @@ schema = build_schema(
         """updates to execute, in order"""
         updates: [rsa_suspension_reason_updates!]!
       ): [rsa_suspension_reason_mutation_response]
+
+      """Update professionnal project and create notebook event"""
+      update_socio_pro(educationLevel: String, id: uuid!, lastJobEndedAt: date, professionalProjectIdsToDelete: [uuid!]!, professionalProjectsToAdd: [UpdateSocioProProfessionalProjectInsertInput!]!, professionalProjectsToUpdate: [UpdateSocioProProfessionalProjectSetInput!]!, rightRqth: Boolean, situationIdsToDelete: [uuid!]!, situationsToAdd: [UpdateSocioProNotebookSituationInsertInput!]!, workSituation: String, workSituationDate: date, workSituationEndDate: date): UpdateSocioProOutput
 
       """
       update data of the table: "structure"

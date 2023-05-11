@@ -6,7 +6,11 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.settings import settings
-from cdb.api.v1.middlewares import http_exception_handler, logging_middleware
+from cdb.api.v1.exception_handler import (
+    http_500_exception_handler,
+    http_exception_handler,
+)
+from cdb.api.v1.middlewares import logging_middleware
 
 logger = logging.getLogger(__name__)
 
@@ -62,8 +66,12 @@ def create_app(*, db=None) -> FastAPI:
         return await logging_middleware(*args)
 
     @app.exception_handler(HTTPException)
-    async def format_exception(*args):
+    async def format_http_exception(*args):
         return await http_exception_handler(*args)
+
+    @app.exception_handler(Exception)
+    async def format_500_http_exception(*args):
+        return await http_500_exception_handler(*args)
 
     return app
 

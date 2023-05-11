@@ -4,6 +4,68 @@ type Mutation {
   ): NPSRatingOutput
 }
 
+type Mutation {
+  update_socio_pro(
+    id: uuid!
+    workSituation: String
+    workSituationDate: date
+    workSituationEndDate: date
+    rightRqth: Boolean
+    educationLevel: String
+    lastJobEndedAt: date
+    situationIdsToDelete: [uuid!]!
+    professionalProjectsToAdd: [UpdateSocioProProfessionalProjectInsertInput!]!
+    professionalProjectIdsToDelete: [uuid!]!
+    professionalProjectsToUpdate: [UpdateSocioProProfessionalProjectSetInput!]!
+    situationsToAdd: [UpdateSocioProNotebookSituationInsertInput!]!
+    situationIdsToDelete: [uuid!]!
+  ): UpdateSocioProOutput
+}
+
+enum UpdateSocioProContractTypeEnum {
+  """ Apprentissage """ apprentissage
+  """ CDD """ cdd
+  """ CDI """ cdi
+  """ Contrat de professionnalisation """ contrat_professionnalisation
+  """ Interim """ interim
+  """ Libéral """ liberal
+  """ Portage salarial """ portage_salarial
+  """ Saisonnier """ saisonnier
+}
+
+enum UpdateSocioProEmploymentTypeEnum {
+  """ Temps plein """ full_time
+  """ Temps partiel """ part_time
+}
+
+input UpdateSocioProProfessionalProjectInsertInput {
+  contractTypeId: UpdateSocioProContractTypeEnum
+  employmentTypeId: UpdateSocioProEmploymentTypeEnum
+  hourlyRate: Int
+  mobilityRadius: Int
+  notebookId: uuid
+  romeCodeId: uuid
+}
+
+input UpdateSocioProProfessionalProjectSetInput {
+  contractTypeId: UpdateSocioProContractTypeEnum
+  employmentTypeId: UpdateSocioProEmploymentTypeEnum
+  hourlyRate: Int
+  id: uuid!
+  mobilityRadius: Int
+  notebookId: uuid
+  romeCodeId: uuid
+}
+
+input UpdateSocioProNotebookSituationInsertInput {
+  notebookId: uuid!
+  situationId: uuid!
+}
+
 type NPSRatingOutput {
   void: String
+}
+
+type UpdateSocioProOutput {
+  id: uuid!
 }
