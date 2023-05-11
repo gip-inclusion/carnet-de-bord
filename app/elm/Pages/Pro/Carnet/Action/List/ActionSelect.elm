@@ -1,6 +1,5 @@
 module Pages.Pro.Carnet.Action.List.ActionSelect exposing (Action, Model, Msg, getSelected, init, update, view)
 
-import Api exposing (Api)
 import Domain.Action.Id exposing (ActionId)
 import Html
 import Http
@@ -28,12 +27,12 @@ type alias Model =
     UI.SearchSelect.Component.Model Action
 
 
-init : { api : Api } -> ( Model, Cmd Msg )
-init props =
+init : ( Model, Cmd Msg )
+init =
     UI.SearchSelect.Component.init
         { id = "select-action"
         , selected = Nothing
-        , api = apiSearch props.api
+        , api = apiSearch
         , optionLabel = .description
         , label = "Actions"
         , searchPlaceholder = "Rechercher une action"
@@ -49,13 +48,11 @@ getSelected =
 
 
 apiSearch :
-    Api
-    ->
         { search : String
         , callbackMsg : Result Http.Error (List Action) -> UI.SearchSelect.Component.Msg Action
         }
     -> Cmd (UI.SearchSelect.Component.Msg Action)
-apiSearch api { search, callbackMsg } =
+apiSearch { search, callbackMsg } =
     let
         query =
             """
@@ -70,9 +67,9 @@ query searchRefActions($searchString: String = "") {
     in
     Http.request
         { method = "POST"
-        , url = api.url
+        , url = "/graphql"
         , headers =
-            [ Http.header "Authorization" ("Bearer " ++ api.token) ]
+            [ ]
         , body =
             Http.jsonBody
                 (Json.object

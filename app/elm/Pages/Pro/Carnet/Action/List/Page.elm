@@ -1,6 +1,5 @@
 port module Pages.Pro.Carnet.Action.List.Page exposing (Error(..), Model, Msg(..), init, subscriptions, update, view)
 
-import Api exposing (Api)
 import BetaGouv.DSFR.Alert
 import Dict exposing (Dict)
 import Domain.Action.Id
@@ -42,7 +41,6 @@ type alias Model =
     { actions : Dict String Action
     , theme : String
     , actionSelect : Pages.Pro.Carnet.Action.List.ActionSelect.Model
-    , api : Api
     , error : Maybe Error
     , targetId : String
     }
@@ -55,20 +53,18 @@ type Error
 
 init :
     { actions : List Action
-    , api : Api
     , theme : String
     , targetId : String
     }
     -> ( Model, Cmd Msg )
-init { actions, api, theme, targetId } =
+init { actions, theme, targetId } =
     let
         ( actionSelect, actionSelectCmd ) =
-            Pages.Pro.Carnet.Action.List.ActionSelect.init { api = api }
+            Pages.Pro.Carnet.Action.List.ActionSelect.init
     in
     ( { actions = toActionDict actions
       , theme = theme
       , actionSelect = actionSelect
-      , api = api
       , error = Nothing
       , targetId = targetId
       }

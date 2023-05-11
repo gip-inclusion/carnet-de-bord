@@ -1,10 +1,8 @@
 import type { ports as sentryPorts } from '$elm/Sentry';
 import type { portIn, portOut } from '$elm/typeTools';
-import type { ApiFlag } from '$elm/Api';
 export type Flags = {
 	theme: String;
 	targetId: String;
-	api: ApiFlag;
 };
 
 export type StatusUpdate = { actionId: string; status: string };
