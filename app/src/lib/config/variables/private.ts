@@ -10,18 +10,6 @@ export const getGraphqlAPI = (): string => {
 	return env['GRAPHQL_API_URL'];
 };
 
-export function getApiParticulierConfig(): {
-	API_PARTICULIER_URL: string;
-	API_PARTICULIER_TOKEN_CAF: string;
-	API_PARTICULIER_TOKEN_PE: string;
-} {
-	return {
-		API_PARTICULIER_URL: env['API_PARTICULIER_URL'],
-		API_PARTICULIER_TOKEN_CAF: env['API_PARTICULIER_TOKEN_CAF'],
-		API_PARTICULIER_TOKEN_PE: env['API_PARTICULIER_TOKEN_PE'],
-	};
-}
-
 export function getDatabaseUrl(): string {
 	return env['DATABASE_URL'] || env['HASURA_GRAPHQL_DATABASE_URL'];
 }
