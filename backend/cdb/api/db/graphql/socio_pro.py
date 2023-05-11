@@ -70,12 +70,6 @@ class Input(BaseModel):
     workSituationEndDate: str | None
 
 
-# class SessionVariables(BaseModel):
-#     x_hasura_user_id: UUID = Field(..., alias="x-hasura-user-id")
-#     x_hasura_allowed_roles: List[str] = Field(..., alias="x-hasura-allowed-roles")
-#     x_hasura_default_role: str = Field(..., alias="x-hasura-defaul-roles")
-
-
 class UpdateSocioProActionPayload(BaseModel):
     action: Action
     input: Input
