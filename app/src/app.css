@@ -2,7 +2,21 @@
 @import url('./tailwind.css');
 @import url('./dsfr.css');
 
-
 .--bg-blue-france-975 {
 	background: #f5f5fe !important;
+}
+
+:root {
+	--vert-cdb: rgba(0, 88, 93, 1);
+	--vert-cdb-hover: rgba(0, 129, 138, 1);
+	--vert-cdb-active: rgba(1, 125, 134, 1);
+	--text-action-high-blue-france: var(--vert-cdb);
+	--border-action-high-blue-france: var(--vert-cdb);
+	--background-action-high-blue-france: var(--vert-cdb);
+	--background-action-high-blue-france-hover: var(--vert-cdb-hover);
+	--background-action-high-blue-france-active: var(--vert-cdb-active);
+	--background-active-blue-france: var(--vert-cdb);
+	--background-active-blue-france-hover: var(--vert-cdb-hover);
+	--background-active-blue-france-active: var(--vert-cdb-active);
+	--border-plain-blue-france: var(--vert-cdb);
 }
