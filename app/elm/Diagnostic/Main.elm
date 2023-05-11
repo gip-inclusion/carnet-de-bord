@@ -22,7 +22,7 @@ import DateFormat
 import Decimal
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
-import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
+import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
 import Html
@@ -31,7 +31,6 @@ import Iso8601
 import List.Extra
 import Time
 import TimeZone
-import Domain.ProfessionalProject exposing (Rome)
 
 
 type alias Flags =
@@ -462,7 +461,7 @@ professionalProjectView { professionalProjects } =
                         (\professionalProject ->
                             Html.div [ class "fr-container shadow-dsfr rounded-lg" ]
                                 [ Html.div [ class "pt-8 mb-8" ]
-                                    [ Html.h4 [ class "text-france-bleu mb-0" ]
+                                    [ Html.h4 [ class "text-cdb-vert mb-0" ]
                                         [ Html.text (Maybe.withDefault "Projet en construction" (Maybe.map .label professionalProject.rome)) ]
                                     , Html.div [ class "text-sm" ] [ professionalProject |> formatLastUpdateInformation |> Html.text ]
                                     ]

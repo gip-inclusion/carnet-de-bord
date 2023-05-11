@@ -31,7 +31,7 @@
 	let:isValid
 >
 	<div class="max-w-lg">
-		<h2 class="text-france-blue fr-h4">Informations générales</h2>
+		<h2 class="text-vert-cdb fr-h4">Informations générales</h2>
 
 		<Input placeholder="Pole insertion" inputLabel="Nom" name="name" />
 		<Input placeholder="service d'insertion" inputLabel="Description" name="shortDesc" />
@@ -56,7 +56,7 @@
 		</div>
 		<Input placeholder="https://monsite.url" inputLabel="Site web" name="website" />
 
-		<h2 class="text-france-blue fr-h4">Dispositifs d'accompagnement</h2>
+		<h2 class="text-vert-cdb fr-h4">Dispositifs d'accompagnement</h2>
 		{#if orientationSystemOptions.length === 0}
 			<p>Aucun dispositif d'accompagnement affecté à cette structure.</p>
 		{:else}

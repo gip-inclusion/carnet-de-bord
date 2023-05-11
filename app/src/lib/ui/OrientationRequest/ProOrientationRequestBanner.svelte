@@ -9,7 +9,7 @@
 			? 'text-marianne-red'
 			: reorientationRequest.status == 'accepted'
 			? 'text-success'
-			: 'text-france-blue';
+			: 'text-vert-cdb';
 
 	$: decision =
 		reorientationRequest.status == 'denied'

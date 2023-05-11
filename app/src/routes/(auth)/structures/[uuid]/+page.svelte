@@ -109,7 +109,7 @@
 		</div>
 		<div class="flex flex-row gap-6">
 			<div>
-				<h2 class="fr-h4 !text-france-blue">Coordonnées</h2>
+				<h2 class="fr-h4 !text-vert-cdb">Coordonnées</h2>
 
 				<div class="flex flex-col gap-1">
 					<Text
@@ -140,7 +140,7 @@
 				</div>
 			</div>
 			<div class="grow">
-				<h2 class="fr-h4 !text-france-blue">Portefeuille de la structure</h2>
+				<h2 class="fr-h4 !text-vert-cdb">Portefeuille de la structure</h2>
 				<div class="fr-grid-row fr-grid-row--gutters">
 					{#each metrics as item (item.label)}
 						<div class="fr-col-sm-6 fr-col-md-4 fr-col-lg-4">
@@ -164,7 +164,7 @@
 			</div>
 		</div>
 		<div>
-			<h2 class="fr-h4 !text-france-blue">Actions</h2>
+			<h2 class="fr-h4 !text-vert-cdb">Actions</h2>
 			<div class="fr-grid-row fr-grid-row--gutters">
 				<div class="fr-col-12 fr-col-sm-6 fr-col-md-6 fr-col-lg-4">
 					<Tile imageUrl={professionnelIcon}>
@@ -205,7 +205,7 @@
 		</div>
 		<div>
 			<div class="flex flex-row gap-8 items-baseline mt-4">
-				<h2 class="fr-h4 !text-france-blue">{pluralize('Gestionnaire', members.length)}</h2>
+				<h2 class="fr-h4 !text-vert-cdb">{pluralize('Gestionnaire', members.length)}</h2>
 				<Button on:click={openAddAdminLayer} classNames="fr-btn--md">Ajouter un gestionnaire</Button
 				>
 			</div>

@@ -40,7 +40,7 @@
 </script>
 
 <h1 class="fr-h2">
-	Déploiement <span class="text-france-blue-500">{deployment?.label ?? ''}</span>
+	Déploiement <span class="text-vert-cdb-500">{deployment?.label ?? ''}</span>
 </h1>
 <div class="flex justify-between items-center">
 	<Button classNames="self-end" on:click={onAddManagerClick}

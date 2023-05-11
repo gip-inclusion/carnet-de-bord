@@ -17,10 +17,7 @@
 		{#if creator?.professional?.structure}
 			<div class="w-1/2 flex flex-col">
 				<span class="mb-1 text-sm">Structure</span>
-				<h2
-					class="fr-h5 !mb-0 text-france-blue truncate"
-					title={creator.professional.structure?.name}
-				>
+				<h2 class="fr-h5 !mb-0 text-vert-cdb truncate" title={creator.professional.structure?.name}>
 					{creator.professional.structure?.name}
 				</h2>
 				<div class="flex flex-col gap-1">
@@ -51,7 +48,7 @@
 				>{creator.professional ? 'Accompagnateur' : "Chargé d'orientation"}</span
 			>
 			<h2
-				class="fr-h5 !mb-0 text-france-blue truncate"
+				class="fr-h5 !mb-0 text-vert-cdb truncate"
 				title={displayFullName(creator.professional || creator.orientation_manager)}
 			>
 				{displayFullName(creator.professional || creator.orientation_manager)}

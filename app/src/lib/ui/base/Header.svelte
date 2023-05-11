@@ -23,14 +23,14 @@
 					<div class="fr-header__brand-top">
 						<div class="fr-header__logo">
 							<p class="fr-logo">
-								Ministère<br />du Travail,<br />du Plein Emploi<br />et de l'Insertion
+								République<br />Française
 							</p>
 						</div>
-						<div class="fr-header__operator">
+						<div class="fr-header__operator pr-0 mr-0">
 							<img
-								src="/logo-cdb.svg"
+								src="/logo-cdb-green.svg"
+								style="width:4.5rem"
 								class="fr-responsive-img"
-								style="width:5.4rem;"
 								alt=""
 								aria-hidden="true"
 							/>
@@ -48,16 +48,14 @@
 							</button>
 						</div>
 					</div>
-					<div class="fr-header__service">
+					<div class="fr-header__service pl-0">
 						<a
 							href="/"
 							title="Accueil - Carnet de bord - Ministère du Travail, de l'Emploi et de l'Insertion"
 						>
 							<p class="fr-header__service-title">Carnet de bord</p>
 						</a>
-						<p class="fr-header__service-tagline">
-							Faciliter la vie des personnes en insertion et de leurs accompagnants
-						</p>
+						<p class="fr-header__service-tagline">Plateforme de l'inclusion</p>
 					</div>
 				</div>
 				<div class="fr-header__tools">
@@ -66,18 +64,27 @@
 							<ul class="fr-btns-group">
 								<li>
 									<a
-										class="fr-btn fr-icon-account-line"
-										href={`${baseUrlForRole($connectedUser.role)}/moncompte`}
+										class="fr-btn"
+										href="https://981c5932.sibforms.com/serve/MUIEAJHvob2zXVxoW2gIQspSQwuw7sIUK8W0Cygv0WJd68eW-Toq9LQkBI8Xffv_I5a-1iLZMGwhxjdD7SPCjWT8YMWC6WoK11MNDycQJ8Uoi4Grdf_3oqrUlc7UvhLy8qhs_OC_ezebGm-2kshIP0kbaaxHmkh7MyZQsm-bRyyEN8Zxn4yhJitOdCJoJL-y4SQxe5Uxen9w0Ksy"
 									>
-										Mon compte
+										Infolettre
 									</a>
 								</li>
 								<li>
 									<a
-										on:click|preventDefault={logout}
-										class="fr-btn fr-icon-logout-box-r-line"
-										href="/auth/logout"
+										class="fr-btn"
+										href="https://communaute.inclusion.beta.gouv.fr/forum/carnet-de-bord-77/"
 									>
+										Besoin d'aide
+									</a>
+								</li>
+								<li>
+									<a class="fr-btn" href={`${baseUrlForRole($connectedUser.role)}/moncompte`}>
+										Mon compte
+									</a>
+								</li>
+								<li>
+									<a on:click|preventDefault={logout} class="fr-btn" href="/auth/logout">
 										Déconnexion
 									</a>
 								</li>

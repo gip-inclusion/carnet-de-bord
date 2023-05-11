@@ -28,7 +28,7 @@
 	let:isValid
 >
 	<div class="max-w-sm">
-		<h2 class="text-france-blue fr-h4">Informations personnelles</h2>
+		<h2 class="text-vert-cdb fr-h4">Informations personnelles</h2>
 
 		<Input
 			placeholder="Jean Baptiste"

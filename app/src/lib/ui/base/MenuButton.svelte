@@ -98,7 +98,7 @@
 	aria-haspopup="true"
 	aria-controls={menuId}
 	type="button"
-	class="bt text-france-blue"
+	class="bt text-vert-cdb"
 >
 	<span class={icon} aria-label={label} />
 </button>

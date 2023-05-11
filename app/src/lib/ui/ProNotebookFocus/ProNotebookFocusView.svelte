@@ -50,7 +50,7 @@
 <div class="flex flex-col gap-4">
 	<div>
 		<div
-			class="text-france-blue underline cursor-pointer"
+			class="text-vert-cdb underline cursor-pointer"
 			on:keydown={openContract}
 			on:click={openContract}
 		>

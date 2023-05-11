@@ -158,7 +158,7 @@
 					</td>
 					<td class="text-center">
 						<button>
-							<i class="text-2xl text-france-blue ri-arrow-right-line" />
+							<i class="text-2xl text-vert-cdb ri-arrow-right-line" />
 						</button>
 					</td>
 				</tr>

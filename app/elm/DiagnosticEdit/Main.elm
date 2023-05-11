@@ -466,7 +466,7 @@ view : Model -> Html.Html Msg
 view model =
     Html.div [ Attr.class "pt-12" ]
         [ Html.h2
-            [ Attr.class "text-france-blue" ]
+            [ Attr.class "text-vert-cdb" ]
             [ Html.text "Projet(s) professionnel(s)" ]
         , Html.div []
             (model.professionalProjects
@@ -611,7 +611,7 @@ view model =
             ]
             [ Html.text "Ajouter un projet professionnel" ]
         , Html.h2
-            [ Attr.class "text-france-blue pt-12" ]
+            [ Attr.class "text-vert-cdb pt-12" ]
             [ Html.text "Situation Personnelle" ]
         , Html.div []
             (model.possibleSituationsByTheme

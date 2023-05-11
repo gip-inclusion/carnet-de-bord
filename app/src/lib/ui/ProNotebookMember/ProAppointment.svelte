@@ -203,7 +203,7 @@
 <LoaderIndicator result={getAppointmentStore}>
 	<div class="fr-grid-row mt-10 mb-3">
 		<div class="fr-col-6">
-			<h4 class="text-france-blue m-0">Rendez-vous</h4>
+			<h4 class="text-vert-cdb m-0">Rendez-vous</h4>
 		</div>
 		<div class="fr-col-6 text-right">
 			<Button on:click={setupNewAppointment}>Ajouter un rendez-vous</Button>

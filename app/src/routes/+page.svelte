@@ -76,7 +76,7 @@
 		</div>
 	</div>
 </div>
-<div class="bg-france-blue-100">
+<div class="bg-vert-cdb-100">
 	<div class="fr-container">
 		<div class="flex flex-col mx-24 pt-24 pb-20 text-center">
 			<h2>Embarquez à bord !</h2>

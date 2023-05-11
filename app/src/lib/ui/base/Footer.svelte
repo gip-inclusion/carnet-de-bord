@@ -10,7 +10,7 @@
 			<div class="fr-footer__brand fr-enlarge-link">
 				<Link href={landing} title="Retour à l’accueil">
 					<p class="fr-logo" title="république française">
-						Ministère<br />du Travail,<br />du Plein Emploi<br />et de l'Insertion
+						République<br />Française
 					</p>
 				</Link>
 			</div>

@@ -43,9 +43,9 @@
 <div class="bg-gray-100">
 	<div class="fr-container">
 		<div class="flex flex-row gap-4 fr-py-3w items-top">
-			<div class="text-france-blue fr-icon-info-fill" aria-hidden />
+			<div class="text-vert-cdb fr-icon-info-fill" aria-hidden />
 			<div class="">
-				<p class="fr-text--bold text-france-blue mb-0">
+				<p class="fr-text--bold text-vert-cdb mb-0">
 					Demande de réorientation envoyée le {formatDateLocale(orientationRequest.createdAt)}
 				</p>
 				<p class="mb-0">

@@ -54,7 +54,7 @@
 		</p>
 	</div>
 	<div>
-		<h2 class="fr-h4 text-france-blue">Axe de travail</h2>
+		<h2 class="fr-h4 text-vert-cdb">Axe de travail</h2>
 		<Radio
 			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
 			bind:selected={formData.linkedTo}
