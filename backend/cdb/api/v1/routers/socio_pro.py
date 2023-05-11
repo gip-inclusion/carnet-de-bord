@@ -13,7 +13,7 @@ router = APIRouter(dependencies=[Depends(verify_secret_token)])
 
 
 @router.post("/update")
-async def update(request: Request, payload: UpdateSocioProActionPayload):
+async def update(_: Request, payload: UpdateSocioProActionPayload):
     """
     Update the socio pro information of a notebook.
     It will create a notebook_event that will keep track of the modifications performed

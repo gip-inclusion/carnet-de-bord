@@ -3,16 +3,9 @@ actions:
     definition:
       kind: synchronous
       handler: '{{BACKEND_API_ACTION_URL}}/v1/nps-rating'
-      forward_client_headers: true
-      request_transform:
-        body:
-          action: transform
-          template: |-
-            {
-              "score":  {{$body.input.score}}
-            }
-        template_engine: Kriti
-        version: 2
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
     permissions:
       - role: professional
       - role: orientation_manager

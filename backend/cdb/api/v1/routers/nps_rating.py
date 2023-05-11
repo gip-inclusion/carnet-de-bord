@@ -1,5 +1,6 @@
 import zlib
 from datetime import datetime, timedelta, timezone
+from typing import Dict
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, Request
@@ -7,38 +8,33 @@ from pydantic import BaseModel, conint
 
 from cdb.api.core.init import connection
 from cdb.api.db.crud.nps_rating import get_latest_answer_ts, insert_nps_rating
-from cdb.api.db.models.role import RoleEnum
-from cdb.api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
+from cdb.api.v1.dependencies import verify_secret_token
 
-router = APIRouter(
-    dependencies=[
-        Depends(
-            allowed_jwt_roles(
-                [
-                    RoleEnum.ADMIN_CDB,
-                    RoleEnum.ADMIN_STRUCTURE,
-                    RoleEnum.MANAGER,
-                    RoleEnum.ORIENTATION_MANAGER,
-                    RoleEnum.PROFESSIONAL,
-                ]
-            )
-        ),
-        Depends(extract_authentified_account),
-    ]
-)
+router = APIRouter(dependencies=[Depends(verify_secret_token)])
+
+
+class Action(BaseModel):
+    name: str
 
 
 class NPSInput(BaseModel):
     score: conint(ge=0, le=10)
 
 
+class NPSRatingActionPayload(BaseModel):
+    action: Action
+    input: NPSInput
+    request_query: str
+    session_variables: Dict[str, str]
+
+
 @router.post("", status_code=201)
 async def create_nps_rating(
-    data: NPSInput,
-    request: Request,
+    _: Request,
+    payload: NPSRatingActionPayload,
     db=Depends(connection),
 ):
-    account_uuid = UUID(request.state.account.id)
+    account_uuid = UUID(payload.session_variables.get("x-hasura-user-id"))
     lockkey = zlib.adler32(account_uuid.bytes)
     async with db.transaction():
         await db.execute("SELECT pg_advisory_xact_lock($1)", lockkey)
@@ -52,5 +48,5 @@ async def create_nps_rating(
                     "Le dernier score NPS a été enregistré il y a moins de 14 jours."
                 ),
             )
-        await insert_nps_rating(db, account_uuid, data.score)
+        await insert_nps_rating(db, account_uuid, payload.input.score)
     return {}
