@@ -11,22 +11,19 @@ Pour utiliser le composant Elm dans svelte
 
 ```svelte
 	import { Elm } from '$elm/MainApp/Main.elm';
-	import { afterUpdate } from 'svelte';
+	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
 
-	let elmNode: HTMLElement;
-	afterUpdate(() => {
-		if (!elmNode) return;
+	const elmSetup = (node: HTMLElement) => {
 		Elm.MainApp.Main.init({
-			node: elmNode,
+			node,
 			flags: {
 				...some_data
 			},
 		});
-	});
+	};
 
 <div>
-	<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
-	<div bind:this={elmNode} />
+	<ElmWrapper setup={elmSetup} />
 </div>
 ```
 

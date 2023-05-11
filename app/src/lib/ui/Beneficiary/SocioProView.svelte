@@ -24,18 +24,15 @@
 	export let externalDataDetail: ExternalDataDetail | null;
 
 	import { Elm as DiagnosticElm } from '$elm/Diagnostic/Main.elm';
-	import { afterUpdate } from 'svelte';
+	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
 
-	let elmNode: HTMLElement;
-	afterUpdate(() => {
-		if (!elmNode) return;
-
+	const elmSetup = (node: HTMLElement) => {
 		const situationsWithFormattedDates = notebook.situations?.map((situation) => {
 			return { ...situation, createdAt: formatDateLocale(situation.createdAt) };
 		});
 
 		DiagnosticElm.Diagnostic.Main.init({
-			node: elmNode,
+			node,
 			flags: {
 				professionalSituation: {
 					workSituation: notebook.workSituation,
@@ -72,12 +69,9 @@
 				personalSituations: situationsWithFormattedDates || null,
 			},
 		});
-	});
+	};
 </script>
 
 {#key notebook}
-	<div class="elm-node">
-		<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
-		<div bind:this={elmNode} />
-	</div>
+	<ElmWrapper setup={elmSetup} />
 {/key}

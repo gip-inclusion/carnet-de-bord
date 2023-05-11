@@ -7,7 +7,7 @@
 		type AddNotebookActionMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Elm } from '$elm/Pages/Pro/Carnet/Action/List/Main.elm';
-	import ElmWrapper from '../../utils/ElmWrapper.svelte';
+	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
 	import { graphqlAPI, token } from '$lib/stores';
 	import { captureException } from '$lib/utils/sentry';
 	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
@@ -26,7 +26,7 @@
 
 	const elmSetup = (node: HTMLElement) => {
 		const app = Elm.Pages.Pro.Carnet.Action.List.Main.init({
-			node: node,
+			node,
 			flags: {
 				api: { token: $token, url: $graphqlAPI },
 				targetId: target.id,
