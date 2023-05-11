@@ -1,13 +1,12 @@
 <script lang="ts">
-	import { afterUpdate } from 'svelte';
 	import { backendAPI, token, graphqlAPI } from '$lib/stores';
 	import { captureException } from '$lib/utils/sentry';
 	import { Elm as NPSRatingElm } from '../../../../elm/NPSRating/Main.elm';
+	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
 
-	let elmNode: HTMLElement;
-	afterUpdate(async () => {
+	const elmSetup = (node: HTMLElement) => {
 		const app = NPSRatingElm.NPSRating.Main.init({
-			node: elmNode,
+			node,
 			flags: {
 				backendAPI: $backendAPI,
 				token: $token,
@@ -18,7 +17,7 @@
 		app.ports.sendError.subscribe((message: string) => {
 			setTimeout(() => captureException(new Error(message)), 10);
 		});
-	});
+	};
 </script>
 
-<div bind:this={elmNode} />
+<ElmWrapper setup={elmSetup} />

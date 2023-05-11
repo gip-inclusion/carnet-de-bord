@@ -11,7 +11,7 @@
 	import { Text } from '$lib/ui/utils';
 	import ProNotebookPersonalInfoUpdate from './ProNotebookPersonalInfoUpdate.svelte';
 	import { Elm as PersonalInfoElm } from '$elm/PersonalInfo/Main.elm';
-	import { afterUpdate } from 'svelte';
+	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
 
 	type Pro =
 		| Pick<Professional, 'firstname' | 'lastname'>
@@ -40,11 +40,9 @@
 	export let lastUpdateFrom: Pro;
 	export let displayEditButton = false;
 
-	let elmNode: HTMLElement;
-	afterUpdate(() => {
-		if (!elmNode) return;
+	const elmSetup = (node: HTMLElement) => {
 		PersonalInfoElm.PersonalInfo.Main.init({
-			node: elmNode,
+			node,
 			flags: {
 				rightAre: beneficiary.rightAre,
 				rightAss: beneficiary.rightAss,
@@ -54,7 +52,7 @@
 				cafNumber: beneficiary.cafNumber,
 			},
 		});
-	});
+	};
 
 	function edit() {
 		openComponent.open({ component: ProNotebookPersonalInfoUpdate, props: { beneficiary } });
@@ -109,8 +107,7 @@
 		</div>
 		{#key beneficiary}
 			<div class="w-full">
-				<!-- Elm app needs to be wrapped by a div to avoid navigation exceptions when unmounting -->
-				<div bind:this={elmNode} />
+				<ElmWrapper setup={elmSetup} />
 			</div>
 		{/key}
 	</div>
