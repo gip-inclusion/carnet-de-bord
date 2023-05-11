@@ -1,3 +1,10 @@
+# [1.217.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.15...v1.217.0) (2023-05-11)
+
+
+### Features
+
+* refonte du header et nouvelle couleur ([#1732](https://github.com/gip-inclusion/carnet-de-bord/issues/1732)) ([bad0666](https://github.com/gip-inclusion/carnet-de-bord/commit/bad0666baade8cc42f15a26a0e6cfcebd2798472))
+
 ## [1.216.15](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.14...v1.216.15) (2023-05-11)
 
 ## [1.216.14](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.13...v1.216.14) (2023-05-11)
