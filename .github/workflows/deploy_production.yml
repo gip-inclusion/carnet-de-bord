@@ -1,21 +1,19 @@
-name: Deploy
+name: Deploy to production
 
 on:
-  push:
-    tags:
-      - v*
+  workflow_dispatch:
 
 concurrency:
-  group: deploy
+  group: deploy_to_prod
   cancel-in-progress: true
 
 jobs:
   deploy:
-    name: Deploy
+    name: Deploy to production
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        environment: ["preproduction", "production"]
+        environment: ["production"]
         service: ["app", "backend", "hasura"]
     environment:
       name: ${{ matrix.environment }}
@@ -49,7 +47,7 @@ jobs:
         id: latest-deployment
         with:
           token: "${{ secrets.GITHUB_TOKEN }}"
-          workflow: "Deploy"
+          workflow: "Deploy to production"
           verify: true
 
       - name: Post message with changelog contents

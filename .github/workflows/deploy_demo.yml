@@ -1,0 +1,35 @@
+name: Deploy to demo
+
+on:
+  push:
+    tags:
+      - v*
+
+concurrency:
+  group: deploy_to_demo
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to demo
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        environment: ["preproduction"]
+        service: ["app", "backend", "hasura"]
+    environment:
+      name: ${{ matrix.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Install Scalingo CLI
+        uses: ./.github/actions/scalingo-cli
+
+      - name: Deploy on Scalingo
+        env:
+          SCALINGO_REGION: ${{ secrets.SCALINGO_REGION }}
+          SCALINGO_APP: cdb-${{ matrix.service }}${{ secrets.APP_SUFFIX }}
+          SCALINGO_API_TOKEN: ${{ secrets.SCALINGO_API_TOKEN }}
+        run:
+          scalingo deploy ${{ github.server_url }}/${{ github.repository }}/tarball/${{ github.ref_name }} ${{ github.ref_name }}
