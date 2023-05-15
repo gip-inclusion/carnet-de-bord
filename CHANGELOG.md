@@ -1,3 +1,10 @@
+## [1.219.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.3...v1.219.4) (2023-05-15)
+
+
+### Bug Fixes
+
+* Corrige l'import de fichiers de bénéficiaires. ([#1740](https://github.com/gip-inclusion/carnet-de-bord/issues/1740)) ([837ce9c](https://github.com/gip-inclusion/carnet-de-bord/commit/837ce9c3dcd14867f2a19994c118c2c2b2a770a3))
+
 ## [1.219.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.2...v1.219.3) (2023-05-15)
 
 ## [1.219.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.1...v1.219.2) (2023-05-15)
