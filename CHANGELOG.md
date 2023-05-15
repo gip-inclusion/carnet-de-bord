@@ -1,3 +1,10 @@
+# [1.218.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.217.0...v1.218.0) (2023-05-15)
+
+
+### Features
+
+* Suppression du bleu france. ([#1737](https://github.com/gip-inclusion/carnet-de-bord/issues/1737)) ([3ec4eab](https://github.com/gip-inclusion/carnet-de-bord/commit/3ec4eabea25def52233bc4bfd151fc2991eb97bc))
+
 # [1.217.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.216.15...v1.217.0) (2023-05-11)
 
 
