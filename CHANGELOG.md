@@ -1,3 +1,10 @@
+# [1.219.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.218.1...v1.219.0) (2023-05-15)
+
+
+### Features
+
+* ajoute le deploiement à la contrainte d'unicité sur l'email des  manager ([#1733](https://github.com/gip-inclusion/carnet-de-bord/issues/1733)) ([08d012c](https://github.com/gip-inclusion/carnet-de-bord/commit/08d012c514a81690b79efdb63c021b5762356a8b))
+
 ## [1.218.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.218.0...v1.218.1) (2023-05-15)
 
 # [1.218.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.217.0...v1.218.0) (2023-05-15)
