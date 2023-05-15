@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { openComponent, token } from '$lib/stores';
+	import { openComponent } from '$lib/stores';
 
 	import { Alert, Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
@@ -18,17 +18,11 @@
 	async function handleSubmit(values: AdminDeploymentType) {
 		const data = adminDeploymentSchema.cast(values);
 		try {
-			await postApiJson(
-				'/v1/deployment',
-				{
-					manager_email: data.email,
-					departement_code: data.departmentCode,
-					label: data.deployment,
-				},
-				{
-					Authorization: `Bearer ${$token}`,
-				}
-			);
+			await postApiJson('/v1/deployment', {
+				manager_email: data.email,
+				departement_code: data.departmentCode,
+				label: data.deployment,
+			});
 			close();
 		} catch (error) {
 			captureException(error);

@@ -1,4 +1,4 @@
-module OrientationHome.Main exposing (Flags, GqlQuery, Model, Msg(..), OrientationHomeInfos, OrientationInfosVariables, Token, main)
+module OrientationHome.Main exposing (Flags, GqlQuery, Model, Msg(..), OrientationHomeInfos, OrientationInfosVariables, main)
 
 import Browser
 import Html exposing (Html, a, div, h2, h3, p, text)
@@ -8,16 +8,12 @@ import Json.Decode as Decode
 import Json.Encode as Json
 
 
-type alias Token =
-    String
-
-
 type alias Flags =
-    { token : Token, serverUrl : String, accountId : String }
+    { accountId : String }
 
 
 type alias Model =
-    { token : Token, serverUrl : String, accountId : String, orientationHomeInfos : Maybe OrientationHomeInfos }
+    { accountId : String, orientationHomeInfos : Maybe OrientationHomeInfos }
 
 
 type Msg
@@ -140,8 +136,8 @@ encodeGqlQueryVariables record =
         ]
 
 
-getOrientationHomeInfos : Token -> String -> String -> (Result Http.Error OrientationHomeInfos -> msg) -> Cmd msg
-getOrientationHomeInfos token serverUrl accountId toMsg =
+getOrientationHomeInfos : String -> (Result Http.Error OrientationHomeInfos -> msg) -> Cmd msg
+getOrientationHomeInfos accountId toMsg =
     let
         gqlQuery =
             { query = """
@@ -258,8 +254,8 @@ query GetBeneficiaryDashboard($id: uuid!) {
     in
     Http.request
         { method = "POST"
-        , headers = [ Http.header "authorization" ("Bearer " ++ token) ]
-        , url = serverUrl
+        , headers = [ ]
+        , url = "/graphql"
         , body = Http.jsonBody (encodeGqlQuery gqlQuery)
         , expect = Http.expectJson toMsg orientationHomeInfoDecoder
         , timeout = Nothing
@@ -281,11 +277,10 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     let
         model =
-            { token = flags.token, serverUrl = flags.serverUrl, accountId = flags.accountId, orientationHomeInfos = Nothing }
+            { accountId = flags.accountId, orientationHomeInfos = Nothing }
     in
     ( model
-    , getOrientationHomeInfos model.token
-        model.serverUrl
+    , getOrientationHomeInfos
         model.accountId
         HomeInfosResult
     )

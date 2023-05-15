@@ -20,8 +20,6 @@ export type Flags = {
 	refSituations: GetNotebookQuery['refSituations'];
 	situations: Array<Situation>;
 	professionalProjects: Array<ProfessionalProjectElm>;
-	serverUrl: string;
-	token: string;
 };
 
 export interface ElmApp {

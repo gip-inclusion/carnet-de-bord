@@ -29,7 +29,6 @@ main =
 
 type alias Flags =
     { theme : String
-    , api : { url : String, token : String }
     , targetId : String
     }
 
@@ -48,8 +47,7 @@ init : Flags -> ( Model, Cmd Msg )
 init flags =
     ( { flags = flags, state = Loading }
     , AllActions.fetchAllByTargetId
-        { api = flags.api
-        , id = flags.targetId
+        { id = flags.targetId
         , responseMsg = LoadedActions
         }
     )
@@ -82,8 +80,7 @@ update msg model =
                 RefreshActions ->
                     ( model
                     , AllActions.fetchAllByTargetId
-                        { api = pageModel.api
-                        , id = pageModel.targetId
+                        { id = pageModel.targetId
                         , responseMsg = RefreshedActions >> ReadyMsg
                         }
                     )
@@ -102,7 +99,6 @@ update msg model =
                 Ok actions ->
                     Page.init
                         { theme = model.flags.theme
-                        , api = model.flags.api
                         , targetId = model.flags.targetId
                         , actions = actions
                         }

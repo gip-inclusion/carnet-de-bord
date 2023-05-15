@@ -1,6 +1,4 @@
 type Flags = {
-	token: string;
-	serverUrl: string;
 	accountId: string;
 };
 

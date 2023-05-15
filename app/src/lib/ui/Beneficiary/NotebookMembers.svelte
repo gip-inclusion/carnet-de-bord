@@ -7,7 +7,7 @@
 	import { GetProfessionalOrientationOptionsDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { Text } from '$lib/ui/utils';
 	import Dialog from '$lib/ui/Dialog.svelte';
-	import { accountData, connectedUser, token } from '$lib/stores';
+	import { accountData, connectedUser } from '$lib/stores';
 	import { operationStore, query } from '@urql/svelte';
 	import { postApiJson } from '$lib/utils/post';
 	import { captureException } from '$lib/utils/sentry';
@@ -50,11 +50,10 @@
 	async function addCurrentAccountToNotebookMembers(values: addMemberType) {
 		trackEvent('pro', 'members', 'join_notebook_members');
 		try {
-			await postApiJson(
-				`/v1/notebooks/${notebookId}/members`,
-				{ member_type: values.memberType, orientation: values.orientation },
-				{ Authorization: `Bearer ${$token}` }
-			);
+			await postApiJson(`/v1/notebooks/${notebookId}/members`, {
+				member_type: values.memberType,
+				orientation: values.orientation,
+			});
 			dispatch('notebook-member-added');
 		} catch (err) {
 			if (

@@ -122,7 +122,6 @@ initModel =
         { actions = []
         , theme = "theme"
         , targetId = "targetId"
-        , api = { url = "", token = "" }
         }
         |> Tuple.first
 

@@ -2,7 +2,6 @@ import importlib.metadata
 import logging
 
 from fastapi import FastAPI, HTTPException, Request
-from fastapi.middleware.cors import CORSMiddleware
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.settings import settings
@@ -22,14 +21,6 @@ class Database:
 
 def create_app(*, db=None) -> FastAPI:
     app = FastAPI()
-
-    app.add_middleware(
-        CORSMiddleware,
-        allow_origins=[settings.app_url],
-        allow_credentials=True,
-        allow_methods=["*"],
-        allow_headers=["*"],
-    )
 
     app.state.db = db or Database()
 

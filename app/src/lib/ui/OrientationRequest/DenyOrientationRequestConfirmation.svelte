@@ -4,7 +4,6 @@
 	import { Button } from '$lib/ui/base';
 	import { postApiJson } from '$lib/utils/post';
 	import Alert from '../base/Alert.svelte';
-	import { token } from '$lib/stores';
 	import { captureException } from '$lib/utils/sentry';
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 	export let onBeneficiaryOrientationChanged: () => void;
@@ -13,13 +12,9 @@
 
 	async function confirmOrientationRequestDenial() {
 		try {
-			await postApiJson(
-				'/v1/orientation_requests/deny',
-				{
-					orientation_request_id: orientationRequest.id,
-				},
-				{ Authorization: `Bearer ${$token}` }
-			);
+			await postApiJson('/v1/orientation_requests/deny', {
+				orientation_request_id: orientationRequest.id,
+			});
 		} catch (err) {
 			captureException(err);
 			displayError = true;

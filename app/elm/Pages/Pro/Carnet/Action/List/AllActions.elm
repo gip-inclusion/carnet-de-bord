@@ -1,6 +1,5 @@
 module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId)
 
-import Api exposing (Api)
 import Date
 import Domain.Action.Id exposing (ActionId)
 import Domain.Action.Status exposing (ActionStatus)
@@ -53,8 +52,8 @@ personDecoder =
         |> Decode.required "lastname" Decode.string
 
 
-fetchAllByTargetId : { id : String, api : Api, responseMsg : Result Http.Error (List Action) -> msg } -> Cmd msg
-fetchAllByTargetId { id, responseMsg, api } =
+fetchAllByTargetId : { id : String, responseMsg : Result Http.Error (List Action) -> msg } -> Cmd msg
+fetchAllByTargetId { id, responseMsg } =
     let
         query =
             """
@@ -81,9 +80,9 @@ query GetActionsByTargetId($id: uuid!) {
     in
     Http.request
         { method = "POST"
-        , url = api.url
+        , url = "/graphql"
         , headers =
-            [ Http.header "Authorization" ("Bearer " ++ api.token) ]
+            [ ]
         , body =
             Http.jsonBody
                 (Json.object

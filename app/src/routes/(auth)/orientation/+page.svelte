@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { connectedUser, graphqlAPI, token } from '$lib/stores';
+	import { connectedUser } from '$lib/stores';
 	import { Elm as OrientationHomeElm } from '../../../../elm/OrientationHome/Main.elm';
 	import { onMount } from 'svelte';
 
@@ -9,8 +9,6 @@
 		OrientationHomeElm.OrientationHome.Main.init({
 			node: elmNode,
 			flags: {
-				token: $token,
-				serverUrl: $graphqlAPI,
 				accountId: $connectedUser.id,
 			},
 		});

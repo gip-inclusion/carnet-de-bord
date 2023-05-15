@@ -1,5 +1,4 @@
 import { browser } from '$app/environment';
-import createClient from '$lib/graphql/createClient';
 import {
 	GetAccountByPkDocument,
 	type GetAccountByPkQuery,
@@ -7,13 +6,12 @@ import {
 import { accountData } from '$lib/stores';
 import { error } from '@sveltejs/kit';
 
-import type { Client } from '@urql/core';
+import { createClient, type Client } from '@urql/core';
 import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async (event) => {
 	const data = await event.parent();
-	const client: Client = createClient(event.fetch, data.graphqlAPI, data.token);
-	const accountInfo = await getAccount(client, data.user.id);
+	const accountInfo = await getAccount(event.fetch, data.user.id);
 	if (!accountInfo) {
 		throw error(400, 'récupération du compte impossible');
 	}
@@ -24,9 +22,10 @@ export const load: LayoutLoad = async (event) => {
 };
 
 async function getAccount(
-	client: Client,
+	fetch: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>,
 	accountId: string
 ): Promise<GetAccountByPkQuery['account_by_pk'] | null> {
+	const client: Client = createClient({ url: '/graphql', fetch });
 	const result = await client.query(GetAccountByPkDocument, { accountId }).toPromise();
 	if (result.error) {
 		console.error(

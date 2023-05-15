@@ -1,6 +1,5 @@
-port module NPSRating.Main exposing (FailableModel, Flags, LastRatingDates, Model, Msg(..), Urls, main)
+module NPSRating.Main exposing (FailableModel, LastRatingDates, Model, Msg(..), main)
 
-import BaseUrl exposing (BaseUrl)
 import Browser
 import Html
 import Html.Attributes exposing (attribute, checked, class, disabled, for, id, method, name, required, title, type_, value)
@@ -12,20 +11,6 @@ import Task
 import Time
 
 
-port sendError : String -> Cmd msg
-
-
-type alias Flags =
-    { backendAPI : String
-    , serverUrl : String
-    , token : String
-    }
-
-
-type alias Urls =
-    { backend : BaseUrl, server : BaseUrl }
-
-
 type alias FailableModel =
     Result String Model
 
@@ -33,52 +18,21 @@ type alias FailableModel =
 type alias Model =
     { nps : Maybe Int
     , isOpen : Bool
-    , urls : Urls
-    , token : String
     , errorText : Maybe String
     , disableSubmit : Bool
     }
 
 
-init : Flags -> ( FailableModel, Cmd Msg )
-init flags =
-    case
-        parseUrls flags
-    of
-        Ok urls ->
-            ( Ok
-                { isOpen = False
-                , nps = Nothing
-                , urls = urls
-                , token = flags.token
-                , errorText = Nothing
-                , disableSubmit = False
-                }
-            , getLastRatingDates flags.serverUrl flags.token
-            )
-
-        Err error ->
-            ( Err error, sendError error )
-
-
-parseUrls : { a | backendAPI : String, serverUrl : String } -> Result String Urls
-parseUrls { backendAPI, serverUrl } =
-    let
-        backendResult =
-            backendAPI |> BaseUrl.parse
-
-        serverResult =
-            serverUrl |> BaseUrl.parse
-    in
-    case ( backendResult, serverResult ) of
-        ( Ok backend, Ok server ) ->
-            Ok { backend = backend, server = server }
-
-        ( _, Err message ) ->
-            Err message
-
-        ( Err message, _ ) ->
-            Err message
+init : () -> ( FailableModel, Cmd Msg )
+init _ =
+    ( Ok
+        { isOpen = False
+        , nps = Nothing
+        , errorText = Nothing
+        , disableSubmit = False
+        }
+    , getLastRatingDates
+    )
 
 
 type alias LastRatingDates =
@@ -97,7 +51,7 @@ type Msg
     | TimeAvailable LastRatingDates Time.Posix
 
 
-main : Program Flags FailableModel Msg
+main : Program () FailableModel Msg
 main =
     Browser.element
         { init = init
@@ -107,8 +61,8 @@ main =
         }
 
 
-getLastRatingDates : String -> String -> Cmd Msg
-getLastRatingDates serverUrl token =
+getLastRatingDates : Cmd Msg
+getLastRatingDates =
     let
         query =
             """
@@ -124,9 +78,8 @@ getLastRatingDates serverUrl token =
     in
     Http.request
         { method = "POST"
-        , url = serverUrl
-        , headers =
-            [ Http.header "Authorization" ("Bearer " ++ token) ]
+        , url = "/graphql"
+        , headers = []
         , body =
             Http.jsonBody (Json.object [ ( "query", Json.string query ) ])
         , expect = Http.expectJson LastRatingDatesFetched lastRatingDatesDecoder
@@ -171,8 +124,8 @@ submitRating model =
         Just score ->
             Http.request
                 { method = "POST"
-                , url = BaseUrl.toString model.urls.server
-                , headers = [ Http.header "Authorization" ("Bearer " ++ model.token) ]
+                , url = "/graphql"
+                , headers = []
                 , body =
                     Http.jsonBody
                         (Json.object [ ( "query", Json.string (createNpsRatingMutation score) ) ])
@@ -185,8 +138,8 @@ submitRating model =
             Cmd.none
 
 
-dismiss : Model -> Cmd Msg
-dismiss model =
+dismiss : Cmd Msg
+dismiss =
     let
         query =
             """
@@ -197,8 +150,8 @@ dismiss model =
     in
     Http.request
         { method = "POST"
-        , url = BaseUrl.toString model.urls.server
-        , headers = [ Http.header "Authorization" ("Bearer " ++ model.token) ]
+        , url = "/graphql"
+        , headers = []
         , body = Http.jsonBody (Json.object [ ( "query", Json.string query ) ])
         , expect = Http.expectWhatever RatingSent
         , timeout = Nothing
@@ -250,7 +203,7 @@ update msg failableModel =
             Tuple.mapFirst Ok <|
                 case msg of
                     Close ->
-                        ( model, dismiss model )
+                        ( model, dismiss )
 
                     SelectNPS nps ->
                         ( { model | nps = Just nps }, Cmd.none )

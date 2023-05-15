@@ -1,6 +1,5 @@
 import type { LayoutServerLoad } from './$types';
 import cookie from 'cookie';
-import { getBackendAPI, getGraphqlAPI } from '$lib/config/variables/private';
 import jwtDecode from 'jwt-decode';
 import { redirect } from '@sveltejs/kit';
 import { baseUrlForRole, homeForRole } from '$lib/routes';
@@ -33,8 +32,5 @@ export const load: LayoutServerLoad = async (event) => {
 
 	return {
 		user,
-		token: cookies.jwt,
-		backendAPI: getBackendAPI(),
-		graphqlAPI: getGraphqlAPI(),
 	};
 };

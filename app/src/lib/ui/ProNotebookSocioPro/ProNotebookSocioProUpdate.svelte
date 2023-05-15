@@ -27,7 +27,6 @@
 		type ProfessionalProjectOut,
 	} from '$elm/DiagnosticEdit/Main.elm';
 	import type { GraphQLError } from 'graphql';
-	import { token, graphqlAPI } from '$lib/stores';
 	import { onMount } from 'svelte';
 	import { sticky } from '$lib/actions/sticky';
 	export let onClose: () => void;
@@ -264,8 +263,6 @@
 		const app = DiagnosticEditElm.DiagnosticEdit.Main.init({
 			node: elmNode,
 			flags: {
-				token: $token,
-				serverUrl: $graphqlAPI,
 				refSituations,
 				situations: notebook.situations,
 				professionalProjects: notebook.professionalProjects.map(
