@@ -2,10 +2,6 @@
 @import url('./tailwind.css');
 @import url('./dsfr.css');
 
-.--bg-blue-france-975 {
-	background: #f5f5fe !important;
-}
-
 :root {
 	--vert-cdb: rgba(0, 88, 93, 1);
 	--vert-cdb-hover: rgba(0, 129, 138, 1);
