@@ -39,9 +39,7 @@ from cdb.api.db.models.role import RoleEnum
 from cdb.api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
 
 professional_only = allowed_jwt_roles([RoleEnum.PROFESSIONAL])
-router = APIRouter(
-    dependencies=[Depends(professional_only), Depends(extract_authentified_account)]
-)
+router = APIRouter(dependencies=[Depends(extract_authentified_account)])
 
 
 logger = logging.getLogger(__name__)
@@ -52,7 +50,10 @@ class AddNotebookMemberInput(BaseModel):
     orientation: Optional[UUID]
 
 
-@router.post("/{notebook_id}/members")
+@router.post(
+    "/{notebook_id}/members",
+    dependencies=[Depends(allowed_jwt_roles([RoleEnum.PROFESSIONAL]))],
+)
 async def add_notebook_members(
     data: AddNotebookMemberInput,
     request: Request,
@@ -179,3 +180,12 @@ def notify_former_referents(
             if orientation_info.new_referent is not None
             else None,
         )
+
+
+@router.post(
+    "", status_code=204, dependencies=[Depends(allowed_jwt_roles([RoleEnum.MANAGER]))]
+)
+async def create_beneficiary_notebook(
+    request: Request,
+):
+    logger.info(request.body)
