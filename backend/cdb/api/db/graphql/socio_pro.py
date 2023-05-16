@@ -1,114 +1,69 @@
-from typing import Dict, List
-from uuid import UUID
-
 from gql import gql
-from pydantic import BaseModel
+
+from cdb.api.v1.payloads.socio_pro import Input
 
 
-class Action(BaseModel):
-    name: str
+def get_professional_project_common_gql_variables(professional_project):
+    return {
+        "contractTypeId": professional_project.contractTypeId,
+        "employmentTypeId": professional_project.employmentTypeId,
+        "hourlyRate": professional_project.hourlyRate,
+        "mobilityRadius": professional_project.mobilityRadius,
+        "romeCodeId": str(professional_project.romeCodeId)
+        if professional_project.romeCodeId is not None
+        else None,
+    }
 
 
-class ProfessionalProjectCommon(BaseModel):
-    contractTypeId: str | None
-    employmentTypeId: str | None
-    hourlyRate: int | None
-    mobilityRadius: int | None
-    romeCodeId: UUID | None
-
-    def gql_variables(self):
-        return {
-            "contractTypeId": self.contractTypeId,
-            "employmentTypeId": self.employmentTypeId,
-            "hourlyRate": self.hourlyRate,
-            "mobilityRadius": self.mobilityRadius,
-            "romeCodeId": str(self.romeCodeId) if self.romeCodeId is not None else None,
-        }
+def get_professional_project_to_add_gql_variables(professional_project):
+    return get_professional_project_common_gql_variables(professional_project) | {
+        "notebookId": str(professional_project.notebookId),
+    }
 
 
-class ProfessionalProjectToAdd(ProfessionalProjectCommon):
-    notebookId: UUID
-
-    def gql_variables(self):
-        return super().gql_variables() | {
-            "notebookId": str(self.notebookId),
-        }
+def get_situation_to_add_gql_variables(situation_to_add):
+    return {
+        "notebookId": str(situation_to_add.notebookId),
+        "situationId": str(situation_to_add.situationId),
+    }
 
 
-class ProfessionalProjectToUpdate(ProfessionalProjectCommon):
-    id: UUID
-
-    def gql_variables(self):
-        return super().gql_variables() | {
-            "id": str(self.id),
-        }
-
-
-class SituationsToAdd(BaseModel):
-    notebookId: UUID
-    situationId: UUID
-
-    def gql_variables(self):
-        return {
-            "notebookId": str(self.notebookId),
-            "situationId": str(self.situationId),
-        }
-
-
-class Input(BaseModel):
-    educationLevel: str | None
-    id: UUID
-    lastJobEndedAt: str | None
-    professionalProjectIdsToDelete: List[UUID]
-    professionalProjectsToAdd: List[ProfessionalProjectToAdd]
-    professionalProjectsToUpdate: List[ProfessionalProjectToUpdate]
-    rightRqth: bool
-    situationIdsToDelete: List[UUID]
-    situationsToAdd: List[SituationsToAdd]
-    workSituation: str | None
-    workSituationDate: str | None
-    workSituationEndDate: str | None
-
-
-class UpdateSocioProActionPayload(BaseModel):
-    action: Action
-    input: Input
-    request_query: str
-    session_variables: Dict[str, str]
-
-    def gql_variables(self):
-        return {
-            "id": str(self.input.id),
-            "workSituation": self.input.workSituation,
-            "workSituationDate": self.input.workSituationDate,
-            "workSituationEndDate": self.input.workSituationEndDate,
-            "rightRqth": self.input.rightRqth,
-            "educationLevel": self.input.educationLevel,
-            "lastJobEndedAt": self.input.lastJobEndedAt,
-            "professionalProjectIdsToDelete": [
-                str(id) for id in self.input.professionalProjectIdsToDelete
-            ],
-            "professionalProjectsToAdd": [
-                p.gql_variables() for p in self.input.professionalProjectsToAdd
-            ],
-            "professionalProjectsToUpdate": [
-                {
-                    "where": {
-                        "id": {"_eq": p.id},
-                    },
-                    "_set": {
-                        "mobilityRadius": p.mobilityRadius,
-                        "romeCodeId": p.romeCodeId,
-                        "contractTypeId": p.contractTypeId,
-                        "employmentTypeId": p.employmentTypeId,
-                        "hourlyRate": p.hourlyRate,
-                    },
-                }
-                for p in self.input.professionalProjectsToUpdate
-            ],
-            "situationsToAdd": [s.gql_variables() for s in self.input.situationsToAdd],
-            "situationIdsToDelete": [str(id) for id in self.input.situationIdsToDelete],
-        }
+def gql_variables(input: Input):
+    return {
+        "id": str(input.id),
+        "workSituation": input.workSituation,
+        "workSituationDate": input.workSituationDate,
+        "workSituationEndDate": input.workSituationEndDate,
+        "rightRqth": input.rightRqth,
+        "educationLevel": input.educationLevel,
+        "lastJobEndedAt": input.lastJobEndedAt,
+        "professionalProjectIdsToDelete": [
+            str(id) for id in input.professionalProjectIdsToDelete
+        ],
+        "professionalProjectsToAdd": [
+            get_professional_project_to_add_gql_variables(p)
+            for p in input.professionalProjectsToAdd
+        ],
+        "professionalProjectsToUpdate": [
+            {
+                "where": {
+                    "id": {"_eq": p.id},
+                },
+                "_set": {
+                    "mobilityRadius": p.mobilityRadius,
+                    "romeCodeId": p.romeCodeId,
+                    "contractTypeId": p.contractTypeId,
+                    "employmentTypeId": p.employmentTypeId,
+                    "hourlyRate": p.hourlyRate,
+                },
+            }
+            for p in input.professionalProjectsToUpdate
+        ],
+        "situationsToAdd": [
+            get_situation_to_add_gql_variables(s) for s in input.situationsToAdd
+        ],
+        "situationIdsToDelete": [str(id) for id in input.situationIdsToDelete],
+    }
 
 
 update_socio_pro_gql = gql(
