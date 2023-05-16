@@ -1,4 +1,4 @@
-module Pages.Pro.Carnet.Action.List.ActionSelect exposing (Action, Model, Msg, getSelected, init, update, view)
+module Pages.Pro.Carnet.Action.List.ActionSelect exposing (Model, Msg, RefAction, getSelected, init, update, view)
 
 import Domain.Action.Id exposing (ActionId)
 import Html
@@ -12,23 +12,24 @@ import UI.SearchSelect.Component
 -- Init
 
 
-type alias Action =
-    { id : ActionId, description : String }
+type alias RefAction =
+    { id : ActionId, description : String, theme : String }
 
 
-decoder : Decode.Decoder Action
+decoder : Decode.Decoder RefAction
 decoder =
-    Decode.map2 Action
+    Decode.map3 RefAction
         (Decode.field "id" Domain.Action.Id.decoder)
         (Decode.field "description" Decode.string)
+        (Decode.field "theme" Decode.string)
 
 
 type alias Model =
-    UI.SearchSelect.Component.Model Action
+    UI.SearchSelect.Component.Model RefAction
 
 
-init : ( Model, Cmd Msg )
-init =
+init : (List RefAction -> List RefAction) -> ( Model, Cmd Msg )
+init postProcess =
     UI.SearchSelect.Component.init
         { id = "select-action"
         , selected = Nothing
@@ -37,21 +38,23 @@ init =
         , label = "Actions"
         , searchPlaceholder = "Rechercher une action"
         , defaultOption = "Sélectionner une action"
+        , postProcess = postProcess
         }
-        -- On forwarde vers update afin d'avoir la liste des actions visible à l'ouverture
+        -- Call update with the initial model in order to get a visible list of actions when
+        -- we open the select
         |> update (UI.SearchSelect.Component.Search "")
 
 
-getSelected : Model -> Maybe Action
+getSelected : Model -> Maybe RefAction
 getSelected =
     UI.SearchSelect.Component.getSelected
 
 
 apiSearch :
-        { search : String
-        , callbackMsg : Result Http.Error (List Action) -> UI.SearchSelect.Component.Msg Action
-        }
-    -> Cmd (UI.SearchSelect.Component.Msg Action)
+    { search : String
+    , callbackMsg : Result Http.Error (List RefAction) -> UI.SearchSelect.Component.Msg RefAction
+    }
+    -> Cmd (UI.SearchSelect.Component.Msg RefAction)
 apiSearch { search, callbackMsg } =
     let
         query =
@@ -69,7 +72,7 @@ query searchRefActions($searchString: String = "") {
         { method = "POST"
         , url = "/graphql"
         , headers =
-            [ ]
+            []
         , body =
             Http.jsonBody
                 (Json.object
@@ -97,7 +100,7 @@ query searchRefActions($searchString: String = "") {
 
 
 type alias Msg =
-    UI.SearchSelect.Component.Msg Action
+    UI.SearchSelect.Component.Msg RefAction
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )

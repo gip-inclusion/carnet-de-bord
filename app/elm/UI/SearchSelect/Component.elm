@@ -25,6 +25,7 @@ type alias Model a =
         , callbackMsg : Result Http.Error (List a) -> Msg a
         }
         -> Cmd (Msg a)
+    , postProcess : List a -> List a
     }
 
 
@@ -40,6 +41,7 @@ init :
     , label : String
     , searchPlaceholder : String
     , defaultOption : String
+    , postProcess : List a -> List a
     }
     -> Model a
 init props =
@@ -55,6 +57,7 @@ init props =
     , selected = props.selected
     , debouncer = debounce (fromSeconds 0.5) |> toDebouncer
     , api = props.api
+    , postProcess = props.postProcess
     }
 
 
@@ -141,7 +144,7 @@ update msg model =
         Fetched result ->
             case result of
                 Ok values ->
-                    ( model |> updateStatus (UI.SearchSelect.View.Success values), Cmd.none )
+                    ( model |> updateStatus (values |> model.postProcess |> UI.SearchSelect.View.Success), Cmd.none )
 
                 Err httpError ->
                     ( model |> updateStatus UI.SearchSelect.View.Failed

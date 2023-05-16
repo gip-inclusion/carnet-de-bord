@@ -105,6 +105,7 @@ suite =
                                 (UI.SearchSelect.Component.Select
                                     { id = "Id" |> Domain.Action.Id.ActionId
                                     , description = "an action"
+                                    , theme = "a theme"
                                     }
                                 )
                             )
