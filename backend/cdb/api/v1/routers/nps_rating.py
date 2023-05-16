@@ -8,7 +8,7 @@ from pydantic import BaseModel, conint
 from cdb.api.core.init import connection
 from cdb.api.db.crud.nps_rating import get_latest_answer_ts, insert_nps_rating
 from cdb.api.v1.dependencies import verify_secret_token
-from cdb.api.v1.routers.hasura_action_payload import HasuraActionPayload
+from cdb.api.v1.payloads.hasura_action import HasuraActionPayload
 
 router = APIRouter(dependencies=[Depends(verify_secret_token)])
 

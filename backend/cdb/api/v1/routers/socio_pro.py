@@ -1,57 +1,13 @@
-from typing import List
-from uuid import UUID
-
 from fastapi import APIRouter, Depends, Request
 from gql import Client
 from gql.transport.aiohttp import AIOHTTPTransport
-from pydantic import BaseModel
 
 from cdb.api.core.settings import settings
 from cdb.api.db.graphql.socio_pro import gql_variables, update_socio_pro_gql
 from cdb.api.v1.dependencies import verify_secret_token
-from cdb.api.v1.routers.hasura_action_payload import HasuraActionPayload
+from cdb.api.v1.payloads.socio_pro import UpdateSocioProActionPayload
 
 router = APIRouter(dependencies=[Depends(verify_secret_token)])
-
-
-class ProfessionalProjectCommon(BaseModel):
-    contractTypeId: str | None
-    employmentTypeId: str | None
-    hourlyRate: int | None
-    mobilityRadius: int | None
-    romeCodeId: UUID | None
-
-
-class ProfessionalProjectToAdd(ProfessionalProjectCommon):
-    notebookId: UUID
-
-
-class ProfessionalProjectToUpdate(ProfessionalProjectCommon):
-    id: UUID
-
-
-class SituationsToAdd(BaseModel):
-    notebookId: UUID
-    situationId: UUID
-
-
-class Input(BaseModel):
-    educationLevel: str | None
-    id: UUID
-    lastJobEndedAt: str | None
-    professionalProjectIdsToDelete: List[UUID]
-    professionalProjectsToAdd: List[ProfessionalProjectToAdd]
-    professionalProjectsToUpdate: List[ProfessionalProjectToUpdate]
-    rightRqth: bool
-    situationIdsToDelete: List[UUID]
-    situationsToAdd: List[SituationsToAdd]
-    workSituation: str | None
-    workSituationDate: str | None
-    workSituationEndDate: str | None
-
-
-class UpdateSocioProActionPayload(HasuraActionPayload):
-    input: Input
 
 
 @router.post("/update")

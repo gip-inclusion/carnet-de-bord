@@ -1,5 +1,7 @@
 from gql import gql
 
+from cdb.api.v1.payloads.socio_pro import Input
+
 
 def get_professional_project_common_gql_variables(professional_project):
     return {
@@ -26,7 +28,7 @@ def get_situation_to_add_gql_variables(situation_to_add):
     }
 
 
-def gql_variables(input):
+def gql_variables(input: Input):
     return {
         "id": str(input.id),
         "workSituation": input.workSituation,
