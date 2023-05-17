@@ -19,7 +19,7 @@
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
 	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
-	import { statusValues } from '$lib/constants';
+	import { targetStatusValues } from '$lib/constants';
 	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let focusId: string;
@@ -109,12 +109,12 @@
 							title={'<span>' +
 								target.target +
 								' - <em>' +
-								statusValues.find((value) => value.name == target.status)?.label +
+								targetStatusValues.find((value) => value.name == target.status)?.label +
 								'</em></span>'}
 						>
 							<Select
 								selectLabel={"Statut global de l'objectif"}
-								options={statusValues}
+								options={targetStatusValues}
 								selected={target.status}
 								on:select={(event) => onChangeTargetStatus(event, target.id)}
 							/>

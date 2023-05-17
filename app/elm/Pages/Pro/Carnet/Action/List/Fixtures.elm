@@ -28,6 +28,6 @@ action2 =
         { lastName = "DUPONT"
         , firstName = "Françoise"
         }
-    , statut = Domain.Action.Status.Abandonned
+    , statut = Domain.Action.Status.AbandonnedByBeneficiary
     , startingAt = Date.fromPosix Time.utc <| Time.millisToPosix 1682002405000
     }

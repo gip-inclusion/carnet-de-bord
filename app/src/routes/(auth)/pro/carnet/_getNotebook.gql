@@ -206,7 +206,7 @@ query GetNotebook(
         targets {
           id
           target
-          actions_aggregate(where: { status: { _eq: "in_progress" } }) {
+          actions_aggregate(where: { status: { _eq: in_progress } }) {
             aggregate {
               count
             }

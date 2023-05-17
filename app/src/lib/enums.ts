@@ -1,10 +1,5 @@
-export enum ActionStatus {
+export enum TargetStatus {
 	InProgress = 'in_progress',
 	Done = 'done',
-	Abandoned = 'abandoned',
-}
-
-export enum EventType {
-	Target = 'target',
-	Action = 'action',
+	Abandonned = 'abandonned',
 }

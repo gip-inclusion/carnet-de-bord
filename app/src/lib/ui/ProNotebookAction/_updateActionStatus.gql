@@ -1,4 +1,4 @@
-mutation UpdateActionStatus($status: String!, $id: uuid!) {
+mutation UpdateActionStatus($status: action_status_enum!, $id: uuid!) {
   updateStatus: update_notebook_action_by_pk(_set: { status: $status }, pk_columns: { id: $id }) {
     id
   }

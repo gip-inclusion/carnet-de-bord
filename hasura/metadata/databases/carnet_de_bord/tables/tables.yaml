@@ -1,5 +1,6 @@
 - "!include public_account.yaml"
 - "!include public_account_info.yaml"
+- "!include public_action_status.yaml"
 - "!include public_admin_cdb.yaml"
 - "!include public_admin_structure.yaml"
 - "!include public_admin_structure_structure.yaml"

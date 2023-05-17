@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		ActionStatusEnum,
 		AddNotebookActionDocument,
 		GetRefActionsDocument,
 		type NotebookTarget,
@@ -7,7 +8,6 @@
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { Button } from '$lib/ui/base';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { ActionStatus } from '$lib/enums';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
 	import Autocomplete, { type AutoCompleteOption } from '../base/Autocomplete.svelte';
 
@@ -52,7 +52,7 @@
 		await createActionMutation({
 			action: formData.action,
 			targetId: target.id,
-			status: ActionStatus.InProgress,
+			status: ActionStatusEnum.InProgress,
 		});
 		selectedItem = null;
 		formData = initFormData();

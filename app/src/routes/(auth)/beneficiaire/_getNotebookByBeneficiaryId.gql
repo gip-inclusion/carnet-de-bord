@@ -186,10 +186,7 @@ fragment notebookFragment on notebook {
           }
         }
       }
-      actions(
-        where: { status: { _eq: "in_progress" } }
-        order_by: { createdAt: desc_nulls_first }
-      ) {
+      actions(where: { status: { _eq: in_progress } }, order_by: { createdAt: desc_nulls_first }) {
         action
         createdAt
         status

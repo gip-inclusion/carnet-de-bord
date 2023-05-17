@@ -1,4 +1,4 @@
-mutation AddNotebookAction($action: String!, $targetId: uuid!, $status: String!) {
+mutation AddNotebookAction($action: String!, $targetId: uuid!, $status: action_status_enum!) {
   insert_notebook_action_one(object: { action: $action, targetId: $targetId, status: $status }) {
     id
     target {

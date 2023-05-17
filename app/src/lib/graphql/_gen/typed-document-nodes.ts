@@ -845,6 +845,171 @@ export type AccountUpdates = {
 	where: AccountBoolExp;
 };
 
+/** available actions status */
+export type ActionStatus = {
+	__typename?: 'action_status';
+	/** An array relationship */
+	notebook_actions: Array<NotebookAction>;
+	/** An aggregate relationship */
+	notebook_actions_aggregate: NotebookActionAggregate;
+	status: Scalars['String'];
+};
+
+/** available actions status */
+export type ActionStatusNotebookActionsArgs = {
+	distinct_on?: InputMaybe<Array<NotebookActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookActionOrderBy>>;
+	where?: InputMaybe<NotebookActionBoolExp>;
+};
+
+/** available actions status */
+export type ActionStatusNotebookActionsAggregateArgs = {
+	distinct_on?: InputMaybe<Array<NotebookActionSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<NotebookActionOrderBy>>;
+	where?: InputMaybe<NotebookActionBoolExp>;
+};
+
+/** aggregated selection of "action_status" */
+export type ActionStatusAggregate = {
+	__typename?: 'action_status_aggregate';
+	aggregate?: Maybe<ActionStatusAggregateFields>;
+	nodes: Array<ActionStatus>;
+};
+
+/** aggregate fields of "action_status" */
+export type ActionStatusAggregateFields = {
+	__typename?: 'action_status_aggregate_fields';
+	count: Scalars['Int'];
+	max?: Maybe<ActionStatusMaxFields>;
+	min?: Maybe<ActionStatusMinFields>;
+};
+
+/** aggregate fields of "action_status" */
+export type ActionStatusAggregateFieldsCountArgs = {
+	columns?: InputMaybe<Array<ActionStatusSelectColumn>>;
+	distinct?: InputMaybe<Scalars['Boolean']>;
+};
+
+/** Boolean expression to filter rows from the table "action_status". All fields are combined with a logical 'AND'. */
+export type ActionStatusBoolExp = {
+	_and?: InputMaybe<Array<ActionStatusBoolExp>>;
+	_not?: InputMaybe<ActionStatusBoolExp>;
+	_or?: InputMaybe<Array<ActionStatusBoolExp>>;
+	notebook_actions?: InputMaybe<NotebookActionBoolExp>;
+	notebook_actions_aggregate?: InputMaybe<NotebookActionAggregateBoolExp>;
+	status?: InputMaybe<StringComparisonExp>;
+};
+
+/** unique or primary key constraints on table "action_status" */
+export enum ActionStatusConstraint {
+	/** unique or primary key constraint on columns "status" */
+	ActionStatusPkey = 'action_status_pkey',
+}
+
+export enum ActionStatusEnum {
+	Abandonned = 'abandonned',
+	Canceled = 'canceled',
+	Done = 'done',
+	InProgress = 'in_progress',
+	Planned = 'planned',
+	Standby = 'standby',
+}
+
+/** Boolean expression to compare columns of type "action_status_enum". All fields are combined with logical 'AND'. */
+export type ActionStatusEnumComparisonExp = {
+	_eq?: InputMaybe<ActionStatusEnum>;
+	_in?: InputMaybe<Array<ActionStatusEnum>>;
+	_is_null?: InputMaybe<Scalars['Boolean']>;
+	_neq?: InputMaybe<ActionStatusEnum>;
+	_nin?: InputMaybe<Array<ActionStatusEnum>>;
+};
+
+/** input type for inserting data into table "action_status" */
+export type ActionStatusInsertInput = {
+	notebook_actions?: InputMaybe<NotebookActionArrRelInsertInput>;
+	status?: InputMaybe<Scalars['String']>;
+};
+
+/** aggregate max on columns */
+export type ActionStatusMaxFields = {
+	__typename?: 'action_status_max_fields';
+	status?: Maybe<Scalars['String']>;
+};
+
+/** aggregate min on columns */
+export type ActionStatusMinFields = {
+	__typename?: 'action_status_min_fields';
+	status?: Maybe<Scalars['String']>;
+};
+
+/** response of any mutation on the table "action_status" */
+export type ActionStatusMutationResponse = {
+	__typename?: 'action_status_mutation_response';
+	/** number of rows affected by the mutation */
+	affected_rows: Scalars['Int'];
+	/** data from the rows affected by the mutation */
+	returning: Array<ActionStatus>;
+};
+
+/** on_conflict condition type for table "action_status" */
+export type ActionStatusOnConflict = {
+	constraint: ActionStatusConstraint;
+	update_columns?: Array<ActionStatusUpdateColumn>;
+	where?: InputMaybe<ActionStatusBoolExp>;
+};
+
+/** Ordering options when selecting data from "action_status". */
+export type ActionStatusOrderBy = {
+	notebook_actions_aggregate?: InputMaybe<NotebookActionAggregateOrderBy>;
+	status?: InputMaybe<OrderBy>;
+};
+
+/** primary key columns input for table: action_status */
+export type ActionStatusPkColumnsInput = {
+	status: Scalars['String'];
+};
+
+/** select columns of table "action_status" */
+export enum ActionStatusSelectColumn {
+	/** column name */
+	Status = 'status',
+}
+
+/** input type for updating data in table "action_status" */
+export type ActionStatusSetInput = {
+	status?: InputMaybe<Scalars['String']>;
+};
+
+/** Streaming cursor of the table "action_status" */
+export type ActionStatusStreamCursorInput = {
+	/** Stream column input with initial value */
+	initial_value: ActionStatusStreamCursorValueInput;
+	/** cursor ordering */
+	ordering?: InputMaybe<CursorOrdering>;
+};
+
+/** Initial value of the column from where the streaming should start */
+export type ActionStatusStreamCursorValueInput = {
+	status?: InputMaybe<Scalars['String']>;
+};
+
+/** update columns of table "action_status" */
+export enum ActionStatusUpdateColumn {
+	/** column name */
+	Status = 'status',
+}
+
+export type ActionStatusUpdates = {
+	/** sets the columns of the filtered rows to the given values */
+	_set?: InputMaybe<ActionStatusSetInput>;
+	/** filter the rows which have to be updated */
+	where: ActionStatusBoolExp;
+};
+
 /** columns and relationships of "admin_cdb" */
 export type AdminCdb = {
 	__typename?: 'admin_cdb';
@@ -4283,6 +4448,10 @@ export type MutationRoot = {
 	delete_account?: Maybe<AccountMutationResponse>;
 	/** delete single row from the table: "account" */
 	delete_account_by_pk?: Maybe<Account>;
+	/** delete data from the table: "action_status" */
+	delete_action_status?: Maybe<ActionStatusMutationResponse>;
+	/** delete single row from the table: "action_status" */
+	delete_action_status_by_pk?: Maybe<ActionStatus>;
 	/** delete data from the table: "admin_cdb" */
 	delete_admin_cdb?: Maybe<AdminCdbMutationResponse>;
 	/** delete single row from the table: "admin_cdb" */
@@ -4453,6 +4622,10 @@ export type MutationRoot = {
 	insert_account?: Maybe<AccountMutationResponse>;
 	/** insert a single row into the table: "account" */
 	insert_account_one?: Maybe<Account>;
+	/** insert data into the table: "action_status" */
+	insert_action_status?: Maybe<ActionStatusMutationResponse>;
+	/** insert a single row into the table: "action_status" */
+	insert_action_status_one?: Maybe<ActionStatus>;
 	/** insert data into the table: "admin_cdb" */
 	insert_admin_cdb?: Maybe<AdminCdbMutationResponse>;
 	/** insert a single row into the table: "admin_cdb" */
@@ -4627,6 +4800,12 @@ export type MutationRoot = {
 	update_account_by_pk?: Maybe<Account>;
 	/** update multiples rows of table: "account" */
 	update_account_many?: Maybe<Array<Maybe<AccountMutationResponse>>>;
+	/** update data of the table: "action_status" */
+	update_action_status?: Maybe<ActionStatusMutationResponse>;
+	/** update single row of the table: "action_status" */
+	update_action_status_by_pk?: Maybe<ActionStatus>;
+	/** update multiples rows of table: "action_status" */
+	update_action_status_many?: Maybe<Array<Maybe<ActionStatusMutationResponse>>>;
 	/** update data of the table: "admin_cdb" */
 	update_admin_cdb?: Maybe<AdminCdbMutationResponse>;
 	/** update single row of the table: "admin_cdb" */
@@ -4900,6 +5079,16 @@ export type MutationRootDeleteAccountArgs = {
 /** mutation root */
 export type MutationRootDeleteAccountByPkArgs = {
 	id: Scalars['uuid'];
+};
+
+/** mutation root */
+export type MutationRootDeleteActionStatusArgs = {
+	where: ActionStatusBoolExp;
+};
+
+/** mutation root */
+export type MutationRootDeleteActionStatusByPkArgs = {
+	status: Scalars['String'];
 };
 
 /** mutation root */
@@ -5327,6 +5516,18 @@ export type MutationRootInsertAccountArgs = {
 export type MutationRootInsertAccountOneArgs = {
 	object: AccountInsertInput;
 	on_conflict?: InputMaybe<AccountOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertActionStatusArgs = {
+	objects: Array<ActionStatusInsertInput>;
+	on_conflict?: InputMaybe<ActionStatusOnConflict>;
+};
+
+/** mutation root */
+export type MutationRootInsertActionStatusOneArgs = {
+	object: ActionStatusInsertInput;
+	on_conflict?: InputMaybe<ActionStatusOnConflict>;
 };
 
 /** mutation root */
@@ -5846,6 +6047,23 @@ export type MutationRootUpdateAccountByPkArgs = {
 /** mutation root */
 export type MutationRootUpdateAccountManyArgs = {
 	updates: Array<AccountUpdates>;
+};
+
+/** mutation root */
+export type MutationRootUpdateActionStatusArgs = {
+	_set?: InputMaybe<ActionStatusSetInput>;
+	where: ActionStatusBoolExp;
+};
+
+/** mutation root */
+export type MutationRootUpdateActionStatusByPkArgs = {
+	_set?: InputMaybe<ActionStatusSetInput>;
+	pk_columns: ActionStatusPkColumnsInput;
+};
+
+/** mutation root */
+export type MutationRootUpdateActionStatusManyArgs = {
+	updates: Array<ActionStatusUpdates>;
 };
 
 /** mutation root */
@@ -6780,7 +6998,7 @@ export type NotebookAction = {
 	creator: Account;
 	creatorId: Scalars['uuid'];
 	id: Scalars['uuid'];
-	status: Scalars['String'];
+	status: ActionStatusEnum;
 	/** An object relationship */
 	target: NotebookTarget;
 	targetId: Scalars['uuid'];
@@ -6843,7 +7061,7 @@ export type NotebookActionBoolExp = {
 	creator?: InputMaybe<AccountBoolExp>;
 	creatorId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
-	status?: InputMaybe<StringComparisonExp>;
+	status?: InputMaybe<ActionStatusEnumComparisonExp>;
 	target?: InputMaybe<NotebookTargetBoolExp>;
 	targetId?: InputMaybe<UuidComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -6864,7 +7082,7 @@ export type NotebookActionInsertInput = {
 	creator?: InputMaybe<AccountObjRelInsertInput>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	status?: InputMaybe<Scalars['String']>;
+	status?: InputMaybe<ActionStatusEnum>;
 	target?: InputMaybe<NotebookTargetObjRelInsertInput>;
 	targetId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -6877,7 +7095,6 @@ export type NotebookActionMaxFields = {
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	status?: Maybe<Scalars['String']>;
 	targetId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -6888,7 +7105,6 @@ export type NotebookActionMaxOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
-	status?: InputMaybe<OrderBy>;
 	targetId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -6900,7 +7116,6 @@ export type NotebookActionMinFields = {
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
-	status?: Maybe<Scalars['String']>;
 	targetId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -6911,7 +7126,6 @@ export type NotebookActionMinOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
-	status?: InputMaybe<OrderBy>;
 	targetId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -6974,7 +7188,7 @@ export type NotebookActionSetInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	status?: InputMaybe<Scalars['String']>;
+	status?: InputMaybe<ActionStatusEnum>;
 	targetId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -6993,7 +7207,7 @@ export type NotebookActionStreamCursorValueInput = {
 	createdAt?: InputMaybe<Scalars['timestamptz']>;
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
-	status?: InputMaybe<Scalars['String']>;
+	status?: InputMaybe<ActionStatusEnum>;
 	targetId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -12078,6 +12292,12 @@ export type QueryRoot = {
 	account_info: Array<AccountInfo>;
 	/** fetch aggregated fields from the table: "account_info" */
 	account_info_aggregate: AccountInfoAggregate;
+	/** fetch data from the table: "action_status" */
+	action_status: Array<ActionStatus>;
+	/** fetch aggregated fields from the table: "action_status" */
+	action_status_aggregate: ActionStatusAggregate;
+	/** fetch data from the table: "action_status" using primary key columns */
+	action_status_by_pk?: Maybe<ActionStatus>;
 	/** fetch data from the table: "admin_cdb" */
 	admin_cdb: Array<AdminCdb>;
 	/** fetch aggregated fields from the table: "admin_cdb" */
@@ -12388,6 +12608,26 @@ export type QueryRootAccountInfoAggregateArgs = {
 	offset?: InputMaybe<Scalars['Int']>;
 	order_by?: InputMaybe<Array<AccountInfoOrderBy>>;
 	where?: InputMaybe<AccountInfoBoolExp>;
+};
+
+export type QueryRootActionStatusArgs = {
+	distinct_on?: InputMaybe<Array<ActionStatusSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ActionStatusOrderBy>>;
+	where?: InputMaybe<ActionStatusBoolExp>;
+};
+
+export type QueryRootActionStatusAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ActionStatusSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ActionStatusOrderBy>>;
+	where?: InputMaybe<ActionStatusBoolExp>;
+};
+
+export type QueryRootActionStatusByPkArgs = {
+	status: Scalars['String'];
 };
 
 export type QueryRootAdminCdbArgs = {
@@ -15353,6 +15593,14 @@ export type SubscriptionRoot = {
 	account_info_stream: Array<AccountInfo>;
 	/** fetch data from the table in a streaming manner: "account" */
 	account_stream: Array<Account>;
+	/** fetch data from the table: "action_status" */
+	action_status: Array<ActionStatus>;
+	/** fetch aggregated fields from the table: "action_status" */
+	action_status_aggregate: ActionStatusAggregate;
+	/** fetch data from the table: "action_status" using primary key columns */
+	action_status_by_pk?: Maybe<ActionStatus>;
+	/** fetch data from the table in a streaming manner: "action_status" */
+	action_status_stream: Array<ActionStatus>;
 	/** fetch data from the table: "admin_cdb" */
 	admin_cdb: Array<AdminCdb>;
 	/** fetch aggregated fields from the table: "admin_cdb" */
@@ -15759,6 +16007,32 @@ export type SubscriptionRootAccountStreamArgs = {
 	batch_size: Scalars['Int'];
 	cursor: Array<InputMaybe<AccountStreamCursorInput>>;
 	where?: InputMaybe<AccountBoolExp>;
+};
+
+export type SubscriptionRootActionStatusArgs = {
+	distinct_on?: InputMaybe<Array<ActionStatusSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ActionStatusOrderBy>>;
+	where?: InputMaybe<ActionStatusBoolExp>;
+};
+
+export type SubscriptionRootActionStatusAggregateArgs = {
+	distinct_on?: InputMaybe<Array<ActionStatusSelectColumn>>;
+	limit?: InputMaybe<Scalars['Int']>;
+	offset?: InputMaybe<Scalars['Int']>;
+	order_by?: InputMaybe<Array<ActionStatusOrderBy>>;
+	where?: InputMaybe<ActionStatusBoolExp>;
+};
+
+export type SubscriptionRootActionStatusByPkArgs = {
+	status: Scalars['String'];
+};
+
+export type SubscriptionRootActionStatusStreamArgs = {
+	batch_size: Scalars['Int'];
+	cursor: Array<InputMaybe<ActionStatusStreamCursorInput>>;
+	where?: InputMaybe<ActionStatusBoolExp>;
 };
 
 export type SubscriptionRootAdminCdbArgs = {
@@ -17523,7 +17797,7 @@ export type GetOrientationSystemQuery = {
 export type AddNotebookActionMutationVariables = Exact<{
 	action: Scalars['String'];
 	targetId: Scalars['uuid'];
-	status: Scalars['String'];
+	status: ActionStatusEnum;
 }>;
 
 export type AddNotebookActionMutation = {
@@ -17543,7 +17817,7 @@ export type GetRefActionsQuery = {
 };
 
 export type UpdateActionStatusMutationVariables = Exact<{
-	status: Scalars['String'];
+	status: ActionStatusEnum;
 	id: Scalars['uuid'];
 }>;
 
@@ -17606,7 +17880,7 @@ export type GetNotebookFocusByIdQuery = {
 				__typename?: 'notebook_action';
 				id: string;
 				createdAt: string;
-				status: string;
+				status: ActionStatusEnum;
 				action: string;
 				creator: {
 					__typename?: 'account';
@@ -18266,7 +18540,7 @@ export type GetNotebookByBeneficiaryIdQuery = {
 					__typename?: 'notebook_action';
 					action: string;
 					createdAt: string;
-					status: string;
+					status: ActionStatusEnum;
 					creator: {
 						__typename?: 'account';
 						orientation_manager?: {
@@ -18480,7 +18754,7 @@ export type GetNotebookByIdQuery = {
 					__typename?: 'notebook_action';
 					action: string;
 					createdAt: string;
-					status: string;
+					status: ActionStatusEnum;
 					creator: {
 						__typename?: 'account';
 						orientation_manager?: {
@@ -18687,7 +18961,7 @@ export type NotebookFragmentFragment = {
 				__typename?: 'notebook_action';
 				action: string;
 				createdAt: string;
-				status: string;
+				status: ActionStatusEnum;
 				creator: {
 					__typename?: 'account';
 					orientation_manager?: {
@@ -20511,11 +20785,7 @@ export const NotebookFragmentFragmentDoc = {
 																			{
 																				kind: 'ObjectField',
 																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'StringValue',
-																					value: 'in_progress',
-																					block: false,
-																				},
+																				value: { kind: 'EnumValue', value: 'in_progress' },
 																			},
 																		],
 																	},
@@ -24134,7 +24404,7 @@ export const AddNotebookActionDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'action_status_enum' } },
 					},
 				},
 			],
@@ -24262,7 +24532,7 @@ export const UpdateActionStatusDocument = {
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
 					type: {
 						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'action_status_enum' } },
 					},
 				},
 				{
@@ -28429,11 +28699,7 @@ export const GetNotebookByBeneficiaryIdDocument = {
 																			{
 																				kind: 'ObjectField',
 																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'StringValue',
-																					value: 'in_progress',
-																					block: false,
-																				},
+																				value: { kind: 'EnumValue', value: 'in_progress' },
 																			},
 																		],
 																	},
@@ -29211,11 +29477,7 @@ export const GetNotebookByIdDocument = {
 																			{
 																				kind: 'ObjectField',
 																				name: { kind: 'Name', value: '_eq' },
-																				value: {
-																					kind: 'StringValue',
-																					value: 'in_progress',
-																					block: false,
-																				},
+																				value: { kind: 'EnumValue', value: 'in_progress' },
 																			},
 																		],
 																	},
@@ -32390,9 +32652,8 @@ export const GetNotebookDocument = {
 																										kind: 'ObjectField',
 																										name: { kind: 'Name', value: '_eq' },
 																										value: {
-																											kind: 'StringValue',
+																											kind: 'EnumValue',
 																											value: 'in_progress',
-																											block: false,
 																										},
 																									},
 																								],

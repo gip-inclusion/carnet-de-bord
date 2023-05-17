@@ -1,0 +1,43 @@
+table:
+  name: action_status
+  schema: public
+is_enum: true
+array_relationships:
+  - name: notebook_actions
+    using:
+      foreign_key_constraint_on:
+        column: status
+        table:
+          name: notebook_action
+          schema: public
+select_permissions:
+  - role: admin_cdb
+    permission:
+      columns:
+        - status
+      filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - status
+      filter: {}
+  - role: beneficiary
+    permission:
+      columns:
+        - status
+      filter: {}
+  - role: manager
+    permission:
+      columns:
+        - status
+      filter: {}
+  - role: orientation_manager
+    permission:
+      columns:
+        - status
+      filter: {}
+  - role: professional
+    permission:
+      columns:
+        - status
+      filter: {}
