@@ -1,3 +1,10 @@
+## [1.219.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.6...v1.219.7) (2023-05-17)
+
+
+### Bug Fixes
+
+* filtre les membres actifs dans nbNotbookWith2MembersOrMore ([#1750](https://github.com/gip-inclusion/carnet-de-bord/issues/1750)) ([f9b0356](https://github.com/gip-inclusion/carnet-de-bord/commit/f9b0356c569ac1dc8b491459251a91d41fca2e51))
+
 ## [1.219.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.5...v1.219.6) (2023-05-17)
 
 
