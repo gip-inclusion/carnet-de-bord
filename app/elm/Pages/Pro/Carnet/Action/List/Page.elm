@@ -8,7 +8,7 @@ import Extra.Date
 import Html
 import Html.Attributes as Attr
 import Html.Events as Evts
-import Pages.Pro.Carnet.Action.List.ActionSelect
+import Pages.Pro.Carnet.Action.List.ActionSelect exposing (RefAction)
 import Pages.Pro.Carnet.Action.List.AllActions exposing (Action)
 
 
@@ -60,7 +60,7 @@ init :
 init { actions, theme, targetId } =
     let
         ( actionSelect, actionSelectCmd ) =
-            Pages.Pro.Carnet.Action.List.ActionSelect.init
+            Pages.Pro.Carnet.Action.List.ActionSelect.init { postProcess = groupRefActionsByTheme theme }
     in
     ( { actions = toActionDict actions
       , theme = theme
@@ -77,6 +77,20 @@ toActionDict actions =
     actions
         |> List.map (\action -> ( action.id |> Domain.Action.Id.printId, action ))
         |> Dict.fromList
+
+
+groupRefActionsByTheme : String -> List RefAction -> List RefAction
+groupRefActionsByTheme theme actions =
+    -- First only keep actions of the current theme and sort them alphabetically
+    (actions
+        |> List.filter (\action -> action.theme == theme)
+        |> List.sortBy .description
+    )
+        -- Then keep the other actions and sort them alphabetically
+        ++ (actions
+                |> List.filter (\action -> action.theme /= theme)
+                |> List.sortBy .description
+           )
 
 
 

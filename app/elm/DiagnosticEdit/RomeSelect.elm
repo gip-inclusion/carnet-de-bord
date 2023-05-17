@@ -38,6 +38,7 @@ init props =
         , label = "Métier recherché"
         , searchPlaceholder = "Rechercher un métier ou un code ROME"
         , defaultOption = "Projet en construction"
+        , postProcess = \id -> id
         }
 
 
