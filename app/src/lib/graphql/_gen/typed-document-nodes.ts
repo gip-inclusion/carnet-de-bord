@@ -12,7 +12,6 @@ export type Scalars = {
 	Boolean: boolean;
 	Int: number;
 	Float: number;
-	bigint: any;
 	citext: string;
 	date: string;
 	float8: any;
@@ -2523,19 +2522,6 @@ export type BeneficiaryUpdates = {
 	_set?: InputMaybe<BeneficiarySetInput>;
 	/** filter the rows which have to be updated */
 	where: BeneficiaryBoolExp;
-};
-
-/** Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'. */
-export type BigintComparisonExp = {
-	_eq?: InputMaybe<Scalars['bigint']>;
-	_gt?: InputMaybe<Scalars['bigint']>;
-	_gte?: InputMaybe<Scalars['bigint']>;
-	_in?: InputMaybe<Array<Scalars['bigint']>>;
-	_is_null?: InputMaybe<Scalars['Boolean']>;
-	_lt?: InputMaybe<Scalars['bigint']>;
-	_lte?: InputMaybe<Scalars['bigint']>;
-	_neq?: InputMaybe<Scalars['bigint']>;
-	_nin?: InputMaybe<Array<Scalars['bigint']>>;
 };
 
 /** Boolean expression to compare columns of type "citext". All fields are combined with logical 'AND'. */
@@ -6662,8 +6648,6 @@ export type Notebook = {
 	members_aggregate: NotebookMemberAggregate;
 	/** An object relationship */
 	notebookInfo?: Maybe<NotebookInfo>;
-	/** return the number of professionnal for a notebook */
-	notebookMemberCount?: Maybe<Scalars['bigint']>;
 	/** An array relationship */
 	professionalProjects: Array<ProfessionalProject>;
 	/** An aggregate relationship */
@@ -7383,7 +7367,6 @@ export type NotebookBoolExp = {
 	members?: InputMaybe<NotebookMemberBoolExp>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateBoolExp>;
 	notebookInfo?: InputMaybe<NotebookInfoBoolExp>;
-	notebookMemberCount?: InputMaybe<BigintComparisonExp>;
 	professionalProjects?: InputMaybe<ProfessionalProjectBoolExp>;
 	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateBoolExp>;
 	rightRqth?: InputMaybe<BooleanComparisonExp>;
@@ -8798,7 +8781,6 @@ export type NotebookOrderBy = {
 	lastJobEndedAt?: InputMaybe<OrderBy>;
 	members_aggregate?: InputMaybe<NotebookMemberAggregateOrderBy>;
 	notebookInfo?: InputMaybe<NotebookInfoOrderBy>;
-	notebookMemberCount?: InputMaybe<OrderBy>;
 	professionalProjects_aggregate?: InputMaybe<ProfessionalProjectAggregateOrderBy>;
 	rightRqth?: InputMaybe<OrderBy>;
 	situations_aggregate?: InputMaybe<NotebookSituationAggregateOrderBy>;

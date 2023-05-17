@@ -3063,23 +3063,6 @@ schema = build_schema(
       where: beneficiary_bool_exp!
     }
 
-    scalar bigint
-
-    """
-    Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
-    """
-    input bigint_comparison_exp {
-      _eq: bigint
-      _gt: bigint
-      _gte: bigint
-      _in: [bigint!]
-      _is_null: Boolean
-      _lt: bigint
-      _lte: bigint
-      _neq: bigint
-      _nin: [bigint!]
-    }
-
     scalar citext
 
     """
@@ -8269,9 +8252,6 @@ schema = build_schema(
       """An object relationship"""
       notebookInfo: notebook_info
 
-      """return the number of professionnal for a notebook"""
-      notebookMemberCount: bigint
-
       """An array relationship"""
       professionalProjects(
         """distinct select on columns"""
@@ -9036,7 +9016,6 @@ schema = build_schema(
       members: notebook_member_bool_exp
       members_aggregate: notebook_member_aggregate_bool_exp
       notebookInfo: notebook_info_bool_exp
-      notebookMemberCount: bigint_comparison_exp
       professionalProjects: professional_project_bool_exp
       professionalProjects_aggregate: professional_project_aggregate_bool_exp
       rightRqth: Boolean_comparison_exp
@@ -10711,7 +10690,6 @@ schema = build_schema(
       lastJobEndedAt: order_by
       members_aggregate: notebook_member_aggregate_order_by
       notebookInfo: notebook_info_order_by
-      notebookMemberCount: order_by
       professionalProjects_aggregate: professional_project_aggregate_order_by
       rightRqth: order_by
       situations_aggregate: notebook_situation_aggregate_order_by
