@@ -87,7 +87,12 @@
 	<h1>Informations personnelles</h1>
 	<Form {initialValues} {validationSchema} onSubmit={updateBeneficiary}>
 		<ProBeneficiaryUpdateFields {forbiddenFields} />
-		<Input name="peNumber" placeholder={'123456789A'} inputLabel={'Identifiant Pôle emploi'} />
+		<Input
+			name="peNumber"
+			placeholder={'123456789A'}
+			class="pt-6"
+			inputLabel={'Identifiant Pôle emploi'}
+		/>
 		<Input name="cafNumber" placeholder={'123456789A'} inputLabel={'Identifiant CAF/MSA'} />
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>

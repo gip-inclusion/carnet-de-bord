@@ -1,3 +1,10 @@
+## [1.219.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.5...v1.219.6) (2023-05-17)
+
+
+### Bug Fixes
+
+* problèmes d'affichage sur le formulaire de mise à jour des informations personnelles ([#1748](https://github.com/gip-inclusion/carnet-de-bord/issues/1748)) ([8bc780e](https://github.com/gip-inclusion/carnet-de-bord/commit/8bc780e967ed58f2f9449d4135cc1646ca3198c9))
+
 ## [1.219.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.4...v1.219.5) (2023-05-16)
 
 ## [1.219.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.3...v1.219.4) (2023-05-15)
