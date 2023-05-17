@@ -60,7 +60,7 @@ init :
 init { actions, theme, targetId } =
     let
         ( actionSelect, actionSelectCmd ) =
-            Pages.Pro.Carnet.Action.List.ActionSelect.init (groupRefActionsByTheme theme)
+            Pages.Pro.Carnet.Action.List.ActionSelect.init { postProcess = groupRefActionsByTheme theme }
     in
     ( { actions = toActionDict actions
       , theme = theme

@@ -28,8 +28,8 @@ type alias Model =
     UI.SearchSelect.Component.Model RefAction
 
 
-init : (List RefAction -> List RefAction) -> ( Model, Cmd Msg )
-init postProcess =
+init : { postProcess : List RefAction -> List RefAction } -> ( Model, Cmd Msg )
+init props =
     UI.SearchSelect.Component.init
         { id = "select-action"
         , selected = Nothing
@@ -38,7 +38,7 @@ init postProcess =
         , label = "Actions"
         , searchPlaceholder = "Rechercher une action"
         , defaultOption = "Sélectionner une action"
-        , postProcess = postProcess
+        , postProcess = props.postProcess
         }
         -- Call update with the initial model in order to get a visible list of actions when
         -- we open the select
