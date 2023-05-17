@@ -1,3 +1,10 @@
+## [1.219.9](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.8...v1.219.9) (2023-05-17)
+
+
+### Bug Fixes
+
+* affichage des actions du thème courant en premier ([#1743](https://github.com/gip-inclusion/carnet-de-bord/issues/1743)) ([01595dc](https://github.com/gip-inclusion/carnet-de-bord/commit/01595dcc9fde2c6552d66fdf0d2879884dd05263))
+
 ## [1.219.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.7...v1.219.8) (2023-05-17)
 
 
