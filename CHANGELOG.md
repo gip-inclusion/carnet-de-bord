@@ -1,3 +1,10 @@
+## [1.219.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.7...v1.219.8) (2023-05-17)
+
+
+### Bug Fixes
+
+* problèmes d'affichage de la donnée RQTH dans le formulaire du diagnostic sociopro ([#1749](https://github.com/gip-inclusion/carnet-de-bord/issues/1749)) ([092d33b](https://github.com/gip-inclusion/carnet-de-bord/commit/092d33b1d75073334ba518dfa08871dbb672980f))
+
 ## [1.219.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.6...v1.219.7) (2023-05-17)
 
 
