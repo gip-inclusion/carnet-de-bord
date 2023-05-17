@@ -7,8 +7,6 @@ configuration:
       custom_name: createdAt
     creator_id:
       custom_name: creatorId
-    initial_id:
-      custom_name: initialId
     target_id:
       custom_name: targetId
     updated_at:
@@ -16,7 +14,6 @@ configuration:
   custom_column_names:
     created_at: createdAt
     creator_id: creatorId
-    initial_id: initialId
     target_id: targetId
     updated_at: updatedAt
   custom_root_fields: {}
@@ -36,7 +33,6 @@ insert_permissions:
         - created_at
         - creator_id
         - id
-        - initial_id
         - status
         - target_id
   - role: orientation_manager
@@ -85,7 +81,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - initial_id
         - status
         - target_id
         - updated_at
@@ -98,7 +93,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - initial_id
         - status
         - target_id
         - updated_at
@@ -128,7 +122,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - initial_id
         - status
         - target_id
         - updated_at
@@ -145,7 +138,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - initial_id
         - status
         - target_id
         - updated_at
@@ -164,7 +156,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - initial_id
         - status
         - target_id
         - updated_at

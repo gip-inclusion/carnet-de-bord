@@ -2185,7 +2185,7 @@ schema = build_schema(
       """
       unique or primary key constraint on columns "deployment_id", "internal_id"
       """
-      beneficiary_internal_id_deployment_id_key
+      beneficiary_deployment_id_internal_id_key
 
       """
       unique or primary key constraint on columns "nir"
@@ -8341,7 +8341,6 @@ schema = build_schema(
       creator: account!
       creatorId: uuid!
       id: uuid!
-      initialId: String
       status: String!
 
       """An object relationship"""
@@ -8409,7 +8408,6 @@ schema = build_schema(
       creator: account_bool_exp
       creatorId: uuid_comparison_exp
       id: uuid_comparison_exp
-      initialId: String_comparison_exp
       status: String_comparison_exp
       target: notebook_target_bool_exp
       targetId: uuid_comparison_exp
@@ -8420,11 +8418,6 @@ schema = build_schema(
     unique or primary key constraints on table "notebook_action"
     """
     enum notebook_action_constraint {
-      """
-      unique or primary key constraint on columns "initial_id"
-      """
-      notebook_action_initial_id_key
-
       """
       unique or primary key constraint on columns "id"
       """
@@ -8445,7 +8438,6 @@ schema = build_schema(
       creator: account_obj_rel_insert_input
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       target: notebook_target_obj_rel_insert_input
       targetId: uuid
@@ -8458,7 +8450,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8472,7 +8463,6 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
-      initialId: order_by
       status: order_by
       targetId: order_by
       updatedAt: order_by
@@ -8484,7 +8474,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8498,7 +8487,6 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
-      initialId: order_by
       status: order_by
       targetId: order_by
       updatedAt: order_by
@@ -8531,7 +8519,6 @@ schema = build_schema(
       creator: account_order_by
       creatorId: order_by
       id: order_by
-      initialId: order_by
       status: order_by
       target: notebook_target_order_by
       targetId: order_by
@@ -8560,9 +8547,6 @@ schema = build_schema(
       id
 
       """column name"""
-      initialId
-
-      """column name"""
       status
 
       """column name"""
@@ -8580,7 +8564,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8603,7 +8586,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8624,9 +8606,6 @@ schema = build_schema(
 
       """column name"""
       id
-
-      """column name"""
-      initialId
 
       """column name"""
       status
