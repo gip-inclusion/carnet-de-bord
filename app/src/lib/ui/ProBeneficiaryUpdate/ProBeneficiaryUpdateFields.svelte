@@ -55,21 +55,28 @@
 <Input inputLabel="Téléphone" placeholder="0123456789" name="mobileNumber" class="max-w-max" />
 <Input inputLabel="Adresse" placeholder="55-57 rue du Faubourg Saint-Honoré" name="address1" />
 <Input inputLabel="Adresse (complément)" placeholder="1er étage" name="address2" />
-<div class="fr-grid-row fr-grid-row--gutters">
-	<Input
-		class="fr-col-3 max-w-max"
-		inputLabel="Code postal"
-		placeholder="75008"
-		name="postalCode"
-	/>
-	<Input class="fr-col-9" inputLabel="Ville" placeholder="Paris" name="city" />
+<div class="fr-grid-row fr-grid-row--gutters" style="justify-content: flex-start">
+	<Input class="fr-col-2 mb-1" inputLabel="Code postal" placeholder="75008" name="postalCode" />
+	<Input class="fr-col-10 mb-1" inputLabel="Ville" placeholder="Paris" name="city" />
 </div>
 
-<Radio legend="Revenu de solidarité active (RSA)" name="rightRsa" options={rsaRightKeys.options} />
+<div class="fr-form-group mt-6">
+	<Radio
+		legend="Revenu de solidarité active (RSA)"
+		name="rightRsa"
+		options={rsaRightKeys.options}
+	/>
+</div>
 
-<div class="fr-form-group">
-	<div class="pb-2 font-bold">Autres aides</div>
-	<Checkbox name="rightAre" label="ARE" />
-	<Checkbox name="rightAss" label="ASS" />
-	<Checkbox name="rightBonus" label="Prime d'activité" />
+<div class="fr-fieldset">
+	<legend class="fr-fieldset__legend--regular fr-fieldset__legend">Autres aides</legend>
+	<div class="fr-fieldset__element">
+		<Checkbox name="rightAre" label="ARE" />
+	</div>
+	<div class="fr-fieldset__element">
+		<Checkbox name="rightAss" label="ASS" />
+	</div>
+	<div class="fr-fieldset__element">
+		<Checkbox name="rightBonus" label="Prime d'activité" />
+	</div>
 </div>
