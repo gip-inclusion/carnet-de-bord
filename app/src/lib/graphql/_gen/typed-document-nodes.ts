@@ -35197,14 +35197,55 @@ export const GetDeploymentStatForDayDocument = {
 									fields: [
 										{
 											kind: 'ObjectField',
-											name: { kind: 'Name', value: 'notebookMemberCount' },
+											name: { kind: 'Name', value: 'members_aggregate' },
 											value: {
 												kind: 'ObjectValue',
 												fields: [
 													{
 														kind: 'ObjectField',
-														name: { kind: 'Name', value: '_gte' },
-														value: { kind: 'IntValue', value: '2' },
+														name: { kind: 'Name', value: 'count' },
+														value: {
+															kind: 'ObjectValue',
+															fields: [
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'filter' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: 'active' },
+																				value: {
+																					kind: 'ObjectValue',
+																					fields: [
+																						{
+																							kind: 'ObjectField',
+																							name: { kind: 'Name', value: '_eq' },
+																							value: { kind: 'BooleanValue', value: true },
+																						},
+																					],
+																				},
+																			},
+																		],
+																	},
+																},
+																{
+																	kind: 'ObjectField',
+																	name: { kind: 'Name', value: 'predicate' },
+																	value: {
+																		kind: 'ObjectValue',
+																		fields: [
+																			{
+																				kind: 'ObjectField',
+																				name: { kind: 'Name', value: '_gte' },
+																				value: { kind: 'IntValue', value: '2' },
+																			},
+																		],
+																	},
+																},
+															],
+														},
 													},
 												],
 											},
