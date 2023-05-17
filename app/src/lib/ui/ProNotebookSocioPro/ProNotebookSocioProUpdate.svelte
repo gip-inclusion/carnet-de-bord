@@ -407,7 +407,7 @@
 		<div class="fr-form-group">
 			<Input name="lastJobEndedAt" inputLabel="Date de fin du dernier emploi" type="date" />
 		</div>
-		<div class="pb-4">
+		<div class="pb-4 pt-6">
 			<Checkbox name="rightRqth" label="RQTH" />
 		</div>
 
