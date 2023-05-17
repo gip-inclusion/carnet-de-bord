@@ -68,8 +68,8 @@ export function logout() {
  * @see https://developer.matomo.org/guides/tracking-javascript-guide#custom-dimensions
  */
 export enum CustomDimensions {
-	Role = 3,
-	Deployment = 4,
+	Deployment = 1,
+	Role = 2,
 }
 
 export function setCustomDimension(id: CustomDimensions, value: string): void {
