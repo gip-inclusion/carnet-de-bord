@@ -15,4 +15,3 @@ class Action(BaseModel):
     account_info: AccountInfo
     created_at: datetime
     updated_at: datetime
-    initial_id: str | None

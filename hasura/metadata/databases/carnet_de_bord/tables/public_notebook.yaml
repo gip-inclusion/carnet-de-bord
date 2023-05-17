@@ -100,13 +100,6 @@ array_relationships:
         remote_table:
           name: notebook_situation
           schema: public
-computed_fields:
-  - name: notebookMemberCount
-    definition:
-      function:
-        name: nb_member
-        schema: public
-    comment: return the number of professionnal for a notebook
 insert_permissions:
   - role: admin_cdb
     permission:
@@ -177,8 +170,6 @@ select_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      computed_fields:
-        - notebookMemberCount
       filter: {}
       allow_aggregations: true
   - role: admin_structure
@@ -198,8 +189,6 @@ select_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      computed_fields:
-        - notebookMemberCount
       filter:
         _or:
           - members:
@@ -236,8 +225,6 @@ select_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      computed_fields:
-        - notebookMemberCount
       filter:
         beneficiary_id:
           _eq: X-Hasura-Beneficiary-Id
@@ -258,8 +245,6 @@ select_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      computed_fields:
-        - notebookMemberCount
       filter:
         beneficiary:
           deployment_id:
@@ -282,8 +267,6 @@ select_permissions:
         - work_situation
         - work_situation_date
         - work_situation_end_date
-      computed_fields:
-        - notebookMemberCount
       filter:
         beneficiary:
           deployment_id:

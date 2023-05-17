@@ -59,7 +59,6 @@ na.status as na_status,
 na.creator_id as na_creator_id,
 na.created_at as na_created_at,
 na.updated_at as na_updated_at,
-na.initial_id as na_initial_id,
 ai_action_creator.firstname as na_firstname,
 ai_action_creator.lastname as na_lastname,
 ai_action_creator.email as na_email,
@@ -150,7 +149,6 @@ async def add_professional_projects_to_notebook(
 async def find_focus(
     notebook: Notebook, find_function: Callable[[Focus], bool]
 ) -> Focus | None:
-
     if notebook.focuses is not None:
         return next(
             (f for f in notebook.focuses if find_function(f)),
@@ -161,7 +159,6 @@ async def find_focus(
 async def find_target_from_focus(
     focus: Focus, find_function: Callable[[Target], bool]
 ) -> Target | None:
-
     if focus.targets is not None:
         return next(
             (t for t in focus.targets if find_function(t)),
@@ -172,7 +169,6 @@ async def find_target_from_focus(
 async def find_target_from_notebook(
     notebook: Notebook, focus_id: UUID, target_id: UUID
 ) -> Target | None:
-
     focus: Focus | None = await find_focus(notebook, lambda f: f.id == focus_id)
 
     if focus is None:
@@ -182,7 +178,6 @@ async def find_target_from_notebook(
 
 
 async def find_action_from_target(target: Target, action_id: UUID) -> Action | None:
-
     if target.actions is not None:
         return next(
             (a for a in target.actions if a.id == action_id),
@@ -196,7 +191,6 @@ async def add_action_to_target(
     record_prefix: str = "na_",
     target_record_prefix: str = "nt_",
 ) -> None:
-
     if record[record_prefix + "id"] is None:
         return
 
@@ -228,7 +222,6 @@ async def add_action_to_target(
             creator_id=record[record_prefix + "creator_id"],
             created_at=record[record_prefix + "created_at"],
             updated_at=record[record_prefix + "updated_at"],
-            initial_id=record[record_prefix + "initial_id"],
             account_info=AccountInfo(
                 account_id=record[record_prefix + "creator_id"],
                 firstname=record[record_prefix + "firstname"],
@@ -244,7 +237,6 @@ async def add_target_to_focus(
     notebook: Notebook,
     record_prefix: str = "nt_",
 ) -> None:
-
     if record[record_prefix + "id"] is not None:
         focus: Focus | None = await find_focus(
             notebook, lambda f: f.id == record[record_prefix + "focus_id"]
@@ -320,7 +312,6 @@ async def add_members_to_notebook(
         # The current notebook_member is not already attached to the notebook
         # so let's add it
         if not notebook_member:
-
             notebook.members.append(
                 NotebookMember(
                     id=record[record_prefix + "id"],
@@ -354,7 +345,6 @@ async def add_appointments_to_notebook(
         # The current appointment is not already attached to the notebook
         # so let's add it
         if not appointment:
-
             notebook.appointments.append(
                 Appointment(
                     id=record[record_prefix + "id"],
@@ -382,7 +372,6 @@ async def parse_notebooks_from_records(
     notebooks: list[Notebook],
     id_field: str = "n_id",
 ) -> list[Notebook]:
-
     for record in records:
         notebook: Notebook | None = next(
             (n for n in notebooks if n.id == record[id_field]), None
@@ -410,7 +399,6 @@ async def parse_notebook_from_record(
     add_appointments: bool = True,
     notebook: Notebook | None = None,
 ) -> Notebook:
-
     if not notebook:
         notebook = Notebook(
             id=record[record_prefix + id_field],
@@ -456,7 +444,6 @@ async def get_notebook_member_with_query(
     connection: Connection, query: str, *args
 ) -> NotebookMember | None:
     async with connection.transaction():
-
         notebook_member_record: Record | None = await connection.fetchrow(
             "SELECT nm.* FROM public.notebook_member nm " + query,
             *args,
@@ -470,7 +457,6 @@ async def get_notebook_members_with_query(
     connection: Connection, query: str, *args
 ) -> list[NotebookMember]:
     async with connection.transaction():
-
         records: list[Record] = await connection.fetch(
             "SELECT nm.* FROM public.notebook_member nm " + query,
             *args,
@@ -482,7 +468,6 @@ async def get_notebook_members_with_query(
 async def insert_notebook_member(
     connection: Connection, notebook_member_insert: NotebookMemberInsert
 ) -> NotebookMember | None:
-
     record = await connection.fetchrow(
         """
         INSERT INTO public.notebook_member (
@@ -541,7 +526,6 @@ async def get_notebooks_with_query(
     connection: Connection, query: str, *args
 ) -> list[Notebook]:
     async with connection.transaction():
-
         records: list[Record] = await connection.fetch(
             NOTEBOOK_BASE_QUERY + query,
             *args,
@@ -555,7 +539,6 @@ async def get_notebook_with_query(
     connection: Connection, query: str, *args
 ) -> Notebook | None:
     async with connection.transaction():
-
         record: Record = await connection.fetchrow(
             NOTEBOOK_BASE_QUERY + query,
             *args,
@@ -603,7 +586,6 @@ async def insert_notebook(
     beneficiary_id: UUID,
     beneficiary: BeneficiaryImport,
 ) -> UUID | None:
-
     keys_to_insert = beneficiary.get_notebook_editable_keys()
     sql_values = beneficiary.get_values_for_keys(keys_to_insert)
     # manually add beneficiary_id and its value for insert request
@@ -626,7 +608,6 @@ async def update_notebook(
     beneficiary: BeneficiaryImport,
     beneficiary_id: UUID,
 ) -> UUID | None:
-
     keys_to_update = beneficiary.get_notebook_editable_keys()
 
     if len(keys_to_update) == 0:

@@ -2185,7 +2185,7 @@ schema = build_schema(
       """
       unique or primary key constraint on columns "deployment_id", "internal_id"
       """
-      beneficiary_internal_id_deployment_id_key
+      beneficiary_deployment_id_internal_id_key
 
       """
       unique or primary key constraint on columns "nir"
@@ -3061,23 +3061,6 @@ schema = build_schema(
 
       """filter the rows which have to be updated"""
       where: beneficiary_bool_exp!
-    }
-
-    scalar bigint
-
-    """
-    Boolean expression to compare columns of type "bigint". All fields are combined with logical 'AND'.
-    """
-    input bigint_comparison_exp {
-      _eq: bigint
-      _gt: bigint
-      _gte: bigint
-      _in: [bigint!]
-      _is_null: Boolean
-      _lt: bigint
-      _lte: bigint
-      _neq: bigint
-      _nin: [bigint!]
     }
 
     scalar citext
@@ -8269,9 +8252,6 @@ schema = build_schema(
       """An object relationship"""
       notebookInfo: notebook_info
 
-      """return the number of professionnal for a notebook"""
-      notebookMemberCount: bigint
-
       """An array relationship"""
       professionalProjects(
         """distinct select on columns"""
@@ -8361,7 +8341,6 @@ schema = build_schema(
       creator: account!
       creatorId: uuid!
       id: uuid!
-      initialId: String
       status: String!
 
       """An object relationship"""
@@ -8429,7 +8408,6 @@ schema = build_schema(
       creator: account_bool_exp
       creatorId: uuid_comparison_exp
       id: uuid_comparison_exp
-      initialId: String_comparison_exp
       status: String_comparison_exp
       target: notebook_target_bool_exp
       targetId: uuid_comparison_exp
@@ -8440,11 +8418,6 @@ schema = build_schema(
     unique or primary key constraints on table "notebook_action"
     """
     enum notebook_action_constraint {
-      """
-      unique or primary key constraint on columns "initial_id"
-      """
-      notebook_action_initial_id_key
-
       """
       unique or primary key constraint on columns "id"
       """
@@ -8465,7 +8438,6 @@ schema = build_schema(
       creator: account_obj_rel_insert_input
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       target: notebook_target_obj_rel_insert_input
       targetId: uuid
@@ -8478,7 +8450,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8492,7 +8463,6 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
-      initialId: order_by
       status: order_by
       targetId: order_by
       updatedAt: order_by
@@ -8504,7 +8474,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8518,7 +8487,6 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
-      initialId: order_by
       status: order_by
       targetId: order_by
       updatedAt: order_by
@@ -8551,7 +8519,6 @@ schema = build_schema(
       creator: account_order_by
       creatorId: order_by
       id: order_by
-      initialId: order_by
       status: order_by
       target: notebook_target_order_by
       targetId: order_by
@@ -8580,9 +8547,6 @@ schema = build_schema(
       id
 
       """column name"""
-      initialId
-
-      """column name"""
       status
 
       """column name"""
@@ -8600,7 +8564,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8623,7 +8586,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      initialId: String
       status: String
       targetId: uuid
       updatedAt: timestamptz
@@ -8644,9 +8606,6 @@ schema = build_schema(
 
       """column name"""
       id
-
-      """column name"""
-      initialId
 
       """column name"""
       status
@@ -9036,7 +8995,6 @@ schema = build_schema(
       members: notebook_member_bool_exp
       members_aggregate: notebook_member_aggregate_bool_exp
       notebookInfo: notebook_info_bool_exp
-      notebookMemberCount: bigint_comparison_exp
       professionalProjects: professional_project_bool_exp
       professionalProjects_aggregate: professional_project_aggregate_bool_exp
       rightRqth: Boolean_comparison_exp
@@ -10711,7 +10669,6 @@ schema = build_schema(
       lastJobEndedAt: order_by
       members_aggregate: notebook_member_aggregate_order_by
       notebookInfo: notebook_info_order_by
-      notebookMemberCount: order_by
       professionalProjects_aggregate: professional_project_aggregate_order_by
       rightRqth: order_by
       situations_aggregate: notebook_situation_aggregate_order_by
