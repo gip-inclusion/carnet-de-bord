@@ -2,7 +2,7 @@ import { describe, test, type Mock } from 'vitest';
 import { POST } from './+server';
 import { createFakeRequestEvent, createFetchResponse } from '../../../../setupTest';
 
-// this allow to mock fetch function used inside createGraphqlAdminClient
+// this allows to mock fetch function used inside createGraphqlAdminClient
 vi.mock('../../../lib/graphql/createAdminClient', async () => {
 	const mod = await vi.importActual<typeof import('../../../lib/graphql/createAdminClient')>(
 		'../../../lib/graphql/createAdminClient'
@@ -53,6 +53,23 @@ describe('notebook api endpoint', () => {
 			    "message": "wrong authorization",
 			  },
 			  "status": 403,
+			}
+		`);
+	});
+
+	test('should return 422 if body is missing', async () => {
+		const requestEvent = createFakeRequestEvent(
+			'POST',
+			{ authorization: 'Bearer secret_api_token' },
+			null
+		);
+
+		expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+			HttpError {
+			  "body": {
+			    "message": "deploymentId is a required field",
+			  },
+			  "status": 422,
 			}
 		`);
 	});

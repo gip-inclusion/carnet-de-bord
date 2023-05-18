@@ -97,13 +97,13 @@ class FakeCookie implements Cookies {
 	}
 }
 
-export function createFakeRequestEvent(method: string, requestHeaders, body) {
+export function createFakeRequestEvent(method: string, requestHeaders, body: object | null) {
 	const headers = new Headers(requestHeaders);
 	headers.set('content-type', 'application/json');
 	const request = new Request('/api/notebooks', {
 		headers,
 		method,
-		body: JSON.stringify(body),
+		body: body ? JSON.stringify(body) : null,
 	});
 	const cookies = new FakeCookie();
 	return {

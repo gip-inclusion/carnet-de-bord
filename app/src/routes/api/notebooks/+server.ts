@@ -16,11 +16,11 @@ const bodySchema = yup.object().shape({
 	rdviUserEmail: yup.string().required(),
 	deploymentId: yup.string().uuid().required(),
 });
+type BodyType = yup.InferType<typeof bodySchema>;
 
 const client = createGraphqlAdminClient();
 
 export const POST = (async ({ request }) => {
-	const body = await request.json();
 	const authorization = request.headers.get('authorization');
 
 	if (!authorization) {
@@ -29,6 +29,13 @@ export const POST = (async ({ request }) => {
 
 	if (authorization.substring('Bearer '.length) !== getRdvISecret()) {
 		throw error(403, { message: 'wrong authorization' });
+	}
+
+	let body: BodyType;
+	try {
+		body = await request.json();
+	} catch (bodyParsingError) {
+		// do nothing the validate function will throw a more accurate error
 	}
 
 	try {
