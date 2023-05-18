@@ -39,7 +39,7 @@ from cdb.api.db.models.role import RoleEnum
 from cdb.api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
 
 professional_only = allowed_jwt_roles([RoleEnum.PROFESSIONAL])
-router = APIRouter(dependencies=[Depends(extract_authentified_account)])
+router = APIRouter()
 
 
 logger = logging.getLogger(__name__)
@@ -52,7 +52,10 @@ class AddNotebookMemberInput(BaseModel):
 
 @router.post(
     "/{notebook_id}/members",
-    dependencies=[Depends(allowed_jwt_roles([RoleEnum.PROFESSIONAL]))],
+    dependencies=[
+        Depends(extract_authentified_account),
+        Depends(allowed_jwt_roles([RoleEnum.PROFESSIONAL])),
+    ],
 )
 async def add_notebook_members(
     data: AddNotebookMemberInput,
@@ -182,10 +185,25 @@ def notify_former_referents(
         )
 
 
-@router.post(
-    "", status_code=204, dependencies=[Depends(allowed_jwt_roles([RoleEnum.MANAGER]))]
-)
+class CreatedNotebook(BaseModel):
+    notebookId: str
+
+
+@router.post("", status_code=201)
 async def create_beneficiary_notebook(
     request: Request,
 ):
+    """
+    This endpoint aims to create a beneficiary and its notebook from
+    an external partner (**like RDV-Insertion**).
+
+    This endpoint will:
+    - ensure beneficiary is created in the deployment which user belongs to
+    - ensure there is no existing beneficiary (nir shall be unique)
+    - create beneficiary entity
+    - create notebook entity
+    - create beneficiary_structure to hold the relation between
+        a structure and a beneficiary
+    """
     logger.info(request.body)
+    return CreatedNotebook(notebookId="dummy-id")

@@ -154,6 +154,7 @@ describe('notebook api endpoint', () => {
 		);
 
 		await POST(requestEvent);
+		//TODO: ensure we call Hasura action
 		expect(fetch).toHaveBeenCalledTimes(2);
 	});
 });

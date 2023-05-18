@@ -1,0 +1,13 @@
+mutation CreateNotebook (
+  $deploymentId: uuid!
+  $notebook: CreateNotebookInput!
+  $rdviUserEmail: String!
+) {
+  create_notebook(
+    deploymentId: $deploymentId
+    notebook: $notebook
+    rdviUserEmail: $rdviUserEmail
+  ) {
+    notebookId
+  }
+}

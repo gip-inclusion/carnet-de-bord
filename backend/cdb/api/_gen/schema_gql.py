@@ -32,6 +32,25 @@ schema = build_schema(
       _nin: [Boolean!]
     }
 
+    input CreateNotebookInput {
+      address: String
+      address2: String
+      cafNumber: String
+      city: String
+      dateOfBirth: date!
+      email: String
+      externalId: String
+      firstname: String!
+      lastname: String!
+      mobileNumber: String
+      nir: String!
+      postal_code: String
+    }
+
+    type CreateNotebookOutput {
+      notebookId: uuid!
+    }
+
     """
     Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
     """
@@ -5408,6 +5427,9 @@ schema = build_schema(
 
     """mutation root"""
     type mutation_root {
+      """Notebook creation"""
+      create_notebook(deploymentId: uuid!, notebook: CreateNotebookInput!, rdviUserEmail: String!): CreateNotebookOutput
+
       """Create NPS Rating"""
       create_nps_rating(score: Int!): NPSRatingOutput
 

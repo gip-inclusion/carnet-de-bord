@@ -1,4 +1,12 @@
 type Mutation {
+  create_notebook(
+    rdviUserEmail: String!
+    deploymentId: uuid!
+    notebook: CreateNotebookInput!
+  ): CreateNotebookOutput
+}
+
+type Mutation {
   create_nps_rating(
     score: Int!
   ): NPSRatingOutput
@@ -62,10 +70,39 @@ input UpdateSocioProNotebookSituationInsertInput {
   situationId: uuid!
 }
 
+input CreateBeneficiaryNotebookInput {
+  rdviUserEmail: String!
+  deploymentId: uuid!
+  notebook: CreateNotebookInput!
+}
+
+input CreateNotebookInput {
+  nir: String!
+  externalId: String
+  firstname: String!
+  lastname: String!
+  dateOfBirth: date!
+  mobileNumber: String
+  email: String
+  address: String
+  address2: String
+  postal_code: String
+  city: String
+  cafNumber: String
+}
+
 type NPSRatingOutput {
   void: String
 }
 
 type UpdateSocioProOutput {
   id: uuid!
+}
+
+type CreateBeneficiaryNotebookOutput {
+  notebookId: uuid!
+}
+
+type CreateNotebookOutput {
+  notebookId: uuid!
 }

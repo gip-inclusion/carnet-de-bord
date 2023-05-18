@@ -1,6 +1,7 @@
-import { getBackendAPI, getRdvISecret } from '$lib/config/variables/private';
+import { getGraphqlAPI, getRdvISecret } from '$lib/config/variables/private';
 import { error } from '@sveltejs/kit';
 import * as yup from 'yup';
+import { createClient } from '@urql/core';
 
 import type { RequestHandler } from './$types';
 import { createGraphqlAdminClient } from '$lib/graphql/createAdminClient';
@@ -8,6 +9,9 @@ import {
 	GetAccountByEmailDocument,
 	RoleEnum,
 	type GetAccountByEmailQuery,
+	CreateNotebookDocument,
+	type CreateNotebookMutation,
+	type CreateNotebookMutationVariables,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { logger } from '$lib/utils/logger';
 import { createJwt } from '$lib/utils/getJwt';
@@ -15,6 +19,22 @@ import { createJwt } from '$lib/utils/getJwt';
 const bodySchema = yup.object().shape({
 	rdviUserEmail: yup.string().required(),
 	deploymentId: yup.string().uuid().required(),
+	notebook: yup.object().shape({
+		nir: yup.string().required(),
+		externalId: yup.string(),
+		firstname: yup.string().required(),
+		lastname: yup.string().required(),
+		// we keep the date as a string to let
+		// Hasura to be the single point of validation
+		dateOfBirth: yup.string().required(),
+		mobileNumber: yup.string(),
+		email: yup.string(),
+		address1: yup.string(),
+		address2: yup.string(),
+		postalCode: yup.string(),
+		city: yup.string(),
+		cafNumber: yup.string(),
+	}),
 });
 type BodyType = yup.InferType<typeof bodySchema>;
 
@@ -72,23 +92,28 @@ export const POST = (async ({ request }) => {
 		type: RoleEnum.Manager,
 		deploymentId: body.deploymentId,
 	});
-
-	const url = getBackendAPI();
-	return fetch(`${url}/v1/notebooks`, {
-		method: 'POST',
-		body: JSON.stringify(body),
-		headers: {
-			Accept: 'application/json; version=1.0',
-			authorization: `Bearer ${jwt}`,
-
-			// Prevent the fetch implementation (undici most likely) from requesting
-			// compressed data from the upstream server. Because the same fetch implementation
-			// automatically uncompresses the received data, it would make work for this proxy
-			// and require us to scrub the 'Content-Encoding' header from the response before
-			// forwarding it.
-			// The Scalingo router will compress our responses for the client if necessary in
-			// any case.
-			'Accept-Encoding': 'identity',
+	const authorizedClient = createClient({
+		fetchOptions: {
+			headers: {
+				'Content-Type': 'application/json',
+				Authorization: `Bearer ${jwt}`,
+			},
 		},
+		requestPolicy: 'network-only',
+		url: getGraphqlAPI(),
 	});
+
+	// TODO:
+	//	- Ajouter des tests sur l'appel à la mutation
+	//  - Ajouter des tests et adapter le code pour gérer les erreurs retournées par la mutation
+	//  - Ajouter des tests sur le retour en cas de succès
+	const createNotebookResult = await authorizedClient
+		.mutation<CreateNotebookMutation, CreateNotebookMutationVariables>(CreateNotebookDocument, body)
+		.toPromise();
+	if (createNotebookResult.error) {
+		throw error(400, { message: createNotebookResult.error.toString() });
+	}
+	return new Response(
+		JSON.stringify({ notebookId: createNotebookResult.data.create_notebook.notebookId })
+	);
 }) satisfies RequestHandler;
