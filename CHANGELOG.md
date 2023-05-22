@@ -1,3 +1,10 @@
+## [1.221.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.221.0...v1.221.1) (2023-05-22)
+
+
+### Reverts
+
+* Revert "feat(actions): ✨ add start date (#1731)" (#1754) ([064f03d](https://github.com/gip-inclusion/carnet-de-bord/commit/064f03d9c8cc07b42d0fc668f8e608448dc71d5a)), closes [#1731](https://github.com/gip-inclusion/carnet-de-bord/issues/1731) [#1754](https://github.com/gip-inclusion/carnet-de-bord/issues/1754)
+
 # [1.221.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.220.0...v1.221.0) (2023-05-22)
 
 
