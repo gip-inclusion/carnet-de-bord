@@ -6,29 +6,20 @@
 	import { OrientationRequestStatus } from '$lib/constants/keys';
 	import { accountData, openComponent } from '$lib/stores';
 	import { baseUrlForRole } from '$lib/routes';
-	import {
-		type GetNotebookEventsQueryStore,
-		RoleEnum,
-		NotebookEventTypeEnum,
-	} from '$lib/graphql/_gen/typed-document-nodes';
+	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		GetNotebookDocument,
-		GetNotebookEventsDocument,
 		UpdateNotebookVisitDateDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { stringsMatch } from '$lib/helpers';
-	import { MainSection, SearchBar, Select } from '$lib/ui/base';
+	import { MainSection } from '$lib/ui/base';
+	import NotebookEventList from '$lib/ui/NotebookEvent/NotebookEventList.svelte';
 	import { ProNotebookFocusView } from '$lib/ui/ProNotebookFocus';
 	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 	import { ProNotebookPersonalInfoView } from '$lib/ui/ProNotebookPersonalInfo';
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import CreateOrientationRequest from '$lib/ui/OrientationRequest/CreateOrientationRequestForm.svelte';
 	import { LoaderIndicator } from '$lib/ui/utils';
-	import { actionStatusValues, eventTypes, targetStatusValues } from '$lib/constants';
-	import { formatDateLocale } from '$lib/utils/date';
 	import { mutation, operationStore, query } from '@urql/svelte';
-	import { addMonths } from 'date-fns';
-	import { focusThemeKeys } from '$lib/constants/keys';
 	import ProOrientationRequestBanner from '$lib/ui/OrientationRequest/ProOrientationRequestBanner.svelte';
 	import Portal from 'svelte-portal';
 	import { Elm as RsaRightNotice } from '../../../../../../elm/RsaRightNotice/Main.elm';
@@ -50,124 +41,26 @@
 		});
 	};
 
-	function toDateFormat(date: Date) {
-		const yyyy = date.getFullYear().toString().padStart(4, '0');
-		const mm = (1 + date.getMonth()).toString().padStart(2, '0');
-		const dd = date.getDate().toString().padStart(2, '0');
-
-		return `${yyyy}-${mm}-${dd}`;
-	}
-
-	function eventCategory(event): string {
-		if (
-			(event.eventType == NotebookEventTypeEnum.Action ||
-				event.eventType == NotebookEventTypeEnum.Target) &&
-			focusThemeKeys.byKey[event.event.category]
-		) {
-			return (
-				constantToString(event.eventType, eventTypes) +
-				' ' +
-				focusThemeKeys.byKey[event.event.category]
-			);
-		} else {
-			return 'Action inconnue';
-		}
-	}
-
-	function constantToString(
-		status: string,
-		statusValues: { label: string; name: string }[]
-	): string {
-		const status_string: { label: string; name: string } = statusValues.find(
-			(v) => v.name == status
-		);
-
-		return status_string ? status_string.label : 'Inconnu';
-	}
-
-	function buildQueryVariables<Vars>(
-		variables: Vars & {
-			eventsStart?: string;
-			eventsEnd?: string;
-		},
-		selected: Period
-	) {
-		let eventsStart: Date;
-		let eventsEnd: Date;
-		const today = new Date();
-		if (selected === threeMonths) {
-			eventsStart = addMonths(today, -3);
-		} else if (selected === threeSixMonths) {
-			eventsStart = addMonths(today, -6);
-			eventsEnd = addMonths(today, -3);
-		} else if (selected === sixTwelveMonths) {
-			eventsStart = addMonths(today, -12);
-			eventsEnd = addMonths(today, -6);
-		} else if (selected === twelveMonths) {
-			eventsEnd = addMonths(today, -12);
-		}
-
-		if (eventsStart) {
-			variables.eventsStart = toDateFormat(eventsStart);
-		}
-		if (eventsEnd) {
-			variables.eventsEnd = toDateFormat(eventsEnd);
-		}
-		return variables;
-	}
-	const allEvents = 'allEvents';
-	const threeMonths = '-3months';
-	const threeSixMonths = '3-6months';
-	const sixTwelveMonths = '6-12months';
-	const twelveMonths = '+12months';
-
-	type Period =
-		| typeof allEvents
-		| typeof threeMonths
-		| typeof threeSixMonths
-		| typeof sixTwelveMonths
-		| typeof twelveMonths
-		| null;
-	let selected: Period = threeMonths;
-
 	export let data: PageData;
 
 	const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
-	const getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
-		GetNotebookEventsDocument,
-		{ notebookId: data.notebookId },
-		{ pause: true }
-	);
 	const variables = { id: data.notebookId };
-	const getNotebook = operationStore(
-		GetNotebookDocument,
-		buildQueryVariables(variables, selected),
-		{
-			additionalTypenames: [
-				'notebook_focus',
-				'notebook_action',
-				'notebook_appointment',
-				'orientation_request',
-			],
-		}
-	);
+	const getNotebook = operationStore(GetNotebookDocument, variables, {
+		additionalTypenames: [
+			'notebook_focus',
+			'notebook_action',
+			'notebook_appointment',
+			'orientation_request',
+		],
+	});
 
 	query(getNotebook);
-	query(getNotebookEvents);
 
 	const updateVisitDateMutation = mutation(updateVisitDateStore);
 	updateVisitDateMutation({
 		id: data.notebookId,
 		date: new Date().toISOString(),
 	});
-
-	function onSelect(event: CustomEvent<{ selected: Period }>) {
-		selected = event.detail.selected;
-		$getNotebookEvents.context.pause = false;
-		const variables = { notebookId: data.notebookId };
-		$getNotebookEvents.variables = buildQueryVariables(variables, selected);
-		$getNotebookEvents.reexecute();
-	}
 
 	const requireReorientation = () => {
 		openComponent.open({
@@ -180,12 +73,11 @@
 
 	function refreshNotebook() {
 		$getNotebook.reexecute({ requestPolicy: 'network-only' });
-		$getNotebookEvents.reexecute({ requestPolicy: 'network-only' });
+		//@TODO: reload events componenent NotebookEventList ?
 	}
 
 	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
 	$: notebook = publicNotebook?.notebook;
-	$: events = $getNotebookEvents.data?.notebook_event || notebook?.events;
 	$: beneficiary = publicNotebook?.beneficiary;
 	$: members = publicNotebook?.members ?? [];
 	$: appointments = notebook?.appointments ?? [];
@@ -196,22 +88,6 @@
 		? publicNotebook.previousReferent[0]
 		: null;
 
-	let search = '';
-
-	$: filteredEvents = events;
-
-	const allValues = targetStatusValues.concat(actionStatusValues);
-
-	function handleSearch() {
-		const matcher = stringsMatch(search);
-		filteredEvents = events?.filter(
-			(filtered_event) =>
-				matcher(filtered_event.event.event_label) ||
-				matcher(filtered_event.creator?.professional?.structure.name) ||
-				matcher(eventCategory(filtered_event)) ||
-				matcher(constantToString(filtered_event.event.status, allValues))
-		);
-	}
 	$: isReferent = members.some(
 		(member) => member.account.id === $accountData.id && member.memberType === 'referent'
 	);
@@ -300,82 +176,7 @@
 					<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 				</MainSection>
 			{/if}
-			{#if notebook?.events}
-				<MainSection title="Historique de parcours">
-					<div class="flex flex-row justify-between mb-2">
-						<Select
-							on:select={onSelect}
-							options={[
-								{ name: allEvents, label: 'Tous les évènements' },
-								{ name: threeMonths, label: 'Dans les 3 derniers mois' },
-								{ name: threeSixMonths, label: 'Entre les 3 et 6 derniers mois' },
-								{ name: sixTwelveMonths, label: 'Entre les 6 et 12 derniers mois' },
-								{ name: twelveMonths, label: 'Il y a plus de 12 mois' },
-							]}
-							{selected}
-							selectHint="Sélectionner un filtre"
-							selectLabel="Période"
-							classNames="self-center"
-							twWidthClass="w-5/12"
-						/>
-						<SearchBar
-							inputLabel=""
-							inputHint="Axe de travail, action, structure"
-							bind:search
-							handleSubmit={handleSearch}
-							classNames="self-center"
-							twWidthClass="w-5/12"
-						/>
-					</div>
-					<div class={`w-full fr-table fr-table--layout-fixed`}>
-						<table class="w-full">
-							<thead>
-								<tr>
-									<th>Date</th>
-									<th>Catégorie</th>
-									<th>Évènements</th>
-									<th>Structure</th>
-									<th>Statut</th>
-								</tr>
-							</thead>
-							<tbody class="w-full">
-								{#each filteredEvents || [] as event (event.id)}
-									<tr>
-										<td>{formatDateLocale(event.eventDate)} </td>
-										<td>{eventCategory(event)}</td>
-										<td>{event.event.event_label}</td>
-										<td
-											>{#if !event.creator && event.event.from == 'pole_emploi'}
-												Pôle emploi
-											{:else}
-												{event.creator?.professional?.structure.name ?? '-'}
-											{/if}</td
-										>
-										<td
-											>{constantToString(
-												event.event.status,
-												event.eventType == NotebookEventTypeEnum.Action
-													? actionStatusValues
-													: targetStatusValues
-											)}</td
-										>
-									</tr>
-								{:else}
-									<tr class="shadow-sm">
-										<td class="!text-center" colspan="5">
-											{#if events.length > 0}
-												Aucun évènement ne correspond à votre recherche.
-											{:else}
-												Aucun évènement pour le moment.
-											{/if}
-										</td>
-									</tr>
-								{/each}
-							</tbody>
-						</table>
-					</div>
-				</MainSection>
-			{/if}
+			<NotebookEventList {notebook} />
 		</div>
 	{/if}
 </LoaderIndicator>
