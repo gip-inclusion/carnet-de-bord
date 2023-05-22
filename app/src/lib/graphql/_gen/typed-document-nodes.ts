@@ -6999,6 +6999,7 @@ export type NotebookAction = {
 	creatorId: Scalars['uuid'];
 	id: Scalars['uuid'];
 	status: ActionStatusEnum;
+	startingAt: Scalars['timestamptz'];
 	/** An object relationship */
 	target: NotebookTarget;
 	targetId: Scalars['uuid'];
@@ -7062,6 +7063,7 @@ export type NotebookActionBoolExp = {
 	creatorId?: InputMaybe<UuidComparisonExp>;
 	id?: InputMaybe<UuidComparisonExp>;
 	status?: InputMaybe<ActionStatusEnumComparisonExp>;
+	startingAt?: InputMaybe<TimestamptzComparisonExp>;
 	target?: InputMaybe<NotebookTargetBoolExp>;
 	targetId?: InputMaybe<UuidComparisonExp>;
 	updatedAt?: InputMaybe<TimestamptzComparisonExp>;
@@ -7083,6 +7085,7 @@ export type NotebookActionInsertInput = {
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<ActionStatusEnum>;
+	startingAt?: InputMaybe<Scalars['timestamptz']>;
 	target?: InputMaybe<NotebookTargetObjRelInsertInput>;
 	targetId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
@@ -7095,6 +7098,7 @@ export type NotebookActionMaxFields = {
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	startingAt?: Maybe<Scalars['timestamptz']>;
 	targetId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -7105,6 +7109,7 @@ export type NotebookActionMaxOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	startingAt?: InputMaybe<OrderBy>;
 	targetId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -7116,6 +7121,7 @@ export type NotebookActionMinFields = {
 	createdAt?: Maybe<Scalars['timestamptz']>;
 	creatorId?: Maybe<Scalars['uuid']>;
 	id?: Maybe<Scalars['uuid']>;
+	startingAt?: Maybe<Scalars['timestamptz']>;
 	targetId?: Maybe<Scalars['uuid']>;
 	updatedAt?: Maybe<Scalars['timestamptz']>;
 };
@@ -7126,6 +7132,7 @@ export type NotebookActionMinOrderBy = {
 	createdAt?: InputMaybe<OrderBy>;
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
+	startingAt?: InputMaybe<OrderBy>;
 	targetId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
 };
@@ -7154,6 +7161,7 @@ export type NotebookActionOrderBy = {
 	creatorId?: InputMaybe<OrderBy>;
 	id?: InputMaybe<OrderBy>;
 	status?: InputMaybe<OrderBy>;
+	startingAt?: InputMaybe<OrderBy>;
 	target?: InputMaybe<NotebookTargetOrderBy>;
 	targetId?: InputMaybe<OrderBy>;
 	updatedAt?: InputMaybe<OrderBy>;
@@ -7175,6 +7183,8 @@ export enum NotebookActionSelectColumn {
 	/** column name */
 	Id = 'id',
 	/** column name */
+	StartingAt = 'startingAt',
+	/** column name */
 	Status = 'status',
 	/** column name */
 	TargetId = 'targetId',
@@ -7189,6 +7199,7 @@ export type NotebookActionSetInput = {
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<ActionStatusEnum>;
+	startingAt?: InputMaybe<Scalars['timestamptz']>;
 	targetId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -7208,6 +7219,7 @@ export type NotebookActionStreamCursorValueInput = {
 	creatorId?: InputMaybe<Scalars['uuid']>;
 	id?: InputMaybe<Scalars['uuid']>;
 	status?: InputMaybe<ActionStatusEnum>;
+	startingAt?: InputMaybe<Scalars['timestamptz']>;
 	targetId?: InputMaybe<Scalars['uuid']>;
 	updatedAt?: InputMaybe<Scalars['timestamptz']>;
 };
@@ -7222,6 +7234,8 @@ export enum NotebookActionUpdateColumn {
 	CreatorId = 'creatorId',
 	/** column name */
 	Id = 'id',
+	/** column name */
+	StartingAt = 'startingAt',
 	/** column name */
 	Status = 'status',
 	/** column name */
@@ -17798,6 +17812,7 @@ export type AddNotebookActionMutationVariables = Exact<{
 	action: Scalars['String'];
 	targetId: Scalars['uuid'];
 	status: ActionStatusEnum;
+	startingAt: Scalars['timestamptz'];
 }>;
 
 export type AddNotebookActionMutation = {
@@ -24407,6 +24422,14 @@ export const AddNotebookActionDocument = {
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'action_status_enum' } },
 					},
 				},
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'startingAt' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
+					},
+				},
 			],
 			selectionSet: {
 				kind: 'SelectionSet',
@@ -24435,6 +24458,11 @@ export const AddNotebookActionDocument = {
 											kind: 'ObjectField',
 											name: { kind: 'Name', value: 'status' },
 											value: { kind: 'Variable', name: { kind: 'Name', value: 'status' } },
+										},
+										{
+											kind: 'ObjectField',
+											name: { kind: 'Name', value: 'startingAt' },
+											value: { kind: 'Variable', name: { kind: 'Name', value: 'startingAt' } },
 										},
 									],
 								},

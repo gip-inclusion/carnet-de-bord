@@ -41,9 +41,10 @@
 					action: params.action,
 					targetId: target.id,
 					status: params.status,
+				startingAt: params.startingAt,
 				});
+			app.ports.hasAddSucceeded.send(!addResult.error);
 				if (addResult.error) {
-					app.ports.addFailed.send('');
 					captureException(new Error(JSON.stringify(addResult.error)));
 				} else {
 					app.ports.refreshActions.send('');
@@ -60,6 +61,8 @@
 				if (updateResult.error) {
 					app.ports.updateStatusFailed.send('');
 					captureException(new Error(JSON.stringify(addResult.error)));
+			} else {
+				app.ports.refreshActions.send('');
 				}
 			}
 		);

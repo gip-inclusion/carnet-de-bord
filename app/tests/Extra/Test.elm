@@ -1,16 +1,14 @@
-module Extra.Test exposing (..)
+module Extra.Test exposing (findButtonByText)
 
-import Expect
-import Test exposing (..)
+import Test.Html.Query as Query
+import Test.Html.Selector as Selector
 
-parameterTest : String -> List a -> (a -> Expect.Expectation) -> Test
-parameterTest name parameters testF =
-    describe name
-        (parameters
-            |> List.map
-                (\value ->
-                    test ("Example: " ++ Debug.toString value) <|
-                        \_ ->
-                            testF value
-                )
-        )
+
+findButtonByText : String -> Query.Single msg -> Query.Single msg
+findButtonByText buttonText =
+    Query.find
+        [ Selector.tag "button"
+        , Selector.containing
+            [ Selector.text buttonText
+            ]
+        ]
