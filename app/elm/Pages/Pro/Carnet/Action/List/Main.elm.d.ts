@@ -11,7 +11,6 @@ export type AddAction = {
 	targetId: string;
 	action: string;
 	status: string;
-	startingAt: string;
 };
 
 export interface ElmApp {
