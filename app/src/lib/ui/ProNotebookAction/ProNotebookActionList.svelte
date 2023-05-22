@@ -34,22 +34,21 @@
 		});
 
 		app.ports.sendError.subscribe((message: string) => captureException(new Error(message)));
-		app.ports.addAction.subscribe(
-			async (params: { action: string; targetId: string; status: ActionStatusEnum }) => {
-				trackEvent('pro', 'notebook', `add action ${params.action}`);
-				addResult = await createActionMutation({
-					action: params.action,
-					targetId: target.id,
-					status: params.status,
-				});
-				if (addResult.error) {
-					app.ports.addFailed.send('');
-					captureException(new Error(JSON.stringify(addResult.error)));
-				} else {
-					app.ports.refreshActions.send('');
-				}
+		app.ports.addAction.subscribe(async (params) => {
+			trackEvent('pro', 'notebook', `add action ${params.action}`);
+			addResult = await createActionMutation({
+				action: params.action,
+				targetId: target.id,
+				status: params.status as ActionStatusEnum,
+				startingAt: params.startingAt,
+			});
+			app.ports.hasAddSucceeded.send(!addResult.error);
+			if (addResult.error) {
+				captureException(new Error(JSON.stringify(addResult.error)));
+			} else {
+				app.ports.refreshActions.send('');
 			}
-		);
+		});
 		app.ports.updateStatus.subscribe(
 			async (params: { actionId: string; status: ActionStatusEnum }) => {
 				updateResult = await updateNotebookAction({
@@ -60,6 +59,8 @@
 				if (updateResult.error) {
 					app.ports.updateStatusFailed.send('');
 					captureException(new Error(JSON.stringify(addResult.error)));
+				} else {
+					app.ports.refreshActions.send('');
 				}
 			}
 		);

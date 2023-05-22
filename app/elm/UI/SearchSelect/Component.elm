@@ -1,4 +1,4 @@
-module UI.SearchSelect.Component exposing (Model, Msg(..), getSelected, init, update, view)
+module UI.SearchSelect.Component exposing (Model, Msg(..), Option, SearchApi, getSelected, init, reset, update, view)
 
 {-| Documentation et exemple sur elm-book. Rome.Select utilise également ce composant pour exemple.
 -}
@@ -16,40 +16,40 @@ import UI.SearchSelect.View
 -- Init
 
 
-type alias Model a =
-    { props : UI.SearchSelect.View.Props a
-    , selected : Maybe a
-    , debouncer : Debouncer.Debouncer (Msg a)
-    , api :
-        { search : String
-        , callbackMsg : Result Http.Error (List a) -> Msg a
-        }
-        -> Cmd (Msg a)
-    , postProcess : List a -> List a
+type alias Option =
+    { id : String, label : String }
+
+
+type alias SearchApi =
+    { search : String
+    , callbackMsg : Result Http.Error (List Option) -> Msg
+    }
+    -> Cmd Msg
+
+
+type alias Model =
+    { props : UI.SearchSelect.View.Props Option
+    , selected : Maybe Option
+    , debouncer : Debouncer.Debouncer Msg
+    , api : SearchApi
     }
 
 
 init :
     { id : String
-    , selected : Maybe a
-    , api :
-        { search : String
-        , callbackMsg : Result Http.Error (List a) -> Msg a
-        }
-        -> Cmd (Msg a)
-    , optionLabel : a -> String
+    , selected : Maybe Option
+    , api : SearchApi
     , label : String
     , searchPlaceholder : String
     , defaultOption : String
-    , postProcess : List a -> List a
     }
-    -> Model a
+    -> Model
 init props =
     { props =
         UI.SearchSelect.View.init
             { id = props.id
             , selected = props.selected
-            , optionLabel = props.optionLabel
+            , optionLabel = .label
             , label = props.label
             , searchPlaceholder = props.searchPlaceholder
             , defaultOption = props.defaultOption
@@ -57,29 +57,49 @@ init props =
     , selected = props.selected
     , debouncer = debounce (fromSeconds 0.5) |> toDebouncer
     , api = props.api
-    , postProcess = props.postProcess
     }
 
 
-getSelected : Model a -> Maybe a
+getSelected : Model -> Maybe Option
 getSelected model =
     model.props.selected
+
+
+reset : Model -> Model
+reset model =
+    let
+        props =
+            model.props
+    in
+    { model
+        | props =
+            UI.SearchSelect.View.init
+                { id = props.id
+                , selected = Nothing
+                , optionLabel = props.optionLabel
+                , label = props.label
+                , searchPlaceholder = props.searchPlaceholder
+                , defaultOption = props.defaultOption
+                }
+        , selected = Nothing
+    }
 
 
 
 -- Update
 
 
-type Msg a
-    = Fetched (Result Http.Error (List a))
+type Msg
+    = Fetched (Result Http.Error (List Option))
     | Search String
     | Open
-    | SelectMsg (Select.Msg a)
-    | Select a
-    | DebouncerMsg (Debouncer.Msg (Msg a))
+    | SelectMsg (Select.Msg Option)
+    | Select Option
+    | DebouncerMsg (Debouncer.Msg Msg)
+    | Reset
 
 
-update : Msg a -> Model a -> ( Model a, Cmd (Msg a) )
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         SelectMsg selectMsg ->
@@ -124,12 +144,12 @@ update msg model =
                             )
                         )
 
-                -- Because it's being used as a dropdown we want a fresh state
+                -- Because it's being used as dropdown we want fresh state
                 -- every time an action is clicked.
                 ( _, focusedSelectState, cmds ) =
                     -- Focusing the select. Using the Select Cmd
                     -- ensures the menu is open on focus which is what you probably want
-                    -- for a dropdown menu.
+                    -- for dropdown menu.
                     Select.update Select.focus selectElement
             in
             ( model |> updateState focusedSelectState
@@ -144,7 +164,9 @@ update msg model =
         Fetched result ->
             case result of
                 Ok values ->
-                    ( model |> updateStatus (values |> model.postProcess |> UI.SearchSelect.View.Success), Cmd.none )
+                    ( model |> updateStatus (values |> UI.SearchSelect.View.Success)
+                    , Cmd.none
+                    )
 
                 Err httpError ->
                     ( model |> updateStatus UI.SearchSelect.View.Failed
@@ -157,8 +179,11 @@ update msg model =
         Select value ->
             ( model |> updateSelected (Just value), Cmd.none )
 
+        Reset ->
+            ( reset model, Cmd.none )
 
-updateStatus : UI.SearchSelect.View.Status a -> Model a -> Model a
+
+updateStatus : UI.SearchSelect.View.Status Option -> Model -> Model
 updateStatus next model =
     let
         props =
@@ -167,7 +192,7 @@ updateStatus next model =
     { model | props = { props | status = next } }
 
 
-updateState : Select.State -> Model a -> Model a
+updateState : Select.State -> Model -> Model
 updateState next model =
     let
         props =
@@ -176,7 +201,7 @@ updateState next model =
     { model | props = { props | state = next } }
 
 
-updateSelected : Maybe a -> Model a -> Model a
+updateSelected : Maybe Option -> Model -> Model
 updateSelected next model =
     let
         props =
@@ -185,7 +210,7 @@ updateSelected next model =
     { model | props = { props | selected = next }, selected = next }
 
 
-debouncerConfig : Debouncer.UpdateConfig (Msg a) (Model a)
+debouncerConfig : Debouncer.UpdateConfig Msg Model
 debouncerConfig =
     { mapMsg = DebouncerMsg
     , getDebouncer = .debouncer
@@ -197,7 +222,7 @@ debouncerConfig =
 -- View
 
 
-view : Model a -> Html.Html (Msg a)
+view : Model -> Html.Html Msg
 view model =
     UI.SearchSelect.View.view model.props
         { onOpen = Open

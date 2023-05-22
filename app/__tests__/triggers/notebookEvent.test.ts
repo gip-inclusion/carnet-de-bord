@@ -26,9 +26,8 @@ describe('notebook_event trigger', () => {
 			target: 'test target',
 		});
 		const payload = await graphqlPro(eventQuery);
-		if (addTargetPayload.errors) {
-			console.error(addTargetPayload.errors);
-		}
+		expect(payload.errors).toMatchInlineSnapshot('undefined');
+
 		const [{ id, eventType, event }] = payload.data.notebook_event;
 		expect(eventType).toEqual('target');
 		expect(event).toEqual({
@@ -54,10 +53,9 @@ describe('notebook_event trigger', () => {
 			targetId: '7bfa2130-fe72-418e-8486-000c171cb853',
 			action: 'test action',
 			status: 'in_progress',
+			startingAt: '2023-05-11T00:00:00Z',
 		});
-		if (addActionPayload.errors) {
-			console.error(addActionPayload.errors);
-		}
+		expect(addActionPayload.errors).toMatchInlineSnapshot('undefined');
 		const payload = await graphqlPro(eventQuery);
 
 		const [{ id, eventType, event }] = payload.data.notebook_event;

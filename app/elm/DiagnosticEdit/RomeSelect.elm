@@ -12,15 +12,15 @@ import UI.SearchSelect.Component
 -- Init
 
 
-decoder : Decode.Decoder Rome
+decoder : Decode.Decoder UI.SearchSelect.Component.Option
 decoder =
-    Decode.map2 Rome
+    Decode.map2 UI.SearchSelect.Component.Option
         (Decode.field "id" Decode.string)
         (Decode.field "label" Decode.string)
 
 
 type alias Model =
-    UI.SearchSelect.Component.Model Rome
+    UI.SearchSelect.Component.Model
 
 
 init :
@@ -34,15 +34,13 @@ init props =
         { id = props.id
         , selected = props.selected
         , api = getRome
-        , optionLabel = .label
         , label = "Métier recherché"
         , searchPlaceholder = "Rechercher un métier ou un code ROME"
         , defaultOption = "Projet en construction"
-        , postProcess = \id -> id
         }
 
 
-getRome : { search : String, callbackMsg : Result Http.Error (List Rome) -> Msg } -> Cmd Msg
+getRome : UI.SearchSelect.Component.SearchApi
 getRome { search, callbackMsg } =
     let
         query =
@@ -91,7 +89,7 @@ getSelected =
 
 
 type alias Msg =
-    UI.SearchSelect.Component.Msg Rome
+    UI.SearchSelect.Component.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
