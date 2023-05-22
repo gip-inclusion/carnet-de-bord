@@ -9,12 +9,12 @@ import UI.Select.View
 
 
 type ActionStatus
-    = InProgress
+    = Planned
+    | InProgress
+    | Standby
     | Done
     | AbandonnedByBeneficiary
     | CanceledByStructure
-    | Standby
-    | Planned
 
 
 
@@ -30,9 +30,15 @@ next : List ActionStatus -> List ActionStatus
 next list =
     case list |> List.head of
         Nothing ->
+            next (Planned :: list)
+
+        Just Planned ->
             next (InProgress :: list)
 
         Just InProgress ->
+            next (Standby :: list)
+
+        Just Standby ->
             next (Done :: list)
 
         Just Done ->
@@ -42,12 +48,6 @@ next list =
             next (CanceledByStructure :: list)
 
         Just CanceledByStructure ->
-            next (Standby :: list)
-
-        Just Standby ->
-            next (Planned :: list)
-
-        Just Planned ->
             list
 
 
