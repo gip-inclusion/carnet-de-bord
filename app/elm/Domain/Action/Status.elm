@@ -88,7 +88,7 @@ codeOf statut =
             "abandonned"
 
         CanceledByStructure ->
-            "cancel"
+            "canceled"
 
         Planned ->
             "planned"
