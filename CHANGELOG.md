@@ -1,3 +1,10 @@
+# [1.220.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.9...v1.220.0) (2023-05-22)
+
+
+### Features
+
+* ajout des nouveaux statuts d'action ([#1752](https://github.com/gip-inclusion/carnet-de-bord/issues/1752)) ([57ebf29](https://github.com/gip-inclusion/carnet-de-bord/commit/57ebf290212b91efa97e0cc748881c8ec545cac3))
+
 ## [1.219.9](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.8...v1.219.9) (2023-05-17)
 
 
