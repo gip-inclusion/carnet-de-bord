@@ -36,7 +36,9 @@
 		"fix:elm-review": "elm-review --fix",
 		"fix:elm-review:all": "elm-review --fix-all",
 		"format": "npm run fix:prettier",
-		"codegen": "graphql-codegen --config codegen.cjs",
+		"codegen": "npm run codegen:svelte && npm run codegen:elm",
+		"codegen:svelte": "graphql-codegen --config codegen.cjs",
+		"codegen:elm": "elm-graphql http://localhost:5000/v1/graphql --base CdbGQL --output elm --header 'x-hasura-admin-secret: admin'",
 		"test": "npm run test:elm && npm run test:svelte",
 		"test:elm": "elm-test-rs \"tests/**/*Tests.elm\" \"elm/**/*_Tests.elm\"",
 		"test:elm:watch": "npm run test:elm -- --watch",
@@ -113,6 +115,7 @@
 		"vitest": "0.29.8"
 	},
 	"dependencies": {
+		"@dillonkearns/elm-graphql": "4.3.1",
 		"@gouvfr/dsfr": "^1.7.2",
 		"@sentry/node": "7.46.0",
 		"@sentry/svelte": "7.46.0",

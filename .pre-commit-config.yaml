@@ -12,7 +12,7 @@ repos:
       - id: check-case-conflict
       - id: check-yaml
       - id: end-of-file-fixer
-        exclude: excalidraw
+        exclude: (excalidraw|CdbGQL)
       - id: mixed-line-ending
       - id: trailing-whitespace
         exclude: /__snapshots__/
