@@ -1052,6 +1052,201 @@ schema = build_schema(
       where: account_bool_exp!
     }
 
+    """available actions status"""
+    type action_status {
+      """An array relationship"""
+      notebook_actions(
+        """distinct select on columns"""
+        distinct_on: [notebook_action_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [notebook_action_order_by!]
+
+        """filter the rows returned"""
+        where: notebook_action_bool_exp
+      ): [notebook_action!]!
+
+      """An aggregate relationship"""
+      notebook_actions_aggregate(
+        """distinct select on columns"""
+        distinct_on: [notebook_action_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [notebook_action_order_by!]
+
+        """filter the rows returned"""
+        where: notebook_action_bool_exp
+      ): notebook_action_aggregate!
+      status: String!
+    }
+
+    """
+    aggregated selection of "action_status"
+    """
+    type action_status_aggregate {
+      aggregate: action_status_aggregate_fields
+      nodes: [action_status!]!
+    }
+
+    """
+    aggregate fields of "action_status"
+    """
+    type action_status_aggregate_fields {
+      count(columns: [action_status_select_column!], distinct: Boolean): Int!
+      max: action_status_max_fields
+      min: action_status_min_fields
+    }
+
+    """
+    Boolean expression to filter rows from the table "action_status". All fields are combined with a logical 'AND'.
+    """
+    input action_status_bool_exp {
+      _and: [action_status_bool_exp!]
+      _not: action_status_bool_exp
+      _or: [action_status_bool_exp!]
+      notebook_actions: notebook_action_bool_exp
+      notebook_actions_aggregate: notebook_action_aggregate_bool_exp
+      status: String_comparison_exp
+    }
+
+    """
+    unique or primary key constraints on table "action_status"
+    """
+    enum action_status_constraint {
+      """
+      unique or primary key constraint on columns "status"
+      """
+      action_status_pkey
+    }
+
+    enum action_status_enum {
+      abandonned
+      canceled
+      done
+      in_progress
+      planned
+      standby
+    }
+
+    """
+    Boolean expression to compare columns of type "action_status_enum". All fields are combined with logical 'AND'.
+    """
+    input action_status_enum_comparison_exp {
+      _eq: action_status_enum
+      _in: [action_status_enum!]
+      _is_null: Boolean
+      _neq: action_status_enum
+      _nin: [action_status_enum!]
+    }
+
+    """
+    input type for inserting data into table "action_status"
+    """
+    input action_status_insert_input {
+      notebook_actions: notebook_action_arr_rel_insert_input
+      status: String
+    }
+
+    """aggregate max on columns"""
+    type action_status_max_fields {
+      status: String
+    }
+
+    """aggregate min on columns"""
+    type action_status_min_fields {
+      status: String
+    }
+
+    """
+    response of any mutation on the table "action_status"
+    """
+    type action_status_mutation_response {
+      """number of rows affected by the mutation"""
+      affected_rows: Int!
+
+      """data from the rows affected by the mutation"""
+      returning: [action_status!]!
+    }
+
+    """
+    on_conflict condition type for table "action_status"
+    """
+    input action_status_on_conflict {
+      constraint: action_status_constraint!
+      update_columns: [action_status_update_column!]! = []
+      where: action_status_bool_exp
+    }
+
+    """Ordering options when selecting data from "action_status"."""
+    input action_status_order_by {
+      notebook_actions_aggregate: notebook_action_aggregate_order_by
+      status: order_by
+    }
+
+    """primary key columns input for table: action_status"""
+    input action_status_pk_columns_input {
+      status: String!
+    }
+
+    """
+    select columns of table "action_status"
+    """
+    enum action_status_select_column {
+      """column name"""
+      status
+    }
+
+    """
+    input type for updating data in table "action_status"
+    """
+    input action_status_set_input {
+      status: String
+    }
+
+    """
+    Streaming cursor of the table "action_status"
+    """
+    input action_status_stream_cursor_input {
+      """Stream column input with initial value"""
+      initial_value: action_status_stream_cursor_value_input!
+
+      """cursor ordering"""
+      ordering: cursor_ordering
+    }
+
+    """Initial value of the column from where the streaming should start"""
+    input action_status_stream_cursor_value_input {
+      status: String
+    }
+
+    """
+    update columns of table "action_status"
+    """
+    enum action_status_update_column {
+      """column name"""
+      status
+    }
+
+    input action_status_updates {
+      """sets the columns of the filtered rows to the given values"""
+      _set: action_status_set_input
+
+      """filter the rows which have to be updated"""
+      where: action_status_bool_exp!
+    }
+
     """
     columns and relationships of "admin_cdb"
     """
@@ -5230,6 +5425,19 @@ schema = build_schema(
       delete_account_by_pk(id: uuid!): account
 
       """
+      delete data from the table: "action_status"
+      """
+      delete_action_status(
+        """filter the rows which have to be deleted"""
+        where: action_status_bool_exp!
+      ): action_status_mutation_response
+
+      """
+      delete single row from the table: "action_status"
+      """
+      delete_action_status_by_pk(status: String!): action_status
+
+      """
       delete data from the table: "admin_cdb"
       """
       delete_admin_cdb(
@@ -5791,6 +5999,28 @@ schema = build_schema(
         """upsert condition"""
         on_conflict: account_on_conflict
       ): account
+
+      """
+      insert data into the table: "action_status"
+      """
+      insert_action_status(
+        """the rows to be inserted"""
+        objects: [action_status_insert_input!]!
+
+        """upsert condition"""
+        on_conflict: action_status_on_conflict
+      ): action_status_mutation_response
+
+      """
+      insert a single row into the table: "action_status"
+      """
+      insert_action_status_one(
+        """the row to be inserted"""
+        object: action_status_insert_input!
+
+        """upsert condition"""
+        on_conflict: action_status_on_conflict
+      ): action_status
 
       """
       insert data into the table: "admin_cdb"
@@ -6737,6 +6967,34 @@ schema = build_schema(
         """updates to execute, in order"""
         updates: [account_updates!]!
       ): [account_mutation_response]
+
+      """
+      update data of the table: "action_status"
+      """
+      update_action_status(
+        """sets the columns of the filtered rows to the given values"""
+        _set: action_status_set_input
+
+        """filter the rows which have to be updated"""
+        where: action_status_bool_exp!
+      ): action_status_mutation_response
+
+      """
+      update single row of the table: "action_status"
+      """
+      update_action_status_by_pk(
+        """sets the columns of the filtered rows to the given values"""
+        _set: action_status_set_input
+        pk_columns: action_status_pk_columns_input!
+      ): action_status
+
+      """
+      update multiples rows of table: "action_status"
+      """
+      update_action_status_many(
+        """updates to execute, in order"""
+        updates: [action_status_updates!]!
+      ): [action_status_mutation_response]
 
       """
       update data of the table: "admin_cdb"
@@ -8341,7 +8599,7 @@ schema = build_schema(
       creator: account!
       creatorId: uuid!
       id: uuid!
-      status: String!
+      status: action_status_enum!
 
       """An object relationship"""
       target: notebook_target!
@@ -8408,7 +8666,7 @@ schema = build_schema(
       creator: account_bool_exp
       creatorId: uuid_comparison_exp
       id: uuid_comparison_exp
-      status: String_comparison_exp
+      status: action_status_enum_comparison_exp
       target: notebook_target_bool_exp
       targetId: uuid_comparison_exp
       updatedAt: timestamptz_comparison_exp
@@ -8438,7 +8696,7 @@ schema = build_schema(
       creator: account_obj_rel_insert_input
       creatorId: uuid
       id: uuid
-      status: String
+      status: action_status_enum
       target: notebook_target_obj_rel_insert_input
       targetId: uuid
       updatedAt: timestamptz
@@ -8450,7 +8708,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      status: String
       targetId: uuid
       updatedAt: timestamptz
     }
@@ -8463,7 +8720,6 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
-      status: order_by
       targetId: order_by
       updatedAt: order_by
     }
@@ -8474,7 +8730,6 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      status: String
       targetId: uuid
       updatedAt: timestamptz
     }
@@ -8487,7 +8742,6 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
-      status: order_by
       targetId: order_by
       updatedAt: order_by
     }
@@ -8564,7 +8818,7 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      status: String
+      status: action_status_enum
       targetId: uuid
       updatedAt: timestamptz
     }
@@ -8586,7 +8840,7 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
-      status: String
+      status: action_status_enum
       targetId: uuid
       updatedAt: timestamptz
     }
@@ -14661,6 +14915,49 @@ schema = build_schema(
       ): account_info_aggregate!
 
       """
+      fetch data from the table: "action_status"
+      """
+      action_status(
+        """distinct select on columns"""
+        distinct_on: [action_status_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [action_status_order_by!]
+
+        """filter the rows returned"""
+        where: action_status_bool_exp
+      ): [action_status!]!
+
+      """
+      fetch aggregated fields from the table: "action_status"
+      """
+      action_status_aggregate(
+        """distinct select on columns"""
+        distinct_on: [action_status_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [action_status_order_by!]
+
+        """filter the rows returned"""
+        where: action_status_bool_exp
+      ): action_status_aggregate!
+
+      """fetch data from the table: "action_status" using primary key columns"""
+      action_status_by_pk(status: String!): action_status
+
+      """
       fetch data from the table: "admin_cdb"
       """
       admin_cdb(
@@ -19294,6 +19591,63 @@ schema = build_schema(
         """filter the rows returned"""
         where: account_bool_exp
       ): [account!]!
+
+      """
+      fetch data from the table: "action_status"
+      """
+      action_status(
+        """distinct select on columns"""
+        distinct_on: [action_status_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [action_status_order_by!]
+
+        """filter the rows returned"""
+        where: action_status_bool_exp
+      ): [action_status!]!
+
+      """
+      fetch aggregated fields from the table: "action_status"
+      """
+      action_status_aggregate(
+        """distinct select on columns"""
+        distinct_on: [action_status_select_column!]
+
+        """limit the number of rows returned"""
+        limit: Int
+
+        """skip the first n rows. Use only with order_by"""
+        offset: Int
+
+        """sort the rows by one or more columns"""
+        order_by: [action_status_order_by!]
+
+        """filter the rows returned"""
+        where: action_status_bool_exp
+      ): action_status_aggregate!
+
+      """fetch data from the table: "action_status" using primary key columns"""
+      action_status_by_pk(status: String!): action_status
+
+      """
+      fetch data from the table in a streaming manner: "action_status"
+      """
+      action_status_stream(
+        """maximum number of rows returned in a single batch"""
+        batch_size: Int!
+
+        """cursor to stream the results returned by the query"""
+        cursor: [action_status_stream_cursor_input]!
+
+        """filter the rows returned"""
+        where: action_status_bool_exp
+      ): [action_status!]!
 
       """
       fetch data from the table: "admin_cdb"

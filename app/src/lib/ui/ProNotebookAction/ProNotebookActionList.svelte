@@ -5,6 +5,7 @@
 		type UpdateActionStatusMutation,
 		AddNotebookActionDocument,
 		type AddNotebookActionMutation,
+		ActionStatusEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { Elm } from '$elm/Pages/Pro/Carnet/Action/List/Main.elm';
 	import ElmWrapper from '$lib/utils/ElmWrapper.svelte';
@@ -33,31 +34,35 @@
 		});
 
 		app.ports.sendError.subscribe((message: string) => captureException(new Error(message)));
-		app.ports.addAction.subscribe(async (params) => {
-			trackEvent('pro', 'notebook', `add action ${params.action}`);
-			addResult = await createActionMutation({
-				action: params.action,
-				targetId: target.id,
-				status: params.status,
-			});
-			if (addResult.error) {
-				app.ports.addFailed.send('');
-				captureException(new Error(JSON.stringify(addResult.error)));
-			} else {
-				app.ports.refreshActions.send('');
+		app.ports.addAction.subscribe(
+			async (params: { action: string; targetId: string; status: ActionStatusEnum }) => {
+				trackEvent('pro', 'notebook', `add action ${params.action}`);
+				addResult = await createActionMutation({
+					action: params.action,
+					targetId: target.id,
+					status: params.status,
+				});
+				if (addResult.error) {
+					app.ports.addFailed.send('');
+					captureException(new Error(JSON.stringify(addResult.error)));
+				} else {
+					app.ports.refreshActions.send('');
+				}
 			}
-		});
-		app.ports.updateStatus.subscribe(async (params) => {
-			updateResult = await updateNotebookAction({
-				id: params.actionId,
-				status: params.status,
-			});
+		);
+		app.ports.updateStatus.subscribe(
+			async (params: { actionId: string; status: ActionStatusEnum }) => {
+				updateResult = await updateNotebookAction({
+					id: params.actionId,
+					status: params.status,
+				});
 
-			if (updateResult.error) {
-				app.ports.updateStatusFailed.send('');
-				captureException(new Error(JSON.stringify(addResult.error)));
+				if (updateResult.error) {
+					app.ports.updateStatusFailed.send('');
+					captureException(new Error(JSON.stringify(addResult.error)));
+				}
 			}
-		});
+		);
 	};
 </script>
 

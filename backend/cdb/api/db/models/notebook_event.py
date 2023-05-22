@@ -12,7 +12,10 @@ class EventFrom(StrEnum):
 class EventStatus(StrEnum):
     done = "done"
     target = "in_progress"
-    abandoned = "abandoned"
+    abandonned = "abandonned"
+    canceled = "canceled"
+    standby = "standby"
+    planned = "planned"
 
 
 class EventType(StrEnum):

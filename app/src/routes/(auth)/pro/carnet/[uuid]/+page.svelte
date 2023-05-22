@@ -9,6 +9,7 @@
 	import {
 		type GetNotebookEventsQueryStore,
 		RoleEnum,
+		NotebookEventTypeEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import {
 		GetNotebookDocument,
@@ -23,8 +24,7 @@
 	import { ProNotebookSocioProView } from '$lib/ui/ProNotebookSocioPro';
 	import CreateOrientationRequest from '$lib/ui/OrientationRequest/CreateOrientationRequestForm.svelte';
 	import { LoaderIndicator } from '$lib/ui/utils';
-	import { eventTypes, statusValues } from '$lib/constants';
-	import { EventType } from '$lib/enums';
+	import { actionStatusValues, eventTypes, targetStatusValues } from '$lib/constants';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { addMonths } from 'date-fns';
@@ -60,7 +60,8 @@
 
 	function eventCategory(event): string {
 		if (
-			(event.eventType == EventType.Action || event.eventType == EventType.Target) &&
+			(event.eventType == NotebookEventTypeEnum.Action ||
+				event.eventType == NotebookEventTypeEnum.Target) &&
 			focusThemeKeys.byKey[event.event.category]
 		) {
 			return (
@@ -199,6 +200,8 @@
 
 	$: filteredEvents = events;
 
+	const allValues = targetStatusValues.concat(actionStatusValues);
+
 	function handleSearch() {
 		const matcher = stringsMatch(search);
 		filteredEvents = events?.filter(
@@ -206,7 +209,7 @@
 				matcher(filtered_event.event.event_label) ||
 				matcher(filtered_event.creator?.professional?.structure.name) ||
 				matcher(eventCategory(filtered_event)) ||
-				matcher(constantToString(filtered_event.event.status, statusValues))
+				matcher(constantToString(filtered_event.event.status, allValues))
 		);
 	}
 	$: isReferent = members.some(
@@ -348,7 +351,14 @@
 												{event.creator?.professional?.structure.name ?? '-'}
 											{/if}</td
 										>
-										<td>{constantToString(event.event.status, statusValues)}</td>
+										<td
+											>{constantToString(
+												event.event.status,
+												event.eventType == NotebookEventTypeEnum.Action
+													? actionStatusValues
+													: targetStatusValues
+											)}</td
+										>
 									</tr>
 								{:else}
 									<tr class="shadow-sm">

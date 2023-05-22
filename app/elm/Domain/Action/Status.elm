@@ -9,9 +9,12 @@ import UI.Select.View
 
 
 type ActionStatus
-    = InProgress
+    = Planned
+    | InProgress
+    | Standby
     | Done
-    | Abandonned
+    | AbandonnedByBeneficiary
+    | CanceledByStructure
 
 
 
@@ -27,15 +30,24 @@ next : List ActionStatus -> List ActionStatus
 next list =
     case list |> List.head of
         Nothing ->
+            next (Planned :: list)
+
+        Just Planned ->
             next (InProgress :: list)
 
         Just InProgress ->
+            next (Standby :: list)
+
+        Just Standby ->
             next (Done :: list)
 
         Just Done ->
-            next (Abandonned :: list)
+            next (AbandonnedByBeneficiary :: list)
 
-        Just Abandonned ->
+        Just AbandonnedByBeneficiary ->
+            next (CanceledByStructure :: list)
+
+        Just CanceledByStructure ->
             list
 
 
@@ -72,8 +84,17 @@ codeOf statut =
         Done ->
             "done"
 
-        Abandonned ->
+        AbandonnedByBeneficiary ->
             "abandonned"
+
+        CanceledByStructure ->
+            "canceled"
+
+        Planned ->
+            "planned"
+
+        Standby ->
+            "standby"
 
 
 toFrenchLabel : ActionStatus -> String
@@ -82,11 +103,20 @@ toFrenchLabel status =
         InProgress ->
             "En cours"
 
-        Abandonned ->
-            "Abandonnée"
+        AbandonnedByBeneficiary ->
+            "Abandonnée par le bénéficiaire"
 
         Done ->
             "Realisée"
+
+        CanceledByStructure ->
+            "Annulée par la structure"
+
+        Planned ->
+            "En projet"
+
+        Standby ->
+            "En attente"
 
 
 select : { id : String, onSelect : ActionStatus -> msg, value : ActionStatus } -> Html msg
