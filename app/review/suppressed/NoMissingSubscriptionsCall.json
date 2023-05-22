@@ -4,7 +4,6 @@
   "learn more": "elm-review suppress --help",
   "suppressions": [
     { "count": 1, "filePath": "elm/Pages/Pro/Carnet/Action/List/Stories.elm" },
-    { "count": 1, "filePath": "tests/Pages/Pro/Carnet/Action/List/AddForm_Tests.elm" },
-    { "count": 1, "filePath": "tests/Pages/Pro/Carnet/Action/List/Page_Tests.elm" }
+    { "count": 1, "filePath": "tests/Pages/Pro/Carnet/Action/List/Tests.elm" }
   ]
 }

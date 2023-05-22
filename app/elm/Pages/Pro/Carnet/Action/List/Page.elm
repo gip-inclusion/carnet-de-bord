@@ -1,17 +1,15 @@
-port module Pages.Pro.Carnet.Action.List.Page exposing (Model, Msg(..), init, subscriptions, update, view)
+port module Pages.Pro.Carnet.Action.List.Page exposing (Error(..), Model, Msg(..), init, subscriptions, update, view)
 
 import BetaGouv.DSFR.Alert
-import Domain.Action.Id exposing (ActionId)
+import Dict exposing (Dict)
+import Domain.Action.Id
 import Domain.Action.Status exposing (ActionStatus)
-import Effect
 import Extra.Date
 import Html
 import Html.Attributes as Attr
-import Pages.Pro.Carnet.Action.List.AddForm as AddForm
+import Html.Events as Evts
+import Pages.Pro.Carnet.Action.List.ActionSelect exposing (RefAction)
 import Pages.Pro.Carnet.Action.List.AllActions exposing (Action)
-import Process
-import Task
-import UI.SearchSelect.Component
 
 
 type alias StatusUpdateOut =
@@ -24,41 +22,75 @@ port updateStatus : StatusUpdateOut -> Cmd msg
 port updateStatusFailed : (String -> msg) -> Sub msg
 
 
+port addAction :
+    { targetId : String
+    , action : String
+    , status : String
+    }
+    -> Cmd msg
+
+
+port addFailed : (String -> msg) -> Sub msg
+
+
 
 -- Init
 
 
 type alias Model =
-    { actions : List Action
-    , addForm : AddForm.Model
-    , statusUpdateFailed : Bool
+    { actions : Dict String Action
+    , theme : String
+    , actionSelect : Pages.Pro.Carnet.Action.List.ActionSelect.Model
+    , error : Maybe Error
     , targetId : String
     }
+
+
+type Error
+    = LineError
+    | AddError
 
 
 init :
     { actions : List Action
-    , actionSearchApi : UI.SearchSelect.Component.SearchApi
     , theme : String
     , targetId : String
     }
     -> ( Model, Cmd Msg )
-init { actions, actionSearchApi, theme, targetId } =
+init { actions, theme, targetId } =
     let
-        ( addForm, addFormCmd ) =
-            AddForm.init
-                { targetId = targetId
-                , actionSearchApi = actionSearchApi
-                , theme = theme
-                }
+        ( actionSelect, actionSelectCmd ) =
+            Pages.Pro.Carnet.Action.List.ActionSelect.init { postProcess = groupRefActionsByTheme theme }
     in
-    ( { actions = actions
-      , statusUpdateFailed = False
+    ( { actions = toActionDict actions
+      , theme = theme
+      , actionSelect = actionSelect
+      , error = Nothing
       , targetId = targetId
-      , addForm = addForm
       }
-    , addFormCmd |> Effect.map AddFormMsg |> Effect.perform
+    , actionSelectCmd |> Cmd.map ActionSelectMsg
     )
+
+
+toActionDict : List Action -> Dict String Action
+toActionDict actions =
+    actions
+        |> List.map (\action -> ( action.id |> Domain.Action.Id.printId, action ))
+        |> Dict.fromList
+
+
+groupRefActionsByTheme : String -> List RefAction -> List RefAction
+groupRefActionsByTheme theme actions =
+    -- First only keep actions of the current theme and sort them alphabetically
+    (actions
+        |> List.filter (\action -> action.theme == theme)
+        |> List.sortBy .description
+    )
+        -- Then keep the other actions and sort them alphabetically
+        ++ (actions
+                |> List.filter (\action -> action.theme /= theme)
+                |> List.sortBy .description
+           )
 
 
 
@@ -66,57 +98,62 @@ init { actions, actionSearchApi, theme, targetId } =
 
 
 type Msg
-    = Refreshed (List Action)
-    | UpdateStatus ActionId ActionStatus
+    = Add
+    | Refreshed (List Action)
+    | AddFailed
+    | ChangedStatus String ActionStatus
     | StatusUpdateFailed
-    | AddFormMsg AddForm.Msg
-    | DiscardStatusUpdateFailed
+    | ActionSelectMsg Pages.Pro.Carnet.Action.List.ActionSelect.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdateStatus id statut ->
+        Add ->
+            ( { model | error = Nothing }
+            , case model.actionSelect |> Pages.Pro.Carnet.Action.List.ActionSelect.getSelected of
+                Just action ->
+                    addAction
+                        { targetId = model.targetId
+                        , action = action.description
+                        , status = Domain.Action.Status.InProgress |> Domain.Action.Status.codeOf
+                        }
+
+                Nothing ->
+                    Cmd.none
+            )
+
+        ChangedStatus id statut ->
             ( { model
                 | actions =
                     model.actions
-                        |> List.map
-                            (\action ->
-                                if action.id == id then
-                                    { action | status = statut }
-
-                                else
-                                    action
-                            )
-                , statusUpdateFailed = False
+                        |> Dict.update id (Maybe.map (\action -> { action | statut = statut }))
+                , error = Nothing
               }
-            , updateStatus
-                { actionId = Domain.Action.Id.printId id
-                , status = Domain.Action.Status.codeOf statut
-                }
+            , updateStatus { actionId = id, status = Domain.Action.Status.codeOf statut }
             )
+
+        ActionSelectMsg subMsg ->
+            Pages.Pro.Carnet.Action.List.ActionSelect.update subMsg model.actionSelect
+                |> Tuple.mapBoth
+                    (\next -> { model | actionSelect = next })
+                    (Cmd.map ActionSelectMsg)
 
         StatusUpdateFailed ->
-            ( { model | statusUpdateFailed = True }
-            , Process.sleep 10000 |> Task.perform (always DiscardStatusUpdateFailed)
-            )
+            ( { model | error = Just LineError }, Cmd.none )
 
         Refreshed actions ->
-            ( { model | actions = actions }
+            ( { model
+                | actions =
+                    actions
+                        |> toActionDict
+                        |> Dict.union model.actions
+              }
             , Cmd.none
             )
 
-        AddFormMsg subMsg ->
-            let
-                ( addForm, addFormCmd ) =
-                    AddForm.update subMsg model.addForm
-            in
-            ( { model | addForm = addForm }
-            , addFormCmd |> Effect.map AddFormMsg |> Effect.perform
-            )
-
-        DiscardStatusUpdateFailed ->
-            ( { model | statusUpdateFailed = False }, Cmd.none )
+        AddFailed ->
+            ( { model | error = Just AddError }, Cmd.none )
 
 
 
@@ -124,10 +161,10 @@ update msg model =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Sub.batch
         [ updateStatusFailed <| always StatusUpdateFailed
-        , AddForm.subscriptions model.addForm |> Sub.map AddFormMsg
+        , addFailed <| always AddFailed
         ]
 
 
@@ -142,19 +179,16 @@ view model =
             [ viewActionsError model
             , viewActions model
             ]
-        , AddForm.view model.addForm
-            |> Html.map AddFormMsg
+        , viewCreate model
         ]
 
 
 viewActionsError : Model -> Html.Html Msg
 viewActionsError model =
-    if model.statusUpdateFailed then
+    if model.error == Just LineError then
         BetaGouv.DSFR.Alert.small
-            { title = Just "La mise à jour du statut a échoué."
-            , description =
-                "Essayez de rafraîchir la page puis de recommencer. "
-                    ++ "Si le problème persiste, merci de contacter le support."
+            { title = Nothing
+            , description = "La mise à jour du statut a échoué. Essayez de rafraîchir la page puis de recommencer. Si le problème persiste, merci de contacter le support."
             }
             |> BetaGouv.DSFR.Alert.alert Nothing BetaGouv.DSFR.Alert.error
 
@@ -194,19 +228,18 @@ viewActions model =
             , Html.tbody
                 [ Attr.class "w-full"
                 ]
-                (case model.actions of
-                    [] ->
-                        [ Html.tr [] [ Html.td [ Attr.colspan 4 ] [ Html.text "Aucune action entreprise pour le moment." ] ] ]
+                (if model.actions |> Dict.isEmpty then
+                    [ Html.tr [] [ Html.td [ Attr.colspan 4 ] [ Html.text "Aucune action entreprise pour le moment." ] ] ]
 
-                    _ ->
-                        model.actions |> List.map viewAction
+                 else
+                    model.actions |> Dict.toList |> List.map viewAction
                 )
             ]
         ]
 
 
-viewAction : Action -> Html.Html Msg
-viewAction action =
+viewAction : ( String, Action ) -> Html.Html Msg
+viewAction ( id, action ) =
     Html.tr []
         [ Html.td []
             [ Html.text action.description ]
@@ -214,9 +247,9 @@ viewAction action =
             [ Html.text <| action.creator.firstName ++ " " ++ action.creator.lastName ]
         , Html.td []
             [ Domain.Action.Status.select
-                { onSelect = UpdateStatus action.id
-                , value = action.status
-                , id = action.id |> Domain.Action.Id.printId
+                { onSelect = ChangedStatus id
+                , value = action.statut
+                , id = id
                 }
             ]
         , Html.td
@@ -224,3 +257,53 @@ viewAction action =
             ]
             [ Html.text <| Extra.Date.print action.startingAt ]
         ]
+
+
+viewCreate : Model -> Html.Html Msg
+viewCreate props =
+    Html.div []
+        [ Html.form
+            [ Attr.class "pb-4"
+            ]
+            [ Html.div
+                [ Attr.class "flex justify-between space-x-4"
+                ]
+                [ Html.div
+                    [ Attr.class "grow"
+                    ]
+                    [ Pages.Pro.Carnet.Action.List.ActionSelect.view props.actionSelect
+                        |> Html.map ActionSelectMsg
+                    ]
+                , Html.div
+                    [ Attr.class "self-end"
+                    ]
+                    [ addButton props
+                    ]
+                ]
+            ]
+        , if props.error == Just AddError then
+            BetaGouv.DSFR.Alert.small
+                { title = Nothing
+                , description =
+                    "L'ajout de l'action a échoué. Essayez de rafraîchir la page puis de recommencer. "
+                        ++ "Si le problème persiste, contactez le support."
+                }
+                |> BetaGouv.DSFR.Alert.alert Nothing BetaGouv.DSFR.Alert.error
+                |> List.singleton
+                |> Html.div [ Attr.class "py-2" ]
+
+          else
+            Html.text ""
+        ]
+
+
+addButton : Model -> Html.Html Msg
+addButton model =
+    Html.button
+        [ Evts.onClick Add
+        , Attr.class "fr-btn"
+        , Pages.Pro.Carnet.Action.List.ActionSelect.getSelected model.actionSelect
+            |> (==) Nothing
+            |> Attr.disabled
+        ]
+        [ Html.text "Ajouter" ]

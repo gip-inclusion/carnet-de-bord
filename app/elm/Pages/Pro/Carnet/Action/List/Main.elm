@@ -5,7 +5,6 @@ import Browser
 import Extra.Http
 import Html
 import Http
-import Pages.Pro.Carnet.Action.List.ActionSelect as ActionSelect
 import Pages.Pro.Carnet.Action.List.AllActions as AllActions exposing (Action)
 import Pages.Pro.Carnet.Action.List.Page as Page
 import Sentry
@@ -102,14 +101,11 @@ update msg model =
                         { theme = model.flags.theme
                         , targetId = model.flags.targetId
                         , actions = actions
-                        , actionSearchApi = ActionSelect.apiSearch model.flags.theme
                         }
                         |> updateReady model
 
                 Err error ->
-                    ( { model | state = Failed }
-                    , Sentry.sendError <| Extra.Http.toString error
-                    )
+                    ( { model | state = Failed }, Sentry.sendError <| Extra.Http.toString error )
 
         _ ->
             ( model, Cmd.none )

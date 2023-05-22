@@ -56,8 +56,6 @@ config =
                 , ( "Json.Encode", "Json" )
                 , ( "Html.Attributes", "Attr" )
                 , ( "Html.Events", "Evts" )
-                , ( "Test.Html.Query", "Query" )
-                , ( "Test.Html.Selector", "Selector" )
                 ]
                 |> NoInconsistentAliases.noMissingAliases
                 |> NoInconsistentAliases.rule
@@ -69,6 +67,7 @@ config =
 commonBestPractices : List Rule
 commonBestPractices =
     [ NoExposingEverything.rule
+        |> Review.Rule.ignoreErrorsForDirectories [ "tests" ]
     , NoDeprecated.rule NoDeprecated.defaults
     , NoImportingEverything.rule []
         |> Review.Rule.ignoreErrorsForDirectories [ "tests" ]

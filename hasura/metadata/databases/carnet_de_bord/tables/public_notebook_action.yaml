@@ -7,8 +7,6 @@ configuration:
       custom_name: createdAt
     creator_id:
       custom_name: creatorId
-    starting_at:
-      custom_name: startingAt
     target_id:
       custom_name: targetId
     updated_at:
@@ -16,7 +14,6 @@ configuration:
   custom_column_names:
     created_at: createdAt
     creator_id: creatorId
-    starting_at: startingAt
     target_id: targetId
     updated_at: updatedAt
   custom_root_fields: {}
@@ -36,7 +33,6 @@ insert_permissions:
         - created_at
         - creator_id
         - id
-        - starting_at
         - status
         - target_id
   - role: orientation_manager
@@ -56,7 +52,6 @@ insert_permissions:
       columns:
         - action
         - creator_id
-        - starting_at
         - status
         - target_id
   - role: professional
@@ -76,7 +71,6 @@ insert_permissions:
       columns:
         - action
         - creator_id
-        - starting_at
         - status
         - target_id
 select_permissions:
@@ -87,7 +81,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - starting_at
         - status
         - target_id
         - updated_at
@@ -100,7 +93,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - starting_at
         - status
         - target_id
         - updated_at
@@ -130,7 +122,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - starting_at
         - status
         - target_id
         - updated_at
@@ -147,7 +138,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - starting_at
         - status
         - target_id
         - updated_at
@@ -166,7 +156,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - starting_at
         - status
         - target_id
         - updated_at
@@ -185,7 +174,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - starting_at
         - status
         - target_id
         - updated_at
@@ -205,18 +193,16 @@ update_permissions:
     permission:
       columns:
         - action
+        - status
         - created_at
         - creator_id
         - id
-        - starting_at
-        - status
         - target_id
       filter: {}
       check: {}
   - role: orientation_manager
     permission:
       columns:
-        - starting_at
         - status
       filter:
         target:
@@ -232,7 +218,6 @@ update_permissions:
   - role: professional
     permission:
       columns:
-        - created_at
         - status
       filter:
         target:
