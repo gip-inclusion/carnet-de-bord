@@ -5,7 +5,7 @@ actions:
       handler: '{{BACKEND_API_ACTION_URL}}/v1/notebooks'
       headers:
         - name: secret-token
-          value: ACTION_SECRET
+          value_from_env: ACTION_SECRET
     permissions:
       - role: manager
     comment: Notebook creation
@@ -75,11 +75,9 @@ custom_types:
     - name: UpdateSocioProProfessionalProjectInsertInput
     - name: UpdateSocioProProfessionalProjectSetInput
     - name: UpdateSocioProNotebookSituationInsertInput
-    - name: CreateBeneficiaryNotebookInput
     - name: CreateNotebookInput
   objects:
     - name: NPSRatingOutput
     - name: UpdateSocioProOutput
-    - name: CreateBeneficiaryNotebookOutput
     - name: CreateNotebookOutput
   scalars: []

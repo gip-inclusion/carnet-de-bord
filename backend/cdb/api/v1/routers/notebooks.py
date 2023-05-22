@@ -19,6 +19,9 @@ from pydantic import BaseModel
 from cdb.api._gen.schema_gql import schema
 from cdb.api.core.emails import Member, Person, send_notebook_member_email
 from cdb.api.core.settings import settings
+from cdb.api.db.crud.beneficiary import (
+    get_insert_beneficiary_mutation,
+)
 from cdb.api.db.crud.beneficiary_structure import (
     get_deactivate_beneficiary_structure_mutation,
     get_insert_beneficiary_structure_mutation,
@@ -36,7 +39,12 @@ from cdb.api.db.crud.orientation_system import get_available_orientation_systems
 from cdb.api.db.models.member_type import MemberTypeEnum
 from cdb.api.db.models.orientation_info import OrientationInfo
 from cdb.api.db.models.role import RoleEnum
-from cdb.api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
+from cdb.api.v1.dependencies import (
+    allowed_jwt_roles,
+    extract_authentified_account,
+    verify_secret_token,
+)
+from cdb.api.v1.payloads.notebook import CreateNotebookActionPayload
 
 professional_only = allowed_jwt_roles([RoleEnum.PROFESSIONAL])
 router = APIRouter()
@@ -189,21 +197,45 @@ class CreatedNotebook(BaseModel):
     notebookId: str
 
 
-@router.post("", status_code=201)
+@router.post("", status_code=201, dependencies=[Depends(verify_secret_token)])
 async def create_beneficiary_notebook(
-    request: Request,
+    _: Request,
+    payload: CreateNotebookActionPayload,
 ):
     """
     This endpoint aims to create a beneficiary and its notebook from
     an external partner (**like RDV-Insertion**).
 
     This endpoint will:
-    - ensure beneficiary is created in the deployment which user belongs to
     - ensure there is no existing beneficiary (nir shall be unique)
     - create beneficiary entity
     - create notebook entity
     - create beneficiary_structure to hold the relation between
         a structure and a beneficiary
     """
-    logger.info(request.body)
-    return CreatedNotebook(notebookId="dummy-id")
+    logger.info(payload.input.notebook)
+
+    # TODO: refactor dans un helper pour réutilisation (c'est déjà un CTRL-C/CRTL-V)
+    transport = AIOHTTPTransport(
+        url=settings.graphql_api_url,
+        headers={
+            "x-hasura-use-backend-only-permissions": "true",
+            "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
+        }
+        | payload.session_variables,
+    )
+
+    async with Client(
+        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
+    ) as session:
+        dsl_schema = DSLSchema(schema=schema)
+        mutation = get_insert_beneficiary_mutation(
+            dsl_schema=dsl_schema,
+            deployment_id=payload.session_variables["x-hasura-deployment-id"],
+            notebook=payload.input.notebook,
+        )
+        response = await session.execute(dsl_gql(DSLMutation(**mutation)))
+
+    return CreatedNotebook(
+        notebookId=response["create_beneficiary_with_notebook"]["notebook"]["id"]
+    )

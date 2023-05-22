@@ -108,7 +108,9 @@ export const POST = (async ({ request }) => {
 	//  - Ajouter des tests et adapter le code pour gérer les erreurs retournées par la mutation
 	//  - Ajouter des tests sur le retour en cas de succès
 	const createNotebookResult = await authorizedClient
-		.mutation<CreateNotebookMutation, CreateNotebookMutationVariables>(CreateNotebookDocument, body)
+		.mutation<CreateNotebookMutation, CreateNotebookMutationVariables>(CreateNotebookDocument, {
+			notebook: body.notebook,
+		})
 		.toPromise();
 	if (createNotebookResult.error) {
 		throw error(400, { message: createNotebookResult.error.toString() });

@@ -5090,9 +5090,7 @@ export type MutationRoot = {
 
 /** mutation root */
 export type MutationRootCreateNotebookArgs = {
-	deploymentId: Scalars['uuid'];
 	notebook: CreateNotebookInput;
-	rdviUserEmail: Scalars['String'];
 };
 
 /** mutation root */
@@ -20038,9 +20036,7 @@ export type GetDeploymentStatForDayQuery = {
 };
 
 export type CreateNotebookMutationVariables = Exact<{
-	deploymentId: Scalars['uuid'];
 	notebook: CreateNotebookInput;
-	rdviUserEmail: Scalars['String'];
 }>;
 
 export type CreateNotebookMutation = {
@@ -35784,26 +35780,10 @@ export const CreateNotebookDocument = {
 			variableDefinitions: [
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'uuid' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
 					type: {
 						kind: 'NonNullType',
 						type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateNotebookInput' } },
-					},
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'rdviUserEmail' } },
-					type: {
-						kind: 'NonNullType',
-						type: { kind: 'NamedType', name: { kind: 'Name', value: 'String' } },
 					},
 				},
 			],
@@ -35816,18 +35796,8 @@ export const CreateNotebookDocument = {
 						arguments: [
 							{
 								kind: 'Argument',
-								name: { kind: 'Name', value: 'deploymentId' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'deploymentId' } },
-							},
-							{
-								kind: 'Argument',
 								name: { kind: 'Name', value: 'notebook' },
 								value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
-							},
-							{
-								kind: 'Argument',
-								name: { kind: 'Name', value: 'rdviUserEmail' },
-								value: { kind: 'Variable', name: { kind: 'Name', value: 'rdviUserEmail' } },
 							},
 						],
 						selectionSet: {

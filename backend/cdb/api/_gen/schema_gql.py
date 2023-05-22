@@ -5428,7 +5428,7 @@ schema = build_schema(
     """mutation root"""
     type mutation_root {
       """Notebook creation"""
-      create_notebook(deploymentId: uuid!, notebook: CreateNotebookInput!, rdviUserEmail: String!): CreateNotebookOutput
+      create_notebook(notebook: CreateNotebookInput!): CreateNotebookOutput
 
       """Create NPS Rating"""
       create_nps_rating(score: Int!): NPSRatingOutput

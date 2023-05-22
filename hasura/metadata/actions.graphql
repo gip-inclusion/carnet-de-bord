@@ -1,7 +1,5 @@
 type Mutation {
   create_notebook(
-    rdviUserEmail: String!
-    deploymentId: uuid!
     notebook: CreateNotebookInput!
   ): CreateNotebookOutput
 }
@@ -70,12 +68,6 @@ input UpdateSocioProNotebookSituationInsertInput {
   situationId: uuid!
 }
 
-input CreateBeneficiaryNotebookInput {
-  rdviUserEmail: String!
-  deploymentId: uuid!
-  notebook: CreateNotebookInput!
-}
-
 input CreateNotebookInput {
   nir: String!
   externalId: String
@@ -97,10 +89,6 @@ type NPSRatingOutput {
 
 type UpdateSocioProOutput {
   id: uuid!
-}
-
-type CreateBeneficiaryNotebookOutput {
-  notebookId: uuid!
 }
 
 type CreateNotebookOutput {

@@ -5,6 +5,7 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from gql.dsl import DSLField, DSLSchema
 
 from cdb.api.core.exceptions import InsertFailError
 from cdb.api.db.crud.notebook import (
@@ -28,6 +29,7 @@ from cdb.api.db.models.deployment import parse_deployment_from_beneficiary_recor
 from cdb.api.db.models.notebook_member import NotebookMemberInsert
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
+from cdb.api.v1.payloads.notebook import NotebookInput
 
 logger = logging.getLogger(__name__)
 
@@ -380,3 +382,76 @@ ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth A
         )
         for row in rows
     ]
+
+
+def get_insert_beneficiary_mutation(
+    dsl_schema: DSLSchema,
+    deployment_id: str,
+    notebook: NotebookInput,
+) -> dict[str, DSLField]:
+    """
+    TODO:
+        Création du bénéficiaire et du notebook avec la mutation suivante :
+        mutation CreateBeneficiaryWithNotebook(
+          $nir: String!
+          $deploymentId: uuid!
+          $firstname: String!
+          $lastname: String!
+          $dateOfBirth: date!
+            $internalId: String
+          $mobileNumber: String
+            $email: citext
+            $address1: String
+          $address2: String
+          $postalCode: String
+            $city: String
+            $cafNumber: String
+        ) {
+            insert_beneficiary_one(object: {
+              nir: $nir
+              deploymentId: $deploymentId
+              firstname: $firstname
+              lastname: $lastname
+                dateOfBirth: $dateOfBirth
+                    internalId: $internalId
+                mobileNumber: $mobileNumber
+                    email: $email
+                    address1: $address1
+                address2: $address2
+                postalCode: $postalCode
+                    city: $city
+                    cafNumber: $cafNumber
+              notebook: { data: {} }
+            }) {
+                notebook {
+                    id
+                }
+          }
+        }
+
+        Question : quid de la structure ?
+         (comment la trouver et créer la beneficiary_structure associée)
+    """
+
+    return {
+        "create_beneficiary_with_notebook": (
+            dsl_schema.mutation_root.insert_beneficiary_one.args(
+                object={
+                    "nir": notebook.nir,
+                    "deploymentId": deployment_id,
+                    "firstname": notebook.firstname,
+                    "lastname": notebook.lastname,
+                    "dateOfBirth": notebook.date_of_birth,
+                    #    internalId: $internalId
+                    # mobileNumber: $mobileNumber
+                    #    email: $email
+                    #    address1: $address1
+                    # address2: $address2
+                    # postalCode: $postalCode
+                    #    city: $city
+                    #    cafNumber: $cafNumber
+                    "notebook": {"data": {}},
+                }
+            ).select(dsl_schema.notebook.id)
+        ),
+    }
