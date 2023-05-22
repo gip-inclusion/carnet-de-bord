@@ -1,3 +1,10 @@
+# [1.221.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.220.0...v1.221.0) (2023-05-22)
+
+
+### Features
+
+* **actions:** ✨ add start date ([#1731](https://github.com/gip-inclusion/carnet-de-bord/issues/1731)) ([6c9a1bd](https://github.com/gip-inclusion/carnet-de-bord/commit/6c9a1bd252ce21afb7e4bbd8bb94e47b54d4d459))
+
 # [1.220.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.219.9...v1.220.0) (2023-05-22)
 
 
