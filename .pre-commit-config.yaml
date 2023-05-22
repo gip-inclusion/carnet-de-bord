@@ -57,6 +57,15 @@ repos:
         entry: |
           bash -c 'npm --prefix app run fix:eslint "${@#*/}"' --
 
+      - id: app-elm-compile
+        name: run elm make on all Main.elm
+        language: system
+        files: ^app/.*\.elm$
+        pass_filenames: false
+        entry: |
+          ./scripts/all-elm-compiles.sh
+
+
       - id: app-elm-review
         name: run elm-review (app)
         language: system

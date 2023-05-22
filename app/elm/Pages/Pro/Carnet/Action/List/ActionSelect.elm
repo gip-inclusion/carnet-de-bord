@@ -1,6 +1,5 @@
-module Pages.Pro.Carnet.Action.List.ActionSelect exposing (Model, Msg, RefAction, getSelected, init, update, view)
+module Pages.Pro.Carnet.Action.List.ActionSelect exposing (Model, Msg, RefAction, apiSearch, getSelected, init, reset, update, view)
 
-import Domain.Action.Id exposing (ActionId)
 import Html
 import Http
 import Json.Decode as Decode
@@ -13,49 +12,60 @@ import UI.SearchSelect.Component
 
 
 type alias RefAction =
-    { id : ActionId, description : String, theme : String }
+    { id : String, description : String, theme : String }
 
 
 decoder : Decode.Decoder RefAction
 decoder =
     Decode.map3 RefAction
-        (Decode.field "id" Domain.Action.Id.decoder)
+        (Decode.field "id" Decode.string)
         (Decode.field "description" Decode.string)
         (Decode.field "theme" Decode.string)
 
 
 type alias Model =
-    UI.SearchSelect.Component.Model RefAction
+    { theme : String
+    , selectModel : UI.SearchSelect.Component.Model
+    }
 
 
-init : { postProcess : List RefAction -> List RefAction } -> ( Model, Cmd Msg )
+init :
+    { actionSearchApi : UI.SearchSelect.Component.SearchApi
+    , theme : String
+    }
+    -> ( Model, Cmd Msg )
 init props =
-    UI.SearchSelect.Component.init
-        { id = "select-action"
-        , selected = Nothing
-        , api = apiSearch
-        , optionLabel = .description
-        , label = "Actions"
-        , searchPlaceholder = "Rechercher une action"
-        , defaultOption = "Sélectionner une action"
-        , postProcess = props.postProcess
-        }
+    { theme = props.theme
+    , selectModel =
+        UI.SearchSelect.Component.init
+            { id = "select-action"
+            , selected = Nothing
+            , api = props.actionSearchApi
+            , label = "Actions"
+            , searchPlaceholder = "Rechercher une action"
+            , defaultOption = "Sélectionner une action"
+            }
+    }
         -- Call update with the initial model in order to get a visible list of actions when
         -- we open the select
         |> update (UI.SearchSelect.Component.Search "")
 
 
-getSelected : Model -> Maybe RefAction
+reset : Model -> ( Model, Cmd Msg )
+reset model =
+    { model | selectModel = UI.SearchSelect.Component.reset model.selectModel }
+        -- On forwarde vers update afin d'avoir la liste des actions visible à l'ouverture
+        |> update (UI.SearchSelect.Component.Search "")
+
+
+getSelected : Model -> Maybe UI.SearchSelect.Component.Option
 getSelected =
-    UI.SearchSelect.Component.getSelected
+    .selectModel
+        >> UI.SearchSelect.Component.getSelected
 
 
-apiSearch :
-    { search : String
-    , callbackMsg : Result Http.Error (List RefAction) -> UI.SearchSelect.Component.Msg RefAction
-    }
-    -> Cmd (UI.SearchSelect.Component.Msg RefAction)
-apiSearch { search, callbackMsg } =
+apiSearch : String -> UI.SearchSelect.Component.SearchApi
+apiSearch theme { search, callbackMsg } =
     let
         query =
             """
@@ -89,10 +99,33 @@ query searchRefActions($searchString: String = "") {
                 callbackMsg
                 (Decode.at [ "data", "search_ref_action" ]
                     (Decode.list decoder)
+                    |> Decode.map
+                        (groupRefActionsByTheme theme
+                            >> List.map toSelectOption
+                        )
                 )
         , timeout = Nothing
         , tracker = Nothing
         }
+
+
+toSelectOption : RefAction -> { id : String, label : String }
+toSelectOption action =
+    { id = action.id, label = action.description }
+
+
+groupRefActionsByTheme : String -> List RefAction -> List RefAction
+groupRefActionsByTheme theme actions =
+    -- First only keep actions of the current theme and sort them alphabetically
+    (actions
+        |> List.filter (\action -> action.theme == theme)
+        |> List.sortBy .description
+    )
+        -- Then keep the other actions and sort them alphabetically
+        ++ (actions
+                |> List.filter (\action -> action.theme /= theme)
+                |> List.sortBy .description
+           )
 
 
 
@@ -100,12 +133,16 @@ query searchRefActions($searchString: String = "") {
 
 
 type alias Msg =
-    UI.SearchSelect.Component.Msg RefAction
+    UI.SearchSelect.Component.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    UI.SearchSelect.Component.update msg model
+    let
+        ( nextSelect, selectCmd ) =
+            UI.SearchSelect.Component.update msg model.selectModel
+    in
+    ( { model | selectModel = nextSelect }, selectCmd )
 
 
 
@@ -114,4 +151,4 @@ update msg model =
 
 view : Model -> Html.Html Msg
 view model =
-    UI.SearchSelect.Component.view model
+    UI.SearchSelect.Component.view model.selectModel

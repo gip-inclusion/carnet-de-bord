@@ -8599,6 +8599,7 @@ schema = build_schema(
       creator: account!
       creatorId: uuid!
       id: uuid!
+      startingAt: timestamptz!
       status: action_status_enum!
 
       """An object relationship"""
@@ -8666,6 +8667,7 @@ schema = build_schema(
       creator: account_bool_exp
       creatorId: uuid_comparison_exp
       id: uuid_comparison_exp
+      startingAt: timestamptz_comparison_exp
       status: action_status_enum_comparison_exp
       target: notebook_target_bool_exp
       targetId: uuid_comparison_exp
@@ -8696,6 +8698,7 @@ schema = build_schema(
       creator: account_obj_rel_insert_input
       creatorId: uuid
       id: uuid
+      startingAt: timestamptz
       status: action_status_enum
       target: notebook_target_obj_rel_insert_input
       targetId: uuid
@@ -8708,6 +8711,7 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
+      startingAt: timestamptz
       targetId: uuid
       updatedAt: timestamptz
     }
@@ -8720,6 +8724,7 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
+      startingAt: order_by
       targetId: order_by
       updatedAt: order_by
     }
@@ -8730,6 +8735,7 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
+      startingAt: timestamptz
       targetId: uuid
       updatedAt: timestamptz
     }
@@ -8742,6 +8748,7 @@ schema = build_schema(
       createdAt: order_by
       creatorId: order_by
       id: order_by
+      startingAt: order_by
       targetId: order_by
       updatedAt: order_by
     }
@@ -8773,6 +8780,7 @@ schema = build_schema(
       creator: account_order_by
       creatorId: order_by
       id: order_by
+      startingAt: order_by
       status: order_by
       target: notebook_target_order_by
       targetId: order_by
@@ -8801,6 +8809,9 @@ schema = build_schema(
       id
 
       """column name"""
+      startingAt
+
+      """column name"""
       status
 
       """column name"""
@@ -8818,6 +8829,7 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
+      startingAt: timestamptz
       status: action_status_enum
       targetId: uuid
       updatedAt: timestamptz
@@ -8840,6 +8852,7 @@ schema = build_schema(
       createdAt: timestamptz
       creatorId: uuid
       id: uuid
+      startingAt: timestamptz
       status: action_status_enum
       targetId: uuid
       updatedAt: timestamptz
@@ -8860,6 +8873,9 @@ schema = build_schema(
 
       """column name"""
       id
+
+      """column name"""
+      startingAt
 
       """column name"""
       status

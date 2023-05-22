@@ -70,14 +70,15 @@ describe('lastModified trigger', () => {
 	});
 
 	it('should update notebook_member.lastModified when an action is added', async () => {
-		const addActiontMutation = fs.readFileSync(
+		const addActionMutation = fs.readFileSync(
 			path.join(__dirname, '../../src/lib/ui/ProNotebookAction/', '_mutation.gql'),
 			'utf8'
 		);
-		const addActionPayload = await graphqlPro(addActiontMutation, {
+		const addActionPayload = await graphqlPro(addActionMutation, {
 			targetId: '7bfa2130-fe72-418e-8486-000c171cb853',
 			action: 'test',
 			status: 'in_progress',
+			startingAt: '2023-05-11T00:00:00Z',
 		});
 
 		const payload = await graphqlPro(lastModifiedQuery);

@@ -15,7 +15,7 @@ action1 =
         { lastName = "MICHEL"
         , firstName = "Daniel"
         }
-    , statut = Domain.Action.Status.Done
+    , status = Domain.Action.Status.Done
     , startingAt = Date.fromPosix Time.utc <| Time.millisToPosix 0
     }
 
@@ -28,6 +28,6 @@ action2 =
         { lastName = "DUPONT"
         , firstName = "Françoise"
         }
-    , statut = Domain.Action.Status.AbandonnedByBeneficiary
+    , status = Domain.Action.Status.AbandonnedByBeneficiary
     , startingAt = Date.fromPosix Time.utc <| Time.millisToPosix 1682002405000
     }
