@@ -438,7 +438,6 @@ def get_insert_beneficiary_mutation(
             dsl_schema.mutation_root.insert_beneficiary_one.args(
                 object={
                     "nir": notebook.nir,
-                    "deploymentId": deployment_id,
                     "firstname": notebook.firstname,
                     "lastname": notebook.lastname,
                     "dateOfBirth": notebook.date_of_birth,
@@ -452,6 +451,6 @@ def get_insert_beneficiary_mutation(
                     #    cafNumber: $cafNumber
                     "notebook": {"data": {}},
                 }
-            ).select(dsl_schema.notebook.id)
+            ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
         ),
     }

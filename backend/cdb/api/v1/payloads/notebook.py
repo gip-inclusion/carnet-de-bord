@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 from cdb.api.v1.payloads.hasura_action import HasuraActionPayload
 
@@ -8,7 +8,7 @@ class NotebookInput(BaseModel):
     externalId: str | None
     firstname: str
     lastname: str
-    date_of_birth: str
+    date_of_birth: str = Field(alias="dateOfBirth")
     mobileNumber: str | None
     email: str | None
     address: str | None
