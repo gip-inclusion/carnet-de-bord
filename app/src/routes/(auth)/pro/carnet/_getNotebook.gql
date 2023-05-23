@@ -1,9 +1,4 @@
-query GetNotebook(
-  $id: uuid!
-  $eventsStart: timestamptz = "-infinity"
-  $eventsEnd: timestamptz = "infinity"
-  $withOrientationRequests: Boolean = true
-) {
+query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
   refSituations: ref_situation {
     id
     description
@@ -220,12 +215,6 @@ query GetNotebook(
       ) {
         date
         memberAccountId
-      }
-      events(
-        order_by: { eventDate: desc_nulls_first }
-        where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd } }
-      ) {
-        ...eventFields
       }
     }
   }
