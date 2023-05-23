@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field
 
+from cdb.api.db.models.validator import nir_validator
 from cdb.api.v1.payloads.hasura_action import HasuraActionPayload
 
 
@@ -16,6 +17,8 @@ class NotebookInput(BaseModel):
     postal_code: str | None = Field(alias="postalCode")
     city: str | None
     caf_number: str | None = Field(alias="cafNumber")
+
+    _nir_validator = nir_validator("nir")
 
 
 class CreateNotebookInput(BaseModel):

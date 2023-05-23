@@ -33,28 +33,6 @@ async def test_returns_403_when_token_is_wrong(
     assert json["detail"] == "Provided credentials are invalid"
 
 
-async def test_returns_201_when_success(
-    test_client: AsyncClient,
-    deployment_id_cd93,
-    get_manager_cd_93_account_id,
-):
-    response = await test_client.post(
-        "/v1/notebooks",
-        json=get_mutation(
-            deployment_id=deployment_id_cd93,
-            account_id=get_manager_cd_93_account_id,
-            nir="1781299212296",
-            firstname="Jay",
-            lastname="Erdaivéï",
-            date_of_birth="2000-12-01",
-        ),
-        headers={"secret-token": "action_secret_token"},
-    )
-    assert response.status_code == 201
-    json = response.json()
-    assert uuid.UUID(str(json["notebookId"]))
-
-
 async def test_creates_notebook_and_beneficiary(
     test_client: AsyncClient,
     deployment_id_cd93,
@@ -75,10 +53,33 @@ async def test_creates_notebook_and_beneficiary(
     )
     assert response.status_code == 201
     json = response.json()
+    assert uuid.UUID(str(json["notebookId"]))
     created_notebook_id = json["notebookId"]
     notebook = await get_notebook_by_id(db_connection, created_notebook_id)
     beneficiary = await get_beneficiary_by_id(db_connection, notebook.beneficiary_id)
     assert beneficiary.firstname == "Jay"
+
+
+async def test_creates_notebook_and_beneficiary_with_15_digits_nir(
+    test_client: AsyncClient,
+    deployment_id_cd93,
+    get_manager_cd_93_account_id,
+):
+    response = await test_client.post(
+        "/v1/notebooks",
+        json=get_mutation(
+            deployment_id=deployment_id_cd93,
+            account_id=get_manager_cd_93_account_id,
+            nir="178129921229686",
+            firstname="Jay",
+            lastname="Erdaivéï",
+            date_of_birth="2000-12-01",
+        ),
+        headers={"secret-token": "action_secret_token"},
+    )
+    assert response.status_code == 201
+    json = response.json()
+    assert uuid.UUID(str(json["notebookId"]))
 
 
 async def test_creates_notebook_and_beneficiary_with_all_fields(

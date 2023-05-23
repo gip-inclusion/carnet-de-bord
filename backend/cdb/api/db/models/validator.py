@@ -4,6 +4,8 @@ import re
 import phonenumbers
 from pydantic import validator
 
+from cdb.api.db.models.nir import nir_format
+
 DATE_YMD_HYPHEN_FORMAT = "%Y-%m-%d"
 DATE_DMY_SLASH_FORMAT = "%d/%m/%Y"
 DATE_DMY_HYPHEN_FORMAT = "%d-%m-%Y"
@@ -95,3 +97,16 @@ def parse_bool_validator(*args, **kwargs):
     decorator = validator(*args, **kwargs, allow_reuse=True)
     decorated = decorator(parse_bool)
     return decorated
+
+
+def nir_validator(*args, **kwargs):
+    decorator = validator(*args, **kwargs, allow_reuse=True)
+    decorated = decorator(parse_nir)
+    return decorated
+
+
+def parse_nir(cls, nir: str):
+    validation_error = nir_format(nir)
+    if validation_error:
+        raise ValueError(validation_error)
+    return nir[:13] if nir else nir
