@@ -6,7 +6,7 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { stringsMatch } from '$lib/helpers';
 	import { addMonths } from 'date-fns';
-	import { operationStore } from '@urql/svelte';
+	import { operationStore, query } from '@urql/svelte';
 	import {
 		GetNotebookEventsDocument,
 		NotebookEventTypeEnum,
@@ -18,16 +18,33 @@
 	type Notebook = GetNotebookQuery['notebook_public_view'][0]['notebook'];
 	export let notebook: Notebook;
 
+	const allEvents = 'allEvents';
+	const threeMonths = '-3months';
+	const threeSixMonths = '3-6months';
+	const sixTwelveMonths = '6-12months';
+	const twelveMonths = '+12months';
+
+	type Period =
+		| typeof allEvents
+		| typeof threeMonths
+		| typeof threeSixMonths
+		| typeof sixTwelveMonths
+		| typeof twelveMonths
+		| null;
+
 	let search = '';
 	const allValues = targetStatusValues.concat(actionStatusValues);
+	let selected: Period = threeMonths;
 
 	const getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
-		{ notebookId: notebook.id },
-		{ pause: true }
+		buildQueryVariables({ notebookId: notebook.id }, selected)
 	);
+
+	query(getNotebookEvents);
+
+	$: events = $getNotebookEvents.data?.notebook_event || [];
 	$: filteredEvents = events;
-	$: events = $getNotebookEvents.data?.notebook_event || notebook?.events;
 
 	function eventCategory(event): string {
 		if (
@@ -105,32 +122,15 @@
 		}
 		return variables;
 	}
-	const allEvents = 'allEvents';
-	const threeMonths = '-3months';
-	const threeSixMonths = '3-6months';
-	const sixTwelveMonths = '6-12months';
-	const twelveMonths = '+12months';
-
-	type Period =
-		| typeof allEvents
-		| typeof threeMonths
-		| typeof threeSixMonths
-		| typeof sixTwelveMonths
-		| typeof twelveMonths
-		| null;
-
-	let selected: Period = threeMonths;
 
 	function onSelect(event: CustomEvent<{ selected: Period }>) {
 		selected = event.detail.selected;
-		$getNotebookEvents.context.pause = false;
-		const variables = { notebookId: notebook.id };
-		$getNotebookEvents.variables = buildQueryVariables(variables, selected);
+		$getNotebookEvents.variables = buildQueryVariables({ notebookId: notebook.id }, selected);
 		$getNotebookEvents.reexecute();
 	}
 </script>
 
-{#if notebook?.events}
+{#if events}
 	<MainSection title="Historique de parcours">
 		<div class="flex flex-row justify-between mb-2">
 			<Select
@@ -169,7 +169,7 @@
 					</tr>
 				</thead>
 				<tbody class="w-full">
-					{#each filteredEvents || [] as event (event.id)}
+					{#each filteredEvents as event (event.id)}
 						<tr>
 							<td>{formatDateLocale(event.eventDate)} </td>
 							<td>{eventCategory(event)}</td>

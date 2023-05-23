@@ -73,7 +73,6 @@
 
 	function refreshNotebook() {
 		$getNotebook.reexecute({ requestPolicy: 'network-only' });
-		//@TODO: reload events componenent NotebookEventList ?
 	}
 
 	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
@@ -176,9 +175,7 @@
 					<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 				</MainSection>
 			{/if}
-			{#if notebook}
-				<NotebookEventList {notebook} />
-			{/if}
+			<NotebookEventList {notebook} />
 		</div>
 	{/if}
 </LoaderIndicator>

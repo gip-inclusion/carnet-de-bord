@@ -19389,8 +19389,6 @@ export type SearchPublicNotebooksQuery = {
 
 export type GetNotebookQueryVariables = Exact<{
 	id: Scalars['uuid'];
-	eventsStart?: InputMaybe<Scalars['timestamptz']>;
-	eventsEnd?: InputMaybe<Scalars['timestamptz']>;
 	withOrientationRequests?: InputMaybe<Scalars['Boolean']>;
 }>;
 
@@ -19608,22 +19606,6 @@ export type GetNotebookQuery = {
 				__typename?: 'notebook_appointment';
 				date: any;
 				memberAccountId: string;
-			}>;
-			events: Array<{
-				__typename?: 'notebook_event';
-				id: string;
-				eventDate: string;
-				event: any;
-				eventType: NotebookEventTypeEnum;
-				creatorId?: string | null;
-				creator?: {
-					__typename?: 'account';
-					professional?: {
-						__typename?: 'professional';
-						structureId: string;
-						structure: { __typename?: 'structure'; name: string };
-					} | null;
-				} | null;
 			}>;
 		} | null;
 	}>;
@@ -31789,18 +31771,6 @@ export const GetNotebookDocument = {
 				},
 				{
 					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsStart' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
-					defaultValue: { kind: 'StringValue', value: '-infinity', block: false },
-				},
-				{
-					kind: 'VariableDefinition',
-					variable: { kind: 'Variable', name: { kind: 'Name', value: 'eventsEnd' } },
-					type: { kind: 'NamedType', name: { kind: 'Name', value: 'timestamptz' } },
-					defaultValue: { kind: 'StringValue', value: 'infinity', block: false },
-				},
-				{
-					kind: 'VariableDefinition',
 					variable: { kind: 'Variable', name: { kind: 'Name', value: 'withOrientationRequests' } },
 					type: { kind: 'NamedType', name: { kind: 'Name', value: 'Boolean' } },
 					defaultValue: { kind: 'BooleanValue', value: true },
@@ -32801,111 +32771,6 @@ export const GetNotebookDocument = {
 														{ kind: 'Field', name: { kind: 'Name', value: 'date' } },
 														{ kind: 'Field', name: { kind: 'Name', value: 'memberAccountId' } },
 													],
-												},
-											},
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'events' },
-												arguments: [
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'order_by' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'eventDate' },
-																	value: { kind: 'EnumValue', value: 'desc_nulls_first' },
-																},
-															],
-														},
-													},
-													{
-														kind: 'Argument',
-														name: { kind: 'Name', value: 'where' },
-														value: {
-															kind: 'ObjectValue',
-															fields: [
-																{
-																	kind: 'ObjectField',
-																	name: { kind: 'Name', value: 'eventDate' },
-																	value: {
-																		kind: 'ObjectValue',
-																		fields: [
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_gte' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'eventsStart' },
-																				},
-																			},
-																			{
-																				kind: 'ObjectField',
-																				name: { kind: 'Name', value: '_lte' },
-																				value: {
-																					kind: 'Variable',
-																					name: { kind: 'Name', value: 'eventsEnd' },
-																				},
-																			},
-																		],
-																	},
-																},
-															],
-														},
-													},
-												],
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [
-														{
-															kind: 'FragmentSpread',
-															name: { kind: 'Name', value: 'eventFields' },
-														},
-													],
-												},
-											},
-										],
-									},
-								},
-							],
-						},
-					},
-				],
-			},
-		},
-		{
-			kind: 'FragmentDefinition',
-			name: { kind: 'Name', value: 'eventFields' },
-			typeCondition: { kind: 'NamedType', name: { kind: 'Name', value: 'notebook_event' } },
-			selectionSet: {
-				kind: 'SelectionSet',
-				selections: [
-					{ kind: 'Field', name: { kind: 'Name', value: 'id' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'eventDate' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'event' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'eventType' } },
-					{ kind: 'Field', name: { kind: 'Name', value: 'creatorId' } },
-					{
-						kind: 'Field',
-						name: { kind: 'Name', value: 'creator' },
-						selectionSet: {
-							kind: 'SelectionSet',
-							selections: [
-								{
-									kind: 'Field',
-									name: { kind: 'Name', value: 'professional' },
-									selectionSet: {
-										kind: 'SelectionSet',
-										selections: [
-											{ kind: 'Field', name: { kind: 'Name', value: 'structureId' } },
-											{
-												kind: 'Field',
-												name: { kind: 'Name', value: 'structure' },
-												selectionSet: {
-													kind: 'SelectionSet',
-													selections: [{ kind: 'Field', name: { kind: 'Name', value: 'name' } }],
 												},
 											},
 										],
