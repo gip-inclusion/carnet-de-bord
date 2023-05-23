@@ -4,6 +4,7 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { operationStore, query } from '@urql/svelte';
 	import type { PageData } from './$types';
+	import NotebookEventList from '$lib/ui/NotebookEvent/NotebookEventList.svelte';
 
 	export let data: PageData;
 
@@ -33,4 +34,5 @@
 
 <LoaderIndicator result={getNotebookResult}>
 	<NotebookEdit notebook={notebookPublic} on:beneficiary-orientation-changed={refreshNotebook} />
+	<NotebookEventList notebook={notebookPublic['notebook']} />
 </LoaderIndicator>
