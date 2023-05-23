@@ -34,5 +34,8 @@
 
 <LoaderIndicator result={getNotebookResult}>
 	<NotebookEdit notebook={notebookPublic} on:beneficiary-orientation-changed={refreshNotebook} />
-	<NotebookEventList notebook={notebookPublic['notebook']} />
+
+	{#if notebookPublic['notebook']}
+		<NotebookEventList notebook={notebookPublic['notebook']} />
+	{/if}
 </LoaderIndicator>
