@@ -229,7 +229,6 @@ async def create_beneficiary_notebook(
         dsl_schema = DSLSchema(schema=schema)
         mutation = get_insert_beneficiary_mutation(
             dsl_schema=dsl_schema,
-            deployment_id=payload.session_variables["x-hasura-deployment-id"],
             notebook=payload.input.notebook,
         )
         response = await session.execute(dsl_gql(DSLMutation(**mutation)))

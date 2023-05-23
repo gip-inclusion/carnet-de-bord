@@ -386,7 +386,6 @@ ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth A
 
 def get_insert_beneficiary_mutation(
     dsl_schema: DSLSchema,
-    deployment_id: str,
     notebook: NotebookInput,
 ) -> dict[str, DSLField]:
     """
@@ -402,7 +401,6 @@ def get_insert_beneficiary_mutation(
                     "firstname": notebook.firstname,
                     "lastname": notebook.lastname,
                     "dateOfBirth": notebook.date_of_birth,
-                    "deploymentId": deployment_id,
                     "internalId": notebook.external_id,
                     "mobileNumber": notebook.mobile_number,
                     "email": notebook.email,

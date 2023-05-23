@@ -164,6 +164,7 @@ def get_mutation(
         "request_query": "",
         "session_variables": {
             "x-hasura-deployment-id": deployment_id,
-            "x-hasura-account-id": account_id,
+            "x-hasura-user-id": account_id,
+            "x-hasura-role": "manager",
         },
     }
