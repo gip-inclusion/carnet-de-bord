@@ -64,12 +64,18 @@ export const POST = (async ({ request }) => {
 		throw error(422, { message: `${validationError.message}` });
 	}
 
+	//
 	const accountResult = await client
 		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
 			criteria: {
 				_and: [
 					{ deletedAt: { _is_null: true } },
-					{ manager: { email: { _eq: body.rdviUserEmail } } },
+					{
+						manager: {
+							email: { _eq: body.rdviUserEmail },
+							deploymentId: { _eq: body.deploymentId },
+						},
+					},
 				],
 			},
 		})
