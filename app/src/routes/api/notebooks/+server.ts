@@ -92,7 +92,9 @@ export const POST = (async ({ request }) => {
 		type: RoleEnum.Manager,
 		deploymentId: body.deploymentId,
 	});
+
 	const authorizedClient = createClient({
+		fetch,
 		fetchOptions: {
 			headers: {
 				'Content-Type': 'application/json',
@@ -105,13 +107,14 @@ export const POST = (async ({ request }) => {
 
 	// TODO:
 	//	- Ajouter des tests sur l'appel à la mutation
-	//  - Ajouter des tests et adapter le code pour gérer les erreurs retournées par la mutation
-	//  - Ajouter des tests sur le retour en cas de succès
+	//	- Ajouter des tests et adapter le code pour gérer les erreurs retournées par la mutation
+	//	- Ajouter des tests sur le retour en cas de succès
 	const createNotebookResult = await authorizedClient
 		.mutation<CreateNotebookMutation, CreateNotebookMutationVariables>(CreateNotebookDocument, {
 			notebook: body.notebook,
 		})
 		.toPromise();
+
 	if (createNotebookResult.error) {
 		throw error(400, { message: createNotebookResult.error.toString() });
 	}

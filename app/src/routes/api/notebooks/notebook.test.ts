@@ -1,6 +1,7 @@
 import { describe, test, type Mock } from 'vitest';
 import { POST } from './+server';
 import { createFakeRequestEvent, createFetchResponse } from '../../../../setupTest';
+import { getGraphqlAPI } from '$lib/config/variables/private';
 
 // this allows to mock fetch function used inside createGraphqlAdminClient
 vi.mock('../../../lib/graphql/createAdminClient', async () => {
@@ -10,6 +11,13 @@ vi.mock('../../../lib/graphql/createAdminClient', async () => {
 	vi.stubGlobal('fetch', vi.fn());
 	return {
 		createGraphqlAdminClient: () => mod.createGraphqlAdminClient(),
+	};
+});
+vi.mock('@urql/core', async () => {
+	const mod = await vi.importActual<typeof import('@urql/core')>('@urql/core');
+	vi.stubGlobal('fetch', vi.fn());
+	return {
+		createClient: (fetchOptions) => mod.createClient({ ...fetchOptions, fetch }),
 	};
 });
 
@@ -27,7 +35,7 @@ describe('notebook api endpoint', () => {
 			}
 		);
 
-		expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+		await expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
 			HttpError {
 			  "body": {
 			    "message": "missing authorization",
@@ -47,7 +55,7 @@ describe('notebook api endpoint', () => {
 			}
 		);
 
-		expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+		await expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
 			HttpError {
 			  "body": {
 			    "message": "wrong authorization",
@@ -64,7 +72,7 @@ describe('notebook api endpoint', () => {
 			null
 		);
 
-		expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+		await expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
 			HttpError {
 			  "body": {
 			    "message": "deploymentId is a required field",
@@ -81,7 +89,7 @@ describe('notebook api endpoint', () => {
 			{}
 		);
 
-		expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+		await expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
 			HttpError {
 			  "body": {
 			    "message": "deploymentId is a required field",
@@ -90,6 +98,7 @@ describe('notebook api endpoint', () => {
 			}
 		`);
 	});
+
 	test('should return 500 if graphql fails', async () => {
 		(fetch as Mock).mockRejectedValueOnce(new Error('Network error'));
 		const requestEvent = createFakeRequestEvent(
@@ -98,10 +107,16 @@ describe('notebook api endpoint', () => {
 			{
 				deploymentId: 'f228a518-0d93-4d94-94f9-4724b5ae8730',
 				rdviUserEmail: 'hans@carnetdebord.inclusion.beta.gouv.fr',
+				notebook: {
+					dateOfBirth: '2001-12-03',
+					nir: '12345678901234',
+					firstname: 'lionel',
+					lastname: 'breduillieard',
+				},
 			}
 		);
 
-		expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+		await expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
 			HttpError {
 			  "body": {
 			    "message": "Internal server error",
@@ -118,10 +133,16 @@ describe('notebook api endpoint', () => {
 			{
 				deploymentId: 'f228a518-0d93-4d94-94f9-4724b5ae8730',
 				rdviUserEmail: 'contact+cd93@carnetdebord.inclusion.beta.gouv.fr',
+				notebook: {
+					dateOfBirth: '2001-12-03',
+					nir: '12345678901234',
+					firstname: 'lionel',
+					lastname: 'breduillieard',
+				},
 			}
 		);
 
-		expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+		await expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
 			HttpError {
 			  "body": {
 			    "message": "manager account not found",
@@ -144,17 +165,34 @@ describe('notebook api endpoint', () => {
 				},
 			})
 		);
+		(fetch as Mock).mockResolvedValueOnce(
+			createFetchResponse(200, {
+				data: {
+					create_notebook: {
+						notebookId: '70666617-e276-4135-8bed-a4255d28dbd4',
+					},
+				},
+			})
+		);
 		const requestEvent = createFakeRequestEvent(
 			'POST',
 			{ authorization: 'Bearer secret_api_token' },
 			{
 				deploymentId: 'f228a518-0d93-4d94-94f9-4724b5ae8730',
 				rdviUserEmail: 'contact+cd93@carnetdebord.inclusion.beta.gouv.fr',
+				notebook: {
+					dateOfBirth: '2001-12-03',
+					nir: '12345678901234',
+					firstname: 'lionel',
+					lastname: 'breduillieard',
+				},
 			}
 		);
 
 		await POST(requestEvent);
-		//TODO: ensure we call Hasura action
 		expect(fetch).toHaveBeenCalledTimes(2);
+		const params = (fetch as Mock).mock.lastCall;
+		expect(params[0]).toMatch(getGraphqlAPI());
+		expect(params[1].body).toContain('create_notebook');
 	});
 });
