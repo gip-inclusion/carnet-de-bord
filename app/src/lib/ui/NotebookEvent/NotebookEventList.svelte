@@ -38,7 +38,7 @@
 
 	const getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
-		buildQueryVariables({ notebookId: notebook.id }, selected)
+		buildQueryVariables({ notebookId: notebook?.id }, selected)
 	);
 
 	query(getNotebookEvents);
@@ -125,7 +125,7 @@
 
 	function onSelect(event: CustomEvent<{ selected: Period }>) {
 		selected = event.detail.selected;
-		$getNotebookEvents.variables = buildQueryVariables({ notebookId: notebook.id }, selected);
+		$getNotebookEvents.variables = buildQueryVariables({ notebookId: notebook?.id }, selected);
 		$getNotebookEvents.reexecute();
 	}
 </script>
