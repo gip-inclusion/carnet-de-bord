@@ -1,5 +1,7 @@
 module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId, sort)
 
+import CdbGQL.Enum.Action_status_enum as ActionStatus
+import CdbGQL.Object
 import CdbGQL.Object.Account as GQLAccount
 import CdbGQL.Object.Notebook_action as GQLAction
 import CdbGQL.Object.Notebook_target as GQLTarget
@@ -9,8 +11,7 @@ import CdbGQL.Query
 import CdbGQL.Scalar
 import Date
 import DebugView.Graphql
-import Domain.Action.Id exposing (ActionId)
-import Domain.Action.Status exposing (ActionStatus(..))
+import Extra.GraphQL
 import Graphql.Http
 import Graphql.Operation
 import Graphql.SelectionSet as Selection exposing (SelectionSet)
@@ -18,9 +19,9 @@ import Select exposing (Action)
 
 
 type alias Action =
-    { id : ActionId
+    { id : CdbGQL.Scalar.Uuid
     , description : String
-    , status : ActionStatus
+    , status : ActionStatus.Action_status_enum
     , startingAt : Date.Date
     , creator : Creator
     }
@@ -53,12 +54,12 @@ actionsByTargetIdSelector id =
         |> Selection.map sort
 
 
-actionSelector : SelectionSet Action GQLAction
+actionSelector : SelectionSet Action CdbGQL.Object.Notebook_action
 actionSelector =
     Selection.succeed Action
-        |> Selection.with (GQLAction.id |> Selection.map uuidToActionId)
+        |> Selection.with (GQLAction.id)
         |> Selection.with GQLAction.action
-        |> Selection.with (GQLAction.status |> Selection.mapOrFail Domain.Action.Status.parse)
+        |> Selection.with GQLAction.status
         |> Selection.with (GQLAction.startingAt |> Selection.mapOrFail timestampzToDate)
         |> Selection.with (GQLAction.creator creatorSelector)
 
@@ -66,11 +67,6 @@ actionSelector =
 timestampzToDate : CdbGQL.Scalar.Timestamptz -> Result String Date.Date
 timestampzToDate (CdbGQL.Scalar.Timestamptz raw) =
     Date.fromIsoString raw
-
-
-uuidToActionId : CdbGQL.Scalar.Uuid -> ActionId
-uuidToActionId (CdbGQL.Scalar.Uuid raw) =
-    Domain.Action.Id.ActionId raw
 
 
 creatorSelector : SelectionSet Creator CdbGQL.Object.Account
@@ -100,7 +96,7 @@ sort =
     List.sortBy
         (\action ->
             case action.status of
-                InProgress ->
+                ActionStatus.In_progress ->
                     1
 
                 _ ->

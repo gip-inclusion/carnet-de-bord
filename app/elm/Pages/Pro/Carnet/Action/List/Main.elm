@@ -91,7 +91,7 @@ update msg model =
                                 |> updateReady model
 
                         Err error ->
-                            ( { model | state = Failed }, Sentry.sendError )
+                            ( { model | state = Failed }, Sentry.sendError error )
 
         ( Loading, LoadedActions result ) ->
             case result of
@@ -106,7 +106,7 @@ update msg model =
 
                 Err error ->
                     ( { model | state = Failed }
-                    , Sentry.sendError <| Extra.Http.toString error
+                    , Sentry.sendError error
                     )
 
         _ ->

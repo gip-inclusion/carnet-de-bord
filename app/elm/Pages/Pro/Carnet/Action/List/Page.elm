@@ -1,17 +1,19 @@
 port module Pages.Pro.Carnet.Action.List.Page exposing (Model, Msg(..), init, subscriptions, update, view)
 
 import BetaGouv.DSFR.Alert
-import Domain.Action.Id exposing (ActionId)
-import Domain.Action.Status exposing (ActionStatus)
 import Effect
 import Extra.Date
 import Html
 import Html.Attributes as Attr
 import Pages.Pro.Carnet.Action.List.AddForm as AddForm
 import Pages.Pro.Carnet.Action.List.AllActions exposing (Action)
+import CdbGQL.Enum.Action_status_enum as ActionStatus
 import Process
 import Task
 import UI.SearchSelect.Component
+import Pages.Pro.Carnet.Action.List.ActionStatusSelect
+import CdbGQL.Scalar
+import Extra.CdbGQL
 
 
 type alias StatusUpdateOut =
@@ -67,7 +69,7 @@ init { actions, actionSearchApi, theme, targetId } =
 
 type Msg
     = Refreshed (List Action)
-    | UpdateStatus ActionId ActionStatus
+    | UpdateStatus CdbGQL.Scalar.Uuid ActionStatus.Action_status_enum
     | StatusUpdateFailed
     | AddFormMsg AddForm.Msg
     | DiscardStatusUpdateFailed
@@ -76,14 +78,14 @@ type Msg
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        UpdateStatus id statut ->
+        UpdateStatus id status ->
             ( { model
                 | actions =
                     model.actions
                         |> List.map
                             (\action ->
                                 if action.id == id then
-                                    { action | status = statut }
+                                    { action | status = status }
 
                                 else
                                     action
@@ -91,8 +93,8 @@ update msg model =
                 , statusUpdateFailed = False
               }
             , updateStatus
-                { actionId = Domain.Action.Id.printId id
-                , status = Domain.Action.Status.codeOf statut
+                { actionId = Extra.CdbGQL.printUuid id
+                , status = ActionStatus.toString status
                 }
             )
 
@@ -213,10 +215,10 @@ viewAction action =
         , Html.td []
             [ Html.text <| action.creator.firstName ++ " " ++ action.creator.lastName ]
         , Html.td []
-            [ Domain.Action.Status.select
+            [ Pages.Pro.Carnet.Action.List.ActionStatusSelect.select
                 { onSelect = UpdateStatus action.id
                 , value = action.status
-                , id = action.id |> Domain.Action.Id.printId
+                , id = action.id |> Extra.CdbGQL.printUuid
                 }
             ]
         , Html.td

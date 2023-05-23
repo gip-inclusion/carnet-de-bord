@@ -9,7 +9,6 @@
         "direct": {
             "Confidenceman02/elm-select": "8.2.1",
             "Gizra/elm-debouncer": "2.0.0",
-            "NoRedInk/elm-json-decode-pipeline": "1.0.1",
             "betagouv/elm-dsfr": "5.1.0",
             "danhandrea/elm-date-format": "2.0.2",
             "dillonkearns/elm-graphql": "5.0.11",
