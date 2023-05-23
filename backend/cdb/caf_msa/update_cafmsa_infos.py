@@ -99,7 +99,7 @@ async def update_cafmsa_for_beneficiaries(
                     count_error,
                 )
             else:
-                logger.warn(
+                logger.warning(
                     "manager (id=%s) introuvable",
                     account_id,
                 )
