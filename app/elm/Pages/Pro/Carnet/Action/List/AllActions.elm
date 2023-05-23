@@ -11,6 +11,7 @@ import CdbGQL.Query
 import CdbGQL.Scalar
 import Date
 import DebugView.Graphql
+import Extra.Date
 import Extra.GraphQL
 import Graphql.Http
 import Graphql.Operation
@@ -57,7 +58,7 @@ actionsByTargetIdSelector id =
 actionSelector : SelectionSet Action CdbGQL.Object.Notebook_action
 actionSelector =
     Selection.succeed Action
-        |> Selection.with (GQLAction.id)
+        |> Selection.with GQLAction.id
         |> Selection.with GQLAction.action
         |> Selection.with GQLAction.status
         |> Selection.with (GQLAction.startingAt |> Selection.mapOrFail timestampzToDate)
@@ -66,7 +67,7 @@ actionSelector =
 
 timestampzToDate : CdbGQL.Scalar.Timestamptz -> Result String Date.Date
 timestampzToDate (CdbGQL.Scalar.Timestamptz raw) =
-    Date.fromIsoString raw
+    Extra.Date.parseTimestamp raw
 
 
 creatorSelector : SelectionSet Creator CdbGQL.Object.Account
