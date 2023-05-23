@@ -390,47 +390,8 @@ def get_insert_beneficiary_mutation(
     notebook: NotebookInput,
 ) -> dict[str, DSLField]:
     """
-    TODO:
-        Création du bénéficiaire et du notebook avec la mutation suivante :
-        mutation CreateBeneficiaryWithNotebook(
-          $nir: String!
-          $deploymentId: uuid!
-          $firstname: String!
-          $lastname: String!
-          $dateOfBirth: date!
-            $internalId: String
-          $mobileNumber: String
-            $email: citext
-            $address1: String
-          $address2: String
-          $postalCode: String
-            $city: String
-            $cafNumber: String
-        ) {
-            insert_beneficiary_one(object: {
-              nir: $nir
-              deploymentId: $deploymentId
-              firstname: $firstname
-              lastname: $lastname
-                dateOfBirth: $dateOfBirth
-                    internalId: $internalId
-                mobileNumber: $mobileNumber
-                    email: $email
-                    address1: $address1
-                address2: $address2
-                postalCode: $postalCode
-                    city: $city
-                    cafNumber: $cafNumber
-              notebook: { data: {} }
-            }) {
-                notebook {
-                    id
-                }
-          }
-        }
-
-        Question : quid de la structure ?
-         (comment la trouver et créer la beneficiary_structure associée)
+       Question : quid de la structure ?
+    (comment la trouver et créer la beneficiary_structure associée)
     """
 
     return {
@@ -441,6 +402,7 @@ def get_insert_beneficiary_mutation(
                     "firstname": notebook.firstname,
                     "lastname": notebook.lastname,
                     "dateOfBirth": notebook.date_of_birth,
+                    "deploymentId": deployment_id,
                     #    internalId: $internalId
                     # mobileNumber: $mobileNumber
                     #    email: $email

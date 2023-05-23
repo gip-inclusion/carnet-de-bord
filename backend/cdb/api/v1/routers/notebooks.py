@@ -213,8 +213,6 @@ async def create_beneficiary_notebook(
     - create beneficiary_structure to hold the relation between
         a structure and a beneficiary
     """
-    logger.warn("++++++++ %s", payload.input.notebook)
-    logger.warn("++++++++ %s", payload.session_variables)
     # TODO: refactor dans un helper pour réutilisation (c'est déjà un CTRL-C/CRTL-V)
     transport = AIOHTTPTransport(
         url=settings.graphql_api_url,
@@ -236,7 +234,7 @@ async def create_beneficiary_notebook(
         )
         response = await session.execute(dsl_gql(DSLMutation(**mutation)))
 
-    # TODO valider qu'on envoit la clé message dans les message d'erreur
+    # TODO valider qu'on envoie la clé message dans les message d'erreur
 
     return CreatedNotebook(
         notebookId=response["create_beneficiary_with_notebook"]["notebook"]["id"]

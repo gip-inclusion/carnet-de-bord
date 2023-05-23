@@ -42,7 +42,7 @@ async def test_returns_201_when_success(
         json=get_mutation(
             deployment_id=deployment_id_cd93,
             account_id=get_manager_cd_93_account_id,
-            nir="",
+            nir="1781299212296",
             firstname="Jay",
             lastname="Erdaivéï",
             date_of_birth="2000-12-01",
@@ -65,7 +65,7 @@ async def test_creates_notebook_and_beneficiary(
         json=get_mutation(
             deployment_id=deployment_id_cd93,
             account_id=get_manager_cd_93_account_id,
-            nir="",
+            nir="1781299212296",
             firstname="Jay",
             lastname="Erdaivéï",
             date_of_birth="2000-12-01",
@@ -95,7 +95,7 @@ def get_mutation(
                 "nir": nir,
                 "firstname": firstname,
                 "lastname": lastname,
-                "date_of_birth": date_of_birth,
+                "dateOfBirth": date_of_birth,
             },
         },
         "request_query": "",
