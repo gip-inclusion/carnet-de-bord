@@ -392,3 +392,22 @@ Alors('je coche {string}', (text) => {
 Alors('je décoche {string}', (text) => {
 	I.uncheckOption(text);
 });
+
+Soit(
+	"la creation du carnet de {string} {string} depuis l'api par {string}",
+	async (firstname, lastname, manager) => {
+		I.amBearerAuthenticated(secret('secret_api_token'));
+		// TODO faire un requete gql pour récupérer le deploymentId
+		await I.sendPostRequest('/api/notebooks', {
+			deploymentId: 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b',
+			notebook: {
+				dateOfBirth: '1978-12-01',
+				firstname: firstname,
+				lastname: lastname,
+				nir: '1781299212296',
+			},
+			rdviUserEmail: manager,
+		});
+		I.seeResponseCodeIsSuccessful();
+	}
+);
