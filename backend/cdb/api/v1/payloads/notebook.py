@@ -5,17 +5,17 @@ from cdb.api.v1.payloads.hasura_action import HasuraActionPayload
 
 class NotebookInput(BaseModel):
     nir: str
-    externalId: str | None
+    external_id: str | None = Field(alias="externalId")
     firstname: str
     lastname: str
     date_of_birth: str = Field(alias="dateOfBirth")
-    mobileNumber: str | None
+    mobile_number: str | None = Field(alias="mobileNumber")
     email: str | None
-    address: str | None
+    address1: str | None
     address2: str | None
-    postal_code: str | None
+    postal_code: str | None = Field(alias="postalCode")
     city: str | None
-    cafNumber: str | None
+    caf_number: str | None = Field(alias="cafNumber")
 
 
 class CreateNotebookInput(BaseModel):

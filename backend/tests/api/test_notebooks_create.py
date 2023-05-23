@@ -1,4 +1,5 @@
 import uuid
+from datetime import date
 from uuid import UUID
 
 import pytest
@@ -80,6 +81,51 @@ async def test_creates_notebook_and_beneficiary(
     assert beneficiary.firstname == "Jay"
 
 
+async def test_creates_notebook_and_beneficiary_with_all_fields(
+    test_client: AsyncClient,
+    deployment_id_cd93,
+    get_manager_cd_93_account_id,
+    db_connection: Connection,
+):
+    response = await test_client.post(
+        "/v1/notebooks",
+        json=get_mutation(
+            deployment_id=deployment_id_cd93,
+            account_id=get_manager_cd_93_account_id,
+            nir="1781299212296",
+            firstname="Jay",
+            lastname="Erdaivéï",
+            date_of_birth="2000-12-01",
+            external_id="some-id",
+            mobile_number="0612345678",
+            email="jay@rdvi.fr",
+            address1="rue de l'open space",
+            address2="bureau #42",
+            postal_code="42666",
+            city="CDBVille",
+            caf_number="666",
+        ),
+        headers={"secret-token": "action_secret_token"},
+    )
+    assert response.status_code == 201
+    json = response.json()
+    created_notebook_id = json["notebookId"]
+    notebook = await get_notebook_by_id(db_connection, created_notebook_id)
+    beneficiary = await get_beneficiary_by_id(db_connection, notebook.beneficiary_id)
+    assert beneficiary.nir == "1781299212296"
+    assert beneficiary.firstname == "Jay"
+    assert beneficiary.lastname == "Erdaivéï"
+    assert beneficiary.date_of_birth == date(2000, 12, 1)
+    assert beneficiary.internal_id == "some-id"
+    assert beneficiary.mobile_number == "0612345678"
+    assert beneficiary.email == "jay@rdvi.fr"
+    assert beneficiary.address1 == "rue de l'open space"
+    assert beneficiary.address2 == "bureau #42"
+    assert beneficiary.postal_code == "42666"
+    assert beneficiary.city == "CDBVille"
+    assert beneficiary.caf_number == "666"
+
+
 def get_mutation(
     deployment_id: UUID,
     account_id: UUID,
@@ -87,6 +133,14 @@ def get_mutation(
     lastname: str,
     nir: str,
     date_of_birth: str,
+    external_id: str | None = None,
+    mobile_number: str | None = None,
+    email: str | None = None,
+    address1: str | None = None,
+    address2: str | None = None,
+    postal_code: str | None = None,
+    city: str | None = None,
+    caf_number: str | None = None,
 ):
     return {
         "action": {"name": "create_notebook"},
@@ -96,6 +150,14 @@ def get_mutation(
                 "firstname": firstname,
                 "lastname": lastname,
                 "dateOfBirth": date_of_birth,
+                "externalId": external_id,
+                "mobileNumber": mobile_number,
+                "email": email,
+                "address1": address1,
+                "address2": address2,
+                "postalCode": postal_code,
+                "city": city,
+                "cafNumber": caf_number,
             },
         },
         "request_query": "",

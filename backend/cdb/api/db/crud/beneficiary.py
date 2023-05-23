@@ -403,14 +403,14 @@ def get_insert_beneficiary_mutation(
                     "lastname": notebook.lastname,
                     "dateOfBirth": notebook.date_of_birth,
                     "deploymentId": deployment_id,
-                    #    internalId: $internalId
-                    # mobileNumber: $mobileNumber
-                    #    email: $email
-                    #    address1: $address1
-                    # address2: $address2
-                    # postalCode: $postalCode
-                    #    city: $city
-                    #    cafNumber: $cafNumber
+                    "internalId": notebook.external_id,
+                    "mobileNumber": notebook.mobile_number,
+                    "email": notebook.email,
+                    "address1": notebook.address1,
+                    "address2": notebook.address2,
+                    "postalCode": notebook.postal_code,
+                    "city": notebook.city,
+                    "cafNumber": notebook.caf_number,
                     "notebook": {"data": {}},
                 }
             ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
