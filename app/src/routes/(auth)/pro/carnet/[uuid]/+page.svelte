@@ -175,7 +175,9 @@
 					<ProNotebookFocusView {notebook} focuses={notebook.focuses} />
 				</MainSection>
 			{/if}
-			<NotebookEventList {notebook} />
+			{#if isMember}
+				<NotebookEventList {notebook} />
+			{/if}
 		</div>
 	{/if}
 </LoaderIndicator>
