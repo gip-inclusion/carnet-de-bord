@@ -317,7 +317,7 @@ workSituationDateFormat startDate endDate =
 
 socioProDiagFirstRowView : Model -> List (Html.Html msg)
 socioProDiagFirstRowView { professionalSituation, peGeneralData } =
-    [ Html.div [ class "fr-container--fluid" ]
+    [ Html.div [ class "fr-container--fluid overflow-visible" ]
         [ Html.div [ class "fr-grid-row fr-grid-row--gutters flex" ]
             [ socioProView professionalSituation
             , peInformationsView peGeneralData
