@@ -1,15 +1,30 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import { plugin as elmPlugin } from 'vite-plugin-elm';
+import { plugin as elm } from 'vite-plugin-elm';
 import path from 'path';
+import { spawnSync } from 'node:child_process';
+
+const codegenPlugin = () => ({
+	name: 'elm-codegen',
+	buildStart: {
+		handler: () => {
+			console.log('Generating GraphQL code...');
+			spawnSync('npm', ['run', 'codegen'], { stdio: ['ignore', 'inherit', 'inherit'] });
+			console.log('Done generating GraphQL code');
+		},
+	},
+});
 
 const config = {
 	server: {
 		port: 3000,
+		watch: {
+			ignored: ['**/elm-stuff/**'],
+		},
 	},
 	preview: {
 		port: 3000,
 	},
-	plugins: [sveltekit(), elmPlugin()],
+	plugins: [codegenPlugin(), sveltekit(), elm()],
 	optimizeDeps: {
 		//https://formidable.com/open-source/urql/docs/basics/svelte/
 		exclude: ['@urql/svelte', 'matomo-tracker'],
@@ -38,7 +53,7 @@ const config = {
 		globals: true,
 		environment: 'jsdom',
 		// in-source testing
-		includeSource: ['src/**/*.{js,ts,svelte}', 'codegen.cjs'],
+		includeSource: ['src/**/*.{js,ts,svelte}'],
 		// Add @testing-library/jest-dom matchers & mocks of SvelteKit modules
 		setupFiles: ['./setupTest.ts'],
 		silent: false,

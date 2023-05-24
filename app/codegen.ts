@@ -1,14 +1,7 @@
-/** @type {import("@graphql-codegen/cli").CodegenConfig} **/
-module.exports = {
-	schema: [
-		{
-			'http://localhost:5000/v1/graphql': {
-				headers: {
-					'x-hasura-admin-secret': 'admin',
-				},
-			},
-		},
-	],
+import { CodegenConfig } from '@graphql-codegen/cli';
+
+const config: CodegenConfig = {
+	schema: '../hasura/schema.graphql',
 	documents: ['src/**/*.gql'],
 	overwrite: true,
 	generates: {
@@ -39,3 +32,5 @@ module.exports = {
 		afterAllFileWrite: 'prettier --write',
 	},
 };
+
+export default config;
