@@ -394,12 +394,21 @@ Alors('je décoche {string}', (text) => {
 });
 
 Soit(
-	"la creation du carnet de {string} {string} depuis l'api par {string}",
-	async (firstname, lastname, manager) => {
+	"la creation du carnet de {string} {string} dans le déploiement {string} depuis l'api par {string}",
+	async (firstname, lastname, deploymentLabel, manager) => {
+		const result = await I.sendQuery(
+			`
+		query getDeploymentId($label: String!) {
+			deployment( where: { label: {_eq: $label } }) {
+				id
+			}
+		}`,
+			{ label: deploymentLabel }
+		);
+
 		I.amBearerAuthenticated(secret('secret_api_token'));
-		// TODO faire un requete gql pour récupérer le deploymentId
 		await I.sendPostRequest('/api/notebooks', {
-			deploymentId: 'c5c3a933-6f4a-4b2b-aa49-7a816eaef16b',
+			deploymentId: result.data.data.deployment[0].id,
 			notebook: {
 				dateOfBirth: '1978-12-01',
 				firstname: firstname,
