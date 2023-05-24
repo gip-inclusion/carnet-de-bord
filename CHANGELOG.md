@@ -1,3 +1,10 @@
+## [1.222.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.1...v1.222.2) (2023-05-24)
+
+
+### Bug Fixes
+
+* **actions:** use the start date in the notebook history ([f80cf25](https://github.com/gip-inclusion/carnet-de-bord/commit/f80cf2584033d97a6ff47f528dfde2b88b6e7497))
+
 ## [1.222.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.0...v1.222.1) (2023-05-24)
 
 # [1.222.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.221.1...v1.222.0) (2023-05-22)
