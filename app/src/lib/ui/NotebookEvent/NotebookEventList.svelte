@@ -48,18 +48,18 @@
 
 	function eventCategory(event): string {
 		if (
-			(event.eventType == NotebookEventTypeEnum.Action ||
-				event.eventType == NotebookEventTypeEnum.Target) &&
-			focusThemeKeys.byKey[event.event.category]
+			(event.eventType != NotebookEventTypeEnum.Action &&
+				event.eventType != NotebookEventTypeEnum.Target) ||
+			!focusThemeKeys.byKey[event.event.category]
 		) {
-			return (
-				constantToString(event.eventType, eventTypes) +
-				' ' +
-				focusThemeKeys.byKey[event.event.category]
-			);
-		} else {
 			return 'Action inconnue';
 		}
+
+		return (
+			constantToString(event.eventType, eventTypes) +
+			' ' +
+			focusThemeKeys.byKey[event.event.category]
+		);
 	}
 
 	function constantToString(
