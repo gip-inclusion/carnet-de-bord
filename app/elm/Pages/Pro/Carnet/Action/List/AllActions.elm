@@ -1,20 +1,28 @@
 module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId, sort)
 
+import CdbGQL.Enum.Action_status_enum as ActionStatus
+import CdbGQL.Object
+import CdbGQL.Object.Account as GQLAccount
+import CdbGQL.Object.Notebook_action as GQLAction
+import CdbGQL.Object.Notebook_target as GQLTarget
+import CdbGQL.Object.Orientation_manager as GQL_OM
+import CdbGQL.Object.Professional as GQLProfessional
+import CdbGQL.Query
+import CdbGQL.Scalar
 import Date
-import Domain.Action.Id exposing (ActionId)
-import Domain.Action.Status exposing (ActionStatus(..))
+import DebugView.Graphql
 import Extra.Date
-import Http
-import Json.Decode as Decode
-import Json.Decode.Pipeline as Decode
-import Json.Encode as Json
+import Extra.GraphQL
+import Graphql.Http
+import Graphql.Operation
+import Graphql.SelectionSet as Selection exposing (SelectionSet)
 import Select exposing (Action)
 
 
 type alias Action =
-    { id : ActionId
+    { id : CdbGQL.Scalar.Uuid
     , description : String
-    , status : ActionStatus
+    , status : ActionStatus.Action_status_enum
     , startingAt : Date.Date
     , creator : Creator
     }
@@ -24,87 +32,64 @@ type alias Creator =
     { firstName : String, lastName : String }
 
 
-decoder : Decode.Decoder Action
-decoder =
-    Decode.succeed Action
-        |> Decode.required "id" Domain.Action.Id.decoder
-        |> Decode.required "action" Decode.string
-        |> Decode.required "status" Domain.Action.Status.decoder
-        |> Decode.required "startingAt" Extra.Date.decoder
-        |> Decode.required "creator" creatorDecoder
+
+-- GraphQL
 
 
-creatorDecoder : Decode.Decoder Creator
-creatorDecoder =
-    Decode.keyValuePairs (Decode.maybe personDecoder)
-        |> Decode.andThen
-            (List.filterMap Tuple.second
-                >> List.head
-                >> Maybe.map Decode.succeed
-                >> Maybe.withDefault
-                    (Decode.fail "Une action doit avoir un créateur professional ou orientation manager")
+fetchAllByTargetId : { id : String, responseMsg : Result String (List Action) -> msg } -> Cmd msg
+fetchAllByTargetId { id, responseMsg } =
+    actionsByTargetIdSelector id
+        |> Graphql.Http.queryRequest "/graphql"
+        |> Graphql.Http.send
+            (Result.mapError DebugView.Graphql.graphqlErrorToString
+                >> responseMsg
             )
 
 
-personDecoder : Decode.Decoder Creator
-personDecoder =
-    Decode.succeed Creator
-        |> Decode.required "firstname" Decode.string
-        |> Decode.required "lastname" Decode.string
+actionsByTargetIdSelector : String -> SelectionSet (List Action) Graphql.Operation.RootQuery
+actionsByTargetIdSelector id =
+    CdbGQL.Query.notebook_target_by_pk
+        { id = CdbGQL.Scalar.Uuid id }
+        (GQLTarget.actions identity actionSelector)
+        |> Selection.nonNullOrFail
+        |> Selection.map sort
 
 
-fetchAllByTargetId : { id : String, responseMsg : Result Http.Error (List Action) -> msg } -> Cmd msg
-fetchAllByTargetId { id, responseMsg } =
-    let
-        query =
-            """
-query GetActionsByTargetId($id: uuid!) {
-  target: notebook_target_by_pk(id: $id) {
-    id
-    actions(order_by: {startingAt: desc}) {
-      id
-      action
-      status
-      startingAt
-      creator {
-        orientation_manager {
-          firstname, lastname
-        }
-        professional {
-          firstname, lastname
-        }
-      }
-    }
-  }
-}
-            """
-    in
-    Http.request
-        { method = "POST"
-        , url = "/graphql"
-        , headers =
-            []
-        , body =
-            Http.jsonBody
-                (Json.object
-                    [ ( "query", Json.string query )
-                    , ( "variables"
-                      , Json.object
-                            [ ( "id", Json.string id )
-                            ]
-                      )
-                    ]
-                )
-        , expect =
-            Http.expectJson
-                responseMsg
-                (Decode.at [ "data", "target", "actions" ]
-                    (Decode.list decoder)
-                    |> Decode.map sort
-                )
-        , timeout = Nothing
-        , tracker = Nothing
-        }
+actionSelector : SelectionSet Action CdbGQL.Object.Notebook_action
+actionSelector =
+    Selection.succeed Action
+        |> Selection.with GQLAction.id
+        |> Selection.with GQLAction.action
+        |> Selection.with GQLAction.status
+        |> Selection.with (GQLAction.startingAt |> Selection.mapOrFail timestampzToDate)
+        |> Selection.with (GQLAction.creator creatorSelector)
+
+
+timestampzToDate : CdbGQL.Scalar.Timestamptz -> Result String Date.Date
+timestampzToDate (CdbGQL.Scalar.Timestamptz raw) =
+    Extra.Date.parseTimestamp raw
+
+
+creatorSelector : SelectionSet Creator CdbGQL.Object.Account
+creatorSelector =
+    Extra.GraphQL.oneOf
+        [ GQLAccount.orientation_manager orientationManagerSelector
+        , GQLAccount.professional professionalSelector
+        ]
+
+
+professionalSelector : SelectionSet Creator CdbGQL.Object.Professional
+professionalSelector =
+    Selection.succeed Creator
+        |> Selection.with GQLProfessional.firstname
+        |> Selection.with GQLProfessional.lastname
+
+
+orientationManagerSelector : SelectionSet Creator CdbGQL.Object.Orientation_manager
+orientationManagerSelector =
+    Selection.succeed Creator
+        |> Selection.with (GQL_OM.firstname |> Selection.nonNullOrFail)
+        |> Selection.with (GQL_OM.lastname |> Selection.nonNullOrFail)
 
 
 sort : List Action -> List Action
@@ -112,7 +97,7 @@ sort =
     List.sortBy
         (\action ->
             case action.status of
-                InProgress ->
+                ActionStatus.In_progress ->
                     1
 
                 _ ->

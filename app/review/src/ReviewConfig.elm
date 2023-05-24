@@ -11,6 +11,7 @@ when inside the directory containing this file.
 
 -}
 
+import HtmlToElm
 import NoDebug.Log
 import NoDebug.TodoOrToString
 import NoDeprecated
@@ -36,7 +37,6 @@ import NoUrlStringConcatenation
 import NoUselessSubscriptions
 import Review.Rule exposing (Rule)
 import Simplify
-import HtmlToElm
 
 
 config : List Rule
@@ -64,6 +64,7 @@ config =
            , NoModuleOnExposedNames.rule
            , HtmlToElm.rule
            ]
+        |> List.map (Review.Rule.ignoreErrorsForDirectories [ "elm/CdbGQL" ])
 
 
 commonBestPractices : List Rule

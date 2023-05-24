@@ -2,9 +2,7 @@ port module Pages.Pro.Carnet.Action.List.Main exposing (Flags, Model, Msg(..), R
 
 import BetaGouv.DSFR.Alert as Alert
 import Browser
-import Extra.Http
 import Html
-import Http
 import Pages.Pro.Carnet.Action.List.ActionSelect as ActionSelect
 import Pages.Pro.Carnet.Action.List.AllActions as AllActions exposing (Action)
 import Pages.Pro.Carnet.Action.List.Page as Page
@@ -60,13 +58,13 @@ init flags =
 
 type Msg
     = ReadyMsg ReadyMsg
-    | LoadedActions (Result Http.Error (List Action))
+    | LoadedActions (Result String (List Action))
 
 
 type ReadyMsg
     = PageMsg Page.Msg
     | RefreshActions
-    | RefreshedActions (Result Http.Error (List Action))
+    | RefreshedActions (Result String (List Action))
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -93,7 +91,7 @@ update msg model =
                                 |> updateReady model
 
                         Err error ->
-                            ( { model | state = Failed }, Sentry.sendError <| Extra.Http.toString error )
+                            ( { model | state = Failed }, Sentry.sendError error )
 
         ( Loading, LoadedActions result ) ->
             case result of
@@ -108,7 +106,7 @@ update msg model =
 
                 Err error ->
                     ( { model | state = Failed }
-                    , Sentry.sendError <| Extra.Http.toString error
+                    , Sentry.sendError error
                     )
 
         _ ->

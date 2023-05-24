@@ -2,8 +2,8 @@
 
 SCRIPT_DIR=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" &>/dev/null && pwd)
 ROOT_DIR=$(dirname $SCRIPT_DIR)
-
-MAINS=$(find $ROOT_DIR/app/elm/* -type f -name Main.elm)
+cd $ROOT_DIR/app
+MAINS=$(find ./elm/* -type f -name Main.elm)
 
 RESULT=0
 for MAIN in $MAINS; do
@@ -12,4 +12,6 @@ for MAIN in $MAINS; do
 done
 if (($RESULT != 0)); then
 	echo "FAILED"
+else
+	echo "All elm compiles"
 fi

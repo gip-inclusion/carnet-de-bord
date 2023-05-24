@@ -1,33 +1,35 @@
 module Pages.Pro.Carnet.Action.List.Fixtures exposing (action1, action2)
 
+import CdbGQL.Enum.Action_status_enum
+import CdbGQL.Scalar
 import Date
-import Domain.Action.Id exposing (ActionId(..))
-import Domain.Action.Status
 import Pages.Pro.Carnet.Action.List.AllActions
 import Time
 
 
 action1 : Pages.Pro.Carnet.Action.List.AllActions.Action
 action1 =
-    { id = ActionId "1"
+    { id = CdbGQL.Scalar.Uuid "1"
     , description = "Première action"
     , creator =
         { lastName = "MICHEL"
         , firstName = "Daniel"
         }
-    , status = Domain.Action.Status.Done
+    , status =
+        CdbGQL.Enum.Action_status_enum.Done
     , startingAt = Date.fromPosix Time.utc <| Time.millisToPosix 0
     }
 
 
 action2 : Pages.Pro.Carnet.Action.List.AllActions.Action
 action2 =
-    { id = ActionId "2"
+    { id = CdbGQL.Scalar.Uuid "2"
     , description = "Deuxième action"
     , creator =
         { lastName = "DUPONT"
         , firstName = "Françoise"
         }
-    , status = Domain.Action.Status.AbandonnedByBeneficiary
+    , status =
+        CdbGQL.Enum.Action_status_enum.Abandonned
     , startingAt = Date.fromPosix Time.utc <| Time.millisToPosix 1682002405000
     }

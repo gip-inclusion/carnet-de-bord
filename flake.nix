@@ -20,6 +20,7 @@
           ];
           packages = with pkgs; [
             nodejs-16_x
+            python311
             pre-commit
             poetry
             gnumake
