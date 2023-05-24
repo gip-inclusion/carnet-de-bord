@@ -112,9 +112,7 @@ export const POST = (async ({ request }) => {
 	});
 
 	// TODO:
-	//	- Ajouter des tests sur l'appel à la mutation
 	//	- Ajouter des tests et adapter le code pour gérer les erreurs retournées par la mutation
-	//	- Ajouter des tests sur le retour en cas de succès
 	const createNotebookResult = await authorizedClient
 		.mutation<CreateNotebookMutation, CreateNotebookMutationVariables>(CreateNotebookDocument, {
 			notebook: body.notebook,
