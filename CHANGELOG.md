@@ -1,3 +1,10 @@
+## [1.222.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.2...v1.222.3) (2023-05-24)
+
+
+### Reverts
+
+* Revert "fix(actions): use the start date in the notebook history" ([9d96177](https://github.com/gip-inclusion/carnet-de-bord/commit/9d96177615260ab4c2453a547fba816d57259578))
+
 ## [1.222.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.1...v1.222.2) (2023-05-24)
 
 
