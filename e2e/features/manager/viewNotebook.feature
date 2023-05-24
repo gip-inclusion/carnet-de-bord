@@ -20,7 +20,7 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Quand je clique sur "Voir le carnet de Katharine Chandler"
 		Quand je vais sur l'onglet suivant
 		Alors j'attends que le texte "Katharine Chandler" apparaisse
-		Alors je vois "Dispose d'un RQTH"
+		Alors je vois "Dispose d'une RQTH"
 		Alors je vois "Oui"
 
 	Scénario: Mettre à jour les informations personnelles
