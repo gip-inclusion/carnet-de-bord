@@ -1,12 +1,11 @@
 from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
-from gql import Client, gql
-from gql.transport.aiohttp import AIOHTTPTransport
+from gql import gql
 from pydantic import BaseModel
 
 from cdb.api.core.emails import Person, send_deny_orientation_request_email
-from cdb.api.core.settings import settings
+from cdb.api.db.graphql.get_client import gql_client
 from cdb.api.db.models.role import RoleEnum
 from cdb.api.v1.dependencies import allowed_jwt_roles
 
@@ -64,16 +63,7 @@ async def deny_orientation_request(
     Deny an orientation request
     It will send an email to the requester to inform them about the decision
     """
-
-    transport = AIOHTTPTransport(
-        url=settings.graphql_api_url,
-        headers={"Authorization": authorization},
-    )
-
-    async with Client(
-        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
-    ) as session:
-
+    async with gql_client(bearer_token=authorization) as session:
         deny_response = await session.execute(
             deny_orientation_gql,
             variable_values=data.gql_variables(),

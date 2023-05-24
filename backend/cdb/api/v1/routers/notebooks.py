@@ -11,14 +11,11 @@ from fastapi import (
     Request,
     Response,
 )
-from gql import Client
 from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
-from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
 from cdb.api._gen.schema_gql import schema
 from cdb.api.core.emails import Member, Person, send_notebook_member_email
-from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import (
     get_insert_beneficiary_mutation,
 )
@@ -36,6 +33,7 @@ from cdb.api.db.crud.notebook_member import (
 )
 from cdb.api.db.crud.orientation_info import get_orientation_info
 from cdb.api.db.crud.orientation_system import get_available_orientation_systems_gql
+from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.db.models.member_type import MemberTypeEnum
 from cdb.api.db.models.orientation_info import OrientationInfo
 from cdb.api.db.models.role import RoleEnum
@@ -89,19 +87,12 @@ async def add_notebook_members(
     - set the referent orientation system for the beneficiary
     """
 
-    transport = AIOHTTPTransport(
-        url=settings.graphql_api_url,
-        headers={"Authorization": authorization},
-    )
-
     if request.state.account.structure_id is None:
         raise HTTPException(
             status_code=403, detail="Unsufficient permission (structureId is missing)"
         )
 
-    async with Client(
-        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
-    ) as session:
+    async with gql_client_backend_only(bearer_token=authorization) as session:
         orientation_info: OrientationInfo = await get_orientation_info(
             session,
             notebook_id,
@@ -213,18 +204,8 @@ async def create_beneficiary_notebook(
     - create beneficiary_structure to hold the relation between
         a structure and a beneficiary
     """
-    # TODO: refactor dans un helper pour réutilisation (c'est déjà un CTRL-C/CRTL-V)
-    transport = AIOHTTPTransport(
-        url=settings.graphql_api_url,
-        headers={
-            "x-hasura-use-backend-only-permissions": "true",
-            "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
-        }
-        | payload.session_variables,
-    )
-
-    async with Client(
-        transport=transport, fetch_schema_from_transport=False, serialize_variables=True
+    async with gql_client_backend_only(
+        session_variables=payload.session_variables
     ) as session:
         dsl_schema = DSLSchema(schema=schema)
         mutation = get_insert_beneficiary_mutation(
