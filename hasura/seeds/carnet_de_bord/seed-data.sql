@@ -259,6 +259,13 @@ INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, stat
 INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('5ab6baed-fa1f-4bc2-ab93-be3c07f632f7', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '2021-09-11 13:15:00.000+00', 'absent', '2021-09-11 13:15:00.000+00', '2021-09-11 13:06:45.076+00');
 INSERT INTO public.notebook_appointment (id, notebook_id, account_id, date, status, created_at, updated_at) VALUES ('4d1fff01-463b-4c1b-94e2-f3588a6cbf88', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', '17434464-5f69-40cc-8172-40160958a33d', '2021-08-11 13:15:00.000+00', 'current', '2021-08-11 13:15:00.000+00', '2021-08-11 13:06:45.076+00');
 
+INSERT INTO public.notebook_event (id, notebook_id, event_date, creator_id, event, event_type) VALUES ('a2c2949c-9b30-4fdc-b974-b85e571422b6', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', now() - INTERVAL '4 months', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '{ "status": "in_progress", "category": "emploi", "event_label": "Prépa-Compétences" }', 'action');
+
+
+INSERT INTO public.notebook_event (id, notebook_id, event_date, creator_id, event, event_type) VALUES ('26b0af96-5b22-4eb1-9d37-7785337d2de2', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', now() - INTERVAL '7 months', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '{ "status": "in_progress", "category": "emploi", "event_label": "Avoir un pass IAE validé" }', 'action');
+
+
+INSERT INTO public.notebook_event (id, notebook_id, event_date, creator_id, event, event_type) VALUES ('9db21f40-593f-4711-8104-d9412ad63785', '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d', now() - INTERVAL '2 years', 'd0b8f314-5e83-4535-9360-60f29dcfb5c8', '{ "status": "in_progress", "category": "emploi", "event_label": "Orientation vers une SIAE" }', 'action');
 
 
 -- Marc Saintpa
