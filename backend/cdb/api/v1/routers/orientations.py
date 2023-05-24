@@ -8,7 +8,6 @@ from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
-from cdb.api._gen.schema_gql import schema
 from cdb.api.core.emails import Member, Person, send_notebook_member_email
 from cdb.api.core.init import connection
 from cdb.api.core.settings import settings
@@ -29,6 +28,7 @@ from cdb.api.db.models.member_type import MemberTypeEnum
 from cdb.api.db.models.orientation_info import OrientationInfo
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.role import RoleEnum
+from cdb.api.schema_gql import schema
 from cdb.api.v1.dependencies import allowed_jwt_roles
 
 router = APIRouter(

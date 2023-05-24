@@ -15,7 +15,6 @@ from gql.dsl import DSLField, DSLMutation, DSLQuery, DSLSchema, dsl_gql
 from pydantic import BaseModel
 from starlette.responses import JSONResponse
 
-from cdb.api._gen.schema_gql import schema
 from cdb.api.core.emails import Member, Person, send_notebook_member_email
 from cdb.api.db.crud.beneficiary import (
     get_insert_beneficiary_mutation,
@@ -39,6 +38,7 @@ from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.db.models.member_type import MemberTypeEnum
 from cdb.api.db.models.orientation_info import OrientationInfo
 from cdb.api.db.models.role import RoleEnum
+from cdb.api.schema_gql import schema
 from cdb.api.v1.dependencies import (
     allowed_jwt_roles,
     extract_authentified_account,

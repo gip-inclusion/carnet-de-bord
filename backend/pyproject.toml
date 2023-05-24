@@ -53,7 +53,6 @@ select = [
     "B",  # flake8-bugbear
     "I",  # Isort
 ]
-extend-exclude = ["cdb/api/_gen/schema_gql.py"]
 ignore = [
     # Do not perform function call `XXX` in argument defaults.
     # FastAPI Depends() relies on this.

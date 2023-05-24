@@ -1,1 +1,2 @@
+cp -v ../hasura/schema.graphql .
 pip install --quiet --disable-pip-version-check --progress-bar off .
