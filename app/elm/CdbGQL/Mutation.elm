@@ -7445,6 +7445,7 @@ type alias UpdateSocioProRequiredArguments =
     , professionalProjectsToAdd : List CdbGQL.InputObject.UpdateSocioProProfessionalProjectInsertInput
     , professionalProjectsToUpdate : List CdbGQL.InputObject.UpdateSocioProProfessionalProjectSetInput
     , situationIdsToDelete : List CdbGQL.ScalarCodecs.Uuid
+    , situationIdsToDelete : List CdbGQL.ScalarCodecs.Uuid
     , situationsToAdd : List CdbGQL.InputObject.UpdateSocioProNotebookSituationInsertInput
     }
 

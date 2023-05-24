@@ -38,7 +38,7 @@
 		"format": "npm run fix:prettier",
 		"codegen": "npm run codegen:svelte && npm run codegen:elm",
 		"codegen:svelte": "graphql-codegen --config codegen.cjs",
-		"codegen:elm": "elm-graphql http://localhost:5000/v1/graphql --base CdbGQL --output elm --header 'x-hasura-admin-secret: admin'",
+		"codegen:elm": "../scripts/codegen-elm.sh",
 		"test": "npm run test:elm && npm run test:svelte",
 		"test:elm": "elm-test-rs \"tests/**/*Tests.elm\" \"elm/**/*_Tests.elm\"",
 		"test:elm:watch": "npm run test:elm -- --watch",
