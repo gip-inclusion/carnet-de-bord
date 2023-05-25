@@ -1,4 +1,4 @@
-module UI.SearchSelect.Component exposing (Model, Msg(..), Option, SearchApi, getSelected, init, reset, update, view)
+module UI.SearchSelect.Component exposing (Model, Msg(..), Option, SearchApi, Status, getSelected, init, reset, update, view)
 
 {-| Documentation et exemple sur elm-book. Rome.Select utilise également ce composant pour exemple.
 -}
@@ -6,10 +6,13 @@ module UI.SearchSelect.Component exposing (Model, Msg(..), Option, SearchApi, ge
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
 import Extra.Http
 import Html
+import Html.Attributes as Attr
+import Html.Events as Evts
+import Html.Styled
 import Http
 import Select
 import Sentry
-import UI.SearchSelect.View
+import UI.Attributes
 
 
 
@@ -28,11 +31,23 @@ type alias SearchApi =
 
 
 type alias Model =
-    { props : UI.SearchSelect.View.Props Option
+    { id : String
+    , status : Status
+    , label : String
+    , state : Select.State
     , selected : Maybe Option
+    , defaultOption : String
+    , searchPlaceholder : String
     , debouncer : Debouncer.Debouncer Msg
     , api : SearchApi
     }
+
+
+type Status
+    = Loading
+    | NotAsked
+    | Success (List Option)
+    | Failed
 
 
 init :
@@ -45,15 +60,15 @@ init :
     }
     -> Model
 init props =
-    { props =
-        UI.SearchSelect.View.init
-            { id = props.id
-            , selected = props.selected
-            , optionLabel = .label
-            , label = props.label
-            , searchPlaceholder = props.searchPlaceholder
-            , defaultOption = props.defaultOption
-            }
+    { id = props.id
+    , status =
+        props.selected
+            |> Maybe.map (List.singleton >> Success)
+            |> Maybe.withDefault NotAsked
+    , label = props.label
+    , state = Select.initState <| Select.selectIdentifier props.id
+    , defaultOption = props.defaultOption
+    , searchPlaceholder = props.searchPlaceholder
     , selected = props.selected
     , debouncer = debounce (fromSeconds 0.5) |> toDebouncer
     , api = props.api
@@ -62,25 +77,14 @@ init props =
 
 getSelected : Model -> Maybe Option
 getSelected model =
-    model.props.selected
+    model.selected
 
 
 reset : Model -> Model
 reset model =
-    let
-        props =
-            model.props
-    in
     { model
-        | props =
-            UI.SearchSelect.View.init
-                { id = props.id
-                , selected = Nothing
-                , optionLabel = props.optionLabel
-                , label = props.label
-                , searchPlaceholder = props.searchPlaceholder
-                , defaultOption = props.defaultOption
-                }
+        | status = NotAsked
+        , state = Select.initState <| Select.selectIdentifier model.id
         , selected = Nothing
     }
 
@@ -105,7 +109,7 @@ update msg model =
         SelectMsg selectMsg ->
             let
                 ( action, updatedSelectState, selectCmds ) =
-                    Select.update selectMsg model.props.state
+                    Select.update selectMsg model.state
 
                 newModel =
                     model |> updateState updatedSelectState
@@ -140,7 +144,7 @@ update msg model =
                     Select.initState
                         (Select.selectIdentifier
                             ("api-search-selector"
-                                ++ model.props.id
+                                ++ model.id
                             )
                         )
 
@@ -157,19 +161,19 @@ update msg model =
             )
 
         Search searchString ->
-            ( model |> updateStatus UI.SearchSelect.View.Loading
+            ( model |> updateStatus Loading
             , model.api { search = searchString, callbackMsg = Fetched }
             )
 
         Fetched result ->
             case result of
                 Ok values ->
-                    ( model |> updateStatus (values |> UI.SearchSelect.View.Success)
+                    ( model |> updateStatus (values |> Success)
                     , Cmd.none
                     )
 
                 Err httpError ->
-                    ( model |> updateStatus UI.SearchSelect.View.Failed
+                    ( model |> updateStatus Failed
                     , Sentry.sendError <| Extra.Http.toString httpError
                     )
 
@@ -183,31 +187,19 @@ update msg model =
             ( reset model, Cmd.none )
 
 
-updateStatus : UI.SearchSelect.View.Status Option -> Model -> Model
+updateStatus : Status -> Model -> Model
 updateStatus next model =
-    let
-        props =
-            model.props
-    in
-    { model | props = { props | status = next } }
+    { model | status = next }
 
 
 updateState : Select.State -> Model -> Model
 updateState next model =
-    let
-        props =
-            model.props
-    in
-    { model | props = { props | state = next } }
+    { model | state = next }
 
 
 updateSelected : Maybe Option -> Model -> Model
 updateSelected next model =
-    let
-        props =
-            model.props
-    in
-    { model | props = { props | selected = next }, selected = next }
+    { model | selected = next }
 
 
 debouncerConfig : Debouncer.UpdateConfig Msg Model
@@ -224,7 +216,84 @@ debouncerConfig =
 
 view : Model -> Html.Html Msg
 view model =
-    UI.SearchSelect.View.view model.props
-        { onOpen = Open
-        , onSelectMsg = SelectMsg
-        }
+    Html.div
+        [ Attr.classList
+            [ ( "fr-select-group", True )
+            , ( "elm-select", True )
+            , ( "fr-select-group--error"
+              , model.status == Failed
+              )
+            ]
+        ]
+        [ Html.label [ Attr.class "fr-label" ] [ Html.text model.label ]
+        , Html.button
+            [ Attr.classList
+                [ ( "fr-select", True )
+                , ( "text-left", True )
+                , ( "fr-select-group--error"
+                  , model.status == Failed
+                  )
+                ]
+            , Attr.type_ "button"
+            , Evts.onClick Open
+            , UI.Attributes.ariaExpanded (Select.isMenuOpen model.state)
+            ]
+            [ model.selected
+                |> Maybe.map .label
+                |> Maybe.withDefault model.defaultOption
+                |> Html.text
+            ]
+        , case model.status of
+            Failed ->
+                Html.p
+                    [ Attr.class "fr-error-text" ]
+                    [ Html.text "Votre recherche a échoué. Essayez en une autre ou contactez le support." ]
+
+            _ ->
+                if model.state |> Select.isMenuOpen then
+                    Html.div []
+                        [ Select.view
+                            (Select.menu
+                                |> Select.state model.state
+                                |> Select.menuItems (menuItems model)
+                                |> Select.placeholder model.searchPlaceholder
+                                |> Select.loadingMessage "Chargement..."
+                                |> Select.ariaDescribedBy ("select-usage-" ++ model.id)
+                                |> Select.loading (model.status == Loading)
+                            )
+                            |> Html.Styled.toUnstyled
+                            |> Html.map SelectMsg
+                        , Html.p
+                            [ Attr.class "sr-only"
+                            , Attr.id ("select-usage-" ++ model.id)
+                            ]
+                            [ Html.text "Utilisez les touches flèches pour naviguer dans la liste des suggestions"
+                            ]
+                        , Html.label
+                            [ Attr.class "sr-only"
+                            , Attr.for ("api-search-selector" ++ model.id ++ "__elm-select")
+                            ]
+                            [ Html.text model.searchPlaceholder ]
+                        ]
+
+                else
+                    Html.text ""
+        ]
+
+
+menuItems : Model -> List (Select.MenuItem Option)
+menuItems model =
+    case model.status of
+        Success data ->
+            data
+                |> List.map
+                    (\value ->
+                        Select.basicMenuItem
+                            { item = value
+                            , label = value.label
+                            }
+                            |> Select.filterableMenuItem False
+                    )
+
+        _ ->
+            []
