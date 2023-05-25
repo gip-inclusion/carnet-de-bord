@@ -1,3 +1,10 @@
+## [1.222.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.5...v1.222.6) (2023-05-25)
+
+
+### Bug Fixes
+
+* **diagnostic:** Correction de la mauvaise conjugaison de RQTH ([#1776](https://github.com/gip-inclusion/carnet-de-bord/issues/1776)) ([103692c](https://github.com/gip-inclusion/carnet-de-bord/commit/103692c08ed9ea0d9af0022e26a8786064e84500))
+
 ## [1.222.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.4...v1.222.5) (2023-05-25)
 
 
