@@ -1,3 +1,10 @@
+# [1.223.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.6...v1.223.0) (2023-05-25)
+
+
+### Features
+
+* ajout d'un endpoint de création de carnets depuis RDV-I ([#1747](https://github.com/gip-inclusion/carnet-de-bord/issues/1747)) ([12b7536](https://github.com/gip-inclusion/carnet-de-bord/commit/12b7536cc1c98fe70b6bfd0f47f8558fd2b5441b))
+
 ## [1.222.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.5...v1.222.6) (2023-05-25)
 
 
