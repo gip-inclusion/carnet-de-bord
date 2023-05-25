@@ -2,6 +2,7 @@
 @import url('./tailwind.css');
 @import url('./dsfr.css');
 @import url('./dsfr-theme-tac.css');
+@import url('../elm/UI/SearchSelect/style.css');
 
 :root {
 	--vert-cdb: rgba(0, 88, 93, 1);

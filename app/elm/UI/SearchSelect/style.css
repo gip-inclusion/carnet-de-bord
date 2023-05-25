@@ -1,0 +1,4 @@
+.elm-select input:focus {
+	/* Prevent an ugly blue border around the text that you type (added by tailwind) */
+	box-shadow: none;
+}
