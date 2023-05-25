@@ -357,6 +357,7 @@ LEFT JOIN orientation_system AS os ON os.id = ni.orientation_system_id
 LEFT JOIN account_info  AS ai ON referent.account_id = ai.account_id
 LEFT JOIN beneficiary_structure bs ON bs.beneficiary_id = b.id
 LEFT JOIN admin_structure_structure ass ON ass.structure_id = bs.structure_id
+    AND ass.deleted_at IS NULL
 LEFT JOIN admin_structure ads ON ads.id = ass.admin_structure_id
 LEFT JOIN structure s ON s.id = ass.structure_id
 WHERE referent IS NULL AND ads.email IS NOT NULL AND status = 'current'

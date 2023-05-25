@@ -1,6 +1,9 @@
 from datetime import date
+from uuid import UUID
 
 from asyncpg.connection import Connection
+from dask.dataframe.core import DataFrame
+from pytest import LogCaptureFixture
 from syrupy.data import Snapshot
 
 from cdb.api.db.crud.beneficiary import (
@@ -20,7 +23,8 @@ from cdb.cdb_csv.models.csv_row import PrincipalCsvRow
 
 
 async def test_get_beneficiary_with_professional_projects(
-    pe_principal_csv_series, db_connection
+    pe_principal_csv_series: DataFrame,
+    db_connection: Connection,
 ):
 
     # Get the first row
@@ -55,7 +59,8 @@ async def test_get_beneficiary_with_professional_projects(
 
 
 async def test_get_beneficiary_without_professional_projects(
-    pe_principal_csv_series, db_connection
+    pe_principal_csv_series: DataFrame,
+    db_connection: Connection,
 ):
 
     for idx, series in pe_principal_csv_series.iterrows():
@@ -93,7 +98,10 @@ async def test_get_beneficiary_without_professional_projects(
                 ) is None
 
 
-async def test_get_beneficiary_without_notebook(pe_principal_csv_series, db_connection):
+async def test_get_beneficiary_without_notebook(
+    pe_principal_csv_series: DataFrame,
+    db_connection: Connection,
+):
 
     for idx, series in pe_principal_csv_series.iterrows():
         # Get the third element
@@ -117,7 +125,9 @@ async def test_get_beneficiary_without_notebook(pe_principal_csv_series, db_conn
 
 
 async def test_get_beneficiary_with_unknown_rome_code(
-    caplog, pe_principal_csv_series, db_connection
+    caplog: LogCaptureFixture,
+    pe_principal_csv_series: DataFrame,
+    db_connection: Connection,
 ):
 
     for idx, series in pe_principal_csv_series.iterrows():
@@ -217,7 +227,8 @@ def test_beneficiary_get_values_for_keys(
 
 
 async def test_get_beneficiaries_without_referent(
-    db_connection: Connection, snapshot: Snapshot
+    db_connection: Connection,
+    snapshot: Snapshot,
 ) -> None:
     beneficiaries_without_referent: list[
         BeneficiaryWithAdminStructureEmail
@@ -235,5 +246,38 @@ async def test_get_beneficiaries_without_referent(
             ]
         )
         == 2
+    )
+    assert snapshot == beneficiaries_without_referent
+
+
+async def test_get_beneficiaries_without_referent_and_deleted_admin_structure(
+    db_connection: Connection,
+    snapshot: Snapshot,
+    get_vincent_timaitre_admin_structure_id: UUID,
+) -> None:
+    await db_connection.execute(
+        """
+        UPDATE admin_structure_structure
+        SET deleted_at = now()
+        WHERE admin_structure_id = $1
+        """,
+        get_vincent_timaitre_admin_structure_id,
+    )
+
+    beneficiaries_without_referent: list[
+        BeneficiaryWithAdminStructureEmail
+    ] = await get_beneficiaries_without_referent(db_connection)
+
+    # Vincent Timaitre n'est plus administrateur de la structure de Bennett.
+    # Il ne doit donc plus être notifié.
+    assert (
+        len(
+            [
+                beneficiary
+                for beneficiary in beneficiaries_without_referent
+                if beneficiary.lastname == "Bennett"
+            ]
+        )
+        == 1
     )
     assert snapshot == beneficiaries_without_referent
