@@ -1,4 +1,4 @@
-module UI.SearchSelect.SearchSelect exposing (Model, Msg(..), Option, SearchApi, Status, getSelected, init, reset, update, view)
+module UI.SearchSelect.SearchSelect exposing (Mode(..), Model, Msg(..), Option, SearchApi, Status, getSelected, init, reset, update, view)
 
 {-| Documentation et exemple sur elm-book. Rome.Select utilise également ce composant pour exemple.
 -}
@@ -30,6 +30,11 @@ type alias SearchApi =
     -> Cmd Msg
 
 
+type Mode
+    = Autocomplete
+    | Classic
+
+
 type alias Model =
     { id : String
     , status : Status
@@ -40,6 +45,8 @@ type alias Model =
     , searchPlaceholder : String
     , debouncer : Debouncer.Debouncer Msg
     , api : SearchApi
+    , search : String
+    , mode : Mode
     }
 
 
@@ -57,6 +64,7 @@ init :
     , label : String
     , searchPlaceholder : String
     , defaultOption : String
+    , mode : Mode
     }
     -> Model
 init props =
@@ -72,6 +80,8 @@ init props =
     , selected = props.selected
     , debouncer = debounce (fromSeconds 0.5) |> toDebouncer
     , api = props.api
+    , search = ""
+    , mode = props.mode
     }
 
 
@@ -103,6 +113,10 @@ type Msg
     | Reset
 
 
+
+-- TODO: reset, on remet à zéro la recherche dupliquée chez nous aussi
+
+
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
@@ -112,14 +126,14 @@ update msg model =
                     Select.update selectMsg model.state
 
                 newModel =
-                    model |> updateState updatedSelectState
+                    { model | state = updatedSelectState }
 
                 command =
                     Cmd.map SelectMsg selectCmds
             in
             case action of
                 Just (Select.Select selected) ->
-                    ( newModel |> updateSelected (Just selected)
+                    ( { newModel | selected = Just selected }
                     , command
                     )
 
@@ -131,7 +145,7 @@ update msg model =
                                 (Search value
                                     |> provideInput
                                 )
-                                newModel
+                                { newModel | search = value }
                     in
                     ( debouncerModel, Cmd.batch [ command, debouncerCmds ] )
 
@@ -156,24 +170,27 @@ update msg model =
                     -- for dropdown menu.
                     Select.update Select.focus selectElement
             in
-            ( model |> updateState focusedSelectState
+            ( { model | state = focusedSelectState }
             , Cmd.map SelectMsg cmds
             )
 
         Search searchString ->
-            ( model |> updateStatus Loading
+            ( { model | status = Loading }
             , model.api { search = searchString, callbackMsg = Fetched }
             )
 
+        -- TODO: ajouter une option à l'init pour ajouter un option custom
         Fetched result ->
             case result of
                 Ok values ->
-                    ( model |> updateStatus (values |> Success)
+                    ( { model
+                        | status = values |> addAutocompleteOption model |> Success
+                      }
                     , Cmd.none
                     )
 
                 Err httpError ->
-                    ( model |> updateStatus Failed
+                    ( { model | status = Failed }
                     , Sentry.sendError <| Extra.Http.toString httpError
                     )
 
@@ -181,25 +198,23 @@ update msg model =
             Debouncer.update update debouncerConfig subMsg model
 
         Select value ->
-            ( model |> updateSelected (Just value), Cmd.none )
+            ( { model | selected = Just value }, Cmd.none )
 
         Reset ->
             ( reset model, Cmd.none )
 
 
-updateStatus : Status -> Model -> Model
-updateStatus next model =
-    { model | status = next }
+addAutocompleteOption : Model -> (List Option -> List Option)
+addAutocompleteOption model =
+    case model.mode of
+        Classic ->
+            identity
 
-
-updateState : Select.State -> Model -> Model
-updateState next model =
-    { model | state = next }
-
-
-updateSelected : Maybe Option -> Model -> Model
-updateSelected next model =
-    { model | selected = next }
+        Autocomplete ->
+            (::)
+                { id = "custom-search-select-option"
+                , label = model.search
+                }
 
 
 debouncerConfig : Debouncer.UpdateConfig Msg Model

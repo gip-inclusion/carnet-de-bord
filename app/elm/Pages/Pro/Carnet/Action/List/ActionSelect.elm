@@ -44,6 +44,7 @@ init props =
             , label = "Actions"
             , searchPlaceholder = "Rechercher une action"
             , defaultOption = "Sélectionner une action"
+            , mode = SearchSelect.Autocomplete
             }
     }
         -- Call update with the initial model in order to get a visible list of actions when
