@@ -61,3 +61,7 @@ export function getActionSecret(): string {
 export function getSandboxLogin(): boolean {
 	return env['SANDBOX_LOGIN'] === 'true';
 }
+
+export const getRdvISecret = (): string => {
+	return env['RDVI_CLIENT_SECRET'];
+};

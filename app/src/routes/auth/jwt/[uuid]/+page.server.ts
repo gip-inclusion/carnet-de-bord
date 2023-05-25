@@ -51,7 +51,6 @@ export const actions: Actions = {
 		const {
 			id,
 			type,
-			username,
 			beneficiaryId,
 			managerId,
 			professionalId,
@@ -81,7 +80,6 @@ export const actions: Actions = {
 		const token = createJwt({
 			id,
 			type,
-			username,
 			professionalId,
 			managerId,
 			beneficiaryId,

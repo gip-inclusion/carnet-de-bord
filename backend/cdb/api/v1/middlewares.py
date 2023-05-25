@@ -2,6 +2,7 @@ import time
 
 import structlog
 from fastapi import Request, Response
+from starlette.concurrency import iterate_in_threadpool
 from uvicorn.protocols.utils import get_path_with_query_string
 
 from cdb.api.core.logging import setup_logging
@@ -30,6 +31,11 @@ async def logging_middleware(request: Request, call_next) -> Response:
         client_port = request.client.port
         http_method = request.method
         http_version = request.scope.get("http_version", "Not defined")
+        if response is None:
+            response_body = None
+        else:
+            response_body = [section async for section in response.body_iterator]
+            response.body_iterator = iterate_in_threadpool(iter(response_body))
         # Recreate the Uvicorn access log format, but add all parameters as structured
         # information
         access_logger.info(
@@ -43,6 +49,8 @@ async def logging_middleware(request: Request, call_next) -> Response:
             network={"client": {"ip": client_host, "port": client_port}},
             duration=process_time,
             response={
-                "body": response,
+                "body": response_body[0].decode()
+                if response_body and len(response_body) > 0
+                else None,
             },
         )

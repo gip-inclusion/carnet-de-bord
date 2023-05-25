@@ -163,6 +163,7 @@ insert_permissions:
         - internal_id
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code

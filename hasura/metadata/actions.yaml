@@ -1,4 +1,14 @@
 actions:
+  - name: create_notebook
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebooks'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: manager
+    comment: Notebook creation
   - name: create_nps_rating
     definition:
       kind: synchronous
@@ -65,7 +75,9 @@ custom_types:
     - name: UpdateSocioProProfessionalProjectInsertInput
     - name: UpdateSocioProProfessionalProjectSetInput
     - name: UpdateSocioProNotebookSituationInsertInput
+    - name: CreateNotebookInput
   objects:
     - name: NPSRatingOutput
     - name: UpdateSocioProOutput
+    - name: CreateNotebookOutput
   scalars: []

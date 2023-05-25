@@ -27,8 +27,8 @@ class TestNotifyAdminStructure:
 
     async def test_return_forbidden_when_no_secret_token(
         self,
-        mock_get_beneficiaries_without_referent: mock.Mock,
-        mock_send_email: mock.Mock,
+        _: mock.Mock,
+        __: mock.Mock,
         test_client,
     ):
         response = await test_client.post(

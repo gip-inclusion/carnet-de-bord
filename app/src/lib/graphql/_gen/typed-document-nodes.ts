@@ -34,6 +34,26 @@ export type BooleanComparisonExp = {
 	_nin?: InputMaybe<Array<Scalars['Boolean']>>;
 };
 
+export type CreateNotebookInput = {
+	address?: InputMaybe<Scalars['String']>;
+	address2?: InputMaybe<Scalars['String']>;
+	cafNumber?: InputMaybe<Scalars['String']>;
+	city?: InputMaybe<Scalars['String']>;
+	dateOfBirth: Scalars['date'];
+	email?: InputMaybe<Scalars['String']>;
+	externalId?: InputMaybe<Scalars['String']>;
+	firstname: Scalars['String'];
+	lastname: Scalars['String'];
+	mobileNumber?: InputMaybe<Scalars['String']>;
+	nir: Scalars['String'];
+	postal_code?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateNotebookOutput = {
+	__typename?: 'CreateNotebookOutput';
+	notebookId: Scalars['uuid'];
+};
+
 /** Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'. */
 export type IntComparisonExp = {
 	_eq?: InputMaybe<Scalars['Int']>;
@@ -4442,6 +4462,8 @@ export type ManagerUpdates = {
 /** mutation root */
 export type MutationRoot = {
 	__typename?: 'mutation_root';
+	/** Notebook creation */
+	create_notebook?: Maybe<CreateNotebookOutput>;
 	/** Create NPS Rating */
 	create_nps_rating?: Maybe<NpsRatingOutput>;
 	/** delete data from the table: "account" */
@@ -5064,6 +5086,11 @@ export type MutationRoot = {
 	update_structure_orientation_system_many?: Maybe<
 		Array<Maybe<StructureOrientationSystemMutationResponse>>
 	>;
+};
+
+/** mutation root */
+export type MutationRootCreateNotebookArgs = {
+	notebook: CreateNotebookInput;
 };
 
 /** mutation root */
@@ -20006,6 +20033,15 @@ export type GetDeploymentStatForDayQuery = {
 		__typename?: 'notebook_aggregate';
 		aggregate?: { __typename?: 'notebook_aggregate_fields'; count: number } | null;
 	};
+};
+
+export type CreateNotebookMutationVariables = Exact<{
+	notebook: CreateNotebookInput;
+}>;
+
+export type CreateNotebookMutation = {
+	__typename?: 'mutation_root';
+	create_notebook?: { __typename?: 'CreateNotebookOutput'; notebookId: string } | null;
 };
 
 export type GetAccountInfoQueryVariables = Exact<{
@@ -35734,6 +35770,46 @@ export const GetDeploymentStatForDayDocument = {
 		},
 	],
 } as unknown as DocumentNode<GetDeploymentStatForDayQuery, GetDeploymentStatForDayQueryVariables>;
+export const CreateNotebookDocument = {
+	kind: 'Document',
+	definitions: [
+		{
+			kind: 'OperationDefinition',
+			operation: 'mutation',
+			name: { kind: 'Name', value: 'CreateNotebook' },
+			variableDefinitions: [
+				{
+					kind: 'VariableDefinition',
+					variable: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+					type: {
+						kind: 'NonNullType',
+						type: { kind: 'NamedType', name: { kind: 'Name', value: 'CreateNotebookInput' } },
+					},
+				},
+			],
+			selectionSet: {
+				kind: 'SelectionSet',
+				selections: [
+					{
+						kind: 'Field',
+						name: { kind: 'Name', value: 'create_notebook' },
+						arguments: [
+							{
+								kind: 'Argument',
+								name: { kind: 'Name', value: 'notebook' },
+								value: { kind: 'Variable', name: { kind: 'Name', value: 'notebook' } },
+							},
+						],
+						selectionSet: {
+							kind: 'SelectionSet',
+							selections: [{ kind: 'Field', name: { kind: 'Name', value: 'notebookId' } }],
+						},
+					},
+				],
+			},
+		},
+	],
+} as unknown as DocumentNode<CreateNotebookMutation, CreateNotebookMutationVariables>;
 export const GetAccountInfoDocument = {
 	kind: 'Document',
 	definitions: [
@@ -36717,6 +36793,10 @@ export type ListDeploymentIdQueryStore = OperationStore<
 export type GetDeploymentStatForDayQueryStore = OperationStore<
 	GetDeploymentStatForDayQuery,
 	GetDeploymentStatForDayQueryVariables
+>;
+export type CreateNotebookMutationStore = OperationStore<
+	CreateNotebookMutation,
+	CreateNotebookMutationVariables
 >;
 export type GetAccountInfoQueryStore = OperationStore<
 	GetAccountInfoQuery,

@@ -8,13 +8,12 @@ export type JwtAccount = Pick<
 	Account,
 	| 'id'
 	| 'type'
-	| 'username'
 	| 'managerId'
 	| 'beneficiaryId'
 	| 'adminStructureId'
 	| 'professionalId'
 	| 'orientationManagerId'
-> & { deploymentId: string; structureId: string };
+> & { deploymentId: string; structureId?: string };
 
 export type JwtPayload = {
 	id: string;

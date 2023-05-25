@@ -5,6 +5,7 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from gql.dsl import DSLField, DSLSchema
 
 from cdb.api.core.exceptions import InsertFailError
 from cdb.api.db.crud.notebook import (
@@ -28,6 +29,7 @@ from cdb.api.db.models.deployment import parse_deployment_from_beneficiary_recor
 from cdb.api.db.models.notebook_member import NotebookMemberInsert
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
+from cdb.api.v1.payloads.notebook import NotebookInput
 
 logger = logging.getLogger(__name__)
 
@@ -380,3 +382,48 @@ ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth A
         )
         for row in rows
     ]
+
+
+def search_beneficiary_by_nir_query(
+    dsl_schema: DSLSchema, nir: str
+) -> dict[str, DSLField]:
+    return {
+        "beneficiaries": dsl_schema.query_root.get_beneficiaries_from_nir.args(
+            args={"search_nir": nir}
+        ).select(
+            dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id),
+            dsl_schema.beneficiary.deploymentId,
+        )
+    }
+
+
+def get_insert_beneficiary_mutation(
+    dsl_schema: DSLSchema,
+    notebook: NotebookInput,
+) -> dict[str, DSLField]:
+    """
+       Question : quid de la structure ?
+    (comment la trouver et créer la beneficiary_structure associée)
+    """
+
+    return {
+        "create_beneficiary_with_notebook": (
+            dsl_schema.mutation_root.insert_beneficiary_one.args(
+                object={
+                    "nir": notebook.nir,
+                    "firstname": notebook.firstname,
+                    "lastname": notebook.lastname,
+                    "dateOfBirth": notebook.date_of_birth,
+                    "internalId": notebook.external_id,
+                    "mobileNumber": notebook.mobile_number,
+                    "email": notebook.email,
+                    "address1": notebook.address1,
+                    "address2": notebook.address2,
+                    "postalCode": notebook.postal_code,
+                    "city": notebook.city,
+                    "cafNumber": notebook.caf_number,
+                    "notebook": {"data": {}},
+                }
+            ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
+        ),
+    }

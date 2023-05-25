@@ -392,3 +392,31 @@ Alors('je coche {string}', (text) => {
 Alors('je décoche {string}', (text) => {
 	I.uncheckOption(text);
 });
+
+Soit(
+	"la creation du carnet de {string} {string} dans le déploiement {string} depuis l'api par {string}",
+	async (firstname, lastname, deploymentLabel, manager) => {
+		const result = await I.sendQuery(
+			`
+		query getDeploymentId($label: String!) {
+			deployment( where: { label: {_eq: $label } }) {
+				id
+			}
+		}`,
+			{ label: deploymentLabel }
+		);
+
+		I.amBearerAuthenticated(secret('secret_api_token'));
+		await I.sendPostRequest('/api/notebooks', {
+			deploymentId: result.data.data.deployment[0].id,
+			notebook: {
+				dateOfBirth: '1978-12-01',
+				firstname: firstname,
+				lastname: lastname,
+				nir: '1781299212296',
+			},
+			rdviUserEmail: manager,
+		});
+		I.seeResponseCodeIsSuccessful();
+	}
+);

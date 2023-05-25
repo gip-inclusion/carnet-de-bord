@@ -17,12 +17,22 @@ exports.config = {
 			},
 			endpoint: `${process.env.HASURA_BASEURL || 'http://localhost:5000'}/v1/graphql`,
 		},
+		JSONResponse: {
+			requestHelper: 'REST',
+		},
 		Playwright: {
 			browser: 'chromium',
 			locale: 'fr',
 			show: process.env.CODECEPT_UI ? true : false,
 			url: process.env.CODECEPT_BASEURL || 'http://localhost:3000',
 			video: true,
+		},
+		REST: {
+			defaultHeaders: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+			endpoint: process.env.CODECEPT_BASEURL || 'http://localhost:3000',
 		},
 		Seed: {
 			require: './step_definitions/seed_helper.js',

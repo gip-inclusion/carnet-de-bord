@@ -1,0 +1,9 @@
+mutation CreateNotebook (
+  $notebook: CreateNotebookInput!
+) {
+  create_notebook(
+    notebook: $notebook
+  ) {
+    notebookId
+  }
+}

@@ -6,11 +6,11 @@ from pydantic import BaseModel, EmailStr, Field, ValidationError, validator
 
 from cdb.api.db.models.csv import CsvFieldError
 from cdb.api.db.models.deployment import Deployment
-from cdb.api.db.models.nir import nir_format
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.validator import (
     date_validator,
+    nir_validator,
     parse_bool_validator,
     phone_validator,
     postal_code_validator,
@@ -119,6 +119,7 @@ class BeneficiaryImport(BaseModel):
         "right_are", "right_ass", "right_bonus", "right_rqth", pre=True
     )
     _date_validator = date_validator("date_of_birth", pre=True)
+    _nir_validator = nir_validator("nir")
 
     @validator("right_rsa")
     def parse_right_rsa(cls, right_rsa):
@@ -184,13 +185,6 @@ class BeneficiaryImport(BaseModel):
         ]:
             raise ValueError("value unknown")
         return education_level
-
-    @validator("nir")
-    def parse_nir(cls, nir: str):
-        validation_error = nir_format(nir)
-        if validation_error:
-            raise ValueError(validation_error)
-        return nir[:13] if nir else nir
 
     # TODO Should be possible to use decorator to mark field for beneficiary
     def get_beneficiary_editable_keys(self) -> list[str]:

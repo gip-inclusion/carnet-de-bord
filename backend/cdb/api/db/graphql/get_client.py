@@ -1,3 +1,5 @@
+from typing import Dict
+
 from gql import Client
 from gql.transport.aiohttp import AIOHTTPTransport
 from gql.utilities import update_schema_scalar
@@ -15,13 +17,17 @@ def gql_client(bearer_token: str) -> Client:
     )
 
 
-def gql_client_backend_only(bearer_token: str) -> Client:
+def gql_client_backend_only(
+    bearer_token: str | None = None,
+    session_variables: Dict[str, str] | None = None,
+) -> Client:
     return _get_client(
         headers={
             "x-hasura-admin-secret": settings.hasura_graphql_admin_secret,
             "x-hasura-use-backend-only-permissions": "true",
-            "Authorization": bearer_token,
         }
+        | (session_variables if session_variables is not None else {})
+        | ({"Authorization": bearer_token} if bearer_token is not None else {})
     )
 
 
