@@ -2,7 +2,7 @@ module UI.SearchSelect.Stories exposing (main)
 
 import Storybook.Component exposing (Component)
 import Storybook.Controls
-import UI.SearchSelect.Component as SearchSelect
+import UI.SearchSelect.SearchSelect as SearchSelect
 import UI.SearchSelect.Fixtures
 
 

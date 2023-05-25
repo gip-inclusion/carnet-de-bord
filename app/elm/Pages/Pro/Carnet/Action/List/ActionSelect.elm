@@ -4,7 +4,7 @@ import Html
 import Http
 import Json.Decode as Decode
 import Json.Encode as Json
-import UI.SearchSelect.Component
+import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 
@@ -25,19 +25,19 @@ decoder =
 
 type alias Model =
     { theme : String
-    , selectModel : UI.SearchSelect.Component.Model
+    , selectModel : SearchSelect.Model
     }
 
 
 init :
-    { actionSearchApi : UI.SearchSelect.Component.SearchApi
+    { actionSearchApi : SearchSelect.SearchApi
     , theme : String
     }
     -> ( Model, Cmd Msg )
 init props =
     { theme = props.theme
     , selectModel =
-        UI.SearchSelect.Component.init
+        SearchSelect.init
             { id = "select-action"
             , selected = Nothing
             , api = props.actionSearchApi
@@ -48,23 +48,23 @@ init props =
     }
         -- Call update with the initial model in order to get a visible list of actions when
         -- we open the select
-        |> update (UI.SearchSelect.Component.Search "")
+        |> update (SearchSelect.Search "")
 
 
 reset : Model -> ( Model, Cmd Msg )
 reset model =
-    { model | selectModel = UI.SearchSelect.Component.reset model.selectModel }
+    { model | selectModel = SearchSelect.reset model.selectModel }
         -- On forwarde vers update afin d'avoir la liste des actions visible à l'ouverture
-        |> update (UI.SearchSelect.Component.Search "")
+        |> update (SearchSelect.Search "")
 
 
-getSelected : Model -> Maybe UI.SearchSelect.Component.Option
+getSelected : Model -> Maybe SearchSelect.Option
 getSelected =
     .selectModel
-        >> UI.SearchSelect.Component.getSelected
+        >> SearchSelect.getSelected
 
 
-apiSearch : String -> UI.SearchSelect.Component.SearchApi
+apiSearch : String -> SearchSelect.SearchApi
 apiSearch theme { search, callbackMsg } =
     let
         query =
@@ -133,14 +133,14 @@ groupRefActionsByTheme theme actions =
 
 
 type alias Msg =
-    UI.SearchSelect.Component.Msg
+    SearchSelect.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     let
         ( nextSelect, selectCmd ) =
-            UI.SearchSelect.Component.update msg model.selectModel
+            SearchSelect.update msg model.selectModel
     in
     ( { model | selectModel = nextSelect }, selectCmd )
 
@@ -151,4 +151,4 @@ update msg model =
 
 view : Model -> Html.Html Msg
 view model =
-    UI.SearchSelect.Component.view model.selectModel
+    SearchSelect.view model.selectModel

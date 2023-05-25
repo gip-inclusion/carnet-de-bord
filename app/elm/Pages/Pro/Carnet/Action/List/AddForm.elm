@@ -11,7 +11,7 @@ import Html.Events as Evts
 import Pages.Pro.Carnet.Action.List.ActionSelect as ActionSelect
 import Process
 import Task
-import UI.SearchSelect.Component
+import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 port addAction :
@@ -62,7 +62,7 @@ parse model =
 init :
     { targetId : String
     , theme : String
-    , actionSearchApi : UI.SearchSelect.Component.SearchApi
+    , actionSearchApi : SearchSelect.SearchApi
     }
     -> ( Model, Effect Msg )
 init { targetId, theme, actionSearchApi } =

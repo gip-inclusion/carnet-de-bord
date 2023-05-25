@@ -1,4 +1,4 @@
-module UI.SearchSelect.Component exposing (Model, Msg(..), Option, SearchApi, Status, getSelected, init, reset, update, view)
+module UI.SearchSelect.SearchSelect exposing (Model, Msg(..), Option, SearchApi, Status, getSelected, init, reset, update, view)
 
 {-| Documentation et exemple sur elm-book. Rome.Select utilise également ce composant pour exemple.
 -}

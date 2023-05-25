@@ -4,20 +4,20 @@ import Expect
 import ProgramTest
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector
-import UI.SearchSelect.Component
+import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 selectOption :
     { label : String
     , option : String
-    , toProgramMsg : UI.SearchSelect.Component.Msg -> msg
+    , toProgramMsg : SearchSelect.Msg -> msg
     }
     -> ProgramTest.ProgramTest model msg effect
     -> ProgramTest.ProgramTest model msg effect
 selectOption { label, option, toProgramMsg } =
     ProgramTest.update
         (toProgramMsg
-            (UI.SearchSelect.Component.Select
+            (SearchSelect.Select
                 { id = "id"
                 , label = option
                 }

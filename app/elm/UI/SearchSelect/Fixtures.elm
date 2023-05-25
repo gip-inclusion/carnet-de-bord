@@ -1,7 +1,7 @@
 module UI.SearchSelect.Fixtures exposing (fakeSearchApi)
 
 import Task
-import UI.SearchSelect.Component as SearchSelect
+import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 fakeSearchApi : SearchSelect.SearchApi

@@ -10,7 +10,7 @@ import Pages.Pro.Carnet.Action.List.AllActions exposing (Action)
 import CdbGQL.Enum.Action_status_enum as ActionStatus
 import Process
 import Task
-import UI.SearchSelect.Component
+import UI.SearchSelect.SearchSelect as SearchSelect
 import Pages.Pro.Carnet.Action.List.ActionStatusSelect
 import CdbGQL.Scalar
 import Extra.CdbGQL
@@ -40,7 +40,7 @@ type alias Model =
 
 init :
     { actions : List Action
-    , actionSearchApi : UI.SearchSelect.Component.SearchApi
+    , actionSearchApi : SearchSelect.SearchApi
     , theme : String
     , targetId : String
     }
