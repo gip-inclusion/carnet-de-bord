@@ -346,7 +346,7 @@ socioProView professionalSituation =
                         Nothing
                     ]
                 , Html.div [ class "fr-col-6" ]
-                    [ situationElement "Dispose d'un RQTH"
+                    [ situationElement "Dispose d'une RQTH"
                         (Just
                             (if professionalSituation.rightRqth then
                                 Html.text "Oui"
