@@ -206,10 +206,12 @@ async def create_beneficiary_notebook(
     - create beneficiary_structure to hold the relation between
         a structure and a beneficiary
     """
-    async with gql_client_backend_only(
-        session_variables=payload.session_variables
-    ) as session:
-        dsl_schema = DSLSchema(schema=schema)
+    dsl_schema = DSLSchema(schema=schema)
+    """
+        we use and admin client to search a beneficiary from their nir
+        to be sure to find them.
+    """
+    async with gql_client_backend_only() as session:
         query = search_beneficiary_by_nir_query(
             dsl_schema=dsl_schema, nir=payload.input.notebook.nir
         )
@@ -228,6 +230,9 @@ async def create_beneficiary_notebook(
                 },
             )
 
+    async with gql_client_backend_only(
+        session_variables=payload.session_variables
+    ) as session:
         mutation = get_insert_beneficiary_mutation(
             dsl_schema=dsl_schema,
             notebook=payload.input.notebook,

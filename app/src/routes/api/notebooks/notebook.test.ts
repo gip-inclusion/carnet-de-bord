@@ -152,6 +152,60 @@ describe('notebook api endpoint', () => {
 		`);
 	});
 
+	test('should return 409 if action return an alerady exist error', async () => {
+		(fetch as Mock).mockResolvedValueOnce(
+			createFetchResponse(200, {
+				data: {
+					account: [
+						{
+							id: '70666617-e276-4135-8bed-a4255d28dbd4',
+							type: 'manager',
+						},
+					],
+				},
+			})
+		);
+		(fetch as Mock).mockResolvedValueOnce(
+			createFetchResponse(200, {
+				errors: [
+					{
+						message: 'notebook already exists',
+						extensions: {
+							notebookId: '70666617-e276-4135-8bed-a4255d28dbd4',
+						},
+					},
+				],
+			})
+		);
+		const requestEvent = createFakeRequestEvent(
+			'POST',
+			{ authorization: 'Bearer secret_api_token' },
+			{
+				deploymentId: 'f228a518-0d93-4d94-94f9-4724b5ae8730',
+				rdviUserEmail: 'contact+cd93@carnetdebord.inclusion.beta.gouv.fr',
+				notebook: {
+					dateOfBirth: '2001-12-03',
+					nir: '12345678901234',
+					firstname: 'lionel',
+					lastname: 'breduillieard',
+				},
+			}
+		);
+
+		await expect(POST(requestEvent)).rejects.toMatchInlineSnapshot(`
+			HttpError {
+			  "body": {
+			    "extensions": {
+			      "notebookId": "70666617-e276-4135-8bed-a4255d28dbd4",
+			    },
+			    "message": "notebook already exists",
+			  },
+			  "status": 409,
+			}
+		`);
+		expect(fetch).toHaveBeenCalledTimes(2);
+	});
+
 	test('should return 200 if payload is correct', async () => {
 		(fetch as Mock).mockResolvedValueOnce(
 			createFetchResponse(200, {

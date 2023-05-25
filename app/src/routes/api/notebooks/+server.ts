@@ -120,6 +120,10 @@ export const POST = (async ({ request }) => {
 		.toPromise();
 
 	if (createNotebookResult.error) {
+		if (createNotebookResult.error.graphQLErrors) {
+			const gqlError = createNotebookResult.error.graphQLErrors[0];
+			throw error(409, { ...gqlError });
+		}
 		throw error(400, { message: createNotebookResult.error.toString() });
 	}
 	return new Response(
