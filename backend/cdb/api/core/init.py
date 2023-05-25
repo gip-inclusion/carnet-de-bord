@@ -2,10 +2,12 @@ import importlib.metadata
 import logging
 
 from fastapi import FastAPI, HTTPException, Request
+from gql.transport.exceptions import TransportQueryError
 
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.settings import settings
 from cdb.api.v1.exception_handler import (
+    gql_transport_exception_handler,
     http_500_exception_handler,
     http_exception_handler,
 )
@@ -63,6 +65,10 @@ def create_app(*, db=None) -> FastAPI:
     @app.exception_handler(Exception)
     async def format_500_http_exception(*args):
         return await http_500_exception_handler(*args)
+
+    @app.exception_handler(TransportQueryError)
+    async def format_gql_transport_exception(*args):
+        return await gql_transport_exception_handler(*args)
 
     return app
 
