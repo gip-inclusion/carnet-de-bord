@@ -384,6 +384,16 @@ ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth A
     ]
 
 
+def search_beneficiary_by_nir_query(
+    dsl_schema: DSLSchema, nir: str
+) -> dict[str, DSLField]:
+    return {
+        "beneficiaries": dsl_schema.query_root.get_beneficiaries_from_nir.args(
+            args={"search_nir": nir}
+        ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
+    }
+
+
 def get_insert_beneficiary_mutation(
     dsl_schema: DSLSchema,
     notebook: NotebookInput,

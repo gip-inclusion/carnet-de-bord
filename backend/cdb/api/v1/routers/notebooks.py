@@ -11,13 +11,15 @@ from fastapi import (
     Request,
     Response,
 )
-from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
+from gql.dsl import DSLField, DSLMutation, DSLQuery, DSLSchema, dsl_gql
 from pydantic import BaseModel
+from starlette.responses import JSONResponse
 
 from cdb.api._gen.schema_gql import schema
 from cdb.api.core.emails import Member, Person, send_notebook_member_email
 from cdb.api.db.crud.beneficiary import (
     get_insert_beneficiary_mutation,
+    search_beneficiary_by_nir_query,
 )
 from cdb.api.db.crud.beneficiary_structure import (
     get_deactivate_beneficiary_structure_mutation,
@@ -208,6 +210,24 @@ async def create_beneficiary_notebook(
         session_variables=payload.session_variables
     ) as session:
         dsl_schema = DSLSchema(schema=schema)
+        query = search_beneficiary_by_nir_query(
+            dsl_schema=dsl_schema, nir=payload.input.notebook.nir
+        )
+        response = await session.execute(dsl_gql(DSLQuery(**query)))
+        beneficiaries = response.get("beneficiaries")
+        if isinstance(beneficiaries, list) and len(beneficiaries) > 0:
+            notebookId = beneficiaries[0]["notebook"]["id"]
+            return JSONResponse(
+                status_code=409,
+                content={
+                    "message": "notebook already exists",
+                    "extensions": {
+                        "notebookId": notebookId,
+                        "input": payload.input.notebook.dict(),
+                    },
+                },
+            )
+
         mutation = get_insert_beneficiary_mutation(
             dsl_schema=dsl_schema,
             notebook=payload.input.notebook,
