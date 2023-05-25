@@ -122,7 +122,9 @@ export const POST = (async ({ request }) => {
 	if (createNotebookResult.error) {
 		if (createNotebookResult.error.graphQLErrors) {
 			const gqlError = createNotebookResult.error.graphQLErrors[0];
-			throw error(409, { ...gqlError });
+			if (gqlError.extensions.error_code === 409) {
+				throw error(409, { ...gqlError });
+			}
 		}
 		throw error(400, { message: createNotebookResult.error.toString() });
 	}

@@ -390,7 +390,10 @@ def search_beneficiary_by_nir_query(
     return {
         "beneficiaries": dsl_schema.query_root.get_beneficiaries_from_nir.args(
             args={"search_nir": nir}
-        ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
+        ).select(
+            dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id),
+            dsl_schema.beneficiary.deploymentId,
+        )
     }
 
 

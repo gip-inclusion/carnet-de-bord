@@ -533,6 +533,11 @@ def get_manager_cd_93_account_id() -> UUID:
 
 
 @pytest.fixture
+def get_manager_cd_51_account_id() -> UUID:
+    return UUID("3f4c5d95-b25c-4e18-a2c6-b394b8221c8f")
+
+
+@pytest.fixture
 def get_manager_cd_93_id() -> UUID:
     return UUID("01a3d906-70d9-42e6-9b61-2ccf030e5d8f")
 
@@ -606,6 +611,11 @@ def import_structures_json_with_errors() -> list[dict]:
 @pytest.fixture
 def deployment_id_cd93() -> UUID:
     return UUID("4dab8036-a86e-4d5f-9bd4-6ce88c1940d0")
+
+
+@pytest.fixture
+def deployment_id_cd51() -> UUID:
+    return UUID("c5c3a933-6f4a-4b2b-aa49-7a816eaef16b")
 
 
 @pytest.fixture

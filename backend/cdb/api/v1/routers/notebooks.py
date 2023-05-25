@@ -219,11 +219,24 @@ async def create_beneficiary_notebook(
         beneficiaries = response.get("beneficiaries")
         if isinstance(beneficiaries, list) and len(beneficiaries) > 0:
             notebookId = beneficiaries[0]["notebook"]["id"]
+            if beneficiaries[0].get("deploymentId") != payload.session_variables.get(
+                "x-hasura-deployment-id"
+            ):
+                return JSONResponse(
+                    status_code=400,
+                    content={
+                        "message": "found notebook from a different deployment",
+                        "extensions": {
+                            "error_code": 400,
+                        },
+                    },
+                )
             return JSONResponse(
                 status_code=409,
                 content={
                     "message": "notebook already exists",
                     "extensions": {
+                        "error_code": 409,
                         "notebookId": notebookId,
                         "input": payload.input.notebook.dict(),
                     },

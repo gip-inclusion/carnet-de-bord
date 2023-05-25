@@ -72,6 +72,46 @@ async def test_returns_409_when_nir_already_exists(
     assert json["extensions"]["notebookId"] == notebookId
 
 
+async def test_returns_400_when_nir_already_exists_in_another_deployment(
+    test_client: AsyncClient,
+    deployment_id_cd93,
+    deployment_id_cd51,
+    get_manager_cd_51_account_id,
+    get_manager_cd_93_account_id,
+    db_connection: Connection,
+):
+    response = await test_client.post(
+        "/v1/notebooks",
+        json=get_mutation(
+            deployment_id=deployment_id_cd93,
+            account_id=get_manager_cd_93_account_id,
+            nir="1781299212296",
+            firstname="Jay",
+            lastname="Erdaivéï",
+            date_of_birth="2000-12-01",
+        ),
+        headers={"secret-token": "action_secret_token"},
+    )
+    assert response.status_code == 201
+    response.json()["notebookId"]
+
+    response = await test_client.post(
+        "/v1/notebooks",
+        json=get_mutation(
+            deployment_id=deployment_id_cd51,
+            account_id=get_manager_cd_51_account_id,
+            nir="1781299212296",
+            firstname="Jay",
+            lastname="Erdaivéï",
+            date_of_birth="2000-12-01",
+        ),
+        headers={"secret-token": "action_secret_token"},
+    )
+    assert response.status_code == 400
+    json = response.json()
+    assert json["message"] == "found notebook from a different deployment"
+
+
 async def test_creates_notebook_and_beneficiary(
     test_client: AsyncClient,
     deployment_id_cd93,

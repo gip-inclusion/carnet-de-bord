@@ -171,6 +171,7 @@ describe('notebook api endpoint', () => {
 					{
 						message: 'notebook already exists',
 						extensions: {
+							error_code: 409,
 							notebookId: '70666617-e276-4135-8bed-a4255d28dbd4',
 						},
 					},
@@ -196,6 +197,7 @@ describe('notebook api endpoint', () => {
 			HttpError {
 			  "body": {
 			    "extensions": {
+			      "error_code": 409,
 			      "notebookId": "70666617-e276-4135-8bed-a4255d28dbd4",
 			    },
 			    "locations": undefined,

@@ -36,5 +36,8 @@ async def gql_transport_exception_handler(_: Request, exception: TransportQueryE
 
     return JSONResponse(
         status_code=400,
-        content={"message": "Erreur dans la requete graphql"},
+        content={
+            "message": "Erreur dans la requete graphql",
+            "extensions": {"error_code": 400},
+        },
     )
