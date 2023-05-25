@@ -1,3 +1,10 @@
+## [1.222.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.4...v1.222.5) (2023-05-25)
+
+
+### Bug Fixes
+
+* **diagnostic:** afficher l'ombre portée par les diagnostics professionnels ([#1775](https://github.com/gip-inclusion/carnet-de-bord/issues/1775)) ([bd261bc](https://github.com/gip-inclusion/carnet-de-bord/commit/bd261bc98928c0af36fef12e4de034983815d58b))
+
 ## [1.222.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.3...v1.222.4) (2023-05-25)
 
 ## [1.222.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.2...v1.222.3) (2023-05-24)
