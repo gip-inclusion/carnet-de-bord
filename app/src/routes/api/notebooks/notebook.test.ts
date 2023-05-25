@@ -198,7 +198,9 @@ describe('notebook api endpoint', () => {
 			    "extensions": {
 			      "notebookId": "70666617-e276-4135-8bed-a4255d28dbd4",
 			    },
+			    "locations": undefined,
 			    "message": "notebook already exists",
+			    "path": undefined,
 			  },
 			  "status": 409,
 			}
