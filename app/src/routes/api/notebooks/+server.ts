@@ -127,6 +127,7 @@ export const POST = (async ({ request }) => {
 		throw error(400, { message: createNotebookResult.error.toString() });
 	}
 	return new Response(
-		JSON.stringify({ notebookId: createNotebookResult.data.create_notebook.notebookId })
+		JSON.stringify({ notebookId: createNotebookResult.data.create_notebook.notebookId }),
+		{ status: 201 }
 	);
 }) satisfies RequestHandler;
