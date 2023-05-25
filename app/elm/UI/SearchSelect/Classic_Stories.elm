@@ -1,4 +1,4 @@
-module UI.SearchSelect.Stories exposing (main)
+module UI.SearchSelect.Classic_Stories exposing (main)
 
 import Storybook.Component exposing (Component)
 import Storybook.Controls
