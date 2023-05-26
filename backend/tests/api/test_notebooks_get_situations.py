@@ -1,7 +1,6 @@
 import httpx
 import pytest
 import respx
-from fastapi.testclient import TestClient
 
 from cdb.api.core.settings import settings
 from cdb.api.db.models.notebook import Notebook
@@ -14,11 +13,11 @@ pytestmark = pytest.mark.graphql
 
 
 async def test_verify_no_token(
-    test_client: TestClient,
+    test_client: httpx.AsyncClient,
     notebook_sophie_tifour: Notebook,
 ):
     response = await test_client.get(
-        f"/v1/notebooks/{notebook_sophie_tifour.id}/pole-emploi-diagnostic",
+        f"/v1/notebooks/{notebook_sophie_tifour.id}/situations",
     )
     assert response.status_code == 401
     json = response.json()
@@ -26,8 +25,8 @@ async def test_verify_no_token(
 
 
 @respx.mock
-async def test_get_notebook_pole_emploi_diagnostic_nominal(
-    test_client: TestClient,
+async def test_get_notebook_situations_nominal(
+    test_client: httpx.AsyncClient,
     notebook_sophie_tifour: Notebook,
     get_professional_jwt: str,
 ):
@@ -53,8 +52,9 @@ async def test_get_notebook_pole_emploi_diagnostic_nominal(
     respx.post(client.usagers_url).mock(
         return_value=httpx.Response(200, json=PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK)
     )
+
     response = await test_client.get(
-        f"/v1/notebooks/{notebook_sophie_tifour.id}/pole-emploi-diagnostic",
+        f"/v1/notebooks/{notebook_sophie_tifour.id}/situations",
         headers={"jwt-token": get_professional_jwt},
     )
     assert response.status_code == 200

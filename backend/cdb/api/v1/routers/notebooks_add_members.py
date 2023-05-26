@@ -11,15 +11,10 @@ from fastapi import (
     Request,
     Response,
 )
-from gql.dsl import DSLField, DSLMutation, DSLQuery, DSLSchema, dsl_gql
+from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from pydantic import BaseModel
-from starlette.responses import JSONResponse
 
 from cdb.api.core.emails import Member, Person, send_notebook_member_email
-from cdb.api.db.crud.beneficiary import (
-    get_insert_beneficiary_mutation,
-    search_beneficiary_by_nir_query,
-)
 from cdb.api.db.crud.beneficiary_structure import (
     get_deactivate_beneficiary_structure_mutation,
     get_insert_beneficiary_structure_mutation,
@@ -42,12 +37,15 @@ from cdb.api.schema_gql import schema
 from cdb.api.v1.dependencies import (
     allowed_jwt_roles,
     extract_authentified_account,
-    verify_secret_token,
 )
-from cdb.api.v1.payloads.notebook import CreateNotebookActionPayload
 
 logger = logging.getLogger(__name__)
-router = APIRouter()
+router = APIRouter(
+    dependencies=[
+        Depends(extract_authentified_account),
+        Depends(allowed_jwt_roles([RoleEnum.PROFESSIONAL])),
+    ],
+)
 
 
 class AddNotebookMemberInput(BaseModel):
@@ -55,13 +53,7 @@ class AddNotebookMemberInput(BaseModel):
     orientation: Optional[UUID]
 
 
-@router.post(
-    "/{notebook_id}/members",
-    dependencies=[
-        Depends(extract_authentified_account),
-        Depends(allowed_jwt_roles([RoleEnum.PROFESSIONAL])),
-    ],
-)
+@router.post("/{notebook_id}/members")
 async def add_notebook_members(
     data: AddNotebookMemberInput,
     request: Request,
@@ -70,7 +62,7 @@ async def add_notebook_members(
     authorization: str = Header(default=None),
 ):
     """
-    Add currently authentified user as notebook_member of given notebook
+    Add currently authenticated user as notebook_member of given notebook
     The relationship between a user and a notebook is represented by:
     - beneficiary_structure holds the relation between a structure and a beneficiary
     - notebook_member holds the relation of an account (pro, orientation_manager)
@@ -181,76 +173,3 @@ def notify_former_referents(
             if orientation_info.new_referent is not None
             else None,
         )
-
-
-class CreatedNotebook(BaseModel):
-    notebookId: str
-
-
-@router.post("", status_code=201, dependencies=[Depends(verify_secret_token)])
-async def create_beneficiary_notebook(
-    _: Request,
-    payload: CreateNotebookActionPayload,
-):
-    """
-    This endpoint aims to create a beneficiary and its notebook from
-    an external partner (**like RDV-Insertion**).
-
-    This endpoint will:
-    - ensure there is no existing beneficiary (nir shall be unique)
-    - create beneficiary entity
-    - create notebook entity
-    - create beneficiary_structure to hold the relation between
-        a structure and a beneficiary
-    """
-    dsl_schema = DSLSchema(schema=schema)
-    """
-        we use and admin client to search a beneficiary from their nir
-        to be sure to find them.
-    """
-    async with gql_client_backend_only() as session:
-        query = search_beneficiary_by_nir_query(
-            dsl_schema=dsl_schema, nir=payload.input.notebook.nir
-        )
-        response = await session.execute(dsl_gql(DSLQuery(**query)))
-        beneficiaries = response.get("beneficiaries")
-        if isinstance(beneficiaries, list) and len(beneficiaries) > 0:
-            notebookId = beneficiaries[0]["notebook"]["id"]
-            if beneficiaries[0].get("deploymentId") != payload.session_variables.get(
-                "x-hasura-deployment-id"
-            ):
-                return JSONResponse(
-                    status_code=400,
-                    content={
-                        "message": "found notebook from a different deployment",
-                        "extensions": {
-                            "error_code": 400,
-                        },
-                    },
-                )
-            return JSONResponse(
-                status_code=409,
-                content={
-                    "message": "notebook already exists",
-                    "extensions": {
-                        "error_code": 409,
-                        "notebookId": notebookId,
-                        "input": payload.input.notebook.dict(),
-                    },
-                },
-            )
-
-    async with gql_client_backend_only(
-        session_variables=payload.session_variables
-    ) as session:
-        mutation = get_insert_beneficiary_mutation(
-            dsl_schema=dsl_schema,
-            notebook=payload.input.notebook,
-        )
-        response = await session.execute(dsl_gql(DSLMutation(**mutation)))
-
-    # TODO valider qu'on envoie la clé message dans les message d'erreur
-
-    return CreatedNotebook(
-        notebookId=response["create_beneficiary_with_notebook"]["notebook"]["id"]
-    )
