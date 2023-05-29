@@ -1,3 +1,10 @@
+## [1.223.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.223.0...v1.223.1) (2023-05-29)
+
+
+### Bug Fixes
+
+* **actions:** utiliser la date de début dans l'historique de carnet ([#1770](https://github.com/gip-inclusion/carnet-de-bord/issues/1770)) ([e561116](https://github.com/gip-inclusion/carnet-de-bord/commit/e561116b1ef2e860b7634fa5936006f398f94c12))
+
 # [1.223.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.222.6...v1.223.0) (2023-05-25)
 
 
