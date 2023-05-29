@@ -1,3 +1,10 @@
+# [1.224.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.223.2...v1.224.0) (2023-05-29)
+
+
+### Features
+
+* ajout de l'historique de parcours pour les Chargés d'Orientation ([#1759](https://github.com/gip-inclusion/carnet-de-bord/issues/1759)) ([f4448fd](https://github.com/gip-inclusion/carnet-de-bord/commit/f4448fd9b7a660c84f8a68ef226d8d858c7ce097))
+
 ## [1.223.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.223.1...v1.223.2) (2023-05-29)
 
 
