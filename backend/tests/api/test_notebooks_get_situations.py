@@ -28,7 +28,6 @@ async def test_verify_no_token(
 async def test_get_notebook_situations_nominal(
     test_client: httpx.AsyncClient,
     notebook_sophie_tifour: Notebook,
-    get_professional_jwt: str,
 ):
 
     client = PoleEmploiApiClient(
@@ -55,6 +54,6 @@ async def test_get_notebook_situations_nominal(
 
     response = await test_client.get(
         f"/v1/notebooks/{notebook_sophie_tifour.id}/situations",
-        headers={"jwt-token": get_professional_jwt},
+        headers={"secret-token": "action_secret_token"},
     )
     assert response.status_code == 200

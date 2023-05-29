@@ -1,5 +1,7 @@
 import logging
+from uuid import UUID
 
+from asyncpg import Connection
 from fastapi import APIRouter, Depends
 from pydantic import BaseModel
 
@@ -18,12 +20,15 @@ class NotebookSituationInputPayload(BaseModel):
 
 
 @router.get("/{notebook_id}/situations")
-async def get_notebook_situations(input: NotebookSituationInputPayload):
+async def get_notebook_situations(
+    db_connection: Connection,
+    notebook_id: UUID,
+):
     """
     Cette route d'API permet de récupérer les situations dans le SI
         de Pôle-Emploi via les API dédiées.
     """
-    pole_emploi_client = PoleEmploiApiClient(
+    PoleEmploiApiClient(
         auth_base_url=settings.PE_AUTH_BASE_URL,
         base_url=settings.PE_BASE_URL,
         client_id=settings.PE_CLIENT_ID,
@@ -31,6 +36,12 @@ async def get_notebook_situations(input: NotebookSituationInputPayload):
         scope=settings.PE_SCOPE,
     )
 
-    pole_emploi_client.search_beneficiary(
-        nir=input.nir, date_of_birth=input.date_of_birth
-    )
+    # TODO: Find beneficiary from notebook_id
+
+
+#    beneficiary = Beneficiary()
+#
+#    pole_emploi_client.search_beneficiary(
+#        nir=beneficiary.nir,
+#        date_of_birth=beneficiary.date_of_birth,
+#    )
