@@ -15,7 +15,9 @@ from gql.client import AsyncClientSession
 from cdb.api.core.db import get_connection_pool
 from cdb.api.core.init import create_app
 from cdb.api.core.settings import settings
-from cdb.api.db.crud.beneficiary import get_beneficiary_by_id
+from cdb.api.db.crud.beneficiary import (
+    get_beneficiary_by_id,
+)
 from cdb.api.db.crud.notebook import get_notebook_by_id
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
 from cdb.api.db.crud.orientation_system import get_orientation_system_by_id

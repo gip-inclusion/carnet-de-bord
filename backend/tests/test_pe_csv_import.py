@@ -31,7 +31,6 @@ from cdb.cdb_csv.pe import (
     map_principal_row,
     net_email_to_fr_email,
 )
-from cdb.pe.pole_emploi_client import PoleEmploiApiClient
 from tests.mocks.pole_emploi_agences import PE_API_AGENCES_RESULT_OK_MOCK
 
 
@@ -45,15 +44,17 @@ async def test_parse_principal_csv(
     caplog,
 ):
 
-    client = PoleEmploiApiClient(
-        auth_base_url=settings.PE_AUTH_BASE_URL,
-        base_url=settings.PE_BASE_URL,
-        client_id=settings.PE_CLIENT_ID,
-        client_secret=settings.PE_CLIENT_SECRET,
-        scope=settings.PE_SCOPE,
-    )
-
-    respx.post(client.token_url).mock(
+    respx.post(
+        f"{settings.PE_AUTH_BASE_URL}/connexion/oauth2/access_token",
+        params={"realm": "/partenaire"},
+        data={
+            "client_id": settings.PE_CLIENT_ID,
+            "client_secret": settings.PE_CLIENT_SECRET,
+            "grant_type": "client_credentials",
+            "scope": settings.PE_SCOPE,
+        },
+        headers={"Content-Type": "application/x-www-form-urlencoded"},
+    ).mock(
         return_value=httpx.Response(
             200,
             json={
@@ -64,7 +65,7 @@ async def test_parse_principal_csv(
         )
     )
 
-    respx.get(client.agences_url).mock(
+    respx.get(f"{settings.PE_BASE_URL}/partenaire/referentielagences/v1/agences").mock(
         return_value=httpx.Response(200, json=PE_API_AGENCES_RESULT_OK_MOCK)
     )
 

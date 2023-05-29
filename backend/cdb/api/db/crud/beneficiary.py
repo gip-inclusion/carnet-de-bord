@@ -428,3 +428,13 @@ def get_insert_beneficiary_mutation(
             ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
         ),
     }
+
+
+def get_beneficiary_by_notebook_id_query(
+    dsl_schema: DSLSchema, notebook_id: UUID
+) -> dict[str, DSLField]:
+    return {
+        "beneficiaries": dsl_schema.query_root.beneficiary.args(
+            where={"notebook": {"id": {"_eq": str(notebook_id)}}}
+        ).select(dsl_schema.beneficiary.dateOfBirth, dsl_schema.beneficiary.nir)
+    }
