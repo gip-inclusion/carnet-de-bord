@@ -1,3 +1,10 @@
+## [1.223.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.223.1...v1.223.2) (2023-05-29)
+
+
+### Bug Fixes
+
+* Ne pas notifier les anciens gestionnaires de structures. ([#1778](https://github.com/gip-inclusion/carnet-de-bord/issues/1778)) ([b90a789](https://github.com/gip-inclusion/carnet-de-bord/commit/b90a78968ec0799ddb378dd3ebfecbabf4e7c2b0))
+
 ## [1.223.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.223.0...v1.223.1) (2023-05-29)
 
 
