@@ -1,27 +1,10 @@
 <script lang="ts">
-	import { onDestroy, onMount } from 'svelte';
+	import { onDestroy } from 'svelte';
 	import { crispData } from '$lib/stores';
 	import { displayFullName } from '$lib/ui/format';
 	import { browser } from '$app/environment';
-	export let websiteId: string;
 
 	let unsubscribe: () => void;
-
-	onMount(async () => {
-		Object.assign(window, {
-			$crisp: [],
-			CRISP_WEBSITE_ID: websiteId,
-			CRISP_COOKIE_DOMAIN: window.location.hostname,
-		});
-
-		(function () {
-			const d = document;
-			const s = d.createElement('script');
-			s.src = 'https://client.crisp.chat/l.js';
-			s.async = true;
-			d.getElementsByTagName('head')[0].appendChild(s);
-		})();
-	});
 
 	unsubscribe = crispData.subscribe((data) => {
 		if (!data || !browser) {
@@ -29,6 +12,9 @@
 		}
 
 		const crisp = window.$crisp;
+		if (!crisp) {
+			return;
+		}
 		const { username, firstname, lastname, email, mobileNumber, structure } = data;
 		const { name, deployment } = structure ?? {};
 

@@ -14,7 +14,7 @@ const config = {
 			directives: {
 				'base-uri': ['self'],
 				'default-src': ['self'],
-				'font-src': ['self', 'https://client.crisp.chat/static/'],
+				'font-src': ['self', 'data:', 'https://client.crisp.chat/static/'],
 				'img-src': ['self', 'data:', 'https://*.crisp.chat/'],
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
 				'media-src': ['self', 'nextcloud.fabrique.social.gouv.fr'],

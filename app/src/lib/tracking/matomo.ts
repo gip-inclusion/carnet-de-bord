@@ -9,33 +9,6 @@ declare global {
 	}
 }
 
-export function load(url: string, siteId: string): void {
-	if (!url || !siteId) {
-		return;
-	}
-	if (document.getElementById('matomo-script')) {
-		// early return; we don't need 2 scripts
-		return;
-	}
-	// we don't need this page trackPageView since we already push one on the initial load
-	// see src/routes/__layout.svelte
-	// _push(['trackPageView']);
-	_push(['enableLinkTracking']);
-	_push(['setTrackerUrl', `${url}/matomo.php`]);
-	_push(['setSiteId', `${siteId}`]);
-
-	const scriptElement = document.createElement('script');
-	const titleElement = document.getElementsByTagName('title')[0];
-	scriptElement.type = 'text/javascript';
-	scriptElement.async = true;
-	scriptElement.id = 'matomo-script';
-	scriptElement.src = `${url}/matomo.js`;
-
-	if (titleElement.parentNode) {
-		titleElement.parentNode.insertBefore(scriptElement, titleElement);
-	}
-}
-
 export function trackPageView(url: string, title: string): void {
 	_push(['setCustomUrl', url]);
 	_push(['setDocumentTitle', title]);

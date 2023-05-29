@@ -3,6 +3,7 @@
 // support for Crisp
 interface Window {
 	$crisp: any; // eslint-disable-line @typescript-eslint/no-explicit-any
+	tarteaucitron: any; // eslint-disable-line @typescript-eslint/no-explicit-any
 }
 
 // support for svelte-file-dropzone

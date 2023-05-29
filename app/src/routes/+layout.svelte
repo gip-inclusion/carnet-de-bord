@@ -5,8 +5,8 @@
 	import appleTouchFavicon from '@gouvfr/dsfr/dist/favicon/apple-touch-icon.png';
 	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
 	import icoFavicon from '@gouvfr/dsfr/dist/favicon/favicon.ico';
-	import { onDestroy, onMount } from 'svelte';
-	import * as Matomo from '$lib/tracking/matomo';
+	import { onMount } from 'svelte';
+
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
 	import { connectedUser, offCanvas } from '$lib/stores';
@@ -16,7 +16,6 @@
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	import { Client, createClient, setClient } from '@urql/svelte';
 	import LayerCdb from '$lib/ui/LayerCDB.svelte';
-	import { getMatomoUrl, getMatomoSiteId } from '$lib/config/variables/public';
 
 	yup.setLocale(yupFrLocale);
 
@@ -30,6 +29,7 @@
 	$: {
 		$connectedUser = data.user;
 	}
+	$: $page.url.pathname, trackPageView();
 
 	onMount(async () => {
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
@@ -49,29 +49,23 @@
 		// Remove element
 		body.removeChild(scrollDiv);
 		body.style.setProperty('--scrollbarWidth', scrollbarWidth);
-
-		Matomo.load(getMatomoUrl(), getMatomoSiteId());
 	});
-	const unsubscribe = page.subscribe(({ url }) => {
-		if (!browser || !url.pathname || !getMatomoUrl() || !getMatomoSiteId()) {
-			return;
-		}
+
+	function trackPageView() {
 		// we don't want to track /auth/jwt
-		if (/auth\/jwt/.test(url.pathname)) {
+		if (/auth\/jwt/.test($page.url.pathname)) {
 			return;
 		}
-		// Hack @lionelb: use a settimeout in order to get the correct
-		// value of document.title once navigation occured
-		setTimeout(() => {
-			if (url.searchParams.has('search')) {
-				Matomo.trackSiteSearch(url.searchParams.get('search'), url.pathname);
+		if (browser && (window as any)._paq) {
+			(window as any)._paq.push(['setCustomUrl', $page.url.pathname]);
+			(window as any)._paq.push(['setDocumentTitle', $page.data.title]);
+			if ($page.url.searchParams.get('search')) {
+				(window as any)._paq.push(['trackSiteSearch', $page.url.href, $page.url.pathname]);
 			} else {
-				Matomo.trackPageView(url.href, document.title);
+				(window as any)._paq.push(['trackPageView']);
 			}
-		}, 100);
-	});
-
-	onDestroy(unsubscribe);
+		}
+	}
 </script>
 
 <svelte:head>

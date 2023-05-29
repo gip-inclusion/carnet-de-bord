@@ -1,6 +1,7 @@
 @charset "UTF-8";
 @import url('./tailwind.css');
 @import url('./dsfr.css');
+@import url('./dsfr-theme-tac.css');
 
 :root {
 	--vert-cdb: rgba(0, 88, 93, 1);
