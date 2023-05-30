@@ -409,6 +409,7 @@ update_permissions:
         - city
         - email
         - mobile_number
+        - postal_code
       filter:
         _or:
           - structures:

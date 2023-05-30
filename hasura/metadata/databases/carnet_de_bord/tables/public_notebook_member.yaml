@@ -247,6 +247,7 @@ update_permissions:
     permission:
       columns:
         - active
+        - last_modified_at
         - member_type
         - membership_ended_at
       filter:

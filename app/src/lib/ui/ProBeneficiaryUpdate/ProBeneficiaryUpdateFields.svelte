@@ -8,10 +8,13 @@
 	import Input from '$lib/ui/forms/Input.svelte';
 	import { Checkbox, Radio } from '../forms';
 
-	export let forbiddenFields: Field[];
+	export let disabledFields: Field[];
+	// Keep the same behavior as before, we can by default
+	// edit everything
+	export let canEditDetailedInfo = true;
 
 	function isFieldDisabled(fieldName: Field) {
-		return forbiddenFields.includes(fieldName);
+		return disabledFields.includes(fieldName);
 	}
 
 	function titleForField(fieldName: Field) {
@@ -65,23 +68,25 @@
 	<Input class="fr-col-9 mb-1" inputLabel="Ville" placeholder="Paris" name="city" />
 </div>
 
-<div class="fr-form-group mt-6">
-	<Radio
-		legend="Revenu de solidarité active (RSA)"
-		name="rightRsa"
-		options={rsaRightKeys.options}
-	/>
-</div>
+{#if canEditDetailedInfo}
+	<div class="fr-form-group mt-6">
+		<Radio
+			legend="Revenu de solidarité active (RSA)"
+			name="rightRsa"
+			options={rsaRightKeys.options}
+		/>
+	</div>
 
-<div class="fr-fieldset">
-	<legend class="fr-fieldset__legend--regular fr-fieldset__legend">Autres aides</legend>
-	<div class="fr-fieldset__element">
-		<Checkbox name="rightAre" label="ARE" />
+	<div class="fr-fieldset">
+		<legend class="fr-fieldset__legend--regular fr-fieldset__legend">Autres aides</legend>
+		<div class="fr-fieldset__element">
+			<Checkbox name="rightAre" label="ARE" />
+		</div>
+		<div class="fr-fieldset__element">
+			<Checkbox name="rightAss" label="ASS" />
+		</div>
+		<div class="fr-fieldset__element">
+			<Checkbox name="rightBonus" label="Prime d'activité" />
+		</div>
 	</div>
-	<div class="fr-fieldset__element">
-		<Checkbox name="rightAss" label="ASS" />
-	</div>
-	<div class="fr-fieldset__element">
-		<Checkbox name="rightBonus" label="Prime d'activité" />
-	</div>
-</div>
+{/if}

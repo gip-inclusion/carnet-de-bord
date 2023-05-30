@@ -39,6 +39,7 @@
 	export let lastUpdateDate: string;
 	export let lastUpdateFrom: Pro;
 	export let displayEditButton = false;
+	export let canEditDetailedInfo = true;
 
 	const elmSetup = (node: HTMLElement) => {
 		PersonalInfoElm.PersonalInfo.Main.init({
@@ -55,7 +56,10 @@
 	};
 
 	function edit() {
-		openComponent.open({ component: ProNotebookPersonalInfoUpdate, props: { beneficiary } });
+		openComponent.open({
+			component: ProNotebookPersonalInfoUpdate,
+			props: { beneficiary, canEditDetailedInfo },
+		});
 	}
 </script>
 
