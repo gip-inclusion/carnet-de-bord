@@ -5,7 +5,7 @@ tarteaucitronForceLanguage = 'fr';
 tarteaucitron.init({
 	mandatory: true /* Show a message about mandatory cookies */,
 	/* General */
-	privacyUrl: '/politique-de-confidentialite',
+	privacyUrl: '/politique-confidentialite',
 	/* Privacy policy url . Si vide, le lien Politique de confidencialité du bandeau ne s'affiche pas*/
 	hashtag:
 		'#consentement' /* La gestionnaire de consentement s'ouvre avec ce hashtag lorsqu'il est placé dans l'url */,
@@ -56,7 +56,7 @@ tarteaucitron.services.crispnoconsent = {
 	readmoreLink: 'https://help.crisp.chat/en/article/whats-crisp-eu-gdpr-compliance-status-nhv54c/',
 	needConsent: true,
 	cookies: ['crisp-client'],
-	js: function () {
+	js: () => {
 		'use strict';
 		if (tarteaucitron.user.crispID === undefined) {
 			return;
@@ -67,7 +67,7 @@ tarteaucitron.services.crispnoconsent = {
 
 		tarteaucitron.addScript('https://client.crisp.chat/l.js');
 
-		const interval = setInterval(function () {
+		const interval = setInterval(() => {
 			if (typeof $crisp === 'undefined') return;
 			clearInterval(interval);
 			// boucle sur les cookies pour récupérer tous ceux qui commencent
@@ -82,5 +82,14 @@ tarteaucitron.services.crispnoconsent = {
 				}
 			}
 		}, 100);
+	},
+	fallback: () => {
+		// nettoyage post refus
+		tarteaucitron.fallback(['crisp'], tarteaucitron.engage('crisp'));
+		for (const key in localStorage) {
+			if (key.startsWith('crisp')) {
+				localStorage.removeItem(key);
+			}
+		}
 	},
 };

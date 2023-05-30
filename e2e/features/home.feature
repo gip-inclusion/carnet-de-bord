@@ -10,7 +10,7 @@ Scénario: Home CdB
 	Alors je vois "Bienvenue sur Carnet de bord !"
 	Alors le lien "Accéder à mon compte" pointe sur "/auth/login"
 
-Scénario: Demande de Consentement
+Scénario: Demande de consentement
 	Soit un utilisateur sur la page d'accueil
 	Alors je vois "Ce site utilise des cookies et vous donne le contrôle sur ceux que vous souhaitez activer"
 	Quand je clique sur "Personnaliser"

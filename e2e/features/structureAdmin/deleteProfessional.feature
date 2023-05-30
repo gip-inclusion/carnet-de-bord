@@ -19,7 +19,7 @@ Fonctionnalité: Suppression d'un professionnel
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Quand je clique sur "Professionnels"
 		Quand je clique sur "Supprimer" dans la ligne de "Pierre Chevalier"
-		Quand je clique sur "Supprimer" dans le volet
+		Quand je clique sur "Supprimer" dans le volet "Supprimer"
 		Quand je clique sur "Déconnexion"
 		Quand je clique sur "Oui" dans le volet "Déconnexion"
 		Quand je clique sur "Accéder à mon compte"
