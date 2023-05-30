@@ -1,4 +1,3 @@
-import logging
 import os
 
 from pydantic import BaseSettings, validator
@@ -33,7 +32,7 @@ class Settings(BaseSettings):
     LOG_FORMAT = "[%(asctime)s:%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
     LOG_LEVEL: str = "INFO"
     LOG_AS_JSON: bool = True
-    GQL_LOG_LEVEL: int = logging.WARNING
+    GQL_LOG_LEVEL: str = "WARNING"
 
     SENTRY_DSN: str | None
     SENTRY_ENVIRONMENT: str | None
