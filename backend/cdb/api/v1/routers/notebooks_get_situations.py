@@ -22,7 +22,7 @@ class NotebookSituationInputPayload(BaseModel):
     date_of_birth: str
 
 
-@router.get("/{notebook_id}/situations")
+@router.get("/{notebook_id}/situations", status_code=204)
 async def get_notebook_situations(
     notebook_id: UUID,
 ):

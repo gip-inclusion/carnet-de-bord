@@ -68,4 +68,4 @@ async def test_get_notebook_situations_nominal(
         headers={"secret-token": "action_secret_token"},
     )
 
-    assert response.status_code == 200
+    assert response.status_code == 204
