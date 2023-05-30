@@ -16,6 +16,10 @@ Fonctionnalité: Mise à jour du carnet par un administrateur de structure
 		Alors je vois "lindsay.aguilar@nisi.fr"
 		Quand je clique sur "Mettre à jour les informations personnelles"
 		Alors je vois qu'un élément avec l'id "peNumber" est désactivé
+		Alors je vois qu'un élément avec l'id "cafNumber" est désactivé
+		Alors je vois qu'un élément avec l'id "rightAre" est désactivé
+		Alors je vois qu'un élément avec l'id "rightAss" est désactivé
+		Alors je vois qu'un élément avec l'id "rightBonus" est désactivé
 		Quand je renseigne "0601234566" dans le champ "Téléphone"
 		Quand je clique sur "Enregistrer"
 		Alors je vois "06 01 23 45 66"
