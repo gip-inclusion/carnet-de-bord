@@ -5,7 +5,7 @@
 	import appleTouchFavicon from '@gouvfr/dsfr/dist/favicon/apple-touch-icon.png';
 	import svgFavicon from '@gouvfr/dsfr/dist/favicon/favicon.svg';
 	import icoFavicon from '@gouvfr/dsfr/dist/favicon/favicon.ico';
-	import { onMount } from 'svelte';
+	import { onDestroy, onMount } from 'svelte';
 
 	import { page } from '$app/stores';
 	import { browser } from '$app/environment';
@@ -24,12 +24,15 @@
 	export let data: PageData;
 
 	const client: Client = createClient({ url: '/graphql', fetch });
+
 	setClient(client);
 
 	$: {
 		$connectedUser = data.user;
 	}
-	$: $page.url.pathname, trackPageView();
+	let unsubscribePage: () => void;
+
+	unsubscribePage = page.subscribe(trackPageView);
 
 	onMount(async () => {
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
@@ -50,6 +53,8 @@
 		body.removeChild(scrollDiv);
 		body.style.setProperty('--scrollbarWidth', scrollbarWidth);
 	});
+
+	onDestroy(() => unsubscribePage());
 
 	function trackPageView() {
 		// we don't want to track /auth/jwt

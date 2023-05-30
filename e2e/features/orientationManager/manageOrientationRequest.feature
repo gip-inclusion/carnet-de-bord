@@ -12,7 +12,7 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Quand je clique sur "Maintenir l'accompagnement"
 		Alors je vois "Maintenir l'accompagnement" dans le volet
 		Alors je vois "Êtes-vous sûr de vouloir maintenir l'accompagnement ?" dans le volet
-		Quand je clique sur "Oui" dans le volet
+		Quand je clique sur "Oui" dans le volet "Maintenir l'accompagnement"
 		Alors je ne vois pas "Demande de réorientation envoyée le 01/09/2022"
 		Alors je ne vois pas "Orientation recommandée : Social"
 
@@ -23,7 +23,7 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Quand je clique sur "Maintenir l'accompagnement"
 		Alors je vois "Maintenir l'accompagnement" dans le volet
 		Alors je vois "Êtes-vous sûr de vouloir maintenir l'accompagnement ?" dans le volet
-		Quand je clique sur "Annuler" dans le volet
+		Quand je clique sur "Annuler" dans le volet "Maintenir l'accompagnement"
 		Alors je vois "Demande de réorientation envoyée le 01/09/2022"
 		Alors je vois "Orientation recommandée : Social"
 
@@ -36,7 +36,7 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
-		Quand je clique sur "Valider" dans le volet
+		Quand je clique sur "Valider" dans le volet "Réorienter"
 		Alors je ne vois pas "Demande de réorientation envoyée le 01/09/2022"
 		Alors je ne vois pas "Orientation recommandée : Social"
 
@@ -52,7 +52,7 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
 		Alors je sélectionne l'option "Thierry Dunord (0)" dans la liste "Nom du référent"
-		Quand je clique sur "Valider" dans le volet
+		Quand je clique sur "Valider" dans le volet "Réorienter"
 		Alors je ne vois pas "Demande de réorientation envoyée le 01/09/2022"
 		Alors je ne vois pas "Orientation recommandée : Social"
 		Alors je vois "Dunord"

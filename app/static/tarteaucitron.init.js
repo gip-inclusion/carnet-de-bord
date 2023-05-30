@@ -14,7 +14,7 @@ tarteaucitron.init({
 		'top' /* Position à laquelle le gestionnaire - niveau 2 -  est inséré dans la page (top ou bottom). Pour que les technologies d'assistance puisse y acceder rapidement à la navigation, 'top' est la valeur privilégiée. */,
 	adblocker: false /* Show a Warning if an adblocker is detected */,
 	highPrivacy: true /* Retire le consentement implicite (au scroll ou à la navigation) Activé par défaut, donc on peut le retirer de cette config */,
-	handleBrowserDNTRequest: true /* Active ou désactive la prise en compte du Do Not track Navigateur. Si le DNT est activé, aucun cookie n'est déposé */,
+	handleBrowserDNTRequest: false /* Active ou désactive la prise en compte du Do Not track Navigateur. Si le DNT est activé, aucun cookie n'est déposé */,
 	useExternalCss: true /* Active ou non une css custom - désactive ou non la css par défaut */,
 
 	/* Bandeau d'information cookies (niveau 1)*/

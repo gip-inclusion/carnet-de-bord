@@ -15,7 +15,14 @@ function plainGoto(url) {
 		await page.goto(`${options.url}${url}`);
 	});
 }
-
+function rejectConsent() {
+	I.setCookie({
+		domain: 'localhost',
+		name: 'tarteaucitron',
+		path: '/',
+		value: '!matomocloud=false!crispnoconsent=false',
+	});
+}
 Soit('je rafraichis la page', async () => {
 	return I.usePlaywrightTo('reload page', async ({ page }) => {
 		return await page.reload();
@@ -23,6 +30,7 @@ Soit('je rafraichis la page', async () => {
 });
 
 Soit("un {string} authentifié avec l'email {string}", async (userType, email) => {
+	rejectConsent();
 	await onBoardingSetup(userType, email, true);
 	const uuid = await loginStub(userType, email);
 	await plainGoto(`/auth/jwt/${uuid}`);
@@ -43,17 +51,17 @@ Soit('un utilisateur sur la page {string}', (page) => {
 	I.amOnPage(`${page}`);
 });
 
-Quand('je vais sur la page {string}', (page) => {
-	I.amOnPage(page);
-});
-
 Soit('le pro {string} qui a cliqué sur le lien de connexion', async (email) => {
+	rejectConsent();
+
 	const uuid = await loginStub('pro', email);
 	await plainGoto(`/auth/jwt/${uuid}`);
 	I.click('Continuer sur Carnet de bord');
 });
 
 Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
+	rejectConsent();
+
 	const uuid = await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastName(lastname);
 	await plainGoto(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
@@ -63,6 +71,8 @@ Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 Soit(
 	"le chargé d'orientation assigné {string} sur le carnet de {string}",
 	async (email, lastname) => {
+		rejectConsent();
+
 		await onBoardingSetup("chargé d'orientation", email, true);
 		const uuid = await loginStub("chargé d'orientation", email);
 		const notebookId = await goToNotebookForLastName(lastname);
@@ -73,6 +83,8 @@ Soit(
 );
 
 Soit("le chargé d'orientation {string} sur le carnet de {string}", async (email, lastname) => {
+	rejectConsent();
+
 	await onBoardingSetup("chargé d'orientation", email, true);
 	const uuid = await loginStub("chargé d'orientation", email);
 	const notebookId = await goToNotebookForLastName(lastname);
@@ -126,8 +138,11 @@ Quand('je clique sur {string}', (text) => {
 	I.click(text);
 });
 
-Quand('je clique sur {string} dans le volet', (text) => {
-	I.click(text, '[role=dialog]');
+Quand('je clique sur {string} dans le volet {string}', (text, title) => {
+	I.click(
+		text,
+		locate('[role=dialog]').withDescendant(locate({ xpath: 'h1|h2|h3|h4|h5|h6' }).withText(title))
+	);
 });
 
 Quand('je clique sur {string} dans la modale', (text) => {
