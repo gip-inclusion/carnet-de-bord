@@ -1,5 +1,12 @@
 <script context="module" lang="ts">
-	export type Field = 'firstname' | 'lastname' | 'dateOfBirth';
+	export type Field =
+		| 'firstname'
+		| 'lastname'
+		| 'dateOfBirth'
+		| 'rightRsa'
+		| 'rightAre'
+		| 'rightAss'
+		| 'rightBonus';
 </script>
 
 <script lang="ts">
@@ -11,7 +18,6 @@
 	export let disabledFields: Field[];
 	// Keep the same behavior as before, we can by default
 	// edit everything
-	export let canEditDetailedInfo = true;
 
 	function isFieldDisabled(fieldName: Field) {
 		return disabledFields.includes(fieldName);
@@ -68,25 +74,24 @@
 	<Input class="fr-col-9 mb-1" inputLabel="Ville" placeholder="Paris" name="city" />
 </div>
 
-{#if canEditDetailedInfo}
-	<div class="fr-form-group mt-6">
-		<Radio
-			legend="Revenu de solidarité active (RSA)"
-			name="rightRsa"
-			options={rsaRightKeys.options}
-		/>
-	</div>
+<div class="fr-form-group mt-6">
+	<Radio
+		legend="Revenu de solidarité active (RSA)"
+		name="rightRsa"
+		options={rsaRightKeys.options}
+		disabled={isFieldDisabled('rightRsa')}
+	/>
+</div>
 
-	<div class="fr-fieldset">
-		<legend class="fr-fieldset__legend--regular fr-fieldset__legend">Autres aides</legend>
-		<div class="fr-fieldset__element">
-			<Checkbox name="rightAre" label="ARE" />
-		</div>
-		<div class="fr-fieldset__element">
-			<Checkbox name="rightAss" label="ASS" />
-		</div>
-		<div class="fr-fieldset__element">
-			<Checkbox name="rightBonus" label="Prime d'activité" />
-		</div>
+<div class="fr-fieldset">
+	<legend class="fr-fieldset__legend--regular fr-fieldset__legend">Autres aides</legend>
+	<div class="fr-fieldset__element">
+		<Checkbox name="rightAre" label="ARE" disabled={isFieldDisabled('rightAre')} />
 	</div>
-{/if}
+	<div class="fr-fieldset__element">
+		<Checkbox name="rightAss" label="ASS" disabled={isFieldDisabled('rightAss')} />
+	</div>
+	<div class="fr-fieldset__element">
+		<Checkbox name="rightBonus" label="Prime d'activité" disabled={isFieldDisabled('rightBonus')} />
+	</div>
+</div>

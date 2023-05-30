@@ -255,6 +255,10 @@ Alors('je vois que bouton {string} est désactivé', (text) => {
 	I.seeElement(`//button[text()="${text}" and @disabled]`);
 });
 
+Alors("je vois qu'un élément avec l'id {string} est désactivé", (text) => {
+	I.seeElement(`//*[@id="${text}" and @disabled]`);
+});
+
 Alors('je vois {int} fois le {string} {string}', (num, element, text) => {
 	I.seeNumberOfVisibleElements(`//${element}[contains(., "${text}")]`, num);
 });

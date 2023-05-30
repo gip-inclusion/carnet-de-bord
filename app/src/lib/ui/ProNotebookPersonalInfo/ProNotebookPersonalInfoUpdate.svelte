@@ -68,7 +68,13 @@
 		? beneficiaryAccountPartialSchema
 		: beneficiaryAccountSchema;
 
-	const disabledFields: Field[] = isPartialUpdate ? ['firstname', 'lastname', 'dateOfBirth'] : [];
+	const partialUpdateDisabledFields: Field[] = isPartialUpdate
+		? ['firstname', 'lastname', 'dateOfBirth']
+		: [];
+
+	const disabledFields: Field[] = partialUpdateDisabledFields.concat(
+		canEditDetailedInfo ? [] : ['rightRsa', 'rightAre', 'rightAss', 'rightBonus']
+	);
 
 	async function updateBeneficiary(values: BeneficiaryAccountInput) {
 		const partialUpdatePayload = isPartialUpdate
@@ -102,8 +108,9 @@
 
 <section>
 	<h1>Informations personnelles</h1>
+	{canEditDetailedInfo}
 	<Form {initialValues} {validationSchema} onSubmit={updateBeneficiary}>
-		<ProBeneficiaryUpdateFields {disabledFields} {canEditDetailedInfo} />
+		<ProBeneficiaryUpdateFields {disabledFields} />
 		<Input
 			name="peNumber"
 			placeholder={'123456789A'}
