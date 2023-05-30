@@ -18,5 +18,5 @@
 </svelte:head>
 
 <LoaderIndicator result={getNotebookResult}>
-	<NotebookView notebook={getNotebookResult.data.notebook} />
+	<NotebookView notebook={$getNotebookResult.data.notebook} />
 </LoaderIndicator>
