@@ -12,19 +12,19 @@
 		<script
 		type="text/javascript"
 		src="/tarteaucitron.js-1.11.0/tarteaucitron.js"
-		nonce="%sveltekit.nonce%" ></script>
+		></script>
 
 	<script
 		type="text/javascript"
 		src="/tarteaucitron.init.js"
-		nonce="%sveltekit.nonce%" ></script>
+		></script>
 		<script type="text/javascript" nonce="%sveltekit.nonce%">
       tarteaucitron.user.crispID = "%sveltekit.env.PUBLIC_CRISP_WEBSITE_ID%";
-      (tarteaucitron.job = tarteaucitron.job || []).push("crispnoconsent");
+      (tarteaucitron.job = tarteaucitron.job || []).push("crispcustom");
       tarteaucitron.user.matomoId = "%sveltekit.env.PUBLIC_MATOMO_SITE_ID%";
       tarteaucitron.user.matomoHost = "%sveltekit.env.PUBLIC_MATOMO_URL%/";
 			tarteaucitron.user.matomoCustomJSPath = "%sveltekit.env.PUBLIC_MATOMO_URL%/matomo.js";
-      (tarteaucitron.job = tarteaucitron.job || []).push("matomocloud");
+      (tarteaucitron.job = tarteaucitron.job || []).push("crispcustom");
     </script>
 	</head>
 	<body class="bg-white font-sans">

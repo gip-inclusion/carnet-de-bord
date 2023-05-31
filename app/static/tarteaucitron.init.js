@@ -40,13 +40,60 @@ tarteaucitron.init({
 		'BottomLeft' /* Position du Bouton sticky BottomRight, BottomLeft, TopRight and TopLeft */,
 	groupServices: false,
 });
+tarteaucitron.services.matomocustom = {
+	key: 'matomocustom',
+	type: 'analytic',
+	name: 'Matomo (privacy by design)',
+	uri: 'https://matomo.org/faq/general/faq_146/',
+	needConsent: false,
+	cookies: ['_pk_ref', '_pk_cvar', '_pk_id', '_pk_ses', '_pk_hsr', 'piwik_ignore', '_pk_uid'],
+	js: () => {
+		window._paq = window._paq || [];
+		window._paq.push(['requireCookieConsent']);
+		window._paq.push(['setCookieConsentGiven']);
 
-tarteaucitron.services.crispnoconsent = {
+		// waiting for matomo to be ready to check first party cookies
+		var max = 150;
+		var counter = 0;
+
+		var intervalFunc = function () {
+			counter++;
+			if (counter > max) clearInterval(interval);
+			if (typeof Matomo === 'undefined') return;
+
+			clearInterval(interval);
+
+			// make matomo cookie accessible by getting tracker
+			Matomo.getTracker();
+
+			// looping throught cookies
+			var theCookies = document.cookie.split(';');
+			for (var i = 1; i <= theCookies.length; i++) {
+				var cookie = theCookies[i - 1].split('=');
+				var cookieName = cookie[0].trim();
+
+				// if cookie starts like a piwik one, register it
+				if (cookieName.indexOf('_pk_') === 0) {
+					tarteaucitron.services.matomo.cookies.push(cookieName);
+				}
+			}
+		};
+
+		var interval = setInterval(intervalFunc, 100);
+	},
+	fallback: function () {
+		window._paq = window._paq || [];
+		window._paq.push(['requireCookieConsent']);
+		window._paq.push(['forgetCookieConsentGiven']);
+	},
+};
+
+tarteaucitron.services.crispcustom = {
 	// Basé sur https://github.com/AmauriC/tarteaucitron.js/pull/281
 	// Le support par défaut de Tarte au Citron est insatisfaisant :
 	// - acceptation par défaut
 	// - mauvaise gestion des cookies dynamiques 'crisp-client/*'
-	key: 'crispnoconsent',
+	key: 'crispconsent',
 	type: 'support',
 	name: 'Crisp (fenêtre de tchat)',
 	uri: 'https://crisp.chat/fr',
@@ -54,7 +101,6 @@ tarteaucitron.services.crispnoconsent = {
 	needConsent: true,
 	cookies: ['crisp-client'],
 	js: () => {
-		'use strict';
 		if (tarteaucitron.user.crispID === undefined) {
 			return;
 		}
