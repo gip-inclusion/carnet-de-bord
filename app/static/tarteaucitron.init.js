@@ -27,7 +27,7 @@ tarteaucitron.init({
 	/* Gestionnaire de cookies (niveau 2) */
 	removeCredit: true /* Affiche ou non les credit TAC */,
 	moreInfoLink: true /*  Affiche ou non le liens vers les infos*/,
-	readmoreLink: true /* Change the default readmore link pointing to tarteaucitron.io */,
+	readmoreLink: undefined /* Change the default readmore link pointing to tarteaucitron.io */,
 	mandatory: true /* Message à propos des cookies dits fonctionnels  */,
 
 	/* Sticky d'ouverture niveau 2 */
@@ -40,51 +40,77 @@ tarteaucitron.init({
 		'BottomLeft' /* Position du Bouton sticky BottomRight, BottomLeft, TopRight and TopLeft */,
 	groupServices: false,
 });
+
 tarteaucitron.services.matomocustom = {
 	key: 'matomocustom',
 	type: 'analytic',
 	name: 'Matomo (privacy by design)',
-	uri: 'https://matomo.org/faq/general/faq_146/',
+	uri: 'https://matomo.org',
+	readmoreLink: 'https://matomo.org/faq/general/faq_146/',
 	needConsent: false,
 	cookies: ['_pk_ref', '_pk_cvar', '_pk_id', '_pk_ses', '_pk_hsr', 'piwik_ignore', '_pk_uid'],
 	js: () => {
+		if (tarteaucitron.user.matomoId === undefined) {
+			return;
+		}
 		window._paq = window._paq || [];
 		window._paq.push(['requireCookieConsent']);
-		window._paq.push(['setCookieConsentGiven']);
+		window._paq.push(['rememberCookieConsentGiven']);
+		window._paq.push(['setSiteId', tarteaucitron.user.matomoId]);
+		window._paq.push(['setTrackerUrl', tarteaucitron.user.matomoHost + '/matomo.php']);
+		window._paq.push(['trackPageView']);
+		window._paq.push(['enableLinkTracking']);
 
-		// waiting for matomo to be ready to check first party cookies
-		var max = 150;
-		var counter = 0;
-
-		var intervalFunc = function () {
-			counter++;
-			if (counter > max) clearInterval(interval);
+		tarteaucitron.addScript(
+			tarteaucitron.user.matomoHost + '/matomo.js',
+			'',
+			'',
+			true,
+			'defer',
+			true
+		);
+		var interval = setInterval(function () {
 			if (typeof Matomo === 'undefined') return;
 
 			clearInterval(interval);
 
-			// make matomo cookie accessible by getting tracker
+			// make Matomo cookie accessible by getting tracker
 			Matomo.getTracker();
 
-			// looping throught cookies
+			// looping through cookies
 			var theCookies = document.cookie.split(';');
 			for (var i = 1; i <= theCookies.length; i++) {
 				var cookie = theCookies[i - 1].split('=');
 				var cookieName = cookie[0].trim();
 
-				// if cookie starts like a piwik one, register it
+				// if cookie starts like a matomo one, register it
 				if (cookieName.indexOf('_pk_') === 0) {
 					tarteaucitron.services.matomo.cookies.push(cookieName);
 				}
 			}
-		};
-
-		var interval = setInterval(intervalFunc, 100);
+		}, 100);
 	},
 	fallback: function () {
+		if (tarteaucitron.user.matomoId === undefined) {
+			return;
+		}
+
 		window._paq = window._paq || [];
 		window._paq.push(['requireCookieConsent']);
 		window._paq.push(['forgetCookieConsentGiven']);
+		window._paq.push(['setSiteId', tarteaucitron.user.matomoId]);
+		window._paq.push(['setTrackerUrl', tarteaucitron.user.matomoHost + '/matomo.php']);
+		window._paq.push(['trackPageView']);
+		window._paq.push(['enableLinkTracking']);
+
+		tarteaucitron.addScript(
+			tarteaucitron.user.matomoHost + '/matomo.js',
+			'',
+			'',
+			true,
+			'defer',
+			true
+		);
 	},
 };
 
@@ -93,7 +119,7 @@ tarteaucitron.services.crispcustom = {
 	// Le support par défaut de Tarte au Citron est insatisfaisant :
 	// - acceptation par défaut
 	// - mauvaise gestion des cookies dynamiques 'crisp-client/*'
-	key: 'crispconsent',
+	key: 'crispcustom',
 	type: 'support',
 	name: 'Crisp (fenêtre de tchat)',
 	uri: 'https://crisp.chat/fr',

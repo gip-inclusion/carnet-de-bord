@@ -22,9 +22,8 @@
       tarteaucitron.user.crispID = "%sveltekit.env.PUBLIC_CRISP_WEBSITE_ID%";
       (tarteaucitron.job = tarteaucitron.job || []).push("crispcustom");
       tarteaucitron.user.matomoId = "%sveltekit.env.PUBLIC_MATOMO_SITE_ID%";
-      tarteaucitron.user.matomoHost = "%sveltekit.env.PUBLIC_MATOMO_URL%/";
-			tarteaucitron.user.matomoCustomJSPath = "%sveltekit.env.PUBLIC_MATOMO_URL%/matomo.js";
-      (tarteaucitron.job = tarteaucitron.job || []).push("crispcustom");
+      tarteaucitron.user.matomoHost = "%sveltekit.env.PUBLIC_MATOMO_URL%";
+      (tarteaucitron.job = tarteaucitron.job || []).push("matomocustom");
     </script>
 	</head>
 	<body class="bg-white font-sans">
