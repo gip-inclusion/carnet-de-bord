@@ -1,3 +1,10 @@
+# [1.225.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.224.1...v1.225.0) (2023-05-31)
+
+
+### Features
+
+* Ajout d'un gestionnaire de consentement pour gérer les cookies. ([#1782](https://github.com/gip-inclusion/carnet-de-bord/issues/1782)) ([6c16c50](https://github.com/gip-inclusion/carnet-de-bord/commit/6c16c50638e745e3b229b3ba91ebdb1e6722da0a))
+
 ## [1.224.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.224.0...v1.224.1) (2023-05-30)
 
 # [1.224.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.223.2...v1.224.0) (2023-05-29)
