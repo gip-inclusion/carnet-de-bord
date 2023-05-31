@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel
@@ -14,5 +15,5 @@ class Contrainte(BaseModel):
     nom: str
     valeur: str
     # WARNING la date est parfois null, ca ne correspond pas à la doc
-    date: str | None
+    date: datetime | None
     situations: List[Situation]
