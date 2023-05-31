@@ -13,7 +13,7 @@ Fonctionnalité: Changer le dispositif d'accompagnement d'un bénéficiaire
 		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
 		Alors je sélectionne l'option "Thierry Dunord (0)" dans la liste "Nom du référent"
-		Quand je clique sur "Valider" dans le volet
+		Quand je clique sur "Valider" dans le volet "Orienter"
 		Alors je ne vois pas "Orienter"
 		Alors je vois "Réorienter"
 		Alors je vois "référent" sur la ligne "Thierry Dunord"
@@ -27,7 +27,7 @@ Fonctionnalité: Changer le dispositif d'accompagnement d'un bénéficiaire
 		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Pole Emploi Agence Livry-Gargnan (0)" dans la liste "Nom de la structure"
 		Alors je sélectionne l'option "Thierry Dunord (0)" dans la liste "Nom du référent"
-		Quand je clique sur "Valider" dans le volet
+		Quand je clique sur "Valider" dans le volet "Réorienter"
 		Alors je ne vois pas "Orienter"
 		Alors je vois "Réorienter"
 		Alors je vois "Thierry Dunord"

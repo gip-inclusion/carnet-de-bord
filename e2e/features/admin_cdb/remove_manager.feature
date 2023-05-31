@@ -11,5 +11,5 @@ Fonctionnalité: Suppression d'un manager
 		Alors je vois "Déploiement expérimentation 51"
 		Quand je clique sur "Supprimer Gérard Manvol"
 		Alors je vois "Supprimer un responsable"
-		Quand je clique sur "Oui" dans le volet
+		Quand je clique sur "Oui" dans le volet "Supprimer un responsable"
 		Alors je ne vois pas "Gérard Manvol"

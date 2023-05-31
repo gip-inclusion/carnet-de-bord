@@ -35,7 +35,7 @@ Fonctionnalité: Orientation par un chargé d'orientation
 		Alors je sélectionne l'option "Socio-professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Service Social Départemental (2)" dans la liste "Nom de la structure"
 		Alors je sélectionne l'option "Paul Camara (2)" dans la liste "Nom du référent unique"
-		Quand je clique sur "Valider" dans le volet
+		Quand je clique sur "Valider" dans le volet "Réorienter"
 		Alors je ne vois pas "Henderson Myrna"
 		Alors je ne vois pas "Lynch Della"
 		Quand je sélectionne l'option "Accompagné" dans la liste "Statut"

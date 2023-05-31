@@ -13,8 +13,8 @@ const config = {
 			// in hooks.server.ts to expand environment variables at runtime
 			directives: {
 				'base-uri': ['self'],
-				'default-src': ['self'],
-				'font-src': ['self', 'https://client.crisp.chat/static/'],
+				'default-src': ['self', '%PUBLIC_MATOMO_URL%'],
+				'font-src': ['self', 'data:', 'https://client.crisp.chat/static/'],
 				'img-src': ['self', 'data:', 'https://*.crisp.chat/'],
 				'style-src': ['self', '*.crisp.chat', 'unsafe-inline'],
 				'media-src': ['self', 'nextcloud.fabrique.social.gouv.fr'],

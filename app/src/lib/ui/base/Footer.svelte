@@ -2,6 +2,11 @@
 	import { Link } from '$lib/ui/base';
 	export let landing: string | null = '/';
 	const appVersion = __version__;
+
+	function openCookiePanel(event) {
+		event.preventDefault();
+		window.tarteaucitron.userInterface.openPanel();
+	}
 </script>
 
 <footer class="fr-footer mt-8" id="footer">
@@ -56,7 +61,6 @@
 					<a class="fr-footer__bottom-link">Accessibilité : non conforme</a>
 				</li>
 				<li class="fr-footer__bottom-item">
-					<!-- svelte-ignore a11y-missing-attribute -->
 					<a class="fr-footer__bottom-link" href="/mentions-legales">Mentions légales</a>
 				</li>
 				<li class="fr-footer__bottom-item">
@@ -66,6 +70,11 @@
 				</li>
 				<li class="fr-footer__bottom-item">
 					<a class="fr-footer__bottom-link" href="/cgu"> CGU </a>
+				</li>
+				<li class="fr-footer__bottom-item">
+					<button class="fr-footer__bottom-link" on:click={openCookiePanel}
+						>Gestion des cookies</button
+					>
 				</li>
 			</ul>
 			<div class="fr-footer__bottom-copy">
