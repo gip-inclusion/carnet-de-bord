@@ -15,11 +15,10 @@ Fonctionnalité: Mise à jour du carnet par un administrateur de structure
 		Alors je vois "Informations personnelles"
 		Alors je vois "lindsay.aguilar@nisi.fr"
 		Quand je clique sur "Mettre à jour les informations personnelles"
-		Alors je vois qu'un élément avec l'id "peNumber" est désactivé
-		Alors je vois qu'un élément avec l'id "cafNumber" est désactivé
-		Alors je vois qu'un élément avec l'id "rightAre" est désactivé
-		Alors je vois qu'un élément avec l'id "rightAss" est désactivé
-		Alors je vois qu'un élément avec l'id "rightBonus" est désactivé
+		Alors je vois que le champ de formulaire "Revenu de solidarité active (RSA)" est désactivé
+		Alors je vois que le champ de formulaire "Autres aides" est désactivé
+		Alors je vois que le champ de formulaire "Identifiant Pôle emploi" est désactivé
+		Alors je vois que le champ de formulaire "Identifiant CAF/MSA" est désactivé
 		Quand je renseigne "0601234566" dans le champ "Téléphone"
 		Quand je clique sur "Enregistrer"
 		Alors je vois "06 01 23 45 66"

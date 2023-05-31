@@ -26,7 +26,6 @@
 <div class="fr-form-group">
 	<fieldset
 		class="fr-fieldset"
-		{disabled}
 		{...(valid || hasError) && {
 			role: 'group',
 			'aria-labelledby': `radio-${name}-legend radio-${name}-${
@@ -47,6 +46,7 @@
 						type="radio"
 						{name}
 						{required}
+						{disabled}
 						id={`radio-${name}-${option.name}`}
 						on:change
 						on:change={handleChange}

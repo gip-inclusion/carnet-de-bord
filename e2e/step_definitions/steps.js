@@ -255,8 +255,13 @@ Alors('je vois que bouton {string} est désactivé', (text) => {
 	I.seeElement(`//button[text()="${text}" and @disabled]`);
 });
 
-Alors("je vois qu'un élément avec l'id {string} est désactivé", (text) => {
-	I.seeElement(`//*[@id="${text}" and @disabled]`);
+Alors('je vois que le champ de formulaire {string} est désactivé', (element) => {
+	const inputs = locate('*')
+		.withChild(locate('//label|//fieldset').withChild(locate('*').withText(element)))
+		.before(locate('*').withChild('input'))
+		.find('input');
+
+	I.seeAttributesOnElements(inputs, { disabled: true });
 });
 
 Alors('je vois {int} fois le {string} {string}', (num, element, text) => {
