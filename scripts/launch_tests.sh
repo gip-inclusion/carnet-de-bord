@@ -105,7 +105,7 @@ function start_svelte() {
   # output.
   # npm run dev --prefix app -- --port 3001 &
   cd app
-  # npm run build
+  npm run build
   PORT=3001 ORIGIN=http://localhost:3001 node build &
   cd ..
 
