@@ -85,7 +85,7 @@ tarteaucitron.services.matomocustom = {
 
 				// if cookie starts like a matomo one, register it
 				if (cookieName.indexOf('_pk_') === 0) {
-					tarteaucitron.services.matomo.cookies.push(cookieName);
+					tarteaucitron.services.matomocustom.cookies.push(cookieName);
 				}
 			}
 		}, 100);
@@ -125,7 +125,7 @@ tarteaucitron.services.crispcustom = {
 	uri: 'https://crisp.chat/fr',
 	readmoreLink: 'https://help.crisp.chat/en/article/whats-crisp-eu-gdpr-compliance-status-nhv54c/',
 	needConsent: true,
-	cookies: ['crisp-client'],
+	cookies: ['crisp-client', '__cfduid'],
 	js: () => {
 		if (tarteaucitron.user.crispID === undefined) {
 			return;
@@ -147,7 +147,7 @@ tarteaucitron.services.crispcustom = {
 				const cookieName = cookie[0].trim();
 
 				if (cookieName.indexOf('crisp-client') === 0) {
-					tarteaucitron.services.crispnoconsent.cookies.push(cookieName);
+					tarteaucitron.services.crispcustom.cookies.push(cookieName);
 				}
 			}
 		}, 100);
