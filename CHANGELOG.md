@@ -1,3 +1,10 @@
+# [1.226.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.225.0...v1.226.0) (2023-05-31)
+
+
+### Features
+
+* Permettre aux admin de structures de modifier les informations de contact ([#1769](https://github.com/gip-inclusion/carnet-de-bord/issues/1769)) ([5f32e2d](https://github.com/gip-inclusion/carnet-de-bord/commit/5f32e2d59bfebb262f7d40c70b601a44777afe10))
+
 # [1.225.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.224.1...v1.225.0) (2023-05-31)
 
 
