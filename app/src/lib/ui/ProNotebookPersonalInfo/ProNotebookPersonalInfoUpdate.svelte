@@ -81,7 +81,7 @@
 			? { ...values, firstname: undefined, lastname: undefined, dateOfBirth: undefined }
 			: { ...values };
 
-		const detailedPayload = canEditDetailedInfo
+		const payload = canEditDetailedInfo
 			? { ...partialUpdatePayload }
 			: {
 					...partialUpdatePayload,
@@ -96,7 +96,7 @@
 
 		await update({
 			id: beneficiary.id,
-			payload: detailedPayload,
+			payload,
 		});
 		openComponent.close();
 	}

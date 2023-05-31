@@ -16,8 +16,7 @@
 	import { Checkbox, Radio } from '../forms';
 
 	export let disabledFields: Field[];
-	// Keep the same behavior as before, we can by default
-	// edit everything
+	// We can by default edit any field
 
 	function isFieldDisabled(fieldName: Field) {
 		return disabledFields.includes(fieldName);
