@@ -46,9 +46,6 @@ tarteaucitron.services.crispnoconsent = {
 	// Le support par défaut de Tarte au Citron est insatisfaisant :
 	// - acceptation par défaut
 	// - mauvaise gestion des cookies dynamiques 'crisp-client/*'
-	// TODO: tarte au citron ne gère pas les entrées dans le localStorage
-	// qui devraient être effacées elles aussi.
-	//
 	key: 'crispnoconsent',
 	type: 'support',
 	name: 'Crisp (fenêtre de tchat)',
