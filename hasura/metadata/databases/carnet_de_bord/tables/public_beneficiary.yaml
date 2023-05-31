@@ -401,6 +401,34 @@ update_permissions:
         - right_rsa
       filter: {}
       check: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - address1
+        - address2
+        - city
+        - email
+        - mobile_number
+        - postal_code
+      filter:
+        _or:
+          - structures:
+              structure:
+                admins:
+                  admin_structure_id:
+                    _eq: X-Hasura-AdminStructure-Id
+          - notebook:
+              members:
+                _and:
+                  - active:
+                      _eq: true
+                  - account:
+                      professional:
+                        structure:
+                          admins:
+                            admin_structure_id:
+                              _eq: X-Hasura-AdminStructure-Id
+      check: null
   - role: beneficiary
     permission:
       columns:

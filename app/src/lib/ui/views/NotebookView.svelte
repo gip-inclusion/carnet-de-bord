@@ -26,7 +26,10 @@
 	$: lastUpdateFrom = members[0]?.account?.professional || members[0]?.account?.orientation_manager;
 	$: orientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
-	$: isManager = $accountData.type === RoleEnum.Manager;
+	$: canEdit =
+		$accountData.type === RoleEnum.Manager || $accountData.type === RoleEnum.AdminStructure;
+
+	$: canEditDetailedInfo = $accountData.type === RoleEnum.Manager;
 
 	$: externalData =
 		beneficiary?.externalDataInfos.length > 0
@@ -46,11 +49,13 @@
 	{:else}
 		<OrientationHeader {notebook} on:beneficiary-orientation-changed />
 	{/if}
+
 	<ProNotebookPersonalInfoView
 		{beneficiary}
 		lastUpdateDate={members[0]?.lastModifiedAt}
 		{lastUpdateFrom}
-		displayEditButton={isManager}
+		displayEditButton={canEdit}
+		{canEditDetailedInfo}
 	/>
 	<div>
 		<MainSection title="Groupe de suivi">

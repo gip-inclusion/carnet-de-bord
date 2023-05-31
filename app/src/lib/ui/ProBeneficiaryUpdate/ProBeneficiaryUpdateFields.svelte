@@ -1,5 +1,12 @@
 <script context="module" lang="ts">
-	export type Field = 'firstname' | 'lastname' | 'dateOfBirth';
+	export type Field =
+		| 'firstname'
+		| 'lastname'
+		| 'dateOfBirth'
+		| 'rightRsa'
+		| 'rightAre'
+		| 'rightAss'
+		| 'rightBonus';
 </script>
 
 <script lang="ts">
@@ -8,10 +15,11 @@
 	import Input from '$lib/ui/forms/Input.svelte';
 	import { Checkbox, Radio } from '../forms';
 
-	export let forbiddenFields: Field[];
+	export let disabledFields: Field[];
+	// We can by default edit any field
 
 	function isFieldDisabled(fieldName: Field) {
-		return forbiddenFields.includes(fieldName);
+		return disabledFields.includes(fieldName);
 	}
 
 	function titleForField(fieldName: Field) {
@@ -70,18 +78,19 @@
 		legend="Revenu de solidarité active (RSA)"
 		name="rightRsa"
 		options={rsaRightKeys.options}
+		disabled={isFieldDisabled('rightRsa')}
 	/>
 </div>
 
 <div class="fr-fieldset">
 	<legend class="fr-fieldset__legend--regular fr-fieldset__legend">Autres aides</legend>
 	<div class="fr-fieldset__element">
-		<Checkbox name="rightAre" label="ARE" />
+		<Checkbox name="rightAre" label="ARE" disabled={isFieldDisabled('rightAre')} />
 	</div>
 	<div class="fr-fieldset__element">
-		<Checkbox name="rightAss" label="ASS" />
+		<Checkbox name="rightAss" label="ASS" disabled={isFieldDisabled('rightAss')} />
 	</div>
 	<div class="fr-fieldset__element">
-		<Checkbox name="rightBonus" label="Prime d'activité" />
+		<Checkbox name="rightBonus" label="Prime d'activité" disabled={isFieldDisabled('rightBonus')} />
 	</div>
 </div>

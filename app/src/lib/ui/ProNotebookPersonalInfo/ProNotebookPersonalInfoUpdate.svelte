@@ -17,6 +17,8 @@
 	import Input from '$lib/ui/forms/Input.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 
+	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+
 	export let beneficiary: Pick<
 		Beneficiary,
 		| 'id'
@@ -36,6 +38,8 @@
 		| 'rightAss'
 		| 'rightBonus'
 	>;
+
+	export let canEditDetailedInfo = false;
 
 	const updateStore = operationStore(UpdateBeneficiaryPersonalInfoDocument);
 	const update = mutation(updateStore);
@@ -58,19 +62,38 @@
 		rightBonus: beneficiary.rightBonus,
 	};
 
-	const isPartialUpdate = $accountData.type !== 'manager';
+	const isPartialUpdate = $accountData.type !== RoleEnum.Manager;
 
 	const validationSchema = isPartialUpdate
 		? beneficiaryAccountPartialSchema
 		: beneficiaryAccountSchema;
 
-	const forbiddenFields: Field[] = isPartialUpdate ? ['firstname', 'lastname', 'dateOfBirth'] : [];
+	const partialUpdateDisabledFields: Field[] = isPartialUpdate
+		? ['firstname', 'lastname', 'dateOfBirth']
+		: [];
+
+	const disabledFields: Field[] = partialUpdateDisabledFields.concat(
+		canEditDetailedInfo ? [] : ['rightRsa', 'rightAre', 'rightAss', 'rightBonus']
+	);
 
 	async function updateBeneficiary(values: BeneficiaryAccountInput) {
-		const payload = isPartialUpdate
+		const partialUpdatePayload = isPartialUpdate
 			? { ...values, firstname: undefined, lastname: undefined, dateOfBirth: undefined }
 			: { ...values };
+
+		const payload = canEditDetailedInfo
+			? { ...partialUpdatePayload }
+			: {
+					...partialUpdatePayload,
+					peNumber: undefined,
+					cafNumber: undefined,
+					rightAre: undefined,
+					rightAss: undefined,
+					rightBonus: undefined,
+					rightRsa: undefined,
+			  };
 		trackEvent('pro', 'notebook', 'update personnal info');
+
 		await update({
 			id: beneficiary.id,
 			payload,
@@ -86,14 +109,20 @@
 <section>
 	<h1>Informations personnelles</h1>
 	<Form {initialValues} {validationSchema} onSubmit={updateBeneficiary}>
-		<ProBeneficiaryUpdateFields {forbiddenFields} />
+		<ProBeneficiaryUpdateFields {disabledFields} />
 		<Input
 			name="peNumber"
 			placeholder={'123456789A'}
 			class="pt-6"
 			inputLabel={'Identifiant Pôle emploi'}
+			disabled={!canEditDetailedInfo}
 		/>
-		<Input name="cafNumber" placeholder={'123456789A'} inputLabel={'Identifiant CAF/MSA'} />
+		<Input
+			name="cafNumber"
+			placeholder={'123456789A'}
+			inputLabel={'Identifiant CAF/MSA'}
+			disabled={!canEditDetailedInfo}
+		/>
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button type="submit">Enregistrer</Button>
 			<Button outline on:click={onCancel}>Annuler</Button>
