@@ -108,7 +108,6 @@
 
 <section>
 	<h1>Informations personnelles</h1>
-	{canEditDetailedInfo}
 	<Form {initialValues} {validationSchema} onSubmit={updateBeneficiary}>
 		<ProBeneficiaryUpdateFields {disabledFields} />
 		<Input
