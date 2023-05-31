@@ -5,12 +5,15 @@ import { spawnSync } from 'node:child_process';
 
 const codegenPlugin = () => ({
 	name: 'elm-codegen',
-	buildStart: {
-		handler: () => {
-			console.log('Generating GraphQL code...');
-			spawnSync('npm', ['run', 'codegen'], { stdio: ['ignore', 'inherit', 'inherit'] });
-			console.log('Done generating GraphQL code');
-		},
+	buildStart: function () {
+		console.log('Generating GraphQL code...');
+		const { status } = spawnSync('npm', ['run', 'codegen'], {
+			stdio: ['ignore', 'inherit', 'inherit'],
+		});
+		if (status !== 0) {
+			this.error('GraphQL code generation failed');
+		}
+		console.log('Done generating GraphQL code', status);
 	},
 });
 
