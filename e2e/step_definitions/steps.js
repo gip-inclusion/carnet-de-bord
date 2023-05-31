@@ -20,7 +20,7 @@ function rejectConsent() {
 		domain: 'localhost',
 		name: 'tarteaucitron',
 		path: '/',
-		value: '!matomocloud=false!crispnoconsent=false',
+		value: '!matomocustom=false!crispcustom=false',
 	});
 }
 Soit('je rafraichis la page', async () => {
