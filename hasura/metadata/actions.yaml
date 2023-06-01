@@ -23,6 +23,23 @@ actions:
       - role: admin_structure
       - role: admin_cdb
     comment: Create NPS Rating
+  - name: update_notebook_situations
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+      request_transform:
+        method: GET
+        query_params: {}
+        request_headers:
+          add_headers: {}
+          remove_headers:
+            - content-type
+        template_engine: Kriti
+        url: '{{$base_url}}/notebooks/{{$body.input[''notebookId'']}}/situations'
+        version: 2
   - name: update_socio_pro
     definition:
       kind: synchronous
@@ -80,4 +97,5 @@ custom_types:
     - name: NPSRatingOutput
     - name: UpdateSocioProOutput
     - name: CreateNotebookOutput
+    - name: UpdateNotebookSituationsOutput
   scalars: []
