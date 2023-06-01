@@ -4,8 +4,8 @@ from uuid import UUID
 
 import pytest
 
+from cdb.api.db.models.ref_situation import NotebookSituation as SituationCdb
 from cdb.api.db.models.ref_situation import RefSituation
-from cdb.api.db.models.ref_situation import Situation as SituationCdb
 from cdb.api.domain.situation.situations import (
     SituationToAdd,
     merge_constraintes_to_situations,
@@ -148,9 +148,8 @@ def test_merge_contraintes_to_situations_does_not_return_already_existing_situat
     notebook_situations: List[SituationCdb] = [
         SituationCdb(
             id=UUID("f9a9c869-460d-4190-942c-3c31b588d547"),
-            situation=ref_situation_aucun_moyen_transport,
-            created_at=datetime.fromisoformat("2023-05-11"),
-            deleted_at=None,
+            situationId=ref_situation_aucun_moyen_transport.id,
+            createdAt=datetime.fromisoformat("2023-05-11"),
         )
     ]
 
@@ -194,9 +193,8 @@ def test_merge_contraintes_to_situations_return_situation_to_delete(
     notebook_situations: List[SituationCdb] = [
         SituationCdb(
             id=UUID("f9a9c869-460d-4190-942c-3c31b588d547"),
-            situation=ref_situation_dependant_des_transports,
-            created_at=datetime.fromisoformat("2023-05-11"),
-            deleted_at=None,
+            situationId=ref_situation_dependant_des_transports.id,
+            createdAt=datetime.fromisoformat("2023-05-11"),
         )
     ]
     result = merge_constraintes_to_situations(

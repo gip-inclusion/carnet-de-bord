@@ -10,8 +10,7 @@ class RefSituation(BaseModel):
     theme: str
 
 
-class Situation(BaseModel):
+class NotebookSituation(BaseModel):
     id: UUID
-    situation: RefSituation
-    created_at: datetime
-    deleted_at: datetime | None
+    situationId: UUID
+    createdAt: datetime
