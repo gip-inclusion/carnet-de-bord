@@ -30,7 +30,7 @@ class NotebookSituationInputPayload(BaseModel):
     date_of_birth: str
 
 
-@router.get("/{notebook_id}/situations", status_code=204)
+@router.get("/{notebook_id}/situations", status_code=200)
 async def get_notebook_situations(
     notebook_id: UUID,
 ):
@@ -49,6 +49,7 @@ async def get_notebook_situations(
     query = get_beneficiary_by_notebook_id_query(
         dsl_schema=dsl_schema, notebook_id=notebook_id
     )
+    data_has_been_updated = False
     async with gql_client_backend_only() as session:
         response = await session.execute(dsl_gql(DSLQuery(**query)))
         (
@@ -70,6 +71,14 @@ async def get_notebook_situations(
                 differences = merge_contraintes_to_situations(
                     contraintes, ref_situations, notebook_situations
                 )
+                data_has_been_updated = (
+                    True
+                    if (
+                        differences.situations_to_add
+                        and differences.situations_to_delete
+                    )
+                    else False
+                )
 
                 await save_notebook_situations(
                     session,
@@ -90,4 +99,4 @@ async def get_notebook_situations(
                     differences.situations_to_delete,
                 )
 
-    return {}
+    return {"data_has_been_updated": data_has_been_updated}

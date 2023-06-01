@@ -69,7 +69,9 @@ async def test_get_notebook_situations_nominal(
         headers={"secret-token": "action_secret_token"},
     )
 
-    assert response.status_code == 204
+    assert response.status_code == 200
+    result = response.json()
+    assert result["data_has_been_updated"] is True
 
     async with get_client.gql_client_backend_only() as session:
         result = await session.execute(
@@ -99,6 +101,62 @@ async def test_get_notebook_situations_nominal(
             ("Doit quitter le logement", "2023-05-12"),
             ("Hébergé chez un tiers", "2021-09-21"),
         ]
+
+
+@pytest.mark.graphql
+@respx.mock
+async def test_get_notebook_situations_get_no_situations(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+    empty_contraintes: dict,
+):
+    respx.post(f"{settings.PE_AUTH_BASE_URL}/connexion/oauth2/access_token").mock(
+        return_value=httpx.Response(
+            200,
+            json={
+                "token_type": "foo",
+                "access_token": "batman",
+                "expires_in": 3600,
+            },
+        )
+    )
+    respx.post(
+        f"{settings.PE_BASE_URL}/partenaire/rechercher-usager/v1/usagers/recherche",
+        json={
+            "nir": beneficiary_sophie_tifour.nir,
+            "dateNaissance": beneficiary_sophie_tifour.date_of_birth.strftime(
+                "%Y-%m-%d"
+            ),
+        },
+    ).mock(
+        return_value=httpx.Response(200, json=PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK)
+    )
+
+    pe_internal_id = PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK["identifiant"]
+
+    respx.get(
+        f"{settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}/contraintes",
+    ).mock(return_value=httpx.Response(200, json=empty_contraintes))
+
+    response = await test_client.get(
+        f"/v1/notebooks/{beneficiary_sophie_tifour.notebook.id}/situations",
+        headers={"secret-token": "action_secret_token"},
+    )
+
+    assert response.status_code == 200
+    result = response.json()
+    assert result["data_has_been_updated"] is False
+
+
+@pytest.fixture(scope="session")
+def empty_contraintes() -> dict:
+    return {
+        "conseiller": "TNAN0260",
+        "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+        "code": "7",
+        "libelle": "Résoudre ses contraintes personnelles",
+        "contraintes": [],
+    }
 
 
 @pytest.fixture(scope="session")
