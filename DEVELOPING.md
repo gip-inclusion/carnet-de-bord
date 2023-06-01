@@ -14,7 +14,7 @@ docker compose -f docker-compose-test.yaml down
 
 **Génération des types graphql**
 
-on écrit un fichier `_query.gql` ou `_mutation.gql`
+On écrit un fichier `_query.gql` ou `_mutation.gql`
 
 ```gql
 # _query.gql
@@ -38,13 +38,9 @@ query SearchBeneficiaries($filter: String) {
 }
 ```
 
-Avec **l’environnement de dev démarré**, on génère les types avec `codegen` :
+Il faut redémarrer le service front (`make start-app` à la racine, ou `npm run dev` dans `app/`) pour que ces changements soient pris en compte dans le code TypeScript généré.
 
-```sh
-make codegen
-```
-Le schéma est écrit dans un module Python `backend.cdb.api._gen.schema_gql`.
-Les types graphql sont générés dans `src/_gen`. On peut alors les utiliser dans les composants
+Les types graphql sont générés dans `app/src/lib/graphql/_gen`. On peut alors les utiliser dans les composants :
 
 ```ts
 export const load: Load = async ({ page }) => {
@@ -64,7 +60,8 @@ export const load: Load = async ({ page }) => {
 
 **Modification des metadata Hasura**
 
-Après avoir modifié des metadatas hasura dans la console (permissions, GraphQL field name, etc), ne pas oublier de les exporter
+Après avoir modifié des metadatas hasura dans la console (permissions, GraphQL
+field name, etc), ne pas oublier de les exporter
 
 ```sh
 # depuis le répertoire ~/hasura
@@ -83,6 +80,18 @@ Les migrations sont appliquées automatiquement au lancement de hasura
 # depuis le répertoire racine
 docker compose up --build
 ```
+
+**Export du schéma Hasura**
+
+Les différentes composants (Svelte, Elm, Python) se basent sur le fichier `hasura/schema.graphql` pour générer du code et/ou des requêtes GraphQL. Quand le schéma Hasura change (ajout/suppression de tables ou colonnes, ou modification de métadonnées Hasura), il faut mettre à jour ce fichier en lançant à la racine :
+
+```
+make update-schema
+```
+
+Le fichier `hasura/schema.graphql` doit ensuite être committé dans Git.
+
+Le nouveau schéma sera pris en compte au prochain démarrage ou _build_ des applications.
 
 ## Pratiques de l'équipe
 

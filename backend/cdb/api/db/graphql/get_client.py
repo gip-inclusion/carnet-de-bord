@@ -4,9 +4,9 @@ from gql import Client
 from gql.transport.aiohttp import AIOHTTPTransport
 from gql.utilities import update_schema_scalar
 
-from cdb.api._gen.schema_gql import schema
 from cdb.api.core.settings import settings
 from cdb.api.db.graphql.graphql_scalars import DateScalar
+from cdb.api.schema_gql import schema
 
 
 def gql_client(bearer_token: str) -> Client:

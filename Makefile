@@ -55,8 +55,8 @@ test-app:
 seed-database:
 	hasura --project ./hasura seed apply --database-name carnet_de_bord
 
-codegen:
-	cd backend && \
-		poetry run cdb/scripts/codegen.py
-	cd app && \
-		npm run codegen
+update-schema:
+	./scripts/update-schema.sh
+
+codegen: update-schema
+	# Nothing to do, code gen is automatically run on build

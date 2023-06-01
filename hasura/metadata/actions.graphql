@@ -24,7 +24,6 @@ type Mutation {
     professionalProjectIdsToDelete: [uuid!]!
     professionalProjectsToUpdate: [UpdateSocioProProfessionalProjectSetInput!]!
     situationsToAdd: [UpdateSocioProNotebookSituationInsertInput!]!
-    situationIdsToDelete: [uuid!]!
   ): UpdateSocioProOutput
 }
 
