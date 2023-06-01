@@ -1,3 +1,4 @@
+import json
 import logging
 from uuid import UUID
 
@@ -8,8 +9,15 @@ from pydantic import BaseModel
 from cdb.api._gen.schema_gql import schema
 from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import get_beneficiary_by_notebook_id_query
+from cdb.api.db.crud.notebook_situation import (
+    get_ref_situations_with_notebook_situations,
+    save_notebook_situations,
+)
 from cdb.api.db.graphql.get_client import gql_client_backend_only
+from cdb.api.domain.situation.situations import merge_constraintes_to_situations
 from cdb.api.v1.dependencies import verify_secret_token
+from cdb.api.v1.payloads.socio_pro import SituationToAdd
+from cdb.cdb_csv.json_encoder import CustomEncoder
 from cdb.pe.pole_emploi_client import PoleEmploiApiClient
 
 logger = logging.getLogger(__name__)
@@ -43,6 +51,11 @@ async def get_notebook_situations(
     )
     async with gql_client_backend_only() as session:
         response = await session.execute(dsl_gql(DSLQuery(**query)))
+        (
+            ref_situations,
+            notebook_situations,
+        ) = await get_ref_situations_with_notebook_situations(session, notebook_id)
+
         beneficiaries = response.get("beneficiaries")
         if isinstance(beneficiaries, list) and len(beneficiaries) > 0:
             beneficiary = beneficiaries[0]
@@ -54,5 +67,37 @@ async def get_notebook_situations(
                 contraintes = await pole_emploi_client.get_contraintes(
                     usager.identifiant
                 )
-                print(contraintes)
+                differences = merge_constraintes_to_situations(
+                    contraintes, ref_situations, notebook_situations
+                )
+                print(
+                    differences.situations_to_add,
+                    [
+                        SituationToAdd(
+                            notebookId=notebook_id,
+                            situationId=situation.situation_id,
+                            createdAt=situation.created_at,
+                        )
+                        for situation in differences.situations_to_add
+                    ],
+                )
+                await save_notebook_situations(
+                    session,
+                    notebook_id,
+                    [
+                        json.loads(
+                            json.dumps(
+                                SituationToAdd(
+                                    notebookId=notebook_id,
+                                    situationId=situation.situation_id,
+                                    createdAt=situation.created_at,
+                                ).dict(),
+                                cls=CustomEncoder,
+                            )
+                        )
+                        for situation in differences.situations_to_add
+                    ],
+                    differences.situations_to_delete,
+                )
+
     return {}
