@@ -1,3 +1,4 @@
+import logging
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List, Tuple
@@ -5,6 +6,8 @@ from uuid import UUID
 
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.pe.models.contrainte import Contrainte
+
+logger = logging.getLogger(__name__)
 
 
 @dataclass
@@ -62,4 +65,10 @@ def find_ref_situation(
         for ref_situation in ref_situations
         if ref_situation.description == description
     ]
-    return matching_ref_situations[0].id if len(matching_ref_situations) == 1 else None
+    ref_situation = (
+        matching_ref_situations[0].id if len(matching_ref_situations) == 1 else None
+    )
+    if ref_situation is None:
+        logger.warning(f"No ref_situation with description='{description}' found.")
+
+    return ref_situation

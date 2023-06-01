@@ -27,7 +27,7 @@ def test_merge_contraintes_to_situations_returns_empty(
     assert result.situations_to_delete == []
 
 
-def test_merge_contraintes_to_situations_returns_empty_when_no_ref_situations():
+def test_merge_contraintes_to_situations_returns_empty_when_no_ref_situations(caplog):
     contraintes: List[Contrainte] = [
         Contrainte(
             id=23,
@@ -52,6 +52,10 @@ def test_merge_contraintes_to_situations_returns_empty_when_no_ref_situations():
 
     assert result.situations_to_add == []
     assert result.situations_to_delete == []
+    assert (
+        "No ref_situation with description='Aucun moyen de transport à disposition' found."  # noqa: E501
+        in caplog.text
+    )
 
 
 def test_merge_contraintes_to_situations_returns_one_situation_to_add(
