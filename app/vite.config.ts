@@ -4,7 +4,7 @@ import path from 'path';
 import { spawnSync } from 'node:child_process';
 
 const codegenPlugin = () => ({
-	name: 'elm-codegen',
+	name: 'codegen',
 	buildStart: function () {
 		console.log('Generating GraphQL code...');
 		const { status } = spawnSync('npm', ['run', 'codegen'], {
