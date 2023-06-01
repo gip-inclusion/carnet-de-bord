@@ -14,3 +14,4 @@ class NotebookSituation(BaseModel):
     id: UUID
     situationId: UUID
     createdAt: datetime
+    deleteAt: datetime | None

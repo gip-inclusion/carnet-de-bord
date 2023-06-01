@@ -1,14 +1,11 @@
 from urllib.parse import quote
-from uuid import UUID
 
 import httpx
 import pytest
 import respx
+from gql import gql
 
 from cdb.api.core.settings import settings
-from cdb.api.db.crud.notebook_situation import (
-    get_ref_situations_with_notebook_situations,
-)
 from cdb.api.db.graphql import get_client
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.notebook import Notebook
@@ -31,6 +28,7 @@ async def test_verify_no_token(
     assert json["detail"] == "Missing credentials"
 
 
+@pytest.mark.graphql
 @respx.mock
 async def test_get_notebook_situations_nominal(
     test_client: httpx.AsyncClient,
@@ -74,18 +72,32 @@ async def test_get_notebook_situations_nominal(
     assert response.status_code == 204
 
     async with get_client.gql_client_backend_only() as session:
-        (_, notebook_situations) = await get_ref_situations_with_notebook_situations(
-            session, notebook_sophie_tifour.id
+        result = await session.execute(
+            gql(
+                """
+            query situation($id: uuid!) {
+                notebook_situation(
+                    where: {notebookId: {_eq: $id}  deletedAt: {_is_null: true}}
+                    order_by: {createdAt: desc}
+                ) {
+                    id, refSituation{ description} createdAt
+                }
+            }
+        """
+            ),
+            variable_values={"id": notebook_sophie_tifour.id},
         )
+        assert result["notebook_situation"]
 
         assert [
-            (situation.situationId, situation.createdAt.strftime("%Y-%m-%d"))
-            for situation in notebook_situations
+            (
+                situation["refSituation"]["description"],
+                situation["createdAt"].split("T")[0],
+            )
+            for situation in result["notebook_situation"]
         ] == [
-            (UUID("8fe751b3-9fca-4239-a8f7-31acf12706a7"), "2023-05-12"),
-            (UUID("1d4ea2b8-db7e-4fbc-a902-b04f74fb5dfe"), "2021-09-21"),
-            (UUID("8f26b33e-75b6-4051-945d-495ac29c23d1"), "2021-09-21"),
-            (UUID("b60da455-c25e-467a-86d0-9341be836509"), "2021-09-21"),
+            ("Doit quitter le logement", "2023-05-12"),
+            ("Hébergé chez un tiers", "2021-09-21"),
         ]
 
 

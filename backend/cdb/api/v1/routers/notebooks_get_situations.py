@@ -70,17 +70,7 @@ async def get_notebook_situations(
                 differences = merge_constraintes_to_situations(
                     contraintes, ref_situations, notebook_situations
                 )
-                print(
-                    differences.situations_to_add,
-                    [
-                        SituationToAdd(
-                            notebookId=notebook_id,
-                            situationId=situation.situation_id,
-                            createdAt=situation.created_at,
-                        )
-                        for situation in differences.situations_to_add
-                    ],
-                )
+
                 await save_notebook_situations(
                     session,
                     notebook_id,

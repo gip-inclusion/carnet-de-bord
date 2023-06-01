@@ -22,7 +22,7 @@ async def get_ref_situations_with_notebook_situations(
                 deletedAt: {_is_null: true}
             }, order_by: {createdAt: desc}
             ) {
-                id situationId createdAt
+                id situationId createdAt deletedAt
             }
         }
     """
@@ -58,9 +58,9 @@ async def save_notebook_situations(
             $situationsToAdd: [notebook_situation_insert_input!]!,
             $situationIdsToDelete: [uuid!]!
         ) {
-            update_notebook_situation(where: {
+            update_notebook_situation( _set: {deletedAt: now} where: {
                 notebookId: {_eq: $notebookId},
-                situationId: {_in: $situationIdsToDelete},
+                id: {_in: $situationIdsToDelete},
                 deletedAt: {_is_null: true}
             }) {
                 affected_rows
