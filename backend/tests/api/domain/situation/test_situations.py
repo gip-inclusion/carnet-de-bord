@@ -171,6 +171,49 @@ def test_merge_contraintes_to_situations_does_not_return_already_existing_situat
 #   (ie. qui existent dans Cdb mais qui n'ont pas été envoyées par PE)
 
 
+def test_merge_contraintes_to_situations_return_situation_to_delete(
+    ref_situations: List[RefSituation],
+    ref_situation_aucun_moyen_transport: RefSituation,
+    ref_situation_dependant_des_transports: RefSituation,
+):
+    contraintes: List[Contrainte] = [
+        Contrainte(
+            id=23,
+            nom="Développer sa mobilité",
+            valeur="CLOTUREE",
+            date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
+            situations=[
+                Situation(
+                    code="6",
+                    libelle="Aucun moyen de transport à disposition",
+                    valeur="OUI",
+                )
+            ],
+        )
+    ]
+    notebook_situations: List[SituationCdb] = [
+        SituationCdb(
+            id=UUID("f9a9c869-460d-4190-942c-3c31b588d547"),
+            situation=ref_situation_dependant_des_transports,
+            created_at=datetime.fromisoformat("2023-05-11"),
+            deleted_at=None,
+        )
+    ]
+    result = merge_constraintes_to_situations(
+        contraintes,
+        ref_situations,
+        notebook_situations,
+    )
+
+    assert result.situations_to_add == [
+        SituationToAdd(
+            situation_id=ref_situation_aucun_moyen_transport.id,
+            created_at=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
+        )
+    ]
+    assert result.situations_to_delete == [UUID("f9a9c869-460d-4190-942c-3c31b588d547")]
+
+
 @pytest.fixture(scope="session")
 def ref_situation_aucun_moyen_transport() -> RefSituation:
     return RefSituation(

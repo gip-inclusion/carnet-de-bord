@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
-from typing import List
+from typing import List, Tuple
 from uuid import UUID
 
 from cdb.api.db.models.ref_situation import RefSituation, Situation
@@ -25,38 +25,32 @@ def merge_constraintes_to_situations(
     ref_situations: List[RefSituation],
     notebook_situations: List[Situation],
 ) -> SituationDifferences:
+    pe_situations: List[Tuple[UUID | None, datetime | None]] = [
+        (find_ref_situation(ref_situations, situation.libelle), contrainte.date)
+        for contrainte in contraintes
+        for situation in contrainte.situations
+        if situation.valeur == "OUI"
+    ]
 
-    situations_to_add: List[SituationToAdd] = []
-
-    for contrainte in contraintes:
-        for situation in contrainte.situations:
-            if situation.valeur != "OUI":
-                continue
-
-            situation_id = find_ref_situation(
-                ref_situations=ref_situations,
-                description=situation.libelle,
-            )
-            if situation_id is None:
-                continue
-
-            notebook_situation = find_situation(
-                notebook_situations=notebook_situations,
-                ref_situation_id=situation_id,
-            )
-
-            if notebook_situation is not None:
-                continue
-
-            situations_to_add.append(
-                SituationToAdd(
-                    situation_id=situation_id,
-                    created_at=contrainte.date,
-                )
-            )
+    valid_pe_situations = [
+        (ref_situation_id, date)
+        for (ref_situation_id, date) in pe_situations
+        if ref_situation_id is not None
+    ]
 
     return SituationDifferences(
-        situations_to_add=situations_to_add, situations_to_delete=[]
+        situations_to_add=[
+            SituationToAdd(situation_id=ref_situation_id, created_at=date)
+            for (ref_situation_id, date) in valid_pe_situations
+            if ref_situation_id
+            not in [situation.situation.id for situation in notebook_situations]
+        ],
+        situations_to_delete=[
+            situation.id
+            for situation in notebook_situations
+            if situation.situation.id
+            not in [ref_situation_id for (ref_situation_id, _) in valid_pe_situations]
+        ],
     )
 
 
