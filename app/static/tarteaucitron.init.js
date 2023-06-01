@@ -133,6 +133,7 @@ tarteaucitron.services.crispcustom = {
 
 		window.$crisp = [];
 		window.CRISP_WEBSITE_ID = tarteaucitron.user.crispID;
+		window.CRISP_COOKIE_DOMAIN = window.location.host;
 
 		tarteaucitron.addScript('https://client.crisp.chat/l.js');
 
