@@ -86,7 +86,11 @@ class PoleEmploiApiClient:
                 },
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
             )
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except Exception as e:
+            raise PoleEmploiAPIException(e) from e
+
         auth_data = response.json()
         self.token = f"{auth_data['token_type']} {auth_data['access_token']}"
         self.expires_at = at + timedelta(seconds=auth_data["expires_in"])

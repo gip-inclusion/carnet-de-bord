@@ -148,6 +148,30 @@ async def test_get_notebook_situations_get_no_situations(
     assert result["data_has_been_updated"] is False
 
 
+@pytest.mark.graphql
+@respx.mock
+async def test_get_notebook_situations_when_pole_emploi_fails(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+):
+    respx.post(f"{settings.PE_AUTH_BASE_URL}/connexion/oauth2/access_token").mock(
+        return_value=httpx.Response(
+            500,
+            json={
+                "token_type": "foo",
+                "access_token": "batman",
+                "expires_in": 3600,
+            },
+        )
+    )
+    response = await test_client.get(
+        f"/v1/notebooks/{beneficiary_sophie_tifour.notebook.id}/situations",
+        headers={"secret-token": "action_secret_token"},
+    )
+
+    assert response.status_code == 400
+
+
 @pytest.fixture(scope="session")
 def empty_contraintes() -> dict:
     return {
