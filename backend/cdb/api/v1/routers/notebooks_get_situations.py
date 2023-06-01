@@ -14,7 +14,7 @@ from cdb.api.db.crud.notebook_situation import (
     save_notebook_situations,
 )
 from cdb.api.db.graphql.get_client import gql_client_backend_only
-from cdb.api.domain.situation.situations import merge_constraintes_to_situations
+from cdb.api.domain.situation.situations import merge_contraintes_to_situations
 from cdb.api.v1.dependencies import verify_secret_token
 from cdb.api.v1.payloads.socio_pro import SituationToAdd
 from cdb.cdb_csv.json_encoder import CustomEncoder
@@ -67,7 +67,7 @@ async def get_notebook_situations(
                 contraintes = await pole_emploi_client.get_contraintes(
                     usager.identifiant
                 )
-                differences = merge_constraintes_to_situations(
+                differences = merge_contraintes_to_situations(
                     contraintes, ref_situations, notebook_situations
                 )
 
