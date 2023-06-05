@@ -58,16 +58,18 @@
 	onDestroy(() => unsubscribePage());
 
 	function onPageChange() {
+		// no tracking on ssr
+		if (!browser) {
+			return;
+		}
 		// we don't want to track /auth/jwt
 		if (/auth\/jwt/.test($page.url.pathname)) {
 			return;
 		}
-		if (browser && (window as any)._paq) {
-			if ($page.url.searchParams.get('search')) {
-				trackSiteSearch($page.url.href, $page.url.pathname);
-			} else {
-				trackPageView($page.url.pathname, $page.data.title);
-			}
+		if ($page.url.searchParams.get('search')) {
+			trackSiteSearch($page.url.href, $page.url.pathname);
+		} else {
+			trackPageView($page.url.pathname, $page.data.title);
 		}
 	}
 </script>
