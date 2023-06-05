@@ -7,9 +7,13 @@
 
 	export let data: PageData;
 
-	const getNotebookResult = operationStore(GetNotebookByIdDocument, {
-		id: data.notebookId,
-	});
+	const getNotebookResult = operationStore(
+		GetNotebookByIdDocument,
+		{
+			id: data.notebookId,
+		},
+		{ additionalTypenames: ['notebook_appointment'] }
+	);
 	query(getNotebookResult);
 </script>
 
