@@ -1,3 +1,10 @@
+## [1.226.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.1...v1.226.2) (2023-06-05)
+
+
+### Bug Fixes
+
+* limiter le cookie taraucitron à carnet de bord ([#1785](https://github.com/gip-inclusion/carnet-de-bord/issues/1785)) ([1fc7219](https://github.com/gip-inclusion/carnet-de-bord/commit/1fc7219d4c7e6dcc605530b5051b4d09426f6ce0))
+
 ## [1.226.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.0...v1.226.1) (2023-06-01)
 
 # [1.226.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.225.0...v1.226.0) (2023-05-31)
