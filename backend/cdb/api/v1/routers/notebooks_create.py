@@ -3,12 +3,12 @@ from fastapi.responses import JSONResponse
 from gql.dsl import DSLMutation, DSLQuery, DSLSchema, dsl_gql
 from pydantic import BaseModel
 
-from cdb.api._gen.schema_gql import schema
 from cdb.api.db.crud.beneficiary import (
     get_insert_beneficiary_mutation,
     search_beneficiary_by_nir_query,
 )
 from cdb.api.db.graphql.get_client import gql_client_backend_only
+from cdb.api.schema_gql import schema
 from cdb.api.v1.dependencies import verify_secret_token
 from cdb.api.v1.payloads.notebook import CreateNotebookActionPayload
 

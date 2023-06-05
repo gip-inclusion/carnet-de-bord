@@ -6,7 +6,6 @@ from fastapi import APIRouter, Depends
 from gql.dsl import DSLQuery, DSLSchema, dsl_gql
 from pydantic import BaseModel
 
-from cdb.api._gen.schema_gql import schema
 from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import get_beneficiary_by_notebook_id_query
 from cdb.api.db.crud.notebook_situation import (
@@ -15,6 +14,7 @@ from cdb.api.db.crud.notebook_situation import (
 )
 from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.domain.situation.situations import merge_contraintes_to_situations
+from cdb.api.schema_gql import schema
 from cdb.api.v1.dependencies import verify_secret_token
 from cdb.api.v1.payloads.socio_pro import SituationToAdd
 from cdb.cdb_csv.json_encoder import CustomEncoder
