@@ -110,6 +110,23 @@ select_permissions:
             account:
               id:
                 _eq: X-Hasura-User-Id
+  - role: manager
+    permission:
+      columns:
+        - id
+        - notebook_id
+        - account_id
+        - date
+        - status
+        - created_at
+        - updated_at
+        - deleted_by
+        - deleted_at
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
   - role: orientation_manager
     permission:
       columns:
