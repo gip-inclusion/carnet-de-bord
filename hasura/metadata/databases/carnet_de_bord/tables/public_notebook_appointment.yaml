@@ -22,6 +22,30 @@ object_relationships:
     using:
       foreign_key_constraint_on: notebook_id
 insert_permissions:
+  - role: admin_structure
+    permission:
+      check:
+        notebook:
+          members:
+            _and:
+              - active:
+                  _eq: true
+              - account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
+      columns:
+        - id
+        - notebook_id
+        - account_id
+        - date
+        - status
+        - created_at
+        - updated_at
+        - deleted_by
+        - deleted_at
   - role: orientation_manager
     permission:
       check:
@@ -66,6 +90,30 @@ select_permissions:
         - id
         - notebook_id
       filter: {}
+  - role: admin_structure
+    permission:
+      columns:
+        - status
+        - date
+        - created_at
+        - deleted_at
+        - updated_at
+        - account_id
+        - deleted_by
+        - id
+        - notebook_id
+      filter:
+        notebook:
+          members:
+            _and:
+              - active:
+                  _eq: true
+              - account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
   - role: orientation_manager
     permission:
       columns:

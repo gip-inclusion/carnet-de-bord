@@ -13,6 +13,7 @@
 	import ProNotebookPersonalInfoView from '$lib/ui/ProNotebookPersonalInfo/ProNotebookPersonalInfoView.svelte';
 	import OrientationRequestBanner from '../OrientationRequest/OrientationRequestBanner.svelte';
 	import OrientationHeader from '../OrientationHeader/OrientationHeader.svelte';
+	import { ProNotebookMembersView } from '$lib/ui/ProNotebookMember';
 
 	import Portal from 'svelte-portal';
 	import { accountData } from '$lib/stores';
@@ -28,6 +29,7 @@
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;
 	$: canEdit =
 		$accountData.type === RoleEnum.Manager || $accountData.type === RoleEnum.AdminStructure;
+	$: appointments = notebook?.appointments ?? [];
 
 	$: canEditDetailedInfo = $accountData.type === RoleEnum.Manager;
 
@@ -59,7 +61,18 @@
 	/>
 	<div>
 		<MainSection title="Groupe de suivi">
-			<NotebookMembers members={notebook.members} notebookId={notebook.id} />
+			{#if $accountData.type === RoleEnum.AdminStructure}
+				<ProNotebookMembersView
+					{members}
+					notebookId={notebook.id}
+					beneficiaryFirstname={beneficiary.firstname}
+					beneficiaryLastname={beneficiary.lastname}
+					{appointments}
+					displayMemberManagementButtons={false}
+				/>
+			{:else}
+				<NotebookMembers members={notebook.members} notebookId={notebook.id} />
+			{/if}
 		</MainSection>
 		<MainSection title="Diagnostic socioprofessionnel">
 			<SocioProView {notebook} externalDataDetail={externalData} />
