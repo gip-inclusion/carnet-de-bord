@@ -1,3 +1,10 @@
+## [1.226.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.3...v1.226.4) (2023-06-05)
+
+
+### Bug Fixes
+
+* **actions:** sort by starting at ([2ab8bb2](https://github.com/gip-inclusion/carnet-de-bord/commit/2ab8bb286311dc49756380d3c5bd6a64c95164ac))
+
 ## [1.226.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.2...v1.226.3) (2023-06-05)
 
 ## [1.226.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.1...v1.226.2) (2023-06-05)
