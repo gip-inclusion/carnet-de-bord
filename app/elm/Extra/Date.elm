@@ -1,5 +1,6 @@
-module Extra.Date exposing (print, parseTimestamp)
+module Extra.Date exposing (print, timestampzToDate)
 
+import CdbGQL.Scalar exposing (Timestamptz(..))
 import Date exposing (Date)
 
 
@@ -14,3 +15,8 @@ parseTimestamp =
         >> List.head
         >> Result.fromMaybe "Le format attendu est un datetime au format ISO"
         >> Result.andThen Date.fromIsoString
+
+
+timestampzToDate : Timestamptz -> Result String Date
+timestampzToDate (Timestamptz raw) =
+    parseTimestamp raw
