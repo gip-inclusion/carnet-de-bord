@@ -31,7 +31,7 @@ type alias SearchApi =
 
 
 type Mode
-    = Autocomplete
+    = Autocomplete { maxLength : Int }
     | Classic
 
 
@@ -295,13 +295,16 @@ addAutocompleteOption model =
         Classic ->
             identity
 
-        Autocomplete ->
+        Autocomplete { maxLength } ->
             if model.search |> String.trim |> String.isEmpty then
                 identity
 
             else
                 { id = "custom-search-select-option"
-                , label = model.search
+                , label =
+                    model.search
+                        |> String.trim
+                        |> String.left maxLength
                 }
                     |> optionToSelectItem
                     |> (::)

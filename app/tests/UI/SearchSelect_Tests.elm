@@ -17,25 +17,31 @@ suite =
         [ describe "custom option"
             [ test "shows the current search in autocomplete mode" <|
                 \_ ->
-                    start { mode = SearchSelect.Autocomplete }
+                    start { mode = SearchSelect.Autocomplete { maxLength = 10 } }
                         |> open
                         |> search "test"
                         |> ProgramTest.expectView (Query.has [ option "test" ])
             , test "selecting an empty option is forbidden" <|
                 \_ ->
-                    start { mode = SearchSelect.Autocomplete }
+                    start { mode = SearchSelect.Autocomplete { maxLength = 10 } }
                         |> open
                         |> search " "
                         |> ProgramTest.expectView (Query.hasNot [ option " " ])
+            , test "the custom option cannot be bigger than the maxLength" <|
+                \_ ->
+                    start { mode = SearchSelect.Autocomplete { maxLength = 4 } }
+                        |> open
+                        |> fillSearch "123456789"
+                        |> ProgramTest.expectView (Query.has [ option "1234" ])
             , test "shows the current search before the search succeeds" <|
                 \_ ->
-                    start { mode = SearchSelect.Autocomplete }
+                    start { mode = SearchSelect.Autocomplete { maxLength = 10 } }
                         |> open
                         |> fillSearch "test"
                         |> ProgramTest.expectView (Query.has [ option "test" ])
             , test "resetting the field resets the default option" <|
                 \_ ->
-                    start { mode = SearchSelect.Autocomplete }
+                    start { mode = SearchSelect.Autocomplete { maxLength = 10 } }
                         |> open
                         |> search "test"
                         |> ProgramTest.update SearchSelect.Reset

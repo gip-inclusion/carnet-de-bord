@@ -18,7 +18,7 @@ main =
                 , searchPlaceholder = "Chercher quelque chose"
                 , defaultOption = "Option par défaut"
                 , api = UI.SearchSelect.Fixtures.fakeSearchApi
-                , mode = SearchSelect.Autocomplete
+                , mode = SearchSelect.Autocomplete { maxLength = 10 }
                 }
             , Cmd.none
             )
