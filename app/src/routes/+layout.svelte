@@ -16,6 +16,7 @@
 	import * as yupFrLocale from '$lib/utils/yupFrLocale';
 	import { Client, createClient, setClient } from '@urql/svelte';
 	import LayerCdb from '$lib/ui/LayerCDB.svelte';
+	import { trackPageView, trackSiteSearch } from '$lib/tracking/matomo';
 
 	yup.setLocale(yupFrLocale);
 
@@ -32,7 +33,7 @@
 	}
 	let unsubscribePage: () => void;
 
-	unsubscribePage = page.subscribe(trackPageView);
+	unsubscribePage = page.subscribe(onPageChange);
 
 	onMount(async () => {
 		// Load the DSFR asynchronously, and only on the browser (not in SSR).
@@ -56,19 +57,19 @@
 
 	onDestroy(() => unsubscribePage());
 
-	function trackPageView() {
+	function onPageChange() {
+		// no tracking on ssr
+		if (!browser) {
+			return;
+		}
 		// we don't want to track /auth/jwt
 		if (/auth\/jwt/.test($page.url.pathname)) {
 			return;
 		}
-		if (browser && (window as any)._paq) {
-			(window as any)._paq.push(['setCustomUrl', $page.url.pathname]);
-			(window as any)._paq.push(['setDocumentTitle', $page.data.title]);
-			if ($page.url.searchParams.get('search')) {
-				(window as any)._paq.push(['trackSiteSearch', $page.url.href, $page.url.pathname]);
-			} else {
-				(window as any)._paq.push(['trackPageView']);
-			}
+		if ($page.url.searchParams.get('search')) {
+			trackSiteSearch($page.url.href, $page.url.pathname);
+		} else {
+			trackPageView($page.url.pathname, $page.data.title);
 		}
 	}
 </script>
