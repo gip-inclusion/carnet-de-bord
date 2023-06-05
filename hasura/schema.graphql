@@ -123,6 +123,10 @@ input String_comparison_exp {
   _similar: String
 }
 
+type UpdateNotebookSituationsOutput {
+  data_has_been_updated: Boolean!
+}
+
 enum UpdateSocioProContractTypeEnum {
   """Apprentissage"""
   apprentissage
@@ -7792,6 +7796,7 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [notebook_situation_updates!]!
   ): [notebook_situation_mutation_response]
+  update_notebook_situations(notebookId: uuid!): UpdateNotebookSituationsOutput
 
   """
   update data of the table: "notebook_target"
@@ -11244,7 +11249,7 @@ columns and relationships of "notebook_situation"
 """
 type notebook_situation {
   createdAt: timestamptz!
-  createdBy: uuid!
+  createdBy: uuid
 
   """An object relationship"""
   creator: account
