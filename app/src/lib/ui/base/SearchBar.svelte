@@ -38,3 +38,10 @@
 		</button>
 	</div>
 </form>
+
+<style>
+	/* Remove chrome clear icon */
+	input[type='search']::-webkit-search-cancel-button {
+		-webkit-appearance: none;
+	}
+</style>
