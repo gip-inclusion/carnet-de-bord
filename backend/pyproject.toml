@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cdb"
-version = "1.226.2"
+version = "1.226.3"
 description = ""
 authors = ["LionelB <lionel@lumographe.fr>"]
 
