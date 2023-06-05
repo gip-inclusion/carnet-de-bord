@@ -23,7 +23,11 @@ fragment notebookFragment on notebook {
   contractEndDate
   educationLevel
   lastJobEndedAt
-  appointments {
+  appointments(
+    where: { notebookId: { _eq: $id }, deleted_at: { _is_null: true } }
+    distinct_on: memberAccountId
+    order_by: [{ memberAccountId: asc }, { date: desc }]
+  ) {
     date
     memberAccountId
   }

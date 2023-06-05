@@ -37,15 +37,10 @@ insert_permissions:
                         admin_structure_id:
                           _eq: X-Hasura-AdminStructure-Id
       columns:
-        - id
-        - notebook_id
         - account_id
         - date
+        - notebook_id
         - status
-        - created_at
-        - updated_at
-        - deleted_by
-        - deleted_at
   - role: orientation_manager
     permission:
       check:
@@ -148,6 +143,26 @@ select_permissions:
               - active:
                   _eq: true
 update_permissions:
+  - role: admin_structure
+    permission:
+      columns:
+        - date
+        - deleted_at
+        - deleted_by
+        - status
+      filter:
+        notebook:
+          members:
+            _and:
+              - active:
+                  _eq: true
+              - account:
+                  professional:
+                    structure:
+                      admins:
+                        admin_structure_id:
+                          _eq: X-Hasura-AdminStructure-Id
+      check: null
   - role: orientation_manager
     permission:
       columns:
