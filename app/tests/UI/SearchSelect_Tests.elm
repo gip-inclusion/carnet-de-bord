@@ -76,10 +76,6 @@ start { mode } =
             }
 
 
-
--- TODO: virer ça et bouger option dans l'utilitaire
-
-
 open : SearchSelectTest -> SearchSelectTest
 open =
     ProgramTest.clickButton "Default option"
