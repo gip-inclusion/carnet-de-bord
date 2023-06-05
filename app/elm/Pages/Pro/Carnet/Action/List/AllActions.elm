@@ -1,12 +1,10 @@
-module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId)
+module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId, sort)
 
 import CdbGQL.Enum.Action_status_enum as ActionStatus
-import CdbGQL.Enum.Order_by exposing (Order_by(..))
-import CdbGQL.InputObject
 import CdbGQL.Object
 import CdbGQL.Object.Account as GQLAccount
 import CdbGQL.Object.Notebook_action as GQLAction
-import CdbGQL.Object.Notebook_target as GQLTarget exposing (ActionsOptionalArguments)
+import CdbGQL.Object.Notebook_target as GQLTarget
 import CdbGQL.Object.Orientation_manager as GQL_OM
 import CdbGQL.Object.Professional as GQLProfessional
 import CdbGQL.Query
@@ -17,7 +15,6 @@ import Extra.Date
 import Extra.GraphQL
 import Graphql.Http
 import Graphql.Operation
-import Graphql.OptionalArgument as OptionalArgument
 import Graphql.SelectionSet as Selection exposing (SelectionSet)
 import Select exposing (Action)
 
@@ -53,20 +50,9 @@ actionsByTargetIdSelector : String -> SelectionSet (List Action) Graphql.Operati
 actionsByTargetIdSelector id =
     CdbGQL.Query.notebook_target_by_pk
         { id = CdbGQL.Scalar.Uuid id }
-        (GQLTarget.actions sortByStartingAt actionSelector)
+        (GQLTarget.actions identity actionSelector)
         |> Selection.nonNullOrFail
-        |> Selection.map sortByStatus
-
-
-sortByStartingAt : ActionsOptionalArguments -> ActionsOptionalArguments
-sortByStartingAt params =
-    { params
-        | order_by =
-            OptionalArgument.Present
-                [ CdbGQL.InputObject.buildNotebook_action_order_by
-                    (\fields -> { fields | startingAt = OptionalArgument.Present Desc })
-                ]
-    }
+        |> Selection.map sort
 
 
 actionSelector : SelectionSet Action CdbGQL.Object.Notebook_action
@@ -106,8 +92,8 @@ orientationManagerSelector =
         |> Selection.with (GQL_OM.lastname |> Selection.nonNullOrFail)
 
 
-sortByStatus : List Action -> List Action
-sortByStatus =
+sort : List Action -> List Action
+sort =
     List.sortBy
         (\action ->
             case action.status of
