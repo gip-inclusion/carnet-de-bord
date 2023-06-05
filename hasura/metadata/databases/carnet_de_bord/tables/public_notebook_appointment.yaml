@@ -24,23 +24,17 @@ object_relationships:
 insert_permissions:
   - role: admin_structure
     permission:
-      check:
-        notebook:
-          members:
-            _and:
-              - active:
-                  _eq: true
-              - account:
-                  professional:
-                    structure:
-                      admins:
-                        admin_structure_id:
-                          _eq: X-Hasura-AdminStructure-Id
+      check: {}
       columns:
         - account_id
+        - created_at
         - date
+        - deleted_at
+        - deleted_by
+        - id
         - notebook_id
         - status
+        - updated_at
   - role: orientation_manager
     permission:
       check:
@@ -97,18 +91,7 @@ select_permissions:
         - deleted_by
         - id
         - notebook_id
-      filter:
-        notebook:
-          members:
-            _and:
-              - active:
-                  _eq: true
-              - account:
-                  professional:
-                    structure:
-                      admins:
-                        admin_structure_id:
-                          _eq: X-Hasura-AdminStructure-Id
+      filter: {}
   - role: orientation_manager
     permission:
       columns:
@@ -150,18 +133,7 @@ update_permissions:
         - deleted_at
         - deleted_by
         - status
-      filter:
-        notebook:
-          members:
-            _and:
-              - active:
-                  _eq: true
-              - account:
-                  professional:
-                    structure:
-                      admins:
-                        admin_structure_id:
-                          _eq: X-Hasura-AdminStructure-Id
+      filter: {}
       check: null
   - role: orientation_manager
     permission:
