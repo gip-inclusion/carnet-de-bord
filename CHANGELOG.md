@@ -1,3 +1,10 @@
+## [1.226.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.4...v1.226.5) (2023-06-05)
+
+
+### Reverts
+
+* Revert "fix(actions): sort by starting at" ([c1ac997](https://github.com/gip-inclusion/carnet-de-bord/commit/c1ac997dc30933b430290e738daa91a1061507ca))
+
 ## [1.226.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.3...v1.226.4) (2023-06-05)
 
 
