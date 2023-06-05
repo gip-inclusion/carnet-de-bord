@@ -92,6 +92,24 @@ select_permissions:
         - id
         - notebook_id
       filter: {}
+  - role: beneficiary
+    permission:
+      columns:
+        - status
+        - date
+        - created_at
+        - deleted_at
+        - updated_at
+        - account_id
+        - deleted_by
+        - id
+        - notebook_id
+      filter:
+        notebook:
+          beneficiary:
+            account:
+              id:
+                _eq: X-Hasura-User-Id
   - role: orientation_manager
     permission:
       columns:
