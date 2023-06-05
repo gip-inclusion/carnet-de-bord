@@ -23,7 +23,7 @@ suite =
                 , { anAction | status = In_progress }
                 , { anAction | status = Done }
                 ]
-                    |> AllActions.sort
+                    |> AllActions.sortByStatus
                     |> List.map .status
                     |> Expect.equalLists [ In_progress, In_progress, Abandonned, Done ]
         , test "the existing order is preserved for in progress" <|
@@ -37,7 +37,7 @@ suite =
                 , { anAction | id = CdbGQL.Scalar.Uuid "3", status = In_progress }
                 , { anAction | id = CdbGQL.Scalar.Uuid "4", status = In_progress }
                 ]
-                    |> AllActions.sort
+                    |> AllActions.sortByStatus
                     |> List.map (.id >> Extra.CdbGQL.printUuid)
                     |> Expect.equalLists [ "1", "3", "4", "2" ]
         , test "the existing order is preserved between other statuses" <|
@@ -52,7 +52,7 @@ suite =
                 , { anAction | id = CdbGQL.Scalar.Uuid "4", status = Done }
                 , { anAction | id = CdbGQL.Scalar.Uuid "5", status = In_progress }
                 ]
-                    |> AllActions.sort
+                    |> AllActions.sortByStatus
                     |> List.map (.id >> Extra.CdbGQL.printUuid)
                     |> Expect.equalLists [ "2", "5", "1", "3", "4" ]
         ]
