@@ -96,6 +96,7 @@ reset model =
         | status = NotAsked
         , state = Select.initState <| Select.selectIdentifier model.id
         , selected = Nothing
+        , search = ""
     }
 
 
@@ -111,10 +112,6 @@ type Msg
     | Select Option
     | DebouncerMsg (Debouncer.Msg Msg)
     | Reset
-
-
-
--- TODO: reset, on remet à zéro la recherche dupliquée chez nous aussi
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -133,7 +130,7 @@ update msg model =
             in
             case action of
                 Just (Select.Select selected) ->
-                    ( { newModel | selected = Just selected }
+                    ( { newModel | selected = Just selected, search = "" }
                     , command
                     )
 
@@ -179,13 +176,10 @@ update msg model =
             , model.api { search = searchString, callbackMsg = Fetched }
             )
 
-        -- TODO: ajouter une option à l'init pour ajouter un option custom
         Fetched result ->
             case result of
                 Ok values ->
-                    ( { model
-                        | status = values |> addAutocompleteOption model |> Success
-                      }
+                    ( { model | status = values |> Success }
                     , Cmd.none
                     )
 
@@ -202,19 +196,6 @@ update msg model =
 
         Reset ->
             ( reset model, Cmd.none )
-
-
-addAutocompleteOption : Model -> (List Option -> List Option)
-addAutocompleteOption model =
-    case model.mode of
-        Classic ->
-            identity
-
-        Autocomplete ->
-            (::)
-                { id = "custom-search-select-option"
-                , label = model.search
-                }
 
 
 debouncerConfig : Debouncer.UpdateConfig Msg Model
@@ -298,17 +279,38 @@ view model =
 
 menuItems : Model -> List (Select.MenuItem Option)
 menuItems model =
-    case model.status of
+    (case model.status of
         Success data ->
-            data
-                |> List.map
-                    (\value ->
-                        Select.basicMenuItem
-                            { item = value
-                            , label = value.label
-                            }
-                            |> Select.filterableMenuItem False
-                    )
+            data |> List.map optionToSelectItem
 
         _ ->
             []
+    )
+        |> addAutocompleteOption model
+
+
+addAutocompleteOption : Model -> List (Select.MenuItem Option) -> List (Select.MenuItem Option)
+addAutocompleteOption model =
+    case model.mode of
+        Classic ->
+            identity
+
+        Autocomplete ->
+            if model.search |> String.trim |> String.isEmpty then
+                identity
+
+            else
+                { id = "custom-search-select-option"
+                , label = model.search
+                }
+                    |> optionToSelectItem
+                    |> (::)
+
+
+optionToSelectItem : Option -> Select.MenuItem Option
+optionToSelectItem value =
+    Select.basicMenuItem
+        { item = value
+        , label = value.label
+        }
+        |> Select.filterableMenuItem False

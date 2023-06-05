@@ -17,48 +17,72 @@ suite =
         [ describe "custom option"
             [ test "shows the current search in autocomplete mode" <|
                 \_ ->
-                    ProgramTest.createElement
-                        { init = SearchSelect.init >> (\model -> ( model, Effect.none ))
-                        , update = \model msg -> SearchSelect.update model msg |> Tuple.mapSecond Effect.fromCmd
-                        , view = SearchSelect.view
-                        }
-                        |> ProgramTest.start
-                            { id = "an id"
-                            , selected = Nothing
-                            , api = UI.SearchSelect.Fixtures.fakeSearchApi
-                            , label = "Label"
-                            , searchPlaceholder = "Placeholder"
-                            , defaultOption = "Default option"
-                            , mode = SearchSelect.Autocomplete
-                            }
-                        |> ProgramTest.clickButton "Default option"
+                    start { mode = SearchSelect.Autocomplete }
+                        |> open
                         |> search "test"
                         |> ProgramTest.expectView (Query.has [ option "test" ])
+            , test "selecting an empty option is forbidden" <|
+                \_ ->
+                    start { mode = SearchSelect.Autocomplete }
+                        |> open
+                        |> search " "
+                        |> ProgramTest.expectView (Query.hasNot [ option " " ])
+            , test "shows the current search before the search succeeds" <|
+                \_ ->
+                    start { mode = SearchSelect.Autocomplete }
+                        |> open
+                        |> fillSearch "test"
+                        |> ProgramTest.expectView (Query.has [ option "test" ])
+            , test "resetting the field resets the default option" <|
+                \_ ->
+                    start { mode = SearchSelect.Autocomplete }
+                        |> open
+                        |> search "test"
+                        |> ProgramTest.update SearchSelect.Reset
+                        |> open
+                        |> ProgramTest.expectView (Query.hasNot [ option "test" ])
             , test "is not available in classic mode" <|
                 \_ ->
-                    ProgramTest.createElement
-                        { init = SearchSelect.init >> (\model -> ( model, Effect.none ))
-                        , update = \model msg -> SearchSelect.update model msg |> Tuple.mapSecond Effect.fromCmd
-                        , view = SearchSelect.view
-                        }
-                        |> ProgramTest.start
-                            { id = "an id"
-                            , selected = Nothing
-                            , api = UI.SearchSelect.Fixtures.fakeSearchApi
-                            , label = "Label"
-                            , searchPlaceholder = "Placeholder"
-                            , defaultOption = "Default option"
-                            , mode = SearchSelect.Classic
-                            }
-                        |> ProgramTest.clickButton "Default option"
+                    start { mode = SearchSelect.Classic }
+                        |> open
                         |> search "test"
                         |> ProgramTest.expectView (Query.hasNot [ option "test" ])
             ]
         ]
 
 
+fillSearch : String -> SearchSelectTest -> SearchSelectTest
+fillSearch text =
+    ProgramTest.simulateDomEvent
+        (Query.find [ Selector.tag "input" ])
+        (Test.Html.Event.input text)
+
+
+start : { a | mode : SearchSelect.Mode } -> SearchSelectTest
+start { mode } =
+    ProgramTest.createElement
+        { init = SearchSelect.init >> (\model -> ( model, Effect.none ))
+        , update = \model msg -> SearchSelect.update model msg |> Tuple.mapSecond Effect.fromCmd
+        , view = SearchSelect.view
+        }
+        |> ProgramTest.start
+            { id = "an id"
+            , selected = Nothing
+            , api = UI.SearchSelect.Fixtures.fakeSearchApi
+            , label = "Label"
+            , searchPlaceholder = "Placeholder"
+            , defaultOption = "Default option"
+            , mode = mode
+            }
+
+
 
 -- TODO: virer ça et bouger option dans l'utilitaire
+
+
+open : SearchSelectTest -> SearchSelectTest
+open =
+    ProgramTest.clickButton "Default option"
 
 
 option : String -> Selector.Selector
@@ -75,9 +99,7 @@ type alias SearchSelectTest =
 
 search : String -> SearchSelectTest -> SearchSelectTest
 search text =
-    ProgramTest.simulateDomEvent
-        (Query.find [ Selector.tag "input" ])
-        (Test.Html.Event.input text)
+    fillSearch text
         >> ProgramTest.update (SearchSelect.Fetched (generate3OptionsFor text))
 
 
