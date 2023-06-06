@@ -1,14 +1,6 @@
 module Diagnostic.GetSituation exposing
     ( PersonalSituation
-    , accountSelector
-    , citextToString
-    , createdAtSelector
-    , creatorSelector
     , fetchSituation
-    , orientationManagerSelector
-    , professionalSelector
-    , situationsSelector
-    , structureSelector
     )
 
 import CdbGQL.InputObject exposing (buildNotebook_situation_bool_exp, buildUuid_comparison_exp)
