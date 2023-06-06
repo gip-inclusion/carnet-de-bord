@@ -26,30 +26,28 @@ situationSelector notebookId =
 
 situationSelector2 : SelectionSet PersonalSituation CdbGQL.Object.Notebook_situation
 situationSelector2 =
-    SelectionSet.succeed
-        (\( theme, description ) createdAt creator ->
-            PersonalSituation theme description createdAt creator
-        )
-        |> SelectionSet.with (CdbGQL.Object.Notebook_situation.refSituation refSituationSelector)
-        |> SelectionSet.with (CdbGQL.Object.Notebook_situation.createdAt createdAtSelector)
+    SelectionSet.map4 PersonalSituation
+        |> SelectionSet.with CdbGQL.Object.Ref_situation.theme
+        |> SelectionSet.with CdbGQL.Object.Ref_situation.description
+        |> SelectionSet.with createdAtSelector
         |> SelectionSet.with (CdbGQL.Object.Notebook_situation.creator creatorSelector)
 
 
 refSituationSelector : SelectionSet ( String, String ) CdbGQL.Object.Ref_situation
 refSituationSelector =
-    SelectionSet.succeed Tuple.pair
+    SelectionSet.map2 Tuple.pair
         |> SelectionSet.with CdbGQL.Object.Ref_situation.theme
         |> SelectionSet.with CdbGQL.Object.Ref_situation.description
 
 
-createdAtSelector : SelectionSet Date CdbGQL.Object.Notebook_situation
+createdAtSelector : SelectionSet String CdbGQL.Object.Notebook_situation
 createdAtSelector =
-    CdbGQL.Object.Notebook_situation.createdAt |> SelectionSet.mapOrFail timestampzToDate
+    CdbGQL.Object.Notebook_situation.createdAt |> SelectionSet.map (\(CdbGQL.Scalar.Timestamptz date) -> date)
 
 
 creatorSelector : SelectionSet (Maybe Account) CdbGQL.Object.Notebook_situation
 creatorSelector =
-    CdbGQL.Object.Notebook_situation.creator |> SelectionSet.map accountSelector
+    CdbGQL.Object.Notebook_situation.creator accountSelector
 
 
 accountSelector : SelectionSet Account CdbGQL.Object.Account
