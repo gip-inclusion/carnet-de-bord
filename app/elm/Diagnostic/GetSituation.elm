@@ -1,98 +1,116 @@
-module Diagnostic.GetSituation exposing (accountSelector, citextToString, createdAtSelector, creatorSelector, orientationManagerSelector, professionalSelector, situationSelector, situationSelector2, structureSelector)
+module Diagnostic.GetSituation exposing
+    ( accountSelector
+    , citextToString
+    , createdAtSelector
+    , creatorSelector
+    , fetchSituation
+    , orientationManagerSelector
+    , professionalSelector
+    , situationsSelector
+    , structureSelector
+    )
 
 import CdbGQL.InputObject exposing (buildNotebook_situation_bool_exp, buildUuid_comparison_exp)
 import CdbGQL.Object
-import CdbGQL.Object.Account
-import CdbGQL.Object.Notebook_situation
-import CdbGQL.Object.Orientation_manager
-import CdbGQL.Object.Professional
-import CdbGQL.Object.Ref_situation
-import CdbGQL.Object.Structure
+import CdbGQL.Object.Account as GqlAccount
+import CdbGQL.Object.Notebook_situation as GqlSituation
+import CdbGQL.Object.Orientation_manager as GqlOrientationManager
+import CdbGQL.Object.Professional as GqlProfessional
+import CdbGQL.Object.Ref_situation as GqlRefSituation
+import CdbGQL.Object.Structure as GqlStructure
 import CdbGQL.Query
 import CdbGQL.Scalar
-import Date exposing (Date)
+import DebugView.Graphql exposing (graphqlErrorToString)
 import Diagnostic.Main exposing (PersonalSituation)
 import Domain.Account exposing (Account, OrientationManager, Professional)
 import Domain.Structure exposing (Structure)
-import Extra.Date exposing (timestampzToDate)
+import Graphql.Http
 import Graphql.Operation exposing (RootQuery)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
 
 
-situationSelector : String -> SelectionSet (List PersonalSituation) RootQuery
-situationSelector notebookId =
+fetchSituation : { id : String, responseMsg : Result String (List PersonalSituation) -> msg } -> Cmd msg
+fetchSituation { id, responseMsg } =
+    situationsSelector id
+        |> Graphql.Http.queryRequest "/graphql"
+        |> Graphql.Http.send (Result.mapError graphqlErrorToString >> responseMsg)
+
+
+situationsSelector : String -> SelectionSet (List PersonalSituation) RootQuery
+situationsSelector notebookId =
     CdbGQL.Query.notebook_situation
-        (\args ->
-            { args
-                | where_ =
-                    Present
-                        (buildNotebook_situation_bool_exp
-                            (\stuff ->
-                                { stuff
-                                    | notebookId =
-                                        Present
-                                            (buildUuid_comparison_exp
-                                                (\s2 ->
-                                                    { s2 | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
-                                                )
-                                            )
-                                }
-                            )
-                        )
-            }
-        )
+        (findBy notebookId)
         -- { where_ = { notebookId = { eq_ = notebookId } } }
-        situationSelector2
+        situationSelector
 
 
-situationSelector2 : SelectionSet PersonalSituation CdbGQL.Object.Notebook_situation
-situationSelector2 =
+findBy : String -> (CdbGQL.Query.NotebookSituationOptionalArguments -> CdbGQL.Query.NotebookSituationOptionalArguments)
+findBy notebookId args =
+    { args
+        | where_ =
+            Present
+                (buildNotebook_situation_bool_exp
+                    (\stuff ->
+                        { stuff
+                            | notebookId =
+                                Present
+                                    (buildUuid_comparison_exp
+                                        (\s2 ->
+                                            { s2 | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
+                                        )
+                                    )
+                        }
+                    )
+                )
+    }
+
+
+situationSelector : SelectionSet PersonalSituation CdbGQL.Object.Notebook_situation
+situationSelector =
     SelectionSet.succeed PersonalSituation
-        |> SelectionSet.with (CdbGQL.Object.Notebook_situation.refSituation CdbGQL.Object.Ref_situation.theme |> SelectionSet.nonNullOrFail)
-        |> SelectionSet.with (CdbGQL.Object.Notebook_situation.refSituation CdbGQL.Object.Ref_situation.description |> SelectionSet.nonNullOrFail)
+        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.theme |> SelectionSet.nonNullOrFail)
+        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.description |> SelectionSet.nonNullOrFail)
         |> SelectionSet.with createdAtSelector
         |> SelectionSet.with creatorSelector
 
 
 createdAtSelector : SelectionSet String CdbGQL.Object.Notebook_situation
 createdAtSelector =
-    CdbGQL.Object.Notebook_situation.createdAt |> SelectionSet.map (\(CdbGQL.Scalar.Timestamptz date) -> date)
+    GqlSituation.createdAt |> SelectionSet.map (\(CdbGQL.Scalar.Timestamptz date) -> date)
 
 
 creatorSelector : SelectionSet (Maybe Account) CdbGQL.Object.Notebook_situation
 creatorSelector =
-    CdbGQL.Object.Notebook_situation.creator accountSelector
+    GqlSituation.creator accountSelector
 
 
 accountSelector : SelectionSet Account CdbGQL.Object.Account
 accountSelector =
     SelectionSet.succeed Account
-        |> SelectionSet.with
-            (CdbGQL.Object.Account.professional professionalSelector)
-        |> SelectionSet.with
-            (CdbGQL.Object.Account.orientation_manager orientationManagerSelector)
+        |> SelectionSet.with (GqlAccount.professional professionalSelector)
+        |> SelectionSet.with (GqlAccount.orientation_manager orientationManagerSelector)
 
 
 orientationManagerSelector : SelectionSet OrientationManager CdbGQL.Object.Orientation_manager
 orientationManagerSelector =
     SelectionSet.succeed OrientationManager
-        |> SelectionSet.with (SelectionSet.withDefault "" CdbGQL.Object.Orientation_manager.firstname)
-        |> SelectionSet.with (SelectionSet.withDefault "" CdbGQL.Object.Orientation_manager.lastname)
+        |> SelectionSet.with (SelectionSet.withDefault "" GqlOrientationManager.firstname)
+        |> SelectionSet.with (SelectionSet.withDefault "" GqlOrientationManager.lastname)
 
 
 professionalSelector : SelectionSet Professional CdbGQL.Object.Professional
 professionalSelector =
     SelectionSet.succeed Professional
-        |> SelectionSet.with CdbGQL.Object.Professional.firstname
-        |> SelectionSet.with CdbGQL.Object.Professional.lastname
-        |> SelectionSet.with (CdbGQL.Object.Professional.structure structureSelector |> SelectionSet.map Just)
+        |> SelectionSet.with GqlProfessional.firstname
+        |> SelectionSet.with GqlProfessional.lastname
+        |> SelectionSet.with (GqlProfessional.structure structureSelector |> SelectionSet.map Just)
 
 
 structureSelector : SelectionSet Structure CdbGQL.Object.Structure
 structureSelector =
     SelectionSet.succeed Structure
-        |> SelectionSet.with (CdbGQL.Object.Structure.name |> SelectionSet.map citextToString)
+        |> SelectionSet.with (GqlStructure.name |> SelectionSet.map citextToString)
 
 
 citextToString : CdbGQL.Scalar.Citext -> String
