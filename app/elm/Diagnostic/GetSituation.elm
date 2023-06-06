@@ -41,13 +41,13 @@ fetchSituation { id, responseMsg } =
 
 situationsSelector : String -> SelectionSet (List PersonalSituation) RootQuery
 situationsSelector notebookId =
-    CdbGQL.Query.notebook_situation
-        (findBy notebookId)
-        -- { where_ = { notebookId = { eq_ = notebookId } } }
-        situationSelector
+    CdbGQL.Query.notebook_situation (findBy notebookId) situationSelector
 
 
-findBy : String -> (CdbGQL.Query.NotebookSituationOptionalArguments -> CdbGQL.Query.NotebookSituationOptionalArguments)
+findBy :
+    String
+    -> CdbGQL.Query.NotebookSituationOptionalArguments
+    -> CdbGQL.Query.NotebookSituationOptionalArguments
 findBy notebookId args =
     { args
         | where_ =
@@ -57,15 +57,16 @@ findBy notebookId args =
                         { stuff
                             | notebookId =
                                 Present
-                                    (buildUuid_comparison_exp
-                                        (\s2 ->
-                                            { s2 | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
-                                        )
-                                    )
+                                    (buildUuid_comparison_exp toto)
                         }
                     )
                 )
     }
+
+
+toto : Uuid_comparison_expOptionalFields -> Uuid_comparison_expOptionalFields
+toto comparison =
+    { comparison | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
 
 
 situationSelector : SelectionSet PersonalSituation CdbGQL.Object.Notebook_situation
