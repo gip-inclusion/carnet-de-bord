@@ -1,3 +1,10 @@
+## [1.227.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.227.0...v1.227.1) (2023-06-06)
+
+
+### Bug Fixes
+
+* suppression de l'icone pour vider le champ dans chrome ([#1797](https://github.com/gip-inclusion/carnet-de-bord/issues/1797)) ([5ef6af7](https://github.com/gip-inclusion/carnet-de-bord/commit/5ef6af71e5095dedadd9055e02ed544ec4b58c7f)), closes [#1765](https://github.com/gip-inclusion/carnet-de-bord/issues/1765)
+
 # [1.227.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.5...v1.227.0) (2023-06-06)
 
 
