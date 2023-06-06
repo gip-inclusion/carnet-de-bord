@@ -31,6 +31,13 @@ repos:
 
   - repo: local
     hooks:
+      - id: no-commit-on-main-branch
+        name: no direct commit on main branch
+        language: system
+        always_run: true
+        entry: |
+          ./scripts/no-commit-on-main-branch.sh
+
       - id: app-prettier
         name: run prettier (app)
         language: system
