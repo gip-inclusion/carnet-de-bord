@@ -25,13 +25,14 @@ import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
+import Extra.Date
 import Html
 import Html.Attributes exposing (class, rowspan)
 import Iso8601
 import List.Extra
+import Sentry
 import Time
 import TimeZone
-import Sentry
 
 
 type alias Flags =
@@ -135,7 +136,7 @@ init flags =
             { professionalSituation = extractSituationFromFlags flags
             , professionalProjects = extractProfessionalProjectsFromFlags flags
             , peGeneralData = extractPeGeneralDataFromFlags flags
-            , personalSituations = extractPersonalSituationsFromFlags flags
+            , personalSituations = []
             , notebookId = flags.notebookId
             }
     in
@@ -144,28 +145,11 @@ init flags =
     )
 
 
-extractPersonalSituationFromFlags : PersonalSituationFlags -> PersonalSituation
-extractPersonalSituationFromFlags flags =
-    { theme = flags.refSituation.theme
-    , description = flags.refSituation.description
-    , createdAt = flags.createdAt
-    , creator = flags.creator
-    }
-
-
 extractPersonalSituationsToPersonalSituationsByTheme : ( PersonalSituation, List PersonalSituation ) -> PersonalSituationsByTheme
 extractPersonalSituationsToPersonalSituationsByTheme ( first, tail ) =
     { theme = first.theme
     , situations = first :: tail
     }
-
-
-extractPersonalSituationsFromFlags : Flags -> List PersonalSituationsByTheme
-extractPersonalSituationsFromFlags { personalSituations } =
-    Maybe.withDefault [] personalSituations
-        |> List.map extractPersonalSituationFromFlags
-        |> List.Extra.gatherEqualsBy .theme
-        |> List.map extractPersonalSituationsToPersonalSituationsByTheme
 
 
 extractSituationFromFlags : Flags -> ProfessionalSituation
@@ -247,10 +231,19 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         Fetched result ->
-          case result of
-              Err message -> (model, Sentry.sendError message)
-              Ok situations ->
-                ({model | model.personalSituations = situations |> List.Extra.gatherEqualsBy (.theme)}, Cmd.none)
+            case result of
+                Err message ->
+                    ( model, Sentry.sendError message )
+
+                Ok situations ->
+                    ( { model
+                        | personalSituations =
+                            situations
+                                |> List.Extra.gatherEqualsBy .theme
+                                |> List.map extractPersonalSituationsToPersonalSituationsByTheme
+                      }
+                    , Cmd.none
+                    )
 
 
 
@@ -583,7 +576,7 @@ personalSituationView { personalSituations } =
                                                     , Html.td [ class "font-bold pr-8 py-3" ]
                                                         [ Html.text situation.description ]
                                                     , Html.td [ class "pr-8 py-3" ]
-                                                        [ Html.text situation.createdAt ]
+                                                        [ Html.text (Extra.Date.print situation.createdAt) ]
                                                     , Html.td [ class "py-3" ]
                                                         [ situation.creator |> formatAccount |> Html.text ]
                                                     ]
