@@ -1,5 +1,6 @@
 module Diagnostic.GetSituation exposing
-    ( accountSelector
+    ( PersonalSituation
+    , accountSelector
     , citextToString
     , createdAtSelector
     , creatorSelector
@@ -21,13 +22,20 @@ import CdbGQL.Object.Structure as GqlStructure
 import CdbGQL.Query
 import CdbGQL.Scalar
 import DebugView.Graphql exposing (graphqlErrorToString)
-import Diagnostic.Main exposing (PersonalSituation)
 import Domain.Account exposing (Account, OrientationManager, Professional)
 import Domain.Structure exposing (Structure)
 import Graphql.Http
 import Graphql.Operation exposing (RootQuery)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
+
+
+type alias PersonalSituation =
+    { theme : String
+    , description : String
+    , createdAt : String
+    , creator : Maybe Account
+    }
 
 
 fetchSituation : { id : String, responseMsg : Result String (List PersonalSituation) -> msg } -> Cmd msg

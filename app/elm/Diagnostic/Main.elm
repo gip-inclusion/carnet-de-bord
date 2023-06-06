@@ -4,7 +4,6 @@ module Diagnostic.Main exposing
     , GenderType(..)
     , Model
     , PeFlags
-    , PersonalSituation
     , PersonalSituationFlags
     , PersonalSituationsByTheme
     , ProfessionalProjectFlags
@@ -20,6 +19,7 @@ import Browser
 import Date exposing (Date, fromIsoString)
 import DateFormat
 import Decimal
+import Diagnostic.GetSituation exposing (PersonalSituation, fetchSituation)
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
@@ -82,14 +82,6 @@ type alias WorkingTimeFlags =
     { id : String }
 
 
-type alias PersonalSituation =
-    { theme : String
-    , description : String
-    , createdAt : String
-    , creator : Maybe Account
-    }
-
-
 type alias PersonalSituationsByTheme =
     { theme : String
     , situations : List PersonalSituation
@@ -117,7 +109,7 @@ main =
     Browser.element
         { init = init
         , view = view
-        , update = \_ model -> ( model, Cmd.none )
+        , update = update
         , subscriptions = \_ -> Sub.none
         }
 
@@ -135,15 +127,19 @@ type alias Model =
     }
 
 
-init : Flags -> ( Model, Cmd msg )
+init : Flags -> ( Model, Cmd Msg )
 init flags =
-    ( { professionalSituation = extractSituationFromFlags flags
-      , professionalProjects = extractProfessionalProjectsFromFlags flags
-      , peGeneralData = extractPeGeneralDataFromFlags flags
-      , personalSituations = extractPersonalSituationsFromFlags flags
-      , notebookId = flags.notebookId
-      }
-    , Cmd.none
+    let
+        model =
+            { professionalSituation = extractSituationFromFlags flags
+            , professionalProjects = extractProfessionalProjectsFromFlags flags
+            , peGeneralData = extractPeGeneralDataFromFlags flags
+            , personalSituations = extractPersonalSituationsFromFlags flags
+            , notebookId = flags.notebookId
+            }
+    in
+    ( model
+    , fetchSituation { id = model.notebookId, responseMsg = Fetched }
     )
 
 
@@ -236,6 +232,19 @@ extractContractType contractTypeFlag =
 extractWorkingTimeType : Maybe WorkingTimeFlags -> Maybe WorkingTime
 extractWorkingTimeType workingTimeFlag =
     Maybe.andThen (.id >> workingTimeStringToType) workingTimeFlag
+
+
+
+-- UPDATE
+
+
+type Msg
+    = Fetched (Result String (List PersonalSituation))
+
+
+update : Msg -> Model -> ( Model, Cmd Msg )
+update msg model =
+    ( model, Cmd.none )
 
 
 
