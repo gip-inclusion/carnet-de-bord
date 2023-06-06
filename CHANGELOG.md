@@ -1,3 +1,10 @@
+# [1.228.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.227.1...v1.228.0) (2023-06-06)
+
+
+### Features
+
+* Prise en compte de l'augmentation du montant du SMIC horaire. ([#1799](https://github.com/gip-inclusion/carnet-de-bord/issues/1799)) ([bbf7842](https://github.com/gip-inclusion/carnet-de-bord/commit/bbf78424773550e87072799fd0040cfb910fd7ca))
+
 ## [1.227.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.227.0...v1.227.1) (2023-06-06)
 
 
