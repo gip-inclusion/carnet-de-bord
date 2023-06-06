@@ -1,5 +1,6 @@
 module Diagnostic.GetSituation exposing (accountSelector, citextToString, createdAtSelector, creatorSelector, orientationManagerSelector, professionalSelector, situationSelector, situationSelector2, structureSelector)
 
+import CdbGQL.InputObject exposing (buildNotebook_situation_bool_exp, buildUuid_comparison_exp)
 import CdbGQL.Object
 import CdbGQL.Object.Account
 import CdbGQL.Object.Notebook_situation
@@ -15,12 +16,33 @@ import Domain.Account exposing (Account, OrientationManager, Professional)
 import Domain.Structure exposing (Structure)
 import Extra.Date exposing (timestampzToDate)
 import Graphql.Operation exposing (RootQuery)
+import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
 
 
 situationSelector : String -> SelectionSet (List PersonalSituation) RootQuery
 situationSelector notebookId =
-    CdbGQL.Query.notebook_situation { where_ = { notebookId = { eq_ = notebookId } } }
+    CdbGQL.Query.notebook_situation
+        (\args ->
+            { args
+                | where_ =
+                    Present
+                        (buildNotebook_situation_bool_exp
+                            (\stuff ->
+                                { stuff
+                                    | notebookId =
+                                        Present
+                                            (buildUuid_comparison_exp
+                                                (\s2 ->
+                                                    { s2 | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
+                                                )
+                                            )
+                                }
+                            )
+                        )
+            }
+        )
+        -- { where_ = { notebookId = { eq_ = notebookId } } }
         situationSelector2
 
 
