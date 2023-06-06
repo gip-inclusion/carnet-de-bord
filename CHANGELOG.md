@@ -1,3 +1,10 @@
+# [1.227.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.5...v1.227.0) (2023-06-06)
+
+
+### Features
+
+* Ajout de la gestion des RDV des bénéficiaires par l'administrateur de structure ([#1794](https://github.com/gip-inclusion/carnet-de-bord/issues/1794)) ([daa056a](https://github.com/gip-inclusion/carnet-de-bord/commit/daa056a2cccd89bd7cf71f6557f9a9ea531f64cb))
+
 ## [1.226.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.226.4...v1.226.5) (2023-06-05)
 
 
