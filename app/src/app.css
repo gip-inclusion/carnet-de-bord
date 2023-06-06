@@ -17,3 +17,9 @@
 	--background-active-blue-france-active: var(--vert-cdb-active);
 	--border-plain-blue-france: var(--vert-cdb);
 }
+
+
+/* Remove chrome clear icon */
+input[type='search']::-webkit-search-cancel-button {
+	-webkit-appearance: none;
+}
