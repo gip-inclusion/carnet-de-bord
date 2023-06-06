@@ -41,6 +41,7 @@ export type Flags = {
 		createdAt: string;
 		creator?: Creator;
 	}[];
+	notebookId: string;
 };
 
 export type Ports = {};

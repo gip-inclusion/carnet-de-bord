@@ -38,6 +38,7 @@ type alias Flags =
     , peGeneralData : Maybe PeFlags
     , personalSituations : Maybe (List PersonalSituationFlags)
     , professionalProjects : List ProfessionalProjectFlags
+    , notebookId : String
     }
 
 
@@ -130,6 +131,7 @@ type alias Model =
     , professionalProjects : List ProfessionalProject
     , peGeneralData : GeneralData
     , personalSituations : List PersonalSituationsByTheme
+    , notebookId : String
     }
 
 
@@ -139,6 +141,7 @@ init flags =
       , professionalProjects = extractProfessionalProjectsFromFlags flags
       , peGeneralData = extractPeGeneralDataFromFlags flags
       , personalSituations = extractPersonalSituationsFromFlags flags
+      , notebookId = flags.notebookId
       }
     , Cmd.none
     )

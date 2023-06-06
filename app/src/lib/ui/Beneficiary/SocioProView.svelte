@@ -67,6 +67,7 @@
 				),
 				peGeneralData: externalDataDetail?.data?.source || null,
 				personalSituations: situationsWithFormattedDates || null,
+				notebookId: notebook.id,
 			},
 		});
 	};
