@@ -1,6 +1,6 @@
-module Diagnostic.GetSituation exposing
+module Diagnostic.AllSituations exposing
     ( PersonalSituation
-    , fetchSituation
+    , fetchByNotebookId
     )
 
 import CdbGQL.InputObject exposing (buildNotebook_situation_bool_exp, buildUuid_comparison_exp)
@@ -32,41 +32,48 @@ type alias PersonalSituation =
     }
 
 
-fetchSituation : { id : String, responseMsg : Result String (List PersonalSituation) -> msg } -> Cmd msg
-fetchSituation { id, responseMsg } =
-    situationsSelector id
+fetchByNotebookId : String -> (Result String (List PersonalSituation) -> msg) -> Cmd msg
+fetchByNotebookId notebookId responseMsg =
+    selectSituationsBy notebookId
         |> Graphql.Http.queryRequest "/graphql"
         |> Graphql.Http.send (Result.mapError graphqlErrorToString >> responseMsg)
 
 
-situationsSelector : String -> SelectionSet (List PersonalSituation) RootQuery
-situationsSelector notebookId =
+selectSituationsBy : String -> SelectionSet (List PersonalSituation) RootQuery
+selectSituationsBy notebookId =
     CdbGQL.Query.notebook_situation (findBy notebookId) situationSelector
+
+
+
+-- filter
 
 
 findBy :
     String
     -> CdbGQL.Query.NotebookSituationOptionalArguments
     -> CdbGQL.Query.NotebookSituationOptionalArguments
-findBy notebookId args =
-    { args
-        | where_ =
-            Present
-                (buildNotebook_situation_bool_exp
-                    (\stuff ->
-                        { stuff
-                            | notebookId =
-                                Present
-                                    (buildUuid_comparison_exp toto)
-                        }
-                    )
-                )
-    }
+findBy id args =
+    { args | where_ = Present (notebookIdEq id) }
 
 
-toto : Uuid_comparison_expOptionalFields -> Uuid_comparison_expOptionalFields
-toto comparison =
-    { comparison | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
+notebookIdEq : String -> CdbGQL.InputObject.Notebook_situation_bool_exp
+notebookIdEq notebookId =
+    buildNotebook_situation_bool_exp
+        (\args ->
+            { args | notebookId = Present (eq notebookId) }
+        )
+
+
+eq : String -> CdbGQL.InputObject.Uuid_comparison_exp
+eq notebookId =
+    buildUuid_comparison_exp
+        (\comparison ->
+            { comparison | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
+        )
+
+
+
+-- selectors
 
 
 situationSelector : SelectionSet PersonalSituation CdbGQL.Object.Notebook_situation

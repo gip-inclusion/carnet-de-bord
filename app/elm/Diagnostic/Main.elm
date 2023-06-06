@@ -3,6 +3,7 @@ module Diagnostic.Main exposing
     , Flags
     , GenderType(..)
     , Model
+    , Msg
     , PeFlags
     , PersonalSituationFlags
     , PersonalSituationsByTheme
@@ -19,7 +20,7 @@ import Browser
 import Date exposing (Date, fromIsoString)
 import DateFormat
 import Decimal
-import Diagnostic.GetSituation exposing (PersonalSituation, fetchSituation)
+import Diagnostic.AllSituations as AllSituations exposing (PersonalSituation)
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
@@ -141,7 +142,7 @@ init flags =
             }
     in
     ( model
-    , fetchSituation { id = model.notebookId, responseMsg = Fetched }
+    , AllSituations.fetchByNotebookId model.notebookId Fetched
     )
 
 
