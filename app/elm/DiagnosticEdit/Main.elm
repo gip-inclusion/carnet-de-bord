@@ -111,7 +111,7 @@ professionalProjetsMaxCount =
 
 smicHourlyValue : Decimal
 smicHourlyValue =
-    Decimal.fromIntWithExponent 1127 -2
+    Decimal.fromIntWithExponent 1152 -2
 
 
 inputIsLowerThanSmic : String -> Bool

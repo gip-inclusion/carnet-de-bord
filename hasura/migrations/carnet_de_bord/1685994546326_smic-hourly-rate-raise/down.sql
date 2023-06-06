@@ -1,0 +1,2 @@
+-- This migration is non reversible, we cannot guess what was the hourly_rate
+-- for impacted rows.
