@@ -31,6 +31,7 @@ import Iso8601
 import List.Extra
 import Time
 import TimeZone
+import Sentry
 
 
 type alias Flags =
@@ -104,7 +105,7 @@ type GenderType
     | Masculine
 
 
-main : Program Flags Model msg
+main : Program Flags Model Msg
 main =
     Browser.element
         { init = init
@@ -244,7 +245,12 @@ type Msg
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    ( model, Cmd.none )
+    case msg of
+        Fetched result ->
+          case result of
+              Err message -> (model, Sentry.sendError message)
+              Ok situations ->
+                ({model | model.personalSituations = situations |> List.Extra.gatherEqualsBy (.theme)}, Cmd.none)
 
 
 
