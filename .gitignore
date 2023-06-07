@@ -7,10 +7,6 @@ output
 __pycache__
 *.pyc
 
-# Elm
-*/**/elm-stuff
-/app/elm/CdbGQL/
-
 # IDE
 .idea
 .vscode

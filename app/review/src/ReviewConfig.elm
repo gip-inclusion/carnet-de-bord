@@ -64,7 +64,8 @@ config =
            , NoModuleOnExposedNames.rule
            , HtmlToElm.rule
            ]
-        |> List.map (Review.Rule.ignoreErrorsForDirectories [ "elm/CdbGQL", ".storybook/elm-storybook" ])
+        |> List.map (Review.Rule.ignoreErrorsForDirectories [ "elm-generated", ".storybook/elm-storybook" ])
+
 
 
 

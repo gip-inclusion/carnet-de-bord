@@ -2,9 +2,9 @@ port module Pages.Pro.Carnet.Action.List.AddForm exposing (Model, Msg(..), init,
 
 import BetaGouv.DSFR.Alert
 import BetaGouv.DSFR.Input
-import CdbGQL.Enum.Action_status_enum as ActionStatus
 import Date
 import Effect exposing (Effect)
+import GraphQL.Enum.Action_status_enum
 import Html
 import Html.Attributes as Attr
 import Html.Events as Evts
@@ -105,7 +105,7 @@ update msg model =
                         { targetId = model.targetId
                         , action = action
                         , startingAt = Date.toIsoString startingAt
-                        , status = ActionStatus.In_progress |> ActionStatus.toString
+                        , status = GraphQL.Enum.Action_status_enum.In_progress |> GraphQL.Enum.Action_status_enum.toString
                         }
                         |> Effect.fromCmd
 
