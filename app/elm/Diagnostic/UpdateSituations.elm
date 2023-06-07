@@ -1,6 +1,8 @@
 module Diagnostic.UpdateSituations exposing (..)
 
 import CdbGQL.Mutation
+import CdbGQL.Object
+import CdbGQL.Object.UpdateNotebookSituationsOutput
 import CdbGQL.Scalar
 import DebugView.Graphql exposing (graphqlErrorToString)
 import Graphql.Http
@@ -18,3 +20,8 @@ update notebookId responseMsg =
 selectResult : String -> SelectionSet Bool RootMutation
 selectResult notebookId =
     CdbGQL.Mutation.update_notebook_situations { notebookId = CdbGQL.Scalar.Uuid notebookId } dataHadBeenUpdatedSelector
+
+
+dataHadBeenUpdatedSelector : SelectionSet Bool CdbGQL.Object.UpdateNotebookSituationsOutput
+dataHadBeenUpdatedSelector =
+    CdbGQL.Object.UpdateNotebookSituationsOutput.data_has_been_updated
