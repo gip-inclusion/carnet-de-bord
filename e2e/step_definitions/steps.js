@@ -1,4 +1,10 @@
-const { loginStub, onBoardingSetup, goToNotebookForLastName, addMember } = require('./fixtures');
+const {
+	loginStub,
+	onBoardingSetup,
+	goToNotebookForLastName,
+	addMember,
+	rejectConsent,
+} = require('./fixtures');
 const { Alors, Quand, Soit } = require('./fr');
 
 const { I } = inject();
@@ -15,14 +21,7 @@ function plainGoto(url) {
 		await page.goto(`${options.url}${url}`);
 	});
 }
-function rejectConsent() {
-	I.setCookie({
-		domain: 'localhost',
-		name: 'tarteaucitron',
-		path: '/',
-		value: '!matomocustom=false!crispcustom=false',
-	});
-}
+
 Soit('je rafraichis la page', async () => {
 	return I.usePlaywrightTo('reload page', async ({ page }) => {
 		return await page.reload();

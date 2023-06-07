@@ -85,7 +85,14 @@ async function onBoardingSetup(userType, email, onBoardingDone) {
 		}`
 	);
 }
-
+function rejectConsent() {
+	I.setCookie({
+		domain: 'localhost',
+		name: 'tarteaucitron',
+		path: '/',
+		value: '!matomocustom=false!crispcustom=false',
+	});
+}
 const goToNotebookForLastName = async (lastname) => {
 	const result = await I.sendQuery(
 		`
@@ -105,5 +112,6 @@ module.exports = {
 	goToNotebookForLastName,
 	loginStub,
 	onBoardingSetup,
+	rejectConsent,
 	removeMember,
 };

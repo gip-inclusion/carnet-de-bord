@@ -1,8 +1,9 @@
 const { I } = inject();
-const { loginStub, onBoardingSetup } = require('../../step_definitions/fixtures');
+const { loginStub, onBoardingSetup, rejectConsent } = require('../../step_definitions/fixtures');
 const assert = require('assert');
 
 async function importOrientationFile(filename) {
+	rejectConsent();
 	await onBoardingSetup(
 		'administrateur de territoire',
 		'contact+cd93@carnetdebord.inclusion.beta.gouv.fr',
