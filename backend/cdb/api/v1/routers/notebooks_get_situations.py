@@ -68,9 +68,11 @@ async def get_notebook_situations(
                 contraintes = await pole_emploi_client.get_contraintes(
                     usager.identifiant
                 )
+                print(contraintes)
                 differences = merge_contraintes_to_situations(
                     contraintes, ref_situations, notebook_situations
                 )
+                print(differences)
                 data_has_been_updated = (
                     True
                     if (
