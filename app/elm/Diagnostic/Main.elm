@@ -129,14 +129,16 @@ type alias Model =
     , peGeneralData : GeneralData
     , personalSituations : List PersonalSituationsByTheme
     , notebookId : String
-    , refreshSituationStart : RefreshSituationState
+    , refreshSituation : RefreshSituationState
     }
 
 
 type RefreshSituationState
-    = StartedAt Time.Posix
-    | SucceededAt Time.Posix
-    | Failed { message : String, at : Time.Posix }
+    = Started
+    | RefreshNeeded
+    | NothingToDo
+    | Failed String
+    | Done
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -146,7 +148,7 @@ init flags =
       , peGeneralData = extractPeGeneralDataFromFlags flags
       , personalSituations = []
       , notebookId = flags.notebookId
-      , refreshSituationStart = StartedAt <| Time.millisToPosix 0
+      , refreshSituationStart = Started
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
@@ -264,13 +266,13 @@ update msg model =
 
                 Ok needRefresh ->
                     if needRefresh then
-                        ( model, AllSituations.fetchByNotebookId model.notebookId FetchedSituations )
+                        ( { model | refreshSituation = RefreshNeeded }, AllSituations.fetchByNotebookId model.notebookId FetchedSituations )
 
                     else
-                        ( model, Cmd.none )
+                        ( { model | refreshSituation = NothingToDo }, Cmd.none )
 
         RefreshSituations now ->
-            ( { model | refreshSituationStart = StartedAt now }, AllSituations.refresh model.notebookId ShouldRefreshSituations )
+            ( { model | refreshSituationStart = StartedAt }, AllSituations.refresh model.notebookId ShouldRefreshSituations )
 
 
 
