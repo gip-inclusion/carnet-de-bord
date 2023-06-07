@@ -1,3 +1,10 @@
+# [1.229.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.228.1...v1.229.0) (2023-06-07)
+
+
+### Features
+
+* ✨ créer des actions hors référentiel ([#1792](https://github.com/gip-inclusion/carnet-de-bord/issues/1792)) ([efbf601](https://github.com/gip-inclusion/carnet-de-bord/commit/efbf6016dce49741ef9a39baffa8643db6acaeac))
+
 ## [1.228.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.228.0...v1.228.1) (2023-06-07)
 
 
