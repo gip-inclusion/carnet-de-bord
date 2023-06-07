@@ -1,19 +1,19 @@
 port module Pages.Pro.Carnet.Action.List.Page exposing (Model, Msg(..), init, subscriptions, update, view)
 
 import BetaGouv.DSFR.Alert
+import CdbGQL.Enum.Action_status_enum as ActionStatus
+import CdbGQL.Scalar
 import Effect
+import Extra.CdbGQL
 import Extra.Date
 import Html
 import Html.Attributes as Attr
+import Pages.Pro.Carnet.Action.List.ActionStatusSelect
 import Pages.Pro.Carnet.Action.List.AddForm as AddForm
 import Pages.Pro.Carnet.Action.List.AllActions exposing (Action)
-import CdbGQL.Enum.Action_status_enum as ActionStatus
 import Process
 import Task
 import UI.SearchSelect.SearchSelect as SearchSelect
-import Pages.Pro.Carnet.Action.List.ActionStatusSelect
-import CdbGQL.Scalar
-import Extra.CdbGQL
 
 
 type alias StatusUpdateOut =
@@ -198,7 +198,11 @@ viewActions model =
                 ]
                 (case model.actions of
                     [] ->
-                        [ Html.tr [] [ Html.td [ Attr.colspan 4 ] [ Html.text "Aucune action entreprise pour le moment." ] ] ]
+                        [ Html.tr []
+                            [ Html.td [ Attr.colspan 4 ]
+                                [ Html.text "Aucune action entreprise pour le moment." ]
+                            ]
+                        ]
 
                     _ ->
                         model.actions |> List.map viewAction
@@ -210,7 +214,7 @@ viewActions model =
 viewAction : Action -> Html.Html Msg
 viewAction action =
     Html.tr []
-        [ Html.td []
+        [ Html.td [ Attr.class "break-words" ]
             [ Html.text action.description ]
         , Html.td []
             [ Html.text <| action.creator.firstName ++ " " ++ action.creator.lastName ]

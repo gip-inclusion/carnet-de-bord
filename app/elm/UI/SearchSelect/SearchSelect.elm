@@ -251,7 +251,7 @@ view model =
                         [ Select.view
                             (Select.menu
                                 |> Select.state model.state
-                                |> Select.menuItems (menuItems model)
+                                |> Select.menuItems (menuItems model |> addAutocompleteOption model)
                                 |> Select.placeholder model.searchPlaceholder
                                 |> Select.loadingMessage "Chargement..."
                                 |> Select.ariaDescribedBy ("select-usage-" ++ model.id)
@@ -279,14 +279,12 @@ view model =
 
 menuItems : Model -> List (Select.MenuItem Option)
 menuItems model =
-    (case model.status of
+    case model.status of
         Success data ->
             data |> List.map optionToSelectItem
 
         _ ->
             []
-    )
-        |> addAutocompleteOption model
 
 
 addAutocompleteOption : Model -> List (Select.MenuItem Option) -> List (Select.MenuItem Option)
