@@ -33,9 +33,9 @@ import Iso8601
 import List.Extra
 import Platform.Cmd as Cmd
 import Sentry
-import Task
 import Time
 import TimeZone
+import UI.Spinner
 
 
 type alias Flags =
@@ -568,9 +568,10 @@ nonbreakableSpaceChar =
 
 
 personalSituationView : Model -> Html.Html msg
-personalSituationView { personalSituations } =
+personalSituationView { personalSituations, refreshSituation } =
     Html.div [ class "pt-10 flex flex-col" ]
         [ Html.h3 [ class "text-xl" ] [ Html.text "Situation personnelle" ]
+        , UI.Spinner.view ""
         , Html.div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
             [ if List.isEmpty personalSituations then
                 Html.span [] [ Html.text "Aucune situation renseignée" ]
