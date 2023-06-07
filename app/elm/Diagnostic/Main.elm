@@ -265,11 +265,6 @@ formatAccount account =
         |> Maybe.withDefault ""
 
 
-dateFormat : String
-dateFormat =
-    "dd/MM/yyyy"
-
-
 parisZone : Time.Zone
 parisZone =
     TimeZone.europe__paris ()
@@ -306,7 +301,7 @@ workSituationDateFormat startDate endDate =
         prettyDate : Date -> String -> String
         prettyDate date label =
             date
-                |> Date.format dateFormat
+                |> Extra.Date.print
                 |> String.append label
     in
     case ( startDate, endDate ) of
@@ -407,7 +402,7 @@ peInformationsView peGeneralData =
             [ Html.div [ class "fr-grid-row fr-grid-row--gutters" ]
                 [ Html.div [ class "fr-col-6" ]
                     [ situationElement "Date d'inscription à Pôle emploi"
-                        (Maybe.map (Date.format dateFormat >> Html.text) peGeneralData.dateInscription)
+                        (Maybe.map (Extra.Date.print >> Html.text) peGeneralData.dateInscription)
                         (unfilled Feminine)
                         Nothing
                     ]
@@ -419,7 +414,7 @@ peInformationsView peGeneralData =
                     ]
                 , Html.div [ class "fr-col-6" ]
                     [ situationElement "Dernière mise à jour du PPAE"
-                        (Maybe.map (Date.format dateFormat >> Html.text) peGeneralData.dateDerEntretienPpae)
+                        (Maybe.map (Extra.Date.print >> Html.text) peGeneralData.dateDerEntretienPpae)
                         (unfilled Feminine)
                         Nothing
                     ]
