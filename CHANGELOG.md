@@ -1,3 +1,10 @@
+## [1.229.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.229.0...v1.229.1) (2023-06-07)
+
+
+### Bug Fixes
+
+* Améliorer l'affichage de la popup de rattachement ([#1810](https://github.com/gip-inclusion/carnet-de-bord/issues/1810)) ([c2e354b](https://github.com/gip-inclusion/carnet-de-bord/commit/c2e354b3590dc4db9ac24db0af53c6706eec39f0))
+
 # [1.229.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.228.1...v1.229.0) (2023-06-07)
 
 
