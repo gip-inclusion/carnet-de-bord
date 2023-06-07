@@ -1,18 +1,31 @@
-module Extra.GraphQL exposing (oneOf)
+module Extra.GraphQL exposing (postOperationSimple)
 
-import Graphql.SelectionSet
-
-
-oneOf : List (Graphql.SelectionSet.SelectionSet (Maybe a) scope) -> Graphql.SelectionSet.SelectionSet a scope
-oneOf selectors =
-    selectors
-        |> Graphql.SelectionSet.list
-        |> Graphql.SelectionSet.mapOrFail
-            (getFirstNonNull
-                >> Result.fromMaybe "Expecting one of the selectors to provide a non null value"
-            )
+import GraphQL.Errors
+import GraphQL.Operation
+import GraphQL.Response
+import Http
 
 
-getFirstNonNull : List (Maybe a) -> Maybe a
-getFirstNonNull =
-    List.filterMap identity >> List.head
+postOperation : GraphQL.Operation.Operation any GraphQL.Errors.Errors data -> (Result Http.Error (GraphQL.Response.Response GraphQL.Errors.Errors data) -> msg) -> Cmd msg
+postOperation operation msg =
+    Http.post
+        { url = "/graphql"
+        , body = Http.jsonBody (GraphQL.Operation.encode operation)
+        , expect = Http.expectJson msg (GraphQL.Response.decoder operation)
+        }
+
+
+postOperationSimple : GraphQL.Operation.Operation any GraphQL.Errors.Errors data -> (Result Http.Error data -> msg) -> Cmd msg
+postOperationSimple operation msg =
+    postOperation operation
+        (msg
+            << Result.andThen
+                (\response ->
+                    case response of
+                        GraphQL.Response.Data data ->
+                            Ok data
+
+                        _ ->
+                            Err (Http.BadBody "bad graphql response")
+                )
+        )

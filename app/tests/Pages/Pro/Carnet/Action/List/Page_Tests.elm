@@ -1,5 +1,6 @@
 module Pages.Pro.Carnet.Action.List.Page_Tests exposing (suite)
 
+import GraphQL.Enum.Action_status_enum
 import Html.Attributes as Attr
 import Pages.Pro.Carnet.Action.List.Fixtures as Fixtures
 import Pages.Pro.Carnet.Action.List.Page as Page
@@ -7,7 +8,6 @@ import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector exposing (text)
 import UI.SearchSelect.Fixtures
-import CdbGQL.Enum.Action_status_enum
 
 
 suite : Test
@@ -32,7 +32,7 @@ suite =
                     initModel
                         |> updateModel (Page.Refreshed [ Fixtures.action1 ])
                         |> updateModel Page.StatusUpdateFailed
-                        |> updateModel (Page.UpdateStatus Fixtures.action1.id CdbGQL.Enum.Action_status_enum.In_progress)
+                        |> updateModel (Page.UpdateStatus Fixtures.action1.id GraphQL.Enum.Action_status_enum.In_progress)
                         |> Page.view
                         |> Query.fromHtml
                         |> Query.hasNot [ Selector.attribute <| Attr.attribute "role" "alert" ]

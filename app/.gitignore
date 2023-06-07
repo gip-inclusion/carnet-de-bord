@@ -2,3 +2,4 @@
 /.svelte-kit
 /build
 /elm-stuff
+/elm-generated/

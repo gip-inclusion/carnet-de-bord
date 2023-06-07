@@ -1,4 +1,4 @@
-module Extra.Date exposing (print, parseTimestamp)
+module Extra.Date exposing (parseTimestamp, print)
 
 import Date exposing (Date)
 
