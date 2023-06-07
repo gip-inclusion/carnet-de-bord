@@ -1,7 +1,7 @@
 module Diagnostic.AllSituations exposing
     ( PersonalSituation
     , fetchByNotebookId
-    , refresh
+    , syncWithPE
     )
 
 import CdbGQL.InputObject exposing (buildNotebook_situation_bool_exp, buildUuid_comparison_exp)
@@ -25,6 +25,29 @@ import Graphql.Http
 import Graphql.Operation exposing (RootMutation, RootQuery)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
 import Graphql.SelectionSet as SelectionSet exposing (SelectionSet, nonNullOrFail)
+
+
+
+-- Synchronize
+
+
+syncWithPE : String -> (Result String Bool -> msg) -> Cmd msg
+syncWithPE notebookId responseMsg =
+    syncSelector notebookId
+        |> Graphql.Http.mutationRequest "/graphql"
+        |> Graphql.Http.send (Result.mapError graphqlErrorToString >> responseMsg)
+
+
+syncSelector : String -> SelectionSet Bool RootMutation
+syncSelector notebookId =
+    CdbGQL.Mutation.update_notebook_situations
+        { notebookId = CdbGQL.Scalar.Uuid notebookId }
+        Output.data_has_been_updated
+        |> nonNullOrFail
+
+
+
+-- Fetch
 
 
 type alias PersonalSituation =
@@ -129,18 +152,3 @@ structureSelector =
 citextToString : CdbGQL.Scalar.Citext -> String
 citextToString (CdbGQL.Scalar.Citext raw) =
     raw
-
-
-refresh : String -> (Result String Bool -> msg) -> Cmd msg
-refresh notebookId responseMsg =
-    selectResult notebookId
-        |> Graphql.Http.mutationRequest "/graphql"
-        |> Graphql.Http.send (Result.mapError graphqlErrorToString >> responseMsg)
-
-
-selectResult : String -> SelectionSet Bool RootMutation
-selectResult notebookId =
-    CdbGQL.Mutation.update_notebook_situations
-        { notebookId = CdbGQL.Scalar.Uuid notebookId }
-        Output.data_has_been_updated
-        |> nonNullOrFail

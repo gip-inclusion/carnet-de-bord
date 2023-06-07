@@ -151,7 +151,7 @@ init flags =
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
-        , AllSituations.refresh flags.notebookId ShouldRefreshSituations
+        , AllSituations.syncWithPE flags.notebookId SyncedWithPE
         ]
     )
 
@@ -236,7 +236,7 @@ extractWorkingTimeType workingTimeFlag =
 
 type Msg
     = FetchedSituations (Result String (List PersonalSituation))
-    | ShouldRefreshSituations (Result String Bool)
+    | SyncedWithPE (Result String Bool)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -257,7 +257,7 @@ update msg model =
                     , Cmd.none
                     )
 
-        ShouldRefreshSituations result ->
+        SyncedWithPE result ->
             case result of
                 Err message ->
                     ( { model | refreshSituation = Failed message }
