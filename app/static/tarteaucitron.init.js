@@ -1,7 +1,5 @@
 /* global tarteaucitron */
 
-tarteaucitronForceLanguage = 'fr';
-
 tarteaucitron.init({
 	mandatory: true /* Show a message about mandatory cookies */,
 	/* General */
@@ -40,6 +38,9 @@ tarteaucitron.init({
 		'BottomLeft' /* Position du Bouton sticky BottomRight, BottomLeft, TopRight and TopLeft */,
 	groupServices: false,
 });
+
+tarteaucitron.lang.alertBigPrivacy = 'toto';
+tarteaucitronForceLanguage = 'fr';
 
 tarteaucitron.services.matomocustom = {
 	key: 'matomocustom',

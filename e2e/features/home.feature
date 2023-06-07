@@ -12,14 +12,14 @@ Scénario: Home CdB
 
 Scénario: Demande de consentement
 	Soit un utilisateur sur la page d'accueil
-	Alors je vois "Ce site utilise des cookies et vous donne le contrôle sur ceux que vous souhaitez activer"
+	Alors je vois "Ce site utilise des cookies pour offrir une expérience optimale de support et vous donne le contrôle si vous souhaitez l'activer"
  	Quand je clique sur "Personnaliser"
 	# Pour une raison inconnue, on doit faire une deuxiement click
 	# dans codecept pour que la fenetre s'ouvre.
  	Quand je clique sur "Personnaliser"
 	Alors je vois "Préférences pour tous les services"
 	Alors je clique sur "Tout accepter"
-	Alors je ne vois pas "Ce site utilise des cookies et vous donne le contrôle sur ceux que vous souhaitez activer"
+	Alors je ne vois pas "Ce site utilise des cookies pour offrir une expérience optimale de support et vous donne le contrôle si vous souhaitez l'activer"
 	Soit un "pro" authentifié pour la première fois avec l'email "pierre.chevalier@livry-gargan.fr"
 	Quand je clique sur "Ouvrir le chat"
 	Alors je vois "Comment puis-je vous aider"
