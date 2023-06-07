@@ -45,9 +45,9 @@ jobs:
           npm run sync --prefix app
           npm ci --prefix e2e
           pip install pre-commit
+
       - name: Run linting
-        # TODO: precommit does not run svelte-check
-        run: pre-commit run --all-files
+        run: SKIP=no-commit-to-branch pre-commit run --all-files
 
   ##############################################################################
   ## Python backend tests

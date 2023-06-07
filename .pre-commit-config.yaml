@@ -16,6 +16,9 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
         exclude: /__snapshots__/
+      - id: no-commit-to-branch
+        name: "don't commit to main"
+        args: [--branch, main]
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.257
@@ -31,13 +34,6 @@ repos:
 
   - repo: local
     hooks:
-      - id: no-commit-on-main-branch
-        name: no direct commit on main branch
-        language: system
-        always_run: true
-        entry: |
-          ./scripts/no-commit-on-main-branch.sh
-
       - id: app-prettier
         name: run prettier (app)
         language: system
