@@ -105,8 +105,8 @@ eq notebookId =
 situationSelector : SelectionSet PersonalSituation CdbGQL.Object.Notebook_situation
 situationSelector =
     SelectionSet.succeed PersonalSituation
-        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.theme |> SelectionSet.nonNullOrFail)
-        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.description |> SelectionSet.nonNullOrFail)
+        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.theme |> nonNullOrFail)
+        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.description |> nonNullOrFail)
         |> SelectionSet.with createdAtSelector
         |> SelectionSet.with creatorSelector
 

@@ -1,4 +1,4 @@
-module UI.Spinner exposing (..)
+module UI.Spinner exposing (view)
 
 import Html exposing (Html)
 import Html.Attributes as Attr

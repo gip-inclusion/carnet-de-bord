@@ -9,6 +9,7 @@ module Diagnostic.Main exposing
     , PersonalSituationsByTheme
     , ProfessionalProjectFlags
     , ProfessionalSituationFlags
+    , RefreshSituationState
     , WorkingTimeFlags
     , addMoneyUnit
     , extractProfessionalProjectFromFlags
@@ -129,7 +130,7 @@ type alias Model =
     , peGeneralData : GeneralData
     , personalSituations : List PersonalSituationsByTheme
     , notebookId : String
-    , refreshSituation : RefreshSituationState
+    , refreshSituationState : RefreshSituationState
     }
 
 
@@ -147,7 +148,7 @@ init flags =
       , peGeneralData = extractPeGeneralDataFromFlags flags
       , personalSituations = []
       , notebookId = flags.notebookId
-      , refreshSituation = Started
+      , refreshSituationState = Started
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
@@ -260,18 +261,18 @@ update msg model =
         SyncedWithPE result ->
             case result of
                 Err message ->
-                    ( { model | refreshSituation = Failed message }
+                    ( { model | refreshSituationState = Failed message }
                     , Sentry.sendError message
                     )
 
                 Ok needRefresh ->
                     if needRefresh then
-                        ( { model | refreshSituation = RefreshAsked }
+                        ( { model | refreshSituationState = RefreshAsked }
                         , AllSituations.fetchByNotebookId model.notebookId FetchedSituations
                         )
 
                     else
-                        ( { model | refreshSituation = NothingToDo }
+                        ( { model | refreshSituationState = NothingToDo }
                         , Cmd.none
                         )
 
@@ -568,10 +569,10 @@ nonbreakableSpaceChar =
 
 
 personalSituationView : Model -> Html.Html msg
-personalSituationView { personalSituations, refreshSituation } =
+personalSituationView { personalSituations, refreshSituationState } =
     Html.div [ class "pt-10 flex flex-col gap-4" ]
         [ Html.h3 [ class "text-xl flex gap-4 mb-0" ] [ Html.text "Situation personnelle" ]
-        , UI.Spinner.view "Récupération des information Pôle emploi en cours"
+        , showRefreshSituationState refreshSituationState
         , Html.div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
             [ if List.isEmpty personalSituations then
                 Html.span [] [ Html.text "Aucune situation renseignée" ]
@@ -618,6 +619,24 @@ personalSituationView { personalSituations, refreshSituation } =
                     ]
             ]
         ]
+
+
+showRefreshSituationState : RefreshSituationState -> Html.Html msg
+showRefreshSituationState refreshSituationState =
+    case
+        refreshSituationState
+    of
+        Started ->
+            UI.Spinner.view "Récupération des information Pôle emploi en cours"
+
+        NothingToDo ->
+            Html.text ""
+
+        RefreshAsked ->
+            Html.text ""
+
+        Failed str ->
+            Html.span [] [ Html.text str ]
 
 
 situationElement : String -> Maybe (Html.Html msg) -> String -> Maybe (Html.Html msg) -> Html.Html msg
