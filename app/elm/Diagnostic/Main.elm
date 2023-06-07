@@ -34,6 +34,8 @@ import List.Extra
 import Sentry
 import Time
 import TimeZone
+import Platform.Cmd as Cmd
+import Html exposing (q)
 
 
 type alias Flags =
@@ -127,8 +129,13 @@ type alias Model =
     , peGeneralData : GeneralData
     , personalSituations : List PersonalSituationsByTheme
     , notebookId : String
-    , refreshSituationStart : Maybe Time.Posix
+    , refreshSituationStart : RefreshSituationState
     }
+
+type RefreshSituationState = 
+  | StartedAt Time.Posix
+  | SucceededAt Time.Posix
+  | Failed {message: string, at: Time.Posix}
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -138,11 +145,11 @@ init flags =
       , peGeneralData = extractPeGeneralDataFromFlags flags
       , personalSituations = []
       , notebookId = flags.notebookId
-      , refreshSituationStart = Nothing
+      , refreshSituationStart = StartedAt <| Time.millisToPosix 0
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
-        , AllSituations.refresh flags.notebookId ShouldRefreshSituations
+        , Time.now RefreshSituations
         ]
     )
 
@@ -228,6 +235,7 @@ extractWorkingTimeType workingTimeFlag =
 type Msg
     = FetchedSituations (Result String (List PersonalSituation))
     | ShouldRefreshSituations (Result String Bool)
+    | RefreshSituations Time.Posix
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -259,6 +267,9 @@ update msg model =
 
                     else
                         ( model, Cmd.none )
+
+        RefreshSituations now ->
+            ({model | refreshSituationStart = StartedAt now}, AllSituations.refresh model.notebookId ShouldRefreshSituations)
 
 
 
