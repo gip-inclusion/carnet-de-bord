@@ -127,13 +127,13 @@
 					let:form
 				>
 					<Radio
-						legend="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
+						legend="Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 						name="memberType"
 						{options}
 						ariaControls="orientation-system"
 					/>
 					{#if orientationOptions.length && form.memberType === 'referent'}
-						<div class="fr-form-group">
+						<div class="fr-form-group pb-6">
 							<Select
 								options={orientationOptions}
 								name="orientation"
