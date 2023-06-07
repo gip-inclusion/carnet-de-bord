@@ -127,6 +127,7 @@ type alias Model =
     , peGeneralData : GeneralData
     , personalSituations : List PersonalSituationsByTheme
     , notebookId : String
+    , refreshSituationStart : Maybe Time.Posix
     }
 
 
@@ -137,6 +138,7 @@ init flags =
       , peGeneralData = extractPeGeneralDataFromFlags flags
       , personalSituations = []
       , notebookId = flags.notebookId
+      , refreshSituationStart = Nothing
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
