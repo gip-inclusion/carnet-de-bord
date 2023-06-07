@@ -74,12 +74,12 @@ async def get_notebook_situations(
                 )
                 print(differences)
                 data_has_been_updated = (
-                    True
+                    False
                     if (
-                        differences.situations_to_add
-                        and differences.situations_to_delete
+                        len(differences.situations_to_add) == 0
+                        and len(differences.situations_to_delete) == 0
                     )
-                    else False
+                    else True
                 )
 
                 await save_notebook_situations(
