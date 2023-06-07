@@ -1,9 +1,11 @@
 module Diagnostic.AllSituations exposing
     ( PersonalSituation
     , fetchByNotebookId
+    , refresh
     )
 
 import CdbGQL.InputObject exposing (buildNotebook_situation_bool_exp, buildUuid_comparison_exp)
+import CdbGQL.Mutation
 import CdbGQL.Object
 import CdbGQL.Object.Account as GqlAccount
 import CdbGQL.Object.Notebook_situation as GqlSituation
@@ -11,6 +13,7 @@ import CdbGQL.Object.Orientation_manager as GqlOrientationManager
 import CdbGQL.Object.Professional as GqlProfessional
 import CdbGQL.Object.Ref_situation as GqlRefSituation
 import CdbGQL.Object.Structure as GqlStructure
+import CdbGQL.Object.UpdateNotebookSituationsOutput as Output
 import CdbGQL.Query
 import CdbGQL.Scalar
 import Date exposing (Date)
@@ -19,9 +22,9 @@ import Domain.Account exposing (Account, OrientationManager, Professional)
 import Domain.Structure exposing (Structure)
 import Extra.Date
 import Graphql.Http
-import Graphql.Operation exposing (RootQuery)
+import Graphql.Operation exposing (RootMutation, RootQuery)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
-import Graphql.SelectionSet as SelectionSet exposing (SelectionSet)
+import Graphql.SelectionSet as SelectionSet exposing (SelectionSet, nonNullOrFail)
 
 
 type alias PersonalSituation =
@@ -126,3 +129,18 @@ structureSelector =
 citextToString : CdbGQL.Scalar.Citext -> String
 citextToString (CdbGQL.Scalar.Citext raw) =
     raw
+
+
+refresh : String -> (Result String Bool -> msg) -> Cmd msg
+refresh notebookId responseMsg =
+    selectResult notebookId
+        |> Graphql.Http.mutationRequest "/graphql"
+        |> Graphql.Http.send (Result.mapError graphqlErrorToString >> responseMsg)
+
+
+selectResult : String -> SelectionSet Bool RootMutation
+selectResult notebookId =
+    CdbGQL.Mutation.update_notebook_situations
+        { notebookId = CdbGQL.Scalar.Uuid notebookId }
+        Output.data_has_been_updated
+        |> nonNullOrFail
