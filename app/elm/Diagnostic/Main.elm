@@ -135,10 +135,9 @@ type alias Model =
 
 type RefreshSituationState
     = Started
-    | RefreshNeeded
+    | RefreshAsked
     | NothingToDo
     | Failed String
-    | Done
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -148,11 +147,11 @@ init flags =
       , peGeneralData = extractPeGeneralDataFromFlags flags
       , personalSituations = []
       , notebookId = flags.notebookId
-      , refreshSituationStart = Started
+      , refreshSituation = Started
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
-        , Time.now |> Task.perform RefreshSituations
+        , AllSituations.refresh flags.notebookId ShouldRefreshSituations
         ]
     )
 
@@ -238,7 +237,6 @@ extractWorkingTimeType workingTimeFlag =
 type Msg
     = FetchedSituations (Result String (List PersonalSituation))
     | ShouldRefreshSituations (Result String Bool)
-    | RefreshSituations Time.Posix
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -262,17 +260,20 @@ update msg model =
         ShouldRefreshSituations result ->
             case result of
                 Err message ->
-                    ( model, Sentry.sendError message )
+                    ( { model | refreshSituation = Failed message }
+                    , Sentry.sendError message
+                    )
 
                 Ok needRefresh ->
                     if needRefresh then
-                        ( { model | refreshSituation = RefreshNeeded }, AllSituations.fetchByNotebookId model.notebookId FetchedSituations )
+                        ( { model | refreshSituation = RefreshAsked }
+                        , AllSituations.fetchByNotebookId model.notebookId FetchedSituations
+                        )
 
                     else
-                        ( { model | refreshSituation = NothingToDo }, Cmd.none )
-
-        RefreshSituations now ->
-            ( { model | refreshSituationStart = StartedAt }, AllSituations.refresh model.notebookId ShouldRefreshSituations )
+                        ( { model | refreshSituation = NothingToDo }
+                        , Cmd.none
+                        )
 
 
 

@@ -40,6 +40,11 @@ actions:
         template_engine: Kriti
         url: '{{$base_url}}/notebooks/{{$body.input[''notebookId'']}}/situations'
         version: 2
+    permissions:
+      - role: orientation_manager
+      - role: professional
+      - role: manager
+      - role: admin_structure
   - name: update_socio_pro
     definition:
       kind: synchronous
