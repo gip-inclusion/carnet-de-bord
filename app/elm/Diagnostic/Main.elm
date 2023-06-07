@@ -21,6 +21,7 @@ import Date exposing (Date, fromIsoString)
 import DateFormat
 import Decimal
 import Diagnostic.AllSituations as AllSituations exposing (PersonalSituation)
+import Diagnostic.UpdateSituations
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
@@ -138,7 +139,10 @@ init flags =
       , personalSituations = []
       , notebookId = flags.notebookId
       }
-    , AllSituations.fetchByNotebookId flags.notebookId Fetched
+    , Cmd.batch
+        [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
+        , Diagnostic.UpdateSituations.update flags.notebookId ShouldUpdateSituations
+        ]
     )
 
 
@@ -221,13 +225,14 @@ extractWorkingTimeType workingTimeFlag =
 
 
 type Msg
-    = Fetched (Result String (List PersonalSituation))
+    = FetchedSituations (Result String (List PersonalSituation))
+    | ShouldUpdateSituations (Result String Bool)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
-        Fetched result ->
+        FetchedSituations result ->
             case result of
                 Err message ->
                     ( model, Sentry.sendError message )
@@ -241,6 +246,9 @@ update msg model =
                       }
                     , Cmd.none
                     )
+
+        ShouldUpdateSituations _ ->
+            Debug.todo "branch 'Updated _' not implemented"
 
 
 
