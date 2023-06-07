@@ -133,7 +133,7 @@
 						ariaControls="orientation-system"
 					/>
 					{#if orientationOptions.length && form.memberType === 'referent'}
-						<div class="fr-form-group pb-3">
+						<div class="fr-form-group pb-6">
 							<Select
 								options={orientationOptions}
 								name="orientation"
