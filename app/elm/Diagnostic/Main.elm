@@ -132,17 +132,13 @@ type alias Model =
 
 init : Flags -> ( Model, Cmd Msg )
 init flags =
-    let
-        model =
-            { professionalSituation = extractSituationFromFlags flags
-            , professionalProjects = extractProfessionalProjectsFromFlags flags
-            , peGeneralData = extractPeGeneralDataFromFlags flags
-            , personalSituations = []
-            , notebookId = flags.notebookId
-            }
-    in
-    ( model
-    , AllSituations.fetchByNotebookId model.notebookId Fetched
+    ( { professionalSituation = extractSituationFromFlags flags
+      , professionalProjects = extractProfessionalProjectsFromFlags flags
+      , peGeneralData = extractPeGeneralDataFromFlags flags
+      , personalSituations = []
+      , notebookId = flags.notebookId
+      }
+    , AllSituations.fetchByNotebookId flags.notebookId Fetched
     )
 
 
@@ -296,7 +292,12 @@ unfilled genderType =
 
 view : Model -> Html.Html msg
 view model =
-    Html.div [ class "mb-10" ] (socioProDiagFirstRowView model ++ [ professionalProjectView model, personalSituationView model ])
+    Html.div [ class "mb-10" ]
+        (socioProDiagFirstRowView model
+            ++ [ professionalProjectView model
+               , personalSituationView model
+               ]
+        )
 
 
 workSituationDateFormat : Maybe Date -> Maybe Date -> Maybe (Html.Html msg)
