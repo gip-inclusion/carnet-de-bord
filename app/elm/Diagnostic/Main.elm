@@ -377,8 +377,8 @@ socioProView professionalSituation =
         ]
 
 
-peWorkstream : Maybe String -> Maybe String -> Maybe String
-peWorkstream principal secondary =
+joinWithSlash : Maybe String -> Maybe String -> Maybe String
+joinWithSlash principal secondary =
     case ( principal, secondary ) of
         ( Just p, Nothing ) ->
             Just p
@@ -420,7 +420,7 @@ peInformationsView peGeneralData =
                     ]
                 , Html.div [ class "fr-col-6" ]
                     [ situationElement "Axe de travail"
-                        (Maybe.map Html.text (peWorkstream peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
+                        (Maybe.map Html.text (joinWithSlash peGeneralData.mrechAxetravailprincipal peGeneralData.mrechAxetravailsecondaire))
                         (unfilled Masculine)
                         Nothing
                     ]
