@@ -16,6 +16,9 @@ repos:
       - id: mixed-line-ending
       - id: trailing-whitespace
         exclude: /__snapshots__/
+      - id: no-commit-to-branch
+        name: "don't commit to main"
+        args: [--branch, main]
 
   - repo: https://github.com/charliermarsh/ruff-pre-commit
     rev: v0.0.257
