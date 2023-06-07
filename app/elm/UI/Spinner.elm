@@ -11,7 +11,7 @@ view label =
         , Attr.attribute "role" "status"
         ]
         [ Html.span
-            [ Attr.class "h-8 w-8 block rounded-full border-4 border-t-vert-cdb-500 animate-spin"
+            [ Attr.class "h-6 w-6 block rounded-full border-4 border-t-vert-cdb-500 animate-spin"
             ]
             []
         , Html.text label

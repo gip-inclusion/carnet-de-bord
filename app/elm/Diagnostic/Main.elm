@@ -569,9 +569,9 @@ nonbreakableSpaceChar =
 
 personalSituationView : Model -> Html.Html msg
 personalSituationView { personalSituations, refreshSituation } =
-    Html.div [ class "pt-10 flex flex-col" ]
-        [ Html.h3 [ class "text-xl" ] [ Html.text "Situation personnelle" ]
-        , UI.Spinner.view ""
+    Html.div [ class "pt-10 flex flex-col gap-4" ]
+        [ Html.h3 [ class "text-xl flex gap-4 mb-0" ] [ Html.text "Situation personnelle" ]
+        , UI.Spinner.view "Récupération des information Pôle emploi en cours"
         , Html.div [ class "fr-container shadow-dsfr rounded-lg py-8" ]
             [ if List.isEmpty personalSituations then
                 Html.span [] [ Html.text "Aucune situation renseignée" ]
