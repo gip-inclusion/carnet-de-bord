@@ -31,11 +31,11 @@ import Html
 import Html.Attributes exposing (class, rowspan)
 import Iso8601
 import List.Extra
+import Platform.Cmd as Cmd
 import Sentry
+import Task
 import Time
 import TimeZone
-import Platform.Cmd as Cmd
-import Html exposing (q)
 
 
 type alias Flags =
@@ -132,10 +132,11 @@ type alias Model =
     , refreshSituationStart : RefreshSituationState
     }
 
-type RefreshSituationState = 
-  | StartedAt Time.Posix
-  | SucceededAt Time.Posix
-  | Failed {message: string, at: Time.Posix}
+
+type RefreshSituationState
+    = StartedAt Time.Posix
+    | SucceededAt Time.Posix
+    | Failed { message : String, at : Time.Posix }
 
 
 init : Flags -> ( Model, Cmd Msg )
@@ -149,7 +150,7 @@ init flags =
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId flags.notebookId FetchedSituations
-        , Time.now RefreshSituations
+        , Time.now |> Task.perform RefreshSituations
         ]
     )
 
@@ -269,7 +270,7 @@ update msg model =
                         ( model, Cmd.none )
 
         RefreshSituations now ->
-            ({model | refreshSituationStart = StartedAt now}, AllSituations.refresh model.notebookId ShouldRefreshSituations)
+            ( { model | refreshSituationStart = StartedAt now }, AllSituations.refresh model.notebookId ShouldRefreshSituations )
 
 
 
