@@ -1,3 +1,10 @@
+## [1.228.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.228.0...v1.228.1) (2023-06-07)
+
+
+### Bug Fixes
+
+* Remplacer la couleur bleu sur la popup des cookies par le vert CDB. ([#1804](https://github.com/gip-inclusion/carnet-de-bord/issues/1804)) ([226cea4](https://github.com/gip-inclusion/carnet-de-bord/commit/226cea4d439b940825e2e8d3fc78eb75ede219ff))
+
 # [1.228.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.227.1...v1.228.0) (2023-06-06)
 
 
