@@ -12,7 +12,7 @@ import ProgramTest
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector exposing (text)
-import UI.SearchSelect.Component
+import UI.SearchSelect.SearchSelect as SearchSelect
 import UI.SearchSelect.Fixtures
 
 
@@ -89,7 +89,7 @@ suite =
 
 resetAction : AddFormTest -> AddFormTest
 resetAction =
-    ProgramTest.update (AddForm.ActionMsg UI.SearchSelect.Component.Reset)
+    ProgramTest.update (AddForm.ActionMsg SearchSelect.Reset)
 
 
 expectAlertWithText : String -> Query.Single AddForm.Msg -> Expect.Expectation

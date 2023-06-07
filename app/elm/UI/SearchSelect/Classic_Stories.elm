@@ -1,9 +1,9 @@
-module UI.SearchSelect.Stories exposing (main)
+module UI.SearchSelect.Classic_Stories exposing (main)
 
 import Storybook.Component exposing (Component)
 import Storybook.Controls
-import UI.SearchSelect.Component as SearchSelect
 import UI.SearchSelect.Fixtures
+import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 main : Component SearchSelect.Model SearchSelect.Msg
@@ -18,6 +18,7 @@ main =
                 , searchPlaceholder = "Chercher quelque chose"
                 , defaultOption = "Option par défaut"
                 , api = UI.SearchSelect.Fixtures.fakeSearchApi
+                , mode = SearchSelect.Classic
                 }
             , Cmd.none
             )

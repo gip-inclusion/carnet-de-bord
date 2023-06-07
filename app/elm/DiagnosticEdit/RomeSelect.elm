@@ -5,22 +5,22 @@ import Html
 import Http
 import Json.Decode as Decode
 import Json.Encode as Json
-import UI.SearchSelect.Component
+import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 
 -- Init
 
 
-decoder : Decode.Decoder UI.SearchSelect.Component.Option
+decoder : Decode.Decoder SearchSelect.Option
 decoder =
-    Decode.map2 UI.SearchSelect.Component.Option
+    Decode.map2 SearchSelect.Option
         (Decode.field "id" Decode.string)
         (Decode.field "label" Decode.string)
 
 
 type alias Model =
-    UI.SearchSelect.Component.Model
+    SearchSelect.Model
 
 
 init :
@@ -30,17 +30,18 @@ init :
     }
     -> Model
 init props =
-    UI.SearchSelect.Component.init
+    SearchSelect.init
         { id = props.id
         , selected = props.selected
         , api = getRome
         , label = "Métier recherché"
         , searchPlaceholder = "Rechercher un métier ou un code ROME"
         , defaultOption = "Projet en construction"
+        , mode = SearchSelect.Classic
         }
 
 
-getRome : UI.SearchSelect.Component.SearchApi
+getRome : SearchSelect.SearchApi
 getRome { search, callbackMsg } =
     let
         query =
@@ -81,7 +82,7 @@ getRome { search, callbackMsg } =
 
 getSelected : Model -> Maybe Rome
 getSelected =
-    UI.SearchSelect.Component.getSelected
+    SearchSelect.getSelected
 
 
 
@@ -89,12 +90,12 @@ getSelected =
 
 
 type alias Msg =
-    UI.SearchSelect.Component.Msg
+    SearchSelect.Msg
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
-    UI.SearchSelect.Component.update msg model
+    SearchSelect.update msg model
 
 
 
@@ -103,4 +104,4 @@ update msg model =
 
 view : Model -> Html.Html Msg
 view model =
-    UI.SearchSelect.Component.view model
+    SearchSelect.view model
