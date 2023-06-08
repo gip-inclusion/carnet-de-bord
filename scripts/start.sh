@@ -3,7 +3,7 @@
 startInWindow() {
 	tmux \
 		new-window "docker compose up ; read" \; \
-		rename-window "App" \; \
+		rename-window "App - CdB" \; \
 		split-window "make start-app ; read" \; \
 		split-window "echo 'Waiting for docker' ; sleep 10 ; make hasura-console ; read" \; \
 		split-window "make start-backend"\; \
