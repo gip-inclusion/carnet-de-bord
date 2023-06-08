@@ -4,27 +4,20 @@ module Diagnostic.AllSituations exposing
     , syncWithPE
     )
 
-import CdbGQL.InputObject exposing (buildNotebook_situation_bool_exp, buildUuid_comparison_exp)
+import Api
 import CdbGQL.Mutation
-import CdbGQL.Object
-import CdbGQL.Object.Account as GqlAccount
-import CdbGQL.Object.Notebook_situation as GqlSituation
-import CdbGQL.Object.Orientation_manager as GqlOrientationManager
-import CdbGQL.Object.Professional as GqlProfessional
-import CdbGQL.Object.Ref_situation as GqlRefSituation
-import CdbGQL.Object.Structure as GqlStructure
 import CdbGQL.Object.UpdateNotebookSituationsOutput as Output
-import CdbGQL.Query
 import CdbGQL.Scalar
 import Date exposing (Date)
 import DebugView.Graphql exposing (graphqlErrorToString)
-import Domain.Account exposing (Account, OrientationManager, Professional)
-import Domain.Structure exposing (Structure)
+import Diagnostic.Situations.Mutation
+import Diagnostic.Situations.Query exposing (Response)
+import Domain.Account exposing (Account)
 import Extra.Date
 import Graphql.Http
-import Graphql.Operation exposing (RootMutation, RootQuery)
+import Graphql.Operation exposing (RootMutation)
 import Graphql.OptionalArgument exposing (OptionalArgument(..))
-import Graphql.SelectionSet as SelectionSet exposing (SelectionSet, nonNullOrFail)
+import Graphql.SelectionSet exposing (SelectionSet, nonNullOrFail)
 
 
 
@@ -33,17 +26,24 @@ import Graphql.SelectionSet as SelectionSet exposing (SelectionSet, nonNullOrFai
 
 syncWithPE : String -> (Result String Bool -> msg) -> Cmd msg
 syncWithPE notebookId responseMsg =
-    syncSelector notebookId
-        |> Graphql.Http.mutationRequest "/graphql"
-        |> Graphql.Http.send (Result.mapError graphqlErrorToString >> responseMsg)
+    Api.mutation (Diagnostic.Situations.Mutation.mutation { id = Api.Uuid notebookId })
+        { headers = []
+        , url = "/graphql"
+        , timeout = Nothing
+        , tracker = Nothing
+        }
+        |> Cmd.map
+            (Result.mapError Debug.toString
+                >> Result.map extractDataHasBeenUpdated
+                >> responseMsg
+            )
 
 
-syncSelector : String -> SelectionSet Bool RootMutation
-syncSelector notebookId =
-    CdbGQL.Mutation.update_notebook_situations
-        { notebookId = CdbGQL.Scalar.Uuid notebookId }
-        Output.data_has_been_updated
-        |> nonNullOrFail
+extractDataHasBeenUpdated : { update_notebook_situations : Maybe { data_has_been_updated : Bool } } -> Bool
+extractDataHasBeenUpdated response =
+    response.update_notebook_situations
+        |> Maybe.map (\a -> a.data_has_been_updated)
+        |> Maybe.withDefault False
 
 
 
@@ -54,101 +54,51 @@ type alias PersonalSituation =
     { theme : String
     , description : String
     , createdAt : Date
-    , creator : Maybe Account
+    , creator : Maybe Diagnostic.Situations.Query.Creator
     }
 
 
 fetchByNotebookId : String -> (Result String (List PersonalSituation) -> msg) -> Cmd msg
 fetchByNotebookId notebookId responseMsg =
-    selectSituationsBy notebookId
-        |> Graphql.Http.queryRequest "/graphql"
-        |> Graphql.Http.send (Result.mapError graphqlErrorToString >> responseMsg)
+    Api.query
+        (Diagnostic.Situations.Query.query { id = Api.Uuid notebookId })
+        { headers = []
+        , url = "/graphql"
+        , timeout = Nothing
+        , tracker = Nothing
+        }
+        |> Cmd.map
+            (\result ->
+                responseMsg <|
+                    case result of
+                        Err error ->
+                            Err <| Debug.toString error
+
+                        Ok response ->
+                            Ok <| toCore response
+            )
 
 
-selectSituationsBy : String -> SelectionSet (List PersonalSituation) RootQuery
-selectSituationsBy notebookId =
-    CdbGQL.Query.notebook_situation (findBy notebookId) situationSelector
+toCore : Response -> List PersonalSituation
+toCore response =
+    response.notebook_situation |> List.map toSingleCore
 
 
-
--- filter
-
-
-findBy :
-    String
-    -> CdbGQL.Query.NotebookSituationOptionalArguments
-    -> CdbGQL.Query.NotebookSituationOptionalArguments
-findBy id args =
-    { args | where_ = Present (notebookIdEq id) }
-
-
-notebookIdEq : String -> CdbGQL.InputObject.Notebook_situation_bool_exp
-notebookIdEq notebookId =
-    buildNotebook_situation_bool_exp
-        (\args ->
-            { args | notebookId = Present (eq notebookId) }
-        )
-
-
-eq : String -> CdbGQL.InputObject.Uuid_comparison_exp
-eq notebookId =
-    buildUuid_comparison_exp
-        (\comparison ->
-            { comparison | eq_ = Present <| CdbGQL.Scalar.Uuid notebookId }
-        )
-
-
-
--- selectors
-
-
-situationSelector : SelectionSet PersonalSituation CdbGQL.Object.Notebook_situation
-situationSelector =
-    SelectionSet.succeed PersonalSituation
-        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.theme |> nonNullOrFail)
-        |> SelectionSet.with (GqlSituation.refSituation GqlRefSituation.description |> nonNullOrFail)
-        |> SelectionSet.with createdAtSelector
-        |> SelectionSet.with creatorSelector
-
-
-createdAtSelector : SelectionSet Date CdbGQL.Object.Notebook_situation
-createdAtSelector =
-    GqlSituation.createdAt |> SelectionSet.mapOrFail Extra.Date.timestampzToDate
-
-
-creatorSelector : SelectionSet (Maybe Account) CdbGQL.Object.Notebook_situation
-creatorSelector =
-    GqlSituation.creator accountSelector
-
-
-accountSelector : SelectionSet Account CdbGQL.Object.Account
-accountSelector =
-    SelectionSet.succeed Account
-        |> SelectionSet.with (GqlAccount.professional professionalSelector)
-        |> SelectionSet.with (GqlAccount.orientation_manager orientationManagerSelector)
-
-
-orientationManagerSelector : SelectionSet OrientationManager CdbGQL.Object.Orientation_manager
-orientationManagerSelector =
-    SelectionSet.succeed OrientationManager
-        |> SelectionSet.with (SelectionSet.withDefault "" GqlOrientationManager.firstname)
-        |> SelectionSet.with (SelectionSet.withDefault "" GqlOrientationManager.lastname)
-
-
-professionalSelector : SelectionSet Professional CdbGQL.Object.Professional
-professionalSelector =
-    SelectionSet.succeed Professional
-        |> SelectionSet.with GqlProfessional.firstname
-        |> SelectionSet.with GqlProfessional.lastname
-        |> SelectionSet.with (GqlProfessional.structure structureSelector |> SelectionSet.map Just)
-
-
-structureSelector : SelectionSet Structure CdbGQL.Object.Structure
-structureSelector =
-    SelectionSet.succeed Structure
-        |> SelectionSet.with (GqlStructure.name |> SelectionSet.map citextToString)
-
-
-citextToString : CdbGQL.Scalar.Citext -> String
-citextToString (CdbGQL.Scalar.Citext raw) =
-    raw
+toSingleCore : Diagnostic.Situations.Query.Notebook_situation -> PersonalSituation
+toSingleCore apiSituation =
+    { theme =
+        apiSituation.refSituation
+            |> Maybe.map .theme
+            |> Maybe.withDefault ""
+    , description =
+        apiSituation.refSituation
+            |> Maybe.map .description
+            |> Maybe.withDefault ""
+    , createdAt =
+        apiSituation.createdAt
+            |> (\(Api.Timestamptz raw) ->
+                    Extra.Date.parseTimestamp raw
+                        |> Result.withDefault (Date.fromRataDie 0)
+               )
+    , creator = apiSituation.creator
+    }

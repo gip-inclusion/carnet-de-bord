@@ -1,4 +1,4 @@
-module Extra.Date exposing (print, timestampzToDate)
+module Extra.Date exposing (parseTimestamp, print, timestampzToDate)
 
 import CdbGQL.Scalar exposing (Timestamptz(..))
 import Date exposing (Date)

@@ -1,0 +1,28 @@
+query ($id: uuid!) {
+  notebook_situation(where: { notebookId: { _eq: $id } }) {
+    creator {
+      orientation_manager {
+        lastname
+        firstname
+      }
+      professional {
+        structure {
+          name
+        }
+        lastname
+        firstname
+      }
+    }
+    createdAt
+    refSituation {
+      description
+      theme
+    }
+  }
+}
+
+mutation ($id: uuid!) {
+  update_notebook_situations(notebookId: $id) {
+    data_has_been_updated
+  }
+}

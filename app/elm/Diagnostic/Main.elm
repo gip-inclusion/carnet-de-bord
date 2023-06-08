@@ -17,11 +17,13 @@ module Diagnostic.Main exposing
     , workSituationDateFormat
     )
 
+import Api
 import Browser
 import Date exposing (Date, fromIsoString)
 import DateFormat
 import Decimal
 import Diagnostic.AllSituations as AllSituations exposing (PersonalSituation)
+import Diagnostic.Situations.Query
 import Domain.Account exposing (Account)
 import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
@@ -279,6 +281,24 @@ update msg model =
 
 
 -- VIEW
+
+
+formatAccount2 : Maybe Diagnostic.Situations.Query.Creator -> String
+formatAccount2 account =
+    account
+        |> Maybe.map
+            (\creator ->
+                case ( creator.professional, creator.orientation_manager ) of
+                    ( Just p, _ ) ->
+                        p.firstname ++ " " ++ p.lastname ++ (" (" ++ (p.structure.name |> (\(Api.Citext raw) -> raw)) ++ ")")
+
+                    ( _, Just o ) ->
+                        (o.firstname |> Maybe.withDefault "") ++ " " ++ (o.lastname |> Maybe.withDefault "")
+
+                    _ ->
+                        ""
+            )
+        |> Maybe.withDefault ""
 
 
 formatAccount : Maybe Account -> String
@@ -610,7 +630,7 @@ personalSituationView { personalSituations, refreshSituationState } =
                                                     , Html.td [ class "pr-8 py-3" ]
                                                         [ Html.text (Extra.Date.print situation.createdAt) ]
                                                     , Html.td [ class "py-3" ]
-                                                        [ situation.creator |> formatAccount |> Html.text ]
+                                                        [ situation.creator |> formatAccount2 |> Html.text ]
                                                     ]
                                             )
                                 )
