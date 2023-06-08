@@ -1,0 +1,20 @@
+query latestNPSAnswers {
+  nps_rating(order_by: { created_at_posix_ms: desc }, limit: 1) {
+    created_at_posix_ms
+  }
+  nps_rating_dismissal(order_by: { dismissed_at_posix_ms: desc }, limit: 1) {
+    dismissed_at_posix_ms
+  }
+}
+
+mutation createNpsRating($score: Int!) {
+  create_nps_rating(score: $score) {
+    void
+  }
+}
+
+mutation dismissNPS {
+  insert_nps_rating_dismissal_one(object: {}) {
+    id
+  }
+}
