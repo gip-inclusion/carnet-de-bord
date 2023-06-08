@@ -68,7 +68,7 @@ codegen: update-schema
 # Elm
 # -------------------------------------
 
-elm-check: elm-compiles elm-test review-fix
+elm-check: elm-compiles elm-test elm-review-fix
 
 elm-test:
 	cd app && \
@@ -78,7 +78,7 @@ elm-test-watch:
 		npm run test:elm -- --watch
 
 elm-compiles:
-	bash $(ROOT_DIR)/scripts/all-elm-compiles.sh
+	bash ./scripts/all-elm-compiles.sh
 
 elm-review:
 	cd app && \
