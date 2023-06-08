@@ -18,6 +18,11 @@ graphqlToElm({
 				[t]: { type: 'String', decoder: 'Json.Decode.string' },
 			}))
 		),
+		...Object.assign(
+			...['float8'].map((t) => ({
+				[t]: { type: 'Float', decoder: 'Json.Decode.float' },
+			}))
+		),
 	},
 	scalarEncoders: {
 		...Object.assign(
