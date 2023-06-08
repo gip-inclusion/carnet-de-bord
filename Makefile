@@ -65,8 +65,21 @@ codegen: update-schema
 	# Nothing to do, code gen is automatically run on build
 
 # -------------------------------------
-# Review
+# Elm
 # -------------------------------------
+
+elm-check: elm-compiles elm-test review-fix
+
+elm-test:
+	cd app && \
+		npm run test:elm
+elm-test-watch:
+	cd app && \
+		npm run test:elm -- --watch
+
+elm-compiles:
+	bash $(ROOT_DIR)/scripts/all-elm-compiles.sh
+
 elm-review:
 	cd app && \
 		npm run lint:elm-review
