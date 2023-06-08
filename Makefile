@@ -65,7 +65,7 @@ codegen: update-schema
 	# Nothing to do, code gen is automatically run on build
 
 # -------------------------------------
-# Other
+# Review
 # -------------------------------------
 elm-review:
 	cd app && \
