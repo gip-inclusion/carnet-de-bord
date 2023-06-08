@@ -1,0 +1,10 @@
+query ($searchString: String!) {
+  ref_actions: search_ref_action(
+    args: { search: $searchString }
+    order_by: [{ theme: asc_nulls_first }, { description: asc_nulls_first }]
+  ) {
+    id
+    description
+    theme
+  }
+}
