@@ -1,3 +1,10 @@
+# [1.230.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.229.3...v1.230.0) (2023-06-08)
+
+
+### Features
+
+* **Makefile:** ajout de targets elm dans le Makefile ([#1813](https://github.com/gip-inclusion/carnet-de-bord/issues/1813)) ([58a58ee](https://github.com/gip-inclusion/carnet-de-bord/commit/58a58eeb3ae32339bae4654b9b36268ec12bb21c))
+
 ## [1.229.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.229.2...v1.229.3) (2023-06-08)
 
 ## [1.229.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.229.1...v1.229.2) (2023-06-07)
