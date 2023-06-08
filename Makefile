@@ -33,7 +33,7 @@ start-backend:
 start-storybook:
 	cd app && npm run dev:storybook
 
-start:
+start: ## Démarre l'application dans tmux avec 4 panneaux
 	./scripts/start.sh
 
 # --------------------------------------
