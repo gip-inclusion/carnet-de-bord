@@ -63,3 +63,16 @@ update-schema:
 
 codegen: update-schema
 	# Nothing to do, code gen is automatically run on build
+
+# -------------------------------------
+# Other
+# -------------------------------------
+elm-review:
+	cd app && \
+		npm run lint:elm-review
+elm-review-fix:
+	cd app && \
+		npx elm-review --fix
+elm-review-suppress:
+	cd app && \
+		npx elm-review suppress
