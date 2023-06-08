@@ -24,6 +24,7 @@
             pre-commit
             poetry
             gnumake
+            tmux
           ];
         };
       });
