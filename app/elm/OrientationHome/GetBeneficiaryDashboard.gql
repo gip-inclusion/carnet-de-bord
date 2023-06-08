@@ -1,0 +1,106 @@
+query ($id: uuid!) {
+  nbWithReferent: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _and: [
+          { members: { accountId: { _eq: $id }, active: { _eq: true } } }
+          { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
+        ]
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nbWithoutReferent: beneficiary_aggregate(
+    where: {
+      notebook: {
+          members: { accountId: { _eq: $id }, active: { _eq: true } }
+        _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
+
+      }
+      structures: { status: { _eq: "current" } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nbWithoutStructure: beneficiary_aggregate(
+    where: {
+      notebook: {
+        members: { accountId: { _eq: $id }, active: { _eq: true } }
+        _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
+
+      }
+      _not : { structures: { status: { _eq: "current" } } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nbOrientationRequest: beneficiary_aggregate(
+    where: {
+      notebook: { members: { accountId: { _eq: $id }, active: { _eq: true } } }
+      orientationRequest: { decidedAt: { _is_null: true } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nbOtherWithReferent: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } }
+        members: { memberType: { _eq: "referent" }, active: { _eq: true } }
+      }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nbOtherWithoutReferent: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _and: [
+          { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
+          { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
+        ]
+      }
+      structures: { status: { _eq: "current" } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nbOtherWithoutStructure: beneficiary_aggregate(
+    where: {
+      notebook: {
+        _and: [
+          { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
+          { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
+        ]
+      }
+      _not: { structures: { status: { _eq: "current" } } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+  nbOtherOrientationRequest: beneficiary_aggregate(
+    where: {
+      notebook: { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
+      orientationRequest: { decidedAt: { _is_null: true } }
+    }
+  ) {
+    aggregate {
+      count
+    }
+  }
+}
