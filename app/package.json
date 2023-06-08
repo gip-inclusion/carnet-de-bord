@@ -1,6 +1,6 @@
 {
 	"name": "@cdb/app",
-	"version": "1.229.2",
+	"version": "1.229.3",
 	"engines": {
 		"node": "16"
 	},
