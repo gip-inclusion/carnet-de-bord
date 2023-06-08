@@ -33,6 +33,9 @@ start-backend:
 start-storybook:
 	cd app && npm run dev:storybook
 
+start:
+	./scripts/start.sh
+
 # --------------------------------------
 #  Test
 # --------------------------------------
