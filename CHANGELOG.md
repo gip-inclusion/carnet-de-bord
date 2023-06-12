@@ -1,3 +1,10 @@
+## [1.230.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.0...v1.230.1) (2023-06-12)
+
+
+### Bug Fixes
+
+* Correction de typo dans le référentiel objectif ([#1811](https://github.com/gip-inclusion/carnet-de-bord/issues/1811)) ([f7282a4](https://github.com/gip-inclusion/carnet-de-bord/commit/f7282a4431ae79f8cb1d88ac1c6186af5b04d4e2))
+
 # [1.230.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.229.3...v1.230.0) (2023-06-08)
 
 
