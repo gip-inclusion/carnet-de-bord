@@ -39,7 +39,6 @@ tarteaucitron.init({
 	groupServices: false,
 });
 
-tarteaucitron.lang.alertBigPrivacy = 'toto';
 tarteaucitronForceLanguage = 'fr';
 
 tarteaucitron.services.matomocustom = {
