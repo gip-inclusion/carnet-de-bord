@@ -24,17 +24,35 @@ router = APIRouter(
 
 class DenyBeneficiaryOrientationInput(BaseModel):
     orientation_request_id: UUID
+    orientation_request_decision_reason: str | None
 
     def gql_variables(self):
-        return {"id": str(self.orientation_request_id)}
+        variables = {"id": str(self.orientation_request_id)}
+
+        if self.orientation_request_decision_reason is not None:
+            variables.update(
+                {
+                    "orientation_request_decision_reason": (
+                        self.orientation_request_decision_reason
+                    )
+                }
+            )
+
+        return variables
 
 
 deny_orientation_gql = gql(
     """
-mutation DenyOrientationRequest($id: uuid!) {
+mutation DenyOrientationRequest(
+  $id: uuid!,
+  $orientation_request_decision_reason: String) {
 orientation_request: update_orientation_request_by_pk(
     pk_columns: { id: $id }
-    _set: { decidedAt: now, status: "denied" }
+    _set: {
+      decidedAt: now,
+      status: "denied",
+      decisionReason: $orientation_request_decision_reason
+    }
 ) {
     status
     decidedAt
@@ -63,6 +81,7 @@ async def deny_orientation_request(
     Deny an orientation request
     It will send an email to the requester to inform them about the decision
     """
+
     async with gql_client(bearer_token=authorization) as session:
         deny_response = await session.execute(
             deny_orientation_gql,

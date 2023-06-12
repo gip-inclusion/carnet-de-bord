@@ -2,9 +2,9 @@
 	import * as yup from 'yup';
 
 	const validationSchema = yup.object().shape({
-		orientationReason: yup.string().nullable(),
+		denyOrientationReason: yup.string().nullable(),
 	});
-	export type OrientationValidationSchema = yup.InferType<typeof validationSchema>;
+	export type DenyOrientationValidationSchema = yup.InferType<typeof validationSchema>;
 </script>
 
 <script lang="ts">
@@ -18,15 +18,21 @@
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 	export let onBeneficiaryOrientationChanged: () => void;
 
-	export let handleSubmit: (values: OrientationValidationSchema) => Promise<void>;
 	const initialValues = {};
 
 	let displayError = false;
 
-	async function confirmOrientationRequestDenial() {
+	async function confirmOrientationRequestDenial(values: DenyOrientationValidationSchema) {
 		try {
+			console.log(values);
+			console.log({
+				orientation_request_id: orientationRequest.id,
+				orientation_reason: values['denyOrientationReason'],
+			});
+
 			await postApiJson('/v1/orientation_requests/deny', {
 				orientation_request_id: orientationRequest.id,
+				orientation_request_decision_reason: values['denyOrientationReason'],
 			});
 		} catch (err) {
 			captureException(err);
@@ -48,7 +54,7 @@
 		<p class="mb-0">Veuillez saisir le motif de maintien en accompagnement.</p>
 	</div>
 	<Form
-		onSubmit={handleSubmit}
+		onSubmit={confirmOrientationRequestDenial}
 		{initialValues}
 		{validationSchema}
 		let:isSubmitting
@@ -56,7 +62,7 @@
 		let:isValid
 	>
 		<Textarea
-			name="orientationReason"
+			name="denyOrientationReason"
 			placeholder="Saisir le motif de maintien en accompagnement"
 			hint="Le motif de maintien en accompagnement sera disponible pour la personne désignée référente unique."
 			label="Motif de maintien en accompagnement"
@@ -67,10 +73,7 @@
 			<Button outline={true} on:click={cancelOrientationRequestDenial}>Fermer</Button>
 		{:else}
 			<div class="flex flex-row gap-6 mt-12">
-				<Button
-					disabled={(isSubmitted && !isValid) || isSubmitting}
-					on:click={confirmOrientationRequestDenial}>Valider</Button
-				>
+				<Button type="submit" disabled={(isSubmitted && !isValid) || isSubmitting}>Valider</Button>
 				<Button outline on:click={cancelOrientationRequestDenial}>Annuler</Button>
 			</div>
 		{/if}

@@ -136,6 +136,7 @@ update_permissions:
       columns:
         - decided_at
         - decided_orientation_system_id
+        - decision_reason
         - status
       filter: {}
       check: null

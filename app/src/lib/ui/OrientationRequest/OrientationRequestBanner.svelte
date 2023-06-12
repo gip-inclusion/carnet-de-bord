@@ -35,7 +35,10 @@
 	function denyOrientationRequest() {
 		openComponent.open({
 			component: DenyOrientationRequestConfirmation,
-			props: { orientationRequest, onBeneficiaryOrientationChanged },
+			props: {
+				orientationRequest,
+				onBeneficiaryOrientationChanged,
+			},
 		});
 	}
 </script>
