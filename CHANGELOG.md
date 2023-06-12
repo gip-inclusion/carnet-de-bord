@@ -1,3 +1,10 @@
+## [1.230.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.1...v1.230.2) (2023-06-12)
+
+
+### Bug Fixes
+
+* déplacer la popup de consentement aux cookies vers la droite ([#1809](https://github.com/gip-inclusion/carnet-de-bord/issues/1809)) ([18135b2](https://github.com/gip-inclusion/carnet-de-bord/commit/18135b2429bae55a6c5b8e9114fa084420524412))
+
 ## [1.230.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.0...v1.230.1) (2023-06-12)
 
 
