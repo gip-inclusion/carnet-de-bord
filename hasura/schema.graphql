@@ -12792,6 +12792,7 @@ type orientation_request {
   """An object relationship"""
   decidedOrientationSystem: orientation_system
   decidedOrientationSystemId: uuid
+  decisionReason: String
   id: uuid!
   reason: String
 
@@ -12866,6 +12867,7 @@ input orientation_request_bool_exp {
   decidedAt: timestamptz_comparison_exp
   decidedOrientationSystem: orientation_system_bool_exp
   decidedOrientationSystemId: uuid_comparison_exp
+  decisionReason: String_comparison_exp
   id: uuid_comparison_exp
   reason: String_comparison_exp
   requestedOrientationSystem: orientation_system_bool_exp
@@ -12896,6 +12898,7 @@ input orientation_request_insert_input {
   decidedAt: timestamptz
   decidedOrientationSystem: orientation_system_obj_rel_insert_input
   decidedOrientationSystemId: uuid
+  decisionReason: String
   id: uuid
   reason: String
   requestedOrientationSystem: orientation_system_obj_rel_insert_input
@@ -12912,6 +12915,7 @@ type orientation_request_max_fields {
   createdAt: timestamptz
   decidedAt: timestamptz
   decidedOrientationSystemId: uuid
+  decisionReason: String
   id: uuid
   reason: String
   requestedOrientationSystemId: uuid
@@ -12928,6 +12932,7 @@ input orientation_request_max_order_by {
   createdAt: order_by
   decidedAt: order_by
   decidedOrientationSystemId: order_by
+  decisionReason: order_by
   id: order_by
   reason: order_by
   requestedOrientationSystemId: order_by
@@ -12942,6 +12947,7 @@ type orientation_request_min_fields {
   createdAt: timestamptz
   decidedAt: timestamptz
   decidedOrientationSystemId: uuid
+  decisionReason: String
   id: uuid
   reason: String
   requestedOrientationSystemId: uuid
@@ -12958,6 +12964,7 @@ input orientation_request_min_order_by {
   createdAt: order_by
   decidedAt: order_by
   decidedOrientationSystemId: order_by
+  decisionReason: order_by
   id: order_by
   reason: order_by
   requestedOrientationSystemId: order_by
@@ -12994,6 +13001,7 @@ input orientation_request_order_by {
   decidedAt: order_by
   decidedOrientationSystem: orientation_system_order_by
   decidedOrientationSystemId: order_by
+  decisionReason: order_by
   id: order_by
   reason: order_by
   requestedOrientationSystem: orientation_system_order_by
@@ -13026,6 +13034,9 @@ enum orientation_request_select_column {
   decidedOrientationSystemId
 
   """column name"""
+  decisionReason
+
+  """column name"""
   id
 
   """column name"""
@@ -13052,6 +13063,7 @@ input orientation_request_set_input {
   createdAt: timestamptz
   decidedAt: timestamptz
   decidedOrientationSystemId: uuid
+  decisionReason: String
   id: uuid
   reason: String
   requestedOrientationSystemId: uuid
@@ -13077,6 +13089,7 @@ input orientation_request_stream_cursor_value_input {
   createdAt: timestamptz
   decidedAt: timestamptz
   decidedOrientationSystemId: uuid
+  decisionReason: String
   id: uuid
   reason: String
   requestedOrientationSystemId: uuid
@@ -13100,6 +13113,9 @@ enum orientation_request_update_column {
 
   """column name"""
   decidedOrientationSystemId
+
+  """column name"""
+  decisionReason
 
   """column name"""
   id
