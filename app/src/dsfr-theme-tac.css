@@ -243,7 +243,7 @@ body #tarteaucitronRoot div#tarteaucitronAlertBig {
   flex-wrap: wrap;
   justify-content: flex-end;
   bottom: 0;
-  left: 0;
+  right: 0;
   width: 100%;
   padding: 1rem;
   color: var(--g700);
@@ -270,7 +270,7 @@ body #tarteaucitronRoot div#tarteaucitronAlertBig {
    #tarteaucitronRoot #tarteaucitronAlertBig {
     width: 40rem !important;
     bottom: 2.5rem !important;
-    left: 2.5rem !important;
+    right: 2.5rem !important;
     padding: 2rem !important;
     margin: auto;
     top: auto !important;
