@@ -44,6 +44,7 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
         status
         createdAt
         decidedAt
+        decisionReason
         requestedOrientationSystem {
           name
           orientationType
