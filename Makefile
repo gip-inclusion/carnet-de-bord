@@ -62,6 +62,9 @@ test-app: ## Lance les tests de l'app frontend
 # -------------------------------------
 # Other
 # -------------------------------------
+hasura-console: ## Lance la console hasura
+	hasura --project ./hasura/ console
+
 seed-database: ## Ajoute les données de test dans la base de donnée
 	hasura --project ./hasura seed apply --database-name carnet_de_bord
 
