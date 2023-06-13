@@ -19,7 +19,7 @@
             pkg-config
           ];
           packages = with pkgs; [
-            nodejs-16_x
+            nodejs_20
             python311
             pre-commit
             poetry
