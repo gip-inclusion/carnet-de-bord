@@ -1,0 +1,25 @@
+---
+name: Deploy storybook
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - chore/deploy-storybook
+    tags:
+      - '*'
+
+jobs:
+  deploy-storybook:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16.17.0
+      - run: cd app && npm install -g npm@8.15.0
+      - run: cd app && npm ci
+      - name: Deploy storybook to Github Pages
+        run: cd app && npm run deploy-storybook -- --ci --source-branch=chore/deploy-storybook
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
