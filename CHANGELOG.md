@@ -1,3 +1,10 @@
+## [1.230.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.2...v1.230.3) (2023-06-13)
+
+
+### Bug Fixes
+
+* **Makefile:** ajout de hasura-console ([#1817](https://github.com/gip-inclusion/carnet-de-bord/issues/1817)) ([fa8cddf](https://github.com/gip-inclusion/carnet-de-bord/commit/fa8cddf0795c4fa53298cef095c50fbd0e3153ff))
+
 ## [1.230.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.1...v1.230.2) (2023-06-12)
 
 
