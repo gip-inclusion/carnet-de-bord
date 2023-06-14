@@ -46,5 +46,5 @@ Fonctionnalité: Demande de réorientation
 		Quand je clique sur "Voir le motif du maintien d'accompagnement"
 		Alors je vois "Maintien de l'accompagnement"
 		Alors je vois "03/09/2022"
-		Alors je vois "PROFESSIONNEL"
+		Alors je vois "SOCIAL"
 		Alors je vois "Demande d'orientation refusée car l'accompagnateur continue son accompagnement."
