@@ -21,3 +21,4 @@ node_modules
 
 # Node
 /app/src/lib/graphql/_gen/
+storybook-dist
