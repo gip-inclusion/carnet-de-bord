@@ -51,29 +51,32 @@
 				</p>
 			</div>
 			<div>
-				<Dialog
-					label="Voir le motif du maintien d'accompagnement"
-					buttonLabel="Voir le motif du maintien d'accompagnement"
-					showButtons={false}
-					title="Maintien de l'accompagnement"
-					buttonCssClasses="fr-btn--tertiary-no-outline"
-				>
-					<p>
-						Date de la demande de réorientation&nbsp;: <b> {date} </b>
-					</p>
-					<p>
-						Orientation recommandée&nbsp;: <span class="fr-badge fr-badge-sm fr-badge--grey"
-							>{getOrientationSystemLabel(reorientationRequest.decidedOrientationSystem)}
-						</span>
-					</p>
-					<h2 class="fr-h4">Motif du maintien</h2>
-					<div class="bg-gray-100 p-4">
-						<Text
-							value={reorientationRequest.decisionReason}
-							defaultValueClassNames=" italic text-gray"
-						/>
-					</div>
-				</Dialog>
+				{#if reorientationRequest.status === 'denied' && reorientationRequest.decisionReason}
+					<Dialog
+						label="Voir le motif du maintien d'accompagnement"
+						buttonLabel="Voir le motif du maintien d'accompagnement"
+						showButtons={false}
+						title="Maintien de l'accompagnement"
+						buttonCssClasses="fr-btn--tertiary-no-outline"
+					>
+						<p>
+							Date de la demande de réorientation&nbsp;: <b> {date} </b>
+						</p>
+						<p>
+							Orientation recommandée&nbsp;: <span class="fr-badge fr-badge-sm fr-badge--grey"
+								>{getOrientationSystemLabel(reorientationRequest.requestedOrientationSystem)}
+							</span>
+						</p>
+						<h2 class="fr-h4">Motif du maintien</h2>
+						<div class="bg-gray-100 p-4">
+							<Text
+								value={reorientationRequest.decisionReason}
+								defaultValue="non renseigné"
+								defaultValueClassNames=" italic text-gray"
+							/>
+						</div>
+					</Dialog>
+				{/if}
 			</div>
 		</div>
 	</div>
