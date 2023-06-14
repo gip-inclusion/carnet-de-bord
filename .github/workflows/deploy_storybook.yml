@@ -22,6 +22,7 @@ concurrency:
 
 jobs:
   deploy-storybook:
+    name: Deploy storybook
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
