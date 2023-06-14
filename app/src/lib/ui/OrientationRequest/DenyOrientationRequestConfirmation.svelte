@@ -24,15 +24,9 @@
 
 	async function confirmOrientationRequestDenial(values: DenyOrientationValidationSchema) {
 		try {
-			console.log(values);
-			console.log({
-				orientation_request_id: orientationRequest.id,
-				orientation_reason: values['denyOrientationReason'],
-			});
-
 			await postApiJson('/v1/orientation_requests/deny', {
 				orientation_request_id: orientationRequest.id,
-				orientation_request_decision_reason: values['denyOrientationReason'],
+				orientation_request_decision_reason: values.denyOrientationReason,
 			});
 		} catch (err) {
 			captureException(err);
