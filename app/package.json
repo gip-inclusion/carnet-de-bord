@@ -18,7 +18,7 @@
 		"deploy-storybook": "storybook-to-ghpages",
 		"dev:storybook": "storybook dev -p 6006",
 		"build": "vite build",
-		"build-storybook": "storybook build -o storybook-dist && touch ./storybook-dist/.nojekyll",
+		"build-storybook": "storybook build -o storybook-dist",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && npm run codegen:svelte && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "npm run check -- --watch",
