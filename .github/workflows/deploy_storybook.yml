@@ -52,7 +52,7 @@ jobs:
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
         with:
-          path: app/storybook-dist
+          path: app/static/_storybook
 
       - name: Deploy to GitHub Pages
         id: deployment

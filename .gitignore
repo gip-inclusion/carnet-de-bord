@@ -18,7 +18,3 @@ node_modules
 # Direnv
 .direnv
 .envrc
-
-# Node
-/app/src/lib/graphql/_gen/
-storybook-dist
