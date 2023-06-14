@@ -20,6 +20,9 @@ concurrency:
   group: "pages"
   cancel-in-progress: false
 
+env:
+  ENABLE_STORYBOOK: true
+
 jobs:
   deploy-storybook:
     name: Deploy storybook
