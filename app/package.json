@@ -60,7 +60,6 @@
 		"@storybook/addon-a11y": "7.0.7",
 		"@storybook/addon-actions": "7.0.7",
 		"@storybook/addon-essentials": "7.0.7",
-		"@storybook/addon-mdx-gfm": "^7.0.7",
 		"@storybook/html": "7.0.7",
 		"@storybook/html-vite": "^7.0.7",
 		"@sveltejs/adapter-node": "1.2.3",
