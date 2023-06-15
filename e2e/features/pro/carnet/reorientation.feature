@@ -40,3 +40,11 @@ Fonctionnalité: Demande de réorientation
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
 		Quand je clique sur "Voir le motif de l‘orientation"
 		Alors je vois "Pierre Chevalier est sans aucun doute le meilleur référent pour ce bénéficiaire."
+
+	Scénario: Affichage du motif de maintien de l'orientation
+		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Rose"
+		Quand je clique sur "Voir le motif du refus"
+		Alors je vois "Maintien de l'accompagnement"
+		Alors je vois "03/09/2022"
+		Alors je vois "SOCIAL"
+		Alors je vois "Demande d'orientation refusée car l'accompagnateur continue son accompagnement."

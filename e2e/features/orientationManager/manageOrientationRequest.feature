@@ -11,8 +11,9 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Alors je vois "Orientation recommandée : Social"
 		Quand je clique sur "Maintenir l'accompagnement"
 		Alors je vois "Maintenir l'accompagnement" dans le volet
-		Alors je vois "Êtes-vous sûr de vouloir maintenir l'accompagnement ?" dans le volet
-		Quand je clique sur "Oui" dans le volet "Maintenir l'accompagnement"
+		Alors je vois "Veuillez saisir le motif de maintien en accompagnement." dans le volet
+		Alors je renseigne "Parce que !!!" dans le champ "Motif de maintien en accompagnement"
+		Quand je clique sur "Valider" dans le volet "Maintenir l'accompagnement"
 		Alors je ne vois pas "Demande de réorientation envoyée le 01/09/2022"
 		Alors je ne vois pas "Orientation recommandée : Social"
 
@@ -22,7 +23,7 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Alors je vois "Orientation recommandée : Social"
 		Quand je clique sur "Maintenir l'accompagnement"
 		Alors je vois "Maintenir l'accompagnement" dans le volet
-		Alors je vois "Êtes-vous sûr de vouloir maintenir l'accompagnement ?" dans le volet
+		Alors je vois "Veuillez saisir le motif de maintien en accompagnement." dans le volet
 		Quand je clique sur "Annuler" dans le volet "Maintenir l'accompagnement"
 		Alors je vois "Demande de réorientation envoyée le 01/09/2022"
 		Alors je vois "Orientation recommandée : Social"
