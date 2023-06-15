@@ -187,7 +187,7 @@ async def import_beneficiary(
                 row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
-                        error=f"import beneficiary {beneficiary.internal_id}: {error}"
+                        error=f"import beneficiary {beneficiary.external_id}: {error}"
                     )
                 ],
                 valid=False,
@@ -198,7 +198,7 @@ async def import_beneficiary(
                 row=beneficiary.dict(by_alias=True),
                 errors=[
                     CsvFieldError(
-                        error=f"import beneficiary {beneficiary.internal_id}: {error}"
+                        error=f"import beneficiary {beneficiary.external_id}: {error}"
                     )
                 ],
                 valid=False,
@@ -210,7 +210,7 @@ async def import_beneficiary(
                 errors=[
                     CsvFieldError(
                         error=(
-                            f"import beneficiary {beneficiary.internal_id}:"
+                            f"import beneficiary {beneficiary.external_id}:"
                             "erreur inconnue"
                         )
                     )
@@ -238,7 +238,7 @@ def one_matching_beneficiary(
             beneficiary.lastname,
         )
         and matching_beneficiary.date_of_birth == beneficiary.date_of_birth
-        and matching_beneficiary.internal_id == beneficiary.internal_id
+        and matching_beneficiary.external_id == beneficiary.external_id
         and matching_beneficiary.deployment_id == deployment_id
     )
 
@@ -248,7 +248,7 @@ def same_si_id_but_different_user_info(
 ) -> bool:
     matching_beneficiary = records[0]
     return (
-        matching_beneficiary.internal_id == beneficiary.internal_id
+        matching_beneficiary.external_id == beneficiary.external_id
         and matching_beneficiary.deployment_id == deployment_id
         and not (
             is_same_name(

@@ -632,7 +632,7 @@ def structure_id_pe_livry() -> UUID:
 @pytest.mark.asyncio
 async def beneficiary_import_alain_die() -> BeneficiaryImport:
     return BeneficiaryImport(
-        internal_id="1234",
+        external_id="1234",
         firstname="Alain",
         lastname="Die",
         date_of_birth="1980-01-01",

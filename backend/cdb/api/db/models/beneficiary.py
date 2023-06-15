@@ -41,7 +41,7 @@ class Beneficiary(BaseModel):
     deployment: Deployment | None
     created_at: datetime
     updated_at: datetime
-    internal_id: str | None
+    external_id: str | None
     notebook: Notebook | None
     # BRSA users may not have an account
     # (account is created on the first login attempt)
@@ -81,7 +81,7 @@ def is_same_name(firstname1, firstname2, lastname1, lastname2):
 
 
 class BeneficiaryImport(BaseModel):
-    internal_id: str = Field(..., alias="Identifiant dans le SI*")
+    external_id: str = Field(..., alias="Identifiant dans le SI*")
     firstname: str = Field(..., alias="Prénom*")
     lastname: str = Field(..., alias="Nom*")
     date_of_birth: date = Field(..., alias="Date de naissance*")

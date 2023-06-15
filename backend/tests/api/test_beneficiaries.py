@@ -221,7 +221,7 @@ async def test_update_beneficiary_with_different_capitalization_and_spacing(
 
         assert "updated existing beneficiary" in caplog.text
         assert beneficiary_in_db is not None
-        assert beneficiary_in_db.internal_id == sophie_tifour_bad_caps.internal_id
+        assert beneficiary_in_db.external_id == sophie_tifour_bad_caps.external_id
 
 
 async def test_insert_beneficiary_check_all_fields(
@@ -237,7 +237,7 @@ async def test_insert_beneficiary_check_all_fields(
     assert beneficiary_in_db.firstname == harry_covert.firstname
     assert beneficiary_in_db.lastname == harry_covert.lastname
     assert beneficiary_in_db.date_of_birth == harry_covert.date_of_birth
-    assert beneficiary_in_db.internal_id == harry_covert.internal_id
+    assert beneficiary_in_db.external_id == harry_covert.external_id
     assert beneficiary_in_db.place_of_birth == harry_covert.place_of_birth
     assert beneficiary_in_db.mobile_number == harry_covert.mobile_number
     assert beneficiary_in_db.email == harry_covert.email
@@ -592,7 +592,7 @@ class ListOf(BaseModel):
 
 
 sophie_tifour_bad_caps = BeneficiaryImport(
-    internal_id="1234",
+    external_id="1234",
     firstname="SoPhiE",
     lastname="TIFOUR",
     date_of_birth=date(1982, 2, 1),
@@ -600,7 +600,7 @@ sophie_tifour_bad_caps = BeneficiaryImport(
 
 
 harry_covert = BeneficiaryImport(
-    internal_id="123",
+    external_id="123",
     firstname="Harry",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
@@ -627,7 +627,7 @@ harry_covert = BeneficiaryImport(
 )
 
 harry_covert_reimport = BeneficiaryImport(
-    internal_id="123",
+    external_id="123",
     firstname="Harry",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
@@ -654,14 +654,14 @@ harry_covert_reimport = BeneficiaryImport(
 )
 
 harry_covert_phoneless = BeneficiaryImport(
-    internal_id="123",
+    external_id="123",
     firstname="Harry",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
 )
 
 harry_covert_typo = BeneficiaryImport(
-    internal_id="123",
+    external_id="123",
     firstname="Harry,",
     lastname="Covert",
     date_of_birth=date(1985, 7, 23),
@@ -669,7 +669,7 @@ harry_covert_typo = BeneficiaryImport(
 )
 
 harry_covert_with_caps_and_space = BeneficiaryImport(
-    internal_id="123",
+    external_id="123",
     firstname="Harry ",
     lastname="  CoVert",
     date_of_birth=date(1985, 7, 23),
@@ -678,7 +678,7 @@ harry_covert_with_caps_and_space = BeneficiaryImport(
 
 
 betty_bois = BeneficiaryImport(
-    internal_id="1234",
+    external_id="1234",
     firstname="Betty",
     lastname="Bois",
     date_of_birth=date(1970, 9, 15),
