@@ -104,7 +104,7 @@ class TestNotifyAdminStructure:
             == "Nouveaux bénéficiaires sans référent"
         )
         assert mock_send_email.call_args_list[0].kwargs["to"] == "admin@structure.cdb"
-        verify(mock_send_email.call_args_list[0].kwargs["message"])
+        verify(mock_send_email.call_args_list[0].kwargs["message"], extension=".html")
 
     async def test_notify_admin_structures_when_one_beneficiary_without_referent_with_two_admin_structures(  # noqa: E501
         self,
@@ -257,4 +257,4 @@ class TestNotifyAdminStructure:
             == "Nouveaux bénéficiaires sans référent"
         )
         assert mock_send_email.call_args_list[0].kwargs["to"] == "admin@structure.cdb"
-        verify(mock_send_email.call_args_list[0].kwargs["message"])
+        verify(mock_send_email.call_args_list[0].kwargs["message"], extension=".html")
