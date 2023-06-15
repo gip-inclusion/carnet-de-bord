@@ -43,7 +43,7 @@ Fonctionnalité: Demande de réorientation
 
 	Scénario: Affichage du motif de maintien de l'orientation
 		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Rose"
-		Quand je clique sur "Voir le motif du maintien d'accompagnement"
+		Quand je clique sur "Voir le motif du refus"
 		Alors je vois "Maintien de l'accompagnement"
 		Alors je vois "03/09/2022"
 		Alors je vois "SOCIAL"

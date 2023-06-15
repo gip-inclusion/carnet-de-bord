@@ -54,7 +54,7 @@
 				{#if reorientationRequest.status === 'denied' && reorientationRequest.decisionReason}
 					<Dialog
 						label="Voir le motif du maintien d'accompagnement"
-						buttonLabel="Voir le motif du maintien d'accompagnement"
+						buttonLabel="Voir le motif du refus"
 						showButtons={false}
 						title="Maintien de l'accompagnement"
 						buttonCssClasses="fr-btn--tertiary-no-outline"
