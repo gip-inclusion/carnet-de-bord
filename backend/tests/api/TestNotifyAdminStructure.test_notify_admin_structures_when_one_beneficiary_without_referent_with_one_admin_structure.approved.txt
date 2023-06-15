@@ -12,7 +12,7 @@
 			Bonjour,
 		</p>
 
-
+		
 			<p>
 				Ci-dessous, la liste de(s) bénéficiaire(s) orienté(s) vers la structure
 				structure 123 pour lesquels un référent doit être désigné.
@@ -24,15 +24,15 @@
 					<th>Date de naissance</th>
 					<th>Accompagnement</th>
 				</tr>
-
+				
 				<tr>
 					<td>Jay Pasderéférent</td>
 					<td>20/12/1981</td>
 					<td>-</td>
 				</tr>
-
+				
 			</table>
-
+		
 
 			<p>
 			Pour accéder à Carnet de bord, veuillez cliquer sur le lien
