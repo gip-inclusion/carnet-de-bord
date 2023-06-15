@@ -1,3 +1,10 @@
+# [1.231.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.4...v1.231.0) (2023-06-15)
+
+
+### Features
+
+* Ajout de la saisie d'un motif lors du maintien en accompagnement d’un bénéficiaire par un Chargé d'Orientation ([#1819](https://github.com/gip-inclusion/carnet-de-bord/issues/1819)) ([2ada9fb](https://github.com/gip-inclusion/carnet-de-bord/commit/2ada9fbb3d317c5cb1e7d2e3c1c4fe96ba3b80da))
+
 ## [1.230.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.3...v1.230.4) (2023-06-13)
 
 ## [1.230.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.230.2...v1.230.3) (2023-06-13)
