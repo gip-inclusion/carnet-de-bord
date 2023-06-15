@@ -1,9 +1,9 @@
 from unittest import mock
 
 import pytest
+from approvaltests import verify
 from asyncpg.connection import Connection
 from httpx import AsyncClient
-from syrupy.data import Snapshot
 
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
@@ -115,7 +115,6 @@ async def test_add_notebook_member_as_no_referent(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_add_notebook_member_as_referent(
     mock_send_email: mock.Mock,
-    snapshot: Snapshot,
     test_client: AsyncClient,
     notebook_sophie_tifour: Notebook,
     get_professional_paul_camara_jwt: str,
@@ -150,7 +149,7 @@ async def test_add_notebook_member_as_referent(
     assert_member(members, professional_pierre_chevalier, "no_referent", True)
     # Check that an email is sent to former referent
     email_former_referent = mock_send_email.call_args_list[0]
-    assert snapshot == email_former_referent
+    verify(email_former_referent)
 
     structures = await get_structures_for_beneficiary(
         db_connection,

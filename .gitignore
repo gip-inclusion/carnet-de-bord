@@ -6,6 +6,7 @@ output
 # Python
 __pycache__
 *.pyc
+*.received.*
 
 # IDE
 .idea

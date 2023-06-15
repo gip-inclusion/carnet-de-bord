@@ -4,7 +4,7 @@ from typing import List
 from unittest import TestCase
 
 import pytest
-from syrupy.data import Snapshot
+from approvaltests import verify
 
 from cdb.caf_msa.parse_infos_foyer_rsa import (
     CafBeneficiary,
@@ -20,9 +20,7 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
 )
 
 
-async def test_parse_caf_file(
-    flux_mensuel_caf: SpooledTemporaryFile, snapshot: Snapshot
-):
+async def test_parse_caf_file(flux_mensuel_caf: SpooledTemporaryFile):
     parsed = parse_caf_file(flux_mensuel_caf)
     metadata = next(parsed)
 
@@ -37,7 +35,7 @@ async def test_parse_caf_file(
         foyers.append(foyer)
 
     assert len(foyers) == 2
-    assert foyers == snapshot
+    verify(foyers)
 
 
 rsa_right_test_data = [

@@ -1,6 +1,7 @@
 from datetime import date
 from uuid import UUID
 
+from approvaltests import verify
 from asyncpg.connection import Connection
 from gql.client import AsyncClientSession
 
@@ -66,7 +67,6 @@ async def test_update_beneficiary_create_external_data(
     gql_manager_client: AsyncClientSession,
     db_connection: Connection,
     sophie_tifour_beneficiary_id: UUID,
-    snapshot,
 ):
     personne = CdbBeneficiaryInfos(
         right_rsa="rsa_droit_ouvert_et_suspendu",
@@ -97,7 +97,7 @@ async def test_update_beneficiary_create_external_data(
         "cafmsa",
     )
     assert external_data
-    assert external_data.data == snapshot
+    verify(external_data.data)
 
 
 async def test_update_beneficiary_rsa_closure(

@@ -44,7 +44,7 @@ pytest-asyncio = "0.21.0"
 pytest-mock = "^3.7.0"
 pytest-testmon = "2.0.6"
 pytest-watch = "^4.2.0"
-syrupy = "4.0.1"
+approvaltests = "^8.2.5"
 
 [tool.ruff]
 select = [
