@@ -1,6 +1,6 @@
 {
 	"name": "@cdb/app",
-	"version": "1.231.0",
+	"version": "1.231.1",
 	"engines": {
 		"node": "16"
 	},
@@ -149,8 +149,12 @@
 		"@sveltejs/vite-plugin-svelte": "1.0.5"
 	},
 	"type": "module",
-	"graphql" : {
-		"schema": ["../hasura/schema.graphql"],
-		"documents": ["**/*.gql"]
+	"graphql": {
+		"schema": [
+			"../hasura/schema.graphql"
+		],
+		"documents": [
+			"**/*.gql"
+		]
 	}
 }
