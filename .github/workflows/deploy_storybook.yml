@@ -5,9 +5,6 @@ on:
   push:
     tags:
       - v*
-    # TODO remove before merge
-    branches:
-      - chore/deploy-storybook
 
 permissions:
   contents: read
