@@ -2182,9 +2182,9 @@ type beneficiary {
     """filter the rows returned"""
     where: external_data_info_bool_exp
   ): external_data_info_aggregate!
+  externalId: String
   firstname: String!
   id: uuid!
-  internalId: String
   isHomeless: Boolean
   lastname: String!
   mobileNumber: String
@@ -2364,9 +2364,9 @@ input beneficiary_bool_exp {
   email: citext_comparison_exp
   externalDataInfos: external_data_info_bool_exp
   externalDataInfos_aggregate: external_data_info_aggregate_bool_exp
+  externalId: String_comparison_exp
   firstname: String_comparison_exp
   id: uuid_comparison_exp
-  internalId: String_comparison_exp
   isHomeless: Boolean_comparison_exp
   lastname: String_comparison_exp
   mobileNumber: String_comparison_exp
@@ -2397,9 +2397,9 @@ unique or primary key constraints on table "beneficiary"
 """
 enum beneficiary_constraint {
   """
-  unique or primary key constraint on columns "deployment_id", "internal_id"
+  unique or primary key constraint on columns "external_id", "deployment_id"
   """
-  beneficiary_deployment_id_internal_id_key
+  beneficiary_deployment_id_external_id_key
 
   """
   unique or primary key constraint on columns "nir"
@@ -2432,9 +2432,9 @@ input beneficiary_insert_input {
   deploymentId: uuid
   email: citext
   externalDataInfos: external_data_info_arr_rel_insert_input
+  externalId: String
   firstname: String
   id: uuid
-  internalId: String
   isHomeless: Boolean
   lastname: String
   mobileNumber: String
@@ -2468,9 +2468,9 @@ type beneficiary_max_fields {
   dateOfBirth: date
   deploymentId: uuid
   email: citext
+  externalId: String
   firstname: String
   id: uuid
-  internalId: String
   lastname: String
   mobileNumber: String
   nir: String
@@ -2495,9 +2495,9 @@ input beneficiary_max_order_by {
   dateOfBirth: order_by
   deploymentId: order_by
   email: order_by
+  externalId: order_by
   firstname: order_by
   id: order_by
-  internalId: order_by
   lastname: order_by
   mobileNumber: order_by
   nir: order_by
@@ -2520,9 +2520,9 @@ type beneficiary_min_fields {
   dateOfBirth: date
   deploymentId: uuid
   email: citext
+  externalId: String
   firstname: String
   id: uuid
-  internalId: String
   lastname: String
   mobileNumber: String
   nir: String
@@ -2547,9 +2547,9 @@ input beneficiary_min_order_by {
   dateOfBirth: order_by
   deploymentId: order_by
   email: order_by
+  externalId: order_by
   firstname: order_by
   id: order_by
-  internalId: order_by
   lastname: order_by
   mobileNumber: order_by
   nir: order_by
@@ -2605,9 +2605,9 @@ input beneficiary_order_by {
   deploymentId: order_by
   email: order_by
   externalDataInfos_aggregate: external_data_info_aggregate_order_by
+  externalId: order_by
   firstname: order_by
   id: order_by
-  internalId: order_by
   isHomeless: order_by
   lastname: order_by
   mobileNumber: order_by
@@ -2665,13 +2665,13 @@ enum beneficiary_select_column {
   email
 
   """column name"""
+  externalId
+
+  """column name"""
   firstname
 
   """column name"""
   id
-
-  """column name"""
-  internalId
 
   """column name"""
   isHomeless
@@ -2777,9 +2777,9 @@ input beneficiary_set_input {
   dateOfBirth: date
   deploymentId: uuid
   email: citext
+  externalId: String
   firstname: String
   id: uuid
-  internalId: String
   isHomeless: Boolean
   lastname: String
   mobileNumber: String
@@ -2820,9 +2820,9 @@ input beneficiary_stream_cursor_value_input {
   dateOfBirth: date
   deploymentId: uuid
   email: citext
+  externalId: String
   firstname: String
   id: uuid
-  internalId: String
   isHomeless: Boolean
   lastname: String
   mobileNumber: String
@@ -3209,13 +3209,13 @@ enum beneficiary_update_column {
   email
 
   """column name"""
+  externalId
+
+  """column name"""
   firstname
 
   """column name"""
   id
-
-  """column name"""
-  internalId
 
   """column name"""
   isHomeless

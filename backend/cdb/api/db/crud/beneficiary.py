@@ -71,13 +71,15 @@ async def get_beneficiaries_like(
             lower(trim(firstname)) = lower(trim($1))
             AND lower(trim(lastname)) = lower(trim($2))
             AND date_of_birth = $3 AND deployment_id = $5
-        ) OR (internal_id = $4 AND deployment_id = $5)
+        ) OR (external_id = $4 AND deployment_id = $5)
+        OR (nir = $6)
         """,
         beneficiary.firstname,
         beneficiary.lastname,
         beneficiary.date_of_birth,
-        beneficiary.internal_id,
+        beneficiary.external_id,
         deployment_id,
+        beneficiary.nir,
     )
     return [
         Beneficiary.parse_obj(beneficiary) for beneficiary in matching_beneficiaries
@@ -138,7 +140,7 @@ async def insert_beneficiary(
     beneficiary: BeneficiaryImport,
     deployment_id,
 ) -> UUID | None:
-    mandatory_keys = ["firstname", "lastname", "internal_id", "date_of_birth"]
+    mandatory_keys = ["firstname", "lastname", "external_id", "date_of_birth"]
     keys_to_insert = mandatory_keys + beneficiary.get_beneficiary_editable_keys()
     sql_values = beneficiary.get_values_for_keys(keys_to_insert)
     keys_to_insert.append("deployment_id")
@@ -415,7 +417,7 @@ def get_insert_beneficiary_mutation(
                     "firstname": notebook.firstname,
                     "lastname": notebook.lastname,
                     "dateOfBirth": notebook.date_of_birth,
-                    "internalId": notebook.external_id,
+                    "externalId": notebook.external_id,
                     "mobileNumber": notebook.mobile_number,
                     "email": notebook.email,
                     "address1": notebook.address1,

@@ -11,8 +11,8 @@ configuration:
       custom_name: dateOfBirth
     deployment_id:
       custom_name: deploymentId
-    internal_id:
-      custom_name: internalId
+    external_id:
+      custom_name: externalId
     is_homeless:
       custom_name: isHomeless
     mobile_number:
@@ -48,7 +48,7 @@ configuration:
     created_at: createdAt
     date_of_birth: dateOfBirth
     deployment_id: deploymentId
-    internal_id: internalId
+    external_id: externalId
     is_homeless: isHomeless
     mobile_number: mobileNumber
     pe_number: peNumber
@@ -132,7 +132,7 @@ insert_permissions:
         - email
         - firstname
         - id
-        - internal_id
+        - external_id
         - lastname
         - mobile_number
         - pe_number
@@ -160,7 +160,7 @@ insert_permissions:
         - email
         - firstname
         - id
-        - internal_id
+        - external_id
         - lastname
         - mobile_number
         - nir
@@ -186,7 +186,7 @@ select_permissions:
         - email
         - firstname
         - id
-        - internal_id
+        - external_id
         - is_homeless
         - lastname
         - mobile_number
