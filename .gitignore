@@ -11,7 +11,7 @@ __pycache__
 # IDE
 .idea
 .vscode
-.testmondata
+.testmondata*
 app/.eslintcache
 e2e/.eslintcache
 node_modules
