@@ -15,7 +15,7 @@ repos:
         exclude: (excalidraw|CdbGQL|schema\.graphql)
       - id: mixed-line-ending
       - id: trailing-whitespace
-        exclude: \.approved\..*
+        exclude: (\.approved\.|__snapshots__)
       - id: no-commit-to-branch
         name: "don't commit to main"
         args: [--branch, main]
