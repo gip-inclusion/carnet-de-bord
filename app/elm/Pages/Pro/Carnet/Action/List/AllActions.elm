@@ -1,17 +1,16 @@
 module Pages.Pro.Carnet.Action.List.AllActions exposing (Action, Creator, fetchAllByTargetId, sortByStatus)
 
-import Date
-import Extra.Date
 import Extra.GraphQL
 import GraphQL.Enum.Action_status_enum
 import Pages.Pro.Carnet.Action.List.GetActionsByTargetId
+import Time
 
 
 type alias Action =
     { id : String
     , description : String
     , status : GraphQL.Enum.Action_status_enum.Action_status_enum
-    , startingAt : Date.Date
+    , startingAt : Time.Posix
     , creator : Creator
     }
 
@@ -35,8 +34,6 @@ fetchAllByTargetId { id, responseMsg } =
                         , status = action.status
                         , startingAt =
                             action.startingAt
-                                |> Extra.Date.parseTimestamp
-                                |> Result.withDefault (Date.fromRataDie 0)
                         , creator =
                             case ( action.creator.orientation_manager, action.creator.professional ) of
                                 ( Just om, _ ) ->

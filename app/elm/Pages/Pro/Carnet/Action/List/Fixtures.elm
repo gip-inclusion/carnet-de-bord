@@ -1,6 +1,5 @@
 module Pages.Pro.Carnet.Action.List.Fixtures exposing (action1, action2)
 
-import Date
 import GraphQL.Enum.Action_status_enum
 import Pages.Pro.Carnet.Action.List.AllActions
 import Time
@@ -16,7 +15,7 @@ action1 =
         }
     , status =
         GraphQL.Enum.Action_status_enum.Done
-    , startingAt = Date.fromPosix Time.utc <| Time.millisToPosix 0
+    , startingAt = Time.millisToPosix 0
     }
 
 
@@ -30,5 +29,5 @@ action2 =
         }
     , status =
         GraphQL.Enum.Action_status_enum.Abandonned
-    , startingAt = Date.fromPosix Time.utc <| Time.millisToPosix 1682002405000
+    , startingAt = Time.millisToPosix 1682002405000
     }

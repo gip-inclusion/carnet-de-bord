@@ -1,6 +1,7 @@
 port module Pages.Pro.Carnet.Action.List.Page exposing (Model, Msg(..), init, subscriptions, update, view)
 
 import BetaGouv.DSFR.Alert
+import DateFormat
 import Effect
 import Extra.Date
 import GraphQL.Enum.Action_status_enum
@@ -226,5 +227,5 @@ viewAction action =
         , Html.td
             [ Attr.class "!text-right"
             ]
-            [ Html.text <| Extra.Date.print action.startingAt ]
+            [ Html.text <| DateFormat.format "dd/MM/yyyy" Extra.Date.parisZone action.startingAt ]
         ]

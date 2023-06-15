@@ -1,9 +1,17 @@
 query latestNPSAnswers {
-  nps_rating(order_by: { created_at_posix_ms: desc }, limit: 1) {
-    created_at_posix_ms
+  latestRating: nps_rating_aggregate {
+    aggregate {
+      max {
+        createdAt
+      }
+    }
   }
-  nps_rating_dismissal(order_by: { dismissed_at_posix_ms: desc }, limit: 1) {
-    dismissed_at_posix_ms
+  latestDismissal: nps_rating_dismissal_aggregate {
+    aggregate {
+      max {
+        dismissedAt
+      }
+    }
   }
 }
 

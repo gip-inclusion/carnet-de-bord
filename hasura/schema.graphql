@@ -5065,23 +5065,6 @@ input external_source_updates {
   where: external_source_bool_exp!
 }
 
-scalar float8
-
-"""
-Boolean expression to compare columns of type "float8". All fields are combined with logical 'AND'.
-"""
-input float8_comparison_exp {
-  _eq: float8
-  _gt: float8
-  _gte: float8
-  _in: [float8!]
-  _is_null: Boolean
-  _lt: float8
-  _lte: float8
-  _neq: float8
-  _nin: [float8!]
-}
-
 input get_beneficiaries_from_nir_args {
   search_nir: String
 }
@@ -11978,9 +11961,6 @@ input notebook_updates {
 type nps_rating {
   accountId: uuid!
   createdAt: timestamptz!
-
-  """The created_at field, in Time.Posix format, for Elm."""
-  created_at_posix_ms: float8
   id: uuid!
   score: Int!
 }
@@ -12024,7 +12004,6 @@ input nps_rating_bool_exp {
   _or: [nps_rating_bool_exp!]
   accountId: uuid_comparison_exp
   createdAt: timestamptz_comparison_exp
-  created_at_posix_ms: float8_comparison_exp
   id: uuid_comparison_exp
   score: Int_comparison_exp
 }
@@ -12043,9 +12022,6 @@ enum nps_rating_constraint {
 type nps_rating_dismissal {
   accountId: uuid!
   dismissedAt: timestamptz!
-
-  """The dismissed_at field, in Time.Posix format, for Elm."""
-  dismissed_at_posix_ms: float8
   id: uuid!
 }
 
@@ -12075,7 +12051,6 @@ input nps_rating_dismissal_bool_exp {
   _or: [nps_rating_dismissal_bool_exp!]
   accountId: uuid_comparison_exp
   dismissedAt: timestamptz_comparison_exp
-  dismissed_at_posix_ms: float8_comparison_exp
   id: uuid_comparison_exp
 }
 
@@ -12136,7 +12111,6 @@ input nps_rating_dismissal_on_conflict {
 input nps_rating_dismissal_order_by {
   accountId: order_by
   dismissedAt: order_by
-  dismissed_at_posix_ms: order_by
   id: order_by
 }
 
@@ -12265,7 +12239,6 @@ input nps_rating_on_conflict {
 input nps_rating_order_by {
   accountId: order_by
   createdAt: order_by
-  created_at_posix_ms: order_by
   id: order_by
   score: order_by
 }

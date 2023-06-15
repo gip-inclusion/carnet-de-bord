@@ -37,8 +37,8 @@ init _ =
 
 
 type alias LastRatingDates =
-    { created_at_posix_ms : Maybe Float
-    , dismissed_at_posix_ms : Maybe Float
+    { createdAt : Maybe Time.Posix
+    , dismissedAt : Maybe Time.Posix
     }
 
 
@@ -68,8 +68,14 @@ getLastRatingDates =
         NPSRating.GraphQL.latestNPSAnswers
         (Result.map
             (\data ->
-                { created_at_posix_ms = data.nps_rating |> List.head |> Maybe.andThen .created_at_posix_ms
-                , dismissed_at_posix_ms = data.nps_rating_dismissal |> List.head |> Maybe.andThen .dismissed_at_posix_ms
+                { createdAt =
+                    data.latestRating.aggregate
+                        |> Maybe.andThen .max
+                        |> Maybe.andThen .createdAt
+                , dismissedAt =
+                    data.latestDismissal.aggregate
+                        |> Maybe.andThen .max
+                        |> Maybe.andThen .dismissedAt
                 }
             )
             >> LastRatingDatesFetched
@@ -95,17 +101,17 @@ dismiss =
         (Result.map (always ()) >> RatingSent)
 
 
-lastAnsweredAt : LastRatingDates -> Maybe Float
+lastAnsweredAt : LastRatingDates -> Maybe Time.Posix
 lastAnsweredAt lastRatingDates =
-    case ( lastRatingDates.created_at_posix_ms, lastRatingDates.dismissed_at_posix_ms ) of
+    case ( lastRatingDates.createdAt, lastRatingDates.dismissedAt ) of
         ( Just createdAt, Just dismissedAt ) ->
-            Just (max createdAt dismissedAt)
+            Just (Time.millisToPosix (max (Time.posixToMillis createdAt) (Time.posixToMillis dismissedAt)))
 
         ( Just createdAt, _ ) ->
             Just createdAt
 
         _ ->
-            lastRatingDates.dismissed_at_posix_ms
+            lastRatingDates.dismissedAt
 
 
 shouldShow : Time.Posix -> LastRatingDates -> Bool
@@ -123,7 +129,7 @@ shouldShow time lastRatingDates =
                 twoWeeksMs =
                     1000 * 60 * 60 * 24 * 14
             in
-            (timeInt - round answeredAt) > twoWeeksMs
+            (timeInt - Time.posixToMillis answeredAt) > twoWeeksMs
 
         Nothing ->
             True
