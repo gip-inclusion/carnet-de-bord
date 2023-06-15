@@ -1,7 +1,6 @@
 from datetime import date
 from uuid import UUID
 
-from approvaltests import verify
 from asyncpg.connection import Connection
 from dask.dataframe.core import DataFrame
 from pytest import LogCaptureFixture
@@ -20,6 +19,7 @@ from cdb.api.db.models.beneficiary import (
 )
 from cdb.cdb_csv import pe
 from cdb.cdb_csv.models.csv_row import PrincipalCsvRow
+from tests.utils.approvaltests import verify_python
 
 
 async def test_get_beneficiary_with_professional_projects(
@@ -246,7 +246,7 @@ async def test_get_beneficiaries_without_referent(
         )
         == 2
     )
-    verify(beneficiaries_without_referent)
+    verify_python(beneficiaries_without_referent)
 
 
 async def test_get_beneficiaries_without_referent_and_deleted_admin_structure(
@@ -278,4 +278,4 @@ async def test_get_beneficiaries_without_referent_and_deleted_admin_structure(
         )
         == 1
     )
-    verify(beneficiaries_without_referent)
+    verify_python(beneficiaries_without_referent)

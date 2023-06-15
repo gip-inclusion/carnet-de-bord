@@ -2,7 +2,6 @@ from unittest import mock
 from uuid import UUID
 
 import pytest
-from approvaltests import verify
 from asyncpg.connection import Connection
 from httpx import AsyncClient
 
@@ -15,6 +14,7 @@ from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
+from tests.utils.approvaltests import verify
 from tests.utils.assert_helpers import assert_member, assert_structure
 
 pytestmark = pytest.mark.graphql

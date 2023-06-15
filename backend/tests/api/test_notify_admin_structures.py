@@ -1,11 +1,11 @@
 from datetime import date
 from unittest import mock
 
-from approvaltests import verify
 from httpx import AsyncClient
 
 from cdb.api.db.models.beneficiary import BeneficiaryWithAdminStructureEmail
 from cdb.api.db.models.orientation_system import OrientationSystem
+from tests.utils.approvaltests import verify
 
 
 @mock.patch("cdb.api.core.emails.send_mail")

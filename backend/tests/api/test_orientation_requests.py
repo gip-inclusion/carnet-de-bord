@@ -1,11 +1,11 @@
 from unittest import mock
 
 import pytest
-from approvaltests import verify
 from httpx import AsyncClient
 
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.professional import Professional
+from tests.utils.approvaltests import verify
 
 pytestmark = pytest.mark.graphql
 

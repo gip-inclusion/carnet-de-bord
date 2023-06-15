@@ -1,7 +1,6 @@
 from datetime import date
 from uuid import UUID
 
-from approvaltests import verify
 from asyncpg.connection import Connection
 from gql.client import AsyncClientSession
 
@@ -12,6 +11,7 @@ from cdb.api.db.graphql.beneficiary import (
 )
 from cdb.api.db.models.external_data import ExternalData
 from cdb.caf_msa.parse_infos_foyer_rsa import CdbBeneficiaryInfos
+from tests.utils.approvaltests import verify
 
 
 async def test_get_beneficiary_by_nir(

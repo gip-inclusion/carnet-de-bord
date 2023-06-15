@@ -4,7 +4,6 @@ from typing import List
 from unittest import TestCase
 
 import pytest
-from approvaltests import verify
 
 from cdb.caf_msa.parse_infos_foyer_rsa import (
     CafBeneficiary,
@@ -18,6 +17,7 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
     transform_right_rsa,
     transform_suspension_reason,
 )
+from tests.utils.approvaltests import verify
 
 
 async def test_parse_caf_file(flux_mensuel_caf: SpooledTemporaryFile):
