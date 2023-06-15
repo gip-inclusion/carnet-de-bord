@@ -1,11 +1,11 @@
-module OrientationHome.Main exposing (Flags, GqlQuery, Model, Msg(..), OrientationHomeInfos, OrientationInfosVariables, main)
+module OrientationHome.Main exposing (Flags, Model, Msg(..), OrientationHomeInfos, main)
 
 import Browser
+import Extra.GraphQL
 import Html exposing (Html, a, div, h2, h3, p, text)
 import Html.Attributes exposing (class, href, title)
 import Http
-import Json.Decode as Decode
-import Json.Encode as Json
+import OrientationHome.GetBeneficiaryDashboard
 
 
 type alias Flags =
@@ -32,235 +32,29 @@ type alias OrientationHomeInfos =
     }
 
 
-type alias OrientationInfosVariables =
-    { id : String
-    }
-
-
-type alias GqlQuery =
-    { query : String
-    , variables : OrientationInfosVariables
-    }
-
-
-orientationHomeInfoDecoder : Decode.Decoder OrientationHomeInfos
-orientationHomeInfoDecoder =
-    let
-        beneficiaryWithReferentParser =
-            Decode.field "data"
-                (Decode.field "beneficiaryWitReferentCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-
-        beneficiaryWithoutReferentParser =
-            Decode.field "data"
-                (Decode.field "beneficiaryWithoutReferentCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-
-        beneficiaryWithoutStructureParser =
-            Decode.field "data"
-                (Decode.field "beneficiaryWithoutStructureCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-
-        orientationRequestParser =
-            Decode.field "data"
-                (Decode.field "orientationRequestCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-
-        otherBeneficiaryWithReferentParser =
-            Decode.field "data"
-                (Decode.field "otherBeneficiaryWithReferentCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-
-        otherBeneficiaryWithoutReferentParser =
-            Decode.field "data"
-                (Decode.field "otherBeneficiaryWithoutReferentCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-
-        otherBeneficiaryWithoutStructureParser =
-            Decode.field "data"
-                (Decode.field "otherBeneficiaryWithoutStructureCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-
-        otherOrientationRequestParser =
-            Decode.field "data"
-                (Decode.field "otherOrientationRequestCount"
-                    (Decode.field "aggregate"
-                        (Decode.field "count" Decode.int)
-                    )
-                )
-    in
-    Decode.map8 OrientationHomeInfos
-        beneficiaryWithReferentParser
-        beneficiaryWithoutReferentParser
-        beneficiaryWithoutStructureParser
-        orientationRequestParser
-        otherBeneficiaryWithReferentParser
-        otherBeneficiaryWithoutReferentParser
-        otherBeneficiaryWithoutStructureParser
-        otherOrientationRequestParser
-
-
-encodeGqlQuery : GqlQuery -> Json.Value
-encodeGqlQuery record =
-    Json.object
-        [ ( "query", Json.string <| record.query )
-        , ( "variables", encodeGqlQueryVariables <| record.variables )
-        ]
-
-
-encodeGqlQueryVariables : OrientationInfosVariables -> Json.Value
-encodeGqlQueryVariables record =
-    Json.object
-        [ ( "id", Json.string <| record.id )
-        ]
+extractCount : { a | aggregate : Maybe { b | count : number } } -> number
+extractCount =
+    .aggregate >> Maybe.map .count >> Maybe.withDefault 0
 
 
 getOrientationHomeInfos : String -> (Result Http.Error OrientationHomeInfos -> msg) -> Cmd msg
 getOrientationHomeInfos accountId toMsg =
-    let
-        gqlQuery =
-            { query = """
-query GetBeneficiaryDashboard($id: uuid!) {
-  beneficiaryWitReferentCount: beneficiary_aggregate(
-    where: {
-      notebook: {
-        _and: [
-          { members: { accountId: { _eq: $id }, active: { _eq: true } } }
-          { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
-        ]
-      }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-  beneficiaryWithoutReferentCount: beneficiary_aggregate(
-    where: {
-      notebook: {
-          members: { accountId: { _eq: $id }, active: { _eq: true } }
-        _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
-
-      }
-      structures: { status: { _eq: "current" } }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-  beneficiaryWithoutStructureCount: beneficiary_aggregate(
-    where: {
-      notebook: {
-        members: { accountId: { _eq: $id }, active: { _eq: true } }
-        _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } }
-
-      }
-      _not : { structures: { status: { _eq: "current" } } }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-  orientationRequestCount: beneficiary_aggregate(
-    where: {
-      notebook: { members: { accountId: { _eq: $id }, active: { _eq: true } } }
-      orientationRequest: { decidedAt: { _is_null: true } }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-  otherBeneficiaryWithReferentCount: beneficiary_aggregate(
-    where: {
-      notebook: {
-        _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } }
-        members: { memberType: { _eq: "referent" }, active: { _eq: true } }
-      }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-  otherBeneficiaryWithoutReferentCount: beneficiary_aggregate(
-    where: {
-      notebook: {
-        _and: [
-          { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
-          { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
-        ]
-      }
-      structures: { status: { _eq: "current" } }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-  otherBeneficiaryWithoutStructureCount: beneficiary_aggregate(
-    where: {
-      notebook: {
-        _and: [
-          { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
-          { _not: { members: { memberType: { _eq: "referent" }, active: { _eq: true } } } }
-        ]
-      }
-      _not: { structures: { status: { _eq: "current" } } }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-  otherOrientationRequestCount: beneficiary_aggregate(
-    where: {
-      notebook: { _not: { members: { accountId: { _eq: $id }, active: { _eq: true } } } }
-      orientationRequest: { decidedAt: { _is_null: true } }
-    }
-  ) {
-    aggregate {
-      count
-    }
-  }
-}
-
-      """
-            , variables = { id = accountId }
-            }
-    in
-    Http.request
-        { method = "POST"
-        , headers = [ ]
-        , url = "/graphql"
-        , body = Http.jsonBody (encodeGqlQuery gqlQuery)
-        , expect = Http.expectJson toMsg orientationHomeInfoDecoder
-        , timeout = Nothing
-        , tracker = Nothing
-        }
+    Extra.GraphQL.postOperation
+        (OrientationHome.GetBeneficiaryDashboard.query { id = accountId })
+        (Result.map
+            (\data ->
+                { nbWithReferent = extractCount data.nbWithReferent
+                , nbWithoutReferent = extractCount data.nbWithoutReferent
+                , nbWithoutStructure = extractCount data.nbWithoutStructure
+                , nbOrientationRequest = extractCount data.nbOrientationRequest
+                , nbOtherWithReferent = extractCount data.nbOtherWithReferent
+                , nbOtherWithoutReferent = extractCount data.nbOtherWithoutReferent
+                , nbOtherWithoutStructure = extractCount data.nbOtherWithoutStructure
+                , nbOtherOrientationRequest = extractCount data.nbOtherOrientationRequest
+                }
+            )
+            >> toMsg
+        )
 
 
 main : Program Flags Model Msg

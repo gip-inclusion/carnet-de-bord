@@ -1,46 +1,53 @@
 module Pages.Pro.Carnet.Action.List.ActionStatusSelect exposing (select)
 
-import CdbGQL.Enum.Action_status_enum as Gql exposing (Action_status_enum)
+import GraphQL.Enum.Action_status_enum
 import Html exposing (Html)
-import List.Extra
 import UI.Select.View
 
 
+statusList : ( GraphQL.Enum.Action_status_enum.Action_status_enum, List GraphQL.Enum.Action_status_enum.Action_status_enum )
+statusList =
+    ( GraphQL.Enum.Action_status_enum.Abandonned
+    , [ GraphQL.Enum.Action_status_enum.Canceled
+      , GraphQL.Enum.Action_status_enum.Done
+      , GraphQL.Enum.Action_status_enum.In_progress
+      , GraphQL.Enum.Action_status_enum.Planned
+      , GraphQL.Enum.Action_status_enum.Standby
+      ]
+    )
 
 
-select : { id : String, onSelect : Action_status_enum -> msg, value : Action_status_enum } -> Html msg
+select : { id : String, onSelect : GraphQL.Enum.Action_status_enum.Action_status_enum -> msg, value : GraphQL.Enum.Action_status_enum.Action_status_enum } -> Html msg
 select props =
     UI.Select.View.view
         { id = "select-action-" ++ props.id
         , label = { text = "Statut", visible = False }
-        , options =
-            Gql.list
-                |> List.Extra.uncons
-                |> Maybe.withDefault ( Gql.In_progress, [] )
+        , options = statusList
         , onSelect = props.onSelect
-        , parse = Gql.fromString
+        , parse = GraphQL.Enum.Action_status_enum.fromString
         , print = toFrenchLabel
-        , toValue = Gql.toString
+        , toValue = GraphQL.Enum.Action_status_enum.toString
         , selected = Just props.value
         }
 
-toFrenchLabel : Action_status_enum -> String
+
+toFrenchLabel : GraphQL.Enum.Action_status_enum.Action_status_enum -> String
 toFrenchLabel status =
     case status of
-        Gql.In_progress ->
+        GraphQL.Enum.Action_status_enum.In_progress ->
             "En cours"
 
-        Gql.Abandonned ->
+        GraphQL.Enum.Action_status_enum.Abandonned ->
             "Abandonnée par le bénéficiaire"
 
-        Gql.Done ->
+        GraphQL.Enum.Action_status_enum.Done ->
             "Realisée"
 
-        Gql.Canceled ->
+        GraphQL.Enum.Action_status_enum.Canceled ->
             "Annulée par la structure"
 
-        Gql.Planned ->
+        GraphQL.Enum.Action_status_enum.Planned ->
             "En projet"
 
-        Gql.Standby ->
+        GraphQL.Enum.Action_status_enum.Standby ->
             "En attente"

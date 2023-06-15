@@ -25,12 +25,11 @@ import Domain.PoleEmploi.GeneralData exposing (GeneralData)
 import Domain.ProfessionalProject exposing (ContractType, ProfessionalProject, Rome, WorkingTime, contractTypeStringToType, contractTypeToLabel, workingTimeStringToType, workingTimeToLabel)
 import Domain.ProfessionalSituation exposing (ProfessionalSituation, educationLevelKeyToString, workSituationKeyToString)
 import Domain.Theme exposing (themeKeyStringToString)
+import Extra.Date
 import Html
 import Html.Attributes exposing (class, rowspan)
 import Iso8601
 import List.Extra
-import Time
-import TimeZone
 
 
 type alias Flags =
@@ -262,11 +261,6 @@ dateFormat =
     "dd/MM/yyyy"
 
 
-parisZone : Time.Zone
-parisZone =
-    TimeZone.europe__paris ()
-
-
 unfilled : GenderType -> String
 unfilled genderType =
     "Non renseigné"
@@ -435,7 +429,7 @@ formatLastUpdateInformation professionalProject =
                 " par " ++ formattedUpdater
 
         updatedAt =
-            case professionalProject.updatedAt |> Maybe.map (DateFormat.format "dd/MM/yyyy" parisZone) of
+            case professionalProject.updatedAt |> Maybe.map (DateFormat.format "dd/MM/yyyy" Extra.Date.parisZone) of
                 Nothing ->
                     ""
 

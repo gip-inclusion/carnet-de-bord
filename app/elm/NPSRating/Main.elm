@@ -1,12 +1,13 @@
 module NPSRating.Main exposing (FailableModel, LastRatingDates, Model, Msg(..), main)
 
 import Browser
+import Extra.GraphQL
 import Html
 import Html.Attributes exposing (attribute, checked, class, disabled, for, id, method, name, required, title, type_, value)
 import Html.Events exposing (onCheck, onClick, preventDefaultOn)
 import Http
 import Json.Decode as Decode
-import Json.Encode as Json
+import NPSRating.GraphQL
 import Task
 import Time
 
@@ -36,8 +37,8 @@ init _ =
 
 
 type alias LastRatingDates =
-    { created_at_posix_ms : Maybe Float
-    , dismissed_at_posix_ms : Maybe Float
+    { createdAt : Maybe Time.Posix
+    , dismissedAt : Maybe Time.Posix
     }
 
 
@@ -63,76 +64,31 @@ main =
 
 getLastRatingDates : Cmd Msg
 getLastRatingDates =
-    let
-        query =
-            """
-            query latestNPSAnswers {
-              nps_rating(order_by: {created_at_posix_ms: desc}, limit: 1) {
-                created_at_posix_ms
-              }
-              nps_rating_dismissal(order_by: {dismissed_at_posix_ms: desc}, limit: 1) {
-                dismissed_at_posix_ms
-              }
-            }
-            """
-    in
-    Http.request
-        { method = "POST"
-        , url = "/graphql"
-        , headers = []
-        , body =
-            Http.jsonBody (Json.object [ ( "query", Json.string query ) ])
-        , expect = Http.expectJson LastRatingDatesFetched lastRatingDatesDecoder
-        , timeout = Nothing
-        , tracker = Nothing
-        }
-
-
-lastRatingDatesDecoder : Decode.Decoder LastRatingDates
-lastRatingDatesDecoder =
-    Decode.map2 LastRatingDates
-        (Decode.at
-            [ "data", "nps_rating" ]
-            (Decode.field "created_at_posix_ms" Decode.float
-                |> Decode.index 0
-                |> Decode.maybe
+    Extra.GraphQL.postOperation
+        NPSRating.GraphQL.latestNPSAnswers
+        (Result.map
+            (\data ->
+                { createdAt =
+                    data.latestRating.aggregate
+                        |> Maybe.andThen .max
+                        |> Maybe.andThen .createdAt
+                , dismissedAt =
+                    data.latestDismissal.aggregate
+                        |> Maybe.andThen .max
+                        |> Maybe.andThen .dismissedAt
+                }
             )
+            >> LastRatingDatesFetched
         )
-        (Decode.at
-            [ "data", "nps_rating_dismissal" ]
-            (Decode.field "dismissed_at_posix_ms" Decode.float
-                |> Decode.index 0
-                |> Decode.maybe
-            )
-        )
-
-
-createNpsRatingMutation : Int -> String
-createNpsRatingMutation score =
-    String.concat [ """
-    mutation CreateNpsRating {
-      create_nps_rating(score: """, String.fromInt score, """) {
-        void
-      }
-    }
-    """ ]
 
 
 submitRating : Model -> Cmd Msg
 submitRating model =
     case model.nps of
         Just score ->
-            Http.request
-                { method = "POST"
-                , url = "/graphql"
-                , headers = []
-                , body =
-                    Http.jsonBody
-                        (Json.object [ ( "query", Json.string (createNpsRatingMutation score) ) ])
-                , expect = Http.expectWhatever RatingSent
-                , timeout = Nothing
-                , tracker = Nothing
-                }
+            Extra.GraphQL.postOperation
+                (NPSRating.GraphQL.createNpsRating { score = score })
+                (Result.map (always ()) >> RatingSent)
 
         Nothing ->
             Cmd.none
@@ -140,36 +96,22 @@ submitRating model =
 
 dismiss : Cmd Msg
 dismiss =
-    let
-        query =
-            """
-            mutation dismissNPS {
-              insert_nps_rating_dismissal_one(object: {}) { id }
-            }
-            """
-    in
-    Http.request
-        { method = "POST"
-        , url = "/graphql"
-        , headers = []
-        , body = Http.jsonBody (Json.object [ ( "query", Json.string query ) ])
-        , expect = Http.expectWhatever RatingSent
-        , timeout = Nothing
-        , tracker = Nothing
-        }
+    Extra.GraphQL.postOperation
+        NPSRating.GraphQL.dismissNPS
+        (Result.map (always ()) >> RatingSent)
 
 
-lastAnsweredAt : LastRatingDates -> Maybe Float
+lastAnsweredAt : LastRatingDates -> Maybe Time.Posix
 lastAnsweredAt lastRatingDates =
-    case ( lastRatingDates.created_at_posix_ms, lastRatingDates.dismissed_at_posix_ms ) of
+    case ( lastRatingDates.createdAt, lastRatingDates.dismissedAt ) of
         ( Just createdAt, Just dismissedAt ) ->
-            Just (max createdAt dismissedAt)
+            Just (Time.millisToPosix (max (Time.posixToMillis createdAt) (Time.posixToMillis dismissedAt)))
 
         ( Just createdAt, _ ) ->
             Just createdAt
 
         _ ->
-            lastRatingDates.dismissed_at_posix_ms
+            lastRatingDates.dismissedAt
 
 
 shouldShow : Time.Posix -> LastRatingDates -> Bool
@@ -187,7 +129,7 @@ shouldShow time lastRatingDates =
                 twoWeeksMs =
                     1000 * 60 * 60 * 24 * 14
             in
-            (timeInt - round answeredAt) > twoWeeksMs
+            (timeInt - Time.posixToMillis answeredAt) > twoWeeksMs
 
         Nothing ->
             True

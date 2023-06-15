@@ -1,0 +1,6 @@
+query ($searchString: String!) {
+  rome_codes: search_rome_codes(args: { search: $searchString }, limit: 50) {
+    id
+    label
+  }
+}

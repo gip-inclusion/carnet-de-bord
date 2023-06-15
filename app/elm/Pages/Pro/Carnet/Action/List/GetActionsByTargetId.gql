@@ -1,0 +1,20 @@
+query ($targetId: uuid!) {
+  target: notebook_target_by_pk(id: $targetId) {
+    actions(order_by: { startingAt: desc }) {
+      id
+      action
+      status
+      startingAt
+      creator {
+        orientation_manager {
+          firstname
+          lastname
+        }
+        professional {
+          firstname
+          lastname
+        }
+      }
+    }
+  }
+}

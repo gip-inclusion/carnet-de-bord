@@ -1,11 +1,10 @@
 port module Pages.Pro.Carnet.Action.List.Page exposing (Model, Msg(..), init, subscriptions, update, view)
 
 import BetaGouv.DSFR.Alert
-import CdbGQL.Enum.Action_status_enum as ActionStatus
-import CdbGQL.Scalar
+import DateFormat
 import Effect
-import Extra.CdbGQL
 import Extra.Date
+import GraphQL.Enum.Action_status_enum
 import Html
 import Html.Attributes as Attr
 import Pages.Pro.Carnet.Action.List.ActionStatusSelect
@@ -69,7 +68,7 @@ init { actions, actionSearchApi, theme, targetId } =
 
 type Msg
     = Refreshed (List Action)
-    | UpdateStatus CdbGQL.Scalar.Uuid ActionStatus.Action_status_enum
+    | UpdateStatus String GraphQL.Enum.Action_status_enum.Action_status_enum
     | StatusUpdateFailed
     | AddFormMsg AddForm.Msg
     | DiscardStatusUpdateFailed
@@ -93,8 +92,8 @@ update msg model =
                 , statusUpdateFailed = False
               }
             , updateStatus
-                { actionId = Extra.CdbGQL.printUuid id
-                , status = ActionStatus.toString status
+                { actionId = id
+                , status = GraphQL.Enum.Action_status_enum.toString status
                 }
             )
 
@@ -222,11 +221,11 @@ viewAction action =
             [ Pages.Pro.Carnet.Action.List.ActionStatusSelect.select
                 { onSelect = UpdateStatus action.id
                 , value = action.status
-                , id = action.id |> Extra.CdbGQL.printUuid
+                , id = action.id
                 }
             ]
         , Html.td
             [ Attr.class "!text-right"
             ]
-            [ Html.text <| Extra.Date.print action.startingAt ]
+            [ Html.text <| DateFormat.format "dd/MM/yyyy" Extra.Date.parisZone action.startingAt ]
         ]
