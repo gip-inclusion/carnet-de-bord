@@ -58,7 +58,7 @@ getSelected =
 
 apiSearch : String -> SearchSelect.SearchApi
 apiSearch theme { search, callbackMsg } =
-    Extra.GraphQL.postOperationSimple
+    Extra.GraphQL.postOperation
         (Pages.Pro.Carnet.Action.List.SearchRefAction.query { searchString = search })
         (Result.map
             (.ref_actions

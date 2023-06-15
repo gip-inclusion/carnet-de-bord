@@ -1,4 +1,4 @@
-module Extra.GraphQL exposing (postOperationSimple)
+module Extra.GraphQL exposing (postOperation)
 
 import GraphQL.Errors
 import GraphQL.Operation
@@ -6,8 +6,8 @@ import GraphQL.Response
 import Http
 
 
-postOperation : GraphQL.Operation.Operation any GraphQL.Errors.Errors data -> (Result Http.Error (GraphQL.Response.Response GraphQL.Errors.Errors data) -> msg) -> Cmd msg
-postOperation operation msg =
+internalPostOperation : GraphQL.Operation.Operation any GraphQL.Errors.Errors data -> (Result Http.Error (GraphQL.Response.Response GraphQL.Errors.Errors data) -> msg) -> Cmd msg
+internalPostOperation operation msg =
     Http.post
         { url = "/graphql"
         , body = Http.jsonBody (GraphQL.Operation.encode operation)
@@ -15,9 +15,9 @@ postOperation operation msg =
         }
 
 
-postOperationSimple : GraphQL.Operation.Operation any GraphQL.Errors.Errors data -> (Result Http.Error data -> msg) -> Cmd msg
-postOperationSimple operation msg =
-    postOperation operation
+postOperation : GraphQL.Operation.Operation any GraphQL.Errors.Errors data -> (Result Http.Error data -> msg) -> Cmd msg
+postOperation operation msg =
+    internalPostOperation operation
         (msg
             << Result.andThen
                 (\response ->
@@ -25,7 +25,7 @@ postOperationSimple operation msg =
                         GraphQL.Response.Data data ->
                             Ok data
 
-                        _ ->
+                        GraphQL.Response.Errors _ _ ->
                             Err (Http.BadBody "bad graphql response")
                 )
         )

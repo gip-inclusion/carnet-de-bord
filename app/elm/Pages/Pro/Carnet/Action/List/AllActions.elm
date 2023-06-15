@@ -22,7 +22,7 @@ type alias Creator =
 
 fetchAllByTargetId : { id : String, responseMsg : Result String (List Action) -> msg } -> Cmd msg
 fetchAllByTargetId { id, responseMsg } =
-    Extra.GraphQL.postOperationSimple
+    Extra.GraphQL.postOperation
         (Pages.Pro.Carnet.Action.List.GetActionsByTargetId.query { targetId = id })
         (Result.map
             (.target

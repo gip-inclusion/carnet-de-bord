@@ -35,7 +35,7 @@ init props =
 
 getRome : SearchSelect.SearchApi
 getRome { search, callbackMsg } =
-    Extra.GraphQL.postOperationSimple
+    Extra.GraphQL.postOperation
         (DiagnosticEdit.SearchRomes.query { searchString = search })
         (Result.map .rome_codes >> callbackMsg)
 
