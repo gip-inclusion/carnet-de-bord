@@ -26,8 +26,6 @@ const client = createClient({
 	url: getGraphqlAPI(),
 });
 
-const Matomo = new MatomoTracker(env.PUBLIC_MATOMO_SITE_ID, `${env.PUBLIC_MATOMO_URL}/matomo.php`);
-
 /**
  * Endpoint that will be triggerd by an Hasura Scheduled Event
  * @see https://hasura.io/docs/latest/graphql/core/scheduled-triggers/create-cron-trigger.html
@@ -119,6 +117,11 @@ export const POST: RequestHandler = async ({ request }) => {
 				value: nbNotebookModifiedSince30d.aggregate.count,
 			},
 		];
+
+		const Matomo = new MatomoTracker(
+			env.PUBLIC_MATOMO_SITE_ID,
+			`${env.PUBLIC_MATOMO_URL}/matomo.php`
+		);
 		for (const { label, value } of stats) {
 			Matomo.track({
 				url: `${getAppUrl()}/export_metadata`,

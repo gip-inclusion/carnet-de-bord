@@ -1,4 +1,11 @@
 # Guide de développement
+
+## Composants d'interface et storybook
+
+Les composants d'interface (UI) sont rassemblés au sein d'un storybook permettant de visualiser et naviguer au sein du design system.
+Le storybook est publié à chaque nouvelle version (tag) de l'application, à l'adresse suivante : https://gip-inclusion.github.io/carnet-de-bord.
+
+
 ## Docker
 
 Les fichiers `docker-compose*.yaml` sont nommés pour faciliter le démarrage et l'arrêt des environnement de développement ou de test en local.
