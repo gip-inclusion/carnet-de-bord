@@ -1,3 +1,10 @@
+# [1.233.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.232.0...v1.233.0) (2023-06-19)
+
+
+### Features
+
+* Permettre l'ajout d'actions en double ([#1836](https://github.com/gip-inclusion/carnet-de-bord/issues/1836)) ([64d97ce](https://github.com/gip-inclusion/carnet-de-bord/commit/64d97cea106aa70bb7faf483ea321c7dec288578))
+
 # [1.232.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.231.6...v1.232.0) (2023-06-19)
 
 
