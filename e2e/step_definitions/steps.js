@@ -181,6 +181,10 @@ Quand("j'attends que les suggestions apparaissent", () => {
 	I.waitForElement("//ul[@role='listbox']", 3);
 });
 
+Quand('je clique sur la suggestion {string}', (suggestion) => {
+	I.click(locate("//ul[@role='listbox']//li").withText(suggestion));
+});
+
 Quand("j'attends que les résultats de recherche apparaissent", () => {
 	I.waitForElement("[aria-label^='Résultats de recherche']", 10);
 });

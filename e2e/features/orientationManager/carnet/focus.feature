@@ -33,7 +33,7 @@ Scénario: Ajout d'une action
 	Alors je vois "Aucune action entreprise pour le moment." dans le volet
 	Quand je clique sur "Sélectionner une action"
 	Quand je renseigne "Atelier cv" dans le champ "Rechercher une action"
-	Quand je clique sur le texte "Atelier CV"
+	Quand je clique sur la suggestion "Atelier CV"
 	Quand je renseigne la date "30/05/2023" dans le champ "Date de début"
 	Quand je clique sur "Ajouter"
 	Alors je vois "Atelier CV" dans le tableau "Actions en cours"
@@ -50,7 +50,7 @@ Scénario: Ajout d'une action en double
 	Alors je vois "Aucune action entreprise pour le moment." dans le volet
 	Quand je clique sur "Sélectionner une action"
 	Quand je renseigne "Atelier cv" dans le champ "Rechercher une action"
-	Quand je clique sur le texte "Atelier CV"
+	Quand je clique sur la suggestion "Atelier CV"
 	Quand je renseigne la date "30/05/2023" dans le champ "Date de début"
 	Quand je clique sur "Ajouter"
 	Alors je vois "Atelier CV" dans le tableau "Actions en cours"
@@ -62,7 +62,7 @@ Scénario: Ajout d'une action en double
 	Alors j'attends que le texte "Action" apparaisse
 	Quand je clique sur "Sélectionner une action"
 	Quand je renseigne "Atelier cv" dans le champ "Rechercher une action"
-	Quand je clique sur le texte "Atelier CV"
+	Quand je clique sur la suggestion "Atelier CV"
 	Quand je renseigne la date "30/05/2023" dans le champ "Date de début"
 	Quand je clique sur "Ajouter"
 	Alors je vois "Atelier CV" dans le tableau "Actions en cours"
