@@ -77,8 +77,10 @@ init { targetId, theme, actionSearchApi } =
       , submitFailed = False
       , targetId = targetId
       }
-    , actionCommand |> Effect.fromCmd |> Effect.map ActionMsg
-      -- handle batch here
+    , Effect.batch
+        [ actionCommand |> Effect.fromCmd |> Effect.map ActionMsg
+        , Effect.now GotTime
+        ]
     )
 
 
@@ -149,7 +151,7 @@ update msg model =
             ( { model | submitFailed = False }, Effect.none )
 
         GotTime time ->
-            ( { model | startingAt = time |> Date.fromPosix Time.utc |> Date.format "YYYY-MM-DD" }, Effect.none )
+            ( { model | startingAt = time |> Date.fromPosix Time.utc |> Date.format "YYYY-MM-dd" }, Effect.none )
 
 
 

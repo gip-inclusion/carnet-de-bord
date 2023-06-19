@@ -9,11 +9,14 @@ import Extra.Test.SearchSelect
 import Html.Attributes as Attr
 import Pages.Pro.Carnet.Action.List.AddForm as AddForm
 import ProgramTest
+import SimulatedEffect.Cmd
+import SimulatedEffect.Task
+import SimulatedEffect.Time
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector exposing (text)
-import UI.SearchSelect.SearchSelect as SearchSelect
 import UI.SearchSelect.Fixtures
+import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 suite : Test
@@ -156,8 +159,20 @@ startForm =
         , update = AddForm.update
         , view = AddForm.view
         }
+        |> ProgramTest.withSimulatedEffects simulateEffects
         |> ProgramTest.start
             { targetId = "targetId"
             , actionSearchApi = UI.SearchSelect.Fixtures.fakeSearchApi
             , theme = "a theme"
             }
+        |> ProgramTest.advanceTime 100
+
+
+simulateEffects : Effect AddForm.Msg -> ProgramTest.SimulatedEffect AddForm.Msg
+simulateEffects effect =
+    case effect of
+        Effect.Atomic (Effect.Now msg) ->
+            SimulatedEffect.Time.now |> SimulatedEffect.Task.perform msg
+
+        _ ->
+            SimulatedEffect.Cmd.none
