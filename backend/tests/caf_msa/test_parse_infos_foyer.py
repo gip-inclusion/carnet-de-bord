@@ -30,12 +30,11 @@ async def test_parse_caf_file(flux_mensuel_caf: SpooledTemporaryFile):
 
     foyers: List[CafMsaInfosFoyer] = []
     for foyer in parsed:
-        print(foyer)
         assert isinstance(foyer, CafMsaInfosFoyer)
         foyers.append(foyer)
 
     assert len(foyers) == 2
-    verify_as_json(foyers)
+    verify_as_json([foyer.json() for foyer in foyers])
 
 
 rsa_right_test_data = [

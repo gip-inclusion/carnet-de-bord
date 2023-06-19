@@ -1,34 +1,4 @@
 [
-    {
-        "beneficiaries": [
-            {
-                "nir": "2820251108030",
-                "soumis_droit_et_devoir": true
-            },
-            {
-                "nir": "1770393050005",
-                "soumis_droit_et_devoir": false
-            }
-        ],
-        "date_cloture_rsa": "2021-11-30",
-        "etat_droit_rsa": "5",
-        "matricule": "205599000000000",
-        "motif_cloture_rsa": "PCG",
-        "motif_suspension_versement_rsa": null,
-        "sans_domicile_fixe": "0"
-    },
-    {
-        "beneficiaries": [
-            {
-                "nir": "2730799404078",
-                "soumis_droit_et_devoir": true
-            }
-        ],
-        "date_cloture_rsa": null,
-        "etat_droit_rsa": "4",
-        "matricule": "208956400000000",
-        "motif_cloture_rsa": null,
-        "motif_suspension_versement_rsa": "06",
-        "sans_domicile_fixe": "0"
-    }
+    "{\"matricule\": \"205599000000000\", \"etat_droit_rsa\": \"5\", \"beneficiaries\": [{\"nir\": \"2820251108030\", \"soumis_droit_et_devoir\": true}, {\"nir\": \"1770393050005\", \"soumis_droit_et_devoir\": false}], \"motif_suspension_versement_rsa\": null, \"motif_cloture_rsa\": \"PCG\", \"date_cloture_rsa\": \"2021-11-30\", \"sans_domicile_fixe\": \"0\"}",
+    "{\"matricule\": \"208956400000000\", \"etat_droit_rsa\": \"4\", \"beneficiaries\": [{\"nir\": \"2730799404078\", \"soumis_droit_et_devoir\": true}], \"motif_suspension_versement_rsa\": \"06\", \"motif_cloture_rsa\": null, \"date_cloture_rsa\": null, \"sans_domicile_fixe\": \"0\"}"
 ]

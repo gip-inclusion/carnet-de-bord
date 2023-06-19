@@ -7,7 +7,6 @@ from zoneinfo import ZoneInfo
 import httpx
 import pytest
 import respx
-from syrupy.data import Snapshot
 
 from cdb.pe.models.agence import Agence
 from cdb.pe.models.beneficiary import Beneficiary
@@ -18,6 +17,7 @@ from tests.mocks.pole_emploi_diagnostic import (
     PE_API_CONTRAINTES_INDIVIDUS_RESULT_OK_MOCK,
     PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK,
 )
+from tests.utils.approvaltests import verify_as_json
 
 
 def create_api_client() -> PoleEmploiApiClient:
@@ -104,7 +104,7 @@ async def test_recherche_recherche_usagers():
 
 
 @respx.mock
-async def test_get_contraintes(snapshot: Snapshot):
+async def test_get_contraintes():
     api_client = create_api_client()
     respx.get(
         api_client.contraintes_url(
@@ -119,5 +119,4 @@ async def test_get_contraintes(snapshot: Snapshot):
     contraintes: List[Contrainte] = await api_client.get_contraintes(
         "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
     )
-
-    assert snapshot == contraintes
+    verify_as_json([contrainte.json() for contrainte in contraintes])

@@ -3,14 +3,11 @@ from unittest import mock
 from urllib.parse import quote
 from uuid import UUID
 
-import approvaltests
 import httpx
 import pytest
 import respx
-from approvaltests import Options
 from asyncpg import Connection, Record
 from gql import gql
-from syrupy.data import Snapshot
 
 from cdb.api.core.settings import Settings, settings
 from cdb.api.db.crud.external_data import (
@@ -28,6 +25,7 @@ from cdb.api.db.models.notebook import Notebook
 from tests.mocks.pole_emploi_diagnostic import (
     PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK,
 )
+from tests.utils.approvaltests import verify_as_json
 
 pytestmark = pytest.mark.graphql
 
@@ -215,7 +213,6 @@ async def test_saves_the_new_contraintes_into_external_data(
     sophie_tifour_add_only_contraintes: dict,
     db_connection: Connection,
     pe_settings,
-    snapshot: Snapshot,
 ):
     mock_pe_api(
         pe_settings, beneficiary_sophie_tifour, sophie_tifour_add_only_contraintes
@@ -229,11 +226,13 @@ async def test_saves_the_new_contraintes_into_external_data(
     record: Record = await get_last_saved_external_data(
         beneficiary_sophie_tifour.id, ExternalSource.PE_IO, db_connection
     )
-    assert snapshot == {
-        "data": record["data"],
-        "source": record["source"],
-        "hash": record["hash"],
-    }
+    verify_as_json(
+        {
+            "data": record["data"],
+            "source": record["source"],
+            "hash": record["hash"],
+        }
+    )
     expect_data_to_have_been_refreshed(True, response)
 
 
@@ -309,12 +308,6 @@ async def add_situation_to_notebook(
         """,
         notebook_id,
         situation_id,
-    )
-
-
-def verify_as_json(saved_contraintes):
-    approvaltests.verify_as_json(
-        saved_contraintes, options=Options().for_file.with_extension(".json")
     )
 
 

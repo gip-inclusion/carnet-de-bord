@@ -15,5 +15,6 @@ def verify_python(data: Any):
 
 def verify_as_json(data: Any):
     approvaltests.verify_as_json(
-        data, options=Options().for_file.with_extension(".json")
+        data,
+        options=Options().for_file.with_extension(".json"),
     )
