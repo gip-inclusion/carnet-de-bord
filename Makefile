@@ -58,6 +58,10 @@ test-app: ## Lance les tests de l'app frontend
 	cd app && \
 		npm run test
 
+test-approve-all: ## Approve tous les fichiers approvaltests
+	./scripts/approve-all.sh
+
+
 
 # -------------------------------------
 # Other

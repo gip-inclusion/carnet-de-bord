@@ -2,10 +2,10 @@ from datetime import date
 from unittest import mock
 
 from httpx import AsyncClient
-from syrupy.data import Snapshot
 
 from cdb.api.db.models.beneficiary import BeneficiaryWithAdminStructureEmail
 from cdb.api.db.models.orientation_system import OrientationSystem
+from tests.utils.approvaltests import verify
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -62,7 +62,6 @@ class TestNotifyAdminStructure:
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
         test_client: AsyncClient,
-        snapshot: Snapshot,
     ):
         mock_get_beneficiaries_without_referent.return_value = [
             BeneficiaryWithAdminStructureEmail(
@@ -105,13 +104,12 @@ class TestNotifyAdminStructure:
             == "Nouveaux bénéficiaires sans référent"
         )
         assert mock_send_email.call_args_list[0].kwargs["to"] == "admin@structure.cdb"
-        assert snapshot == mock_send_email.call_args_list[0].kwargs["message"]
+        verify(mock_send_email.call_args_list[0].kwargs["message"], extension=".html")
 
     async def test_notify_admin_structures_when_one_beneficiary_without_referent_with_two_admin_structures(  # noqa: E501
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        snapshot: Snapshot,
         test_client: AsyncClient,
         orientation_system_pro: OrientationSystem,
     ):
@@ -186,16 +184,17 @@ class TestNotifyAdminStructure:
             mock_send_email.call_args_list[1].kwargs["to"]
             == "second_admin@structure.cdb"
         )
-        assert snapshot == [
-            mock_send_email.call_args_list[0].kwargs["message"],
-            mock_send_email.call_args_list[1].kwargs["message"],
-        ]
+        verify(
+            [
+                mock_send_email.call_args_list[0].kwargs["message"],
+                mock_send_email.call_args_list[1].kwargs["message"],
+            ]
+        )
 
     async def test_notify_admin_structures_when_two_beneficiaries_without_referent_with_one_admin_structure_and_two_structures(  # noqa: E501
         self,
         mock_get_beneficiaries_without_referent: mock.Mock,
         mock_send_email: mock.Mock,
-        snapshot: Snapshot,
         test_client: AsyncClient,
         orientation_system_pe: OrientationSystem,
         orientation_system_ria: OrientationSystem,
@@ -258,4 +257,4 @@ class TestNotifyAdminStructure:
             == "Nouveaux bénéficiaires sans référent"
         )
         assert mock_send_email.call_args_list[0].kwargs["to"] == "admin@structure.cdb"
-        assert snapshot == mock_send_email.call_args_list[0].kwargs["message"]
+        verify(mock_send_email.call_args_list[0].kwargs["message"], extension=".html")

@@ -6,11 +6,12 @@ output
 # Python
 __pycache__
 *.pyc
+*.received.*
 
 # IDE
 .idea
 .vscode
-.testmondata
+.testmondata*
 app/.eslintcache
 e2e/.eslintcache
 node_modules

@@ -4,7 +4,6 @@ from uuid import UUID
 from asyncpg.connection import Connection
 from dask.dataframe.core import DataFrame
 from pytest import LogCaptureFixture
-from syrupy.data import Snapshot
 
 from cdb.api.db.crud.beneficiary import (
     get_beneficiaries_without_referent,
@@ -20,6 +19,7 @@ from cdb.api.db.models.beneficiary import (
 )
 from cdb.cdb_csv import pe
 from cdb.cdb_csv.models.csv_row import PrincipalCsvRow
+from tests.utils.approvaltests import verify_python
 
 
 async def test_get_beneficiary_with_professional_projects(
@@ -228,7 +228,6 @@ def test_beneficiary_get_values_for_keys(
 
 async def test_get_beneficiaries_without_referent(
     db_connection: Connection,
-    snapshot: Snapshot,
 ) -> None:
     beneficiaries_without_referent: list[
         BeneficiaryWithAdminStructureEmail
@@ -247,12 +246,11 @@ async def test_get_beneficiaries_without_referent(
         )
         == 2
     )
-    assert snapshot == beneficiaries_without_referent
+    verify_python(beneficiaries_without_referent)
 
 
 async def test_get_beneficiaries_without_referent_and_deleted_admin_structure(
     db_connection: Connection,
-    snapshot: Snapshot,
     get_vincent_timaitre_admin_structure_id: UUID,
 ) -> None:
     await db_connection.execute(
@@ -280,4 +278,4 @@ async def test_get_beneficiaries_without_referent_and_deleted_admin_structure(
         )
         == 1
     )
-    assert snapshot == beneficiaries_without_referent
+    verify_python(beneficiaries_without_referent)

@@ -4,7 +4,6 @@ from uuid import UUID
 import pytest
 from asyncpg.connection import Connection
 from httpx import AsyncClient
-from syrupy.data import Snapshot
 
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
@@ -15,6 +14,7 @@ from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
+from tests.utils.approvaltests import verify
 from tests.utils.assert_helpers import assert_member, assert_structure
 
 pytestmark = pytest.mark.graphql
@@ -343,7 +343,6 @@ async def test_change_orientation_with_orientation_request(
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_send_email_to_members_with_orientation_request(
     mock_send_email: mock.Mock,
-    snapshot: Snapshot,
     test_client: AsyncClient,
     professional_paul_camara: Professional,
     professional_edith_orial: Professional,
@@ -374,16 +373,17 @@ async def test_send_email_to_members_with_orientation_request(
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
     assert email_new_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
 
-    assert snapshot == {
-        "former_email_referent": former_email_referent.kwargs["message"],
-        "email_new_referent": email_new_referent.kwargs["message"],
-    }
+    verify(
+        {
+            "former_email_referent": former_email_referent.kwargs["message"],
+            "email_new_referent": email_new_referent.kwargs["message"],
+        }
+    )
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_send_email_to_members_without_orientation_request(
     mock_send_email: mock.Mock,
-    snapshot: Snapshot,
     test_client: AsyncClient,
     professional_paul_camara: Professional,
     professional_pierre_chevalier: Professional,
@@ -412,17 +412,18 @@ async def test_send_email_to_members_without_orientation_request(
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
     assert email_new_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
 
-    assert snapshot == {
-        "former_email_referent": former_email_referent.kwargs["message"],
-        "email_new_referent": email_new_referent.kwargs["message"],
-    }
+    verify(
+        {
+            "former_email_referent": former_email_referent.kwargs["message"],
+            "email_new_referent": email_new_referent.kwargs["message"],
+        }
+    )
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
 async def test_send_email_to_members_first_orientation(
     mock_send_email: mock.Mock,
     test_client: AsyncClient,
-    snapshot: Snapshot,
     professional_paul_camara: Professional,
     notebook_noel_keller: Beneficiary,
     giulia_diaby_jwt: str,
@@ -444,7 +445,7 @@ async def test_send_email_to_members_first_orientation(
     email_new_referent = mock_send_email.call_args_list[0]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
     assert email_new_referent.kwargs["subject"] == "Orientation d’un bénéficiaire"
-    assert snapshot == {"email_new_referent": email_new_referent.kwargs["message"]}
+    verify(email_new_referent.kwargs["message"], extension=".html")
 
 
 @mock.patch("cdb.api.core.emails.send_mail")

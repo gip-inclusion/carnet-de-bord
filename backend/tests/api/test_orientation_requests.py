@@ -2,10 +2,10 @@ from unittest import mock
 
 import pytest
 from httpx import AsyncClient
-from syrupy.data import Snapshot
 
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.professional import Professional
+from tests.utils.approvaltests import verify
 
 pytestmark = pytest.mark.graphql
 
@@ -16,7 +16,6 @@ DENY_ORIENTATION_ENDPOINT_PATH = "/v1/orientation_requests/deny"
 async def test_deny_orientation_request_email(
     mock_send_email: mock.Mock,
     test_client: AsyncClient,
-    snapshot: Snapshot,
     professional_edith_orial: Professional,
     orientation_request_jennings_dee: OrientationRequest,
     giulia_diaby_jwt: str,
@@ -35,4 +34,4 @@ async def test_deny_orientation_request_email(
     email_new_referent = mock_send_email.call_args_list[0]
     assert email_new_referent.kwargs["to"] == professional_edith_orial.email
     assert email_new_referent.kwargs["subject"] == "Maintien de l’accompagnement"
-    assert snapshot == {"email_new_referent": email_new_referent.kwargs["message"]}
+    verify(email_new_referent.kwargs["message"], extension=".html")
