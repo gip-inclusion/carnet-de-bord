@@ -34,4 +34,4 @@ async def test_deny_orientation_request_email(
     email_new_referent = mock_send_email.call_args_list[0]
     assert email_new_referent.kwargs["to"] == professional_edith_orial.email
     assert email_new_referent.kwargs["subject"] == "Maintien de l’accompagnement"
-    verify({"email_new_referent": email_new_referent.kwargs["message"]})
+    verify(email_new_referent.kwargs["message"], extension=".html")
