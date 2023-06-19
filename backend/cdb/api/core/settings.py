@@ -25,9 +25,7 @@ class Settings(BaseSettings):
     # PE_BASE_URL: str = "https://api.peio.pe-qvr.fr"
     PE_SCOPE = "api_rechercher-usagerv1 api_diagnosticargumentev1 api_metiers-profil-competencesv1 ciblepro api_projet-creation-entreprisev1"  # noqa: E501
     PE_CLIENT_ID: str = ""
-    PE_CLIENT_SECRET: str = (
-        "91af19b3c8612594f37856a88269449f9f460dbc51ab45afa7af0585044abba0"
-    )
+    PE_CLIENT_SECRET: str = ""
 
     action_secret: str
 
