@@ -6,7 +6,6 @@ dir_path = os.path.dirname(os.path.realpath(__file__))
 
 
 class Settings(BaseSettings):
-
     pe_agencies_url: str = "https://api.emploi-store.fr/partenaire/referentielagences"
     pe_access_token_api_url: str = (
         "https://entreprise.pole-emploi.fr/connexion/oauth2/access_token"
@@ -14,7 +13,6 @@ class Settings(BaseSettings):
 
     pe_client_id: str
     pe_client_secret: str
-    pe_referentielagences_scope: str = "api_referentielagencesv1 organisationpe"
 
     class Config:
         env_file = ".env"

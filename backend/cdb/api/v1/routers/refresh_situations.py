@@ -151,7 +151,7 @@ async def get_contraintes_pe(beneficiary) -> List[Contrainte] | None:
         base_url=settings.PE_BASE_URL,
         client_id=settings.PE_CLIENT_ID,
         client_secret=settings.PE_CLIENT_SECRET,
-        scope=settings.PE_SCOPE,
+        scope="api_rechercher-usagerv1 api_diagnosticargumentev1 api_metiers-profil-competencesv1 ciblepro api_projet-creation-entreprisev1",  # noqa: E501
     )
     beneficiary = await pe_client.search_beneficiary(
         nir=beneficiary["nir"], date_of_birth=beneficiary["dateOfBirth"]

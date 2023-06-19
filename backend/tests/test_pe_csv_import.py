@@ -50,7 +50,7 @@ async def test_parse_principal_csv(
             "client_id": settings.PE_CLIENT_ID,
             "client_secret": settings.PE_CLIENT_SECRET,
             "grant_type": "client_credentials",
-            "scope": settings.PE_SCOPE,
+            "scope": "api_referentielagencesv1 organisationpe",
         },
         headers={"Content-Type": "application/x-www-form-urlencoded"},
     ).mock(

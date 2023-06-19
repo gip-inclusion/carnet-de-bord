@@ -330,7 +330,7 @@ async def import_pe_referent(
             base_url=settings.PE_BASE_URL,
             client_id=settings.PE_CLIENT_ID,
             client_secret=settings.PE_CLIENT_SECRET,
-            scope=settings.PE_SCOPE,
+            scope="api_referentielagencesv1 organisationpe",
         )
 
         agences: list[Agence] = await client.recherche_agences(

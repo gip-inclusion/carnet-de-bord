@@ -24,13 +24,12 @@ logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 async def main():
-
     client = PoleEmploiApiClient(
         auth_base_url=settings.PE_AUTH_BASE_URL,
         base_url=settings.PE_BASE_URL,
         client_id=settings.PE_CLIENT_ID,
         client_secret=settings.PE_CLIENT_SECRET,
-        scope=settings.PE_SCOPE,
+        scope="api_referentielagencesv1 organisationpe",
     )
 
     agences = await client.recherche_agences(os.getenv("DEPARTEMENT") or "26")
