@@ -1,3 +1,10 @@
+# [1.232.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.231.6...v1.232.0) (2023-06-19)
+
+
+### Features
+
+* Récupérer les situations depuis le SI de Pôle Emploi lors de l'ouverture d'un carnet. ([#1783](https://github.com/gip-inclusion/carnet-de-bord/issues/1783)) ([0d52cae](https://github.com/gip-inclusion/carnet-de-bord/commit/0d52caec6b75bef902ecc30005f4f6e74b578671))
+
 ## [1.231.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.231.5...v1.231.6) (2023-06-19)
 
 ## [1.231.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.231.4...v1.231.5) (2023-06-19)
