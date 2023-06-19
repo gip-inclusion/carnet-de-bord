@@ -445,7 +445,7 @@ async def test_send_email_to_members_first_orientation(
     email_new_referent = mock_send_email.call_args_list[0]
     assert email_new_referent.kwargs["to"] == professional_paul_camara.email
     assert email_new_referent.kwargs["subject"] == "Orientation d’un bénéficiaire"
-    verify({"email_new_referent": email_new_referent.kwargs["message"]})
+    verify(email_new_referent.kwargs["message"], extension=".html")
 
 
 @mock.patch("cdb.api.core.emails.send_mail")

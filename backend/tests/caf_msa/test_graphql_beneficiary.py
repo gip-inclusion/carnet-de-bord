@@ -11,7 +11,7 @@ from cdb.api.db.graphql.beneficiary import (
 )
 from cdb.api.db.models.external_data import ExternalData
 from cdb.caf_msa.parse_infos_foyer_rsa import CdbBeneficiaryInfos
-from tests.utils.approvaltests import verify
+from tests.utils.approvaltests import verify_as_json
 
 
 async def test_get_beneficiary_by_nir(
@@ -97,7 +97,7 @@ async def test_update_beneficiary_create_external_data(
         "cafmsa",
     )
     assert external_data
-    verify(external_data.data)
+    verify_as_json(external_data.data)
 
 
 async def test_update_beneficiary_rsa_closure(
