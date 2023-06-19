@@ -64,9 +64,7 @@ config =
            , NoModuleOnExposedNames.rule
            , HtmlToElm.rule
            ]
-        |> List.map (Review.Rule.ignoreErrorsForDirectories [ "elm-generated" ])
-
-
+        |> List.map (Review.Rule.ignoreErrorsForDirectories [ "elm-generated", ".storybook/elm-storybook" ])
 
 
 commonBestPractices : List Rule

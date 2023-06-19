@@ -70,6 +70,10 @@ type NPSRatingOutput {
   void: String
 }
 
+type RefreshNotebookSituationsFromPoleEmploiOutput {
+  data_has_been_updated: Boolean!
+}
+
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -4934,6 +4938,9 @@ enum external_source_enum {
 
   """Pôle Emploi"""
   pe
+
+  """Pôle Emploi API"""
+  peio
 }
 
 """
@@ -6944,6 +6951,7 @@ type mutation_root {
     """upsert condition"""
     on_conflict: structure_orientation_system_on_conflict
   ): structure_orientation_system
+  refresh_notebook_situations_from_pole_emploi(notebookId: uuid!): RefreshNotebookSituationsFromPoleEmploiOutput
 
   """
   update data of the table: "account"
@@ -11227,7 +11235,7 @@ columns and relationships of "notebook_situation"
 """
 type notebook_situation {
   createdAt: timestamptz!
-  createdBy: uuid!
+  createdBy: uuid
 
   """An object relationship"""
   creator: account

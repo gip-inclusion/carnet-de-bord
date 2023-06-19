@@ -1,0 +1,22 @@
+query ($notebookId: uuid!) {
+  situations: notebook_situation(where: { notebookId: { _eq: $notebookId }, deletedAt: {_is_null: true} }) {
+    creator {
+      orientation_manager {
+        lastname
+        firstname
+      }
+      professional {
+        structure {
+          name
+        }
+        lastname
+        firstname
+      }
+    }
+    createdAt
+    refSituation {
+      description
+      theme
+    }
+  }
+}

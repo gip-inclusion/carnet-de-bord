@@ -1,0 +1,8 @@
+# serializer version: 1
+# name: test_saves_the_new_contraintes_into_external_data
+  dict({
+    'data': '[{"id": 27, "nom": "Faire face à des difficultés de logement", "date": "2023-05-12T12:54:39+00:00", "valeur": "NON_ABORDEE", "situations": [{"code": "24", "valeur": "OUI", "libelle": "Hébergé chez un tiers"}, {"code": "27", "valeur": "OUI", "libelle": "Besoin d\'être guidé dans le cadre d\'un accès aux droits"}, {"code": "26", "valeur": "OUI", "libelle": "Prêt  à suivre une formation"}]}, {"id": 29, "nom": "Faire face à des difficultés administratives ou juridiques", "date": "2022-05-12T12:54:39+00:00", "valeur": "CLOTUREE", "situations": [{"code": "36", "valeur": "OUI", "libelle": "Attend un enfant ou plus"}]}]',
+    'hash': '14618249690d708291ade94cb220d1d28a51e0c5e52e996d90142a9e71eb14ba',
+    'source': 'peio',
+  })
+# ---

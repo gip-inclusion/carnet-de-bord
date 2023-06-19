@@ -1,0 +1,5 @@
+{
+    "data": "[{\"id\": 27, \"nom\": \"Faire face \u00e0 des difficult\u00e9s de logement\", \"date\": \"2023-05-12T12:54:39+00:00\", \"valeur\": \"OUI\", \"situations\": [{\"code\": \"24\", \"valeur\": \"OUI\", \"libelle\": \"H\u00e9berg\u00e9 chez un tiers\"}, {\"code\": \"27\", \"valeur\": \"OUI\", \"libelle\": \"Besoin d'\u00eatre guid\u00e9 dans le cadre d'un acc\u00e8s aux droits\"}, {\"code\": \"26\", \"valeur\": \"OUI\", \"libelle\": \"Pr\u00eat  \u00e0 suivre une formation\"}]}, {\"id\": 29, \"nom\": \"Faire face \u00e0 des difficult\u00e9s administratives ou juridiques\", \"date\": \"2022-05-12T12:54:39+00:00\", \"valeur\": \"OUI\", \"situations\": [{\"code\": \"36\", \"valeur\": \"OUI\", \"libelle\": \"Attend un enfant ou plus\"}]}]",
+    "hash": "a08e62f93891d259852767d4a4bbdb30b0ca5185a533bfc0e7684f9ada1f3a53",
+    "source": "peio"
+}

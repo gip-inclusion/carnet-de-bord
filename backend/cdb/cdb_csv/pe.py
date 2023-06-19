@@ -330,10 +330,10 @@ async def import_pe_referent(
             base_url=settings.PE_BASE_URL,
             client_id=settings.PE_CLIENT_ID,
             client_secret=settings.PE_CLIENT_SECRET,
-            scope=settings.PE_SCOPE,
+            scope="api_referentielagencesv1 organisationpe",
         )
 
-        agences: list[Agence] = client.recherche_agences_pydantic(
+        agences: list[Agence] = await client.recherche_agences(
             deployment.department_code or "", horaire=False, zonecompetence=False
         )
         structure: Structure | None = await create_structure_from_agences_list(
@@ -500,7 +500,7 @@ async def import_beneficiary(
         # Do we already have some external data for this beneficiary?
         external_data: ExternalData | None = (
             await get_last_external_data_by_beneficiary_id_and_source(
-                connection, beneficiary.id, ExternalSource.PE
+                connection, beneficiary.id, ExternalSource.PE_FTP
             )
         )
         if external_data is not None and hash_result == external_data.hash:
@@ -544,7 +544,7 @@ async def save_external_data(
     # Do we already have some external data for this beneficiary?
     external_data: ExternalData | None = (
         await get_last_external_data_by_beneficiary_id_and_source(
-            connection, beneficiary.id, ExternalSource.PE
+            connection, beneficiary.id, ExternalSource.PE_FTP
         )
     )
 
@@ -568,7 +568,7 @@ async def save_external_data(
         await insert_external_data_for_beneficiary_and_professional(
             connection,
             beneficiary,
-            ExternalSource.PE,
+            ExternalSource.PE_FTP,
             format_external_data(csv_row.dict(), external_data_dict),
             hash_result,
             professional=professional,
