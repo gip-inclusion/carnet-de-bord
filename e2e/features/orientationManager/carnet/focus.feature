@@ -33,9 +33,38 @@ Scénario: Ajout d'une action
 	Alors je vois "Aucune action entreprise pour le moment." dans le volet
 	Quand je clique sur "Sélectionner une action"
 	Quand je renseigne "Atelier cv" dans le champ "Rechercher une action"
-	Quand je clique sur le texte "Atelier CV"
+	Quand je clique sur la suggestion "Atelier CV"
 	Quand je renseigne la date "30/05/2023" dans le champ "Date de début"
 	Quand je clique sur "Ajouter"
 	Alors je vois "Atelier CV" dans le tableau "Actions en cours"
 	Quand je ferme le volet
 	Alors je vois "1 action" dans la tuile "Formation"
+
+
+Scénario: Ajout d'une action en double
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Alors je clique sur "Formation" dans la tuile "Formation"
+	Alors j'attends que le texte "Trouver sa formation" apparaisse
+	Quand je clique sur "Trouver sa formation"
+	Alors j'attends que le texte "Action" apparaisse
+	Alors je vois "Aucune action entreprise pour le moment." dans le volet
+	Quand je clique sur "Sélectionner une action"
+	Quand je renseigne "Atelier cv" dans le champ "Rechercher une action"
+	Quand je clique sur la suggestion "Atelier CV"
+	Quand je renseigne la date "30/05/2023" dans le champ "Date de début"
+	Quand je clique sur "Ajouter"
+	Alors je vois "Atelier CV" dans le tableau "Actions en cours"
+	Quand je ferme le volet
+	Alors je vois "1 action" dans la tuile "Formation"
+	Alors je clique sur "Formation" dans la tuile "Formation"
+	Alors j'attends que le texte "Trouver sa formation" apparaisse
+	Quand je clique sur "Trouver sa formation"
+	Alors j'attends que le texte "Action" apparaisse
+	Quand je clique sur "Sélectionner une action"
+	Quand je renseigne "Atelier cv" dans le champ "Rechercher une action"
+	Quand je clique sur la suggestion "Atelier CV"
+	Quand je renseigne la date "30/05/2023" dans le champ "Date de début"
+	Quand je clique sur "Ajouter"
+	Alors je vois "Atelier CV" dans le tableau "Actions en cours"
+	Quand je ferme le volet
+	Alors je vois "2 actions" dans la tuile "Formation"
