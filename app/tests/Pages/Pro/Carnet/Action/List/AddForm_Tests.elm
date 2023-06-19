@@ -7,14 +7,15 @@ import Extra.Test
 import Extra.Test.Input
 import Extra.Test.SearchSelect
 import Html.Attributes as Attr
+import Iso8601
 import Pages.Pro.Carnet.Action.List.AddForm as AddForm
 import ProgramTest
 import SimulatedEffect.Cmd
 import SimulatedEffect.Task
-import SimulatedEffect.Time
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector as Selector exposing (text)
+import Time
 import UI.SearchSelect.Fixtures
 import UI.SearchSelect.SearchSelect as SearchSelect
 
@@ -36,6 +37,12 @@ suite =
                     |> selectAction "an action"
                     |> submit { willSucceed = True }
                     |> Extra.ProgramTest.expectView [ expectNoAlert ]
+        , test "defaults the starting date to now" <|
+            \_ ->
+                startFormWithParams { today = "2019-06-06" }
+                    |> Extra.ProgramTest.expectView
+                        [ expectStartingDateToBe "2019-06-06"
+                        ]
         , describe "Add button"
             [ test "is disabled when the date is missing" <|
                 \_ ->
@@ -154,25 +161,42 @@ fillStartingAt date =
 
 startForm : AddFormTest
 startForm =
+    startFormWithParams { today = "2022-12-31" }
+
+
+startFormWithParams : { today : String } -> AddFormTest
+startFormWithParams params =
     ProgramTest.createElement
         { init = AddForm.init
         , update = AddForm.update
         , view = AddForm.view
         }
-        |> ProgramTest.withSimulatedEffects simulateEffects
+        |> ProgramTest.withSimulatedEffects (simulateEffects params)
         |> ProgramTest.start
             { targetId = "targetId"
             , actionSearchApi = UI.SearchSelect.Fixtures.fakeSearchApi
             , theme = "a theme"
             }
-        |> ProgramTest.advanceTime 100
 
 
-simulateEffects : Effect AddForm.Msg -> ProgramTest.SimulatedEffect AddForm.Msg
-simulateEffects effect =
+simulateEffects : { today : String } -> Effect AddForm.Msg -> ProgramTest.SimulatedEffect AddForm.Msg
+simulateEffects params effect =
     case effect of
-        Effect.Atomic (Effect.Now msg) ->
-            SimulatedEffect.Time.now |> SimulatedEffect.Task.perform msg
+        Effect.Atomic atomic ->
+            simulateAtomic params atomic
+
+        Effect.Batch batch ->
+            batch |> List.map (simulateAtomic params) |> SimulatedEffect.Cmd.batch
+
+
+simulateAtomic : { today : String } -> Effect.Atomic AddForm.Msg -> ProgramTest.SimulatedEffect AddForm.Msg
+simulateAtomic params effect =
+    case effect of
+        Effect.Now msg ->
+            Iso8601.toTime params.today
+                |> Result.withDefault (Time.millisToPosix 12948238723)
+                |> SimulatedEffect.Task.succeed
+                |> SimulatedEffect.Task.perform msg
 
         _ ->
             SimulatedEffect.Cmd.none
