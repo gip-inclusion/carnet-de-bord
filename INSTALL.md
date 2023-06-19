@@ -18,26 +18,28 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 > ⚠️ Assurez-vous que les ports **5000** (Hasura) et **5432** (PostgreSQL) soient libres d'écoute. Le cas échéant, vous pouvez changer les ports dans les fichiers de configuration ou d'environnement de l'application.
 
 ### ❄️ Nix et direnv (facultatif)
+
 Une configuration nix est disponible via le fichier flake.nix.
 
 En conjonction avec [direnv](https://direnv.net/), cette configuration vous permet d'installer les dépendances du projet de manière isolée. Les outils du projet ne seront disponibles que dans le dossier du projet, dans la bonne version.
 
 Pour utiliser cette configuration :
+
 1. Installer [nix](https://nixos.org/download.html) et [direnv](https://direnv.net/).
 2. Aller dans le dossier racine du projet (avec un terminal)
-3. Configurer nix dans direnv
+3. Autoriser direnv à fonctionner dans le dossier
+
 ```bash
-echo "use flake" >> .envrc
 direnv allow
 ```
 
 Pour vérifier l'installation
+
 ```bash
 pre-commit --version # pre-commit X.X.X
 poetry --version # Poetry (version X.X.X)
 node --version # v16.X.X
 ```
-
 
 ## Étapes
 
@@ -52,7 +54,7 @@ cd carnet-de-bord
 
 ```sh
 make install # copie les fichiers d'environnement et télécharge les dépendances
-````
+```
 
 > ℹ️ Parmi les dépendances de développement du projet (cf. [package.json](./app/package.json)), on retrouve la CLI Hasura, utile pour l'étape #5.
 
@@ -71,7 +73,9 @@ Dans un second terminal :
 ```sh
 make seed-database
 ```
+
 ou
+
 ```sh
 hasura --project ./hasura console
 ```
@@ -87,6 +91,7 @@ make start:app # démarrer le serveur de développement SvelteKit
 **6/** Configurer et démarrer l'API back-end métier
 
 Dans un quatrième et dernier terminal
+
 ```sh
 make start:backend # démarre l'instance de serveur FastAPI
 ```
@@ -95,12 +100,11 @@ make start:backend # démarre l'instance de serveur FastAPI
 
 - Webapp SvelteKit → http://localhost:3000
 - API FastAPI → http://localhost:8000/docs
-- Console Hasura →  http://localhost:9695
+- Console Hasura → http://localhost:9695
 
 **8/** Accéder aux différents comptes de démonstration
 
 L'équipe maintient des comptes de démo, renseignés dans le fichier [DEMO.md](./DEMO.md).
-
 
 ## Captures d'écran
 
