@@ -11,6 +11,7 @@ import Html.Events as Evts
 import Pages.Pro.Carnet.Action.List.ActionSelect as ActionSelect
 import Process
 import Task
+import Time
 import UI.SearchSelect.SearchSelect as SearchSelect
 
 
@@ -77,6 +78,7 @@ init { targetId, theme, actionSearchApi } =
       , targetId = targetId
       }
     , actionCommand |> Effect.fromCmd |> Effect.map ActionMsg
+      -- handle batch here
     )
 
 
@@ -90,6 +92,7 @@ type Msg
     | Submit
     | HasSubmitSucceeded Bool
     | DiscardSubmitError
+    | GotTime Time.Posix
 
 
 update : Msg -> Model -> ( Model, Effect Msg )
@@ -144,6 +147,9 @@ update msg model =
 
         DiscardSubmitError ->
             ( { model | submitFailed = False }, Effect.none )
+
+        GotTime time ->
+            ( { model | startingAt = time |> Date.fromPosix Time.utc |> Date.format "YYYY-MM-DD" }, Effect.none )
 
 
 

@@ -1,4 +1,4 @@
-module Effect exposing (Atomic(..), Effect(..), fromCmd, perform, map, none)
+module Effect exposing (Atomic(..), Effect(..), fromCmd, map, none, perform)
 
 
 type Effect msg
@@ -8,6 +8,12 @@ type Effect msg
 type Atomic msg
     = None
     | FromCmd (Cmd msg)
+
+
+batch : List (Effect a) -> Effect a
+batch effects =
+    --no-idea
+
 
 
 map : (a -> b) -> Effect a -> Effect b
