@@ -17,7 +17,7 @@ from cdb.caf_msa.parse_infos_foyer_rsa import (
     transform_right_rsa,
     transform_suspension_reason,
 )
-from tests.utils.approvaltests import verify
+from tests.utils.approvaltests import verify_as_json
 
 
 async def test_parse_caf_file(flux_mensuel_caf: SpooledTemporaryFile):
@@ -35,7 +35,7 @@ async def test_parse_caf_file(flux_mensuel_caf: SpooledTemporaryFile):
         foyers.append(foyer)
 
     assert len(foyers) == 2
-    verify(foyers)
+    verify_as_json(foyers)
 
 
 rsa_right_test_data = [
