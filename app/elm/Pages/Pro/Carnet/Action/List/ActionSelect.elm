@@ -1,9 +1,8 @@
 module Pages.Pro.Carnet.Action.List.ActionSelect exposing (Model, Msg, RefAction, apiSearch, getSelected, init, reset, update, view)
 
+import Extra.GraphQL
 import Html
-import Http
-import Json.Decode as Decode
-import Json.Encode as Json
+import Pages.Pro.Carnet.Action.List.SearchRefAction
 import UI.SearchSelect.SearchSelect as SearchSelect
 
 
@@ -13,14 +12,6 @@ import UI.SearchSelect.SearchSelect as SearchSelect
 
 type alias RefAction =
     { id : String, description : String, theme : String }
-
-
-decoder : Decode.Decoder RefAction
-decoder =
-    Decode.map3 RefAction
-        (Decode.field "id" Decode.string)
-        (Decode.field "description" Decode.string)
-        (Decode.field "theme" Decode.string)
 
 
 type alias Model =
@@ -67,47 +58,15 @@ getSelected =
 
 apiSearch : String -> SearchSelect.SearchApi
 apiSearch theme { search, callbackMsg } =
-    let
-        query =
-            """
-query searchRefActions($searchString: String = "") {
-    search_ref_action(args: {search: $searchString}, order_by: [{theme: asc_nulls_first}, {description: asc_nulls_first}]) {
-        id
-        description
-        theme
-    }
-}
-"""
-    in
-    Http.request
-        { method = "POST"
-        , url = "/graphql"
-        , headers =
-            []
-        , body =
-            Http.jsonBody
-                (Json.object
-                    [ ( "query", Json.string query )
-                    , ( "variables"
-                      , Json.object
-                            [ ( "searchString", Json.string <| String.trim search )
-                            ]
-                      )
-                    ]
-                )
-        , expect =
-            Http.expectJson
-                callbackMsg
-                (Decode.at [ "data", "search_ref_action" ]
-                    (Decode.list decoder)
-                    |> Decode.map
-                        (groupRefActionsByTheme theme
-                            >> List.map toSelectOption
-                        )
-                )
-        , timeout = Nothing
-        , tracker = Nothing
-        }
+    Extra.GraphQL.postOperation
+        (Pages.Pro.Carnet.Action.List.SearchRefAction.query { searchString = search })
+        (Result.map
+            (.ref_actions
+                >> groupRefActionsByTheme theme
+                >> List.map toSelectOption
+            )
+            >> callbackMsg
+        )
 
 
 toSelectOption : RefAction -> { id : String, label : String }

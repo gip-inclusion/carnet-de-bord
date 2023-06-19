@@ -1,0 +1,28 @@
+query latestNPSAnswers {
+  latestRating: nps_rating_aggregate {
+    aggregate {
+      max {
+        createdAt
+      }
+    }
+  }
+  latestDismissal: nps_rating_dismissal_aggregate {
+    aggregate {
+      max {
+        dismissedAt
+      }
+    }
+  }
+}
+
+mutation createNpsRating($score: Int!) {
+  create_nps_rating(score: $score) {
+    void
+  }
+}
+
+mutation dismissNPS {
+  insert_nps_rating_dismissal_one(object: {}) {
+    id
+  }
+}

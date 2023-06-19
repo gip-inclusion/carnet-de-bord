@@ -1,8 +1,11 @@
 <script lang="ts">
+	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
+	import Dialog from '../Dialog.svelte';
+	import Text from '../utils/Text.svelte';
 
-	export let reorientationRequest;
+	export let reorientationRequest: GetNotebookQuery['notebook_public_view'][number]['beneficiary']['orientationRequest'][number];
 
 	$: color =
 		reorientationRequest.status == 'denied'
@@ -46,6 +49,34 @@
 				<p class="mb-0">
 					{orientationLabel} : {displayedOrientation}
 				</p>
+			</div>
+			<div>
+				{#if reorientationRequest.status === 'denied' && reorientationRequest.decisionReason}
+					<Dialog
+						label="Voir le motif du maintien d'accompagnement"
+						buttonLabel="Voir le motif du refus"
+						showButtons={false}
+						title="Maintien de l'accompagnement"
+						buttonCssClasses="fr-btn--tertiary-no-outline"
+					>
+						<p>
+							Date de la demande de réorientation&nbsp;: <b> {date} </b>
+						</p>
+						<p>
+							Orientation recommandée&nbsp;: <span class="fr-badge fr-badge-sm fr-badge--grey"
+								>{getOrientationSystemLabel(reorientationRequest.requestedOrientationSystem)}
+							</span>
+						</p>
+						<h2 class="fr-h4">Motif du maintien</h2>
+						<div class="bg-gray-100 p-4">
+							<Text
+								value={reorientationRequest.decisionReason}
+								defaultValue="non renseigné"
+								defaultValueClassNames=" italic text-gray"
+							/>
+						</div>
+					</Dialog>
+				{/if}
 			</div>
 		</div>
 	</div>

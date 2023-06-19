@@ -11,6 +11,8 @@ configuration:
       custom_name: decidedAt
     decided_orientation_system_id:
       custom_name: decidedOrientationSystemId
+    decision_reason:
+      custom_name: decisionReason
     requested_orientation_system_id:
       custom_name: requestedOrientationSystemId
     updated_at:
@@ -20,6 +22,7 @@ configuration:
     created_at: createdAt
     decided_at: decidedAt
     decided_orientation_system_id: decidedOrientationSystemId
+    decision_reason: decisionReason
     requested_orientation_system_id: requestedOrientationSystemId
     updated_at: updatedAt
   custom_root_fields: {}
@@ -78,6 +81,7 @@ select_permissions:
         - created_at
         - decided_at
         - decided_orientation_system_id
+        - decision_reason
         - id
         - reason
         - requested_orientation_system_id
@@ -95,6 +99,7 @@ select_permissions:
         - created_at
         - decided_at
         - decided_orientation_system_id
+        - decision_reason
         - id
         - reason
         - requested_orientation_system_id
@@ -109,6 +114,7 @@ select_permissions:
         - created_at
         - decided_at
         - decided_orientation_system_id
+        - decision_reason
         - id
         - reason
         - requested_orientation_system_id
@@ -130,6 +136,7 @@ update_permissions:
       columns:
         - decided_at
         - decided_orientation_system_id
+        - decision_reason
         - status
       filter: {}
       check: null

@@ -199,7 +199,7 @@ async def test_creates_notebook_and_beneficiary_with_all_fields(
     assert beneficiary.firstname == "Jay"
     assert beneficiary.lastname == "Erdaivéï"
     assert beneficiary.date_of_birth == date(2000, 12, 1)
-    assert beneficiary.internal_id == "some-id"
+    assert beneficiary.external_id == "some-id"
     assert beneficiary.mobile_number == "0612345678"
     assert beneficiary.email == "jay@rdvi.fr"
     assert beneficiary.address1 == "rue de l'open space"
