@@ -32,7 +32,7 @@ def test_merge_contraintes_to_situations_returns_empty_when_no_ref_situations(ca
         Contrainte(
             id=23,
             nom="Développer sa mobilité",
-            valeur="CLOTUREE",
+            valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
                 Situation(
@@ -66,7 +66,7 @@ def test_merge_contraintes_to_situations_returns_one_situation_to_add(
         Contrainte(
             id=23,
             nom="Développer sa mobilité",
-            valeur="CLOTUREE",
+            valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
                 Situation(
@@ -92,7 +92,7 @@ def test_merge_contraintes_to_situations_returns_one_situation_to_add(
     assert result.situations_to_delete == []
 
 
-def test_merge_contraintes_to_situations_returns_only_validated_situations(
+def test_merge_contraintes_use_only_active_contraintes_(
     ref_situations: List[RefSituation],
 ):
     contraintes: List[Contrainte] = [
@@ -100,6 +100,39 @@ def test_merge_contraintes_to_situations_returns_only_validated_situations(
             id=23,
             nom="Développer sa mobilité",
             valeur="CLOTUREE",
+            date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
+            situations=[
+                Situation(
+                    code="6",
+                    libelle="Aucun moyen de transport à disposition",
+                    valeur="OUI",
+                ),
+                Situation(
+                    code="7",
+                    libelle="Dépendant des transports en commun",
+                    valeur="NON_ABORDEE",
+                ),
+            ],
+        )
+    ]
+    notebook_situations = []
+
+    result = merge_contraintes_to_situations(
+        contraintes, ref_situations, notebook_situations
+    )
+
+    assert result.situations_to_add == []
+    assert result.situations_to_delete == []
+
+
+def test_merge_contraintes_to_situations_returns_only_validated_situations(
+    ref_situations: List[RefSituation],
+):
+    contraintes: List[Contrainte] = [
+        Contrainte(
+            id=23,
+            nom="Développer sa mobilité",
+            valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
                 Situation(
@@ -138,7 +171,7 @@ def test_merge_contraintes_to_situations_does_not_return_already_existing_situat
         Contrainte(
             id=23,
             nom="Développer sa mobilité",
-            valeur="CLOTUREE",
+            valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
                 Situation(
@@ -183,7 +216,7 @@ def test_merge_contraintes_to_situations_return_situation_to_delete(
         Contrainte(
             id=23,
             nom="Développer sa mobilité",
-            valeur="CLOTUREE",
+            valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
                 Situation(

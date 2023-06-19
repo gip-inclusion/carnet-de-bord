@@ -492,7 +492,7 @@ def sophie_tifour_contraintes() -> dict:
             {
                 "id": 27,
                 "nom": "Faire face à des difficultés de logement",
-                "valeur": "NON_ABORDEE",
+                "valeur": "OUI",
                 "date": "2023-05-12T12:54:39.000+00:00",
                 "situations": [
                     {
@@ -537,7 +537,7 @@ def sophie_tifour_no_new_contraintes() -> dict:
             {
                 "id": 27,
                 "nom": "Faire face à des difficultés de logement",
-                "valeur": "NON_ABORDEE",
+                "valeur": "OUI",
                 "date": "2023-05-12T12:54:39.000+00:00",
                 "situations": [
                     {
@@ -573,7 +573,7 @@ def sophie_tifour_add_only_contraintes() -> dict:
             {
                 "id": 27,
                 "nom": "Faire face à des difficultés de logement",
-                "valeur": "NON_ABORDEE",
+                "valeur": "OUI",
                 "date": "2023-05-12T12:54:39.000+00:00",
                 "situations": [
                     {
@@ -597,7 +597,7 @@ def sophie_tifour_add_only_contraintes() -> dict:
             {
                 "id": 29,
                 "nom": "Faire face à des difficultés administratives ou juridiques",
-                "valeur": "CLOTUREE",
+                "valeur": "OUI",
                 "date": "2022-05-12T12:54:39.000+00:00",
                 "situations": [
                     {

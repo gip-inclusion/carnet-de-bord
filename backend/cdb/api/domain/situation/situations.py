@@ -30,6 +30,7 @@ def merge_contraintes_to_situations(
     pe_situations: List[Tuple[UUID | None, datetime | None]] = [
         (find_ref_situation(ref_situations, situation.libelle), contrainte.date)
         for contrainte in contraintes
+        if contrainte.valeur == "OUI"
         for situation in contrainte.situations
         if situation.valeur == "OUI"
     ]
