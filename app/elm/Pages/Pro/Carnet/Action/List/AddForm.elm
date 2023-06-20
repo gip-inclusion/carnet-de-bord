@@ -136,10 +136,13 @@ update msg model =
                     ( nextSelect, selectCmd ) =
                         ActionSelect.reset model.action
                 in
-                ( { model | startingAt = "", action = nextSelect }
-                , selectCmd
-                    |> Effect.fromCmd
-                    |> Effect.map ActionMsg
+                ( { model | action = nextSelect }
+                , Effect.batch
+                    [ selectCmd
+                        |> Effect.fromCmd
+                        |> Effect.map ActionMsg
+                    , Effect.now GotTime
+                    ]
                 )
 
             else
