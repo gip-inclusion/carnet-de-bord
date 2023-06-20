@@ -75,12 +75,12 @@ suite =
                             [ expectSubmitButton { disabled = False } ]
             , test "resets the form" <|
                 \_ ->
-                    startForm
+                    startFormWithParams { today = "2019-06-06" }
                         |> fillStartingAt "2023-04-11"
                         |> selectAction "an action"
                         |> submit { willSucceed = True }
                         |> Extra.ProgramTest.expectView
-                            [ expectStartingDateToBe ""
+                            [ expectStartingDateToBe "2019-06-06"
                             , expectActionToBe "Sélectionner une action"
                             ]
             , test "does not reset the form when submit failed" <|
