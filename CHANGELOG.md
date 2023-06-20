@@ -1,3 +1,10 @@
+# [1.234.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.233.0...v1.234.0) (2023-06-20)
+
+
+### Features
+
+* initialise la date de début de l'action à la date du jour ([#1837](https://github.com/gip-inclusion/carnet-de-bord/issues/1837)) ([10de288](https://github.com/gip-inclusion/carnet-de-bord/commit/10de288ad85042a1727b75455313a46d188c6413))
+
 # [1.233.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.232.0...v1.233.0) (2023-06-19)
 
 
