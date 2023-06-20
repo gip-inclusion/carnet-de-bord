@@ -75,19 +75,19 @@ getNoticeProps droit =
                     "text-warning"
                 }
 
-        Clot reason closureDate ->
+        Clos reason closureDate ->
             Just
                 { label =
-                    "Droit RSA clot"
+                    "Droit RSA clos"
                         ++ maybePrintDate closureDate
                         ++ maybePrintInParens closureReasonKeyToString reason
                 , colorClass = "text-error"
                 }
 
-        ClotMoisAnterieur reason closureDate ->
+        ClosMoisAnterieur reason closureDate ->
             Just
                 { label =
-                    "Droit RSA clot"
+                    "Droit RSA clos"
                         ++ maybePrintDate closureDate
                         ++ maybePrintInParens closureReasonKeyToString reason
                 , colorClass = "text-error"
@@ -158,10 +158,10 @@ extractRsaRightFromFlags flags =
                         Just Refuse
 
                     Just "rsa_clos" ->
-                        Just (Clot flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
+                        Just (Clos flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
 
                     Just "rsa_clos_anterieur" ->
-                        Just (ClotMoisAnterieur flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
+                        Just (ClosMoisAnterieur flags.rsaClosureReason (Maybe.andThen (Date.fromIsoString >> toMaybe) flags.rsaClosureDate))
 
                     _ ->
                         Nothing

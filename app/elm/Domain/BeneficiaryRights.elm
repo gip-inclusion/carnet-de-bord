@@ -56,8 +56,8 @@ type RsaRight
     | OuvertVersementSuspendu (Maybe ReasonKey)
     | DemandeEnAttente
     | Refuse
-    | Clot (Maybe ReasonKey) (Maybe Date)
-    | ClotMoisAnterieur (Maybe ReasonKey) (Maybe Date)
+    | Clos (Maybe ReasonKey) (Maybe Date)
+    | ClosMoisAnterieur (Maybe ReasonKey) (Maybe Date)
 
 
 suspensionReasonKeyToString : String -> String
