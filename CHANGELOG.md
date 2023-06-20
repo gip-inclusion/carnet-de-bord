@@ -1,3 +1,10 @@
+## [1.234.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.0...v1.234.1) (2023-06-20)
+
+
+### Bug Fixes
+
+* typo clot -> clos ([#1839](https://github.com/gip-inclusion/carnet-de-bord/issues/1839)) ([d24b1bf](https://github.com/gip-inclusion/carnet-de-bord/commit/d24b1bf09e28948ab86af567d79fcbe07ae3e5dd))
+
 # [1.234.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.233.0...v1.234.0) (2023-06-20)
 
 
