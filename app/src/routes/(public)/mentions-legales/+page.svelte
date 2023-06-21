@@ -22,10 +22,10 @@
 		<h2>Hébergement du site</h2>
 
 		<p>
-			Ce site est hébergé par Microsoft Azure.<br />
-			Microsoft Azure<br />
-			37 Quai du Président Roosevelt 92130<br />
-			ISSY-LES-MOULINEAUX
+			Ce site est hébergé par&nbsp;:<br />
+			Scalingo SAS<br />
+			3 place de Haguenau<br />
+			67100 Strasbourg
 		</p>
 
 		<h2>Accessibilité</h2>
@@ -37,9 +37,12 @@
 		<h2>Signaler un dysfonctionnement</h2>
 		<p>
 			Si vous rencontrez un défaut d’accessibilité vous empêchant d’accéder à un contenu ou une
-			fonctionnalité du site, merci de nous en faire part. Si vous n’obtenez pas de réponse rapide
-			de notre part, vous êtes en droit de faire parvenir vos doléances ou une demande de saisine au
-			Défenseur des droits.
+			fonctionnalité du site, merci de nous en faire part à l'adresse <a
+				href="contact@carnetdebord.inclusion.beta.gouv.fr"
+				>contact@carnetdebord.inclusion.beta.gouv.fr</a
+			>.<br />
+			Si vous n’obtenez pas de réponse rapide de notre part, vous êtes en droit de faire parvenir vos
+			doléances ou une demande de saisine au Défenseur des droits.
 		</p>
 
 		<h2>En savoir plus</h2>
