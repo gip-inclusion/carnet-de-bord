@@ -5,13 +5,14 @@ on:
 
 concurrency:
   group: deploy_to_prod
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   deploy:
     name: Deploy to production
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         environment: ["production"]
         service: ["app", "backend", "hasura"]

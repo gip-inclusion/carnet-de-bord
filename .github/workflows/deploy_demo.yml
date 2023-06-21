@@ -14,6 +14,7 @@ jobs:
     name: Deploy to demo
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         environment: ["preproduction"]
         service: ["app", "backend", "hasura"]
