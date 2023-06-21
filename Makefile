@@ -3,7 +3,7 @@
 .DEFAULT_GOAL := help
 
 help:
-	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 # -------------------------------------
 # Install
@@ -61,7 +61,15 @@ test-app: ## Lance les tests de l'app frontend
 test-approve-all: ## Approve tous les fichiers approvaltests
 	./scripts/approve-all.sh
 
+# -------------------------------------
+# End to end tests
+# -------------------------------------
 
+e2e-extract-vocabulary: ## E2E: Generates all the supported vocabulary in a file
+	./scripts/extract-e2e-vocabulary.sh
+
+e2e-run: ## E2E: Launches the end to end tests
+	./scripts/launch_tests.sh e2e
 
 # -------------------------------------
 # Other
@@ -82,24 +90,24 @@ codegen: update-schema
 # Elm
 # -------------------------------------
 
-elm-check: elm-compiles elm-test elm-review-fix ## Elm : Vérifie que le code Elm est prêt à être poussé sur le repository
+elm-check: elm-compiles elm-test elm-review-fix ## Elm: Vérifie que le code Elm est prêt à être poussé sur le repository
 
-elm-test: ## Elm : Lance les tests
+elm-test: ## Elm: Lance les tests
 	cd app && \
 		npm run test:elm
-elm-test-watch: ## Elm : Lance les tests en continu
+elm-test-watch: ## Elm: Lance les tests en continu
 	cd app && \
 		npm run test:elm -- --watch
 
-elm-compiles: ## Elm : Vérifie que toutes les apps Elm compilent
+elm-compiles: ## Elm: Vérifie que toutes les apps Elm compilent
 	bash ./scripts/all-elm-compiles.sh
 
-elm-review: ## Elm : Lance un diagnostic
+elm-review: ## Elm: Lance un diagnostic
 	cd app && \
 		npm run lint:elm-review
-elm-review-fix: ## Elm : Propose des corrections une par une
+elm-review-fix: ## Elm: Propose des corrections une par une
 	cd app && \
 		npx elm-review --fix
-elm-review-suppress: ## Elm : Ignore les erreurs elm-review
+elm-review-suppress: ## Elm: Ignore les erreurs elm-review
 	cd app && \
 		npx elm-review suppress
