@@ -1,3 +1,10 @@
+## [1.234.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.2...v1.234.3) (2023-06-21)
+
+
+### Bug Fixes
+
+* corrige les mentions légales ([#1840](https://github.com/gip-inclusion/carnet-de-bord/issues/1840)) ([f7bea43](https://github.com/gip-inclusion/carnet-de-bord/commit/f7bea433c3693293cbe5e4abe793f018f6b73f67))
+
 ## [1.234.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.1...v1.234.2) (2023-06-21)
 
 ## [1.234.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.0...v1.234.1) (2023-06-20)
