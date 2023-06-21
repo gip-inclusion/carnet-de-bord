@@ -1,3 +1,5 @@
+## [1.234.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.1...v1.234.2) (2023-06-21)
+
 ## [1.234.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.0...v1.234.1) (2023-06-20)
 
 
