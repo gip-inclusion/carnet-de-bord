@@ -47,6 +47,9 @@ export const config: CodeceptJS.MainConfig = {
 		Seed: {
 			require: "./step_definitions/seed_helper.js",
 		},
+		Csp: {
+			require: "./step_definitions/csp.js",
+		}
 	},
 	hooks: [],
 	mocha: {},
