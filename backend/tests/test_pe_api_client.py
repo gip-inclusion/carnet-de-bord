@@ -2,6 +2,7 @@
 
 from datetime import datetime, timedelta
 from typing import List
+from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
 import httpx
@@ -28,7 +29,8 @@ def create_api_client() -> PoleEmploiApiClient:
         client_secret="client_secret",
         scope="test_scope",
     )
-    respx.post(api_client.token_url).mock(
+    print("mock: " + api_client.token_url + "?realm=/partenaire")
+    respx.post(quote(api_client.token_url + "?realm=/partenaire")).mock(
         return_value=httpx.Response(
             200,
             json={
@@ -55,7 +57,9 @@ async def test_get_token_nominal():
 @respx.mock
 async def test_get_token_fails():
     api_client = create_api_client()
-    respx.post(api_client.token_url).mock(side_effect=httpx.ConnectTimeout)
+    respx.post(quote(api_client.token_url + "?realm=/partenaire")).mock(
+        side_effect=httpx.ConnectTimeout
+    )
 
     with pytest.raises(PoleEmploiAPIException):
         await api_client.recherche_pole_emploi_agences("67")
@@ -120,3 +124,21 @@ async def test_get_contraintes():
         "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
     )
     verify_as_json([contrainte.json() for contrainte in contraintes])
+
+
+@respx.mock
+async def test_save_contraintes():
+    api_client = create_api_client()
+
+    respx.post(
+        api_client.contraintes_url(
+            "e1881749-1334-47b9-8a34-74922528d4ea%23LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
+        )
+    ).mock(return_value=httpx.Response(200, json={}))
+
+    await api_client.save_contraintes(
+        "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk",
+        [],
+        [],
+        [],
+    )

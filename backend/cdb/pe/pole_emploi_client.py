@@ -1,13 +1,18 @@
 import logging
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from typing import List
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
 import httpx
 
-from cdb.pe.models.contrainte import Contrainte
+from cdb.pe.models.contrainte import (
+    Contrainte,
+    ContrainteInput,
+    ObjectifInput,
+    SituationInput,
+)
 
 from .models.agence import Agence
 from .models.beneficiary import Beneficiary
@@ -69,11 +74,12 @@ class PoleEmploiApiClient:
         )
 
     async def _refresh_token(self, at=None) -> None:
+        print("refresh token")
         if not at:
             at = datetime.now(tz=ZoneInfo(self.tz))
         if self.expires_at and self.expires_at > at:
             return
-
+        print("done")
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 self.token_url,
@@ -86,11 +92,12 @@ class PoleEmploiApiClient:
                 },
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
             )
+            print("response", response)
         try:
             response.raise_for_status()
         except Exception as e:
             raise PoleEmploiAPIException(e) from e
-
+        print("done request")
         auth_data = response.json()
         self.token = f"{auth_data['token_type']} {auth_data['access_token']}"
         self.expires_at = at + timedelta(seconds=auth_data["expires_in"])
@@ -103,6 +110,7 @@ class PoleEmploiApiClient:
         try:
             await self._refresh_token()
             async with httpx.AsyncClient() as client:
+                print("pooossstt")
                 response = await client.post(
                     url, json=params, headers=self._headers, timeout=API_TIMEOUT_SECONDS
                 )
@@ -372,3 +380,21 @@ class PoleEmploiApiClient:
     async def get_contraintes(self, usager_id: str) -> List[Contrainte]:
         result: dict = await self._get_request(url=self.contraintes_url(usager_id))
         return [Contrainte.parse_obj(obj) for obj in result["contraintes"]]
+
+    async def save_contraintes(
+        self,
+        usager_id: str,
+        situations: List[SituationInput],
+        contraintes: List[ContrainteInput],
+        objectifs: List[ObjectifInput],
+    ):
+        date_exploration = datetime.now(tz=timezone.utc).isoformat()
+        await self._post_request(
+            url=self.contraintes_url(usager_id),
+            params={
+                "date_exploration": date_exploration,
+                "situations": situations,
+                "contrainte": contraintes,
+                "objectifs": objectifs,
+            },
+        )
