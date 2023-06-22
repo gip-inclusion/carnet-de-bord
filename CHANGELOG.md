@@ -1,3 +1,10 @@
+## [1.234.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.3...v1.234.4) (2023-06-22)
+
+
+### Bug Fixes
+
+* permettre le refus du sondage NPS ([#1848](https://github.com/gip-inclusion/carnet-de-bord/issues/1848)) ([eec6959](https://github.com/gip-inclusion/carnet-de-bord/commit/eec6959787d841eef4a171c0ddffc6a73dc35376))
+
 ## [1.234.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.2...v1.234.3) (2023-06-21)
 
 
