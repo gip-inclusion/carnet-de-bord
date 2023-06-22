@@ -13,3 +13,12 @@ Fonctionnalité: Modale de séléction du NPS
 
 		Quand je rafraichis la page
 		Alors je ne vois pas "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?"
+
+	Scénario: Refus du sondage NPS
+		Soit un "chargé d'orientation" authentifié avec l'email "laure.loge@cd51.fr"
+		Alors je vois "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?"
+		Quand je clique sur "Fermer"
+		Alors je ne vois pas "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?"
+
+		Quand je rafraichis la page
+		Alors je ne vois pas "Quelle est la probabilité que vous recommandiez Carnet de Bord à un collègue ?"
