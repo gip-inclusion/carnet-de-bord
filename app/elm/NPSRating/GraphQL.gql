@@ -23,6 +23,6 @@ mutation createNpsRating($score: Int!) {
 
 mutation dismissNPS {
   insert_nps_rating_dismissal_one(object: {}) {
-    id
+    dismissedAt
   }
 }
