@@ -1,3 +1,10 @@
+## [1.234.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.4...v1.234.5) (2023-06-26)
+
+
+### Bug Fixes
+
+* réparer la vidéo de présentation sur la page de login ([#1850](https://github.com/gip-inclusion/carnet-de-bord/issues/1850)) ([37efd7b](https://github.com/gip-inclusion/carnet-de-bord/commit/37efd7b2afba7239e81639cca189cf3b9a043010))
+
 ## [1.234.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.3...v1.234.4) (2023-06-22)
 
 
