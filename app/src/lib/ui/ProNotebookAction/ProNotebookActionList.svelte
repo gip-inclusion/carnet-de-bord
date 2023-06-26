@@ -20,7 +20,9 @@
 	const updateNotebookAction = mutation(updateNotebookActionResult);
 	let updateResult: OperationStore<UpdateActionStatusMutation>;
 
-	const createActionStore = operationStore(AddNotebookActionDocument);
+	const createActionStore = operationStore(AddNotebookActionDocument, null, {
+		additionalTypenames: ['notebook_event'],
+	});
 	const createActionMutation = mutation(createActionStore);
 	let addResult: OperationStore<AddNotebookActionMutation>;
 
