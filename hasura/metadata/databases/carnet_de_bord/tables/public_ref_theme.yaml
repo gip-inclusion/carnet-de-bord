@@ -1,6 +1,7 @@
 table:
   name: ref_theme
   schema: public
+is_enum: true
 select_permissions:
   - role: admin_cdb
     permission:

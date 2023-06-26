@@ -6,6 +6,10 @@ type Mutation {
   create_nps_rating(score: Int!): NPSRatingOutput
 }
 
+type Query {
+  diagnostic_pole_emploi(notebookId: uuid!): PoleEmploiDossierIndividu
+}
+
 type Mutation {
   refresh_notebook_situations_from_pole_emploi(
     notebookId: uuid!
@@ -126,10 +130,91 @@ type CreateNotebookOutput {
   notebookId: uuid!
 }
 
-type UpdateNotebookSituationsOutput {
-  data_has_been_updated: Boolean!
-}
-
 type RefreshNotebookSituationsFromPoleEmploiOutput {
   data_has_been_updated: Boolean!
+  has_pe_diagnostic: Boolean!
+  external_data_has_been_updated: Boolean!
+}
+
+type PoleEmploiDossierIndividu {
+  besoinsParDiagnosticIndividuDtos: [PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu!]!
+  contraintesIndividusDto: PoleEmploiDossierIndividuContraintesIndividus!
+}
+
+type PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu {
+  besoins: [PoleEmploiDossierIndividuBesoins!]!
+  dateMiseAJour: String!
+  estPrioritaire: Boolean!
+  idMetierChiffre: String!
+  nomMetier: String
+  statut: String!
+  typologie: String
+}
+
+type PoleEmploiDossierIndividuBesoins {
+  code: String!
+  libelle: String!
+  valeur: PoleEmploiBesoinValeurEnum!
+}
+
+type PoleEmploiDossierIndividuContraintesIndividus {
+  code: String!
+  conseiller: String!
+  contraintes: [PoleEmploiDossierIndividuContraintes!]!
+  dateDeModification: String!
+  libelle: String!
+}
+
+type PoleEmploiDossierIndividuContraintes {
+  date: String
+  code: String!
+  libelle: String!
+  objectifs: [PoleEmploiDossierIndividuObjectifs!]!
+  situations: [PoleEmploiDossierIndividuSituations!]!
+  valeur: PoleEmploiContrainteValeurEnum!
+}
+
+type PoleEmploiDossierIndividuObjectifs {
+  code: String!
+  libelle: String!
+  valeur: PoleEmploiObjectifValeurEnum!
+}
+
+type PoleEmploiDossierIndividuSituations {
+  code: String!
+  libelle: String!
+  valeur: PoleEmploiSituationValeurEnum!
+}
+
+enum PoleEmploiBesoinValeurEnum {
+  POINT_FORT
+
+  BESOIN
+
+  NON_EXPLORE
+}
+
+enum PoleEmploiContrainteValeurEnum {
+  NON_ABORDEE
+
+  OUI
+
+  CLOTUREE
+}
+
+enum PoleEmploiSituationValeurEnum {
+  NON_ABORDEE
+
+  OUI
+
+  NON
+}
+enum PoleEmploiObjectifValeurEnum {
+  NON_ABORDE
+
+  EN_COURS
+
+  REALISE
+
+  ABANDONNE
 }

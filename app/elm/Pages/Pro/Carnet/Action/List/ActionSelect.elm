@@ -1,8 +1,9 @@
 module Pages.Pro.Carnet.Action.List.ActionSelect exposing (Model, Msg, RefAction, apiSearch, getSelected, init, reset, update, view)
 
 import Extra.GraphQL
+import GraphQL.Enum.Ref_theme_enum as RefTheme
 import Html
-import Pages.Pro.Carnet.Action.List.SearchRefAction
+import Pages.Pro.Carnet.Action.List.SearchRefAction exposing (Query_root)
 import UI.SearchSelect.SearchSelect as SearchSelect
 
 
@@ -11,7 +12,7 @@ import UI.SearchSelect.SearchSelect as SearchSelect
 
 
 type alias RefAction =
-    { id : String, description : String, theme : String }
+    { id : String, description : String, theme : RefTheme.Ref_theme_enum }
 
 
 type alias Model =
@@ -58,15 +59,26 @@ getSelected =
 
 apiSearch : String -> SearchSelect.SearchApi
 apiSearch theme { search, callbackMsg } =
+    let
+        refTheme =
+            RefTheme.fromString theme |> Maybe.withDefault RefTheme.Logement
+    in
     Extra.GraphQL.postOperation
         (Pages.Pro.Carnet.Action.List.SearchRefAction.query { searchString = search })
         (Result.map
-            (.ref_actions
-                >> groupRefActionsByTheme theme
-                >> List.map toSelectOption
-            )
+            (toOptions refTheme)
             >> callbackMsg
         )
+
+
+toOptions :
+    RefTheme.Ref_theme_enum
+    -> Query_root
+    -> List SearchSelect.Option
+toOptions refTheme =
+    .ref_actions
+        >> groupRefActionsByTheme refTheme
+        >> List.map toSelectOption
 
 
 toSelectOption : RefAction -> { id : String, label : String }
@@ -74,7 +86,7 @@ toSelectOption action =
     { id = action.id, label = action.description }
 
 
-groupRefActionsByTheme : String -> List RefAction -> List RefAction
+groupRefActionsByTheme : RefTheme.Ref_theme_enum -> List RefAction -> List RefAction
 groupRefActionsByTheme theme actions =
     -- First only keep actions of the current theme and sort them alphabetically
     (actions

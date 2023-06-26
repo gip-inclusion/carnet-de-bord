@@ -10,7 +10,7 @@ from cdb.api.domain.situation.situations import (
     SituationToAdd,
     merge_contraintes_to_situations,
 )
-from cdb.pe.models.contrainte import Contrainte, Situation
+from cdb.pe.models.dossier_individu_api import Contrainte, Situation
 
 
 def test_merge_contraintes_to_situations_returns_empty(
@@ -30,8 +30,8 @@ def test_merge_contraintes_to_situations_returns_empty(
 def test_merge_contraintes_to_situations_returns_empty_when_no_ref_situations(caplog):
     contraintes: List[Contrainte] = [
         Contrainte(
-            id=23,
-            nom="Développer sa mobilité",
+            code="23",
+            libelle="Développer sa mobilité",
             valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
@@ -41,6 +41,7 @@ def test_merge_contraintes_to_situations_returns_empty_when_no_ref_situations(ca
                     valeur="OUI",
                 )
             ],
+            objectifs=[],
         )
     ]
 
@@ -64,8 +65,8 @@ def test_merge_contraintes_to_situations_returns_one_situation_to_add(
 ):
     contraintes: List[Contrainte] = [
         Contrainte(
-            id=23,
-            nom="Développer sa mobilité",
+            code="23",
+            libelle="Développer sa mobilité",
             valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
@@ -75,6 +76,7 @@ def test_merge_contraintes_to_situations_returns_one_situation_to_add(
                     valeur="OUI",
                 )
             ],
+            objectifs=[],
         )
     ]
     notebook_situations = []
@@ -97,8 +99,8 @@ def test_merge_contraintes_use_only_active_contraintes_(
 ):
     contraintes: List[Contrainte] = [
         Contrainte(
-            id=23,
-            nom="Développer sa mobilité",
+            code="23",
+            libelle="Développer sa mobilité",
             valeur="CLOTUREE",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
@@ -113,6 +115,7 @@ def test_merge_contraintes_use_only_active_contraintes_(
                     valeur="NON_ABORDEE",
                 ),
             ],
+            objectifs=[],
         )
     ]
     notebook_situations = []
@@ -130,8 +133,8 @@ def test_merge_contraintes_to_situations_returns_only_validated_situations(
 ):
     contraintes: List[Contrainte] = [
         Contrainte(
-            id=23,
-            nom="Développer sa mobilité",
+            code="23",
+            libelle="Développer sa mobilité",
             valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
@@ -146,6 +149,7 @@ def test_merge_contraintes_to_situations_returns_only_validated_situations(
                     valeur="NON_ABORDEE",
                 ),
             ],
+            objectifs=[],
         )
     ]
     notebook_situations = []
@@ -169,8 +173,8 @@ def test_merge_contraintes_to_situations_does_not_return_already_existing_situat
 ):
     contraintes: List[Contrainte] = [
         Contrainte(
-            id=23,
-            nom="Développer sa mobilité",
+            code="23",
+            libelle="Développer sa mobilité",
             valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
@@ -180,6 +184,7 @@ def test_merge_contraintes_to_situations_does_not_return_already_existing_situat
                     valeur="OUI",
                 )
             ],
+            objectifs=[],
         )
     ]
     notebook_situations: List[SituationCdb] = [
@@ -214,8 +219,8 @@ def test_merge_contraintes_to_situations_return_situation_to_delete(
 ):
     contraintes: List[Contrainte] = [
         Contrainte(
-            id=23,
-            nom="Développer sa mobilité",
+            code="23",
+            libelle="Développer sa mobilité",
             valeur="OUI",
             date=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
             situations=[
@@ -225,6 +230,7 @@ def test_merge_contraintes_to_situations_return_situation_to_delete(
                     valeur="OUI",
                 )
             ],
+            objectifs=[],
         )
     ]
     notebook_situations: List[SituationCdb] = [

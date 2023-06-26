@@ -1,5 +1,6 @@
 module Diagnostic.AllSituations exposing
-    ( PersonalSituation
+    ( DataSyncInfo
+    , PersonalSituation
     , fetchByNotebookId
     , syncWithPE
     )
@@ -8,21 +9,35 @@ import Diagnostic.GetSituationsByNotebookId
 import Diagnostic.SyncWithPE
 import Domain.Account
 import Extra.GraphQL
+import GraphQL.Enum.Ref_theme_enum exposing (Ref_theme_enum(..))
+import Maybe
 import Time
+
+
+type alias DataSyncInfo =
+    { data_has_been_updated : Bool, has_pe_diagnostic : Bool }
 
 
 
 -- Synchronize
 
 
-syncWithPE : String -> (Result String Bool -> msg) -> Cmd msg
+syncWithPE : String -> (Result String DataSyncInfo -> msg) -> Cmd msg
 syncWithPE notebookId responseMsg =
     Extra.GraphQL.postOperation
         (Diagnostic.SyncWithPE.mutation { notebookId = notebookId })
         (Result.map
             (.refresh_notebook_situations_from_pole_emploi
-                >> Maybe.map .data_has_been_updated
-                >> Maybe.withDefault False
+                >> Maybe.map
+                    (\data ->
+                        { data_has_been_updated = data.data_has_been_updated
+                        , has_pe_diagnostic = data.has_pe_diagnostic
+                        }
+                    )
+                >> Maybe.withDefault
+                    { data_has_been_updated = False
+                    , has_pe_diagnostic = False
+                    }
             )
             >> Result.mapError (always "graphql error!")
             >> responseMsg
@@ -34,7 +49,7 @@ syncWithPE notebookId responseMsg =
 
 
 type alias PersonalSituation =
-    { theme : String
+    { theme : Ref_theme_enum
     , description : String
     , createdAt : Time.Posix
     , creator : Maybe Domain.Account.Account
@@ -83,7 +98,7 @@ fetchByNotebookId notebookId responseMsg =
                         , theme =
                             situation.refSituation
                                 |> Maybe.map .theme
-                                |> Maybe.withDefault ""
+                                |> Maybe.withDefault Logement
                         }
                     )
             )

@@ -10,11 +10,10 @@ import respx
 
 from cdb.pe.models.agence import Agence
 from cdb.pe.models.beneficiary import Beneficiary
-from cdb.pe.models.contrainte import Contrainte
 from cdb.pe.pole_emploi_client import PoleEmploiApiClient, PoleEmploiAPIException
 from tests.mocks.pole_emploi_agences import PE_API_AGENCES_RESULT_OK_MOCK
-from tests.mocks.pole_emploi_diagnostic import (
-    PE_API_CONTRAINTES_INDIVIDUS_RESULT_OK_MOCK,
+from tests.mocks.pole_emploi_dossier_individu import DOSSIER_INDIVIDU
+from tests.mocks.pole_emploi_recherche_usagers import (
     PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK,
 )
 from tests.utils.approvaltests import verify_as_json
@@ -104,19 +103,21 @@ async def test_recherche_recherche_usagers():
 
 
 @respx.mock
-async def test_get_contraintes():
+async def test_get_dossier_individu_nominal():
     api_client = create_api_client()
     respx.get(
-        api_client.contraintes_url(
+        api_client.dossier_individu_url(
             "e1881749-1334-47b9-8a34-74922528d4ea%23LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
         )
-    ).mock(
-        return_value=httpx.Response(
-            200, json=PE_API_CONTRAINTES_INDIVIDUS_RESULT_OK_MOCK
-        )
-    )
+    ).mock(return_value=httpx.Response(200, json=DOSSIER_INDIVIDU))
 
-    contraintes: List[Contrainte] = await api_client.get_contraintes(
+    result = await api_client.get_dossier_individu(
         "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
     )
-    verify_as_json([contrainte.json() for contrainte in contraintes])
+
+    verify_as_json(result.jsonb())
+
+
+@pytest.mark.skip
+async def test_get_dossier_individu_return_204():
+    pass

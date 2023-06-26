@@ -6,8 +6,9 @@ import Diagnostic.ProfessionalProject exposing (ProjectFlag)
 import Diagnostic.SocioPro exposing (PeFlags, ProfessionalSituationFlags)
 import Domain.ProfessionalProject exposing (ProfessionalProject)
 import Html
-import Html.Attributes exposing (class)
+import Html.Attributes as Attr
 import Platform.Cmd as Cmd
+import Url.Builder as Url
 
 
 type alias Flags =
@@ -82,8 +83,18 @@ update msg model =
 
 view : Model -> Html.Html msg
 view model =
-    Html.div [ class "mb-10" ]
-        [ Diagnostic.SocioPro.view model.socioPro
+    Html.div [ Attr.class "mb-10 grid gap-4" ]
+        [ if model.personalSituation.has_pe_diagnostic then
+            Html.a
+                [ Attr.href (Url.absolute [ "carnet", model.personalSituation.notebookId, "diagnostic-france-travail" ] [])
+                , Attr.class "fr-btn fr-btn--secondary"
+                ]
+                [ Html.text "Consulter le diagnostic France Travail"
+                ]
+
+          else
+            Html.text ""
+        , Diagnostic.SocioPro.view model.socioPro
         , Diagnostic.ProfessionalProject.view model.professionalProjects
         , Diagnostic.PersonalSituation.view model.personalSituation
         ]
