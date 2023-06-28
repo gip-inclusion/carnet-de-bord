@@ -38,7 +38,8 @@
 
 	const getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
-		buildQueryVariables({ notebookId: notebook?.id }, selected)
+		buildQueryVariables({ notebookId: notebook?.id }, selected),
+		{ requestPolicy: 'network-only', additionalTypenames: ['notebook_event'] }
 	);
 
 	query(getNotebookEvents);
@@ -159,6 +160,7 @@
 		</div>
 		<div class={`w-full fr-table fr-table--layout-fixed`}>
 			<table class="w-full">
+				<caption class="sr-only">Historique de parcours</caption>
 				<thead>
 					<tr>
 						<th>Date</th>

@@ -64,6 +64,8 @@ Les snippets se trouvent dans le fichier `steps.js`
 - Les actions commencent par `Quand`
 - Les assertions commencent par `Alors`
 
+Le vocabulaire existant est disponible dans le fichier [vocabulaire.feature](./vocabulaire.feature) et dans les [step_definitions](./step_definitions/steps.js)
+
 #### Lancer un test en mode debug
 
 ```sh
