@@ -1,3 +1,10 @@
+# [1.235.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.5...v1.235.0) (2023-06-28)
+
+
+### Features
+
+* **historique:** mise à jour automatique après ajout d'actions ou d'objectifs ([#1849](https://github.com/gip-inclusion/carnet-de-bord/issues/1849)) ([91aee19](https://github.com/gip-inclusion/carnet-de-bord/commit/91aee19f9b95f1c8c2d4778c0f6b261a22754ed5))
+
 ## [1.234.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.4...v1.234.5) (2023-06-26)
 
 
