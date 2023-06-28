@@ -39,7 +39,7 @@
 	const getNotebookEvents: GetNotebookEventsQueryStore = operationStore(
 		GetNotebookEventsDocument,
 		buildQueryVariables({ notebookId: notebook?.id }, selected),
-		{ requestPolicy: 'network-only' }
+		{ requestPolicy: 'network-only', additionalTypenames: ['notebook_event'] }
 	);
 
 	query(getNotebookEvents);
