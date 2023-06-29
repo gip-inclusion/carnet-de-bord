@@ -243,6 +243,7 @@ describe('notebook api endpoint', () => {
 					nir: '12345678901234',
 					firstname: 'lionel',
 					lastname: 'breduillieard',
+					postalCode: '23234',
 				},
 			}
 		);
