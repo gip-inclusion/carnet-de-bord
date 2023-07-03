@@ -441,6 +441,7 @@ Soit(
 				firstname: firstname,
 				lastname: lastname,
 				nir: '1781299212296',
+				postalCode: '12345',
 			},
 			rdviUserEmail: manager,
 		});

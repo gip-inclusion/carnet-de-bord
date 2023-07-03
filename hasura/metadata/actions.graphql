@@ -1,13 +1,9 @@
 type Mutation {
-  create_notebook(
-    notebook: CreateNotebookInput!
-  ): CreateNotebookOutput
+  create_notebook(notebook: CreateNotebookInput!): CreateNotebookOutput
 }
 
 type Mutation {
-  create_nps_rating(
-    score: Int!
-  ): NPSRatingOutput
+  create_nps_rating(score: Int!): NPSRatingOutput
 }
 
 type Mutation {
@@ -34,19 +30,49 @@ type Mutation {
 }
 
 enum UpdateSocioProContractTypeEnum {
-  """ Apprentissage """ apprentissage
-  """ CDD """ cdd
-  """ CDI """ cdi
-  """ Contrat de professionnalisation """ contrat_professionnalisation
-  """ Interim """ interim
-  """ Libéral """ liberal
-  """ Portage salarial """ portage_salarial
-  """ Saisonnier """ saisonnier
+  """
+  Apprentissage
+  """
+  apprentissage
+  """
+  CDD
+  """
+  cdd
+  """
+  CDI
+  """
+  cdi
+  """
+  Contrat de professionnalisation
+  """
+  contrat_professionnalisation
+  """
+  Interim
+  """
+  interim
+  """
+  Libéral
+  """
+  liberal
+  """
+  Portage salarial
+  """
+  portage_salarial
+  """
+  Saisonnier
+  """
+  saisonnier
 }
 
 enum UpdateSocioProEmploymentTypeEnum {
-  """ Temps plein """ full_time
-  """ Temps partiel """ part_time
+  """
+  Temps plein
+  """
+  full_time
+  """
+  Temps partiel
+  """
+  part_time
 }
 
 input UpdateSocioProProfessionalProjectInsertInput {
@@ -83,7 +109,7 @@ input CreateNotebookInput {
   email: String
   address: String
   address2: String
-  postal_code: String
+  postalCode: String
   city: String
   cafNumber: String
 }

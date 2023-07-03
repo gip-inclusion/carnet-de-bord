@@ -44,7 +44,7 @@ input CreateNotebookInput {
   lastname: String!
   mobileNumber: String
   nir: String!
-  postal_code: String
+  postalCode: String
 }
 
 type CreateNotebookOutput {
