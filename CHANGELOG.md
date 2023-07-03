@@ -1,3 +1,10 @@
+## [1.235.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.235.1...v1.235.2) (2023-07-03)
+
+
+### Bug Fixes
+
+* alias postalCode dans l'action CreateNotebookInput ([#1857](https://github.com/gip-inclusion/carnet-de-bord/issues/1857)) ([ff40b57](https://github.com/gip-inclusion/carnet-de-bord/commit/ff40b57a4f5166940908d1decf9f4540fa49a73e))
+
 ## [1.235.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.235.0...v1.235.1) (2023-07-03)
 
 
