@@ -150,7 +150,7 @@ async def test_updates_cdb_data_and_external_data_when_there_are_new_constrainte
 
 @pytest.mark.graphql
 @respx.mock
-async def test_does_nothing_when_we_do_not_find_the_beneficiary(
+async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
@@ -212,21 +212,15 @@ async def test_does_nothing_when_our_pe_data_was_fetched_recently(
 
 @pytest.mark.graphql
 @respx.mock
-async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary(
+async def test_does_nothing_when_we_do_not_find_requested_notebook(
     test_client: httpx.AsyncClient,
 ):
     response = await call_refresh_api(
         UUID("8341681f-aef3-4d28-baf6-763435b253d6"), test_client
     )
 
-    expect_ok_response(
-        response,
-        {
-            "data_has_been_updated": False,
-            "external_data_has_been_updated": False,
-            "has_pe_diagnostic": False,
-        },
-    )
+    assert response.status_code == 200
+    assert response.json() is None
 
 
 @pytest.mark.graphql
@@ -448,7 +442,11 @@ async def test_update_situation_when_received_situation_are_an_empty_array(
 
     expect_ok_response(
         response,
-        {"data_has_been_updated": True, "external_data_has_been_updated": True},
+        {
+            "data_has_been_updated": True,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
     )
 
     situations = await get_notebook_situations_by_id(notebook_sophie_tifour.id)
@@ -866,7 +864,7 @@ async def given_beneficiary_has_external_data_at_dates(
 
 def expect_ok_response(response, expected_response_dict):
     assert response.status_code == 200
-    assert response.json().items() >= expected_response_dict.items()
+    assert response.json().items() == expected_response_dict.items()
 
 
 async def call_refresh_api(uuid: UUID, test_client):

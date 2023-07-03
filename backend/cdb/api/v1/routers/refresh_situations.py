@@ -104,11 +104,7 @@ async def refresh_notebook_situations_from_pole_emploi(
 
     beneficiary = await beneficiary_repository.find_by_notebook_id(notebook_id)
     if not beneficiary:
-        return {
-            "data_has_been_updated": False,
-            "external_data_has_been_updated": False,
-            "has_pe_diagnostic": False,
-        }
+        return None
 
     if (
         not beneficiary.latest_external_data
