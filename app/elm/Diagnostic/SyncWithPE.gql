@@ -1,5 +1,6 @@
 mutation ($notebookId: uuid!) {
   refresh_notebook_situations_from_pole_emploi(notebookId: $notebookId) {
     data_has_been_updated
+    has_pe_diagnostic
   }
 }

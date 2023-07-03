@@ -1,5 +1,5 @@
+import json
 from datetime import datetime, timedelta, timezone
-from unittest import mock
 from urllib.parse import quote
 from uuid import UUID
 
@@ -22,7 +22,8 @@ from cdb.api.db.models.external_data import (
     ExternalSource,
 )
 from cdb.api.db.models.notebook import Notebook
-from tests.mocks.pole_emploi_diagnostic import (
+from tests.mocks.pole_emploi_recherche_usagers import (
+    PE_API_RECHERCHE_USAGERS_RESULT_KO_MOCK,
     PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK,
 )
 from tests.utils.approvaltests import verify_as_json
@@ -34,7 +35,7 @@ pytestmark = pytest.mark.graphql
 async def pe_settings():
     settings.PE_CLIENT_SECRET = "pe_client_secret"
     settings.PE_CLIENT_ID = "pe_client_id"
-
+    settings.ENABLE_SYNC_CONTRAINTES = True
     yield settings
 
 
@@ -57,18 +58,25 @@ async def test_nominal(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
-    sophie_tifour_contraintes: dict,
+    sophie_tifour_pe_diagnostic_with_contraintes: dict,
     pe_settings,
 ):
     mock_pe_api(
-        settings,
+        pe_settings,
         beneficiary_sophie_tifour,
-        sophie_tifour_contraintes,
+        sophie_tifour_pe_diagnostic_with_contraintes,
     )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
 
-    expect_data_to_have_been_refreshed(True, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": True,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
+    )
 
     situations = await get_notebook_situations_by_id(notebook_sophie_tifour.id)
     assert situations
@@ -90,43 +98,86 @@ async def test_nominal(
 async def test_refreshes_on_new_data_from_pe(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
-    sophie_tifour_add_only_contraintes: dict,
+    sophie_tifour_pe_diagnostic_with_add_only_contraintes: dict,
+    notebook_sophie_tifour: Notebook,
     pe_settings,
 ):
     mock_pe_api(
         pe_settings,
         beneficiary_sophie_tifour,
-        sophie_tifour_add_only_contraintes,
+        sophie_tifour_pe_diagnostic_with_add_only_contraintes,
     )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
 
-    expect_data_to_have_been_refreshed(True, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": True,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
+    )
 
 
 @pytest.mark.graphql
 @respx.mock
-@mock.patch("cdb.api.v1.routers.refresh_situations.call_pe")
-async def test_gets_data_from_pe_when_its_missing(
-    call_pe: mock.MagicMock,
+# updates cdb data and external data when there are new constraints and no external data
+async def test_updates_cdb_data_and_external_data_when_there_are_new_constraintes_and_no_external_data(  # noqa: E501
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    sophie_tifour_pe_diagnostic_with_add_only_contraintes: dict,
+    pe_settings,
 ):
-    given_pe_data_is_different(True, call_pe)
+    mock_pe_api(
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_add_only_contraintes,
+    )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
 
-    expect_data_to_have_been_refreshed(True, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": True,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
+    )
 
 
 @pytest.mark.graphql
 @respx.mock
-@mock.patch("cdb.api.v1.routers.refresh_situations.call_pe")
-async def test_does_nothing_when_pe_data_are_fresh(
-    call_pe: mock.MagicMock,
+async def test_does_nothing_when_we_do_not_find_the_beneficiary(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    pe_settings: Settings,
+):
+    mock_pe_api_not_found_individu(pe_settings, beneficiary_sophie_tifour)
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+
+@pytest.mark.graphql
+@respx.mock
+async def test_does_nothing_when_our_pe_data_was_fetched_recently(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
     db_connection: Connection,
+    pe_settings: Settings,
 ):
     external_data = await insert_external_data(
         db_connection,
@@ -142,131 +193,371 @@ async def test_does_nothing_when_pe_data_are_fresh(
         ),
     )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+    pe_internal_id = PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK["identifiant"]
+    route = respx.get(
+        f"{pe_settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}",
+    )
+    assert not route.called
 
-    assert call_pe.assert_not_called
-
-    expect_data_to_have_been_refreshed(False, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": True,
+        },
+    )
 
 
 @pytest.mark.graphql
-@mock.patch("cdb.api.v1.routers.refresh_situations.call_pe")
-async def test_refreshes_data_from_pe_when_they_have_expired(
-    call_pe: mock.MagicMock,
+@respx.mock
+async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary(
     test_client: httpx.AsyncClient,
-    beneficiary_sophie_tifour: Beneficiary,
-    db_connection: Connection,
 ):
-    given_pe_data_is_different(True, call_pe)
+    response = await call_refresh_api(
+        UUID("8341681f-aef3-4d28-baf6-763435b253d6"), test_client
+    )
+
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+
+@pytest.mark.graphql
+@respx.mock
+async def test_refreshes_data_from_pe_when_they_have_expired(
+    test_client: httpx.AsyncClient,
+    db_connection: Connection,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    sophie_tifour_pe_diagnostic_with_contraintes: dict,
+    pe_settings: Settings,
+):
+    mock_pe_api(
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_contraintes,
+    )
+
     await given_beneficiary_has_external_data_at_dates(
         [expired_date()], beneficiary_sophie_tifour, db_connection
     )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
 
-    expect_data_to_have_been_refreshed(True, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": True,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
+    )
 
 
 @pytest.mark.graphql
-@mock.patch("cdb.api.v1.routers.refresh_situations.call_pe")
-async def test_does_nothing_when_at_least_one_data_is_fresh(
-    call_pe: mock.MagicMock,
+@respx.mock
+async def test_does_nothing_when_at_least_one_external_data_is_fresh(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
     db_connection: Connection,
+    pe_settings: Settings,
 ):
-    given_pe_data_is_different(True, call_pe)
     await given_beneficiary_has_external_data_at_dates(
         [fresh_creation_date(), expired_date()],
         beneficiary_sophie_tifour,
         db_connection,
     )
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    pe_internal_id = PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK["identifiant"]
+    route = respx.get(
+        f"{pe_settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}",
+    )
+    assert not route.called
 
-    expect_data_to_have_been_refreshed(False, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": True,
+        },
+    )
 
 
 @pytest.mark.graphql
 @respx.mock
-@mock.patch("cdb.api.v1.routers.refresh_situations.call_pe")
 async def test_does_nothing_when_feature_is_disabled(
-    call_pe: mock.MagicMock,
     test_client: httpx.AsyncClient,
-    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    pe_settings: Settings,
 ):
-    settings.ENABLE_SITUATION_API = False
+    pe_settings.ENABLE_SITUATION_API = False
+    pe_internal_id = PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK["identifiant"]
+    route = respx.get(
+        f"{pe_settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}",
+    )
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+    assert not route.called
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
-
-    assert call_pe.assert_not_called
-    expect_data_to_have_been_refreshed(False, response)
-
-    settings.ENABLE_SITUATION_API = True
+    pe_settings.ENABLE_SITUATION_API = True
 
 
 @pytest.mark.graphql
 @respx.mock
-async def test_saves_the_new_contraintes_into_external_data(
+async def test_saves_the_new_pe_diagnostic_into_external_data(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
-    sophie_tifour_add_only_contraintes: dict,
+    notebook_sophie_tifour: Notebook,
+    sophie_tifour_pe_diagnostic_with_add_only_contraintes: dict,
     db_connection: Connection,
     pe_settings,
 ):
     mock_pe_api(
-        pe_settings, beneficiary_sophie_tifour, sophie_tifour_add_only_contraintes
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_add_only_contraintes,
     )
     await given_beneficiary_has_external_data_at_dates(
         [], beneficiary_sophie_tifour, db_connection
     )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
 
     record: Record = await get_last_saved_external_data(
         beneficiary_sophie_tifour.id, ExternalSource.PE_IO, db_connection
     )
     verify_as_json(
         {
-            "data": record["data"],
+            "data": json.loads(record["data"]),
             "source": record["source"],
             "hash": record["hash"],
         }
     )
-    expect_data_to_have_been_refreshed(True, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": True,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
+    )
 
 
 @pytest.mark.graphql
 @respx.mock
-async def test_saves_the_new_contraintes_into_external_data_only_when_changed(
+# TODO : Changer le setup pour pas appeler 2 fois le endpoint
+# TODO : On souhaite conserver la date de derniere récupération pour ne pas rappeler
+# PE a chaque fois dans le cas ou les données n'ont pas changée
+async def test_does_not_store_anything_if_pe_data_has_not_changed_since_last_fetch(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
-    sophie_tifour_contraintes: dict,
-    situation_id_contrainte_horaire: UUID,
+    sophie_tifour_pe_diagnostic_with_contraintes: dict,
     db_connection: Connection,
     pe_settings,
 ):
-    mock_pe_api(pe_settings, beneficiary_sophie_tifour, sophie_tifour_contraintes)
+    mock_pe_api(
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_contraintes,
+    )
     before = expired_date()
 
-    await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    await call_refresh_api(notebook_sophie_tifour.id, test_client)
     # update created_at so it happened in the past
     await update_external_data_created_at(
         beneficiary_sophie_tifour.id, before, db_connection
     )
-    # add a new situation locally so there will be some differences in situations
-    await add_situation_to_notebook(
-        notebook_sophie_tifour.id, situation_id_contrainte_horaire, db_connection
-    )
 
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
 
     result = await get_last_saved_external_data(
         beneficiary_sophie_tifour.id, ExternalSource.PE_IO, db_connection
     )
     assert result["created_at"] == before
-    expect_data_to_have_been_refreshed(False, response)
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": True,
+        },
+    )
+
+
+@pytest.mark.graphql
+@respx.mock
+async def test_does_nothing_when_data_from_pe_is_new_but_matches_our_situations(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    sophie_tifour_pe_diagnostic_with_no_new_contraintes: dict,
+    pe_settings,
+):
+    mock_pe_api(
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_no_new_contraintes,
+    )
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
+    )
+
+
+@pytest.mark.graphql
+@respx.mock
+async def test_update_situation_when_received_situation_are_an_empty_array(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    sophie_tifour_pe_diagnostic_with_empty_contraintes: dict,
+    pe_settings,
+):
+    mock_pe_api(
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_empty_contraintes,
+    )
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    expect_ok_response(
+        response,
+        {"data_has_been_updated": True, "external_data_has_been_updated": True},
+    )
+
+    situations = await get_notebook_situations_by_id(notebook_sophie_tifour.id)
+    assert len(situations) == 0
+
+
+# TODO: remove ?
+@pytest.mark.graphql
+async def test_does_nothing_when_the_pe_client_id_is_missing(
+    test_client: httpx.AsyncClient,
+    notebook_sophie_tifour: Notebook,
+    pe_settings,
+):
+    pe_settings.PE_CLIENT_ID = ""
+
+    response = await test_client.post(
+        "/v1/notebooks/refresh-situations-from-pole-emploi",
+        headers={"secret-token": "action_secret_token"},
+        json=build_payload(notebook_id=notebook_sophie_tifour.id),
+    )
+
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+
+# TODO: remove ?
+@pytest.mark.graphql
+async def test_does_nothing_when_the_pe_client_secret_is_missing(
+    test_client: httpx.AsyncClient,
+    notebook_sophie_tifour: Notebook,
+    pe_settings,
+):
+    pe_settings.PE_CLIENT_SECRET = ""
+
+    response = await test_client.post(
+        "/v1/notebooks/refresh-situations-from-pole-emploi",
+        headers={"secret-token": "action_secret_token"},
+        json=build_payload(notebook_id=notebook_sophie_tifour.id),
+    )
+
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+
+@pytest.mark.graphql
+@respx.mock
+async def test_produces_a_400_when_the_pe_api_returns_a_500(
+    test_client: httpx.AsyncClient,
+    notebook_sophie_tifour: Notebook,
+    pe_settings,
+):
+    """To forward api errors through the Hasura action it needs a 400 error"""
+    respx.post(f"{pe_settings.PE_AUTH_BASE_URL}/connexion/oauth2/access_token").mock(
+        return_value=httpx.Response(
+            500,
+            json={
+                "token_type": "foo",
+                "access_token": "batman",
+                "expires_in": 3600,
+            },
+        )
+    )
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    assert response.status_code == 400
+
+
+@pytest.mark.graphql
+@respx.mock
+async def test_does_not_update_cdb_when_sync_flag_is_false(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+    pe_settings: Settings,
+    sophie_tifour_pe_diagnostic_with_empty_contraintes,
+    notebook_sophie_tifour: Notebook,
+):
+    pe_settings.ENABLE_SYNC_CONTRAINTES = False
+
+    mock_pe_api(
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_empty_contraintes,
+    )
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
+    )
+
+    situations = await get_notebook_situations_by_id(notebook_sophie_tifour.id)
+    assert len(situations) != 0
 
 
 async def get_last_saved_external_data(
@@ -311,102 +602,6 @@ async def add_situation_to_notebook(
     )
 
 
-@pytest.mark.graphql
-@respx.mock
-async def test_does_nothing_when_data_from_pe_match_our_situations(
-    test_client: httpx.AsyncClient,
-    beneficiary_sophie_tifour: Beneficiary,
-    sophie_tifour_no_new_contraintes: dict,
-    pe_settings,
-):
-    mock_pe_api(
-        pe_settings, beneficiary_sophie_tifour, sophie_tifour_no_new_contraintes
-    )
-
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
-
-    expect_data_to_have_been_refreshed(False, response)
-
-
-@pytest.mark.graphql
-@respx.mock
-async def test_get_no_situations(
-    test_client: httpx.AsyncClient,
-    beneficiary_sophie_tifour: Beneficiary,
-    notebook_sophie_tifour: Notebook,
-    empty_contraintes: dict,
-    pe_settings,
-):
-    mock_pe_api(
-        pe_settings,
-        beneficiary_sophie_tifour,
-        empty_contraintes,
-    )
-
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
-
-    expect_data_to_have_been_refreshed(True, response)
-
-    situations = await get_notebook_situations_by_id(notebook_sophie_tifour.id)
-    assert len(situations) == 0
-
-
-@pytest.mark.graphql
-async def test_does_nothing_when_the_pe_client_id_is_missing(
-    test_client: httpx.AsyncClient,
-    notebook_sophie_tifour: Notebook,
-    pe_settings,
-):
-    pe_settings.PE_CLIENT_ID = ""
-
-    response = await test_client.post(
-        "/v1/notebooks/refresh-situations-from-pole-emploi",
-        headers={"secret-token": "action_secret_token"},
-        json=build_payload(notebook_id=notebook_sophie_tifour.id),
-    )
-
-    expect_data_to_have_been_refreshed(False, response)
-
-
-@pytest.mark.graphql
-async def test_does_nothing_when_the_pe_client_secret_is_missing(
-    test_client: httpx.AsyncClient,
-    notebook_sophie_tifour: Notebook,
-    pe_settings,
-):
-    pe_settings.PE_CLIENT_SECRET = ""
-
-    response = await test_client.post(
-        "/v1/notebooks/refresh-situations-from-pole-emploi",
-        headers={"secret-token": "action_secret_token"},
-        json=build_payload(notebook_id=notebook_sophie_tifour.id),
-    )
-
-    expect_data_to_have_been_refreshed(False, response)
-
-
-@pytest.mark.graphql
-@respx.mock
-async def test_produces_a_400_when_the_pe_api_returns_a_500(
-    test_client: httpx.AsyncClient,
-    beneficiary_sophie_tifour: Beneficiary,
-    pe_settings,
-):
-    respx.post(f"{pe_settings.PE_AUTH_BASE_URL}/connexion/oauth2/access_token").mock(
-        return_value=httpx.Response(
-            500,
-            json={
-                "token_type": "foo",
-                "access_token": "batman",
-                "expires_in": 3600,
-            },
-        )
-    )
-    response = await call_refresh_api(beneficiary_sophie_tifour, test_client)
-
-    assert response.status_code == 400
-
-
 def build_payload(notebook_id: UUID):
     return {
         "action": {"name": "refresh-situations-from-pole-emploi"},
@@ -441,7 +636,7 @@ async def get_notebook_situations_by_id(id):
 def mock_pe_api(
     settings: Settings,
     beneficiary: Beneficiary,
-    contraintes: dict,
+    pe_diagnostic: dict | None,
 ):
     respx.post(f"{settings.PE_AUTH_BASE_URL}/connexion/oauth2/access_token").mock(
         return_value=httpx.Response(
@@ -453,6 +648,7 @@ def mock_pe_api(
             },
         )
     )
+
     respx.post(
         f"{settings.PE_BASE_URL}/partenaire/rechercher-usager/v1/usagers/recherche",
         json={
@@ -465,150 +661,199 @@ def mock_pe_api(
 
     pe_internal_id = PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK["identifiant"]
 
+    if not pe_diagnostic:
+        dossier_individu_response_code = 204
+        dossier_individu_response = None
+    else:
+        dossier_individu_response_code = 200
+        dossier_individu_response = pe_diagnostic
+
     respx.get(
-        f"{settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}/contraintes",
-    ).mock(return_value=httpx.Response(200, json=contraintes))
+        f"{settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}",
+    ).mock(
+        return_value=httpx.Response(
+            dossier_individu_response_code, json=dossier_individu_response
+        )
+    )
+
+
+def mock_pe_api_not_found_individu(
+    settings: Settings,
+    beneficiary: Beneficiary,
+):
+    respx.post(f"{settings.PE_AUTH_BASE_URL}/connexion/oauth2/access_token").mock(
+        return_value=httpx.Response(
+            200,
+            json={
+                "token_type": "foo",
+                "access_token": "batman",
+                "expires_in": 3600,
+            },
+        )
+    )
+
+    respx.post(
+        f"{settings.PE_BASE_URL}/partenaire/rechercher-usager/v1/usagers/recherche",
+        json={
+            "nir": beneficiary.nir,
+            "dateNaissance": beneficiary.date_of_birth.strftime("%Y-%m-%d"),
+        },
+    ).mock(
+        return_value=httpx.Response(200, json=PE_API_RECHERCHE_USAGERS_RESULT_KO_MOCK)
+    )
 
 
 @pytest.fixture(scope="session")
-def empty_contraintes() -> dict:
+def sophie_tifour_pe_diagnostic_with_empty_contraintes() -> dict:
     return {
-        "conseiller": "TNAN0260",
-        "dateDeModification": "2023-05-12T12:54:39.000+00:00",
-        "code": "7",
-        "libelle": "Résoudre ses contraintes personnelles",
-        "contraintes": [],
+        "besoinsParDiagnosticIndividuDtos": [],
+        "contraintesIndividusDto": {
+            "conseiller": "TNAN0260",
+            "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+            "code": "7",
+            "libelle": "Résoudre ses contraintes personnelles",
+            "contraintes": [],
+        },
     }
 
 
 @pytest.fixture(scope="session")
-def sophie_tifour_contraintes() -> dict:
+def sophie_tifour_pe_diagnostic_with_contraintes() -> dict:
     return {
-        "conseiller": "TNAN0260",
-        "dateDeModification": "2023-05-12T12:54:39.000+00:00",
-        "code": "7",
-        "libelle": "Résoudre ses contraintes personnelles",
-        "contraintes": [
-            {
-                "id": 27,
-                "nom": "Faire face à des difficultés de logement",
-                "valeur": "OUI",
-                "date": "2023-05-12T12:54:39.000+00:00",
-                "situations": [
-                    {
-                        "code": "24",
-                        "libelle": "Hébergé chez un tiers",
-                        "valeur": "OUI",
-                    },
-                    {
-                        "code": "27",
-                        "libelle": "Doit quitter le logement",
-                        "valeur": "OUI",
-                    },
-                ],
-                "objectifs": [],
-            },
-            {
-                "id": 29,
-                "nom": "Faire face à des difficultés administratives ou juridiques",
-                "valeur": "CLOTUREE",
-                "date": None,
-                "situations": [
-                    {
-                        "code": "36",
-                        "libelle": "Besoin d'etre guidé dans le cadre d'un accès aux droits",  # noqa: E501
-                        "valeur": "CLOTUREE",
-                    },
-                ],
-                "objectifs": [],
-            },
-        ],
+        "besoinsParDiagnosticIndividuDtos": [],
+        "contraintesIndividusDto": {
+            "conseiller": "TNAN0260",
+            "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+            "code": "7",
+            "libelle": "Résoudre ses contraintes personnelles",
+            "contraintes": [
+                {
+                    "code": "27",
+                    "libelle": "Faire face à des difficultés de logement",
+                    "valeur": "OUI",
+                    "date": "2023-05-12T12:54:39.000+00:00",
+                    "situations": [
+                        {
+                            "code": "24",
+                            "libelle": "Hébergé chez un tiers",
+                            "valeur": "OUI",
+                        },
+                        {
+                            "code": "27",
+                            "libelle": "Doit quitter le logement",
+                            "valeur": "OUI",
+                        },
+                    ],
+                    "objectifs": [],
+                },
+                {
+                    "code": "29",
+                    "libelle": "Faire face à des difficultés administratives ou juridiques",  # noqa: E501
+                    "valeur": "CLOTUREE",
+                    "date": None,
+                    "situations": [
+                        {
+                            "code": "36",
+                            "libelle": "Besoin d'etre guidé dans le cadre d'un accès aux droits",  # noqa: E501
+                            "valeur": "CLOTUREE",
+                        },
+                    ],
+                    "objectifs": [],
+                },
+            ],
+        },
     }
 
 
 @pytest.fixture(scope="session")
-def sophie_tifour_no_new_contraintes() -> dict:
+def sophie_tifour_pe_diagnostic_with_no_new_contraintes() -> dict:
     return {
-        "conseiller": "TNAN0260",
-        "dateDeModification": "2023-05-12T12:54:39.000+00:00",
-        "code": "7",
-        "libelle": "Résoudre ses contraintes personnelles",
-        "contraintes": [
-            {
-                "id": 27,
-                "nom": "Faire face à des difficultés de logement",
-                "valeur": "OUI",
-                "date": "2023-05-12T12:54:39.000+00:00",
-                "situations": [
-                    {
-                        "code": "24",
-                        "libelle": "Hébergé chez un tiers",
-                        "valeur": "OUI",
-                    },
-                    {
-                        "code": "27",
-                        "libelle": "Besoin d'être guidé dans le cadre d'un accès aux droits",  # noqa: E501
-                        "valeur": "OUI",
-                    },
-                    {
-                        "code": "26",
-                        "libelle": "Prêt  à suivre une formation",
-                        "valeur": "OUI",
-                    },
-                ],
-                "objectifs": [],
-            },
-        ],
+        "besoinsParDiagnosticIndividuDtos": [],
+        "contraintesIndividusDto": {
+            "conseiller": "TNAN0260",
+            "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+            "code": "7",
+            "libelle": "Résoudre ses contraintes personnelles",
+            "contraintes": [
+                {
+                    "code": "27",
+                    "libelle": "Faire face à des difficultés de logement",
+                    "valeur": "OUI",
+                    "date": "2023-05-12T12:54:39.000+00:00",
+                    "situations": [
+                        {
+                            "code": "24",
+                            "libelle": "Hébergé chez un tiers",
+                            "valeur": "OUI",
+                        },
+                        {
+                            "code": "27",
+                            "libelle": "Besoin d'être guidé dans le cadre d'un accès aux droits",  # noqa: E501
+                            "valeur": "OUI",
+                        },
+                        {
+                            "code": "26",
+                            "libelle": "Prêt  à suivre une formation",
+                            "valeur": "OUI",
+                        },
+                    ],
+                    "objectifs": [],
+                },
+            ],
+        },
     }
 
 
 @pytest.fixture(scope="session")
-def sophie_tifour_add_only_contraintes() -> dict:
+def sophie_tifour_pe_diagnostic_with_add_only_contraintes() -> dict:
     return {
-        "conseiller": "TNAN0260",
-        "dateDeModification": "2023-05-12T12:54:39.000+00:00",
-        "code": "7",
-        "libelle": "Résoudre ses contraintes personnelles",
-        "contraintes": [
-            {
-                "id": 27,
-                "nom": "Faire face à des difficultés de logement",
-                "valeur": "OUI",
-                "date": "2023-05-12T12:54:39.000+00:00",
-                "situations": [
-                    {
-                        "code": "24",
-                        "libelle": "Hébergé chez un tiers",
-                        "valeur": "OUI",
-                    },
-                    {
-                        "code": "27",
-                        "libelle": "Besoin d'être guidé dans le cadre d'un accès aux droits",  # noqa: E501
-                        "valeur": "OUI",
-                    },
-                    {
-                        "code": "26",
-                        "libelle": "Prêt  à suivre une formation",
-                        "valeur": "OUI",
-                    },
-                ],
-                "objectifs": [],
-            },
-            {
-                "id": 29,
-                "nom": "Faire face à des difficultés administratives ou juridiques",
-                "valeur": "OUI",
-                "date": "2022-05-12T12:54:39.000+00:00",
-                "situations": [
-                    {
-                        "code": "36",
-                        "libelle": "Attend un enfant ou plus",
-                        "valeur": "OUI",
-                    },
-                ],
-                "objectifs": [],
-            },
-        ],
+        "besoinsParDiagnosticIndividuDtos": [],
+        "contraintesIndividusDto": {
+            "conseiller": "TNAN0260",
+            "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+            "code": "7",
+            "libelle": "Résoudre ses contraintes personnelles",
+            "contraintes": [
+                {
+                    "code": "27",
+                    "libelle": "Faire face à des difficultés de logement",
+                    "valeur": "OUI",
+                    "date": "2023-05-12T12:54:39.000+00:00",
+                    "situations": [
+                        {
+                            "code": "24",
+                            "libelle": "Hébergé chez un tiers",
+                            "valeur": "OUI",
+                        },
+                        {
+                            "code": "27",
+                            "libelle": "Besoin d'être guidé dans le cadre d'un accès aux droits",  # noqa: E501
+                            "valeur": "OUI",
+                        },
+                        {
+                            "code": "26",
+                            "libelle": "Prêt  à suivre une formation",
+                            "valeur": "OUI",
+                        },
+                    ],
+                    "objectifs": [],
+                },
+                {
+                    "code": "29",
+                    "libelle": "Faire face à des difficultés administratives ou juridiques",  # noqa: E501
+                    "valeur": "OUI",
+                    "date": "2022-05-12T12:54:39.000+00:00",
+                    "situations": [
+                        {
+                            "code": "36",
+                            "libelle": "Attend un enfant ou plus",
+                            "valeur": "OUI",
+                        },
+                    ],
+                    "objectifs": [],
+                },
+            ],
+        },
     }
 
 
@@ -619,16 +864,16 @@ async def given_beneficiary_has_external_data_at_dates(
         await given_beneficiary_has_pe_io_data(beneficiary, date, db_connection)
 
 
-def expect_data_to_have_been_refreshed(refreshed, response):
+def expect_ok_response(response, expected_response_dict):
     assert response.status_code == 200
-    assert response.json() == {"data_has_been_updated": refreshed}
+    assert response.json().items() >= expected_response_dict.items()
 
 
-async def call_refresh_api(beneficiary, test_client):
+async def call_refresh_api(uuid: UUID, test_client):
     response = await test_client.post(
         "/v1/notebooks/refresh-situations-from-pole-emploi",
         headers={"secret-token": "action_secret_token"},
-        json=build_payload(notebook_id=beneficiary.notebook.id),
+        json=build_payload(notebook_id=uuid),
     )
     return response
 
@@ -660,10 +905,6 @@ async def given_external_data_with_pe_io(db_connection):
     )
     assert external_data
     return external_data
-
-
-def given_pe_data_is_different(different, call_pe):
-    call_pe.return_value = different
 
 
 def expired_date():

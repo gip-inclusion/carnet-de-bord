@@ -2,6 +2,7 @@
 	import {
 		AddNotebookTargetDocument,
 		GetRefTargetByFocusDocument,
+		RefThemeEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
@@ -10,23 +11,23 @@
 	import { LoaderIndicator } from '$lib/ui/utils';
 
 	export let focusId: string;
-	export let focusTheme: string;
+	export let focusTheme: RefThemeEnum;
 
 	function close() {
 		openComponent.close();
 	}
-	function transformTheme(focusTheme: string): string[] {
+	function transformTheme(focusTheme: RefThemeEnum): RefThemeEnum[] {
 		switch (focusTheme) {
 			case 'emploi':
 				return [
-					'choisir_un_metier',
-					'preparer_sa_candidature',
-					'trouver_un_emploi',
-					'creer_une_entreprise',
-					's_ouvrir_a_l_international',
+					RefThemeEnum.ChoisirUnMetier,
+					RefThemeEnum.PreparerSaCandidature,
+					RefThemeEnum.TrouverUnEmploi,
+					RefThemeEnum.CreerUneEntreprise,
+					RefThemeEnum.SOuvrirALInternational,
 				];
 			case 'formation':
-				return ['se_former'];
+				return [RefThemeEnum.SeFormer];
 			default:
 				return [focusTheme];
 		}

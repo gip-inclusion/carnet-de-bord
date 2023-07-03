@@ -1,0 +1,27 @@
+query GetDiagnosticPE($notebookId: uuid!) {
+  diagnostic_pole_emploi(notebookId: $notebookId) {
+    besoinsParDiagnosticIndividuDtos {
+      besoins {
+        libelle
+        valeur
+      }
+      idMetierChiffre
+      nomMetier
+      statut
+    }
+    contraintesIndividusDto {
+      contraintes {
+        libelle
+        valeur
+        objectifs {
+          libelle
+          valeur
+        }
+        situations {
+          libelle
+          valeur
+        }
+      }
+    }
+  }
+}

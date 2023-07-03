@@ -23,6 +23,17 @@ actions:
       - role: admin_structure
       - role: admin_cdb
     comment: Create NPS Rating
+  - name: diagnostic_pole_emploi
+    definition:
+      kind: ""
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebooks/dossier-individu-pole-emploi'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: orientation_manager
+      - role: professional
+    comment: Récupération du diagnostic individu pole-emploi
   - name: refresh_notebook_situations_from_pole_emploi
     definition:
       kind: synchronous
@@ -92,6 +103,12 @@ custom_types:
     - name: NPSRatingOutput
     - name: UpdateSocioProOutput
     - name: CreateNotebookOutput
-    - name: UpdateNotebookSituationsOutput
     - name: RefreshNotebookSituationsFromPoleEmploiOutput
+    - name: PoleEmploiDossierIndividuBesoins
+    - name: PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu
+    - name: PoleEmploiDossierIndividuContraintes
+    - name: PoleEmploiDossierIndividuContraintesIndividus
+    - name: PoleEmploiDossierIndividuObjectifs
+    - name: PoleEmploiDossierIndividu
+    - name: PoleEmploiDossierIndividuSituations
   scalars: []

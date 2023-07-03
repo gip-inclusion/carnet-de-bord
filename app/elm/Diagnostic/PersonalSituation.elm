@@ -1,10 +1,11 @@
 module Diagnostic.PersonalSituation exposing (DisplayTheme, Model, Msg(..), RefreshState(..), Theme, init, update, view)
 
 import BetaGouv.DSFR.Alert as Alert
-import Diagnostic.AllSituations as AllSituations exposing (PersonalSituation)
+import Diagnostic.AllSituations as AllSituations exposing (DataSyncInfo, PersonalSituation)
 import Domain.Account
 import Domain.Theme
 import Extra.Date
+import GraphQL.Enum.Ref_theme_enum exposing (Ref_theme_enum)
 import Html exposing (Html)
 import Html.Attributes as Attr
 import List.Extra
@@ -20,11 +21,12 @@ type alias Model =
     { themes : List Theme
     , refreshState : RefreshState
     , notebookId : String
+    , has_pe_diagnostic : Bool
     }
 
 
 type alias Theme =
-    { name : String
+    { name : Ref_theme_enum
     , situations : List PersonalSituation
     }
 
@@ -41,6 +43,7 @@ init { notebookId } =
     ( { themes = []
       , refreshState = Started
       , notebookId = notebookId
+      , has_pe_diagnostic = False
       }
     , Cmd.batch
         [ AllSituations.fetchByNotebookId notebookId FetchedSituations
@@ -55,7 +58,7 @@ init { notebookId } =
 
 type Msg
     = FetchedSituations (Result String (List PersonalSituation))
-    | SyncedWithPE (Result String Bool)
+    | SyncedWithPE (Result String DataSyncInfo)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -78,14 +81,14 @@ update msg model =
                     , Sentry.sendError message
                     )
 
-                Ok needRefresh ->
-                    if needRefresh then
-                        ( { model | refreshState = RefreshAsked }
+                Ok { has_pe_diagnostic, data_has_been_updated } ->
+                    if data_has_been_updated then
+                        ( { model | refreshState = RefreshAsked, has_pe_diagnostic = has_pe_diagnostic }
                         , AllSituations.fetchByNotebookId model.notebookId FetchedSituations
                         )
 
                     else
-                        ( { model | refreshState = NothingToDo }
+                        ( { model | refreshState = NothingToDo, has_pe_diagnostic = has_pe_diagnostic }
                         , Cmd.none
                         )
 
@@ -185,7 +188,7 @@ viewThemeRows ( index, { name, situations } ) =
 
 
 type alias DisplayTheme =
-    { index : Int, name : String, totalSituations : Int }
+    { index : Int, name : Ref_theme_enum, totalSituations : Int }
 
 
 viewSituationRow : DisplayTheme -> ( Int, PersonalSituation ) -> Html msg

@@ -7,7 +7,7 @@ from zoneinfo import ZoneInfo
 
 import httpx
 
-from cdb.pe.models.contrainte import Contrainte
+from cdb.pe.models.dossier_individu_api import DossierIndividuData
 
 from .models.agence import Agence
 from .models.beneficiary import Beneficiary
@@ -66,6 +66,12 @@ class PoleEmploiApiClient:
         return (
             f"{self.base_url}/partenaire/diagnosticargumente/v1/individus/"
             f"{quote(usager_id)}/contraintes"
+        )
+
+    def dossier_individu_url(self, usager_id: str) -> str:
+        return (
+            f"{self.base_url}/partenaire/diagnosticargumente/v1/individus/"
+            f"{quote(usager_id)}"
         )
 
     async def _refresh_token(self, at=None) -> None:
@@ -369,6 +375,9 @@ class PoleEmploiApiClient:
         # Todo test si on ne trouve pas l'usager
         return Beneficiary.parse_obj(usager)
 
-    async def get_contraintes(self, usager_id: str) -> List[Contrainte]:
-        result: dict = await self._get_request(url=self.contraintes_url(usager_id))
-        return [Contrainte.parse_obj(obj) for obj in result["contraintes"]]
+    async def get_dossier_individu(self, usager_id: str) -> DossierIndividuData:
+        dossier_individu_pe = await self._get_request(
+            url=self.dossier_individu_url(usager_id)
+        )
+
+        return DossierIndividuData.parse_obj(dossier_individu_pe)

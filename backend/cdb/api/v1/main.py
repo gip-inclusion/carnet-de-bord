@@ -12,6 +12,7 @@ from cdb.api.v1.routers import (
     nps_rating,
     orientation_requests,
     orientations,
+    pe_dossier_individu,
     refresh_situations,
     socio_pro,
     structures,
@@ -65,6 +66,9 @@ api_router.include_router(
 )
 api_router.include_router(
     refresh_situations.router, prefix="/notebooks", tags=["Notebooks"]
+)
+api_router.include_router(
+    pe_dossier_individu.router, prefix="/notebooks", tags=["Notebooks"]
 )
 
 api_router.include_router(nps_rating.router, prefix="/nps-rating", tags=["NPS ratings"])

@@ -35,7 +35,7 @@ start-app: ## Démarre l'app frontend
 
 start-backend: ## Démarre le backend
 	cd backend; \
-		poetry run uvicorn --reload cdb.api.main:app
+		poetry run uvicorn --reload --host 0.0.0.0 cdb.api.main:app
 
 start-storybook: ## Démarre storybook
 	cd app && npm run dev:storybook

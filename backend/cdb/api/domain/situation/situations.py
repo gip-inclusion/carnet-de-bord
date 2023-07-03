@@ -5,7 +5,7 @@ from typing import List, Tuple
 from uuid import UUID
 
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
-from cdb.pe.models.contrainte import Contrainte
+from cdb.pe.models.dossier_individu_api import Contrainte
 
 logger = logging.getLogger(__name__)
 

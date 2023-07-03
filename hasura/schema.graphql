@@ -70,8 +70,85 @@ type NPSRatingOutput {
   void: String
 }
 
+enum PoleEmploiBesoinValeurEnum {
+  BESOIN
+  NON_EXPLORE
+  POINT_FORT
+}
+
+enum PoleEmploiContrainteValeurEnum {
+  CLOTUREE
+  NON_ABORDEE
+  OUI
+}
+
+type PoleEmploiDossierIndividu {
+  besoinsParDiagnosticIndividuDtos: [PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu!]!
+  contraintesIndividusDto: PoleEmploiDossierIndividuContraintesIndividus!
+}
+
+type PoleEmploiDossierIndividuBesoins {
+  code: String!
+  libelle: String!
+  valeur: PoleEmploiBesoinValeurEnum!
+}
+
+type PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu {
+  besoins: [PoleEmploiDossierIndividuBesoins!]!
+  dateMiseAJour: String!
+  estPrioritaire: Boolean!
+  idMetierChiffre: String!
+  nomMetier: String
+  statut: String!
+  typologie: String
+}
+
+type PoleEmploiDossierIndividuContraintes {
+  code: String!
+  date: String
+  libelle: String!
+  objectifs: [PoleEmploiDossierIndividuObjectifs!]!
+  situations: [PoleEmploiDossierIndividuSituations!]!
+  valeur: PoleEmploiContrainteValeurEnum!
+}
+
+type PoleEmploiDossierIndividuContraintesIndividus {
+  code: String!
+  conseiller: String!
+  contraintes: [PoleEmploiDossierIndividuContraintes!]!
+  dateDeModification: String!
+  libelle: String!
+}
+
+type PoleEmploiDossierIndividuObjectifs {
+  code: String!
+  libelle: String!
+  valeur: PoleEmploiObjectifValeurEnum!
+}
+
+type PoleEmploiDossierIndividuSituations {
+  code: String!
+  libelle: String!
+  valeur: PoleEmploiSituationValeurEnum!
+}
+
+enum PoleEmploiObjectifValeurEnum {
+  ABANDONNE
+  EN_COURS
+  NON_ABORDE
+  REALISE
+}
+
+enum PoleEmploiSituationValeurEnum {
+  NON
+  NON_ABORDEE
+  OUI
+}
+
 type RefreshNotebookSituationsFromPoleEmploiOutput {
   data_has_been_updated: Boolean!
+  external_data_has_been_updated: Boolean!
+  has_pe_diagnostic: Boolean!
 }
 
 """
@@ -15292,6 +15369,9 @@ type query_root {
   """fetch data from the table: "deployment" using primary key columns"""
   deployment_by_pk(id: uuid!): deployment
 
+  """Récupération du diagnostic individu pole-emploi"""
+  diagnostic_pole_emploi(notebookId: uuid!): PoleEmploiDossierIndividu
+
   """
   fetch data from the table: "employment_type"
   """
@@ -17128,7 +17208,7 @@ type ref_action {
 
   """An object relationship"""
   refTheme: ref_theme!
-  theme: String!
+  theme: ref_theme_enum!
 }
 
 """
@@ -17158,7 +17238,7 @@ input ref_action_bool_exp {
   description: String_comparison_exp
   id: uuid_comparison_exp
   refTheme: ref_theme_bool_exp
-  theme: String_comparison_exp
+  theme: ref_theme_enum_comparison_exp
 }
 
 """
@@ -17178,21 +17258,19 @@ input ref_action_insert_input {
   description: String
   id: uuid
   refTheme: ref_theme_obj_rel_insert_input
-  theme: String
+  theme: ref_theme_enum
 }
 
 """aggregate max on columns"""
 type ref_action_max_fields {
   description: String
   id: uuid
-  theme: String
 }
 
 """aggregate min on columns"""
 type ref_action_min_fields {
   description: String
   id: uuid
-  theme: String
 }
 
 """
@@ -17248,7 +17326,7 @@ input type for updating data in table "ref_action"
 input ref_action_set_input {
   description: String
   id: uuid
-  theme: String
+  theme: ref_theme_enum
 }
 
 """
@@ -17266,7 +17344,7 @@ input ref_action_stream_cursor_input {
 input ref_action_stream_cursor_value_input {
   description: String
   id: uuid
-  theme: String
+  theme: ref_theme_enum
 }
 
 """
@@ -17300,7 +17378,7 @@ type ref_situation {
 
   """An object relationship"""
   refTheme: ref_theme!
-  theme: String!
+  theme: ref_theme_enum!
 }
 
 """
@@ -17330,7 +17408,7 @@ input ref_situation_bool_exp {
   description: String_comparison_exp
   id: uuid_comparison_exp
   refTheme: ref_theme_bool_exp
-  theme: String_comparison_exp
+  theme: ref_theme_enum_comparison_exp
 }
 
 """
@@ -17350,21 +17428,19 @@ input ref_situation_insert_input {
   description: String
   id: uuid
   refTheme: ref_theme_obj_rel_insert_input
-  theme: String
+  theme: ref_theme_enum
 }
 
 """aggregate max on columns"""
 type ref_situation_max_fields {
   description: String
   id: uuid
-  theme: String
 }
 
 """aggregate min on columns"""
 type ref_situation_min_fields {
   description: String
   id: uuid
-  theme: String
 }
 
 """
@@ -17430,7 +17506,7 @@ input type for updating data in table "ref_situation"
 input ref_situation_set_input {
   description: String
   id: uuid
-  theme: String
+  theme: ref_theme_enum
 }
 
 """
@@ -17448,7 +17524,7 @@ input ref_situation_stream_cursor_input {
 input ref_situation_stream_cursor_value_input {
   description: String
   id: uuid
-  theme: String
+  theme: ref_theme_enum
 }
 
 """
@@ -17482,7 +17558,7 @@ type ref_target {
 
   """An object relationship"""
   refTheme: ref_theme!
-  theme: String!
+  theme: ref_theme_enum!
 }
 
 """
@@ -17512,7 +17588,7 @@ input ref_target_bool_exp {
   description: String_comparison_exp
   id: uuid_comparison_exp
   refTheme: ref_theme_bool_exp
-  theme: String_comparison_exp
+  theme: ref_theme_enum_comparison_exp
 }
 
 """
@@ -17532,21 +17608,19 @@ input ref_target_insert_input {
   description: String
   id: uuid
   refTheme: ref_theme_obj_rel_insert_input
-  theme: String
+  theme: ref_theme_enum
 }
 
 """aggregate max on columns"""
 type ref_target_max_fields {
   description: String
   id: uuid
-  theme: String
 }
 
 """aggregate min on columns"""
 type ref_target_min_fields {
   description: String
   id: uuid
-  theme: String
 }
 
 """
@@ -17602,7 +17676,7 @@ input type for updating data in table "ref_target"
 input ref_target_set_input {
   description: String
   id: uuid
-  theme: String
+  theme: ref_theme_enum
 }
 
 """
@@ -17620,7 +17694,7 @@ input ref_target_stream_cursor_input {
 input ref_target_stream_cursor_value_input {
   description: String
   id: uuid
-  theme: String
+  theme: ref_theme_enum
 }
 
 """
@@ -17687,6 +17761,67 @@ enum ref_theme_constraint {
   unique or primary key constraint on columns "name"
   """
   ref_theme_pkey
+}
+
+enum ref_theme_enum {
+  """Choisir un métier"""
+  choisir_un_metier
+
+  """Contraintes familiales"""
+  contraintes_familiales
+
+  """Créer une entreprise"""
+  creer_une_entreprise
+
+  """Difficultés administratives"""
+  difficulte_administrative
+
+  """Difficultés financières"""
+  difficulte_financiere
+
+  """Emploi"""
+  emploi
+
+  """Formation"""
+  formation
+
+  """Logement"""
+  logement
+
+  """Maîtrise de la langue française"""
+  maitrise_langue
+
+  """Mobilité"""
+  mobilite
+
+  """Numérique"""
+  numerique
+
+  """Préparer sa candidature"""
+  preparer_sa_candidature
+
+  """S'ouvrir à l'international"""
+  s_ouvrir_a_l_international
+
+  """Santé"""
+  sante
+
+  """Se former"""
+  se_former
+
+  """Trouver un emploi"""
+  trouver_un_emploi
+}
+
+"""
+Boolean expression to compare columns of type "ref_theme_enum". All fields are combined with logical 'AND'.
+"""
+input ref_theme_enum_comparison_exp {
+  _eq: ref_theme_enum
+  _in: [ref_theme_enum!]
+  _is_null: Boolean
+  _neq: ref_theme_enum
+  _nin: [ref_theme_enum!]
 }
 
 """

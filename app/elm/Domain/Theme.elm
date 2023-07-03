@@ -1,5 +1,7 @@
 module Domain.Theme exposing (Theme(..), printTheme, themeKeyStringToType, themeKeyTypeToLabel)
 
+import GraphQL.Enum.Ref_theme_enum as RefTheme exposing (Ref_theme_enum)
+
 
 type Theme
     = Logement
@@ -51,41 +53,56 @@ themeKeyStringToType key =
             Nothing
 
 
-printTheme : String -> String
+printTheme : Ref_theme_enum -> String
 printTheme key =
     case key of
-        "logement" ->
+        RefTheme.Logement ->
             "Logement"
 
-        "emploi" ->
+        RefTheme.Emploi ->
             "Emploi"
 
-        "formation" ->
+        RefTheme.Formation ->
             "Formation"
 
-        "difficulte_administrative" ->
+        RefTheme.Difficulte_administrative ->
             "Difficultés administratives"
 
-        "difficulte_financiere" ->
+        RefTheme.Difficulte_financiere ->
             "Difficultés financières"
 
-        "mobilite" ->
+        RefTheme.Mobilite ->
             "Mobilité"
 
-        "sante" ->
+        RefTheme.Sante ->
             "Santé"
 
-        "contraintes_familiales" ->
+        RefTheme.Contraintes_familiales ->
             "Contraintes familiales"
 
-        "maitrise_langue" ->
+        RefTheme.Maitrise_langue ->
             "Maîtrise de la langue française"
 
-        "numerique" ->
+        RefTheme.Numerique ->
             "Numérique"
 
-        _ ->
-            ""
+        RefTheme.Choisir_un_metier ->
+            "Emploi"
+
+        RefTheme.Creer_une_entreprise ->
+            "Emploi"
+
+        RefTheme.Preparer_sa_candidature ->
+            "Emploi"
+
+        RefTheme.S_ouvrir_a_l_international ->
+            "Emploi"
+
+        RefTheme.Se_former ->
+            "Formation"
+
+        RefTheme.Trouver_un_emploi ->
+            "Emploi"
 
 
 themeKeyTypeToLabel : Theme -> String
