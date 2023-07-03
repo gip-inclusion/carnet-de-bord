@@ -1,3 +1,10 @@
+# [1.236.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.235.2...v1.236.0) (2023-07-03)
+
+
+### Features
+
+* Afficher les informations du diagnostic PE sur une page ([#1852](https://github.com/gip-inclusion/carnet-de-bord/issues/1852)) ([d1151e1](https://github.com/gip-inclusion/carnet-de-bord/commit/d1151e102f59407d2fb8611b841b37e7a0c4117b))
+
 ## [1.235.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.235.1...v1.235.2) (2023-07-03)
 
 
