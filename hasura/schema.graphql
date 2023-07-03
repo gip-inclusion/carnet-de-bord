@@ -8695,11 +8695,6 @@ enum notebook_action_constraint {
   unique or primary key constraint on columns "id"
   """
   notebook_action_pkey
-
-  """
-  unique or primary key constraint on columns "action", "target_id"
-  """
-  notebook_action_target_id_action_key
 }
 
 """
