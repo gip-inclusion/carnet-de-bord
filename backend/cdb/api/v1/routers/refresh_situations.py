@@ -105,7 +105,7 @@ async def refresh_notebook_situations_from_pole_emploi(
     beneficiary = await beneficiary_repository.find_by_notebook_id(notebook_id)
     if not beneficiary:
         return None
-
+    print("latest ed", beneficiary.latest_external_data)
     if (
         not beneficiary.latest_external_data
         or not beneficiary.latest_external_data.is_fresh()
@@ -116,12 +116,13 @@ async def refresh_notebook_situations_from_pole_emploi(
             )
         )
         if dossier is None:
-            # TODO save empty external data
-            return {
-                "data_has_been_updated": False,
-                "external_data_has_been_updated": False,
-                "has_pe_diagnostic": False,
-            }
+            async with gql_client_backend_only() as session:
+                await save_dossier(None, beneficiary.id, session)
+                return {
+                    "data_has_been_updated": False,
+                    "external_data_has_been_updated": False,
+                    "has_pe_diagnostic": False,
+                }
 
         if (
             beneficiary.latest_external_data
@@ -155,11 +156,10 @@ async def refresh_notebook_situations_from_pole_emploi(
             "external_data_has_been_updated": True,
             "has_pe_diagnostic": True,
         }
-
     return {
         "data_has_been_updated": False,
         "external_data_has_been_updated": False,
-        "has_pe_diagnostic": True,
+        "has_pe_diagnostic": beneficiary.latest_external_data.has_data(),
     }
 
 
@@ -184,12 +184,14 @@ def is_fresh(external_data):
 
 
 async def save_dossier(
-    dossier: DossierIndividuData, beneficiary_id: UUID, session: AsyncClientSession
+    dossier: DossierIndividuData | None,
+    beneficiary_id: UUID,
+    session: AsyncClientSession,
 ):
     await save_external_data_with_info(
         session,
         beneficiary_id,
-        dossier.jsonb(),
+        dossier.jsonb() if dossier else {},
         ExternalSource.PE_IO,
     )
 
@@ -224,11 +226,11 @@ async def get_dossier_individu_pe(
             ]
         ),  # noqa: E501
     )
-    beneficiary = await pe_client.search_beneficiary(
+    found_beneficiary = await pe_client.search_beneficiary(
         nir=beneficiary.nir, date_of_birth=beneficiary.date_of_birth
     )
-    if beneficiary and beneficiary.identifiant:
-        return await pe_client.get_dossier_individu(beneficiary.identifiant)
+    if found_beneficiary and found_beneficiary.identifiant:
+        return await pe_client.get_dossier_individu(found_beneficiary.identifiant)
 
 
 async def save_differences(differences: SituationDifferences, notebook_id, session):

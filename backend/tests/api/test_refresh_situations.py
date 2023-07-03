@@ -172,6 +172,43 @@ async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary(
 
 @pytest.mark.graphql
 @respx.mock
+async def test_does_ask_pe_api_again_when_pe_has_no_info_for_our_beneficiary(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    pe_settings: Settings,
+):
+    mocked_route = mock_pe_api_not_found_individu(
+        pe_settings, beneficiary_sophie_tifour
+    )
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    assert mocked_route.call_count == 1
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    assert mocked_route.call_count == 1
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+
+@pytest.mark.graphql
+@respx.mock
 async def test_does_nothing_when_our_pe_data_was_fetched_recently(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
@@ -181,7 +218,20 @@ async def test_does_nothing_when_our_pe_data_was_fetched_recently(
 ):
     external_data = await insert_external_data(
         db_connection,
-        ExternalDataInsert(data={}, hash="hash", source=ExternalSource.PE_IO),
+        ExternalDataInsert(
+            data={
+                "besoinsParDiagnosticIndividuDtos": [],
+                "contraintesIndividusDto": {
+                    "code": "7",
+                    "libelle": "Résoudre ses contraintes personnelles",
+                    "conseiller": "TNAN0260",
+                    "contraintes": [],
+                    "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+                },
+            },
+            hash="hash",
+            source=ExternalSource.PE_IO,
+        ),
     )
     assert external_data
     await insert_external_data_info(
@@ -666,7 +716,7 @@ def mock_pe_api(
         dossier_individu_response_code = 200
         dossier_individu_response = pe_diagnostic
 
-    respx.get(
+    return respx.get(
         f"{settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}",
     ).mock(
         return_value=httpx.Response(
@@ -690,7 +740,7 @@ def mock_pe_api_not_found_individu(
         )
     )
 
-    respx.post(
+    return respx.post(
         f"{settings.PE_BASE_URL}/partenaire/rechercher-usager/v1/usagers/recherche",
         json={
             "nir": beneficiary.nir,
@@ -883,7 +933,20 @@ def fresh_creation_date():
 async def given_beneficiary_has_pe_io_data(beneficiary, created_at, db_connection):
     external_data = await insert_external_data(
         db_connection,
-        ExternalDataInsert(data={}, hash="hash", source=ExternalSource.PE_IO),
+        ExternalDataInsert(
+            data={
+                "contraintesIndividusDto": {
+                    "code": "7",
+                    "libelle": "Résoudre ses contraintes personnelles",
+                    "conseiller": "TNAN0260",
+                    "contraintes": [],
+                    "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+                },
+                "besoinsParDiagnosticIndividuDtos": [],
+            },
+            hash="hash",
+            source=ExternalSource.PE_IO,
+        ),
     )
     assert external_data
     await insert_external_data_info(

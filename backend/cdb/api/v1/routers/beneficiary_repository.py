@@ -4,6 +4,7 @@ import abc
 import datetime
 from abc import ABC
 from uuid import UUID
+from xmlrpc.client import Boolean
 
 import dateutil.parser
 from pydantic import BaseModel
@@ -15,8 +16,12 @@ from cdb.api.db.graphql.get_client import gql_client_backend_only
 class Beneficiary(BaseModel):
     class ExternalDataInfo(BaseModel):
         external_data_hash: str
+        data: dict
         created_at: str
         updated_at: str
+
+        def has_data(self) -> Boolean:
+            return Boolean(self.data)
 
         def is_fresh(self):
             creation_date = dateutil.parser.isoparse(self.created_at)
@@ -62,6 +67,7 @@ class DbBeneficiaryRepository(BeneficiaryRepository):
                 external_data_hash=info["externalData"]["hash"],
                 created_at=info["created_at"],
                 updated_at=info["updated_at"],
+                data=info["externalData"]["data"],
             )
         else:
             return None

@@ -447,11 +447,11 @@ def get_beneficiary_by_notebook_id_query() -> DocumentNode:
                     nir
                     dateOfBirth
                     externalDataInfos(where: {
-                        externalData: { source: { _eq: peio }  } }
-                        order_by: {created_at: desc}
+                        externalData: { source: { _eq: peio } } }
+                        order_by: { created_at: desc }
                         limit: 1
                     ) {
-                        externalData { hash }
+                        externalData { hash data }
                         created_at
                         updated_at
                 }
