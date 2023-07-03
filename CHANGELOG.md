@@ -1,3 +1,10 @@
+## [1.235.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.235.0...v1.235.1) (2023-07-03)
+
+
+### Bug Fixes
+
+* supprime l'ancienne contrainte d'unicite ([#1858](https://github.com/gip-inclusion/carnet-de-bord/issues/1858)) ([0275136](https://github.com/gip-inclusion/carnet-de-bord/commit/0275136f320f5f0873be60d159f523a8c1772d9d)), closes [#1836](https://github.com/gip-inclusion/carnet-de-bord/issues/1836)
+
 # [1.235.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.234.5...v1.235.0) (2023-06-28)
 
 
