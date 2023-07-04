@@ -4,7 +4,6 @@ import abc
 from abc import ABC
 from datetime import datetime, timedelta, timezone
 from uuid import UUID
-from xmlrpc.client import Boolean
 
 from dateutil.parser import isoparse
 from pydantic import BaseModel
@@ -23,7 +22,7 @@ class BeneficiaryResponse(BaseModel):
     date_of_birth: str
     last_diagnostic_hash: str | None
 
-    def diagnostic_shoub_be_fetched(self) -> Boolean:
+    def diagnostic_should_be_fetched(self) -> bool:
         if not self.diagnostic_fetched_at:
             return True
         creation_date = isoparse(self.diagnostic_fetched_at)
@@ -31,7 +30,7 @@ class BeneficiaryResponse(BaseModel):
         now = datetime.now(tz=timezone.utc)
         return now > expiry_date
 
-    def has_pe_diagnostic(self) -> Boolean:
+    def has_pe_diagnostic(self) -> bool:
         return self.last_diagnostic_hash is not None
 
 

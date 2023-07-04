@@ -102,7 +102,7 @@ async def refresh_notebook_situations_from_pole_emploi(
     notebook = await notebook_repository.find_by_notebook_id(notebook_id)
     if not notebook:
         return None
-    if notebook.diagnostic_shoub_be_fetched():
+    if notebook.diagnostic_should_be_fetched():
         if not notebook.nir:
             return None
 
@@ -111,7 +111,6 @@ async def refresh_notebook_situations_from_pole_emploi(
         )
 
         await notebook_repository.save_diagnostic_fetched_date(notebook_id)
-        print("++++++++", notebook.diagnostic_fetched_at)
 
         if dossier is None:
             return {
