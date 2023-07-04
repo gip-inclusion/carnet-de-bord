@@ -94,6 +94,53 @@ custom_types:
         - description: Temps partiel
           is_deprecated: null
           value: part_time
+    - name: PoleEmploiBesoinValeurEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: POINT_FORT
+        - description: null
+          is_deprecated: null
+          value: BESOIN
+        - description: null
+          is_deprecated: null
+          value: NON_EXPLORE
+    - name: PoleEmploiContrainteValeurEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: NON_ABORDEE
+        - description: null
+          is_deprecated: null
+          value: OUI
+        - description: null
+          is_deprecated: null
+          value: CLOTUREE
+    - name: PoleEmploiSituationValeurEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: NON_ABORDEE
+        - description: null
+          is_deprecated: null
+          value: OUI
+        - description: null
+          is_deprecated: null
+          value: NON
+    - name: PoleEmploiObjectifValeurEnum
+      values:
+        - description: null
+          is_deprecated: null
+          value: NON_ABORDE
+        - description: null
+          is_deprecated: null
+          value: EN_COURS
+        - description: null
+          is_deprecated: null
+          value: REALISE
+        - description: null
+          is_deprecated: null
+          value: ABANDONNE
   input_objects:
     - name: UpdateSocioProProfessionalProjectInsertInput
     - name: UpdateSocioProProfessionalProjectSetInput
@@ -104,11 +151,11 @@ custom_types:
     - name: UpdateSocioProOutput
     - name: CreateNotebookOutput
     - name: RefreshNotebookSituationsFromPoleEmploiOutput
-    - name: PoleEmploiDossierIndividuBesoins
-    - name: PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu
-    - name: PoleEmploiDossierIndividuContraintes
-    - name: PoleEmploiDossierIndividuContraintesIndividus
-    - name: PoleEmploiDossierIndividuObjectifs
     - name: PoleEmploiDossierIndividu
+    - name: PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu
+    - name: PoleEmploiDossierIndividuBesoins
+    - name: PoleEmploiDossierIndividuContraintesIndividus
+    - name: PoleEmploiDossierIndividuContraintes
+    - name: PoleEmploiDossierIndividuObjectifs
     - name: PoleEmploiDossierIndividuSituations
   scalars: []

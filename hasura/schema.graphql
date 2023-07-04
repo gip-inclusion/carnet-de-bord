@@ -8485,6 +8485,7 @@ type notebook {
   contractStartDate: date
   contractType: String
   createdAt: timestamptz!
+  diagnosticFetchedAt: timestamp
   educationLevel: String
 
   """An array relationship"""
@@ -9340,6 +9341,7 @@ input notebook_bool_exp {
   contractStartDate: date_comparison_exp
   contractType: String_comparison_exp
   createdAt: timestamptz_comparison_exp
+  diagnosticFetchedAt: timestamp_comparison_exp
   educationLevel: String_comparison_exp
   events: notebook_event_bool_exp
   events_aggregate: notebook_event_aggregate_bool_exp
@@ -10530,6 +10532,7 @@ input notebook_insert_input {
   contractStartDate: date
   contractType: String
   createdAt: timestamptz
+  diagnosticFetchedAt: timestamp
   educationLevel: String
   events: notebook_event_arr_rel_insert_input
   focuses: notebook_focus_arr_rel_insert_input
@@ -10554,6 +10557,7 @@ type notebook_max_fields {
   contractStartDate: date
   contractType: String
   createdAt: timestamptz
+  diagnosticFetchedAt: timestamp
   educationLevel: String
   id: uuid
   lastJobEndedAt: date
@@ -10968,6 +10972,7 @@ type notebook_min_fields {
   contractStartDate: date
   contractType: String
   createdAt: timestamptz
+  diagnosticFetchedAt: timestamp
   educationLevel: String
   id: uuid
   lastJobEndedAt: date
@@ -11017,6 +11022,7 @@ input notebook_order_by {
   contractStartDate: order_by
   contractType: order_by
   createdAt: order_by
+  diagnosticFetchedAt: order_by
   educationLevel: order_by
   events_aggregate: notebook_event_aggregate_order_by
   focuses_aggregate: notebook_focus_aggregate_order_by
@@ -11258,6 +11264,9 @@ enum notebook_select_column {
   createdAt
 
   """column name"""
+  diagnosticFetchedAt
+
+  """column name"""
   educationLevel
 
   """column name"""
@@ -11292,6 +11301,7 @@ input notebook_set_input {
   contractStartDate: date
   contractType: String
   createdAt: timestamptz
+  diagnosticFetchedAt: timestamp
   educationLevel: String
   id: uuid
   lastJobEndedAt: date
@@ -11628,6 +11638,7 @@ input notebook_stream_cursor_value_input {
   contractStartDate: date
   contractType: String
   createdAt: timestamptz
+  diagnosticFetchedAt: timestamp
   educationLevel: String
   id: uuid
   lastJobEndedAt: date
@@ -12003,6 +12014,9 @@ enum notebook_update_column {
 
   """column name"""
   createdAt
+
+  """column name"""
+  diagnosticFetchedAt
 
   """column name"""
   educationLevel
