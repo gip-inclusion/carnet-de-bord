@@ -438,24 +438,35 @@ def get_beneficiary_by_notebook_id_query() -> DocumentNode:
     return gql(
         """
         query GetBeneficiaryQuery($notebook_id:uuid!) {
-            beneficiaries: beneficiary(where: {
-                notebook: {
-                    id: { _eq: $notebook_id }
-                    }
-                }) {
-                    id
-                    nir
-                    dateOfBirth
+            notebook_by_pk(id: $notebook_id) {
+                beneficiary {
+                    id nir dateOfBirth
                     externalDataInfos(where: {
-                        externalData: { source: { _eq: peio }  } }
-                        order_by: {created_at: desc}
+                        externalData: { source: { _eq: peio } } }
+                        order_by: { created_at: desc }
                         limit: 1
                     ) {
                         externalData { hash }
-                        created_at
-                        updated_at
+                    }
                 }
+                diagnosticFetchedAt
             }
         }
+        """
+    )
+
+
+def update_diagnostic_fetch_date() -> DocumentNode:
+    return gql(
+        """
+        mutation update_notebook_by_pk($notebook_id: uuid!) {
+            update_notebook_by_pk(
+                pk_columns: {id: $notebook_id}
+                _set: {diagnosticFetchedAt: now}
+            ){
+                diagnosticFetchedAt
+            }
+        }
+
         """
     )

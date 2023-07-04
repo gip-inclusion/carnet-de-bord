@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta, timezone
+from typing import List
 from urllib.parse import quote
 from uuid import UUID
 
@@ -150,7 +151,7 @@ async def test_updates_cdb_data_and_external_data_when_there_are_new_constrainte
 
 @pytest.mark.graphql
 @respx.mock
-async def test_does_nothing_when_we_do_not_find_the_beneficiary(
+async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
@@ -172,32 +173,66 @@ async def test_does_nothing_when_we_do_not_find_the_beneficiary(
 
 @pytest.mark.graphql
 @respx.mock
+async def test_does_not_ask_pe_api_again_when_pe_has_no_info_for_our_beneficiary(
+    test_client: httpx.AsyncClient,
+    beneficiary_sophie_tifour: Beneficiary,
+    notebook_sophie_tifour: Notebook,
+    pe_settings: Settings,
+):
+    mocked_route = mock_pe_api_not_found_individu(
+        pe_settings, beneficiary_sophie_tifour
+    )
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    assert mocked_route.call_count == 1
+
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+
+    assert mocked_route.call_count == 1
+    expect_ok_response(
+        response,
+        {
+            "data_has_been_updated": False,
+            "external_data_has_been_updated": False,
+            "has_pe_diagnostic": False,
+        },
+    )
+
+
+@pytest.mark.graphql
+@respx.mock
 async def test_does_nothing_when_our_pe_data_was_fetched_recently(
     test_client: httpx.AsyncClient,
     beneficiary_sophie_tifour: Beneficiary,
     notebook_sophie_tifour: Notebook,
+    sophie_tifour_pe_diagnostic_with_contraintes: dict,
     db_connection: Connection,
     pe_settings: Settings,
 ):
-    external_data = await insert_external_data(
+    await given_beneficiary_has_pe_io_data(
+        beneficiary_sophie_tifour,
+        datetime.now(tz=timezone.utc) - timedelta(minutes=59),
         db_connection,
-        ExternalDataInsert(data={}, hash="hash", source=ExternalSource.PE_IO),
     )
-    assert external_data
-    await insert_external_data_info(
-        db_connection,
-        ExternalDataInfoInsert(
-            external_data_id=external_data.id,
-            beneficiary_id=beneficiary_sophie_tifour.id,
-            created_at=datetime.now(tz=timezone.utc) - timedelta(minutes=59),
-        ),
+
+    route = mock_pe_api(
+        pe_settings,
+        beneficiary_sophie_tifour,
+        sophie_tifour_pe_diagnostic_with_contraintes,
     )
 
     response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
-    pe_internal_id = PE_API_RECHERCHE_USAGERS_RESULT_OK_MOCK["identifiant"]
-    route = respx.get(
-        f"{pe_settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}",
-    )
+    print(route.call_count)
     assert not route.called
 
     expect_ok_response(
@@ -212,21 +247,15 @@ async def test_does_nothing_when_our_pe_data_was_fetched_recently(
 
 @pytest.mark.graphql
 @respx.mock
-async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary(
+async def test_does_nothing_when_we_do_not_find_requested_notebook(
     test_client: httpx.AsyncClient,
 ):
     response = await call_refresh_api(
         UUID("8341681f-aef3-4d28-baf6-763435b253d6"), test_client
     )
 
-    expect_ok_response(
-        response,
-        {
-            "data_has_been_updated": False,
-            "external_data_has_been_updated": False,
-            "has_pe_diagnostic": False,
-        },
-    )
+    assert response.status_code == 200
+    assert response.json() is None
 
 
 @pytest.mark.graphql
@@ -333,9 +362,6 @@ async def test_saves_the_new_pe_diagnostic_into_external_data(
         pe_settings,
         beneficiary_sophie_tifour,
         sophie_tifour_pe_diagnostic_with_add_only_contraintes,
-    )
-    await given_beneficiary_has_external_data_at_dates(
-        [], beneficiary_sophie_tifour, db_connection
     )
 
     response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
@@ -448,7 +474,11 @@ async def test_update_situation_when_received_situation_are_an_empty_array(
 
     expect_ok_response(
         response,
-        {"data_has_been_updated": True, "external_data_has_been_updated": True},
+        {
+            "data_has_been_updated": True,
+            "external_data_has_been_updated": True,
+            "has_pe_diagnostic": True,
+        },
     )
 
     situations = await get_notebook_situations_by_id(notebook_sophie_tifour.id)
@@ -668,7 +698,7 @@ def mock_pe_api(
         dossier_individu_response_code = 200
         dossier_individu_response = pe_diagnostic
 
-    respx.get(
+    return respx.get(
         f"{settings.PE_BASE_URL}/partenaire/diagnosticargumente/v1/individus/{quote(pe_internal_id)}",
     ).mock(
         return_value=httpx.Response(
@@ -692,7 +722,7 @@ def mock_pe_api_not_found_individu(
         )
     )
 
-    respx.post(
+    return respx.post(
         f"{settings.PE_BASE_URL}/partenaire/rechercher-usager/v1/usagers/recherche",
         json={
             "nir": beneficiary.nir,
@@ -858,15 +888,23 @@ def sophie_tifour_pe_diagnostic_with_add_only_contraintes() -> dict:
 
 
 async def given_beneficiary_has_external_data_at_dates(
-    dates, beneficiary, db_connection
+    dates: List[datetime], beneficiary: Beneficiary, db_connection: Connection
 ):
     for date in dates:
         await given_beneficiary_has_pe_io_data(beneficiary, date, db_connection)
 
+    await db_connection.fetchrow(
+        """
+    UPDATE notebook SET diagnostic_fetched_at=$1 WHERE beneficiary_id=$2
+    """,
+        max(dates),
+        beneficiary.id,
+    )
+
 
 def expect_ok_response(response, expected_response_dict):
     assert response.status_code == 200
-    assert response.json().items() >= expected_response_dict.items()
+    assert response.json().items() == expected_response_dict.items()
 
 
 async def call_refresh_api(uuid: UUID, test_client):
@@ -882,10 +920,25 @@ def fresh_creation_date():
     return expired_date() + timedelta(minutes=1)
 
 
-async def given_beneficiary_has_pe_io_data(beneficiary, created_at, db_connection):
+async def given_beneficiary_has_pe_io_data(
+    beneficiary: Beneficiary, created_at: datetime, db_connection: Connection
+):
     external_data = await insert_external_data(
         db_connection,
-        ExternalDataInsert(data={}, hash="hash", source=ExternalSource.PE_IO),
+        ExternalDataInsert(
+            data={
+                "contraintesIndividusDto": {
+                    "code": "7",
+                    "libelle": "Résoudre ses contraintes personnelles",
+                    "conseiller": "TNAN0260",
+                    "contraintes": [],
+                    "dateDeModification": "2023-05-12T12:54:39.000+00:00",
+                },
+                "besoinsParDiagnosticIndividuDtos": [],
+            },
+            hash="hash",
+            source=ExternalSource.PE_IO,
+        ),
     )
     assert external_data
     await insert_external_data_info(
@@ -895,6 +948,13 @@ async def given_beneficiary_has_pe_io_data(beneficiary, created_at, db_connectio
             beneficiary_id=beneficiary.id,
             created_at=created_at,
         ),
+    )
+    await db_connection.fetchrow(
+        """
+    UPDATE notebook SET diagnostic_fetched_at=$1 WHERE beneficiary_id=$2
+    """,
+        created_at,
+        beneficiary.id,
     )
 
 

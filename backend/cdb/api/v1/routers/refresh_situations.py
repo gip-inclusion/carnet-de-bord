@@ -1,14 +1,12 @@
 from __future__ import annotations
 
 import abc
-import datetime
 import json
 import logging
 from abc import ABC
 from typing import List
 from uuid import UUID
 
-import dateutil.parser
 from fastapi import APIRouter, Depends
 from gql.client import AsyncClientSession
 from pydantic import BaseModel
@@ -29,8 +27,7 @@ from cdb.api.v1.dependencies import verify_secret_token
 from cdb.api.v1.payloads.notebook import NotebookSituationInputPayload
 from cdb.api.v1.payloads.socio_pro import SituationToAdd
 from cdb.api.v1.routers.beneficiary_repository import (
-    Beneficiary,
-    DbBeneficiaryRepository,
+    DbNotebookRepository,
 )
 from cdb.cdb_csv.json_encoder import CustomEncoder
 from cdb.pe.models.dossier_individu_api import Contrainte, DossierIndividuData
@@ -40,7 +37,7 @@ logger = logging.getLogger(__name__)
 
 router = APIRouter(dependencies=[Depends(verify_secret_token)])
 
-beneficiary_repository = DbBeneficiaryRepository()
+notebook_repository = DbNotebookRepository()
 
 
 class DossierPEClient(ABC):
@@ -102,36 +99,27 @@ async def refresh_notebook_situations_from_pole_emploi(
 
     notebook_id = payload.input.notebook_id
 
-    beneficiary = await beneficiary_repository.find_by_notebook_id(notebook_id)
-    if not beneficiary:
-        return {
-            "data_has_been_updated": False,
-            "external_data_has_been_updated": False,
-            "has_pe_diagnostic": False,
-        }
+    notebook = await notebook_repository.find_by_notebook_id(notebook_id)
+    if not notebook:
+        return None
+    if notebook.diagnostic_should_be_fetched():
+        if not notebook.nir:
+            return None
 
-    if (
-        not beneficiary.latest_external_data
-        or not beneficiary.latest_external_data.is_fresh()
-    ):
-        dossier = await dossier_pe_client.find(
-            DossierPEClient.Query(
-                nir=beneficiary.nir, birth_date=beneficiary.date_of_birth
-            )
+        dossier: DossierIndividuData | None = await dossier_pe_client.find(
+            DossierPEClient.Query(nir=notebook.nir, birth_date=notebook.date_of_birth)
         )
+
+        await notebook_repository.save_diagnostic_fetched_date(notebook_id)
+
         if dossier is None:
-            # TODO save empty external data
             return {
                 "data_has_been_updated": False,
                 "external_data_has_been_updated": False,
                 "has_pe_diagnostic": False,
             }
 
-        if (
-            beneficiary.latest_external_data
-            and beneficiary.latest_external_data.external_data_hash == dossier.hash()
-        ):
-            # TODO Update the updated_at ts
+        if notebook.last_diagnostic_hash == dossier.hash():
             return {
                 "data_has_been_updated": False,
                 "external_data_has_been_updated": False,
@@ -139,7 +127,7 @@ async def refresh_notebook_situations_from_pole_emploi(
             }
 
         async with gql_client_backend_only() as session:
-            await save_dossier(dossier, beneficiary.id, session)
+            await save_dossier(dossier, notebook.beneficiary_id, session)
 
             if settings.ENABLE_SYNC_CONTRAINTES:
                 differences = await get_differences(
@@ -159,32 +147,11 @@ async def refresh_notebook_situations_from_pole_emploi(
             "external_data_has_been_updated": True,
             "has_pe_diagnostic": True,
         }
-
     return {
         "data_has_been_updated": False,
         "external_data_has_been_updated": False,
-        "has_pe_diagnostic": True,
+        "has_pe_diagnostic": notebook.has_pe_diagnostic(),
     }
-
-
-async def get_single_beneficiary_of_notebook(notebook_id: UUID) -> Beneficiary | None:
-    return await DbBeneficiaryRepository().find_by_notebook_id(notebook_id)
-
-
-def are_data_fresh(beneficiary: dict) -> bool:
-    external_data_infos: List[dict] | None = beneficiary.get("externalDataInfos")
-    if external_data_infos:
-        for data in external_data_infos:
-            if is_fresh(data):
-                return True
-    return False
-
-
-def is_fresh(external_data):
-    creation_date = dateutil.parser.isoparse(external_data["created_at"])
-    expiry_date = creation_date + datetime.timedelta(hours=1)
-    now = datetime.datetime.now(tz=datetime.timezone.utc)
-    return now <= expiry_date
 
 
 async def save_dossier(
@@ -208,31 +175,6 @@ async def get_differences(
     return merge_contraintes_to_situations(
         contraintes, ref_situations, notebook_situations
     )
-
-
-async def get_dossier_individu_pe(
-    beneficiary: Beneficiary,
-) -> DossierIndividuData | None:
-    pe_client = PoleEmploiApiClient(
-        auth_base_url=settings.PE_AUTH_BASE_URL,
-        base_url=settings.PE_BASE_URL,
-        client_id=settings.PE_CLIENT_ID,
-        client_secret=settings.PE_CLIENT_SECRET,
-        scope=" ".join(
-            [
-                "api_rechercher-usagerv1",
-                "api_diagnosticargumentev1",
-                "api_metiers-profil-competencesv1",
-                "ciblepro",
-                "api_projet-creation-entreprisev1",
-            ]
-        ),  # noqa: E501
-    )
-    beneficiary = await pe_client.search_beneficiary(
-        nir=beneficiary.nir, date_of_birth=beneficiary.date_of_birth
-    )
-    if beneficiary and beneficiary.identifiant:
-        return await pe_client.get_dossier_individu(beneficiary.identifiant)
 
 
 async def save_differences(differences: SituationDifferences, notebook_id, session):

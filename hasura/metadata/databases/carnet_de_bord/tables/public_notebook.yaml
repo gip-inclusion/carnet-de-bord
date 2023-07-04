@@ -15,6 +15,8 @@ configuration:
       custom_name: contractType
     created_at:
       custom_name: createdAt
+    diagnostic_fetched_at:
+      custom_name: diagnosticFetchedAt
     education_level:
       custom_name: educationLevel
     last_job_ended_at:
@@ -36,6 +38,7 @@ configuration:
     contract_start_date: contractStartDate
     contract_type: contractType
     created_at: createdAt
+    diagnostic_fetched_at: diagnosticFetchedAt
     education_level: educationLevel
     last_job_ended_at: lastJobEndedAt
     right_rqth: rightRqth
