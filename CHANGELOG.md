@@ -1,3 +1,10 @@
+## [1.236.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.0...v1.236.1) (2023-07-04)
+
+
+### Performance Improvements
+
+* **pe:** évite d'appeler l'api PE trop souvent ([#1860](https://github.com/gip-inclusion/carnet-de-bord/issues/1860)) ([9f90e07](https://github.com/gip-inclusion/carnet-de-bord/commit/9f90e070614f9127333f5b782e449f5b6ba288c4))
+
 # [1.236.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.235.2...v1.236.0) (2023-07-03)
 
 
