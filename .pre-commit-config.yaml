@@ -45,7 +45,7 @@ repos:
       - id: app-check
         name: run svelte-check (app)
         language: system
-        files: ^app/src/.*$
+        files: ^app/.*$
         types_or: [javascript, ts, svelte]
         pass_filenames: false
         entry: |
