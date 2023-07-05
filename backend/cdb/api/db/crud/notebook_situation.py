@@ -1,48 +1,34 @@
-from typing import List, Tuple
+from typing import List
 from uuid import UUID
 
 from gql import gql
 from gql.client import AsyncClientSession
 
-from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
+from cdb.api.db.models.ref_situation import RefSituation
 from cdb.api.v1.payloads.socio_pro import SituationToAdd
 
 
-async def get_ref_situations_with_notebook_situations(
-    client: AsyncClientSession, notebook_id: UUID
-) -> Tuple[List[RefSituation], List[NotebookSituation]]:
+async def get_ref_situations(client: AsyncClientSession) -> List[RefSituation]:
     query = gql(
-        """
-        query getRefSituation($notebookId: uuid!) {
+        (
+            """
+        query {
             ref_situation {
                 id, description, theme
             }
-            notebook_situation(where: {
-                notebookId: {_eq: $notebookId}
-                deletedAt: {_is_null: true}
-            }, order_by: {createdAt: desc}
-            ) {
-                id situationId createdAt deletedAt
-            }
         }
     """
+        )
     )
-    response = await client.execute(query, variable_values={"notebookId": notebook_id})
+    response = await client.execute(query)
     ref_situations = response.get("ref_situation")
-    notebook_situations = response.get("notebook_situation")
-    if not ref_situations:
-        return ([], [])
-    ref_situations_parsed = [
-        RefSituation.parse_obj(situation) for situation in ref_situations
-    ]
-    if not notebook_situations:
-        return (ref_situations_parsed, [])
+    ref_situations_parsed = []
+    if ref_situations:
+        ref_situations_parsed = [
+            RefSituation.parse_obj(situation) for situation in ref_situations
+        ]
 
-    notebook_situations_parsed = [
-        NotebookSituation.parse_obj(situation) for situation in notebook_situations
-    ]
-
-    return (ref_situations_parsed, notebook_situations_parsed)
+    return ref_situations_parsed
 
 
 async def save_notebook_situations(

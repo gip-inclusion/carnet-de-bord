@@ -23,8 +23,8 @@ class Settings(BaseSettings):
     PE_BASE_URL: str = "https://api.pole-emploi.io"
     # PE_AUTH_BASE_URL: str = "https://entreprise.pe-qvr.fr"
     # PE_BASE_URL: str = "https://api.peio.pe-qvr.fr"
-    PE_CLIENT_ID: str = ""
-    PE_CLIENT_SECRET: str = ""
+    PE_CLIENT_ID: str
+    PE_CLIENT_SECRET: str
 
     action_secret: str
 
