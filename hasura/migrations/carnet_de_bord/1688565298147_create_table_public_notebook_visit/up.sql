@@ -1,2 +1,0 @@
-CREATE TABLE "public"."notebook_visit" ("id" uuid NOT NULL DEFAULT gen_random_uuid(), "notebook_id" UUID NOT NULL, "account_id" UUID NOT NULL, "visited_at" timestamptz NOT NULL, PRIMARY KEY ("id") , FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("account_id") REFERENCES "public"."account"("id") ON UPDATE restrict ON DELETE restrict);COMMENT ON TABLE "public"."notebook_visit" IS E'store notebook visit on a given notebook';
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
