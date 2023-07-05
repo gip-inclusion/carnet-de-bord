@@ -1,0 +1,16 @@
+table:
+  name: notebook_visit
+  schema: public
+configuration:
+  column_config:
+    account_id:
+      custom_name: accountId
+    notebook_id:
+      custom_name: notebookId
+    visited_at:
+      custom_name: visitedAt
+  custom_column_names:
+    account_id: accountId
+    notebook_id: notebookId
+    visited_at: visitedAt
+  custom_root_fields: {}
