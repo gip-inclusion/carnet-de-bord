@@ -3,8 +3,6 @@ mutation UpdateNotebookVisitDate($id: uuid!, $accountId: uuid!, $date: timestamp
     where: { notebookId: { _eq: $id }, accountId: { _eq: $accountId } }
     _set: { lastVisitedAt: $date }
   ) {
-    returning {
-      id
-    }
+    affected_rows
   }
 }
