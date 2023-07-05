@@ -1,0 +1,752 @@
+{
+    "besoinsParDiagnosticIndividuDtos": [
+        {
+            "besoins": [
+                {
+                    "code": "1",
+                    "libelle": "Identifier ses points forts et ses comp\u00e9tences",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "2",
+                    "libelle": "Conna\u00eetre les opportunit\u00e9s d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "3",
+                    "libelle": "D\u00e9couvrir un m\u00e9tier ou un secteur d\u2019activit\u00e9",
+                    "valeur": "BESOIN"
+                },
+                {
+                    "code": "4",
+                    "libelle": "Confirmer son choix de m\u00e9tier",
+                    "valeur": "POINT_FORT"
+                },
+                {
+                    "code": "5",
+                    "libelle": "Trouver sa formation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "6",
+                    "libelle": "Monter son dossier de formation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "8",
+                    "libelle": "Valoriser ses comp\u00e9tences",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "9",
+                    "libelle": "R\u00e9aliser un CV et/ou une lettre de motivation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "10",
+                    "libelle": "D\u00e9velopper son r\u00e9seau",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "11",
+                    "libelle": "Organiser ses d\u00e9marches de recherche d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "12",
+                    "libelle": "R\u00e9pondre \u00e0 des offres d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "13",
+                    "libelle": "Faire des candidatures spontan\u00e9es",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "14",
+                    "libelle": "Suivre ses candidatures et relancer les recruteurs",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "15",
+                    "libelle": "Convaincre un recruteur en entretien",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "16",
+                    "libelle": "D\u00e9finir son projet de cr\u00e9ation d\u2019entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "17",
+                    "libelle": "Structurer son projet de cr\u00e9ation d\u2019entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "18",
+                    "libelle": "D\u00e9velopper son entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "19",
+                    "libelle": "Conna\u00eetre les opportunit\u00e9s d\u2019emploi \u00e0 l\u2019\u00e9tranger",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "20",
+                    "libelle": "S\u2019informer sur les aides pour travailler \u00e0 l\u2019\u00e9tranger",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "21",
+                    "libelle": "S\u2019organiser suite \u00e0 son retour en France",
+                    "valeur": "NON_EXPLORE"
+                }
+            ],
+            "dateMiseAJour": "2022-12-08T23:00:00.000+00:00",
+            "estPrioritaire": false,
+            "idMetierChiffre": "fab31b61-9b96-4112-afac-5020a79a21de#lkLOSn1Wty5XMfoSBOBxuTlzE4T9-wXxHUOv-yvI8lg",
+            "nomMetier": "Boulanger",
+            "statut": "EN_COURS",
+            "typologie": "m\u00e9tier recherch\u00e9"
+        },
+        {
+            "besoins": [
+                {
+                    "code": "1",
+                    "libelle": "Identifier ses points forts et ses comp\u00e9tences",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "2",
+                    "libelle": "Conna\u00eetre les opportunit\u00e9s d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "3",
+                    "libelle": "D\u00e9couvrir un m\u00e9tier ou un secteur d\u2019activit\u00e9",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "4",
+                    "libelle": "Confirmer son choix de m\u00e9tier",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "5",
+                    "libelle": "Trouver sa formation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "6",
+                    "libelle": "Monter son dossier de formation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "8",
+                    "libelle": "Valoriser ses comp\u00e9tences",
+                    "valeur": "BESOIN"
+                },
+                {
+                    "code": "9",
+                    "libelle": "R\u00e9aliser un CV et/ou une lettre de motivation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "10",
+                    "libelle": "D\u00e9velopper son r\u00e9seau",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "11",
+                    "libelle": "Organiser ses d\u00e9marches de recherche d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "12",
+                    "libelle": "R\u00e9pondre \u00e0 des offres d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "13",
+                    "libelle": "Faire des candidatures spontan\u00e9es",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "14",
+                    "libelle": "Suivre ses candidatures et relancer les recruteurs",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "15",
+                    "libelle": "Convaincre un recruteur en entretien",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "16",
+                    "libelle": "D\u00e9finir son projet de cr\u00e9ation d\u2019entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "17",
+                    "libelle": "Structurer son projet de cr\u00e9ation d\u2019entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "18",
+                    "libelle": "D\u00e9velopper son entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "19",
+                    "libelle": "Conna\u00eetre les opportunit\u00e9s d\u2019emploi \u00e0 l\u2019\u00e9tranger",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "20",
+                    "libelle": "S\u2019informer sur les aides pour travailler \u00e0 l\u2019\u00e9tranger",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "21",
+                    "libelle": "S\u2019organiser suite \u00e0 son retour en France",
+                    "valeur": "NON_EXPLORE"
+                }
+            ],
+            "dateMiseAJour": "2022-12-08T23:00:00.000+00:00",
+            "estPrioritaire": false,
+            "idMetierChiffre": "fab31b61-9b96-4112-afac-5020a79a21de#AfHQJo0sNYlkv1pnqbqX6dav70Yoxh83N9tqmcJNoxY",
+            "nomMetier": "Boulanger",
+            "statut": "EN_COURS",
+            "typologie": "m\u00e9tier recherch\u00e9"
+        },
+        {
+            "besoins": [
+                {
+                    "code": "1",
+                    "libelle": "Identifier ses points forts et ses comp\u00e9tences",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "2",
+                    "libelle": "Conna\u00eetre les opportunit\u00e9s d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "3",
+                    "libelle": "D\u00e9couvrir un m\u00e9tier ou un secteur d\u2019activit\u00e9",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "4",
+                    "libelle": "Confirmer son choix de m\u00e9tier",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "5",
+                    "libelle": "Trouver sa formation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "6",
+                    "libelle": "Monter son dossier de formation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "8",
+                    "libelle": "Valoriser ses comp\u00e9tences",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "9",
+                    "libelle": "R\u00e9aliser un CV et/ou une lettre de motivation",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "10",
+                    "libelle": "D\u00e9velopper son r\u00e9seau",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "11",
+                    "libelle": "Organiser ses d\u00e9marches de recherche d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "12",
+                    "libelle": "R\u00e9pondre \u00e0 des offres d\u2019emploi",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "13",
+                    "libelle": "Faire des candidatures spontan\u00e9es",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "14",
+                    "libelle": "Suivre ses candidatures et relancer les recruteurs",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "15",
+                    "libelle": "Convaincre un recruteur en entretien",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "16",
+                    "libelle": "D\u00e9finir son projet de cr\u00e9ation d\u2019entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "17",
+                    "libelle": "Structurer son projet de cr\u00e9ation d\u2019entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "18",
+                    "libelle": "D\u00e9velopper son entreprise",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "19",
+                    "libelle": "Conna\u00eetre les opportunit\u00e9s d\u2019emploi \u00e0 l\u2019\u00e9tranger",
+                    "valeur": "POINT_FORT"
+                },
+                {
+                    "code": "20",
+                    "libelle": "S\u2019informer sur les aides pour travailler \u00e0 l\u2019\u00e9tranger",
+                    "valeur": "NON_EXPLORE"
+                },
+                {
+                    "code": "21",
+                    "libelle": "S\u2019organiser suite \u00e0 son retour en France",
+                    "valeur": "NON_EXPLORE"
+                }
+            ],
+            "dateMiseAJour": "2022-12-14T23:00:00.000+00:00",
+            "estPrioritaire": false,
+            "idMetierChiffre": "fab31b61-9b96-4112-afac-5020a79a21de#aFE92cIQzZQ0mLsAK4icj-acS5WpmO_Q-5CR6_FwBGM",
+            "nomMetier": null,
+            "statut": "EN_COURS",
+            "typologie": null
+        }
+    ],
+    "contraintesIndividusDto": {
+        "code": "7",
+        "conseiller": "ecse0201",
+        "contraintes": [
+            {
+                "code": "23",
+                "date": "2021-05-17T14:47:11+00:00",
+                "libelle": "D\u00e9velopper sa mobilit\u00e9",
+                "objectifs": [
+                    {
+                        "code": "25",
+                        "libelle": "Faire un point complet sur sa mobilit\u00e9",
+                        "valeur": "EN_COURS"
+                    },
+                    {
+                        "code": "26",
+                        "libelle": "Acc\u00e9der \u00e0 un v\u00e9hicule",
+                        "valeur": "EN_COURS"
+                    },
+                    {
+                        "code": "27",
+                        "libelle": "Entretenir ou r\u00e9parer son v\u00e9hicule",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "28",
+                        "libelle": "Obtenir le permis de conduire (code / conduite)",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "29",
+                        "libelle": "Trouver une solution de transport (hors acquisition ou entretien de v\u00e9hicule)",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "30",
+                        "libelle": "Travailler la mobilit\u00e9 psychologique",
+                        "valeur": "NON_ABORDE"
+                    }
+                ],
+                "situations": [
+                    {
+                        "code": "6",
+                        "libelle": "Aucun moyen de transport \u00e0 disposition",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "7",
+                        "libelle": "D\u00e9pendant des transports en commun",
+                        "valeur": "OUI"
+                    },
+                    {
+                        "code": "8",
+                        "libelle": "Permis non valide / suspension de permis",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "40",
+                        "libelle": "\u00c9tat de sant\u00e9 incompatible avec la conduite",
+                        "valeur": "NON_ABORDEE"
+                    }
+                ],
+                "valeur": "OUI"
+            },
+            {
+                "code": "24",
+                "date": null,
+                "libelle": "Surmonter ses contraintes familiales",
+                "objectifs": [
+                    {
+                        "code": "1",
+                        "libelle": "Faire face \u00e0 la prise en charge d'une personne d\u00e9pendante",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "2",
+                        "libelle": "Trouver des solutions de garde d'enfant",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "3",
+                        "libelle": "Surmonter des difficult\u00e9s \u00e9ducatives ou de parentalit\u00e9",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "4",
+                        "libelle": "Faire face \u00e0 un conflit familial et/ou une s\u00e9paration",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "5",
+                        "libelle": "Obtenir le statut d'aidant familial",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "6",
+                        "libelle": "Rompre l'isolement",
+                        "valeur": "NON_ABORDE"
+                    }
+                ],
+                "situations": [
+                    {
+                        "code": "9",
+                        "libelle": "Enfant(s) en situation de handicap",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "10",
+                        "libelle": "Contraintes horaires",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "11",
+                        "libelle": "Aidant familial (s'occuper d'un proche)",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "12",
+                        "libelle": "Autres contraintes familiales \u00e0 prendre en compte",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "13",
+                        "libelle": "Enfant(s) de moins de 3 ans sans solution de garde",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "14",
+                        "libelle": "Attend un enfant ou plus",
+                        "valeur": "NON_ABORDEE"
+                    }
+                ],
+                "valeur": "NON_ABORDEE"
+            },
+            {
+                "code": "25",
+                "date": null,
+                "libelle": "Prendre en compte son \u00e9tat de sant\u00e9",
+                "objectifs": [
+                    {
+                        "code": "31",
+                        "libelle": "B\u00e9n\u00e9ficier d'un accompagnement pour acc\u00e9der aux droits et aux soins",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "32",
+                        "libelle": "Travailler sur les comportements de sant\u00e9 (d\u00e9pendances, hygi\u00e8nes corporelles, d\u00e9pistage, ...)",
+                        "valeur": "NON_ABORDE"
+                    }
+                ],
+                "situations": [
+                    {
+                        "code": "15",
+                        "libelle": "Probl\u00e8me d\u00e9clar\u00e9 entravant l'exercice de certains m\u00e9tiers",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "16",
+                        "libelle": "Couverture sociale / mutuelle \u00e0 mettre \u00e0 jour",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "17",
+                        "libelle": "Probl\u00e8me d\u00e9clar\u00e9 ne permettant plus d'exercer une activit\u00e9 professionnelle",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "18",
+                        "libelle": "Probl\u00e8me d\u00e9clar\u00e9 ne permettant pas de reprendre une activit\u00e9 professionnelle imm\u00e9diate",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "19",
+                        "libelle": "Probl\u00e8me d\u00e9clar\u00e9 entrainant des absences r\u00e9guli\u00e8res",
+                        "valeur": "NON_ABORDEE"
+                    }
+                ],
+                "valeur": "NON_ABORDEE"
+            },
+            {
+                "code": "26",
+                "date": "2021-05-17T14:47:11+00:00",
+                "libelle": "D\u00e9velopper ses capacit\u00e9s en lecture, \u00e9criture et calcul",
+                "objectifs": [
+                    {
+                        "code": "23",
+                        "libelle": "Apprendre / Am\u00e9liorer ses capacit\u00e9s en fran\u00e7ais ",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "24",
+                        "libelle": "Apprendre / Am\u00e9liorer ses capacit\u00e9s en calcul",
+                        "valeur": "NON_ABORDE"
+                    }
+                ],
+                "situations": [
+                    {
+                        "code": "20",
+                        "libelle": "Non maitrise de l'\u00e9crit en fran\u00e7ais (\u00e9crit)",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "21",
+                        "libelle": "Non maitrise de la lecture en fran\u00e7ais (lu)",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "22",
+                        "libelle": "Non maitrise de la compr\u00e9hension du fran\u00e7ais (parl\u00e9)",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "23",
+                        "libelle": "Difficult\u00e9s en calcul",
+                        "valeur": "OUI"
+                    }
+                ],
+                "valeur": "OUI"
+            },
+            {
+                "code": "27",
+                "date": null,
+                "libelle": "Faire face \u00e0 des difficult\u00e9s de logement",
+                "objectifs": [
+                    {
+                        "code": "17",
+                        "libelle": "Se maintenir dans le logement",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "18",
+                        "libelle": "R\u00e9duire les impay\u00e9s de loyer",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "19",
+                        "libelle": "Rechercher une solution d'h\u00e9bergement temporaire ",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "20",
+                        "libelle": "Acc\u00e9der \u00e0 un logement",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "21",
+                        "libelle": "Changer de logement",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "22",
+                        "libelle": "S'informer sur les d\u00e9marches li\u00e9es \u00e0 l'acc\u00e8s au logement",
+                        "valeur": "NON_ABORDE"
+                    }
+                ],
+                "situations": [
+                    {
+                        "code": "24",
+                        "libelle": "Sans h\u00e9bergement / rupture effective de logement",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "25",
+                        "libelle": "Logement insalubre",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "26",
+                        "libelle": "Difficult\u00e9 \u00e0 payer le loyer",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "27",
+                        "libelle": "Doit quitter le logement",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "28",
+                        "libelle": "Territoire rural isol\u00e9",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "41",
+                        "libelle": "Besoin d'adapter le logement",
+                        "valeur": "NON_ABORDEE"
+                    }
+                ],
+                "valeur": "NON_ABORDEE"
+            },
+            {
+                "code": "28",
+                "date": null,
+                "libelle": "Faire face \u00e0 des difficult\u00e9s financi\u00e8res",
+                "objectifs": [
+                    {
+                        "code": "13",
+                        "libelle": "Am\u00e9liorer sa gestion budg\u00e9taire",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "14",
+                        "libelle": "Faire face \u00e0 une situation d'endettement / surendettement",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "15",
+                        "libelle": "Acqu\u00e9rir une autonomie budg\u00e9taire",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "16",
+                        "libelle": "Mettre en place une mesure de protection financi\u00e8res (tutelles, curatelles, ...)",
+                        "valeur": "NON_ABORDE"
+                    }
+                ],
+                "situations": [
+                    {
+                        "code": "29",
+                        "libelle": "Sans aucune ressource",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "30",
+                        "libelle": "Baisse des ressources",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "31",
+                        "libelle": "Difficult\u00e9 dans la gestion d'un budget",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "32",
+                        "libelle": "En situation de surendettement",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "33",
+                        "libelle": "Besoin d'un soutien alimentaire",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "34",
+                        "libelle": "Ressources pr\u00e9caires (inf\u00e9rieures au seuil de pauvret\u00e9)",
+                        "valeur": "NON_ABORDEE"
+                    }
+                ],
+                "valeur": "NON_ABORDEE"
+            },
+            {
+                "code": "29",
+                "date": null,
+                "libelle": "Faire face \u00e0 des difficult\u00e9s administratives ou juridiques",
+                "objectifs": [
+                    {
+                        "code": "7",
+                        "libelle": "Connaitre les voies de recours face \u00e0 une discrimination",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "8",
+                        "libelle": "Prendre en compte une probl\u00e9matique judiciaire",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "9",
+                        "libelle": "B\u00e9n\u00e9ficier d'un appui aux d\u00e9marches administratives",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "10",
+                        "libelle": "B\u00e9n\u00e9ficier d'un accompagnement pour acc\u00e9der aux droits",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "11",
+                        "libelle": "B\u00e9n\u00e9ficier d'une mesure d'accompagnement adapt\u00e9",
+                        "valeur": "NON_ABORDE"
+                    },
+                    {
+                        "code": "12",
+                        "libelle": "B\u00e9n\u00e9ficier d'un accompagnement \u00e0 l'acc\u00e8s \u00e0 la citoyennet\u00e9",
+                        "valeur": "NON_ABORDE"
+                    }
+                ],
+                "situations": [
+                    {
+                        "code": "35",
+                        "libelle": "Difficult\u00e9s \u00e0 effectuer une d\u00e9marche administrative",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "36",
+                        "libelle": "Besoin d'etre guid\u00e9 dans le cadre d'un acc\u00e8s aux droits",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "37",
+                        "libelle": "Rencontre des difficult\u00e9s juridiques",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "38",
+                        "libelle": "Difficult\u00e9 \u00e0 acc\u00e9der \u00e0 un justificatif d'identit\u00e9",
+                        "valeur": "NON_ABORDEE"
+                    },
+                    {
+                        "code": "39",
+                        "libelle": "Difficult\u00e9 \u00e0 acc\u00e9der \u00e0 son avis d'imposition",
+                        "valeur": "NON_ABORDEE"
+                    }
+                ],
+                "valeur": "NON_ABORDEE"
+            }
+        ],
+        "dateDeModification": "2021-05-17T14:47:11.000+00:00",
+        "libelle": "R\u00e9soudre ses contraintes personnelles"
+    }
+}
