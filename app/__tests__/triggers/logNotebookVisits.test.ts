@@ -14,6 +14,12 @@ beforeAll(async () => {
 	graphqlAsPierreChevalier = graphql({
 		authorization: `Bearer ${token}`,
 	});
+	await graphqlAdmin(`
+		mutation {
+			delete_notebook_visit(where: {}){
+				affected_rows
+			}
+		}`);
 });
 
 test('it should add a new row in the table notebook_visit', async () => {
