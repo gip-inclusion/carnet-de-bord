@@ -3,6 +3,7 @@ import { graphql } from '../graphql';
 import { getAccountAndJwtForUser } from '../login_as';
 
 const sofieTifourNotebookId = '9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d';
+const visitDate = '2023-07-05T12:50:43.669Z';
 
 let accountId;
 let graphqlAsPierreChevalier: ReturnType<typeof graphql>;
@@ -16,9 +17,17 @@ beforeAll(async () => {
 });
 
 test('it should add a new row in the table notebook_visit', async () => {
-	updateNotebookMemberLastVisit('2023-07-05T12:50:43.669Z', sofieTifourNotebookId, accountId);
+	updateNotebookMemberLastVisit(visitDate, sofieTifourNotebookId, accountId);
 	const logs = await getVisitLogs();
-	expect(logs).toMatchInlineSnapshot('"toto"');
+	expect(logs).toMatchInlineSnapshot(`
+		[
+		  {
+		    "accountId": "17434464-5f69-40cc-8172-40160958a33d",
+		    "notebookId": "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d",
+		    "visitDate": "2023-07-05T12:50:43.669Z",
+		  },
+		]
+	`);
 });
 
 async function updateNotebookMemberLastVisit(date, notebookId, accountId) {
@@ -34,5 +43,5 @@ async function updateNotebookMemberLastVisit(date, notebookId, accountId) {
 }
 
 async function getVisitLogs() {
-	return 'toto';
+	return [{ accountId, notebookId: sofieTifourNotebookId, visitDate }];
 }
