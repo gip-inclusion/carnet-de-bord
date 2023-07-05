@@ -19,7 +19,7 @@ async def http_500_exception_handler(_: Request, exception: Exception):
     logger.exception(exception)
     error_message = "Une erreur interne est survenue"
     return JSONResponse(
-        status_code=400,
+        status_code=500,
         content={"message": error_message, "detail": error_message},
     )
 
