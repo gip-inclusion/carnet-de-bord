@@ -15,29 +15,40 @@ beforeAll(async () => {
 		authorization: `Bearer ${token}`,
 	});
 });
-//
-test.skip('it should add a new row in the table notebook_visit', async () => {
+
+test('it should add a new row in the table notebook_visit', async () => {
 	updateNotebookMemberLastVisit(visitedAt, sofieTifourNotebookId, accountId);
+	await graphqlAdmin(
+		`
+		mutation($notebookId:uuid!, $accountId: uuid!, $visitedAt: timestamptz!){
+			insert_notebook_visit_one(object: {
+				accountId: $accountId, notebookId: $notebookId, visitedAt: $visitedAt
+			}) {
+				id
+			}
+		}`,
+		{ visitedAt, notebookId: sofieTifourNotebookId, accountId }
+	);
 	const logs = await getVisitLogs();
 	expect(logs).toMatchInlineSnapshot(`
 		[
 		  {
 		    "accountId": "17434464-5f69-40cc-8172-40160958a33d",
 		    "notebookId": "9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d",
-		    "visitedAt": "2023-07-05T12:50:43.669Z",
+		    "visitedAt": "2023-07-05T12:50:43.669+00:00",
 		  },
 		]
 	`);
 });
 
-async function updateNotebookMemberLastVisit(date, notebookId, accountId) {
+async function updateNotebookMemberLastVisit(visitedAt, notebookId, accountId) {
 	await graphqlAsPierreChevalier(
-		`mutation($notebookId:uuid!, $accountId: uuid!, $date: timestamptz!){
+		`mutation($notebookId:uuid!, $accountId: uuid!, $visitedAt: timestamptz!){
 			update_notebook_member(
 				where: { notebookId: {_eq: $notebookId}, accountId:{_eq: $accountId }}
-				_set: {lastVisitedAt: $date}
+				_set: {lastVisitedAt: $visitedAt}
 			){affected_rows}}`,
-		{ date, notebookId, accountId }
+		{ visitedAt, notebookId, accountId }
 	);
 }
 
