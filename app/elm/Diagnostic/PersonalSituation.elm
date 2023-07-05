@@ -1,6 +1,5 @@
 module Diagnostic.PersonalSituation exposing (DisplayTheme, Model, Msg(..), RefreshState(..), Theme, init, update, view)
 
-import BetaGouv.DSFR.Alert as Alert
 import Diagnostic.AllSituations as AllSituations exposing (DataSyncInfo, PersonalSituation)
 import Domain.Account
 import Domain.Theme
@@ -150,25 +149,6 @@ viewRefreshState state =
     case state of
         Started ->
             UI.Spinner.view "Récupération des information Pôle emploi en cours"
-
-        Failed ->
-            Html.div []
-                [ Alert.small
-                    { title = Nothing
-                    , description =
-                        "Échec de la synchronisation avec Pôle Emploi, "
-                            ++ "les informations ci-dessous peuvent être obsolètes. "
-                            ++ "Nos équipes ont été notifiées. "
-                    }
-                    |> Alert.alert Nothing Alert.error
-                , Alert.small
-                    { title = Nothing
-                    , description =
-                        "Vous pouvez tenter de rafraîchir la page. "
-                            ++ "Si le problème persiste, contactez le support."
-                    }
-                    |> Alert.alert Nothing Alert.info
-                ]
 
         _ ->
             Html.text ""
