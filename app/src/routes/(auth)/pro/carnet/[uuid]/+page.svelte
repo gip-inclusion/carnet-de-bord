@@ -59,6 +59,7 @@
 	const updateVisitDateMutation = mutation(updateVisitDateStore);
 	updateVisitDateMutation({
 		id: data.notebookId,
+		accountId: data.account.id,
 		date: new Date().toISOString(),
 	});
 
