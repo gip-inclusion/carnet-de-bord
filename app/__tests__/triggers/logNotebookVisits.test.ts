@@ -22,8 +22,8 @@ beforeAll(async () => {
 		}`);
 });
 
-test.skip('it should add a new row in the table notebook_visit', async () => {
-	updateNotebookMemberLastVisit(visitedAt, sofieTifourNotebookId, accountId);
+test('it should add a new row in the table notebook_visit', async () => {
+	await updateNotebookMemberLastVisit(visitedAt, sofieTifourNotebookId, accountId);
 	const logs = await getVisitLogs();
 	expect(logs).toMatchInlineSnapshot(`
 		[
@@ -42,7 +42,7 @@ async function updateNotebookMemberLastVisit(visitedAt, notebookId, accountId) {
 			update_notebook_member(
 				where: { notebookId: {_eq: $notebookId}, accountId:{_eq: $accountId }}
 				_set: {lastVisitedAt: $visitedAt}
-			){affected_rows}}`,
+			) {affected_rows}}`,
 		{ visitedAt, notebookId, accountId }
 	);
 }
