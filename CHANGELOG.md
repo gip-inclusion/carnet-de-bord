@@ -1,3 +1,10 @@
+# [1.237.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.2...v1.237.0) (2023-07-06)
+
+
+### Features
+
+* **diagnostic:** ajout de deux situations actuelles ([#1871](https://github.com/gip-inclusion/carnet-de-bord/issues/1871)) ([d46e064](https://github.com/gip-inclusion/carnet-de-bord/commit/d46e06443d4714e0c57fd240fd9f3672487e6525))
+
 ## [1.236.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.1...v1.236.2) (2023-07-06)
 
 
