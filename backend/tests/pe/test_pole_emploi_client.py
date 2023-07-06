@@ -47,7 +47,7 @@ async def test_get_token_nominal():
 
     await api_client._refresh_token(at=now)
 
-    assert api_client.token == "foo batman"
+    assert api_client.auth_header == "foo batman"
     assert api_client.expires_at, now + timedelta(seconds=3600)
 
 
