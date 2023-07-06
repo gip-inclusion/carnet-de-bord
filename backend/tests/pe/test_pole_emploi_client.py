@@ -105,7 +105,7 @@ async def test_recherche_recherche_usagers():
 @respx.mock
 async def test_recherche_recherche_usagers_fails():
     api_client = create_api_client()
-    respx.post(api_client.usagers_url).mock(return_value=httpx.Response(429, json={}))
+    respx.post(api_client.usagers_url).mock(return_value=httpx.Response(400, json={}))
     with pytest.raises(httpx.HTTPError):
         await api_client.search_beneficiary("181036290874034", "1981-03-15")
 
@@ -139,3 +139,21 @@ async def test_get_dossier_individu_return_204():
         "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
     )
     assert result is None
+
+
+@respx.mock
+async def test_retry_on_429():
+    api_client = create_api_client()
+    mocked_route = respx.get(
+        api_client.dossier_individu_url(
+            "e1881749-1334-47b9-8a34-74922528d4ea%23LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
+        )
+    ).mock(
+        return_value=httpx.Response(429, json={}, headers={"Retry-After": "0"}),
+    )
+
+    with pytest.raises(httpx.HTTPError):
+        await api_client.get_dossier_individu(
+            "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
+        )
+    assert mocked_route.call_count == 10

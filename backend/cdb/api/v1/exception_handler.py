@@ -2,6 +2,7 @@ import logging
 
 from fastapi import HTTPException, Request
 from gql.transport.exceptions import TransportQueryError
+from httpx import HTTPError, HTTPStatusError
 from starlette.responses import JSONResponse
 
 logger = logging.getLogger(__name__)
@@ -44,8 +45,12 @@ async def gql_transport_exception_handler(_: Request, exception: TransportQueryE
     )
 
 
-def httpx_exception_handler(_: Request, exception: Exception):
-    logger.exception(exception)
+def httpx_exception_handler(_: Request, exception: HTTPError):
+    extra = None
+    if isinstance(exception, HTTPStatusError):
+        extra = {"response": exception.response.text}
+
+    logger.exception(exception, extra=extra)
     error_message = "Une erreur interne est survenue"
     return JSONResponse(
         status_code=400,
