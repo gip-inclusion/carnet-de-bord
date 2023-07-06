@@ -1,3 +1,10 @@
+# [1.238.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.237.0...v1.238.0) (2023-07-06)
+
+
+### Features
+
+* tracer les visites des carnets ([#1869](https://github.com/gip-inclusion/carnet-de-bord/issues/1869)) ([72e76f0](https://github.com/gip-inclusion/carnet-de-bord/commit/72e76f0732458dacb596319eec150d5f5f6f280e))
+
 # [1.237.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.2...v1.237.0) (2023-07-06)
 
 
