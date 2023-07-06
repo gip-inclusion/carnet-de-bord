@@ -61,11 +61,8 @@ class RealDossierPEClient(DossierPEClient):
                 [
                     "api_rechercher-usagerv1",
                     "api_diagnosticargumentev1",
-                    "api_metiers-profil-competencesv1",
-                    "ciblepro",
-                    "api_projet-creation-entreprisev1",
                 ]
-            ),  # noqa: E501
+            ),
         )
         beneficiary = await pe_client.search_beneficiary(
             nir=query.nir, date_of_birth=query.birth_date

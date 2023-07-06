@@ -26,7 +26,7 @@ class PoleEmploiApiClient:
     client_secret: str
     scope: str
     tz: str = "Europe/Paris"
-    token: str | None = None
+    auth_header: str | None = None
     expires_at: datetime | None = None
 
     @property
@@ -75,12 +75,12 @@ class PoleEmploiApiClient:
             )
             response.raise_for_status()
         auth_data = response.json()
-        self.token = f"{auth_data['token_type']} {auth_data['access_token']}"
+        self.auth_header = f"{auth_data['token_type']} {auth_data['access_token']}"
         self.expires_at = at + timedelta(seconds=auth_data["expires_in"])
 
     @property
     def _headers(self) -> dict:
-        return {"Authorization": self.token, "Content-Type": "application/json"}
+        return {"Authorization": self.auth_header, "Content-Type": "application/json"}
 
     async def _post_request(self, url: str, params: dict):
         await self._refresh_token()
