@@ -31,6 +31,8 @@ export const workSituationKeys = buildKeys({
 	cdd_temps_plein: 'CDD temps complet',
 	cdd_temps_partiel: 'CDD temps partiel',
 	intermittent: 'Intermittent du spectacle ',
+	aidant_familial: 'Aidant(e) familial(e)',
+	exploitant_agricole: 'Exploitante(e) agricole',
 });
 
 export const rsaRightKeys = buildKeys({
