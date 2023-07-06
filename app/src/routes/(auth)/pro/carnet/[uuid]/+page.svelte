@@ -43,7 +43,6 @@
 
 	export let data: PageData;
 
-	const updateVisitDateStore = operationStore(UpdateNotebookVisitDateDocument);
 	const variables = { id: data.notebookId };
 	const getNotebook = operationStore(GetNotebookDocument, variables, {
 		additionalTypenames: [
@@ -54,29 +53,43 @@
 		],
 	});
 
-	query(getNotebook);
+	const updateVisitDateMutation = mutation(operationStore(UpdateNotebookVisitDateDocument));
 
-	const updateVisitDateMutation = mutation(updateVisitDateStore);
-	updateVisitDateMutation({
-		id: data.notebookId,
-		date: new Date().toISOString(),
-	});
+	function recordVisit() {
+		if (visitRecorded) {
+			return;
+		}
+		visitRecorded = true;
+		updateVisitDateMutation({
+			id: data.notebookId,
+			accountId: data.account.id,
+			date: new Date().toISOString(),
+		});
+	}
 
-	const requireReorientation = () => {
+	function requireReorientation() {
 		openComponent.open({
 			component: CreateOrientationRequest,
 			props: {
 				beneficiaryId: beneficiary.id,
 			},
 		});
-	};
+	}
 
-	function refreshNotebook() {
+	function onJoinedNotebook() {
 		$getNotebook.reexecute({ requestPolicy: 'network-only' });
 	}
 
+	query(getNotebook);
+	let visitRecorded = false;
+	let notebook = null;
 	$: publicNotebook = $getNotebook.data?.notebook_public_view[0];
-	$: notebook = publicNotebook?.notebook;
+	$: {
+		notebook = publicNotebook?.notebook;
+		if (notebook) {
+			recordVisit();
+		}
+	}
 	$: beneficiary = publicNotebook?.beneficiary;
 	$: members = publicNotebook?.members ?? [];
 	$: appointments = notebook?.appointments ?? [];
@@ -155,7 +168,7 @@
 					<NotebookMembers
 						{members}
 						notebookId={publicNotebook.id}
-						on:notebook-member-added={refreshNotebook}
+						on:joined-notebook={onJoinedNotebook}
 					/>
 				{/if}
 			</MainSection>

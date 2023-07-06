@@ -5821,6 +5821,19 @@ type mutation_root {
   delete_notebook_target_by_pk(id: uuid!): notebook_target
 
   """
+  delete data from the table: "notebook_visit"
+  """
+  delete_notebook_visit(
+    """filter the rows which have to be deleted"""
+    where: notebook_visit_bool_exp!
+  ): notebook_visit_mutation_response
+
+  """
+  delete single row from the table: "notebook_visit"
+  """
+  delete_notebook_visit_by_pk(id: uuid!): notebook_visit
+
+  """
   delete data from the table: "nps_rating"
   """
   delete_nps_rating(
@@ -6610,6 +6623,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: notebook_target_on_conflict
   ): notebook_target
+
+  """
+  insert data into the table: "notebook_visit"
+  """
+  insert_notebook_visit(
+    """the rows to be inserted"""
+    objects: [notebook_visit_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: notebook_visit_on_conflict
+  ): notebook_visit_mutation_response
+
+  """
+  insert a single row into the table: "notebook_visit"
+  """
+  insert_notebook_visit_one(
+    """the row to be inserted"""
+    object: notebook_visit_insert_input!
+
+    """upsert condition"""
+    on_conflict: notebook_visit_on_conflict
+  ): notebook_visit
 
   """
   insert data into the table: "nps_rating"
@@ -7888,6 +7923,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [notebook_target_updates!]!
   ): [notebook_target_mutation_response]
+
+  """
+  update data of the table: "notebook_visit"
+  """
+  update_notebook_visit(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_visit_set_input
+
+    """filter the rows which have to be updated"""
+    where: notebook_visit_bool_exp!
+  ): notebook_visit_mutation_response
+
+  """
+  update single row of the table: "notebook_visit"
+  """
+  update_notebook_visit_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_visit_set_input
+    pk_columns: notebook_visit_pk_columns_input!
+  ): notebook_visit
+
+  """
+  update multiples rows of table: "notebook_visit"
+  """
+  update_notebook_visit_many(
+    """updates to execute, in order"""
+    updates: [notebook_visit_updates!]!
+  ): [notebook_visit_mutation_response]
 
   """
   update data of the table: "nps_rating"
@@ -12051,6 +12114,184 @@ input notebook_updates {
   where: notebook_bool_exp!
 }
 
+"""store notebook visit on a given notebook"""
+type notebook_visit {
+  accountId: uuid!
+  id: uuid!
+  notebookId: uuid!
+  visitedAt: timestamp!
+}
+
+"""
+aggregated selection of "notebook_visit"
+"""
+type notebook_visit_aggregate {
+  aggregate: notebook_visit_aggregate_fields
+  nodes: [notebook_visit!]!
+}
+
+"""
+aggregate fields of "notebook_visit"
+"""
+type notebook_visit_aggregate_fields {
+  count(columns: [notebook_visit_select_column!], distinct: Boolean): Int!
+  max: notebook_visit_max_fields
+  min: notebook_visit_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "notebook_visit". All fields are combined with a logical 'AND'.
+"""
+input notebook_visit_bool_exp {
+  _and: [notebook_visit_bool_exp!]
+  _not: notebook_visit_bool_exp
+  _or: [notebook_visit_bool_exp!]
+  accountId: uuid_comparison_exp
+  id: uuid_comparison_exp
+  notebookId: uuid_comparison_exp
+  visitedAt: timestamp_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "notebook_visit"
+"""
+enum notebook_visit_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  notebook_visit_pkey
+}
+
+"""
+input type for inserting data into table "notebook_visit"
+"""
+input notebook_visit_insert_input {
+  accountId: uuid
+  id: uuid
+  notebookId: uuid
+  visitedAt: timestamp
+}
+
+"""aggregate max on columns"""
+type notebook_visit_max_fields {
+  accountId: uuid
+  id: uuid
+  notebookId: uuid
+  visitedAt: timestamp
+}
+
+"""aggregate min on columns"""
+type notebook_visit_min_fields {
+  accountId: uuid
+  id: uuid
+  notebookId: uuid
+  visitedAt: timestamp
+}
+
+"""
+response of any mutation on the table "notebook_visit"
+"""
+type notebook_visit_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [notebook_visit!]!
+}
+
+"""
+on_conflict condition type for table "notebook_visit"
+"""
+input notebook_visit_on_conflict {
+  constraint: notebook_visit_constraint!
+  update_columns: [notebook_visit_update_column!]! = []
+  where: notebook_visit_bool_exp
+}
+
+"""Ordering options when selecting data from "notebook_visit"."""
+input notebook_visit_order_by {
+  accountId: order_by
+  id: order_by
+  notebookId: order_by
+  visitedAt: order_by
+}
+
+"""primary key columns input for table: notebook_visit"""
+input notebook_visit_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "notebook_visit"
+"""
+enum notebook_visit_select_column {
+  """column name"""
+  accountId
+
+  """column name"""
+  id
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  visitedAt
+}
+
+"""
+input type for updating data in table "notebook_visit"
+"""
+input notebook_visit_set_input {
+  accountId: uuid
+  id: uuid
+  notebookId: uuid
+  visitedAt: timestamp
+}
+
+"""
+Streaming cursor of the table "notebook_visit"
+"""
+input notebook_visit_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: notebook_visit_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input notebook_visit_stream_cursor_value_input {
+  accountId: uuid
+  id: uuid
+  notebookId: uuid
+  visitedAt: timestamp
+}
+
+"""
+update columns of table "notebook_visit"
+"""
+enum notebook_visit_update_column {
+  """column name"""
+  accountId
+
+  """column name"""
+  id
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  visitedAt
+}
+
+input notebook_visit_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: notebook_visit_set_input
+
+  """filter the rows which have to be updated"""
+  where: notebook_visit_bool_exp!
+}
+
 """NPS ratings from users"""
 type nps_rating {
   accountId: uuid!
@@ -16124,6 +16365,49 @@ type query_root {
 
   """fetch data from the table: "notebook_target" using primary key columns"""
   notebook_target_by_pk(id: uuid!): notebook_target
+
+  """
+  fetch data from the table: "notebook_visit"
+  """
+  notebook_visit(
+    """distinct select on columns"""
+    distinct_on: [notebook_visit_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_visit_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_visit_bool_exp
+  ): [notebook_visit!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_visit"
+  """
+  notebook_visit_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_visit_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_visit_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_visit_bool_exp
+  ): notebook_visit_aggregate!
+
+  """fetch data from the table: "notebook_visit" using primary key columns"""
+  notebook_visit_by_pk(id: uuid!): notebook_visit
 
   """
   fetch data from the table: "nps_rating"
@@ -21193,6 +21477,63 @@ type subscription_root {
     """filter the rows returned"""
     where: notebook_target_bool_exp
   ): [notebook_target!]!
+
+  """
+  fetch data from the table: "notebook_visit"
+  """
+  notebook_visit(
+    """distinct select on columns"""
+    distinct_on: [notebook_visit_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_visit_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_visit_bool_exp
+  ): [notebook_visit!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_visit"
+  """
+  notebook_visit_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_visit_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_visit_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_visit_bool_exp
+  ): notebook_visit_aggregate!
+
+  """fetch data from the table: "notebook_visit" using primary key columns"""
+  notebook_visit_by_pk(id: uuid!): notebook_visit
+
+  """
+  fetch data from the table in a streaming manner: "notebook_visit"
+  """
+  notebook_visit_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [notebook_visit_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: notebook_visit_bool_exp
+  ): [notebook_visit!]!
 
   """
   fetch data from the table: "nps_rating"

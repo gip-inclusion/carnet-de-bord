@@ -7,7 +7,13 @@ export function graphql(headers) {
 			headers,
 			body: JSON.stringify({ query, variables }),
 		});
-		return response.json();
+		if (response.ok) {
+			const { data, errors } = (await response.json()) as { data: unknown; errors: unknown };
+			if (errors) {
+				throw new Error(`grapqh error: ${JSON.stringify(errors)}`);
+			}
+			return { data };
+		}
 	};
 }
 
