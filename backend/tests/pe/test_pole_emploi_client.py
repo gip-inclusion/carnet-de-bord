@@ -10,7 +10,7 @@ import respx
 
 from cdb.pe.models.agence import Agence
 from cdb.pe.models.beneficiary import Beneficiary
-from cdb.pe.pole_emploi_client import PoleEmploiApiClient, PoleEmploiAPIException
+from cdb.pe.pole_emploi_client import PoleEmploiApiClient
 from tests.mocks.pole_emploi_agences import PE_API_AGENCES_RESULT_OK_MOCK
 from tests.mocks.pole_emploi_dossier_individu import DOSSIER_INDIVIDU
 from tests.mocks.pole_emploi_recherche_usagers import (
@@ -56,7 +56,7 @@ async def test_get_token_fails():
     api_client = create_api_client()
     respx.post(api_client.token_url).mock(side_effect=httpx.ConnectTimeout)
 
-    with pytest.raises(PoleEmploiAPIException):
+    with pytest.raises(httpx.HTTPError):
         await api_client.recherche_pole_emploi_agences("67")
 
 
@@ -103,6 +103,14 @@ async def test_recherche_recherche_usagers():
 
 
 @respx.mock
+async def test_recherche_recherche_usagers_fails():
+    api_client = create_api_client()
+    respx.post(api_client.usagers_url).mock(return_value=httpx.Response(429, json={}))
+    with pytest.raises(httpx.HTTPError):
+        await api_client.search_beneficiary("181036290874034", "1981-03-15")
+
+
+@respx.mock
 async def test_get_dossier_individu_nominal():
     api_client = create_api_client()
     respx.get(
@@ -114,10 +122,20 @@ async def test_get_dossier_individu_nominal():
     result = await api_client.get_dossier_individu(
         "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
     )
-
+    assert result
     verify_as_json(result.jsonb())
 
 
-@pytest.mark.skip
+@respx.mock
 async def test_get_dossier_individu_return_204():
-    pass
+    api_client = create_api_client()
+    respx.get(
+        api_client.dossier_individu_url(
+            "e1881749-1334-47b9-8a34-74922528d4ea%23LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
+        )
+    ).mock(return_value=httpx.Response(204, json={}))
+
+    result = await api_client.get_dossier_individu(
+        "e1881749-1334-47b9-8a34-74922528d4ea#LQdESFx4KSZklOXWJGJ9yxWLdwqbKWx6dh-9FNc11S0Q4YjU6YhojWUqxyVTWvuk"
+    )
+    assert result is None

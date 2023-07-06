@@ -14,24 +14,6 @@ from .models.beneficiary import Beneficiary
 
 logger = logging.getLogger(__name__)
 
-API_CLIENT_HTTP_ERROR_CODE = "http_error"
-
-
-class PoleEmploiAPIException(Exception):
-    'unexpected exceptions (meaning, "exceptional") that warrant a retry.'
-
-    def __init__(self, error_code):
-        self.error_code = error_code
-        super().__init__()
-
-
-class PoleEmploiAPIBadResponse(Exception):
-    """errors that can't be recovered from: the API server does not agree."""
-
-    def __init__(self, response_code):
-        self.response_code = response_code
-        super().__init__()
-
 
 API_TIMEOUT_SECONDS = 60  # this API is pretty slow, let's give it a chance
 
@@ -79,7 +61,6 @@ class PoleEmploiApiClient:
             at = datetime.now(tz=ZoneInfo(self.tz))
         if self.expires_at and self.expires_at > at:
             return
-
         async with httpx.AsyncClient() as client:
             response = await client.post(
                 self.token_url,
@@ -92,11 +73,7 @@ class PoleEmploiApiClient:
                 },
                 headers={"Content-Type": "application/x-www-form-urlencoded"},
             )
-        try:
             response.raise_for_status()
-        except Exception as e:
-            raise PoleEmploiAPIException(e) from e
-
         auth_data = response.json()
         self.token = f"{auth_data['token_type']} {auth_data['access_token']}"
         self.expires_at = at + timedelta(seconds=auth_data["expires_in"])
@@ -106,35 +83,29 @@ class PoleEmploiApiClient:
         return {"Authorization": self.token, "Content-Type": "application/json"}
 
     async def _post_request(self, url: str, params: dict):
-        try:
-            await self._refresh_token()
-            async with httpx.AsyncClient() as client:
-                response = await client.post(
-                    url, json=params, headers=self._headers, timeout=API_TIMEOUT_SECONDS
-                )
-            if response.status_code != 200:
-                raise PoleEmploiAPIException(response.status_code)
-            data = response.json()
-            return data
-        except httpx.RequestError as exc:
-            raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
+        await self._refresh_token()
+        async with httpx.AsyncClient() as client:
+            response = await client.post(
+                url, json=params, headers=self._headers, timeout=API_TIMEOUT_SECONDS
+            )
+
+        response.raise_for_status()
+
+        data = response.json()
+        return data
 
     async def _get_request(self, url: str, params: dict | None = None):
-        try:
-            await self._refresh_token()
-            async with httpx.AsyncClient() as client:
-                response = await client.get(
-                    url,
-                    params=params,
-                    headers=self._headers,
-                    timeout=API_TIMEOUT_SECONDS,
-                )
-            if response.status_code != 200:
-                raise PoleEmploiAPIException(response.status_code)
-            data = response.json()
-            return data
-        except httpx.RequestError as exc:
-            raise PoleEmploiAPIException(API_CLIENT_HTTP_ERROR_CODE) from exc
+        await self._refresh_token()
+        async with httpx.AsyncClient() as client:
+            response = await client.get(
+                url,
+                params=params,
+                headers=self._headers,
+                timeout=API_TIMEOUT_SECONDS,
+            )
+        response.raise_for_status()
+        data = response.json()
+        return data
 
     async def recherche_pole_emploi_agences(
         self,
@@ -372,12 +343,11 @@ class PoleEmploiApiClient:
         usager: dict = await self._post_request(
             url=self.usagers_url, params={"nir": nir, "dateNaissance": date_of_birth}
         )
-        # Todo test si on ne trouve pas l'usager
         return Beneficiary.parse_obj(usager)
 
-    async def get_dossier_individu(self, usager_id: str) -> DossierIndividuData:
+    async def get_dossier_individu(self, usager_id: str) -> DossierIndividuData | None:
         dossier_individu_pe = await self._get_request(
             url=self.dossier_individu_url(usager_id)
         )
-
-        return DossierIndividuData.parse_obj(dossier_individu_pe)
+        if dossier_individu_pe:
+            return DossierIndividuData.parse_obj(dossier_individu_pe)
