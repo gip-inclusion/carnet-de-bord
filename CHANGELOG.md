@@ -1,3 +1,10 @@
+## [1.236.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.1...v1.236.2) (2023-07-06)
+
+
+### Bug Fixes
+
+* affiche les erreurs http de pole emploi ([#1863](https://github.com/gip-inclusion/carnet-de-bord/issues/1863)) ([bdaa0ab](https://github.com/gip-inclusion/carnet-de-bord/commit/bdaa0ab07c12ceecacc47cd94512ead05822e3da))
+
 ## [1.236.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.0...v1.236.1) (2023-07-04)
 
 
