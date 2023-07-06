@@ -1,3 +1,10 @@
+## [1.239.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.239.0...v1.239.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* ne pas demander les scopes PE inutiles ([#1874](https://github.com/gip-inclusion/carnet-de-bord/issues/1874)) ([93f805f](https://github.com/gip-inclusion/carnet-de-bord/commit/93f805f5bdf4fe555e372aff2e9065e8efa07149))
+
 # [1.239.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.238.0...v1.239.0) (2023-07-06)
 
 
