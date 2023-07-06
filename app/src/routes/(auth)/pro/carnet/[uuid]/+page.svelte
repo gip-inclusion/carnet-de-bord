@@ -72,7 +72,12 @@
 		});
 	};
 
-	function refreshNotebook() {
+	function joinNotebookMember() {
+		updateVisitDateMutation({
+			id: data.notebookId,
+			accountId: data.account.id,
+			date: new Date().toISOString(),
+		});
 		$getNotebook.reexecute({ requestPolicy: 'network-only' });
 	}
 
@@ -156,7 +161,7 @@
 					<NotebookMembers
 						{members}
 						notebookId={publicNotebook.id}
-						on:notebook-member-added={refreshNotebook}
+						on:join-notebook-member={joinNotebookMember}
 					/>
 				{/if}
 			</MainSection>

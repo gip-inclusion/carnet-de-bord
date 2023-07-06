@@ -54,7 +54,7 @@
 				member_type: values.memberType,
 				orientation: values.orientation,
 			});
-			dispatch('notebook-member-added');
+			dispatch('join-notebook-member');
 		} catch (err) {
 			if (
 				err.status === 403 &&
