@@ -1,3 +1,10 @@
+# [1.239.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.238.0...v1.239.0) (2023-07-06)
+
+
+### Features
+
+* **objectifs:** ajout de deux nouveaux objectifs ([#1870](https://github.com/gip-inclusion/carnet-de-bord/issues/1870)) ([5a439b5](https://github.com/gip-inclusion/carnet-de-bord/commit/5a439b575eeef00e2eedf3d30ee97b7b4a2ad157))
+
 # [1.238.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.237.0...v1.238.0) (2023-07-06)
 
 
