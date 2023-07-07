@@ -5,6 +5,7 @@ from typing import List
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
 
+import backoff
 import httpx
 
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
@@ -16,6 +17,30 @@ logger = logging.getLogger(__name__)
 
 
 API_TIMEOUT_SECONDS = 60  # this API is pretty slow, let's give it a chance
+
+
+def not_429(exception: Exception) -> bool:
+    if isinstance(exception, httpx.HTTPStatusError):
+        return exception.response.status_code != 429
+    return True
+
+
+def readRetryAfter(exception: httpx.HTTPStatusError) -> int:
+    delay = 1
+    try:
+        delay = int(exception.response.headers.get("Retry-After"))
+    except Exception:
+        delay = 1
+    return delay
+
+
+with_backoff = backoff.on_exception(
+    backoff.runtime,
+    exception=httpx.HTTPStatusError,
+    giveup=not_429,
+    value=readRetryAfter,
+    max_tries=10,
+)
 
 
 @dataclass
@@ -82,6 +107,7 @@ class PoleEmploiApiClient:
     def _headers(self) -> dict:
         return {"Authorization": self.auth_header, "Content-Type": "application/json"}
 
+    @with_backoff
     async def _post_request(self, url: str, params: dict):
         await self._refresh_token()
         async with httpx.AsyncClient() as client:
@@ -94,6 +120,7 @@ class PoleEmploiApiClient:
         data = response.json()
         return data
 
+    @with_backoff
     async def _get_request(self, url: str, params: dict | None = None):
         await self._refresh_token()
         async with httpx.AsyncClient() as client:
