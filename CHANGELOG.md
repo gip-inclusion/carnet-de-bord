@@ -1,3 +1,10 @@
+# [1.240.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.239.1...v1.240.0) (2023-07-07)
+
+
+### Features
+
+* gestion des 429 ([#1875](https://github.com/gip-inclusion/carnet-de-bord/issues/1875)) ([9eb6d33](https://github.com/gip-inclusion/carnet-de-bord/commit/9eb6d33cc258b8713585b41f7f10dc2a4af954fa))
+
 ## [1.239.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.239.0...v1.239.1) (2023-07-06)
 
 
