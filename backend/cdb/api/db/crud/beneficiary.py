@@ -9,18 +9,11 @@ from gql import gql
 from gql.dsl import DSLField, DSLSchema
 from graphql import DocumentNode
 
-from cdb.api.core.exceptions import InsertFailError
 from cdb.api.db.crud.notebook import (
     NOTEBOOK_BASE_FIELDS,
     NOTEBOOK_BASE_JOINS,
-    insert_notebook,
-    insert_notebook_member,
     parse_notebook_from_record,
 )
-from cdb.api.db.crud.notebook_info import insert_or_update_need_orientation
-from cdb.api.db.crud.professional import get_professional_by_email
-from cdb.api.db.crud.professional_project import insert_professional_projects
-from cdb.api.db.crud.structure import get_structure_by_name
 from cdb.api.db.models.beneficiary import (
     Beneficiary,
     BeneficiaryImport,
@@ -28,9 +21,7 @@ from cdb.api.db.models.beneficiary import (
     BeneficiaryWithAdminStructureEmail,
 )
 from cdb.api.db.models.deployment import parse_deployment_from_beneficiary_record
-from cdb.api.db.models.notebook_member import NotebookMemberInsert
 from cdb.api.db.models.orientation_system import OrientationSystem
-from cdb.api.db.models.professional import Professional
 from cdb.api.v1.payloads.notebook import NotebookInput
 
 logger = logging.getLogger(__name__)
@@ -250,93 +241,6 @@ async def get_beneficiary_by_id(
     return await get_beneficiary_with_query(
         connection, "WHERE b.id = $1", beneficiary_id
     )
-
-
-async def create_beneficiary_with_notebook_and_referent(
-    connection: Connection,
-    beneficiary: BeneficiaryImport,
-    deployment_id: UUID,
-    need_orientation: bool,
-) -> UUID:
-    beneficiary_id: UUID | None = await insert_beneficiary(
-        connection, beneficiary, deployment_id
-    )
-
-    if not beneficiary_id:
-        raise InsertFailError("insert beneficiary failed")
-
-    new_notebook_id: UUID | None = await insert_notebook(
-        connection, beneficiary_id, beneficiary
-    )
-
-    if not new_notebook_id:
-        raise InsertFailError("insert notebook failed")
-
-    await insert_or_update_need_orientation(
-        connection, new_notebook_id, None, need_orientation
-    )
-
-    await insert_professional_projects(connection, new_notebook_id, beneficiary)
-    await add_referent_and_structure_to_beneficiary(
-        connection,
-        beneficiary_id,
-        new_notebook_id,
-        beneficiary,
-        deployment_id,
-    )
-    logger.info("inserted new beneficiary %s", beneficiary_id)
-    return beneficiary_id
-
-
-async def add_referent_and_structure_to_beneficiary(
-    connection: Connection,
-    beneficiary_id: UUID,
-    notebook_id: UUID,
-    beneficiary: BeneficiaryImport,
-    deployment_id: UUID,
-):
-    structure = None
-    if beneficiary.structure_name:
-        structure = await get_structure_by_name(
-            connection, beneficiary.structure_name, deployment_id
-        )
-        if structure is None:
-            logger.info(
-                "Trying to associate structure with beneficiary: "
-                'structure "%s" does not exist',
-                beneficiary.structure_name,
-            )
-            return
-    referent = None
-    if beneficiary.advisor_email:
-        referent: Professional | None = await get_professional_by_email(
-            connection, beneficiary.advisor_email.strip()
-        )
-    if structure:
-        await add_beneficiary_to_structure(
-            connection, beneficiary_id, structure.id, "current"
-        )
-    elif referent:
-        await add_beneficiary_to_structure(
-            connection, beneficiary_id, referent.structure_id, "current"
-        )
-
-    if referent and referent.account_id:
-        # Si on a pu récupérer le compte du référent fourni, on l'ajoute dans le
-        # groupe de suivi en tant que référent.
-        if not structure or structure.id == referent.structure_id:
-            referent_member = NotebookMemberInsert(
-                notebook_id=notebook_id,
-                account_id=referent.account_id,
-                member_type="referent",
-            )
-            await insert_notebook_member(connection, referent_member)
-    else:
-        # Si un référent est fourni mais qu'on ne le connaît pas, on ne fait rien.
-        logger.info(
-            "trying to create referent: no account with email: %s",
-            beneficiary.advisor_email,
-        )
 
 
 async def get_beneficiaries_without_referent(

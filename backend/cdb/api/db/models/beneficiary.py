@@ -112,6 +112,7 @@ class BeneficiaryImport(BaseModel):
     class Config:
         anystr_strip_whitespace = True
         allow_population_by_field_name = True
+        validate_assignment = True
 
     _phone_validator = phone_validator("mobile_number")
     _postal_code_validator = postal_code_validator("postal_code")
@@ -134,6 +135,12 @@ class BeneficiaryImport(BaseModel):
         ]:
             raise ValueError("value unknown")
         return right_rsa
+
+    @validator("firstname", "lastname")
+    def forbid_parens(cls, value):
+        if "(" in value or ")" in value:
+            raise ValueError("Les parenthèses ne sont pas autorisées dans les noms")
+        return value
 
     @validator("work_situation")
     def parse_work_situation(cls, work_situation):

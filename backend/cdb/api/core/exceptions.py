@@ -1,10 +1,4 @@
-class InsertFailError(Exception):
+class ImportFailError(Exception):
     """
     utility class when insert goes wrong
-    """
-
-
-class UpdateFailError(Exception):
-    """
-    utility class when update goes wrong
     """

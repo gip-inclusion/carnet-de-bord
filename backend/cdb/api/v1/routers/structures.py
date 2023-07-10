@@ -4,7 +4,7 @@ from typing import Tuple
 from fastapi import APIRouter, BackgroundTasks, Depends, Request
 from pydantic import BaseModel, Field
 
-from cdb.api.core.exceptions import InsertFailError
+from cdb.api.core.exceptions import ImportFailError
 from cdb.api.core.init import connection
 from cdb.api.db.crud.admin_structure import (
     create_admin_structure_with_account,
@@ -62,7 +62,7 @@ async def create_structures(
                         map_input_row_to_structure_insert(structure_row, deployment_id),
                     )
                 if not structure:
-                    raise InsertFailError("insert structure failed")
+                    raise ImportFailError("insert structure failed")
 
                 # 2 Create admin structure if not exist
                 admin_structure: AdminStructure | None = (
@@ -90,7 +90,7 @@ async def create_structures(
                         ),
                     )
                     if not account_admin_tuple:
-                        raise InsertFailError("insert structure admin failed")
+                        raise ImportFailError("insert structure admin failed")
 
                     account, admin_structure = account_admin_tuple
                     if data.send_account_email:
@@ -115,10 +115,10 @@ async def create_structures(
                     structure_id=structure.id,
                 )
                 if not uuid:
-                    raise InsertFailError("add admin structure to structure failed")
+                    raise ImportFailError("add admin structure to structure failed")
 
                 response_row = StructureCsvRowResponse(valid=True, data=structure_row)
-        except InsertFailError as error:
+        except ImportFailError as error:
             logging.error(error)
             response_row = StructureCsvRowResponse(
                 row=structure_row.dict(),
