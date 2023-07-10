@@ -44,7 +44,7 @@ class Contrainte(BaseModel):
 
 class ContraintesIndividu(BaseModel):
     conseiller: str | None
-    dateDeModification: str
+    dateDeModification: str | None
     code: str
     libelle: str | None
     contraintes: list[Contrainte]
