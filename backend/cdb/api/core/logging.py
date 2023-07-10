@@ -10,6 +10,7 @@ from cdb.api.core.settings import settings
 
 requests_logger.setLevel(settings.GQL_LOG_LEVEL)
 
+
 # inspired by https://gist.github.com/nymous/f138c7f06062b7c43c060bf03759c29e
 
 
@@ -93,6 +94,9 @@ def setup_logging(json_logs: bool, log_level: str):
     root_logger = logging.getLogger()
     root_logger.addHandler(handler)
     root_logger.setLevel(log_level.upper())
+
+    logging.getLogger("backoff").setLevel(logging.DEBUG)
+    logging.getLogger("backoff").addHandler(handler)
 
     for _log in ["uvicorn", "uvicorn.error"]:
         # Clear the log handlers for uvicorn loggers, and enable propagation

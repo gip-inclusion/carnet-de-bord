@@ -1,3 +1,59 @@
+## [1.240.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.1...v1.240.2) (2023-07-10)
+
+
+### Bug Fixes
+
+* rend le champ dateDeModification facultatif ([#1878](https://github.com/gip-inclusion/carnet-de-bord/issues/1878)) ([a3654de](https://github.com/gip-inclusion/carnet-de-bord/commit/a3654de9a5eeec2f18ec64de0efb1a03a05fbef6))
+
+## [1.240.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.0...v1.240.1) (2023-07-10)
+
+
+### Bug Fixes
+
+* passe dateMiseAjour en facultatif ([#1876](https://github.com/gip-inclusion/carnet-de-bord/issues/1876)) ([6c69cfa](https://github.com/gip-inclusion/carnet-de-bord/commit/6c69cfa96b360e40d955dc7e6e2d731f321768a9))
+
+# [1.240.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.239.1...v1.240.0) (2023-07-07)
+
+
+### Features
+
+* gestion des 429 ([#1875](https://github.com/gip-inclusion/carnet-de-bord/issues/1875)) ([9eb6d33](https://github.com/gip-inclusion/carnet-de-bord/commit/9eb6d33cc258b8713585b41f7f10dc2a4af954fa))
+
+## [1.239.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.239.0...v1.239.1) (2023-07-06)
+
+
+### Bug Fixes
+
+* ne pas demander les scopes PE inutiles ([#1874](https://github.com/gip-inclusion/carnet-de-bord/issues/1874)) ([93f805f](https://github.com/gip-inclusion/carnet-de-bord/commit/93f805f5bdf4fe555e372aff2e9065e8efa07149))
+
+# [1.239.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.238.0...v1.239.0) (2023-07-06)
+
+
+### Features
+
+* **objectifs:** ajout de deux nouveaux objectifs ([#1870](https://github.com/gip-inclusion/carnet-de-bord/issues/1870)) ([5a439b5](https://github.com/gip-inclusion/carnet-de-bord/commit/5a439b575eeef00e2eedf3d30ee97b7b4a2ad157))
+
+# [1.238.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.237.0...v1.238.0) (2023-07-06)
+
+
+### Features
+
+* tracer les visites des carnets ([#1869](https://github.com/gip-inclusion/carnet-de-bord/issues/1869)) ([72e76f0](https://github.com/gip-inclusion/carnet-de-bord/commit/72e76f0732458dacb596319eec150d5f5f6f280e))
+
+# [1.237.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.2...v1.237.0) (2023-07-06)
+
+
+### Features
+
+* **diagnostic:** ajout de deux situations actuelles ([#1871](https://github.com/gip-inclusion/carnet-de-bord/issues/1871)) ([d46e064](https://github.com/gip-inclusion/carnet-de-bord/commit/d46e06443d4714e0c57fd240fd9f3672487e6525))
+
+## [1.236.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.1...v1.236.2) (2023-07-06)
+
+
+### Bug Fixes
+
+* affiche les erreurs http de pole emploi ([#1863](https://github.com/gip-inclusion/carnet-de-bord/issues/1863)) ([bdaa0ab](https://github.com/gip-inclusion/carnet-de-bord/commit/bdaa0ab07c12ceecacc47cd94512ead05822e3da))
+
 ## [1.236.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.236.0...v1.236.1) (2023-07-04)
 
 

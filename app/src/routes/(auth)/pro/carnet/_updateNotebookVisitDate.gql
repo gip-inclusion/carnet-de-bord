@@ -1,10 +1,8 @@
-mutation UpdateNotebookVisitDate($id: uuid!, $date: timestamptz!) {
+mutation UpdateNotebookVisitDate($id: uuid!, $accountId: uuid!, $date: timestamptz!) {
   update_notebook_member(
-    where: { notebook: { id: { _eq: $id } } }
+    where: { notebookId: { _eq: $id }, accountId: { _eq: $accountId } }
     _set: { lastVisitedAt: $date }
   ) {
-    returning {
-      id
-    }
+    affected_rows
   }
 }
