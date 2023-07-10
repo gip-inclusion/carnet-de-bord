@@ -174,15 +174,13 @@ async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary(
 @respx.mock
 async def test_does_not_ask_pe_api_again_when_pe_has_no_info_for_our_beneficiary(
     test_client: httpx.AsyncClient,
-    beneficiary_sophie_tifour: Beneficiary,
-    notebook_sophie_tifour: Notebook,
+    beneficiary_noel_keller: Beneficiary,
+    notebook_noel_keller: Notebook,
     pe_settings: Settings,
 ):
-    mocked_route = mock_pe_api_not_found_individu(
-        pe_settings, beneficiary_sophie_tifour
-    )
+    mocked_route = mock_pe_api_not_found_individu(pe_settings, beneficiary_noel_keller)
 
-    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+    response = await call_refresh_api(notebook_noel_keller.id, test_client)
 
     assert mocked_route.call_count == 1
 
@@ -195,7 +193,7 @@ async def test_does_not_ask_pe_api_again_when_pe_has_no_info_for_our_beneficiary
         },
     )
 
-    response = await call_refresh_api(notebook_sophie_tifour.id, test_client)
+    response = await call_refresh_api(notebook_noel_keller.id, test_client)
 
     assert mocked_route.call_count == 1
     expect_ok_response(
