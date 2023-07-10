@@ -29,7 +29,7 @@ class Metier(BaseModel):
     typologie: str | None
     statut: str
     estPrioritaire: bool
-    dateMiseAJour: str
+    dateMiseAJour: str | None
     besoins: list[Besoin]
 
 
@@ -46,7 +46,7 @@ class ContraintesIndividu(BaseModel):
     conseiller: str
     dateDeModification: str
     code: str
-    libelle: str
+    libelle: str | None
     contraintes: list[Contrainte]
 
 
