@@ -1,3 +1,10 @@
+# [1.241.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.2...v1.241.0) (2023-07-10)
+
+
+### Features
+
+* **db:** évolution du référentiel des situations ([#1868](https://github.com/gip-inclusion/carnet-de-bord/issues/1868)) ([9edb4f4](https://github.com/gip-inclusion/carnet-de-bord/commit/9edb4f4c877dae918dd5c4f475c2eb68ce5b7188))
+
 ## [1.240.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.1...v1.240.2) (2023-07-10)
 
 
