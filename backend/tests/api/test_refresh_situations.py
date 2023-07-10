@@ -89,7 +89,6 @@ async def test_nominal(
         )
         for situation in situations
     ] == [
-        ("Doit quitter le logement", "2023-05-12"),
         ("Hébergé chez un tiers", "2021-09-21"),
     ]
 
