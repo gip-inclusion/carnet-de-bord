@@ -12,6 +12,14 @@ INSERT INTO "public"."ref_situation"("description", "theme", "id") VALUES (E'Dif
 
 
 -- Deletes
+
+DELETE FROM notebook_situation
+WHERE situation_id in (
+	SELECT id
+	FROM ref_situation
+	WHERE description in ('Usage avancé du numérique (50%-80%)', 'Usage expert du numérique (+80%)')
+);
+
 DELETE
 FROM ref_situation
 WHERE description in ('Usage avancé du numérique (50%-80%)', 'Usage expert du numérique (+80%)');

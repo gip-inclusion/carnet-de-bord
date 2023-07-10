@@ -25,6 +25,7 @@
             poetry
             gnumake
             tmux
+            postgresql_15
           ];
         };
       });
