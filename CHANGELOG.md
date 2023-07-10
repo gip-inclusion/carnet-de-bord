@@ -1,3 +1,10 @@
+## [1.240.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.1...v1.240.2) (2023-07-10)
+
+
+### Bug Fixes
+
+* rend le champ dateDeModification facultatif ([#1878](https://github.com/gip-inclusion/carnet-de-bord/issues/1878)) ([a3654de](https://github.com/gip-inclusion/carnet-de-bord/commit/a3654de9a5eeec2f18ec64de0efb1a03a05fbef6))
+
 ## [1.240.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.0...v1.240.1) (2023-07-10)
 
 
