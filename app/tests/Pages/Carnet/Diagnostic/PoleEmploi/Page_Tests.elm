@@ -46,7 +46,7 @@ suite =
                                         [ { nomMetier = Just "Boulanger"
                                           , idMetierChiffre = "123"
                                           , statut = "EN_COURS"
-                                          , dateMiseAJour = Nothing
+                                          , dateMiseAJour = Just "2022-12-08T23:00:00.000+00:00"
                                           , besoins =
                                                 [ { libelle = "Se former"
                                                   , valeur = PoleEmploiBesoinValeurEnum.PointFort
@@ -75,6 +75,7 @@ suite =
                     |> Extra.ProgramTest.expectView
                         [ expectNoAlert
                         , expectSeeText "Date de mise à jour\u{00A0}: non communiquée"
+                        , expectSeeText "Date de mise à jour\u{00A0}: 09/12/2022"
                         , expectSeeText "situation 1"
                         , expectSeeText "objectif 1"
                         , expectSeeText "situation 1"
