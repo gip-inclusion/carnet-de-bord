@@ -1,3 +1,10 @@
+## [1.240.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.0...v1.240.1) (2023-07-10)
+
+
+### Bug Fixes
+
+* passe dateMiseAjour en facultatif ([#1876](https://github.com/gip-inclusion/carnet-de-bord/issues/1876)) ([6c69cfa](https://github.com/gip-inclusion/carnet-de-bord/commit/6c69cfa96b360e40d955dc7e6e2d731f321768a9))
+
 # [1.240.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.239.1...v1.240.0) (2023-07-07)
 
 
