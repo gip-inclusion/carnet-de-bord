@@ -74,7 +74,7 @@ suite =
                     }
                     |> Extra.ProgramTest.expectView
                         [ expectNoAlert
-                        , expectSeeText "Date de mise à jour : non communiquée"
+                        , expectSeeText "Date de mise à jour\u{00A0}: non communiquée"
                         , expectSeeText "situation 1"
                         , expectSeeText "objectif 1"
                         , expectSeeText "situation 1"

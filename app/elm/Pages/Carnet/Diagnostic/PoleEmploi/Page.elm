@@ -49,6 +49,7 @@ type Model
 
 type alias Diagnostic =
     { contraintes : List Contrainte
+    , dateDeMiseAJour : Maybe Date
     , projetProfessionels : List ProjetProfessionel
     }
 
@@ -183,7 +184,7 @@ view model =
                         [ Attr.class "flex flex-col gap-8" ]
                         ([ Html.div []
                             [ Html.h2 [ Attr.class "mb-4" ] [ Html.text "Contrainte(s) personnelles(s)" ]
-                            , Html.span [] [ Html.text "Date de mise à jour : non communiquée" ]
+                            , Html.span [] [ Html.text "Date de mise à jour\u{00A0}: non communiquée" ]
                             ]
                          , viewContraintesHighlights diagnostic
                          , viewSituations diagnostic
@@ -204,24 +205,27 @@ viewProjetProfessionnel projetProfessionnel =
         , onClick = Noop
         , header = Html.span [ Attr.class "text-2xl text-vert-cdb " ] [ Html.text <| Maybe.withDefault "Projet en construction" projetProfessionnel.nom ]
         , content =
-            Html.table [ Attr.class "w-full" ]
-                [ Html.thead [ Attr.class "sticky" ]
-                    [ Html.tr []
-                        [ Html.th [ Attr.class "p-2" ] []
-                        , Html.th [ Attr.class "text-center p-2 text-lg text-vert-cdb font-normal" ] [ Html.text "Statut" ]
+            Html.div []
+                [ Html.span [] [ Html.text "Date de mise à jour\u{00A0}: non communiquée" ]
+                , Html.table [ Attr.class "w-full" ]
+                    [ Html.thead [ Attr.class "sticky" ]
+                        [ Html.tr []
+                            [ Html.th [ Attr.class "p-2" ] []
+                            , Html.th [ Attr.class "text-center p-2 text-lg text-vert-cdb font-normal" ] [ Html.text "Statut" ]
+                            ]
                         ]
+                    , Html.tbody [ Attr.class "divide-y" ]
+                        (projetProfessionnel.besoins
+                            |> List.map
+                                (\p ->
+                                    Html.tr []
+                                        [ Html.td [ Attr.class "p-2 w-full" ] [ Html.span [] [ Html.text p.libelle ] ]
+                                        , Html.td [ Attr.class "p-2 text-left min-w-max whitespace-nowrap" ]
+                                            [ viewStatusIcon p.valeur ]
+                                        ]
+                                )
+                        )
                     ]
-                , Html.tbody [ Attr.class "divide-y" ]
-                    (projetProfessionnel.besoins
-                        |> List.map
-                            (\p ->
-                                Html.tr []
-                                    [ Html.td [ Attr.class "p-2 w-full" ] [ Html.span [] [ Html.text p.libelle ] ]
-                                    , Html.td [ Attr.class "p-2 text-left min-w-max whitespace-nowrap" ]
-                                        [ viewStatusIcon p.valeur ]
-                                    ]
-                            )
-                    )
                 ]
         }
 
