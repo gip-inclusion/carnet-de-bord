@@ -46,6 +46,7 @@ suite =
                                         [ { nomMetier = Just "Boulanger"
                                           , idMetierChiffre = "123"
                                           , statut = "EN_COURS"
+                                          , dateMiseAJour = Nothing
                                           , besoins =
                                                 [ { libelle = "Se former"
                                                   , valeur = PoleEmploiBesoinValeurEnum.PointFort
@@ -54,7 +55,8 @@ suite =
                                           }
                                         ]
                                     , contraintesIndividusDto =
-                                        { contraintes =
+                                        { dateDeModification = Nothing
+                                        , contraintes =
                                             [ { libelle = "Développer sa mobilité"
                                               , valeur = PoleEmploiContrainteValeurEnum.Oui
                                               , objectifs =
@@ -72,6 +74,7 @@ suite =
                     }
                     |> Extra.ProgramTest.expectView
                         [ expectNoAlert
+                        , expectSeeText "Date de mise à jour : non communiquée"
                         , expectSeeText "situation 1"
                         , expectSeeText "objectif 1"
                         , expectSeeText "situation 1"

@@ -181,7 +181,10 @@ view model =
                 Html.div []
                     [ Html.div
                         [ Attr.class "flex flex-col gap-8" ]
-                        ([ Html.h2 [] [ Html.text "Contrainte(s) personnelles(s)" ]
+                        ([ Html.div []
+                            [ Html.h2 [ Attr.class "mb-4" ] [ Html.text "Contrainte(s) personnelles(s)" ]
+                            , Html.span [] [ Html.text "Date de mise à jour : non communiquée" ]
+                            ]
                          , viewContraintesHighlights diagnostic
                          , viewSituations diagnostic
                          , viewObjectif diagnostic
