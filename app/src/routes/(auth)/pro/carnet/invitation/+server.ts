@@ -77,7 +77,7 @@ export const POST: RequestHandler = async ({ request }) => {
 			{
 				pro: account.professional,
 				creator: creator.professional || creator.orientation_manager,
-				url: { accessKey, appUrl, redirectUrl: `/pro/carnet/${notebookId}` },
+				url: { accessKey, appUrl, redirectUrl: `/carnet/${notebookId}` },
 			},
 		],
 	}).catch((emailError) => {

@@ -12,7 +12,7 @@
 	export let notebookId: string;
 	$: notebookPath =
 		$connectedUser.role === RoleEnum.Professional
-			? `${homeForRole($connectedUser.role)}/carnet/${notebookId}`
+			? `/carnet/${notebookId}`
 			: `${homeForRole($connectedUser.role)}/carnets/edition/${notebookId}`;
 
 	const getNotebook = operationStore(GetNotebookDocument, { id: notebookId });

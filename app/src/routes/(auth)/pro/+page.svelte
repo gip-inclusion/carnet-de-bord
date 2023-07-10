@@ -40,7 +40,7 @@
 	}
 
 	function carnetUrl({ id }: { id: string }) {
-		return `/pro/carnet/${id}`;
+		return `/carnet/${id}`;
 	}
 </script>
 

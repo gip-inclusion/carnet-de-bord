@@ -10,6 +10,7 @@ import {
 import type { GetAccountInfoQuery } from '$lib/graphql/_gen/typed-document-nodes';
 import { getGraphqlAPI, getHasuraAdminSecret } from '$lib/config/variables/private';
 import type { PageServerLoad } from './$types';
+import { addHours } from 'date-fns';
 
 const client = createClient({
 	url: getGraphqlAPI(),
@@ -98,7 +99,8 @@ export const actions: Actions = {
 		cookies.set('jwt', token, {
 			path: '/',
 			httpOnly: true,
-			sameSite: 'strict',
+			sameSite: 'lax',
+			expires: addHours(new Date(), 1),
 		});
 
 		setHeaders({ 'Cache-Control': 'private' });

@@ -63,7 +63,7 @@ Soit('le pro {string} sur le carnet de {string}', async (email, lastname) => {
 
 	const uuid = await loginStub('pro', email);
 	const notebookId = await goToNotebookForLastName(lastname);
-	await plainGoto(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
+	await plainGoto(`/auth/jwt/${uuid}?url=/carnet/${notebookId}`);
 	I.click('Continuer sur Carnet de bord');
 });
 

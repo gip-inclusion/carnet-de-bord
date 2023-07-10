@@ -5,8 +5,6 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
 	import { displayFullName } from '$lib/ui/format';
-	import { baseUrlForRole } from '$lib/routes';
-	import { accountData } from '$lib/stores';
 
 	type PublicNotebook =
 		| SearchPublicNotebooksQuery['notebooks'][0]
@@ -47,7 +45,7 @@
 				</td>
 				<td class="!text-center">
 					<a
-						href={`${baseUrlForRole($accountData.type)}/carnet/${notebook.id}`}
+						href={`/carnet/${notebook.id}`}
 						rel="noreferrer"
 						class="fr-link"
 						title={`Voir le carnet de ${displayFullName(notebook.beneficiary)}`}

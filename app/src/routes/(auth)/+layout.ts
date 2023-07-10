@@ -11,7 +11,7 @@ import type { LayoutLoad } from './$types';
 
 export const load: LayoutLoad = async (event) => {
 	const data = await event.parent();
-	const accountInfo = await getAccount(event.fetch, data.user.id);
+	const accountInfo = await getAccount(event.fetch, data?.user?.id);
 	if (!accountInfo) {
 		throw error(400, 'récupération du compte impossible');
 	}

@@ -1,3 +1,5 @@
+import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
+
 export type Segment = {
 	name?: string;
 	path?: string;
@@ -85,3 +87,16 @@ export const isCurrentRoute = (currentPath: string, route: string): boolean => {
 		return true;
 	}
 };
+export function getRealCarnetUrl(role: string, notebookId: string, structureId?: string): string {
+	switch (role) {
+		case RoleEnum.Professional:
+			return `${homeForRole(role)}/carnet/${notebookId}`;
+		case RoleEnum.AdminStructure:
+			return `${homeForRole(role)}/structures/${structureId}/carnets/${notebookId}`;
+		case RoleEnum.OrientationManager:
+			return `${homeForRole(role)}/carnets/${notebookId}`;
+		case RoleEnum.Manager:
+			return `${homeForRole(role)}/carnets/${notebookId}`;
+	}
+	return '/';
+}
