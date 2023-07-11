@@ -47,7 +47,7 @@ async def test_produces_a_401_when_the_token_is_missing(
     beneficiary_sophie_tifour: Beneficiary,
 ):
     response = await test_client.post(
-        "/v1/notebooks/refresh-situations-from-pole-emploi",
+        "/v1/notebooks/update-notebook-from-pole-emploi",
         json=build_payload(notebook_id=beneficiary_sophie_tifour.notebook.id),
     )
     assert response.status_code == 401
@@ -57,7 +57,7 @@ async def test_produces_a_401_when_the_token_is_missing(
 
 def build_payload(notebook_id: UUID):
     return {
-        "action": {"name": "refresh-situations-from-pole-emploi"},
+        "action": {"name": "update-notebook-from-pole-emploi"},
         "request_query": "",
         "session_variables": {},
         "input": {
@@ -68,7 +68,7 @@ def build_payload(notebook_id: UUID):
 
 async def call_refresh_api(uuid: UUID, test_client):
     response = await test_client.post(
-        "/v1/notebooks/refresh-situations-from-pole-emploi",
+        "/v1/notebooks/update-notebook-from-pole-emploi",
         headers={"secret-token": "action_secret_token"},
         json=build_payload(notebook_id=uuid),
     )

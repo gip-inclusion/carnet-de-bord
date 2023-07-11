@@ -17,9 +17,9 @@ type Query {
 }
 
 type Mutation {
-  refresh_notebook_situations_from_pole_emploi(
+  update_notebook_from_pole_emploi(
     notebookId: uuid!
-  ): RefreshNotebookSituationsFromPoleEmploiOutput
+  ): UpdateNotebookFromPoleEmploiOutput
 }
 
 type Mutation {
@@ -131,7 +131,7 @@ type CreateNotebookOutput {
   notebookId: uuid!
 }
 
-type RefreshNotebookSituationsFromPoleEmploiOutput {
+type UpdateNotebookFromPoleEmploiOutput {
   data_has_been_updated: Boolean!
   has_pe_diagnostic: Boolean!
   external_data_has_been_updated: Boolean!

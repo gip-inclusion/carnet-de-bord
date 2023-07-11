@@ -10,12 +10,12 @@ from cdb.api.db.crud.notebook_situation import (
 )
 from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.v1.dependencies import verify_secret_token
-from cdb.api.v1.payloads.notebook import NotebookSituationInputPayload
-from cdb.api.v1.routers.refresh_situations.refresh_situations import (
+from cdb.api.v1.payloads.notebook import NotebookInputPayload
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
     IO,
-    refresh_notebook_situations_from_pole_emploi,
+    update_notebook_from_pole_emploi,
 )
-from cdb.api.v1.routers.refresh_situations.refresh_situations_io import (
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_io import (
     find_notebook,
     get_dossier_pe,
     save_differences,
@@ -28,9 +28,9 @@ logger = logging.getLogger(__name__)
 router = APIRouter(dependencies=[Depends(verify_secret_token)])
 
 
-@router.post("/refresh-situations-from-pole-emploi", status_code=200)
-async def api_refresh_notebook_situations_from_pole_emploi(
-    payload: NotebookSituationInputPayload,
+@router.post("/update-notebook-from-pole-emploi", status_code=200)
+async def api_update_notebook_from_pole_emploi(
+    payload: NotebookInputPayload,
 ):
     """
     Cet endpoint est le backend de l'action Hasura
@@ -50,4 +50,4 @@ async def api_refresh_notebook_situations_from_pole_emploi(
             get_ref_situations=partial(get_ref_situations, session),
             save_differences=partial(save_differences, session),
         )
-        return await refresh_notebook_situations_from_pole_emploi(deps, notebook_id)
+        return await update_notebook_from_pole_emploi(deps, notebook_id)

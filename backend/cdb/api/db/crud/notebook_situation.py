@@ -5,7 +5,7 @@ from gql import gql
 from gql.client import AsyncClientSession
 
 from cdb.api.db.models.ref_situation import RefSituation
-from cdb.api.v1.payloads.socio_pro import SituationToAdd
+from cdb.api.v1.payloads.socio_pro import SituationInsertInput
 
 
 async def get_ref_situations(client: AsyncClientSession) -> List[RefSituation]:
@@ -34,7 +34,7 @@ async def get_ref_situations(client: AsyncClientSession) -> List[RefSituation]:
 async def save_notebook_situations(
     client: AsyncClientSession,
     notebookId: UUID,
-    situations_to_add: List[SituationToAdd],
+    situations_to_add: List[SituationInsertInput],
     situation_ids_to_delete: List[UUID],
 ):
     mutation = gql(

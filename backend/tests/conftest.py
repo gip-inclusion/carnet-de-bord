@@ -3,7 +3,7 @@ import contextlib
 import io
 import os
 import typing
-from typing import Any, AsyncGenerator
+from typing import Any, AsyncGenerator, List
 from uuid import UUID
 
 import dask.dataframe as dd
@@ -29,6 +29,7 @@ from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
+from cdb.api.db.models.ref_situation import RefSituation
 
 test_dir = os.path.dirname(os.path.realpath(__file__))
 
@@ -665,3 +666,38 @@ async def situation_id_contrainte_horaire(db_connection: Connection) -> UUID:
     )
     assert record
     return record["id"]
+
+
+@pytest.fixture
+async def ref_situation_aucun_moyen_transport(
+    db_connection: Connection,
+) -> RefSituation:
+    record = await db_connection.fetchrow(
+        "SELECT * from ref_situation "
+        "WHERE description='Aucun moyen de transport à disposition'"
+    )
+
+    return RefSituation.parse_obj(record)
+
+
+@pytest.fixture
+async def ref_situation_dependant_des_transports(
+    db_connection: Connection,
+) -> RefSituation:
+    record = await db_connection.fetchrow(
+        "SELECT * from ref_situation "
+        "WHERE description='Dépendant des transports en commun'"
+    )
+
+    return RefSituation.parse_obj(record)
+
+
+@pytest.fixture
+def ref_situations(
+    ref_situation_dependant_des_transports: RefSituation,
+    ref_situation_aucun_moyen_transport: RefSituation,
+) -> List[RefSituation]:
+    return [
+        ref_situation_dependant_des_transports,
+        ref_situation_aucun_moyen_transport,
+    ]

@@ -605,8 +605,8 @@ def fake_io():
         get_professional_by_email=AsyncMock(return_value=None),
         add_beneficiary_to_structure=AsyncMock(return_value=None),
         insert_notebook_member=AsyncMock(return_value=None),
-        update_beneficiary=AsyncMock(AsyncMock(return_value=uuid.uuid4())),
-        update_notebook=AsyncMock(AsyncMock(return_value=uuid.uuid4())),
+        update_beneficiary=AsyncMock(return_value=uuid.uuid4()),
+        update_notebook=AsyncMock(return_value=uuid.uuid4()),
     )
 
 

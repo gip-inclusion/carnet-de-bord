@@ -35,7 +35,7 @@ class Settings(BaseSettings):
     LOG_AS_JSON: bool = True
     GQL_LOG_LEVEL: str = "WARNING"
 
-    ENABLE_SITUATION_API: bool = False
+    ENABLE_PE_DIAGNOSTIC_API: bool = False
     ENABLE_SYNC_CONTRAINTES: bool = False
 
     SENTRY_DSN: str | None

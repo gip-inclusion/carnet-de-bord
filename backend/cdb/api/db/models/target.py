@@ -10,7 +10,7 @@ class Target(BaseModel):
     id: UUID
     focus_id: UUID
     target: str
-    creator_id: UUID
+    creator_id: UUID | None
     created_at: datetime
     updated_at: datetime
     status: str
