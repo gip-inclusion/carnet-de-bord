@@ -157,6 +157,20 @@ jobs:
       - name: Install Hasura CLI
         uses: ./.github/actions/hasura-cli
 
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: ${{env.PYTHON_VERSION}}
+
+      - name: Setup Poetry
+        uses: abatilo/actions-poetry@v2.1.6
+        with:
+          poetry-version: ${{env.POETRY_VERSION}}
+
+      - name: Install Python dependencies
+        working-directory: ./backend
+        run: poetry install
+
       - name: Run functional tests
         run: |
           cp .env.test.sample .env.test

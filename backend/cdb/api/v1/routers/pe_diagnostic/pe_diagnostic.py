@@ -1,20 +1,20 @@
 from __future__ import annotations
 
 import logging
-from datetime import datetime, timedelta, timezone
-from typing import Awaitable, Callable, List
+from typing import Awaitable, Callable, List, Tuple
 from uuid import UUID
 
-from dateutil.parser import isoparse
 from mypy_extensions import Arg
 from pydantic import BaseModel
 
 from cdb.api.core.settings import settings
-from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
-from cdb.api.domain.situation.situations import (
+from cdb.api.db.models.ref_situation import RefSituation
+from cdb.api.domain.contraintes import FocusDifferences, diff_contraintes
+from cdb.api.domain.situations import (
     SituationDifferences,
-    merge_contraintes_to_situations,
+    diff_situations,
 )
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Notebook
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 
 logger = logging.getLogger(__name__)
@@ -48,15 +48,18 @@ class IO(BaseModel):
     ]
     get_ref_situations: Callable[[], Awaitable[List[RefSituation]]]
     save_differences: Callable[
-        [SituationDifferences, Arg(UUID, "notebook_id")], Awaitable[None]
+        [SituationDifferences, FocusDifferences, Arg(UUID, "notebook_id")],
+        Awaitable[None],
     ]
 
 
-async def refresh_notebook_situations_from_pole_emploi(
+async def update_notebook_from_pole_emploi(
     io: IO, notebook_id: UUID
 ) -> Response | GqlErrorResponse:
-    if not settings.ENABLE_SITUATION_API:
-        return GqlErrorResponse.single("the situation api is disabled")
+    if not settings.ENABLE_PE_DIAGNOSTIC_API:
+        return GqlErrorResponse.single(
+            "The pole-emploi.io diagnostic api feature is disabled"
+        )
 
     notebook = await io.find_notebook(notebook_id)
     if not notebook:
@@ -92,36 +95,34 @@ async def refresh_notebook_situations_from_pole_emploi(
 
     ref_situations = await io.get_ref_situations()
 
-    differences = await compare(dossier, notebook, ref_situations)
-    if differences.situations_to_add or differences.situations_to_delete:
-        await io.save_differences(differences, notebook_id)
+    situation_differences, focus_differences = await compare(
+        dossier, notebook, ref_situations
+    )
+    if (
+        situation_differences.situations_to_add
+        or situation_differences.situations_to_delete
+        or focus_differences.focuses_to_add
+        or focus_differences.focus_ids_to_delete
+        or focus_differences.target_differences.targets_to_add
+        or focus_differences.target_differences.target_ids_to_end
+        or focus_differences.target_differences.target_ids_to_cancel
+    ):
+        await io.save_differences(situation_differences, focus_differences, notebook_id)
         response.data_has_been_updated = True
 
     return response
 
 
-class Notebook(BaseModel):
-    diagnostic_fetched_at: str | None
-    beneficiary_id: UUID
-    nir: str | None
-    date_of_birth: str
-    last_diagnostic_hash: str | None
-    situations: List[NotebookSituation]
-
-    def has_fresh_pe_data(self) -> bool:
-        if not self.diagnostic_fetched_at:
-            return False
-        creation_date = isoparse(self.diagnostic_fetched_at)
-        expiry_date = creation_date + timedelta(hours=1)
-        now = datetime.now(tz=timezone.utc)
-        return now <= expiry_date
-
-    def has_pe_diagnostic(self) -> bool:
-        return self.last_diagnostic_hash is not None
-
-
-async def compare(dossier, notebook, ref_situations):
-    differences = merge_contraintes_to_situations(
-        dossier.contraintesIndividusDto.contraintes, ref_situations, notebook.situations
+async def compare(
+    dossier: DossierIndividuData, notebook: Notebook, ref_situations: List[RefSituation]
+) -> Tuple[SituationDifferences, FocusDifferences]:
+    situation_differences = diff_situations(
+        dossier.contraintesIndividusDto.contraintes,
+        ref_situations,
+        notebook.situations,
     )
-    return differences
+    contraintes_differences = diff_contraintes(
+        contraintes=dossier.contraintesIndividusDto.contraintes,
+        focuses=notebook.focuses,
+    )
+    return (situation_differences, contraintes_differences)

@@ -27,7 +27,7 @@ syncWithPE notebookId responseMsg =
     Extra.GraphQL.postOperation
         (Diagnostic.SyncWithPE.mutation { notebookId = notebookId })
         (Result.map
-            (.refresh_notebook_situations_from_pole_emploi
+            (.update_notebook_from_pole_emploi
                 >> Maybe.map
                     (\data ->
                         { data_has_been_updated = data.data_has_been_updated

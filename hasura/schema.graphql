@@ -145,12 +145,6 @@ enum PoleEmploiSituationValeurEnum {
   OUI
 }
 
-type RefreshNotebookSituationsFromPoleEmploiOutput {
-  data_has_been_updated: Boolean!
-  external_data_has_been_updated: Boolean!
-  has_pe_diagnostic: Boolean!
-}
-
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -202,6 +196,12 @@ input String_comparison_exp {
 
   """does the column match the given SQL regular expression"""
   _similar: String
+}
+
+type UpdateNotebookFromPoleEmploiOutput {
+  data_has_been_updated: Boolean!
+  external_data_has_been_updated: Boolean!
+  has_pe_diagnostic: Boolean!
 }
 
 enum UpdateSocioProContractTypeEnum {
@@ -7063,7 +7063,6 @@ type mutation_root {
     """upsert condition"""
     on_conflict: structure_orientation_system_on_conflict
   ): structure_orientation_system
-  refresh_notebook_situations_from_pole_emploi(notebookId: uuid!): RefreshNotebookSituationsFromPoleEmploiOutput
 
   """
   update data of the table: "account"
@@ -7784,6 +7783,7 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [notebook_focus_updates!]!
   ): [notebook_focus_mutation_response]
+  update_notebook_from_pole_emploi(notebookId: uuid!): UpdateNotebookFromPoleEmploiOutput
 
   """
   update data of the table: "notebook_info"
@@ -10012,8 +10012,8 @@ type notebook_focus {
   createdAt: timestamptz!
 
   """An object relationship"""
-  creator: account!
-  creatorId: uuid!
+  creator: account
+  creatorId: uuid
   id: uuid!
   linkedTo: String
 
@@ -11754,8 +11754,8 @@ type notebook_target {
   createdAt: timestamptz!
 
   """An object relationship"""
-  creator: account!
-  creatorId: uuid!
+  creator: account
+  creatorId: uuid
 
   """An object relationship"""
   focus: notebook_focus!
