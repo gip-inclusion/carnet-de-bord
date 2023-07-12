@@ -13,11 +13,11 @@ from cdb.api.v1.routers import (
     orientation_requests,
     orientations,
     pe_dossier_individu,
-    refresh_situations,
     socio_pro,
     structures,
     uploads,
 )
+from cdb.api.v1.routers.refresh_situations import refresh_situations_api
 
 api_router = APIRouter()
 api_router.include_router(uploads.router, prefix="/uploads", tags=["Uploads"])
@@ -47,7 +47,6 @@ api_router.include_router(
     tags=["Orientation request"],
 )
 
-
 api_router.include_router(
     socio_pro.router,
     prefix="/socio_pro",
@@ -65,7 +64,7 @@ api_router.include_router(
     notebooks_create.router, prefix="/notebooks", tags=["Notebooks"]
 )
 api_router.include_router(
-    refresh_situations.router, prefix="/notebooks", tags=["Notebooks"]
+    refresh_situations_api.router, prefix="/notebooks", tags=["Notebooks"]
 )
 api_router.include_router(
     pe_dossier_individu.router, prefix="/notebooks", tags=["Notebooks"]

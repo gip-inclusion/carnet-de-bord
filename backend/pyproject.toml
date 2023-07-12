@@ -38,6 +38,7 @@ uvicorn = "0.21.1"
 xlrd = "^2.0.1"
 lxml = "^4.9.2"
 backoff = "^2.2.1"
+mypy-extensions = "^1.0.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.1.1"
@@ -46,6 +47,7 @@ pytest-mock = "^3.7.0"
 pytest-testmon = "2.0.6"
 pytest-watch = "^4.2.0"
 approvaltests = "^8.2.5"
+faker = "^18.11.2"
 
 [tool.ruff]
 select = [
