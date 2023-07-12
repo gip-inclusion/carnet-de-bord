@@ -11,10 +11,11 @@ from cdb.api.core.settings import Settings, settings
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.api.domain.situations import SituationDifferences
 from cdb.api.v1.routers.refresh_situations.refresh_situations import (
-    Notebook as NotebookLocal,
-)
-from cdb.api.v1.routers.refresh_situations.refresh_situations import (
     refresh_notebook_situations_from_pole_emploi,
+)
+from cdb.api.v1.routers.refresh_situations.refresh_situations_io import Focus, Target
+from cdb.api.v1.routers.refresh_situations.refresh_situations_io import (
+    Notebook as NotebookLocal,
 )
 from cdb.pe.models.dossier_individu_api import ContraintesIndividu, DossierIndividuData
 
@@ -47,6 +48,31 @@ class FakeNotebookSituation(NotebookSituation):
         )
 
 
+class FakeTarget(Target):
+    def __init__(
+        self,
+        id: UUID = uuid.uuid4(),
+        target: str = "target",
+    ):
+        super().__init__(id=id, target=target)
+
+
+class FakeFocus(Focus):
+    def __init__(
+        self,
+        id: UUID = uuid.uuid4(),
+        created_at: str = str(fake.date_time(tzinfo=timezone.utc)),
+        theme="logement",
+        targets: List[Target] | None = None,
+    ):
+        super().__init__(
+            id=id,
+            created_at=created_at,
+            theme=theme,
+            targets=targets if targets is not None else [FakeTarget()],
+        )
+
+
 class FakeNotebook(NotebookLocal):
     def __init__(
         self,
@@ -55,7 +81,8 @@ class FakeNotebook(NotebookLocal):
         nir: str | None = fake.ean(),
         date_of_birth: str = str(fake.date_time(tzinfo=timezone.utc)),
         last_diagnostic_hash: str | None = fake.word(),
-        situations: List[NotebookSituation] = None,
+        situations: List[NotebookSituation] | None = None,
+        focuses: List[Focus] | None = None,
     ):
         super().__init__(
             diagnostic_fetched_at=diagnostic_fetched_at,
@@ -66,6 +93,7 @@ class FakeNotebook(NotebookLocal):
             situations=situations
             if situations is not None
             else [FakeNotebookSituation()],
+            focuses=focuses if focuses is not None else [FakeFocus()],
         )
 
 

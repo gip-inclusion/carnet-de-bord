@@ -2,9 +2,13 @@ from __future__ import annotations
 
 import json
 import logging
+from datetime import datetime, timedelta, timezone
+from typing import List
 from uuid import UUID
 
+from dateutil.parser import isoparse
 from gql import gql
+from pydantic import BaseModel
 
 from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import update_diagnostic_fetch_date_gql
@@ -18,12 +22,44 @@ from cdb.api.domain.situations import (
     SituationDifferences,
 )
 from cdb.api.v1.payloads.socio_pro import SituationToAdd
-from cdb.api.v1.routers.refresh_situations.refresh_situations import Notebook
 from cdb.cdb_csv.json_encoder import CustomEncoder
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 from cdb.pe.pole_emploi_client import PoleEmploiApiClient
 
 logger = logging.getLogger(__name__)
+
+
+class Target(BaseModel):
+    id: UUID
+    target: str
+
+
+class Focus(BaseModel):
+    id: UUID
+    theme: str
+    created_at: str
+    targets: List[Target]
+
+
+class Notebook(BaseModel):
+    diagnostic_fetched_at: str | None
+    beneficiary_id: UUID
+    nir: str | None
+    date_of_birth: str
+    last_diagnostic_hash: str | None
+    situations: List[NotebookSituation]
+    focuses: List[Focus]
+
+    def has_fresh_pe_data(self) -> bool:
+        if not self.diagnostic_fetched_at:
+            return False
+        creation_date = isoparse(self.diagnostic_fetched_at)
+        expiry_date = creation_date + timedelta(hours=1)
+        now = datetime.now(tz=timezone.utc)
+        return now <= expiry_date
+
+    def has_pe_diagnostic(self) -> bool:
+        return self.last_diagnostic_hash is not None
 
 
 async def find_notebook(session, notebook_id) -> Notebook | None:
@@ -44,6 +80,14 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
                     }
                     diagnosticFetchedAt
                     situations { id situationId createdAt deletedAt }
+                    focuses {
+                        id
+
+                        created_at: createdAt
+                        theme targets(where: {status: {_eq: "in_progress"}}) {
+                            id target
+                        }
+                    }
                 }
             }
             """
@@ -68,6 +112,7 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
             NotebookSituation.parse_obj(situation)
             for situation in notebook["situations"]
         ],
+        focuses=[Focus.parse_obj(focus) for focus in notebook["focuses"]],
     )
 
 

@@ -1,18 +1,20 @@
-from datetime import datetime
+from datetime import timezone
 from typing import List
 from uuid import uuid4
 
 import pytest
+from faker import Faker
 
-from cdb.api.db.models.focus import Focus
-from cdb.api.db.models.target import Target
 from cdb.api.domain.contraintes import (
     FocusToAdd,
     TargetPayload,
     TargetToAdd,
     diff_contraintes,
 )
+from cdb.api.v1.routers.refresh_situations.refresh_situations_io import Focus, Target
 from cdb.pe.models.dossier_individu_api import Contrainte, Objectif
+
+fake = Faker()
 
 
 def test_diff_empty_contraintes_and_empty_focus():
@@ -150,12 +152,7 @@ def notebook_target() -> List[Target]:
     return [
         Target(
             id=uuid4(),
-            focus_id=uuid4(),
             target="Target 1",
-            creator_id=uuid4(),
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
-            status="",
         )
     ]
 
@@ -165,23 +162,15 @@ def notebook_focuses() -> List[Focus]:
     return [
         Focus(
             id=uuid4(),
-            creator_id=None,
-            linked_to=None,
-            targets=None,
+            targets=[],
+            created_at=str(fake.date_time(tzinfo=timezone.utc)),
             theme="mobilite",
-            notebook_id=uuid4(),
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
         ),
         Focus(
             id=uuid4(),
-            creator_id=None,
-            linked_to=None,
-            targets=None,
+            targets=[],
+            created_at=str(fake.date_time(tzinfo=timezone.utc)),
             theme="logement",
-            notebook_id=uuid4(),
-            created_at=datetime.now(),
-            updated_at=datetime.now(),
         ),
     ]
 
@@ -229,13 +218,9 @@ def contraintes() -> List[Contrainte]:
 def shared_focus_with_no_target() -> Focus:
     return Focus(
         id=uuid4(),
-        creator_id=None,
-        linked_to=None,
-        targets=None,
+        targets=[],
         theme="mobilite",
-        notebook_id=uuid4(),
-        created_at=datetime.now(),
-        updated_at=datetime.now(),
+        created_at=str(fake.date_time(tzinfo=timezone.utc)),
     )
 
 
@@ -256,30 +241,16 @@ def shared_focus_with_targets() -> Focus:
     focus_id = uuid4()
     return Focus(
         id=focus_id,
-        creator_id=None,
-        linked_to=None,
         theme="mobilite",
-        notebook_id=uuid4(),
-        created_at=datetime.now(),
-        updated_at=datetime.now(),
+        created_at=str(fake.date_time(tzinfo=timezone.utc)),
         targets=[
             Target(
                 id=uuid4(),
-                focus_id=focus_id,
                 target="Dépendant des transports en commun",
-                creator_id=None,
-                created_at=datetime.now(),
-                updated_at=datetime.now(),
-                status="in_progress",
             ),
             Target(
                 id=uuid4(),
-                focus_id=focus_id,
                 target="Permis non valide / suspension de permis",
-                creator_id=None,
-                created_at=datetime.now(),
-                updated_at=datetime.now(),
-                status="in_progress",
             ),
         ],
     )

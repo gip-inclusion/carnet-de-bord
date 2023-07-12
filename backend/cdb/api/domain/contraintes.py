@@ -4,7 +4,7 @@ from uuid import UUID
 
 from attr import dataclass
 
-from cdb.api.db.models.focus import Focus
+from cdb.api.v1.routers.refresh_situations.refresh_situations_io import Focus
 from cdb.pe.models.dossier_individu_api import Contrainte, Objectif
 
 

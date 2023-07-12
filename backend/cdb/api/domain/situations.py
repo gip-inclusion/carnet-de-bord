@@ -22,7 +22,7 @@ class SituationDifferences:
     situations_to_delete: List[UUID]
 
 
-def merge_contraintes_to_situations(
+def diff_situations(
     contraintes: List[Contrainte],
     ref_situations: List[RefSituation],
     notebook_situations: List[NotebookSituation],

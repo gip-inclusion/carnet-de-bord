@@ -8,7 +8,7 @@ from cdb.api.db.models.ref_situation import NotebookSituation as SituationCdb
 from cdb.api.db.models.ref_situation import RefSituation
 from cdb.api.domain.situations import (
     SituationToAdd,
-    merge_contraintes_to_situations,
+    diff_situations,
 )
 from cdb.pe.models.dossier_individu_api import Contrainte, Situation
 
@@ -19,9 +19,7 @@ def test_merge_contraintes_to_situations_returns_empty(
     contraintes: List[Contrainte] = []
     notebook_situations = []
 
-    result = merge_contraintes_to_situations(
-        contraintes, ref_situations, notebook_situations
-    )
+    result = diff_situations(contraintes, ref_situations, notebook_situations)
 
     assert result.situations_to_add == []
     assert result.situations_to_delete == []
@@ -45,7 +43,7 @@ def test_merge_contraintes_to_situations_returns_empty_when_no_ref_situations(ca
         )
     ]
 
-    result = merge_contraintes_to_situations(
+    result = diff_situations(
         contraintes=contraintes,
         ref_situations=[],
         notebook_situations=[],
@@ -81,9 +79,7 @@ def test_merge_contraintes_to_situations_returns_one_situation_to_add(
     ]
     notebook_situations = []
 
-    result = merge_contraintes_to_situations(
-        contraintes, ref_situations, notebook_situations
-    )
+    result = diff_situations(contraintes, ref_situations, notebook_situations)
 
     assert result.situations_to_add == [
         SituationToAdd(
@@ -120,9 +116,7 @@ def test_merge_contraintes_use_only_active_contraintes_(
     ]
     notebook_situations = []
 
-    result = merge_contraintes_to_situations(
-        contraintes, ref_situations, notebook_situations
-    )
+    result = diff_situations(contraintes, ref_situations, notebook_situations)
 
     assert result.situations_to_add == []
     assert result.situations_to_delete == []
@@ -154,9 +148,7 @@ def test_merge_contraintes_to_situations_returns_only_validated_situations(
     ]
     notebook_situations = []
 
-    result = merge_contraintes_to_situations(
-        contraintes, ref_situations, notebook_situations
-    )
+    result = diff_situations(contraintes, ref_situations, notebook_situations)
 
     assert result.situations_to_add == [
         SituationToAdd(
@@ -195,7 +187,7 @@ def test_merge_contraintes_to_situations_does_not_return_already_existing_situat
         )
     ]
 
-    result = merge_contraintes_to_situations(
+    result = diff_situations(
         contraintes,
         ref_situations,
         notebook_situations,
@@ -240,7 +232,7 @@ def test_merge_contraintes_to_situations_return_situation_to_delete(
             createdAt=datetime.fromisoformat("2023-05-11"),
         )
     ]
-    result = merge_contraintes_to_situations(
+    result = diff_situations(
         contraintes,
         ref_situations,
         notebook_situations,
