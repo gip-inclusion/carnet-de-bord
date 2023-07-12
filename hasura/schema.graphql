@@ -32,6 +32,10 @@ input Boolean_comparison_exp {
   _nin: [Boolean!]
 }
 
+type CreateNotebookFocusOutput {
+  id: uuid!
+}
+
 input CreateNotebookInput {
   address1: String
   address2: String
@@ -5496,6 +5500,9 @@ input manager_updates {
 type mutation_root {
   """Notebook creation"""
   create_notebook(notebook: CreateNotebookInput!): CreateNotebookOutput
+
+  """create_notebook_focus"""
+  create_notebook_focus(linkedTo: String!, notebookId: uuid!, theme: String!): CreateNotebookFocusOutput
 
   """Create NPS Rating"""
   create_nps_rating(score: Int!): NPSRatingOutput

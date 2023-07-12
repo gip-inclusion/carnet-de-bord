@@ -5,6 +5,14 @@ type Mutation {
 }
 
 type Mutation {
+  create_notebook_focus(
+    notebookId: uuid!
+    theme: String!
+    linkedTo: String!
+  ): CreateNotebookFocusOutput
+}
+
+type Mutation {
   create_nps_rating(
     score: Int!
   ): NPSRatingOutput
@@ -185,4 +193,8 @@ type PoleEmploiDossierIndividuSituations {
   code: String!
   libelle: String!
   valeur: PoleEmploiSituationValeurEnum!
+}
+
+type CreateNotebookFocusOutput {
+  id: uuid!
 }

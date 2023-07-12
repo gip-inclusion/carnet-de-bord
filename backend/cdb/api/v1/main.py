@@ -6,6 +6,7 @@ from cdb.api.v1.routers import (
     csv2json,
     deployment,
     managers,
+    notebook_focus,
     notebooks_add_members,
     notebooks_create,
     notify_admin_structures,
@@ -68,6 +69,11 @@ api_router.include_router(
 )
 api_router.include_router(
     pe_dossier_individu.router, prefix="/notebooks", tags=["Notebooks"]
+)
+
+
+api_router.include_router(
+    notebook_focus.router, prefix="/notebook_focus", tags=["Notebook focuses"]
 )
 
 api_router.include_router(nps_rating.router, prefix="/nps-rating", tags=["NPS ratings"])

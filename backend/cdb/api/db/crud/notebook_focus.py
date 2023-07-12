@@ -1,13 +1,17 @@
 import json
+import logging
 from datetime import datetime
 from typing import List
 from uuid import UUID
 
+from cdb.api.domain.contraintes import FocusDifferences, FocusToAdd
+from cdb.api.v1.payloads.notebook_focus import CreateNotebookFocusInput
 from gql import gql
 from gql.client import AsyncClientSession
+from gql.dsl import DSLField, DSLSchema
 from pydantic import BaseModel
 
-from cdb.api.domain.contraintes import FocusDifferences, FocusToAdd
+logger = logging.getLogger(__name__)
 
 
 class TargetInsertInput(BaseModel):
@@ -98,3 +102,20 @@ async def add_remove_notebook_focuses(
             "target_ids_to_end": focus_differences.target_differences.target_ids_to_end,
         },
     )
+
+
+def get_insert_notebook_focus_mutation(
+    dsl_schema: DSLSchema,
+    notebook_focus: CreateNotebookFocusInput,
+) -> dict[str, DSLField]:
+    return {
+        "create_notebook_focus": (
+            dsl_schema.mutation_root.insert_notebook_focus_one.args(
+                object={
+                    "notebookId": notebook_focus.notebook_id,
+                    "theme": notebook_focus.theme,
+                    "linkedTo": notebook_focus.linked_to,
+                }
+            ).select(dsl_schema.notebook_focus.id)
+        ),
+    }
