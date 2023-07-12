@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import logging
-from string import Template
 from uuid import UUID
 
 from gql import gql
@@ -30,8 +29,7 @@ logger = logging.getLogger(__name__)
 async def find_notebook(session, notebook_id) -> Notebook | None:
     response = await session.execute(
         gql(
-            Template(
-                """
+            """
             query GetBeneficiaryQuery($notebook_id:uuid!) {
                 notebook_by_pk(id: $notebook_id) {
                     beneficiary {
@@ -45,11 +43,10 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
                         }
                     }
                     diagnosticFetchedAt
-                    situations $select_situation
+                    situations { id situationId createdAt deletedAt }
                 }
             }
             """
-            ).safe_substitute(select_situation=NotebookSituation.selection_set())
         ),
         {"notebook_id": notebook_id},
     )
@@ -67,7 +64,10 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
         nir=notebook["beneficiary"]["nir"],
         date_of_birth=notebook["beneficiary"]["dateOfBirth"],
         last_diagnostic_hash=external_data_hash,
-        situations=NotebookSituation.parse_list(notebook["situations"]),
+        situations=[
+            NotebookSituation.parse_obj(situation)
+            for situation in notebook["situations"]
+        ],
     )
 
 

@@ -15,16 +15,3 @@ class NotebookSituation(BaseModel):
     situationId: UUID
     createdAt: datetime
     deleteAt: datetime | None
-
-    @staticmethod
-    def selection_set():
-        return """ { id situationId createdAt deletedAt } """
-
-    @staticmethod
-    def parse_list(situations):
-        notebook_situations_parsed = []
-        if situations:
-            notebook_situations_parsed = [
-                NotebookSituation.parse_obj(situation) for situation in situations
-            ]
-        return notebook_situations_parsed
