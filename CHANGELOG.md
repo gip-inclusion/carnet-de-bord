@@ -1,3 +1,10 @@
+# [1.242.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.241.0...v1.242.0) (2023-07-12)
+
+
+### Features
+
+* afficher les dates de mise à jour dans le diag PE ([#1879](https://github.com/gip-inclusion/carnet-de-bord/issues/1879)) ([8e778d8](https://github.com/gip-inclusion/carnet-de-bord/commit/8e778d8705623a6b4ecd58b882c84723700005e4))
+
 # [1.241.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.240.2...v1.241.0) (2023-07-10)
 
 
