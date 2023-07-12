@@ -144,7 +144,7 @@ type PoleEmploiDossierIndividu {
 
 type PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu {
   besoins: [PoleEmploiDossierIndividuBesoins!]!
-  dateMiseAJour: String!
+  dateMiseAJour: String
   estPrioritaire: Boolean!
   idMetierChiffre: String!
   nomMetier: String
@@ -160,9 +160,9 @@ type PoleEmploiDossierIndividuBesoins {
 
 type PoleEmploiDossierIndividuContraintesIndividus {
   code: String!
-  conseiller: String!
+  conseiller: String
   contraintes: [PoleEmploiDossierIndividuContraintes!]!
-  dateDeModification: String!
+  dateDeModification: String
   libelle: String!
 }
 

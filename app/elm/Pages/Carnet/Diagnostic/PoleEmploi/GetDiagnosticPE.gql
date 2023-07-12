@@ -8,8 +8,10 @@ query GetDiagnosticPE($notebookId: uuid!) {
       idMetierChiffre
       nomMetier
       statut
+      dateMiseAJour
     }
     contraintesIndividusDto {
+      dateDeModification
       contraintes {
         libelle
         valeur

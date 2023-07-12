@@ -95,7 +95,7 @@ type PoleEmploiDossierIndividuBesoins {
 
 type PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu {
   besoins: [PoleEmploiDossierIndividuBesoins!]!
-  dateMiseAJour: String!
+  dateMiseAJour: String
   estPrioritaire: Boolean!
   idMetierChiffre: String!
   nomMetier: String
@@ -114,9 +114,9 @@ type PoleEmploiDossierIndividuContraintes {
 
 type PoleEmploiDossierIndividuContraintesIndividus {
   code: String!
-  conseiller: String!
+  conseiller: String
   contraintes: [PoleEmploiDossierIndividuContraintes!]!
-  dateDeModification: String!
+  dateDeModification: String
   libelle: String!
 }
 
@@ -12119,7 +12119,7 @@ type notebook_visit {
   accountId: uuid!
   id: uuid!
   notebookId: uuid!
-  visitedAt: timestamp!
+  visitedAt: timestamptz!
 }
 
 """
@@ -12149,7 +12149,7 @@ input notebook_visit_bool_exp {
   accountId: uuid_comparison_exp
   id: uuid_comparison_exp
   notebookId: uuid_comparison_exp
-  visitedAt: timestamp_comparison_exp
+  visitedAt: timestamptz_comparison_exp
 }
 
 """
@@ -12169,7 +12169,7 @@ input notebook_visit_insert_input {
   accountId: uuid
   id: uuid
   notebookId: uuid
-  visitedAt: timestamp
+  visitedAt: timestamptz
 }
 
 """aggregate max on columns"""
@@ -12177,7 +12177,7 @@ type notebook_visit_max_fields {
   accountId: uuid
   id: uuid
   notebookId: uuid
-  visitedAt: timestamp
+  visitedAt: timestamptz
 }
 
 """aggregate min on columns"""
@@ -12185,7 +12185,7 @@ type notebook_visit_min_fields {
   accountId: uuid
   id: uuid
   notebookId: uuid
-  visitedAt: timestamp
+  visitedAt: timestamptz
 }
 
 """
@@ -12245,7 +12245,7 @@ input notebook_visit_set_input {
   accountId: uuid
   id: uuid
   notebookId: uuid
-  visitedAt: timestamp
+  visitedAt: timestamptz
 }
 
 """
@@ -12264,7 +12264,7 @@ input notebook_visit_stream_cursor_value_input {
   accountId: uuid
   id: uuid
   notebookId: uuid
-  visitedAt: timestamp
+  visitedAt: timestamptz
 }
 
 """

@@ -47,8 +47,8 @@ async def test_get_dossier_individu_return_401(
 async def test_get_dossier_individu_return_null_if_no_dossier_individu(
     test_client: httpx.AsyncClient,
     db_connection: Connection,
-    beneficiary_sophie_tifour: Beneficiary,
-    notebook_sophie_tifour: Notebook,
+    beneficiary_noel_keller: Beneficiary,
+    notebook_noel_keller: Notebook,
 ):
     external_data = await insert_external_data(
         db_connection,
@@ -59,14 +59,14 @@ async def test_get_dossier_individu_return_null_if_no_dossier_individu(
         db_connection,
         ExternalDataInfoInsert(
             external_data_id=external_data.id,
-            beneficiary_id=beneficiary_sophie_tifour.id,
+            beneficiary_id=beneficiary_noel_keller.id,
             created_at=datetime.now(tz=timezone.utc) - timedelta(minutes=59),
         ),
     )
 
     response = await test_client.post(
         "/v1/notebooks/dossier-individu-pole-emploi",
-        json=build_payload(notebook_id=notebook_sophie_tifour.id),
+        json=build_payload(notebook_id=notebook_noel_keller.id),
         headers={"secret-token": "action_secret_token"},
     )
     assert response.status_code == 200

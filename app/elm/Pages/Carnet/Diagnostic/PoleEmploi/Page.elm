@@ -4,6 +4,7 @@ import BetaGouv.DSFR.Accordion
 import BetaGouv.DSFR.Alert
 import Domain.PoleEmploi.ContraintePersonnelle as ContraintePersonnelle
 import Effect exposing (Effect)
+import Extra.Date
 import Extra.Http
 import GraphQL.Enum.PoleEmploiBesoinValeurEnum as PoleEmploiBesoinValeurEnum exposing (PoleEmploiBesoinValeurEnum)
 import GraphQL.Enum.PoleEmploiContrainteValeurEnum as PoleEmploiContrainteValeurEnum
@@ -12,8 +13,10 @@ import GraphQL.Enum.PoleEmploiSituationValeurEnum as PoleEmploiSituationValeurEn
 import Html exposing (Html)
 import Html.Attributes as Attr
 import Http
+import Iso8601
 import Pages.Carnet.Diagnostic.PoleEmploi.GetDiagnosticPE as PEDiagnostic
 import Sentry
+import Time
 
 
 
@@ -31,6 +34,7 @@ type alias ProjetProfessionel =
     { nom : Maybe String
     , idMetierChiffre : String
     , besoins : List Besoin
+    , dateDeMiseAJour : Maybe Time.Posix
     }
 
 
@@ -49,6 +53,7 @@ type Model
 
 type alias Diagnostic =
     { contraintes : List Contrainte
+    , dateDeModification : Maybe Time.Posix
     , projetProfessionels : List ProjetProfessionel
     }
 
@@ -103,6 +108,7 @@ update msg model =
 fromDossierIndividu : PEDiagnostic.PoleEmploiDossierIndividu -> Diagnostic
 fromDossierIndividu dossier =
     { contraintes = dossier.contraintesIndividusDto.contraintes |> List.concatMap toContraintes
+    , dateDeModification = dossier.contraintesIndividusDto.dateDeModification |> Maybe.andThen (Iso8601.toTime >> Result.toMaybe)
     , projetProfessionels = dossier.besoinsParDiagnosticIndividuDtos |> List.concatMap toProjetProfessionnel
     }
 
@@ -110,7 +116,11 @@ fromDossierIndividu dossier =
 toProjetProfessionnel : PEDiagnostic.PoleEmploiDossierIndividuBesoinsParDiagnosticIndividu -> List ProjetProfessionel
 toProjetProfessionnel projet =
     if projet.statut == "EN_COURS" then
-        [ { nom = projet.nomMetier, idMetierChiffre = projet.idMetierChiffre, besoins = projet.besoins |> List.map toBesoins }
+        [ { nom = projet.nomMetier
+          , idMetierChiffre = projet.idMetierChiffre
+          , besoins = projet.besoins |> List.map toBesoins
+          , dateDeMiseAJour = projet.dateMiseAJour |> Maybe.andThen (Iso8601.toTime >> Result.toMaybe)
+          }
         ]
 
     else
@@ -181,7 +191,18 @@ view model =
                 Html.div []
                     [ Html.div
                         [ Attr.class "flex flex-col gap-8" ]
-                        ([ Html.h2 [] [ Html.text "Contrainte(s) personnelles(s)" ]
+                        ([ Html.div []
+                            [ Html.h2 [ Attr.class "mb-4" ] [ Html.text "Contrainte(s) personnelles(s)" ]
+                            , Html.span []
+                                [ Html.text
+                                    ("Date de mise à jour\u{00A0}: "
+                                        ++ (diagnostic.dateDeModification
+                                                |> Maybe.map (Extra.Date.fromPosix >> Extra.Date.print)
+                                                |> Maybe.withDefault "non communiquée"
+                                           )
+                                    )
+                                ]
+                            ]
                          , viewContraintesHighlights diagnostic
                          , viewSituations diagnostic
                          , viewObjectif diagnostic
@@ -201,24 +222,35 @@ viewProjetProfessionnel projetProfessionnel =
         , onClick = Noop
         , header = Html.span [ Attr.class "text-2xl text-vert-cdb " ] [ Html.text <| Maybe.withDefault "Projet en construction" projetProfessionnel.nom ]
         , content =
-            Html.table [ Attr.class "w-full" ]
-                [ Html.thead [ Attr.class "sticky" ]
-                    [ Html.tr []
-                        [ Html.th [ Attr.class "p-2" ] []
-                        , Html.th [ Attr.class "text-center p-2 text-lg text-vert-cdb font-normal" ] [ Html.text "Statut" ]
-                        ]
+            Html.div []
+                [ Html.span []
+                    [ Html.text
+                        ("Date de mise à jour\u{00A0}: "
+                            ++ (projetProfessionnel.dateDeMiseAJour
+                                    |> Maybe.map (Extra.Date.fromPosix >> Extra.Date.print)
+                                    |> Maybe.withDefault "non communiquée"
+                               )
+                        )
                     ]
-                , Html.tbody [ Attr.class "divide-y" ]
-                    (projetProfessionnel.besoins
-                        |> List.map
-                            (\p ->
-                                Html.tr []
-                                    [ Html.td [ Attr.class "p-2 w-full" ] [ Html.span [] [ Html.text p.libelle ] ]
-                                    , Html.td [ Attr.class "p-2 text-left min-w-max whitespace-nowrap" ]
-                                        [ viewStatusIcon p.valeur ]
-                                    ]
-                            )
-                    )
+                , Html.table [ Attr.class "w-full" ]
+                    [ Html.thead [ Attr.class "sticky" ]
+                        [ Html.tr []
+                            [ Html.th [ Attr.class "p-2" ] []
+                            , Html.th [ Attr.class "text-center p-2 text-lg text-vert-cdb font-normal" ] [ Html.text "Statut" ]
+                            ]
+                        ]
+                    , Html.tbody [ Attr.class "divide-y" ]
+                        (projetProfessionnel.besoins
+                            |> List.map
+                                (\p ->
+                                    Html.tr []
+                                        [ Html.td [ Attr.class "p-2 w-full" ] [ Html.span [] [ Html.text p.libelle ] ]
+                                        , Html.td [ Attr.class "p-2 text-left min-w-max whitespace-nowrap" ]
+                                            [ viewStatusIcon p.valeur ]
+                                        ]
+                                )
+                        )
+                    ]
                 ]
         }
 
