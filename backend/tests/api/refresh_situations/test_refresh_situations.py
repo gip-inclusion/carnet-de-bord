@@ -9,7 +9,7 @@ from faker import Faker
 
 from cdb.api.core.settings import Settings, settings
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
-from cdb.api.domain.situation.situations import SituationDifferences
+from cdb.api.domain.situations import SituationDifferences
 from cdb.api.v1.routers.refresh_situations.refresh_situations import (
     Notebook as NotebookLocal,
 )

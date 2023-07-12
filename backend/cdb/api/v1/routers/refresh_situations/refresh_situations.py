@@ -11,7 +11,7 @@ from pydantic import BaseModel
 
 from cdb.api.core.settings import settings
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
-from cdb.api.domain.situation.situations import (
+from cdb.api.domain.situations import (
     SituationDifferences,
     merge_contraintes_to_situations,
 )

@@ -6,7 +6,7 @@ import pytest
 
 from cdb.api.db.models.ref_situation import NotebookSituation as SituationCdb
 from cdb.api.db.models.ref_situation import RefSituation
-from cdb.api.domain.situation.situations import (
+from cdb.api.domain.situations import (
     SituationToAdd,
     merge_contraintes_to_situations,
 )

@@ -15,7 +15,7 @@ from cdb.api.db.crud.notebook_situation import (
 )
 from cdb.api.db.models.external_data import ExternalSource
 from cdb.api.db.models.ref_situation import NotebookSituation
-from cdb.api.domain.situation.situations import (
+from cdb.api.domain.situations import (
     SituationDifferences,
 )
 from cdb.api.v1.payloads.socio_pro import SituationToAdd
