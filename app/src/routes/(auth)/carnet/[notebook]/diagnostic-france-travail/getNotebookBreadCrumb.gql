@@ -1,0 +1,11 @@
+query GetNotebookBreadcrumb($notebookId: uuid!) {
+  notebook: notebook_by_pk(id: $notebookId) {
+    beneficiary {
+      firstname
+      lastname
+      structures(where: { status: { _eq: "current" } }, limit: 1) {
+        structureId
+      }
+    }
+  }
+}

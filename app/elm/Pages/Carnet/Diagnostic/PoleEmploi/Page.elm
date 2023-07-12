@@ -172,7 +172,7 @@ toObjectif objectif =
 
 view : Model -> Html Msg
 view model =
-    Html.section [ Attr.class "fr-container flex flex-col gap-8" ]
+    Html.section [ Attr.class "flex flex-col gap-8" ]
         [ Html.h1 [] [ Html.text "Diagnostic France Travail" ]
         , case
             model
