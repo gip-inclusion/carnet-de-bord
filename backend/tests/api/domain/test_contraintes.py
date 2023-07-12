@@ -133,6 +133,7 @@ def test_shared_contraintes_with_objectifs_and_targets(
         for target in (shared_focus_with_targets.targets or [])
         if target.target == "Permis non valide / suspension de permis"
     ]
+
     assert result.focus_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == [

@@ -128,10 +128,10 @@ class FakeIO:
 
 @pytest.fixture(autouse=True)
 async def pe_settings():
-    settings.ENABLE_SITUATION_API = True
+    settings.ENABLE_PEIO_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
     yield settings
-    settings.ENABLE_SITUATION_API = True
+    settings.ENABLE_PEIO_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
 
 
@@ -223,14 +223,14 @@ async def test_does_nothing_when_the_diagnostic_was_called_recently():
 
 
 async def test_does_nothing_when_feature_is_disabled(pe_settings: Settings):
-    pe_settings.ENABLE_SITUATION_API = False
+    pe_settings.ENABLE_PEIO_API = False
     io = FakeIO()
 
     response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
 
     assert not io.get_dossier_pe.called
     assert response == {"errors": [{"message": "the situation api is disabled"}]}
-    pe_settings.ENABLE_SITUATION_API = True
+    pe_settings.ENABLE_PEIO_API = True
 
 
 async def test_saves_the_new_pe_diagnostic_into_external_data():
