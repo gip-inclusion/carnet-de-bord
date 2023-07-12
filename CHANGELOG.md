@@ -1,3 +1,10 @@
+## [1.242.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.0...v1.242.1) (2023-07-12)
+
+
+### Bug Fixes
+
+* affichage d'un fil d'ariane sur la page du diag FT ([#1882](https://github.com/gip-inclusion/carnet-de-bord/issues/1882)) ([62956b6](https://github.com/gip-inclusion/carnet-de-bord/commit/62956b6aa6f80975e022f6769724efef1758b884))
+
 # [1.242.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.241.0...v1.242.0) (2023-07-12)
 
 
