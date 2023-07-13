@@ -81,9 +81,6 @@ async def get_dossier_pe(nir: str, birth_date: str):
             [
                 "api_rechercher-usagerv1",
                 "api_diagnosticargumentev1",
-                "api_metiers-profil-competencesv1",
-                "ciblepro",
-                "api_projet-creation-entreprisev1",
             ]
         ),  # noqa: E501
     )
