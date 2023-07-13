@@ -1,3 +1,10 @@
+## [1.242.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.2...v1.242.3) (2023-07-13)
+
+
+### Bug Fixes
+
+* supprime les scopes inutiles ([#1889](https://github.com/gip-inclusion/carnet-de-bord/issues/1889)) ([e8b2a06](https://github.com/gip-inclusion/carnet-de-bord/commit/e8b2a061e070a5f01859e4100dbaa904f1bed5a0))
+
 ## [1.242.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.1...v1.242.2) (2023-07-12)
 
 ## [1.242.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.0...v1.242.1) (2023-07-12)
