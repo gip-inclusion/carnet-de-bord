@@ -24,6 +24,7 @@
 
 	$: beneficiary = notebook.beneficiary;
 	$: members = notebook.members;
+	// members are sorted by lastModified desc
 	$: lastUpdateFrom = members[0]?.account?.professional || members[0]?.account?.orientation_manager;
 	$: orientationRequest =
 		beneficiary?.orientationRequest?.length > 0 ? beneficiary.orientationRequest[0] : null;

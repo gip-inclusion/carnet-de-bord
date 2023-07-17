@@ -41,8 +41,7 @@
 
 	export let canEditDetailedInfo = false;
 
-	const updateStore = operationStore(UpdateBeneficiaryPersonalInfoDocument);
-	const update = mutation(updateStore);
+	const update = mutation(operationStore(UpdateBeneficiaryPersonalInfoDocument));
 
 	const initialValues = {
 		firstname: beneficiary.firstname,
@@ -96,6 +95,7 @@
 
 		await update({
 			id: beneficiary.id,
+			accountId: $accountData.id,
 			payload,
 		});
 		openComponent.close();

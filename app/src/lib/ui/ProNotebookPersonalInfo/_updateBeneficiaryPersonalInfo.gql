@@ -1,6 +1,10 @@
-mutation UpdateBeneficiaryPersonalInfo($id: uuid!, $payload: beneficiary_set_input) {
+mutation UpdateBeneficiaryPersonalInfo(
+  $id: uuid!
+  $accountId: uuid!
+  $payload: beneficiary_set_input
+) {
   updateMember: update_notebook_member(
-    where: { notebook: { beneficiaryId: { _eq: $id } } }
+    where: { notebook: { beneficiaryId: { _eq: $id } }, accountId: { _eq: $accountId } }
     _set: { lastModifiedAt: "now()" }
   ) {
     affected_rows
