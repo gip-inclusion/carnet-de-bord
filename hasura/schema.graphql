@@ -33,7 +33,7 @@ input Boolean_comparison_exp {
 }
 
 input CreateNotebookInput {
-  address: String
+  address1: String
   address2: String
   cafNumber: String
   city: String
