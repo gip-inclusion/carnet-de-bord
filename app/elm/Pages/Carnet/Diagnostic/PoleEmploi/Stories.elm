@@ -10,7 +10,8 @@ import Storybook.Controls
 
 diagnostic : Page.Diagnostic
 diagnostic =
-    { contraintes =
+    { dateDeModification = Nothing
+    , contraintes =
         [ { theme = ContraintePersonnelle.MaitriseLangue
           , situations = [ "Difficultés en calcul" ]
           , objectifs = []
@@ -23,6 +24,7 @@ diagnostic =
     , projetProfessionels =
         [ { nom = Just "Boulanger"
           , idMetierChiffre = "fab31b61-9b96-4112-afac-5020a79a21de#lkLOSn1Wty5XMfoSBOBxuTlzE4T9-wXxHUOv-yvI8lg"
+          , dateDeMiseAJour = Nothing
           , besoins =
                 [ { libelle = "Identifier ses points forts et ses compétences"
                   , valeur = PoleEmploiBesoinValeurEnum.PointFort
@@ -88,6 +90,7 @@ diagnostic =
           }
         , { nom = Nothing
           , idMetierChiffre = "fab31b61-9b96-4112-afac-5020a79a21de#AfHQJo0sNYlkv1pnqbqX6dav70Yoxh83N9tqmcJNoxY"
+          , dateDeMiseAJour = Nothing
           , besoins =
                 [ { libelle = "Identifier ses points forts et ses compétences"
                   , valeur = PoleEmploiBesoinValeurEnum.NonExplore
