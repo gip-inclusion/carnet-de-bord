@@ -9,11 +9,12 @@ from faker import Faker
 
 from cdb.api.core.settings import Settings, settings
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
+from cdb.api.domain.contraintes import FocusDifferences, TargetDifferences
 from cdb.api.domain.situations import SituationDifferences
+from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Focus, Target
 from cdb.api.v1.routers.refresh_situations.refresh_situations import (
     refresh_notebook_situations_from_pole_emploi,
 )
-from cdb.api.v1.routers.refresh_situations.refresh_situations_io import Focus, Target
 from cdb.api.v1.routers.refresh_situations.refresh_situations_io import (
     Notebook as NotebookLocal,
 )
@@ -308,7 +309,7 @@ async def test_does_nothing_when_data_from_pe_is_new_but_matches_our_situations(
         besoins_par_diagnostic_individu_dtos=[],
     )
     io = FakeIO(
-        find_notebook=async_mock(return_value=FakeNotebook(situations=[])),
+        find_notebook=async_mock(return_value=FakeNotebook(situations=[], focuses=[])),
         get_dossier_pe=async_mock(return_value=dossier),
     )
 
@@ -327,7 +328,7 @@ async def test_update_situation_when_received_situation_are_an_empty_array():
         besoins_par_diagnostic_individu_dtos=[],
     )
     to_delete = FakeNotebookSituation()
-    notebook = FakeNotebook(situations=[to_delete])
+    notebook = FakeNotebook(situations=[to_delete], focuses=[])
     io = FakeIO(
         get_dossier_pe=async_mock(return_value=dossier),
         find_notebook=async_mock(return_value=notebook),
@@ -337,7 +338,18 @@ async def test_update_situation_when_received_situation_are_an_empty_array():
     response = await refresh_notebook_situations_from_pole_emploi(io, notebook_id)
 
     io.save_differences.assert_called_with(
-        SituationDifferences([], [to_delete.id]), notebook_id
+        SituationDifferences(
+            [],
+            [to_delete.id],
+        ),
+        FocusDifferences(
+            focus_to_add=[],
+            focus_ids_to_delete=[],
+            target_differences=TargetDifferences(
+                targets_to_add=[], target_ids_to_cancel=[], target_ids_to_end=[]
+            ),
+        ),
+        notebook_id,
     )
     assert response == {
         "data_has_been_updated": True,
