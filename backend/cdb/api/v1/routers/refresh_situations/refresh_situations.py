@@ -14,7 +14,7 @@ from cdb.api.domain.situations import (
     SituationDifferences,
     diff_situations,
 )
-from cdb.api.v1.routers.refresh_situations.refresh_situations_io import Notebook
+from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Notebook
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 
 logger = logging.getLogger(__name__)
@@ -48,7 +48,8 @@ class IO(BaseModel):
     ]
     get_ref_situations: Callable[[], Awaitable[List[RefSituation]]]
     save_differences: Callable[
-        [SituationDifferences, Arg(UUID, "notebook_id")], Awaitable[None]
+        [SituationDifferences, FocusDifferences, Arg(UUID, "notebook_id")],
+        Awaitable[None],
     ]
 
 
@@ -98,8 +99,13 @@ async def refresh_notebook_situations_from_pole_emploi(
     if (
         situation_differences.situations_to_add
         or situation_differences.situations_to_delete
+        or focus_differences.focus_to_add
+        or focus_differences.focus_ids_to_delete
+        or focus_differences.target_differences.targets_to_add
+        or focus_differences.target_differences.target_ids_to_end
+        or focus_differences.target_differences.target_ids_to_cancel
     ):
-        await io.save_differences(situation_differences, notebook_id)
+        await io.save_differences(situation_differences, focus_differences, notebook_id)
         response.data_has_been_updated = True
 
     return response

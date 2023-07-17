@@ -4,8 +4,13 @@ from uuid import UUID
 
 from attr import dataclass
 
-from cdb.api.v1.routers.refresh_situations.refresh_situations_io import Focus
-from cdb.pe.models.dossier_individu_api import Contrainte, Objectif
+from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Focus
+from cdb.pe.models.dossier_individu_api import (
+    Contrainte,
+    ContrainteValeurEnum,
+    Objectif,
+    ObjectifValeurEnum,
+)
 
 
 @dataclass
@@ -29,7 +34,8 @@ class TargetToAdd:
 @dataclass
 class TargetDifferences:
     targets_to_add: List[TargetToAdd]
-    target_ids_to_delete: List[UUID]
+    target_ids_to_cancel: List[UUID]
+    target_ids_to_end: List[UUID]
 
 
 @dataclass
@@ -80,31 +86,48 @@ def diff_objectifs(
         (focus, contrainte)
         for focus in focuses
         for contrainte in contraintes
-        if contrainte.valeur == "OUI"
+        if contrainte.valeur == ContrainteValeurEnum.OUI
         and getContrainteIdFromTheme(focus.theme) == contrainte.code
     ]
     targets_to_add = []
-    target_ids_to_delete = []
+    target_ids_to_cancel = []
+    target_ids_to_end = []
     for shared_focus, shared_contrainte in shared_contraintes_focuses:
         targets = shared_focus.targets or []
         objectifs = shared_contrainte.objectifs
 
         for objectif in objectifs:
-            if objectif.valeur == "OUI" and objectif not in [
-                target.target for target in targets
-            ]:
+            if (
+                objectif.valeur == ObjectifValeurEnum.EN_COURS
+                and objectif.libelle not in [target.target for target in targets]
+            ):
                 targets_to_add.append(
                     TargetToAdd(target=objectif.libelle, focus_id=shared_focus.id)
                 )
 
-        for target in targets or []:
-            if target.target not in [
-                objectif.libelle for objectif in objectifs if objectif.valeur == "OUI"
+        for target in targets:
+            if target.target in [
+                objectif.libelle
+                for objectif in objectifs
+                if objectif.valeur == ObjectifValeurEnum.ABANDONNE
             ]:
-                target_ids_to_delete.append(target.id)
+                target_ids_to_cancel.append(target.id)
+
+        for target in targets:
+            if target.target in [
+                objectif.libelle
+                for objectif in objectifs
+                if objectif.valeur == ObjectifValeurEnum.REALISE
+            ]:
+                target_ids_to_end.append(target.id)
+
+    # TODO @lionelb 17/07/23
+    # handle case where the cdb target is not found in PE
 
     return TargetDifferences(
-        targets_to_add=targets_to_add, target_ids_to_delete=target_ids_to_delete
+        targets_to_add=targets_to_add,
+        target_ids_to_cancel=target_ids_to_cancel,
+        target_ids_to_end=target_ids_to_end,
     )
 
 
@@ -125,7 +148,7 @@ def diff_contraintes(
             for contrainte in contraintes
             if contrainte.code
             not in [getContrainteIdFromTheme(focus.theme) for focus in focuses]
-            and contrainte.valeur == "OUI"
+            and contrainte.valeur == ContrainteValeurEnum.OUI
             and getThemeFromContrainteId(contrainte.code)
         ],
         focus_ids_to_delete=[
@@ -135,7 +158,7 @@ def diff_contraintes(
             not in [
                 contrainte.code
                 for contrainte in contraintes
-                if contrainte.valeur == "OUI"
+                if contrainte.valeur == ContrainteValeurEnum.OUI
             ]
         ],
         target_differences=diff_objectifs(contraintes=contraintes, focuses=focuses),
@@ -156,7 +179,7 @@ def contrainte_to_focus(contrainte: Contrainte) -> FocusToAdd:
         targets=[
             objectif_to_target(objectif)
             for objectif in contrainte.objectifs
-            if objectif.valeur == "OUI"
+            if objectif.valeur == ObjectifValeurEnum.EN_COURS
         ],
     )
 

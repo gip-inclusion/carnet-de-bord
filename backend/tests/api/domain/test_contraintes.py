@@ -11,7 +11,7 @@ from cdb.api.domain.contraintes import (
     TargetToAdd,
     diff_contraintes,
 )
-from cdb.api.v1.routers.refresh_situations.refresh_situations_io import Focus, Target
+from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Focus, Target
 from cdb.pe.models.dossier_individu_api import Contrainte, Objectif
 
 fake = Faker()
@@ -23,7 +23,8 @@ def test_diff_empty_contraintes_and_empty_focus():
     assert result.focus_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_delete == []
+    assert result.target_differences.target_ids_to_cancel == []
+    assert result.target_differences.target_ids_to_end == []
 
 
 def test_diff_empty_contraintes_and_existing_focus(notebook_focuses: List[Focus]):
@@ -32,7 +33,8 @@ def test_diff_empty_contraintes_and_existing_focus(notebook_focuses: List[Focus]
     assert result.focus_to_add == []
     assert result.focus_ids_to_delete == [focus.id for focus in notebook_focuses]
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_delete == []
+    assert result.target_differences.target_ids_to_cancel == []
+    assert result.target_differences.target_ids_to_end == []
 
 
 def test_diff_existing_contraintes_and_empty_focus(contraintes: List[Contrainte]):
@@ -41,13 +43,17 @@ def test_diff_existing_contraintes_and_empty_focus(contraintes: List[Contrainte]
     assert result.focus_to_add == [
         FocusToAdd(
             theme="mobilite",
-            targets=[TargetPayload(target="Dépendant des transports en commun")],
+            targets=[
+                TargetPayload(target="Faire un point complet sur sa mobilité"),
+                TargetPayload(target="Accéder à un véhicule"),
+            ],
         ),
         FocusToAdd(theme="difficulte_administrative"),
     ]
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_delete == []
+    assert result.target_differences.target_ids_to_cancel == []
+    assert result.target_differences.target_ids_to_end == []
 
 
 def test_diff_existing_contraintes_and_existing_focus(
@@ -61,14 +67,13 @@ def test_diff_existing_contraintes_and_existing_focus(
     assert result.focus_ids_to_delete == [
         focus.id for focus in notebook_focuses if focus.theme == "logement"
     ]
-    focus_ids = [focus.id for focus in notebook_focuses if focus.theme == "mobilite"]
+    [focus_id] = [focus.id for focus in notebook_focuses if focus.theme == "mobilite"]
     assert result.target_differences.targets_to_add == [
-        TargetToAdd(
-            focus_id=focus_ids[0],
-            target="Dépendant des transports en commun",
-        )
+        TargetToAdd(target="Faire un point complet sur sa mobilité", focus_id=focus_id),
+        TargetToAdd(target="Accéder à un véhicule", focus_id=focus_id),
     ]
-    assert result.target_differences.target_ids_to_delete == []
+    assert result.target_differences.target_ids_to_cancel == []
+    assert result.target_differences.target_ids_to_end == []
 
 
 def test_shared_contrainte_with_no_objectif_and_no_target(
@@ -81,7 +86,8 @@ def test_shared_contrainte_with_no_objectif_and_no_target(
     assert result.focus_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_delete == []
+    assert result.target_differences.target_ids_to_cancel == []
+    assert result.target_differences.target_ids_to_end == []
 
 
 def test_shared_contrainte_with_objectif_and_no_target(
@@ -98,10 +104,15 @@ def test_shared_contrainte_with_objectif_and_no_target(
     assert result.target_differences.targets_to_add == [
         TargetToAdd(
             focus_id=shared_focus_with_no_target.id,
-            target="Dépendant des transports en commun",
-        )
+            target="Faire un point complet sur sa mobilité",
+        ),
+        TargetToAdd(
+            focus_id=shared_focus_with_no_target.id,
+            target="Accéder à un véhicule",
+        ),
     ]
-    assert result.target_differences.target_ids_to_delete == []
+    assert result.target_differences.target_ids_to_cancel == []
+    assert result.target_differences.target_ids_to_end == []
 
 
 def test_shared_contrainte_with_no_objectif_and_target(
@@ -116,8 +127,15 @@ def test_shared_contrainte_with_no_objectif_and_target(
     assert result.focus_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_delete == [
-        target.id for target in (shared_focus_with_targets.targets or [])
+    assert result.target_differences.target_ids_to_end == [
+        target.id
+        for target in shared_focus_with_targets.targets
+        if target.target == "Faire un point complet sur sa mobilité"
+    ]
+    assert result.target_differences.target_ids_to_cancel == [
+        target.id
+        for target in shared_focus_with_targets.targets
+        if target.target == "Entretenir ou réparer son véhicule"
     ]
 
 
@@ -130,10 +148,10 @@ def test_shared_contraintes_with_objectifs_and_targets(
         contraintes=[shared_contrainte_with_objectifs],
     )
 
-    [target_id_to_delete] = [
+    target_ids_to_cancel = [
         target.id
         for target in (shared_focus_with_targets.targets or [])
-        if target.target == "Permis non valide / suspension de permis"
+        if target.target in ["Travailler la mobilité psychologique"]
     ]
 
     assert result.focus_to_add == []
@@ -141,10 +159,10 @@ def test_shared_contraintes_with_objectifs_and_targets(
     assert result.target_differences.targets_to_add == [
         TargetToAdd(
             focus_id=shared_focus_with_targets.id,
-            target="Dépendant des transports en commun",
+            target="Accéder à un véhicule",
         )
     ]
-    assert result.target_differences.target_ids_to_delete == [target_id_to_delete]
+    assert result.target_differences.target_ids_to_cancel == target_ids_to_cancel
 
 
 @pytest.fixture(scope="session")
@@ -186,13 +204,16 @@ def contraintes() -> List[Contrainte]:
             situations=[],
             objectifs=[
                 Objectif(
-                    code="6",
-                    libelle="Aucun moyen de transport à disposition",
+                    code="27",
+                    libelle="Entretenir ou réparer son véhicule",
                     valeur="NON_ABORDEE",
                 ),
                 Objectif(
-                    code="7", libelle="Dépendant des transports en commun", valeur="OUI"
+                    code="25",
+                    libelle="Faire un point complet sur sa mobilité",
+                    valeur="EN_COURS",
                 ),
+                Objectif(code="26", libelle="Accéder à un véhicule", valeur="EN_COURS"),
             ],
         ),
         Contrainte(
@@ -232,7 +253,18 @@ def shared_contrainte_with_no_objectif() -> Contrainte:
         valeur="OUI",
         libelle="Développer sa mobilité",
         situations=[],
-        objectifs=[],
+        objectifs=[
+            Objectif(
+                code="25",
+                libelle="Faire un point complet sur sa mobilité",
+                valeur="REALISE",
+            ),
+            Objectif(
+                code="27",
+                libelle="Entretenir ou réparer son véhicule",
+                valeur="ABANDONNE",
+            ),
+        ],
     )
 
 
@@ -246,11 +278,11 @@ def shared_focus_with_targets() -> Focus:
         targets=[
             Target(
                 id=uuid4(),
-                target="Dépendant des transports en commun",
+                target="Faire un point complet sur sa mobilité",
             ),
             Target(
                 id=uuid4(),
-                target="Permis non valide / suspension de permis",
+                target="Travailler la mobilité psychologique",
             ),
         ],
     )
@@ -266,12 +298,20 @@ def shared_contrainte_with_objectifs() -> Contrainte:
         situations=[],
         objectifs=[
             Objectif(
-                code="6",
-                libelle="Aucun moyen de transport à disposition",
+                code="30",
+                libelle="Travailler la mobilité psychologique",
+                valeur="ABANDONNE",
+            ),
+            Objectif(
+                code="27",
+                libelle="Entretenir ou réparer son véhicule",
                 valeur="NON_ABORDEE",
             ),
             Objectif(
-                code="7", libelle="Dépendant des transports en commun", valeur="OUI"
+                code="25",
+                libelle="Faire un point complet sur sa mobilité",
+                valeur="EN_COURS",
             ),
+            Objectif(code="26", libelle="Accéder à un véhicule", valeur="EN_COURS"),
         ],
     )
