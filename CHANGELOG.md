@@ -1,3 +1,10 @@
+## [1.242.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.5...v1.242.6) (2023-07-17)
+
+
+### Bug Fixes
+
+* met à jour seulement le membre concerné par une mise à jour ([#1891](https://github.com/gip-inclusion/carnet-de-bord/issues/1891)) ([a3c2764](https://github.com/gip-inclusion/carnet-de-bord/commit/a3c2764c03782b4aafcb7518b2bf73c4267e534a))
+
 ## [1.242.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.4...v1.242.5) (2023-07-17)
 
 
