@@ -148,7 +148,7 @@ viewRefreshState : RefreshState -> Html msg
 viewRefreshState state =
     case state of
         Started ->
-            UI.Spinner.view "Récupération des information Pôle emploi en cours"
+            UI.Spinner.view "Récupération des informations Pôle emploi en cours"
 
         _ ->
             Html.text ""
