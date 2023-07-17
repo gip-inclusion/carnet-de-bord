@@ -16,6 +16,7 @@ Fonctionnalité: Informations sur le bénéficaire
 		Alors je vois "06 01 23 45 67"
 		Alors je vois "RSA - Droit ouvert et suspendu"
 		Alors je vois "ARE, Prime d'activité"
+		Alors je vois "Informations mises à jour"
 
 	Scénario: Saisie des informations socioprofessionnelles par un pro
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
