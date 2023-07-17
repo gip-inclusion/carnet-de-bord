@@ -1,3 +1,10 @@
+## [1.242.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.4...v1.242.5) (2023-07-17)
+
+
+### Bug Fixes
+
+* supprime les  alertes liées à la récupération du diag FT ([#1865](https://github.com/gip-inclusion/carnet-de-bord/issues/1865)) ([e193064](https://github.com/gip-inclusion/carnet-de-bord/commit/e1930644a1350b43c20f5aa14b219ace03161ce0))
+
 ## [1.242.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.3...v1.242.4) (2023-07-17)
 
 ## [1.242.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.2...v1.242.3) (2023-07-13)
