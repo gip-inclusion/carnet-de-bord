@@ -11,13 +11,13 @@ from cdb.api.core.settings import Settings, settings
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, TargetDifferences
 from cdb.api.domain.situations import SituationDifferences
-from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Focus, Target
-from cdb.api.v1.routers.refresh_situations.refresh_situations import (
-    refresh_notebook_situations_from_pole_emploi,
-)
-from cdb.api.v1.routers.refresh_situations.refresh_situations_io import (
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
     Notebook as NotebookLocal,
 )
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
+    update_notebook_from_pole_emploi,
+)
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus, Target
 from cdb.pe.models.dossier_individu_api import ContraintesIndividu, DossierIndividuData
 
 # -----------------------------------------------------------
@@ -172,7 +172,7 @@ async def pe_settings():
 async def test_does_nothing_when_pe_has_no_info_for_our_beneficiary():
     io = FakeIO(get_dossier_pe=async_mock(return_value=None))
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert response == {
         "data_has_been_updated": False,
@@ -188,7 +188,7 @@ async def test_does_nothing_when_our_pe_data_was_fetched_recently():
         )
     )
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert not io.get_dossier_pe.called
     assert response == {
@@ -201,7 +201,7 @@ async def test_does_nothing_when_our_pe_data_was_fetched_recently():
 async def test_does_nothing_when_we_do_not_find_requested_notebook():
     io = FakeIO(find_notebook=async_mock(return_value=None))
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert response == {"errors": [{"message": "the notebook was not found"}]}
 
@@ -209,7 +209,7 @@ async def test_does_nothing_when_we_do_not_find_requested_notebook():
 async def test_return_an_error_when_the_beneficiary_has_no_nir():
     io = FakeIO(find_notebook=async_mock(return_value=FakeNotebook(nir=None)))
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert response == {
         "errors": [
@@ -225,7 +225,7 @@ async def test_refreshes_data_from_pe_when_they_have_expired():
         )
     )
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert response == {
         "data_has_been_updated": True,
@@ -241,7 +241,7 @@ async def test_does_nothing_when_the_diagnostic_was_called_recently():
         )
     )
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert not io.get_dossier_pe.called
     assert response == {
@@ -255,7 +255,7 @@ async def test_does_nothing_when_feature_is_disabled(pe_settings: Settings):
     pe_settings.ENABLE_PEIO_API = False
     io = FakeIO()
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert not io.get_dossier_pe.called
     assert response == {"errors": [{"message": "the situation api is disabled"}]}
@@ -266,7 +266,7 @@ async def test_saves_the_new_pe_diagnostic_into_external_data():
     dossier = FakeDossierIndividu()
     io = FakeIO(get_dossier_pe=async_mock(return_value=dossier))
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert io.save_in_external_data.call_args[0][0] == dossier
     assert response == {
@@ -288,7 +288,7 @@ async def test_does_not_store_anything_if_pe_data_has_not_changed_since_last_fet
         get_dossier_pe=async_mock(return_value=dossier),
     )
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert not io.save_in_external_data.called
     assert response == {
@@ -313,7 +313,7 @@ async def test_does_nothing_when_data_from_pe_is_new_but_matches_our_situations(
         get_dossier_pe=async_mock(return_value=dossier),
     )
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert response == {
         "data_has_been_updated": False,
@@ -335,7 +335,7 @@ async def test_update_situation_when_received_situation_are_an_empty_array():
     )
 
     notebook_id = uuid.uuid4()
-    response = await refresh_notebook_situations_from_pole_emploi(io, notebook_id)
+    response = await update_notebook_from_pole_emploi(io, notebook_id)
 
     io.save_differences.assert_called_with(
         SituationDifferences(
@@ -364,7 +364,7 @@ async def test_does_not_update_cdb_when_sync_flag_is_false(
     pe_settings.ENABLE_SYNC_CONTRAINTES = False
     io = FakeIO()
 
-    response = await refresh_notebook_situations_from_pole_emploi(io, uuid.uuid4())
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     io.save_differences.assert_not_called()
     assert response == {

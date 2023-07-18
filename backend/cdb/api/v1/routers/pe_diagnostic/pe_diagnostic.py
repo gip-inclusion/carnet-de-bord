@@ -14,7 +14,7 @@ from cdb.api.domain.situations import (
     SituationDifferences,
     diff_situations,
 )
-from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Notebook
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Notebook
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 
 logger = logging.getLogger(__name__)
@@ -53,7 +53,7 @@ class IO(BaseModel):
     ]
 
 
-async def refresh_notebook_situations_from_pole_emploi(
+async def update_notebook_from_pole_emploi(
     io: IO, notebook_id: UUID
 ) -> Response | GqlErrorResponse:
     if not settings.ENABLE_PEIO_API:

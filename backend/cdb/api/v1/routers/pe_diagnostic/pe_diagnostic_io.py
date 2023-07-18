@@ -19,7 +19,7 @@ from cdb.api.domain.situations import (
     SituationDifferences,
 )
 from cdb.api.v1.payloads.socio_pro import SituationToAdd
-from cdb.api.v1.routers.refresh_situations.refresh_situation_models import (
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
     Focus,
     Notebook,
 )
@@ -50,9 +50,9 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
                     situations { id situationId createdAt deletedAt }
                     focuses {
                         id
-
+                        theme
                         created_at: createdAt
-                        theme targets(where: {status: {_eq: "in_progress"}}) {
+                        targets(where: {status: {_eq: "in_progress"}}) {
                             id target
                         }
                     }

@@ -5,7 +5,7 @@ from gql import gql
 
 from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.v1.dependencies import verify_secret_token
-from cdb.api.v1.payloads.notebook import NotebookSituationInputPayload
+from cdb.api.v1.payloads.notebook import NotebookInputPayload
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 
 logger = logging.getLogger(__name__)
@@ -19,7 +19,7 @@ router = APIRouter(dependencies=[Depends(verify_secret_token)])
     response_model=DossierIndividuData | None,
 )
 async def dossier_individu_pole_emploi(
-    payload: NotebookSituationInputPayload,
+    payload: NotebookInputPayload,
 ):
     """
     Cet endpoint est le backend de l'action Hasura

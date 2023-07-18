@@ -4,7 +4,7 @@ from uuid import UUID
 
 from attr import dataclass
 
-from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Focus
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus
 from cdb.pe.models.dossier_individu_api import (
     Contrainte,
     ContrainteValeurEnum,

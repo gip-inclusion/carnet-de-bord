@@ -11,7 +11,7 @@ from cdb.api.domain.contraintes import (
     TargetToAdd,
     diff_contraintes,
 )
-from cdb.api.v1.routers.refresh_situations.refresh_situation_models import Focus, Target
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus, Target
 from cdb.pe.models.dossier_individu_api import Contrainte, Objectif
 
 fake = Faker()
