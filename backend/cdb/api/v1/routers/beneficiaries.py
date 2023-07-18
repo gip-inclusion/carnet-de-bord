@@ -230,9 +230,8 @@ async def try_to_import_one(line: LineImport, io: IO):
         return await fail_for_conflicting_personal_data(line, matching_beneficiaries)
 
     raise ImportFailError(
-        "Erreur inconnue, on a trouvé un bénéficiaire "
-        "mais ni les données personnelles ni les SI IDs "
-        "ne correspondent"
+        "Un bénéficiaire existe déjà avec ce NIR sur le territoire. "
+        "Mais ni ses données personnelles ni son identifiant SI ne correspondent."
     )
 
 

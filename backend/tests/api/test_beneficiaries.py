@@ -749,8 +749,8 @@ async def test_fails_when_the_matched_beneficiary_does_not_match_after_all():
 
     # Then
     assert response == error_response_with(
-        "Erreur inconnue, on a trouvé un bénéficiaire mais ni les données personnelles "
-        "ni les SI IDs ne correspondent",
+        "Un bénéficiaire existe déjà avec ce NIR sur le territoire. "
+        "Mais ni ses données personnelles ni son identifiant SI ne correspondent.",
         line,
     )
 
