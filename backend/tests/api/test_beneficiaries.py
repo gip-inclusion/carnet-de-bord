@@ -226,7 +226,6 @@ async def test_update_beneficiary_with_different_capitalization_and_spacing(
             )
         )
 
-        assert "updated existing beneficiary" in caplog.text
         assert beneficiary_in_db is not None
         assert beneficiary_in_db.external_id == sophie_tifour_bad_caps.external_id
 

@@ -145,11 +145,16 @@ async def import_beneficiaries(
     deployment_id: UUID = UUID(request.state.deployment_id)
     io = create_io(db)
     create_line_import = partial(to_line_import, data.need_orientation, deployment_id)
-    result = [
+    responses = [
         await import_beneficiary(db, create_line_import(beneficiary), io)
         for beneficiary in data.beneficiaries
     ]
-    return result
+    error_count = 0
+    for response in responses:
+        error_count += 1 if not response.valid else 0
+    if error_count:
+        logger.warn("bulk import results: %s/%s errors", error_count, len(responses))
+    return responses
 
 
 def to_line_import(
@@ -194,7 +199,6 @@ async def handle_line_in_transaction(
         return await try_to_import_one(line, io)
 
     except ImportFailError as error:
-        logging.error(error)
         return to_error_response(line.beneficiary, error)
     except Exception as error:
         logging.exception("unhandled exception %s", error)
@@ -207,11 +211,10 @@ async def try_to_import_one(line: LineImport, io: IO):
     )
 
     if len(matching_beneficiaries) > 1:
-        return fail_for_more_than_one_match(line, matching_beneficiaries)
+        return fail_for_more_than_one_match(line)
 
     if len(matching_beneficiaries) == 0:
-        beneficiary_id = await create_beneficiary_with_notebook_and_referent(line, io)
-        logger.info("inserted new beneficiary %s", beneficiary_id)
+        await create_beneficiary_with_notebook_and_referent(line, io)
         return BeneficiaryCsvRowResponse(valid=True, data=line.beneficiary)
 
     match = matching_beneficiaries[0]
@@ -224,10 +227,10 @@ async def try_to_import_one(line: LineImport, io: IO):
         )
 
     if eq_si_id(line.beneficiary, line.deployment_id, match):
-        return await fail_for_conflicting_si_id(line, matching_beneficiaries)
+        return await fail_for_conflicting_si_id(line)
 
     if eq_personal_data(line.beneficiary, match):
-        return await fail_for_conflicting_personal_data(line, matching_beneficiaries)
+        return await fail_for_conflicting_personal_data(line)
 
     raise ImportFailError(
         "Un bénéficiaire existe déjà avec ce NIR sur le territoire. "
@@ -235,13 +238,7 @@ async def try_to_import_one(line: LineImport, io: IO):
     )
 
 
-async def fail_for_conflicting_personal_data(line, matching_beneficiaries):
-    # same user info but different si_id
-    logger.info(
-        "block beneficiary creation as it is conflicting with existing "
-        "beneficiaries(same lastname / firstname / date of birth): %s",
-        [beneficiary.id for beneficiary in matching_beneficiaries],
-    )
+async def fail_for_conflicting_personal_data(line):
     return to_error_response(
         line.beneficiary,
         (
@@ -251,23 +248,14 @@ async def fail_for_conflicting_personal_data(line, matching_beneficiaries):
     )
 
 
-async def fail_for_conflicting_si_id(line, matching_beneficiaries):
-    logger.info(
-        "block beneficiary creation as it is conflicting with existing "
-        "beneficiaries(same id): %s",
-        [beneficiary.id for beneficiary in matching_beneficiaries],
-    )
+async def fail_for_conflicting_si_id(line):
     return to_error_response(
         line.beneficiary,
         ("Un bénéficiaire existe déjà avec cet identifiant SI " "sur le territoire."),
     )
 
 
-def fail_for_more_than_one_match(line, matching_beneficiaries):
-    logger.info(
-        "block beneficiary import, multiple beneficiaries found: %s",
-        [beneficiary.id for beneficiary in matching_beneficiaries],
-    )
+def fail_for_more_than_one_match(line):
     return to_error_response(
         line.beneficiary,
         (
@@ -306,7 +294,6 @@ async def create_beneficiary_with_notebook_and_referent(
     await add_referent_and_structure_to_beneficiary(
         beneficiary_id, new_notebook_id, line.beneficiary, line.deployment_id, io
     )
-    logger.info("inserted new beneficiary %s", beneficiary_id)
     return beneficiary_id
 
 
@@ -323,7 +310,7 @@ async def add_referent_and_structure_to_beneficiary(
             beneficiary.structure_name, deployment_id
         )
         if structure is None:
-            logger.info(
+            logger.warning(
                 "Trying to associate structure with beneficiary: "
                 'structure "%s" does not exist',
                 beneficiary.structure_name,
@@ -353,7 +340,7 @@ async def add_referent_and_structure_to_beneficiary(
             await io.insert_notebook_member(referent_member)
     else:
         # Si un référent est fourni mais qu'on ne le connaît pas, on ne fait rien.
-        logger.info(
+        logger.warning(
             "trying to create referent: no account with email: %s",
             beneficiary.advisor_email,
         )
@@ -375,7 +362,6 @@ async def try_to_update_one(beneficiary, need_orientation, target_id, io):
     if notebook_id:
         await io.insert_or_update_need_orientation(notebook_id, None, need_orientation)
         await io.insert_professional_projects(notebook_id, beneficiary)
-    logger.info("updated existing beneficiary %s", beneficiary_id)
     return BeneficiaryCsvRowResponse(valid=True, update=True, data=beneficiary)
 
 
