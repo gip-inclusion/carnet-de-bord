@@ -19,6 +19,7 @@ from cdb.pe.models.dossier_individu_api import (
 @dataclass
 class TargetPayload:
     target: str
+    createdAt: datetime | None = None
 
 
 @dataclass
@@ -31,6 +32,7 @@ class FocusToAdd:
 class TargetToAdd(BaseModel):
     target: str
     focusId: UUID
+    createdAt: datetime | None = None
 
     def jsonb(self):
         return json.loads(json.dumps(self.dict(exclude_none=True), cls=CustomEncoder))
@@ -107,7 +109,11 @@ def diff_objectifs(
                 and objectif.libelle not in [target.target for target in targets]
             ):
                 targets_to_add.append(
-                    TargetToAdd(target=objectif.libelle, focusId=shared_focus.id)
+                    TargetToAdd(
+                        target=objectif.libelle,
+                        focusId=shared_focus.id,
+                        createdAt=shared_contrainte.date,
+                    )
                 )
 
         for target in targets:
@@ -182,12 +188,12 @@ def contrainte_to_focus(contrainte: Contrainte) -> FocusToAdd:
         theme=theme,
         created_at=contrainte.date,
         targets=[
-            objectif_to_target(objectif)
+            objectif_to_target(objectif, createdAt=contrainte.date)
             for objectif in contrainte.objectifs
             if objectif.valeur == ObjectifValeurEnum.EN_COURS
         ],
     )
 
 
-def objectif_to_target(objectif: Objectif) -> TargetPayload:
-    return TargetPayload(target=objectif.libelle)
+def objectif_to_target(objectif: Objectif, createdAt: datetime | None) -> TargetPayload:
+    return TargetPayload(target=objectif.libelle, createdAt=createdAt)

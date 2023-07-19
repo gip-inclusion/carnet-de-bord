@@ -96,6 +96,9 @@ async def update_notebook_from_pole_emploi(
     situation_differences, focus_differences = await compare(
         dossier, notebook, ref_situations
     )
+    print("---------")
+    print(focus_differences)
+    print("---------")
     if (
         situation_differences.situations_to_add
         or situation_differences.situations_to_delete
