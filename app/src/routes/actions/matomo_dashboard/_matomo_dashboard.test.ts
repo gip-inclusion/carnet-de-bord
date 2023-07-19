@@ -67,7 +67,7 @@ describe('matomo_dashboard', () => {
 				secret_token: env.ACTION_SECRET,
 			},
 		});
-		expect(JSON.parse(response.body)).toEqual({ message: 'stats sent successfully' });
+		expect(await response.json()).toEqual({ message: 'stats sent successfully' });
 		expect(response.status).toEqual(200);
 	});
 });

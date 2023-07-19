@@ -1,6 +1,5 @@
 // setupTest.ts
 /* eslint-disable @typescript-eslint/no-empty-function */
-import 'isomorphic-fetch';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import matchers from '@testing-library/jest-dom/matchers';
@@ -100,7 +99,7 @@ class FakeCookie implements Cookies {
 export function createFakeRequestEvent(method: string, requestHeaders, body: object | null) {
 	const headers = new Headers(requestHeaders);
 	headers.set('content-type', 'application/json');
-	const request = new Request('/api/notebooks', {
+	const request = new Request('http://localhost/api/notebooks', {
 		headers,
 		method,
 		body: body ? JSON.stringify(body) : null,
