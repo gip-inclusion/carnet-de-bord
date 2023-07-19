@@ -2,7 +2,7 @@
 	"name": "@cdb/app",
 	"version": "1.243.0",
 	"engines": {
-		"node": "18.17.0"
+		"node": "18.16.1"
 	},
 	"private": true,
 	"repository": "git@github.com:gip-inclusion/carnet-de-bord.git",
