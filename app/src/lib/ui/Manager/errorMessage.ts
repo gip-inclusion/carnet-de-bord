@@ -38,6 +38,9 @@ export function translateError(error = ''): string {
 	if (/allowed value/i.test(error)) {
 		return 'Valeur non supportée';
 	}
+	if (/Les parenthèses ne sont pas autorisées dans les noms/i.test(error)) {
+		return error;
+	}
 	console.error('unhandle import error message', error);
 	return `Une erreur s'est produite lors de la lecture du fichier.`;
 }

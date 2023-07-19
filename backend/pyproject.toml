@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cdb"
-version = "1.242.6"
+version = "1.243.1"
 description = ""
 authors = ["LionelB <lionel@lumographe.fr>"]
 
@@ -49,6 +49,7 @@ pytest-watch = "^4.2.0"
 approvaltests = "^8.2.5"
 faker = "^18.11.2"
 pytest-cov = "^4.1.0"
+faker = "^18.13.0"
 
 [tool.ruff]
 select = [

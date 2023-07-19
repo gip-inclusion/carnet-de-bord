@@ -1,4 +1,3 @@
-require('isomorphic-fetch');
 import fs from 'fs';
 import path from 'path';
 import { env } from '$env/dynamic/private';

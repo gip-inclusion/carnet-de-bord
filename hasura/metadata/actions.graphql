@@ -112,7 +112,7 @@ input CreateNotebookInput {
   dateOfBirth: date!
   mobileNumber: String
   email: String
-  address: String
+  address1: String
   address2: String
   postalCode: String
   city: String

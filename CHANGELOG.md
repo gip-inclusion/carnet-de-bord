@@ -1,3 +1,22 @@
+## [1.243.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.243.0...v1.243.1) (2023-07-24)
+
+# [1.243.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.11...v1.243.0) (2023-07-24)
+
+
+### Features
+
+* **beneficiaire:** afficher un erreur au rattachement ([#1907](https://github.com/gip-inclusion/carnet-de-bord/issues/1907)) ([2c7bcdc](https://github.com/gip-inclusion/carnet-de-bord/commit/2c7bcdc678fb8641b87892b4dcb2c08eabdb5c4d))
+
+## [1.242.11](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.10...v1.242.11) (2023-07-24)
+
+## [1.242.10](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.9...v1.242.10) (2023-07-20)
+
+## [1.242.9](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.8...v1.242.9) (2023-07-20)
+
+## [1.242.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.7...v1.242.8) (2023-07-17)
+
+## [1.242.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.6...v1.242.7) (2023-07-17)
+
 ## [1.242.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.242.5...v1.242.6) (2023-07-17)
 
 

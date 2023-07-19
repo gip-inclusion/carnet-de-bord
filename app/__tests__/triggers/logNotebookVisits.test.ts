@@ -1,4 +1,3 @@
-require('isomorphic-fetch');
 import { graphql, graphqlAdmin } from '../graphql';
 import { getAccountAndJwtForUser } from '../login_as';
 

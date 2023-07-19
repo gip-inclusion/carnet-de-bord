@@ -1,4 +1,8 @@
+import os
+
 from httpx import AsyncClient
+
+from tests.conftest import test_dir
 
 
 async def test_parse_csv(
@@ -41,7 +45,8 @@ async def test_parse_csv_errors(
     test_client: AsyncClient,
     get_manager_jwt_93: str,
 ):
-    with open("tests/fixtures/import_beneficiaires_buggy.csv", "rb") as file:
+    path = os.path.join(test_dir, "fixtures", "import_beneficiaires_buggy.csv")
+    with open(path, "rb") as file:
         response = await test_client.post(
             "/v1/convert-file/beneficiaries",
             files={"upload_file": ("filename", file, "text/csv")},

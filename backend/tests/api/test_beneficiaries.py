@@ -1,14 +1,15 @@
 import json
 import logging
+import uuid
 from datetime import date
-from typing import List
 from unittest import mock
+from unittest.mock import AsyncMock
 
 import pytest
 from asyncpg import Record
 from asyncpg.connection import Connection
+from faker import Faker
 from httpx import AsyncClient
-from pydantic import BaseModel
 
 from cdb.api.db.crud.beneficiary import (
     get_beneficiary_from_personal_information,
@@ -16,7 +17,13 @@ from cdb.api.db.crud.beneficiary import (
 )
 from cdb.api.db.crud.professional import get_professional_by_email
 from cdb.api.db.crud.rome_code import get_rome_code_by_id
-from cdb.api.db.models.beneficiary import Beneficiary, BeneficiaryImport
+from cdb.api.db.models.beneficiary import (
+    Beneficiary,
+    BeneficiaryCsvRowResponse,
+    BeneficiaryImport,
+)
+from cdb.api.db.models.csv import CsvFieldError
+from cdb.api.v1.routers.beneficiaries import IO, LineImport, handle_line_in_transaction
 
 
 async def import_beneficiaries(
@@ -200,8 +207,8 @@ async def test_do_not_update_beneficiary_with_same_si_id_but_different_name(
     )
     assert beneficiary_in_db.mobile_number is None
     assert (
-        response.json()[0]["errors"][0]["error"]
-        == "Un bénéficiaire existe déjà avec cet identifiant SI sur le territoire."
+        "Un bénéficiaire existe déjà avec cet identifiant SI sur le territoire."
+        in response.json()[0]["errors"][0]["error"]
     )
 
 
@@ -219,7 +226,6 @@ async def test_update_beneficiary_with_different_capitalization_and_spacing(
             )
         )
 
-        assert "updated existing beneficiary" in caplog.text
         assert beneficiary_in_db is not None
         assert beneficiary_in_db.external_id == sophie_tifour_bad_caps.external_id
 
@@ -587,8 +593,257 @@ async def test_no_structure_non_existing_referent(
     assert not beneficiary_in_db.notebook.members
 
 
-class ListOf(BaseModel):
-    __root__: List[BeneficiaryImport]
+def fake_io():
+    value = []
+    return IO(
+        get_beneficiaries_like=AsyncMock(return_value=value),
+        insert_beneficiary=AsyncMock(return_value=uuid.uuid4()),
+        insert_notebook=AsyncMock(return_value=uuid.uuid4()),
+        insert_or_update_need_orientation=AsyncMock(return_value=None),
+        insert_professional_projects=AsyncMock(return_value=None),
+        get_structure_by_name=AsyncMock(return_value=None),
+        get_professional_by_email=AsyncMock(return_value=None),
+        add_beneficiary_to_structure=AsyncMock(return_value=None),
+        insert_notebook_member=AsyncMock(return_value=None),
+        update_beneficiary=AsyncMock(AsyncMock(return_value=uuid.uuid4())),
+        update_notebook=AsyncMock(AsyncMock(return_value=uuid.uuid4())),
+    )
+
+
+class FakeBeneficiaryImport(BeneficiaryImport):
+    def __init__(
+        self,
+        external_id: str = "123",
+        firstname: str = "Harry",
+        lastname: str = "Covert",
+    ):
+        super().__init__(
+            external_id=external_id,
+            firstname=firstname,
+            lastname=lastname,
+            date_of_birth=date(1985, 7, 23),
+            place_of_birth="Paris",
+            mobile_number="0657912322",
+            email="harry.covert@caramail.fr",
+            address1="1 Rue des Champs",
+            address2="1er étage",
+            postal_code="12345",
+            city="Paris",
+            work_situation="recherche_emploi",
+            caf_number="1234567",
+            pe_number="654321L",
+            right_rsa="rsa_droit_ouvert_versable",
+            right_are="Oui",
+            right_ass="Non",
+            right_bonus="Non",
+            right_rqth="Non",
+            rome_code_description="Pontier élingueur / Pontière élingueuse (N1104)",
+            education_level="NV1",
+            structure_name="Pole Emploi Agence Livry-Gargnan",
+            advisor_email="dunord@pole-emploi.fr",
+            nir="185077505612323",
+        )
+
+
+async def test_fails_when_some_io_fails():
+    # Given
+    line = fake_line()
+    line.beneficiary.external_id = "my_external_id"
+
+    io = fake_io()
+    io.insert_beneficiary = AsyncMock(side_effect=Exception("oops"))
+
+    # When
+    response = await handle_line_in_transaction(io, line)
+
+    # Then
+    assert response == BeneficiaryCsvRowResponse(
+        row=line.beneficiary.dict(by_alias=True),
+        errors=[CsvFieldError(error="erreur_inconnue")],
+        valid=False,
+    )
+
+
+async def test_fails_when_inserting_the_new_beneficiary_returns_none():
+    # Given
+    line = fake_line()
+    line.beneficiary.external_id = "my_external_id"
+
+    io = fake_io()
+    io.insert_beneficiary = AsyncMock(return_value=None)
+
+    # When
+    response = await handle_line_in_transaction(io, line)
+
+    # Then
+    assert response == error_response_with("insert beneficiary failed", line)
+
+
+async def test_fails_when_inserting_the_new_notebook_returns_none():
+    # Given
+    line = fake_line()
+    line.beneficiary.external_id = "my_external_id"
+
+    io = fake_io()
+    io.insert_notebook = AsyncMock(return_value=None)
+
+    # When
+    response = await handle_line_in_transaction(io, line)
+
+    # Then
+    assert response == error_response_with("insert notebook failed", line)
+
+
+fake = Faker()
+
+
+def fake_beneficiary() -> Beneficiary:
+    return Beneficiary(
+        id=uuid.uuid4(),
+        email=None,
+        lastname=fake.last_name(),
+        firstname=fake.first_name(),
+        caf_number=None,
+        pe_number=None,
+        postal_code=None,
+        city=None,
+        address1=None,
+        address2=None,
+        mobile_number=None,
+        date_of_birth=fake.date_object(),
+        place_of_birth=None,
+        deployment_id=uuid.uuid4(),
+        deployment=None,
+        created_at=fake.date_time(),
+        updated_at=fake.date_time(),
+        external_id=None,
+        notebook=None,
+        # BRSA users may not have an account,
+        # (account is created on the first login attempt),
+        account_id=None,
+        nir=None,
+        pe_unique_import_id=None,
+        right_rsa=None,
+        right_are=False,
+        right_ass=False,
+        right_bonus=False,
+        rsa_closure_reason=None,
+        rsa_closure_date=None,
+        rsa_suspension_reason=None,
+        is_homeless=None,
+        subject_to_right_and_duty=None,
+    )
+
+
+async def test_fails_when_the_matched_beneficiary_does_not_match_after_all():
+    # Given
+    line = fake_line()
+    line.beneficiary.external_id = "my_external_id"
+
+    io = fake_io()
+    io.get_beneficiaries_like = AsyncMock(return_value=[fake_beneficiary()])
+
+    # When
+    response = await handle_line_in_transaction(io, line)
+
+    # Then
+    assert response == error_response_with(
+        "Un bénéficiaire existe déjà avec ce NIR sur le territoire. "
+        "Mais ni ses données personnelles ni son identifiant SI ne correspondent.",
+        line,
+    )
+
+
+async def test_fails_when_another_beneficiary_exist_with_the_same_personal_data():
+    # Given
+    line = fake_line()
+    line.beneficiary.external_id = "my_external_id"
+
+    io = fake_io()
+    existing_beneficiary = a_beneficiary_matching_line(line)
+    existing_beneficiary.external_id = None
+    existing_beneficiary.deployment_id = uuid.uuid4()
+    io.get_beneficiaries_like = AsyncMock(return_value=[existing_beneficiary])
+
+    # When
+    response = await handle_line_in_transaction(io, line)
+
+    # Then
+    assert response == error_response_with(
+        "Un bénéficiaire existe déjà avec ce nom/prénom/date "
+        "de naissance sur le territoire.",
+        line,
+    )
+
+
+def a_beneficiary_matching_line(line):
+    existing_beneficiary = fake_beneficiary()
+    existing_beneficiary.lastname = line.beneficiary.lastname
+    existing_beneficiary.firstname = line.beneficiary.firstname
+    existing_beneficiary.date_of_birth = line.beneficiary.date_of_birth
+    existing_beneficiary.external_id = line.beneficiary.external_id
+    existing_beneficiary.deployment_id = line.deployment_id
+    return existing_beneficiary
+
+
+async def test_fails_when_updating_the_beneficiary_returns_none():
+    # Given
+    line = fake_line()
+    line.beneficiary.external_id = "my_external_id"
+
+    io = fake_io()
+    existing_beneficiary = a_beneficiary_matching_line(line)
+    io.get_beneficiaries_like = AsyncMock(return_value=[existing_beneficiary])
+
+    io.update_beneficiary = AsyncMock(return_value=None)
+
+    # When
+    response = await handle_line_in_transaction(io, line)
+
+    # Then
+    assert response == error_response_with(
+        f"failed to update " f"beneficiary {existing_beneficiary.id}", line
+    )
+
+
+async def test_fails_when_multiple_beneficiaries_matched():
+    # Given
+    line = fake_line()
+    line.beneficiary.external_id = "my_external_id"
+
+    io = fake_io()
+    existing_beneficiary = a_beneficiary_matching_line(line)
+    io.get_beneficiaries_like = AsyncMock(
+        return_value=[existing_beneficiary, fake_beneficiary()]
+    )
+
+    io.update_beneficiary = AsyncMock(return_value=None)
+
+    # When
+    response = await handle_line_in_transaction(io, line)
+
+    # Then
+    assert response == error_response_with(
+        "Plusieurs bénéficiaires existent déjà avec ce nom/prénom/date de naissance "
+        "sur le territoire.",
+        line,
+    )
+
+
+def error_response_with(error, line):
+    return BeneficiaryCsvRowResponse(
+        row=line.beneficiary.dict(by_alias=True),
+        errors=[CsvFieldError(error=str(error))],
+        valid=False,
+    )
+
+
+def fake_line():
+    return LineImport(
+        beneficiary=(FakeBeneficiaryImport()),
+        deployment_id=uuid.uuid4(),
+        need_orientation=False,
+    )
 
 
 sophie_tifour_bad_caps = BeneficiaryImport(
@@ -598,33 +853,7 @@ sophie_tifour_bad_caps = BeneficiaryImport(
     date_of_birth=date(1982, 2, 1),
 )
 
-
-harry_covert = BeneficiaryImport(
-    external_id="123",
-    firstname="Harry",
-    lastname="Covert",
-    date_of_birth=date(1985, 7, 23),
-    place_of_birth="Paris",
-    mobile_number="0657912322",
-    email="harry.covert@caramail.fr",
-    address1="1 Rue des Champs",
-    address2="1er étage",
-    postal_code="12345",
-    city="Paris",
-    work_situation="recherche_emploi",
-    caf_number="1234567",
-    pe_number="654321L",
-    right_rsa="rsa_droit_ouvert_versable",
-    right_are="Oui",
-    right_ass="Non",
-    right_bonus="Non",
-    right_rqth="Non",
-    rome_code_description="Pontier élingueur / Pontière élingueuse (N1104)",
-    education_level="NV1",
-    structure_name="Pole Emploi Agence Livry-Gargnan",
-    advisor_email="dunord@pole-emploi.fr",
-    nir="185077505612323",
-)
+harry_covert = FakeBeneficiaryImport()
 
 harry_covert_reimport = BeneficiaryImport(
     external_id="123",
@@ -675,7 +904,6 @@ harry_covert_with_caps_and_space = BeneficiaryImport(
     date_of_birth=date(1985, 7, 23),
     mobile_number="0657912322",
 )
-
 
 betty_bois = BeneficiaryImport(
     external_id="1234",

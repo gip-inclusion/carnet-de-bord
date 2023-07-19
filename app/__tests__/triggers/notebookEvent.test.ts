@@ -1,4 +1,3 @@
-require('isomorphic-fetch');
 import fs from 'fs';
 import path from 'path';
 import { graphql, graphqlAdmin } from '../graphql';
