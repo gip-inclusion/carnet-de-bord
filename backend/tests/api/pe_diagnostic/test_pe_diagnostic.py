@@ -18,7 +18,16 @@ from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
     update_notebook_from_pole_emploi,
 )
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus, Target
-from cdb.pe.models.dossier_individu_api import ContraintesIndividu, DossierIndividuData
+from cdb.pe.models.dossier_individu_api import (
+    Contrainte,
+    ContraintesIndividu,
+    ContrainteValeurEnum,
+    DossierIndividuData,
+    Objectif,
+    ObjectifValeurEnum,
+    Situation,
+    SituationValeurEnum,
+)
 
 # -----------------------------------------------------------
 # Utils
@@ -49,7 +58,7 @@ class FakeNotebookSituation(NotebookSituation):
         )
 
 
-class FakeTarget(Target):
+class FakeNotebookTarget(Target):
     def __init__(
         self,
         id: UUID = uuid.uuid4(),
@@ -58,7 +67,7 @@ class FakeTarget(Target):
         super().__init__(id=id, target=target)
 
 
-class FakeFocus(Focus):
+class FakeNotebookFocus(Focus):
     def __init__(
         self,
         id: UUID = uuid.uuid4(),
@@ -70,7 +79,7 @@ class FakeFocus(Focus):
             id=id,
             created_at=created_at,
             theme=theme,
-            targets=targets if targets is not None else [FakeTarget()],
+            targets=targets if targets is not None else [FakeNotebookTarget()],
         )
 
 
@@ -94,7 +103,55 @@ class FakeNotebook(NotebookLocal):
             situations=situations
             if situations is not None
             else [FakeNotebookSituation()],
-            focuses=focuses if focuses is not None else [FakeFocus()],
+            focuses=focuses if focuses is not None else [FakeNotebookFocus()],
+        )
+
+
+class FakeSituation(Situation):
+    def __init__(
+        self,
+        code: str = fake.pystr_format("##"),
+        libelle: str = fake.sentence(),
+        valeur: str = fake.enum(SituationValeurEnum),
+    ):
+        super().__init__(
+            code=code,
+            libelle=libelle,
+            valeur=valeur,
+        )
+
+
+class FakeObjectif(Objectif):
+    def __init__(
+        self,
+        code=fake.pystr_format("##"),
+        libelle=fake.sentence(),
+        valeur=fake.enum(ObjectifValeurEnum),
+    ):
+        super().__init__(
+            code=code,
+            libelle=libelle,
+            valeur=valeur,
+        )
+
+
+class FakeContrainte(Contrainte):
+    def __init__(
+        self,
+        code: str = fake.pystr_format("##"),
+        libelle: str = fake.sentence(),
+        valeur: str = fake.enum(ContrainteValeurEnum),
+        date: datetime = fake.date(),
+        objectifs: List[Objectif] | None = None,
+        situations: List[Situation] | None = None,
+    ):
+        super().__init__(
+            code=code,
+            libelle=libelle,
+            valeur=valeur,
+            date=date,
+            situations=situations or [],
+            objectifs=objectifs or [],
         )
 
 
@@ -343,7 +400,7 @@ async def test_update_situation_when_received_situation_are_an_empty_array():
             [to_delete.id],
         ),
         FocusDifferences(
-            focus_to_add=[],
+            focuses_to_add=[],
             focus_ids_to_delete=[],
             target_differences=TargetDifferences(
                 targets_to_add=[], target_ids_to_cancel=[], target_ids_to_end=[]

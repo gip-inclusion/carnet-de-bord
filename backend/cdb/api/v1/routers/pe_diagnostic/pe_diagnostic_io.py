@@ -9,6 +9,7 @@ from gql import gql
 from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import update_diagnostic_fetch_date_gql
 from cdb.api.db.crud.external_data import save_external_data_with_info
+from cdb.api.db.crud.notebook_focus import add_remove_notebook_focuses
 from cdb.api.db.crud.notebook_situation import (
     save_notebook_situations,
 )
@@ -18,7 +19,7 @@ from cdb.api.domain.contraintes import FocusDifferences
 from cdb.api.domain.situations import (
     SituationDifferences,
 )
-from cdb.api.v1.payloads.socio_pro import SituationToAdd
+from cdb.api.v1.payloads.socio_pro import SituationInsertInput
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
     Focus,
     Notebook,
@@ -131,7 +132,7 @@ async def save_differences(
         [
             json.loads(
                 json.dumps(
-                    SituationToAdd(
+                    SituationInsertInput(
                         notebookId=notebook_id,
                         situationId=situation.situation_id,
                         createdAt=situation.created_at,
@@ -143,4 +144,6 @@ async def save_differences(
         ],
         differences.situations_to_delete,
     )
-    # TODO save contraintes (focus / target)
+    await add_remove_notebook_focuses(
+        session, notebook_id=notebook_id, focus_differences=focus_differences
+    )

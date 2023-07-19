@@ -99,7 +99,7 @@ async def update_notebook_from_pole_emploi(
     if (
         situation_differences.situations_to_add
         or situation_differences.situations_to_delete
-        or focus_differences.focus_to_add
+        or focus_differences.focuses_to_add
         or focus_differences.focus_ids_to_delete
         or focus_differences.target_differences.targets_to_add
         or focus_differences.target_differences.target_ids_to_end

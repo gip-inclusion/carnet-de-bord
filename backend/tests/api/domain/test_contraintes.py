@@ -20,7 +20,7 @@ fake = Faker()
 def test_diff_empty_contraintes_and_empty_focus():
     result = diff_contraintes([], [])
 
-    assert result.focus_to_add == []
+    assert result.focuses_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
     assert result.target_differences.target_ids_to_cancel == []
@@ -30,7 +30,7 @@ def test_diff_empty_contraintes_and_empty_focus():
 def test_diff_empty_contraintes_and_existing_focus(notebook_focuses: List[Focus]):
     result = diff_contraintes(notebook_focuses, [])
 
-    assert result.focus_to_add == []
+    assert result.focuses_to_add == []
     assert result.focus_ids_to_delete == [focus.id for focus in notebook_focuses]
     assert result.target_differences.targets_to_add == []
     assert result.target_differences.target_ids_to_cancel == []
@@ -40,7 +40,7 @@ def test_diff_empty_contraintes_and_existing_focus(notebook_focuses: List[Focus]
 def test_diff_existing_contraintes_and_empty_focus(contraintes: List[Contrainte]):
     result = diff_contraintes([], contraintes)
 
-    assert result.focus_to_add == [
+    assert result.focuses_to_add == [
         FocusToAdd(
             theme="mobilite",
             targets=[
@@ -61,7 +61,7 @@ def test_diff_existing_contraintes_and_existing_focus(
 ):
     result = diff_contraintes(focuses=notebook_focuses, contraintes=contraintes)
 
-    assert result.focus_to_add == [
+    assert result.focuses_to_add == [
         FocusToAdd(theme="difficulte_administrative"),
     ]
     assert result.focus_ids_to_delete == [
@@ -69,8 +69,8 @@ def test_diff_existing_contraintes_and_existing_focus(
     ]
     [focus_id] = [focus.id for focus in notebook_focuses if focus.theme == "mobilite"]
     assert result.target_differences.targets_to_add == [
-        TargetToAdd(target="Faire un point complet sur sa mobilité", focus_id=focus_id),
-        TargetToAdd(target="Accéder à un véhicule", focus_id=focus_id),
+        TargetToAdd(target="Faire un point complet sur sa mobilité", focusId=focus_id),
+        TargetToAdd(target="Accéder à un véhicule", focusId=focus_id),
     ]
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
@@ -83,7 +83,7 @@ def test_shared_contrainte_with_no_objectif_and_no_target(
         [shared_focus_with_no_target], [shared_contrainte_with_no_objectif]
     )
 
-    assert result.focus_to_add == []
+    assert result.focuses_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
     assert result.target_differences.target_ids_to_cancel == []
@@ -99,15 +99,15 @@ def test_shared_contrainte_with_objectif_and_no_target(
         contraintes=[shared_contrainte_with_objectifs],
     )
 
-    assert result.focus_to_add == []
+    assert result.focuses_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == [
         TargetToAdd(
-            focus_id=shared_focus_with_no_target.id,
+            focusId=shared_focus_with_no_target.id,
             target="Faire un point complet sur sa mobilité",
         ),
         TargetToAdd(
-            focus_id=shared_focus_with_no_target.id,
+            focusId=shared_focus_with_no_target.id,
             target="Accéder à un véhicule",
         ),
     ]
@@ -124,7 +124,7 @@ def test_shared_contrainte_with_no_objectif_and_target(
         contraintes=[shared_contrainte_with_no_objectif],
     )
 
-    assert result.focus_to_add == []
+    assert result.focuses_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
     assert result.target_differences.target_ids_to_end == [
@@ -154,11 +154,11 @@ def test_shared_contraintes_with_objectifs_and_targets(
         if target.target in ["Travailler la mobilité psychologique"]
     ]
 
-    assert result.focus_to_add == []
+    assert result.focuses_to_add == []
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == [
         TargetToAdd(
-            focus_id=shared_focus_with_targets.id,
+            focusId=shared_focus_with_targets.id,
             target="Accéder à un véhicule",
         )
     ]

@@ -2,8 +2,6 @@ from datetime import datetime
 from typing import List
 from uuid import UUID
 
-import pytest
-
 from cdb.api.db.models.ref_situation import NotebookSituation as SituationCdb
 from cdb.api.db.models.ref_situation import RefSituation
 from cdb.api.domain.situations import (
@@ -124,6 +122,7 @@ def test_merge_contraintes_use_only_active_contraintes_(
 
 def test_merge_contraintes_to_situations_returns_only_validated_situations(
     ref_situations: List[RefSituation],
+    ref_situation_aucun_moyen_transport: RefSituation,
 ):
     contraintes: List[Contrainte] = [
         Contrainte(
@@ -152,7 +151,7 @@ def test_merge_contraintes_to_situations_returns_only_validated_situations(
 
     assert result.situations_to_add == [
         SituationToAdd(
-            situation_id=UUID("f6fd82aa-781b-4eec-8c27-fc4312d180ed"),
+            situation_id=ref_situation_aucun_moyen_transport.id,
             created_at=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
         )
     ]
@@ -245,32 +244,3 @@ def test_merge_contraintes_to_situations_return_situation_to_delete(
         )
     ]
     assert result.situations_to_delete == [UUID("f9a9c869-460d-4190-942c-3c31b588d547")]
-
-
-@pytest.fixture(scope="session")
-def ref_situation_aucun_moyen_transport() -> RefSituation:
-    return RefSituation(
-        id=UUID("f6fd82aa-781b-4eec-8c27-fc4312d180ed"),
-        description="Aucun moyen de transport à disposition",
-        theme="mobilite",
-    )
-
-
-@pytest.fixture(scope="session")
-def ref_situation_dependant_des_transports() -> RefSituation:
-    return RefSituation(
-        id=UUID("d2d61c88-bc4d-442d-ad4d-ec4ea30c3cd5"),
-        description="Dépendant des transports en commun",
-        theme="mobilite",
-    )
-
-
-@pytest.fixture(scope="session")
-def ref_situations(
-    ref_situation_dependant_des_transports: RefSituation,
-    ref_situation_aucun_moyen_transport: RefSituation,
-) -> List[RefSituation]:
-    return [
-        ref_situation_dependant_des_transports,
-        ref_situation_aucun_moyen_transport,
-    ]

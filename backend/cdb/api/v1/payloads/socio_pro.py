@@ -23,7 +23,7 @@ class ProfessionalProjectToUpdate(ProfessionalProjectCommon):
     id: UUID
 
 
-class SituationToAdd(BaseModel):
+class SituationInsertInput(BaseModel):
     notebookId: UUID
     situationId: UUID
     createdAt: datetime | None = None
@@ -38,7 +38,7 @@ class Input(BaseModel):
     professionalProjectsToUpdate: List[ProfessionalProjectToUpdate]
     rightRqth: bool
     situationIdsToDelete: List[UUID]
-    situationsToAdd: List[SituationToAdd]
+    situationsToAdd: List[SituationInsertInput]
     workSituation: str | None
     workSituationDate: str | None
     workSituationEndDate: str | None

@@ -1,10 +1,13 @@
+import json
 from datetime import datetime
 from typing import List
 from uuid import UUID
 
 from attr import dataclass
+from pydantic import BaseModel
 
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus
+from cdb.cdb_csv.json_encoder import CustomEncoder
 from cdb.pe.models.dossier_individu_api import (
     Contrainte,
     ContrainteValeurEnum,
@@ -25,10 +28,12 @@ class FocusToAdd:
     targets: List[TargetPayload] = []
 
 
-@dataclass
-class TargetToAdd:
+class TargetToAdd(BaseModel):
     target: str
-    focus_id: UUID
+    focusId: UUID
+
+    def jsonb(self):
+        return json.loads(json.dumps(self.dict(exclude_none=True), cls=CustomEncoder))
 
 
 @dataclass
@@ -40,7 +45,7 @@ class TargetDifferences:
 
 @dataclass
 class FocusDifferences:
-    focus_to_add: List[FocusToAdd]
+    focuses_to_add: List[FocusToAdd]
     focus_ids_to_delete: List[UUID]
     target_differences: TargetDifferences
 
@@ -102,7 +107,7 @@ def diff_objectifs(
                 and objectif.libelle not in [target.target for target in targets]
             ):
                 targets_to_add.append(
-                    TargetToAdd(target=objectif.libelle, focus_id=shared_focus.id)
+                    TargetToAdd(target=objectif.libelle, focusId=shared_focus.id)
                 )
 
         for target in targets:
@@ -143,7 +148,7 @@ def diff_contraintes(
     focuses: List[Focus], contraintes: List[Contrainte]
 ) -> FocusDifferences:
     return FocusDifferences(
-        focus_to_add=[
+        focuses_to_add=[
             contrainte_to_focus(contrainte)
             for contrainte in contraintes
             if contrainte.code
