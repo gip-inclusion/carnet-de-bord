@@ -106,7 +106,7 @@ function start_svelte() {
   # npm run dev --prefix app -- --port 3001 &
   cd app
   npm run build
-  PORT=3001 ORIGIN=http://localhost:3001 node build &
+  HOST= PORT=3001 ORIGIN=http://localhost:3001 node build &
   cd ..
 
   until curl -s http://localhost:3001/ > /dev/null ; do
@@ -122,7 +122,7 @@ function start_backend() {
   >&2 echo "-> Starting Python backend"
 
   cd backend
-  poetry run uvicorn cdb.api.main:app --host 0.0.0.0 --port 8001 &
+  poetry run uvicorn cdb.api.main:app --host '' --port 8001 &
   cd ..
 
   until curl -s http://localhost:8001/ > /dev/null ; do
