@@ -1,6 +1,7 @@
 from datetime import date
 from uuid import UUID
 
+import pytest
 from asyncpg.connection import Connection
 from dask.dataframe.core import DataFrame
 from pytest import LogCaptureFixture
@@ -26,7 +27,6 @@ async def test_get_beneficiary_with_professional_projects(
     pe_principal_csv_series: DataFrame,
     db_connection: Connection,
 ):
-
     # Get the first row
     _, series = next(pe_principal_csv_series.iterrows())
     csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
@@ -62,11 +62,9 @@ async def test_get_beneficiary_without_professional_projects(
     pe_principal_csv_series: DataFrame,
     db_connection: Connection,
 ):
-
     for idx, series in pe_principal_csv_series.iterrows():
         # Get the second element
         if idx == 1:
-
             csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
 
             beneficiary: Beneficiary | None = (
@@ -102,11 +100,9 @@ async def test_get_beneficiary_without_notebook(
     pe_principal_csv_series: DataFrame,
     db_connection: Connection,
 ):
-
     for idx, series in pe_principal_csv_series.iterrows():
         # Get the third element
         if idx == 2:
-
             csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
 
             beneficiary: Beneficiary | None = (
@@ -129,11 +125,9 @@ async def test_get_beneficiary_with_unknown_rome_code(
     pe_principal_csv_series: DataFrame,
     db_connection: Connection,
 ):
-
     for idx, series in pe_principal_csv_series.iterrows():
         # Get the fourth element
         if idx == 3:
-
             csv_row: PrincipalCsvRow = await pe.map_principal_row(series)
 
             beneficiary: Beneficiary | None = (
@@ -279,3 +273,59 @@ async def test_get_beneficiaries_without_referent_and_deleted_admin_structure(
         == 1
     )
     verify_python(beneficiaries_without_referent)
+
+
+strings_with_parens = ["(invalide)", "inv(alide)", "inv (alide)", "(", ")", "()"]
+
+
+class FakeBeneficiaryImport(BeneficiaryImport):
+    def __init__(
+        self,
+        external_id: str = "123",
+        firstname: str = "Harry",
+        lastname: str = "Covert",
+    ):
+        super().__init__(
+            external_id=external_id,
+            firstname=firstname,
+            lastname=lastname,
+            date_of_birth=date(1985, 7, 23),
+            place_of_birth="Paris",
+            mobile_number="0657912322",
+            email="harry.covert@caramail.fr",
+            address1="1 Rue des Champs",
+            address2="1er étage",
+            postal_code="12345",
+            city="Paris",
+            work_situation="recherche_emploi",
+            caf_number="1234567",
+            pe_number="654321L",
+            right_rsa="rsa_droit_ouvert_versable",
+            right_are="Oui",
+            right_ass="Non",
+            right_bonus="Non",
+            right_rqth="Non",
+            rome_code_description="Pontier élingueur / Pontière élingueuse (N1104)",
+            education_level="NV1",
+            structure_name="Pole Emploi Agence Livry-Gargnan",
+            advisor_email="dunord@pole-emploi.fr",
+            nir="185077505612323",
+        )
+
+
+@pytest.mark.parametrize("string_with_parens", strings_with_parens)
+def test_parens_are_forbidden_in_the_firstname(string_with_parens):
+    with pytest.raises(ValueError):
+        FakeBeneficiaryImport(firstname=string_with_parens)
+
+
+@pytest.mark.parametrize("string_with_parens", strings_with_parens)
+def test_parens_are_forbidden_in_the_lastname(string_with_parens):
+    with pytest.raises(ValueError):
+        FakeBeneficiaryImport(firstname=string_with_parens)
+
+
+def test_invalid_fields_cannot_be_set():
+    with pytest.raises(ValueError):
+        valid = FakeBeneficiaryImport()
+        valid.firstname = "(invalid)"

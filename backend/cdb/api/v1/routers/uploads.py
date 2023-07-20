@@ -20,7 +20,7 @@ from pandas.core.series import Series
 from pydantic import ValidationError
 
 from cdb.api.core.emails import send_invitation_email
-from cdb.api.core.exceptions import InsertFailError
+from cdb.api.core.exceptions import ImportFailError
 from cdb.api.core.init import connection
 from cdb.api.db.crud.orientation_manager import create_orientation_manager_with_account
 from cdb.api.db.models.account import AccountDBWithAccessKey
@@ -97,7 +97,7 @@ async def create_upload_file(
             )
 
             if not account_manager_tuple:
-                raise InsertFailError("imsert orientation manager failed")
+                raise ImportFailError("insert orientation manager failed")
 
             account, _ = account_manager_tuple
             response_row: OrientationManagerResponseModel = map_row_response(
@@ -126,7 +126,7 @@ async def create_upload_file(
             response_row: OrientationManagerResponseModel = map_row_response(
                 row, valid=False, error=re.sub(r"\nDETAIL.*$", "", str(err))
             )
-        except InsertFailError as err:
+        except ImportFailError as err:
             logging.error("Import error: %s %s", type(err).__name__, err.args)
             response_row: OrientationManagerResponseModel = map_row_response(
                 row, valid=False, error="erreur inconnue"
