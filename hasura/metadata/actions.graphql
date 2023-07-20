@@ -13,6 +13,13 @@ type Mutation {
 }
 
 type Mutation {
+  create_notebook_target(
+    focusId: uuid!
+    target: String!
+  ): CreateNotebookTargetOutput
+}
+
+type Mutation {
   create_nps_rating(
     score: Int!
   ): NPSRatingOutput
@@ -196,5 +203,9 @@ type PoleEmploiDossierIndividuSituations {
 }
 
 type CreateNotebookFocusOutput {
+  id: uuid!
+}
+
+type CreateNotebookTargetOutput {
   id: uuid!
 }

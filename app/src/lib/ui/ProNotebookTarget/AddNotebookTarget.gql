@@ -1,0 +1,5 @@
+mutation AddNotebookTarget($focusId: uuid!, $target: String!) {
+  create_notebook_target(focusId: $focusId, target: $target) {
+    id
+  }
+}

@@ -55,6 +55,10 @@ type CreateNotebookOutput {
   notebookId: uuid!
 }
 
+type CreateNotebookTargetOutput {
+  id: uuid!
+}
+
 """
 Boolean expression to compare columns of type "Int". All fields are combined with logical 'AND'.
 """
@@ -5503,6 +5507,9 @@ type mutation_root {
 
   """create_notebook_focus"""
   create_notebook_focus(linkedTo: String!, notebookId: uuid!, theme: String!): CreateNotebookFocusOutput
+
+  """create a notebook target"""
+  create_notebook_target(focusId: uuid!, target: String!): CreateNotebookTargetOutput
 
   """Create NPS Rating"""
   create_nps_rating(score: Int!): NPSRatingOutput

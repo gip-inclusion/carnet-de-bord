@@ -21,6 +21,18 @@ actions:
       - role: orientation_manager
       - role: admin_cdb
     comment: create_notebook_focus
+  - name: create_notebook_target
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_target'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: create a notebook target
   - name: create_nps_rating
     definition:
       kind: synchronous
@@ -173,4 +185,5 @@ custom_types:
     - name: PoleEmploiDossierIndividuObjectifs
     - name: PoleEmploiDossierIndividuSituations
     - name: CreateNotebookFocusOutput
+    - name: CreateNotebookTargetOutput
   scalars: []
