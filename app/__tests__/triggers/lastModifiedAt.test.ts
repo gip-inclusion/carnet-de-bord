@@ -42,14 +42,14 @@ describe('lastModified trigger', () => {
 
 		// clean created focus
 		const mutation = `mutation deleteFocus {
-			delete_notebook_focus_by_pk(id: "${addFocusPayload.data.insert_notebook_focus_one.id}") { id }
+			delete_notebook_focus_by_pk(id: "${addFocusPayload.data.create_notebook_focus.id}") { id }
 		}`;
 		await graphqlAdmin(mutation);
 	});
 
 	it('should update notebook_member.lastModified when a target is added', async () => {
 		const addTargetMutation = fs.readFileSync(
-			path.join(__dirname, '../../src/lib/ui/ProNotebookTarget/', '_mutation.gql'),
+			path.join(__dirname, '../../src/lib/ui/ProNotebookTarget/', 'AddNotebookTarget.gql'),
 			'utf8'
 		);
 		const addTargetPayload = await graphqlPro(addTargetMutation, {
@@ -62,7 +62,7 @@ describe('lastModified trigger', () => {
 
 		// clean created target
 		const mutation = `mutation deleteTarget {
-			delete_notebook_target_by_pk(id: "${addTargetPayload.data.insert_notebook_target_one.id}") { id }
+			delete_notebook_target_by_pk(id: "${addTargetPayload.data.create_notebook_target.id}") { id }
 			delete_notebook_event(where: {event: {_contains: {event_label: "test"}}}) { affected_rows }
 		}`;
 		await graphqlAdmin(mutation);
