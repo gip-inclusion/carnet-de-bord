@@ -56,7 +56,7 @@ class IO(BaseModel):
 async def update_notebook_from_pole_emploi(
     io: IO, notebook_id: UUID
 ) -> Response | GqlErrorResponse:
-    if not settings.ENABLE_PEIO_API:
+    if not settings.ENABLE_PE_DIAGNOSTIC_API:
         return GqlErrorResponse.single("the situation api is disabled")
 
     notebook = await io.find_notebook(notebook_id)
