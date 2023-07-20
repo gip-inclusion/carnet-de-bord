@@ -5,10 +5,10 @@ from typing import List
 from uuid import UUID
 
 from cdb.api.domain.contraintes import FocusDifferences, FocusToAdd
-from cdb.api.v1.payloads.notebook_focus import CreateNotebookFocusInput
+from cdb.api.v1.payloads.notebook_focus import (CreatedNotebookFocus,
+                                                CreateNotebookFocusInput)
 from gql import gql
 from gql.client import AsyncClientSession
-from gql.dsl import DSLField, DSLSchema
 from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
@@ -104,18 +104,25 @@ async def add_remove_notebook_focuses(
     )
 
 
-def get_insert_notebook_focus_mutation(
-    dsl_schema: DSLSchema,
+async def insert_notebook_focus(
+    client: AsyncClientSession,
     notebook_focus: CreateNotebookFocusInput,
-) -> dict[str, DSLField]:
-    return {
-        "create_notebook_focus": (
-            dsl_schema.mutation_root.insert_notebook_focus_one.args(
-                object={
-                    "notebookId": notebook_focus.notebook_id,
-                    "theme": notebook_focus.theme,
-                    "linkedTo": notebook_focus.linked_to,
-                }
-            ).select(dsl_schema.notebook_focus.id)
+) -> CreatedNotebookFocus:
+    result = await client.execute(
+        gql(
+            """
+        mutation($notebookId: uuid!, $theme: String!, $linkedTo: String!){
+            notebook_focus: insert_notebook_focus_one(object: {
+                notebookId: $notebookId,
+                theme: $theme,
+                linkedTo: $linkedTo
+            }) {id}
+        }"""
         ),
-    }
+        variable_values={
+            "notebookId": notebook_focus.notebook_id,
+            "theme": notebook_focus.theme,
+            "linkedTo": notebook_focus.linked_to,
+        },
+    )
+    return CreatedNotebookFocus(id=result["notebook_focus"]["id"])

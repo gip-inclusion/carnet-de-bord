@@ -13,3 +13,7 @@ class CreateNotebookFocusInput(BaseModel):
 
 class CreateNotebookFocusActionPayload(HasuraActionPayload):
     input: CreateNotebookFocusInput
+
+
+class CreatedNotebookFocus(BaseModel):
+    id: UUID
