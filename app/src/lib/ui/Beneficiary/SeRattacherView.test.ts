@@ -18,7 +18,7 @@ describe('Se rattacher', () => {
 			await fireEvent.click(oui);
 
 			expect(screen.getByRole('alert')).toContainHTML(
-				`Vous ne pouvez pas vous rattacher à ce bénéficiaire en tant que référent car aucun dispositif ne vous a été attribué. Vérifiez auprès du gestionnaire de votre structure que vous disposez des habilitations nécessaire.`
+				`Vous ne pouvez pas vous rattacher à ce bénéficiaire en tant que référent car aucun dispositif ne vous a été attribué. Vérifiez auprès du gestionnaire de votre structure que vous disposez des habilitations nécessaires.`
 			);
 			expect(screen.getByRole('button', { name: 'Se rattacher' })).toBeDisabled();
 		});
