@@ -55,6 +55,7 @@ const config = {
 		// jest like globals
 		globals: true,
 		environment: 'jsdom',
+		include: ['src/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts,jsx,tsx}'],
 		// in-source testing
 		includeSource: ['src/**/*.{js,ts,svelte}'],
 		// Add @testing-library/jest-dom matchers & mocks of SvelteKit modules
