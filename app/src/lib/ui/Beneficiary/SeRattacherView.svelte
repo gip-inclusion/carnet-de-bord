@@ -60,7 +60,7 @@
 				<Alert
 					type="error"
 					size="sm"
-					description={`Vous ne pouvez pas vous rattacher à ce bénéficiaire en tant que référent car aucun dispositif ne vous a été attribué. Vérifiez auprès du gestionnaire de votre structure que vous disposez des habilitations nécessaire.`}
+					description={`Vous ne pouvez pas vous rattacher à ce bénéficiaire en tant que référent car aucun dispositif ne vous a été attribué. Vérifiez auprès du gestionnaire de votre structure que vous disposez des habilitations nécessaires.`}
 				/>
 			</div>
 		{/if}
