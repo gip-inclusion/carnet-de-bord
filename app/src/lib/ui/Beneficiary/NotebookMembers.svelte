@@ -7,7 +7,7 @@
 	import Dialog from '$lib/ui/Dialog.svelte';
 	import { accountData } from '$lib/stores';
 	import { displayFullName } from '../format';
-	import SeRattacher from './SeRattacher.svelte';
+	import JoinNotebookMembers from './JoinNotebookMembers.svelte';
 	import { createEventDispatcher } from 'svelte';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][number];
@@ -50,7 +50,7 @@
 				label="Se rattacher"
 				showButtons={false}
 			>
-				<SeRattacher {notebookId} on:joined-notebook={() => dispatch('joined-notebook')} />
+				<JoinNotebookMembers {notebookId} on:joined-notebook={() => dispatch('joined-notebook')} />
 			</Dialog>
 		</div>
 	{/if}

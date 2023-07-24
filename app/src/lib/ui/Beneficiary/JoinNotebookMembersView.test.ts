@@ -2,12 +2,12 @@ import '@testing-library/jest-dom';
 
 import { render, fireEvent, screen } from '@testing-library/svelte';
 
-import SeRattacher from './SeRattacherView.svelte';
+import JoinNotebookMembers from './JoinNotebookMembersView.svelte';
 
 describe('Se rattacher', () => {
 	describe('Sans dispositif', () => {
 		it(`Affiche une erreur quand on veut se rattacher`, async () => {
-			render(SeRattacher, {
+			render(JoinNotebookMembers, {
 				orientations: [],
 				onSubmit: () => {
 					return;
@@ -23,7 +23,7 @@ describe('Se rattacher', () => {
 			expect(screen.getByRole('button', { name: 'Se rattacher' })).toBeDisabled();
 		});
 		it('Le bouton de validation est activé quand on cliqué sur Non', async () => {
-			render(SeRattacher, {
+			render(JoinNotebookMembers, {
 				orientations: [],
 				onSubmit: () => {
 					return;
@@ -37,7 +37,7 @@ describe('Se rattacher', () => {
 		});
 	});
 	it(`N'affiche pas d'erreur lorsqu'on a un dispositif (et qu'on a pas cliqué sur Oui)`, async () => {
-		render(SeRattacher, {
+		render(JoinNotebookMembers, {
 			orientations: [{ id: 'dispositif-1', name: 'dispositif 1' }],
 			onSubmit: () => {
 				return;

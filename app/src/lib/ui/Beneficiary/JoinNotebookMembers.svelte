@@ -1,6 +1,6 @@
 <script lang="ts">
-	import View from './SeRattacherView.svelte';
-	import type { OrientationOption, addMemberType } from './SeRattacherView.svelte';
+	import View from './JoinNotebookMembersView.svelte';
+	import type { OrientationOption, addMemberType } from './JoinNotebookMembersView.svelte';
 
 	import { postApiJson } from '$lib/utils/post';
 	import { captureException } from '$lib/utils/sentry';
