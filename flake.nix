@@ -19,10 +19,8 @@
             pkg-config
           ];
           packages = with pkgs; [
-            nodejs_20
-            python311
+            asdf-vm
             pre-commit
-            poetry
             gnumake
             tmux
             postgresql_15
