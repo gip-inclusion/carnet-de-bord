@@ -1,6 +1,5 @@
 // setupTest.ts
 /* eslint-disable @typescript-eslint/no-empty-function */
-import 'isomorphic-fetch';
 import '@testing-library/jest-dom';
 import '@testing-library/jest-dom/extend-expect';
 import matchers from '@testing-library/jest-dom/matchers';
@@ -39,7 +38,7 @@ vi.mock('$app/stores', (): typeof stores => {
 	const getStores: typeof stores.getStores = () => {
 		const navigating = readable<Navigation | null>(null);
 		const page = readable<Page>({
-			url: new URL('http://localhost'),
+			url: new URL('http://example.org'),
 			params: {},
 			route: null,
 			status: 200,
@@ -100,7 +99,7 @@ class FakeCookie implements Cookies {
 export function createFakeRequestEvent(method: string, requestHeaders, body: object | null) {
 	const headers = new Headers(requestHeaders);
 	headers.set('content-type', 'application/json');
-	const request = new Request('/api/notebooks', {
+	const request = new Request('http://example.org/api/notebooks', {
 		headers,
 		method,
 		body: body ? JSON.stringify(body) : null,
@@ -117,7 +116,7 @@ export function createFakeRequestEvent(method: string, requestHeaders, body: obj
 		platform: undefined,
 		route: { id: '/api/notebooks' as const },
 		isDataRequest: false,
-		url: new URL('http://localhost/endpointUrl'),
+		url: new URL('http://example.org/endpointUrl'),
 	};
 }
 

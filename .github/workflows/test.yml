@@ -35,7 +35,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".nvmrc"
+          node-version-file: ".tool-versions"
           cache: npm
           cache-dependency-path: "**/package-lock.json"
 
@@ -94,7 +94,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".nvmrc"
+          node-version-file: ".tool-versions"
           cache: npm
           cache-dependency-path: "**/package-lock.json"
 
@@ -145,7 +145,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".nvmrc"
+          node-version-file: ".tool-versions"
           cache: npm
           cache-dependency-path: "**/package-lock.json"
 

@@ -1,4 +1,3 @@
-require('isomorphic-fetch');
 import { createJwt } from '../src/lib/utils/getJwt';
 import type { GetAccountInfoQuery } from '../src/lib/graphql/_gen/typed-document-nodes';
 import { env } from '$env/dynamic/private';

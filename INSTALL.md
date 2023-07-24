@@ -6,7 +6,7 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 
 - docker (version 20.10.5)
 - docker-compose (version 1.29.0)
-- node (version 16)
+- node (version 18)
 - hasura-cli (latest)
 - pre-commit https://pre-commit.com
 - poetry (1.2)
@@ -38,7 +38,7 @@ Pour vérifier l'installation
 ```bash
 pre-commit --version # pre-commit X.X.X
 poetry --version # Poetry (version X.X.X)
-node --version # v16.X.X
+node --version # v18.X.X
 ```
 
 ## Étapes
