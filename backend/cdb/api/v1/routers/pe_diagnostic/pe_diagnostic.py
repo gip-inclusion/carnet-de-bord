@@ -57,7 +57,9 @@ async def update_notebook_from_pole_emploi(
     io: IO, notebook_id: UUID
 ) -> Response | GqlErrorResponse:
     if not settings.ENABLE_PE_DIAGNOSTIC_API:
-        return GqlErrorResponse.single("the situation api is disabled")
+        return GqlErrorResponse.single(
+            "The pole-emploi.io diagnostic api feature is disabled"
+        )
 
     notebook = await io.find_notebook(notebook_id)
     if not notebook:
@@ -96,9 +98,6 @@ async def update_notebook_from_pole_emploi(
     situation_differences, focus_differences = await compare(
         dossier, notebook, ref_situations
     )
-    print("---------")
-    print(focus_differences)
-    print("---------")
     if (
         situation_differences.situations_to_add
         or situation_differences.situations_to_delete
