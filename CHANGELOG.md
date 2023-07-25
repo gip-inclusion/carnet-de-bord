@@ -1,3 +1,10 @@
+## [1.243.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.243.3...v1.243.4) (2023-07-25)
+
+
+### Bug Fixes
+
+* Typo dans le nom d'une action ([#1915](https://github.com/gip-inclusion/carnet-de-bord/issues/1915)) ([9f3cbbe](https://github.com/gip-inclusion/carnet-de-bord/commit/9f3cbbeb0ac68197facd7d21aa86c3a14975c032))
+
 ## [1.243.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.243.2...v1.243.3) (2023-07-24)
 
 ## [1.243.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.243.1...v1.243.2) (2023-07-24)
