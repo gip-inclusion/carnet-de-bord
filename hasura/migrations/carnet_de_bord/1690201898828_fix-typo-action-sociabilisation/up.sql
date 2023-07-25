@@ -1,0 +1,3 @@
+UPDATE public.ref_action SET description='Participation à des formations / ateliers : actions collectives de sociabilisation' WHERE description='Participation à des formations / ateliers : actions collectives de sociabilisassions';
+UPDATE public.notebook_action SET action='Participation à des formations / ateliers : actions collectives de sociabilisation' WHERE action='Participation à des formations / ateliers : actions collectives de sociabilisassions';
+UPDATE public.notebook_event SET event = event::jsonb || '{"event_label":"Participation à des formations / ateliers : actions collectives de sociabilisation"}' WHERE event->>'event_label' = 'Participation à des formations / ateliers : actions collectives de sociabilisassions' AND event_type='action';
