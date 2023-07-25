@@ -14,5 +14,18 @@ class CreateNotebookTargetActionPayload(HasuraActionPayload):
     input: CreateNotebookTargetInput
 
 
+class UpdateNotebookTargetStatusInput(BaseModel):
+    id: UUID
+    status: str
+
+
 class CreatedNotebookTarget(BaseModel):
+    id: UUID
+
+
+class UpdateNotebookTargetStatusActionPayload(HasuraActionPayload):
+    input: UpdateNotebookTargetStatusInput
+
+
+class UpdatedNotebookTarget(BaseModel):
     id: UUID

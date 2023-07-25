@@ -212,6 +212,10 @@ type UpdateNotebookFromPoleEmploiOutput {
   has_pe_diagnostic: Boolean!
 }
 
+type UpdateNotebookTargetStatusOutput {
+  id: uuid!
+}
+
 enum UpdateSocioProContractTypeEnum {
   """Apprentissage"""
   apprentissage
@@ -7937,6 +7941,7 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [notebook_target_updates!]!
   ): [notebook_target_mutation_response]
+  update_notebook_target_status(id: uuid!, status: String!): UpdateNotebookTargetStatusOutput
 
   """
   update data of the table: "notebook_visit"

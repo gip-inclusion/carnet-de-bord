@@ -38,6 +38,13 @@ type Mutation {
 }
 
 type Mutation {
+  update_notebook_target_status(
+    status: String!
+    id: uuid!
+  ): UpdateNotebookTargetStatusOutput
+}
+
+type Mutation {
   update_socio_pro(
     id: uuid!
     workSituation: String
@@ -207,5 +214,9 @@ type CreateNotebookFocusOutput {
 }
 
 type CreateNotebookTargetOutput {
+  id: uuid!
+}
+
+type UpdateNotebookTargetStatusOutput {
   id: uuid!
 }

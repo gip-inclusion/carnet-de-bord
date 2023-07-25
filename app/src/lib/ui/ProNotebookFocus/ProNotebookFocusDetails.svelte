@@ -55,8 +55,9 @@
 		});
 	}
 
-	const updateNotebookTargetStatusResult = operationStore(UpdateTargetStatusDocument);
-	const updateNotebookTargetStatus = mutation(updateNotebookTargetStatusResult);
+	const updateNotebookTargetStatus = mutation(
+		operationStore(UpdateTargetStatusDocument, null, { additionalTypenames: ['notebook_target'] })
+	);
 	let updateResult: OperationStore<UpdateTargetStatusMutation>;
 
 	let error: string;
