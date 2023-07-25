@@ -6,7 +6,9 @@ from uuid import UUID
 
 from cdb.api.domain.contraintes import FocusDifferences, FocusToAdd
 from cdb.api.v1.payloads.notebook_focus import (CreatedNotebookFocus,
-                                                CreateNotebookFocusInput)
+                                                CreateNotebookFocusInput,
+                                                DeletedNotebookFocus,
+                                                DeleteNotebookFocusInput)
 from gql import gql
 from gql.client import AsyncClientSession
 from pydantic import BaseModel
@@ -126,3 +128,23 @@ async def insert_notebook_focus(
         },
     )
     return CreatedNotebookFocus(id=result["notebook_focus"]["id"])
+
+
+async def delete_notebook_focus(
+    client: AsyncClientSession,
+    notebook_focus: DeleteNotebookFocusInput,
+) -> DeletedNotebookFocus:
+    result = await client.execute(
+        gql(
+            """
+        mutation($notebookId: uuid!) {
+          notebook_focus: delete_notebook_focus_by_pk(id: $notebookId) {
+            id
+          }
+        }"""
+        ),
+        variable_values={
+            "notebookId": notebook_focus.id,
+        },
+    )
+    return DeletedNotebookFocus(id=result["notebook_focus"]["id"])

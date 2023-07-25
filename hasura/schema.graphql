@@ -153,6 +153,16 @@ enum PoleEmploiSituationValeurEnum {
   OUI
 }
 
+type RefreshNotebookSituationsFromPoleEmploiOutput {
+  data_has_been_updated: Boolean!
+  external_data_has_been_updated: Boolean!
+  has_pe_diagnostic: Boolean!
+}
+
+type RemoveNotebookFocusOutput {
+  id: uuid!
+}
+
 """
 Boolean expression to compare columns of type "String". All fields are combined with logical 'AND'.
 """
@@ -7082,6 +7092,9 @@ type mutation_root {
     on_conflict: structure_orientation_system_on_conflict
   ): structure_orientation_system
 
+  """Remove notebook focus"""
+  remove_notebook_focus(id: uuid!): RemoveNotebookFocusOutput
+
   """
   update data of the table: "account"
   """
@@ -7941,6 +7954,8 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [notebook_target_updates!]!
   ): [notebook_target_mutation_response]
+
+  """update_notebook_target_status"""
   update_notebook_target_status(id: uuid!, status: String!): UpdateNotebookTargetStatusOutput
 
   """

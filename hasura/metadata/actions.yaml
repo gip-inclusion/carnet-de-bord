@@ -72,6 +72,18 @@ actions:
       - role: professional
       - role: orientation_manager
       - role: manager
+  - name: remove_notebook_focus
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_focus/delete'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: Remove notebook focus
   - name: update_notebook_target_status
     definition:
       kind: synchronous
@@ -83,6 +95,7 @@ actions:
       - role: professional
       - role: orientation_manager
       - role: admin_cdb
+    comment: update_notebook_target_status
   - name: update_socio_pro
     definition:
       kind: synchronous
@@ -198,4 +211,5 @@ custom_types:
     - name: CreateNotebookFocusOutput
     - name: CreateNotebookTargetOutput
     - name: UpdateNotebookTargetStatusOutput
+    - name: RemoveNotebookFocusOutput
   scalars: []

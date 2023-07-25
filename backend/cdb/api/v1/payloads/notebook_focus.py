@@ -17,3 +17,15 @@ class CreateNotebookFocusActionPayload(HasuraActionPayload):
 
 class CreatedNotebookFocus(BaseModel):
     id: UUID
+
+
+class DeleteNotebookFocusInput(BaseModel):
+    id: UUID
+
+
+class DeleteNotebookFocusActionPayload(HasuraActionPayload):
+    input: DeleteNotebookFocusInput
+
+
+class DeletedNotebookFocus(BaseModel):
+    id: UUID

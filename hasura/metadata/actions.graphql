@@ -38,6 +38,12 @@ type Mutation {
 }
 
 type Mutation {
+  remove_notebook_focus(
+    id: uuid!
+  ): RemoveNotebookFocusOutput
+}
+
+type Mutation {
   update_notebook_target_status(
     status: String!
     id: uuid!
@@ -218,5 +224,9 @@ type CreateNotebookTargetOutput {
 }
 
 type UpdateNotebookTargetStatusOutput {
+  id: uuid!
+}
+
+type RemoveNotebookFocusOutput {
   id: uuid!
 }
