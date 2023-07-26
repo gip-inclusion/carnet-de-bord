@@ -41,6 +41,7 @@ insert_permissions:
         - focus_id
         - target
         - created_at
+      backend_only: true
   - role: orientation_manager
     permission:
       check:
@@ -59,6 +60,7 @@ insert_permissions:
         - focus_id
         - status
         - target
+      backend_only: true
   - role: professional
     permission:
       check:
@@ -77,6 +79,7 @@ insert_permissions:
         - focus_id
         - status
         - target
+      backend_only: true
 select_permissions:
   - role: admin_cdb
     permission:
@@ -193,6 +196,7 @@ update_permissions:
         - id
       filter: {}
       check: {}
+      backend_only: true
   - role: orientation_manager
     permission:
       columns:
@@ -207,6 +211,7 @@ update_permissions:
                 - active:
                     _eq: true
       check: null
+      backend_only: true
   - role: professional
     permission:
       columns:
@@ -221,3 +226,4 @@ update_permissions:
                 - active:
                     _eq: true
       check: null
+      backend_only: true
