@@ -10,6 +10,8 @@ from dateutil.relativedelta import relativedelta
 from cdb.api.db.models.account import AccountDB, AccountDBWithAccessKey
 from cdb.api.db.models.role import RoleEnum
 
+POLE_EMPLOI_SERVICE_ACCOUNT_ID = UUID("c50cffc6-7d33-4ebf-a447-aeae6a9d0eb9")
+
 
 def parse_account_from_record(record: Record) -> AccountDB:
     return AccountDB.parse_obj(record)
@@ -22,7 +24,6 @@ async def insert_account(
     confirmed: bool,
     foreign_key_id: UUID,
 ) -> AccountDBWithAccessKey | None:
-
     access_key = uuid4()
     access_key_date = datetime.now() + relativedelta(months=+1)
     role_column_name = (
@@ -142,7 +143,6 @@ async def get_accounts_from_email(
 async def get_accounts_with_query(
     connection: Connection, query: str, *args
 ) -> List[AccountDB]:
-
     records: List[Record] = await connection.fetch(
         """
         SELECT account.* FROM public.account {query}
@@ -158,7 +158,6 @@ async def get_accounts_with_query(
 async def get_account_with_query(
     connection: Connection, query: str, *args
 ) -> AccountDB | None:
-
     record: Record | None = await connection.fetchrow(
         """
         SELECT account.* FROM public.account {query}
@@ -175,7 +174,6 @@ async def get_account_with_query(
 async def get_account_by_professional_email(
     connection: Connection, email: str
 ) -> AccountDB | None:
-
     return await get_account_with_query(
         connection,
         """

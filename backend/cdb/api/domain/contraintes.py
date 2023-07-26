@@ -6,6 +6,7 @@ from uuid import UUID
 from attr import dataclass
 from pydantic import BaseModel
 
+from cdb.api.db.crud.account import POLE_EMPLOI_SERVICE_ACCOUNT_ID
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus
 from cdb.cdb_csv.json_encoder import CustomEncoder
 from cdb.pe.models.dossier_individu_api import (
@@ -25,12 +26,14 @@ class TargetPayload:
 @dataclass
 class FocusToAdd:
     theme: str
+    creator_id: UUID
     created_at: datetime | None = None
     targets: List[TargetPayload] = []
 
 
 class TargetToAdd(BaseModel):
     target: str
+    creator_id: UUID
     focusId: UUID
     createdAt: datetime | None = None
 
@@ -113,6 +116,7 @@ def diff_objectifs(
                         target=objectif.libelle,
                         focusId=shared_focus.id,
                         createdAt=shared_contrainte.date,
+                        creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                     )
                 )
 
@@ -146,7 +150,7 @@ def contraintes_to_focus(contrainte: Contrainte) -> FocusToAdd:
     theme = getThemeFromContrainteId(contrainte.code)
     if not theme:
         raise Exception("unkonwn contrainte code")
-    return FocusToAdd(theme=theme)
+    return FocusToAdd(theme=theme, creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID)
 
 
 # TODO : Il faut ajouter une entrée dans notebook_event quand on supprime un objectif
@@ -187,6 +191,7 @@ def contrainte_to_focus(contrainte: Contrainte) -> FocusToAdd:
     return FocusToAdd(
         theme=theme,
         created_at=contrainte.date,
+        creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         targets=[
             objectif_to_target(objectif, createdAt=contrainte.date)
             for objectif in contrainte.objectifs

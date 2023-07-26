@@ -8,6 +8,7 @@ from gql import gql
 from gql.client import AsyncClientSession
 from pydantic import BaseModel
 
+from cdb.api.db.crud.account import POLE_EMPLOI_SERVICE_ACCOUNT_ID
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.ref_situation import RefSituation
 from cdb.api.domain.contraintes import (
@@ -111,6 +112,7 @@ async def test_save_differences(
                     theme="logement",
                     created_at=datetime(2022, 1, 1),
                     targets=[TargetPayload("Changer de logement")],
+                    creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                 )
             ],
             focus_ids_to_delete=[UUID("156faab6-4ffd-49ad-b935-538184b02755")],
@@ -119,6 +121,7 @@ async def test_save_differences(
                     TargetToAdd(
                         focusId=UUID("af13bb83-e09d-42d6-b683-38e690e78bde"),
                         target="Permis B",
+                        creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                     )
                 ],
                 target_ids_to_cancel=[UUID("a37221df-fd67-4505-b847-d869c75656bc")],

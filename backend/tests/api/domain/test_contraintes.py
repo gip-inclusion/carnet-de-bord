@@ -5,6 +5,7 @@ from uuid import uuid4
 import pytest
 from faker import Faker
 
+from cdb.api.db.crud.account import POLE_EMPLOI_SERVICE_ACCOUNT_ID
 from cdb.api.domain.contraintes import (
     FocusToAdd,
     TargetPayload,
@@ -43,12 +44,15 @@ def test_diff_existing_contraintes_and_empty_focus(contraintes: List[Contrainte]
     assert result.focuses_to_add == [
         FocusToAdd(
             theme="mobilite",
+            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
             targets=[
                 TargetPayload(target="Faire un point complet sur sa mobilité"),
                 TargetPayload(target="Accéder à un véhicule"),
             ],
         ),
-        FocusToAdd(theme="difficulte_administrative"),
+        FocusToAdd(
+            theme="difficulte_administrative", creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID
+        ),
     ]
     assert result.focus_ids_to_delete == []
     assert result.target_differences.targets_to_add == []
@@ -62,15 +66,25 @@ def test_diff_existing_contraintes_and_existing_focus(
     result = diff_contraintes(focuses=notebook_focuses, contraintes=contraintes)
 
     assert result.focuses_to_add == [
-        FocusToAdd(theme="difficulte_administrative"),
+        FocusToAdd(
+            theme="difficulte_administrative", creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID
+        ),
     ]
     assert result.focus_ids_to_delete == [
         focus.id for focus in notebook_focuses if focus.theme == "logement"
     ]
     [focus_id] = [focus.id for focus in notebook_focuses if focus.theme == "mobilite"]
     assert result.target_differences.targets_to_add == [
-        TargetToAdd(target="Faire un point complet sur sa mobilité", focusId=focus_id),
-        TargetToAdd(target="Accéder à un véhicule", focusId=focus_id),
+        TargetToAdd(
+            target="Faire un point complet sur sa mobilité",
+            focusId=focus_id,
+            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+        ),
+        TargetToAdd(
+            target="Accéder à un véhicule",
+            focusId=focus_id,
+            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+        ),
     ]
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
@@ -105,10 +119,12 @@ def test_shared_contrainte_with_objectif_and_no_target(
         TargetToAdd(
             focusId=shared_focus_with_no_target.id,
             target="Faire un point complet sur sa mobilité",
+            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
         TargetToAdd(
             focusId=shared_focus_with_no_target.id,
             target="Accéder à un véhicule",
+            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
     ]
     assert result.target_differences.target_ids_to_cancel == []
@@ -160,6 +176,7 @@ def test_shared_contraintes_with_objectifs_and_targets(
         TargetToAdd(
             focusId=shared_focus_with_targets.id,
             target="Accéder à un véhicule",
+            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         )
     ]
     assert result.target_differences.target_ids_to_cancel == target_ids_to_cancel
