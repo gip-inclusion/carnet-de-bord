@@ -44,6 +44,13 @@ type Mutation {
 }
 
 type Mutation {
+  update_notebook_focus_link(
+    id: uuid!
+    linkedTo: String!
+  ): UpdateNotebookFocusLink
+}
+
+type Mutation {
   update_notebook_target_status(
     status: String!
     id: uuid!
@@ -228,5 +235,9 @@ type UpdateNotebookTargetStatusOutput {
 }
 
 type RemoveNotebookFocusOutput {
+  id: uuid!
+}
+
+type UpdateNotebookFocusLink {
   id: uuid!
 }

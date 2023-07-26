@@ -29,3 +29,16 @@ class DeleteNotebookFocusActionPayload(HasuraActionPayload):
 
 class DeletedNotebookFocus(BaseModel):
     id: UUID
+
+
+class UpdateNotebookFocusInput(BaseModel):
+    id: UUID
+    linked_to: str | None = Field(alias="linkedTo")
+
+
+class UpdateNotebookFocusActionPayload(HasuraActionPayload):
+    input: UpdateNotebookFocusInput
+
+
+class UpdatedNotebookFocus(BaseModel):
+    id: UUID

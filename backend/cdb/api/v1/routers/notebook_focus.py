@@ -1,6 +1,10 @@
 from fastapi import APIRouter, Depends, Request
 
-from cdb.api.db.crud.notebook_focus import delete_notebook_focus, insert_notebook_focus
+from cdb.api.db.crud.notebook_focus import (
+    delete_notebook_focus,
+    insert_notebook_focus,
+    update_notebook_focus,
+)
 from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.v1.dependencies import verify_secret_token
 from cdb.api.v1.payloads.notebook_focus import (
@@ -8,6 +12,8 @@ from cdb.api.v1.payloads.notebook_focus import (
     CreateNotebookFocusActionPayload,
     DeletedNotebookFocus,
     DeleteNotebookFocusActionPayload,
+    UpdatedNotebookFocus,
+    UpdateNotebookFocusActionPayload,
 )
 
 router = APIRouter(dependencies=[Depends(verify_secret_token)])
@@ -39,3 +45,17 @@ async def delete_notebook_focus_route(
         session_variables=payload.session_variables
     ) as session:
         return await delete_notebook_focus(session, payload.input)
+
+
+@router.post("/update", status_code=201, response_model=UpdatedNotebookFocus)
+async def update_notebook_focus_route(
+    _: Request,
+    payload: UpdateNotebookFocusActionPayload,
+):
+    """
+    This endpoint aims to update a notebook focus
+    """
+    async with gql_client_backend_only(
+        session_variables=payload.session_variables
+    ) as session:
+        return await update_notebook_focus(session, payload.input)

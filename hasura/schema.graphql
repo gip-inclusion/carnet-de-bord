@@ -222,6 +222,10 @@ type UpdateNotebookFromPoleEmploiOutput {
   has_pe_diagnostic: Boolean!
 }
 
+type UpdateNotebookFocusLink {
+  id: uuid!
+}
+
 type UpdateNotebookTargetStatusOutput {
   id: uuid!
 }
@@ -7806,6 +7810,9 @@ type mutation_root {
     _set: notebook_focus_set_input
     pk_columns: notebook_focus_pk_columns_input!
   ): notebook_focus
+
+  """Update a notebook focus link"""
+  update_notebook_focus_link(id: uuid!, linkedTo: String!): UpdateNotebookFocusLink
 
   """
   update multiples rows of table: "notebook_focus"

@@ -84,6 +84,18 @@ actions:
       - role: orientation_manager
       - role: admin_cdb
     comment: Remove notebook focus
+  - name: update_notebook_focus_link
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_focus/update'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: Update a notebook focus link
   - name: update_notebook_target_status
     definition:
       kind: synchronous
@@ -212,4 +224,5 @@ custom_types:
     - name: CreateNotebookTargetOutput
     - name: UpdateNotebookTargetStatusOutput
     - name: RemoveNotebookFocusOutput
+    - name: UpdateNotebookFocusLink
   scalars: []
