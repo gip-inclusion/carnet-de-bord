@@ -4,7 +4,6 @@ BEGIN
 END
 $$;
 
-
 DELETE FROM public.external_data_info;
 DELETE FROM public.external_data;
 DELETE FROM public.nps_rating;
@@ -19,9 +18,9 @@ DELETE FROM notebook_visit;
 DELETE FROM notebook;
 DELETE FROM orientation_request;
 DELETE FROM beneficiary_structure;
-DELETE FROM beneficiary;
 DELETE FROM admin_structure_structure;
 DELETE FROM account  WHERE type != 'service';
+DELETE FROM beneficiary;
 DELETE FROM admin_cdb;
 DELETE FROM professional;
 DELETE FROM manager;

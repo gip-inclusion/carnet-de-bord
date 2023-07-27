@@ -26,17 +26,6 @@ class Response(BaseModel):
     has_pe_diagnostic: bool = False
 
 
-class GqlErrorResponse(BaseModel):
-    class Error(BaseModel):
-        message: str
-
-    @staticmethod
-    def single(message: str):
-        return GqlErrorResponse(errors=[GqlErrorResponse.Error(message=message)])
-
-    errors: List[GqlErrorResponse.Error]
-
-
 class IO(BaseModel):
     find_notebook: Callable[[UUID], Awaitable[Notebook | None]]
     get_dossier_pe: Callable[
@@ -53,24 +42,16 @@ class IO(BaseModel):
     ]
 
 
-async def update_notebook_from_pole_emploi(
-    io: IO, notebook_id: UUID
-) -> Response | GqlErrorResponse:
+async def update_notebook_from_pole_emploi(io: IO, notebook_id: UUID) -> Response:
+    response = Response()
     if not settings.ENABLE_PE_DIAGNOSTIC_API:
-        return GqlErrorResponse.single(
-            "The pole-emploi.io diagnostic api feature is disabled"
-        )
+        return response
 
     notebook = await io.find_notebook(notebook_id)
-    if not notebook:
-        return GqlErrorResponse.single("the notebook was not found")
+    if not notebook or not notebook.nir:
+        return response
 
-    if not notebook.nir:
-        return GqlErrorResponse.single(
-            "the notebook has no nir, it cannot be synced with pole emploi"
-        )
-
-    response = Response(has_pe_diagnostic=notebook.has_pe_diagnostic())
+    response.has_pe_diagnostic = notebook.has_pe_diagnostic()
     if notebook.has_fresh_pe_data():
         return response
 

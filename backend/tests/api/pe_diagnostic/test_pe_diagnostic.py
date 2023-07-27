@@ -260,18 +260,22 @@ async def test_does_nothing_when_we_do_not_find_requested_notebook():
 
     response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
-    assert response == {"errors": [{"message": "the notebook was not found"}]}
+    assert response == {
+        "data_has_been_updated": False,
+        "external_data_has_been_updated": False,
+        "has_pe_diagnostic": False,
+    }
 
 
-async def test_return_an_error_when_the_beneficiary_has_no_nir():
+async def test_does_nothing_when_the_beneficiary_has_no_nir():
     io = FakeIO(find_notebook=async_mock(return_value=FakeNotebook(nir=None)))
 
     response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
 
     assert response == {
-        "errors": [
-            {"message": "the notebook has no nir, it cannot be synced with pole emploi"}
-        ]
+        "data_has_been_updated": False,
+        "external_data_has_been_updated": False,
+        "has_pe_diagnostic": False,
     }
 
 
@@ -316,7 +320,9 @@ async def test_does_nothing_when_feature_is_disabled(pe_settings: Settings):
 
     assert not io.get_dossier_pe.called
     assert response == {
-        "errors": [{"message": "The pole-emploi.io diagnostic api feature is disabled"}]
+        "data_has_been_updated": False,
+        "external_data_has_been_updated": False,
+        "has_pe_diagnostic": False,
     }
     pe_settings.ENABLE_PE_DIAGNOSTIC_API = True
 
