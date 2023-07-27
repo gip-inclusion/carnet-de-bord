@@ -1,3 +1,10 @@
+# [1.244.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.243.4...v1.244.0) (2023-07-27)
+
+
+### Features
+
+* synchro des contraintes / objectif / situations ([#1884](https://github.com/gip-inclusion/carnet-de-bord/issues/1884)) ([798fda9](https://github.com/gip-inclusion/carnet-de-bord/commit/798fda9015659365e571f37a24e9fc458d416dcc))
+
 ## [1.243.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.243.3...v1.243.4) (2023-07-25)
 
 
