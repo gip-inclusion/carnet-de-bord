@@ -5,6 +5,21 @@ type Mutation {
 }
 
 type Mutation {
+  create_notebook_focus(
+    notebookId: uuid!
+    theme: String!
+    linkedTo: String!
+  ): CreateNotebookFocusOutput
+}
+
+type Mutation {
+  create_notebook_target(
+    focusId: uuid!
+    target: String!
+  ): CreateNotebookTargetOutput
+}
+
+type Mutation {
   create_nps_rating(
     score: Int!
   ): NPSRatingOutput
@@ -20,6 +35,26 @@ type Mutation {
   update_notebook_from_pole_emploi(
     notebookId: uuid!
   ): UpdateNotebookFromPoleEmploiOutput
+}
+
+type Mutation {
+  remove_notebook_focus(
+    id: uuid!
+  ): RemoveNotebookFocusOutput
+}
+
+type Mutation {
+  update_notebook_focus_link(
+    id: uuid!
+    linkedTo: String!
+  ): UpdateNotebookFocusLink
+}
+
+type Mutation {
+  update_notebook_target_status(
+    status: String!
+    id: uuid!
+  ): UpdateNotebookTargetStatusOutput
 }
 
 type Mutation {
@@ -185,4 +220,24 @@ type PoleEmploiDossierIndividuSituations {
   code: String!
   libelle: String!
   valeur: PoleEmploiSituationValeurEnum!
+}
+
+type CreateNotebookFocusOutput {
+  id: uuid!
+}
+
+type CreateNotebookTargetOutput {
+  id: uuid!
+}
+
+type UpdateNotebookTargetStatusOutput {
+  id: uuid!
+}
+
+type RemoveNotebookFocusOutput {
+  id: uuid!
+}
+
+type UpdateNotebookFocusLink {
+  id: uuid!
 }

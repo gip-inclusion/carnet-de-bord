@@ -17,7 +17,7 @@ beforeAll(async () => {
 describe('notebook_event trigger', () => {
 	it('should create a new event when a target is added', async () => {
 		const addTargetMutation = fs.readFileSync(
-			path.join(__dirname, '../../src/lib/ui/ProNotebookTarget/', '_mutation.gql'),
+			path.join(__dirname, '../../src/lib/ui/ProNotebookTarget/', 'AddNotebookTarget.gql'),
 			'utf8'
 		);
 		const addTargetPayload = await graphqlPro(addTargetMutation, {
@@ -38,7 +38,7 @@ describe('notebook_event trigger', () => {
 		// clean created target
 		const mutation = `mutation deleteTarget {
 			delete_notebook_event_by_pk(id: "${id}") { id }
-		delete_notebook_target_by_pk(id: "${addTargetPayload.data.insert_notebook_target_one.id}") { id }
+			delete_notebook_target_by_pk(id: "${addTargetPayload.data.create_notebook_target.id}") { id }
 	}`;
 		await graphqlAdmin(mutation);
 	});

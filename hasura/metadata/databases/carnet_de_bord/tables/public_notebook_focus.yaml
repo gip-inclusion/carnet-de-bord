@@ -46,6 +46,7 @@ insert_permissions:
         - notebook_id
         - created_at
         - linked_to
+      backend_only: true
   - role: orientation_manager
     permission:
       check:
@@ -64,6 +65,7 @@ insert_permissions:
         - linked_to
         - notebook_id
         - theme
+      backend_only: true
   - role: professional
     permission:
       check:
@@ -82,6 +84,7 @@ insert_permissions:
         - linked_to
         - notebook_id
         - theme
+      backend_only: true
 select_permissions:
   - role: admin_cdb
     permission:
@@ -198,6 +201,7 @@ update_permissions:
         - notebook_id
       filter: {}
       check: {}
+      backend_only: true
   - role: orientation_manager
     permission:
       columns:
@@ -212,6 +216,7 @@ update_permissions:
               - active:
                   _eq: true
       check: null
+      backend_only: true
   - role: professional
     permission:
       columns:
@@ -226,14 +231,27 @@ update_permissions:
               - active:
                   _eq: true
       check: null
+      backend_only: true
 delete_permissions:
   - role: orientation_manager
     permission:
       filter:
-        creator_id:
-          _eq: X-Hasura-User-Id
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      backend_only: true
   - role: professional
     permission:
       filter:
-        creator_id:
-          _eq: X-Hasura-User-Id
+        notebook:
+          members:
+            _and:
+              - account_id:
+                  _eq: X-Hasura-User-Id
+              - active:
+                  _eq: true
+      backend_only: true

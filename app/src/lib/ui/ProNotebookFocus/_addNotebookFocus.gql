@@ -1,7 +1,5 @@
 mutation AddNotebookFocus($notebookId: uuid!, $theme: String!, $linkedTo: String!) {
-  insert_notebook_focus_one(
-    object: { notebookId: $notebookId, theme: $theme, linkedTo: $linkedTo }
-  ) {
+  create_notebook_focus(notebookId: $notebookId, theme: $theme, linkedTo: $linkedTo) {
     id
   }
 }

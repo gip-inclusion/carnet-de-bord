@@ -1,5 +1,5 @@
 mutation UpdateTargetStatus($status: String!, $id: uuid!) {
-  updateStatus: update_notebook_target_by_pk(_set: { status: $status }, pk_columns: { id: $id }) {
+  update_notebook_target_status(status: $status, id: $id) {
     id
   }
 }

@@ -37,10 +37,11 @@
 	});
 	query(refTargetStore);
 
-	const addNotebookTargetStore = operationStore(AddNotebookTargetDocument, null, {
-		additionalTypenames: ['notebook_event'],
-	});
-	const addNotebookTarget = mutation(addNotebookTargetStore);
+	const addNotebookTarget = mutation(
+		operationStore(AddNotebookTargetDocument, null, {
+			additionalTypenames: ['notebook_event', 'notebook_target'],
+		})
+	);
 
 	function initFormData() {
 		return {

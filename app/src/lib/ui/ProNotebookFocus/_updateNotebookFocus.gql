@@ -1,5 +1,5 @@
 mutation UpdateNotebookFocus($id: uuid!, $linkedTo: String!) {
-  update_notebook_focus_by_pk(pk_columns: { id: $id }, _set: { linkedTo: $linkedTo }) {
+  update_notebook_focus_link(id: $id, linkedTo: $linkedTo) {
     id
   }
 }

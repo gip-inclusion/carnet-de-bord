@@ -14,8 +14,9 @@
 		openComponent.close();
 	}
 
-	const addNotebookFocusStore = operationStore(AddNotebookFocusDocument);
-	const addNotebookFocus = mutation(addNotebookFocusStore);
+	const addNotebookFocus = mutation(
+		operationStore(AddNotebookFocusDocument, null, { additionalTypenames: ['notebook_focus'] })
+	);
 
 	function initFormData() {
 		return {

@@ -133,6 +133,9 @@ function start_backend() {
   >&2 echo ""
   >&2 echo "-> Python backend is up and running on port 8001!"
 }
+if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ] || [ "$ACTION" = "e2e" ]; then
+	start_backend
+fi
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "js" ]; then
   >&2 echo "-> Starting js tests"
@@ -146,7 +149,6 @@ fi
 
 if [ "$ACTION" = "all" ] || [ "$ACTION" = "e2e" ]; then
   start_svelte
-  start_backend
 
   >&2 echo "-> Starting e2e tests"
   HASURA_BASEURL=http://localhost:5001 \

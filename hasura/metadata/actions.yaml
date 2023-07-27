@@ -9,6 +9,30 @@ actions:
     permissions:
       - role: manager
     comment: Notebook creation
+  - name: create_notebook_focus
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_focus'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: create_notebook_focus
+  - name: create_notebook_target
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_target'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: create a notebook target
   - name: create_nps_rating
     definition:
       kind: synchronous
@@ -48,6 +72,42 @@ actions:
       - role: professional
       - role: orientation_manager
       - role: manager
+  - name: remove_notebook_focus
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_focus/delete'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: Remove notebook focus
+  - name: update_notebook_focus_link
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_focus/update'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: Update a notebook focus link
+  - name: update_notebook_target_status
+    definition:
+      kind: synchronous
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_target/status'
+      headers:
+        - name: secret-token
+          value_from_env: ACTION_SECRET
+    permissions:
+      - role: professional
+      - role: orientation_manager
+      - role: admin_cdb
+    comment: update_notebook_target_status
   - name: update_socio_pro
     definition:
       kind: synchronous
@@ -160,4 +220,9 @@ custom_types:
     - name: PoleEmploiDossierIndividuContraintes
     - name: PoleEmploiDossierIndividuObjectifs
     - name: PoleEmploiDossierIndividuSituations
+    - name: CreateNotebookFocusOutput
+    - name: CreateNotebookTargetOutput
+    - name: UpdateNotebookTargetStatusOutput
+    - name: RemoveNotebookFocusOutput
+    - name: UpdateNotebookFocusLink
   scalars: []
