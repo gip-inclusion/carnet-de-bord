@@ -4,16 +4,19 @@ from datetime import datetime
 from typing import List
 from uuid import UUID
 
-from cdb.api.domain.contraintes import FocusDifferences, FocusToAdd
-from cdb.api.v1.payloads.notebook_focus import (CreatedNotebookFocus,
-                                                CreateNotebookFocusInput,
-                                                DeletedNotebookFocus,
-                                                DeleteNotebookFocusInput,
-                                                UpdatedNotebookFocus,
-                                                UpdateNotebookFocusInput)
 from gql import gql
 from gql.client import AsyncClientSession
 from pydantic import BaseModel
+
+from cdb.api.domain.contraintes import FocusDifferences, FocusToAdd
+from cdb.api.v1.payloads.notebook_focus import (
+    CreatedNotebookFocus,
+    CreateNotebookFocusInput,
+    DeletedNotebookFocus,
+    DeleteNotebookFocusInput,
+    UpdatedNotebookFocus,
+    UpdateNotebookFocusInput,
+)
 
 logger = logging.getLogger(__name__)
 
