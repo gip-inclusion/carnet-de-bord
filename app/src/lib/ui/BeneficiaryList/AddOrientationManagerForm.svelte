@@ -1,3 +1,13 @@
+<script lang="ts" context="module">
+	export const toOrientationManagerOptions = (result: GetOrientationManagerQuery) =>
+		result.orientation_manager
+			.filter((om) => !!om.account)
+			.map((om) => ({
+				name: om.account.id,
+				label: displayFullName(om) || om.email,
+			}));
+</script>
+
 <script lang="ts">
 	import {
 		GetOrientationManagerDocument,
@@ -24,11 +34,9 @@
 	);
 	query(orientationManagerStore);
 
-	$: orientationManagerOptions =
-		$orientationManagerStore.data?.orientation_manager.map((pro) => ({
-			name: pro.account.id,
-			label: displayFullName(pro) || pro.email,
-		})) ?? [];
+	$: orientationManagerOptions = $orientationManagerStore.data
+		? toOrientationManagerOptions($orientationManagerStore.data)
+		: [];
 
 	const updateOrientationManager = mutation({ query: UpdateOrientationManagerDocument });
 
