@@ -10,7 +10,6 @@ on:
   pull_request:
 
 env:
-  POETRY_VERSION: 1.5.1
   PYTHON_VERSION: 3.10.6
 
 concurrency:
@@ -68,9 +67,7 @@ jobs:
           python-version: ${{env.PYTHON_VERSION}}
 
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2.1.6
-        with:
-          poetry-version: ${{env.POETRY_VERSION}}
+        uses: ./.github/actions/poetry
 
       - name: Install dependencies
         working-directory: ./backend
@@ -112,9 +109,7 @@ jobs:
           python-version: ${{env.PYTHON_VERSION}}
 
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2.1.6
-        with:
-          poetry-version: ${{env.POETRY_VERSION}}
+        uses: ./.github/actions/poetry
 
       - name: Install Python dependencies
         working-directory: ./backend
@@ -163,9 +158,7 @@ jobs:
           python-version: ${{env.PYTHON_VERSION}}
 
       - name: Setup Poetry
-        uses: abatilo/actions-poetry@v2.1.6
-        with:
-          poetry-version: ${{env.POETRY_VERSION}}
+        uses: ./.github/actions/poetry
 
       - name: Install Python dependencies
         working-directory: ./backend

@@ -1,0 +1,16 @@
+name: "Setup Poetry"
+description: "Installs Poetry"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Read .poetry_version
+      id: poetry_version
+      shell: bash
+      run: |
+        echo "version=$(< .tool-versions awk '/poetry/{print $2}')" >> "$GITHUB_OUTPUT"
+
+    - name: Setup Poetry
+      uses: abatilo/actions-poetry@v2.1.6
+      with:
+        poetry-version: ${{ steps.poetry_version.outputs.version }}
