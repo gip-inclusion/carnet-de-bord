@@ -30,7 +30,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".tool-versions"
+          node-version-file: "./app/package.json"
           cache: npm
           cache-dependency-path: "**/package-lock.json"
 
@@ -82,7 +82,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".tool-versions"
+          node-version-file: "./app/package.json"
           cache: npm
           cache-dependency-path: "**/package-lock.json"
 
@@ -126,7 +126,7 @@ jobs:
       - name: Setup NodeJS
         uses: actions/setup-node@v3
         with:
-          node-version-file: ".tool-versions"
+          node-version-file: "./app/package.json"
           cache: npm
           cache-dependency-path: "**/package-lock.json"
 
