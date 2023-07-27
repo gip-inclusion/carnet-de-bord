@@ -11,6 +11,7 @@ from cdb.api.domain.contraintes import FocusDifferences, FocusToAdd
 
 
 class TargetInsertInput(BaseModel):
+    creatorId: UUID
     target: str
 
 
@@ -23,6 +24,7 @@ class FocusInsertInput(BaseModel):
     notebookId: UUID
     createdAt: None | datetime = None
     targets: TargetData | None = None
+    creatorId: UUID
 
     def jsonb(self) -> dict:
         return json.loads(self.json())
@@ -34,9 +36,11 @@ def to_focuses_insert_input(notebook_id: UUID, focuses: List[FocusToAdd]) -> Lis
             notebookId=notebook_id,
             theme=focus.theme,
             createdAt=focus.created_at,
+            creatorId=focus.creator_id,
             targets=TargetData(
                 data=[
-                    TargetInsertInput(target=target.target) for target in focus.targets
+                    TargetInsertInput(target=target.target, creatorId=focus.creator_id)
+                    for target in focus.targets
                 ]
             ),
         ).jsonb()

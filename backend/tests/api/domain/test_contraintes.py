@@ -78,12 +78,12 @@ def test_diff_existing_contraintes_and_existing_focus(
         TargetToAdd(
             target="Faire un point complet sur sa mobilité",
             focusId=focus_id,
-            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+            creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
         TargetToAdd(
             target="Accéder à un véhicule",
             focusId=focus_id,
-            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+            creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
     ]
     assert result.target_differences.target_ids_to_cancel == []
@@ -119,12 +119,12 @@ def test_shared_contrainte_with_objectif_and_no_target(
         TargetToAdd(
             focusId=shared_focus_with_no_target.id,
             target="Faire un point complet sur sa mobilité",
-            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+            creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
         TargetToAdd(
             focusId=shared_focus_with_no_target.id,
             target="Accéder à un véhicule",
-            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+            creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
     ]
     assert result.target_differences.target_ids_to_cancel == []
@@ -176,7 +176,7 @@ def test_shared_contraintes_with_objectifs_and_targets(
         TargetToAdd(
             focusId=shared_focus_with_targets.id,
             target="Accéder à un véhicule",
-            creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+            creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         )
     ]
     assert result.target_differences.target_ids_to_cancel == target_ids_to_cancel

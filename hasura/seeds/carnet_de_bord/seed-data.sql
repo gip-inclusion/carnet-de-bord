@@ -4,35 +4,35 @@ BEGIN
 END
 $$;
 
-TRUNCATE public.admin_structure_structure CASCADE;
-TRUNCATE public.beneficiary_structure CASCADE;
-TRUNCATE public.structure CASCADE;
 
-TRUNCATE public.notebook_focus CASCADE;
-TRUNCATE public.notebook_target CASCADE;
-TRUNCATE public.notebook_action CASCADE;
-TRUNCATE public.notebook_event CASCADE;
-TRUNCATE public.notebook_member CASCADE;
-TRUNCATE public.notebook_appointment CASCADE;
+DELETE FROM public.external_data_info;
+DELETE FROM public.external_data;
+DELETE FROM public.nps_rating;
+DELETE FROM public.nps_rating_dismissal;
 
-TRUNCATE public.external_data_info CASCADE;
-TRUNCATE public.external_data CASCADE;
+DELETE FROM notebook_member;
+DELETE FROM professional_project;
+DELETE FROM notebook_appointment;
+DELETE FROM notebook_info;
+DELETE FROM notebook_situation;
+DELETE FROM notebook_visit;
+DELETE FROM notebook;
+DELETE FROM orientation_request;
+DELETE FROM beneficiary_structure;
+DELETE FROM beneficiary;
+DELETE FROM admin_structure_structure;
+DELETE FROM account  WHERE type != 'service';
+DELETE FROM admin_cdb;
+DELETE FROM professional;
+DELETE FROM manager;
+DELETE FROM admin_structure;
+DELETE FROM structure;
+DELETE FROM orientation_manager;
+DELETE FROM orientation_system;
+DELETE FROM deployment;
 
-TRUNCATE public.nps_rating CASCADE;
-TRUNCATE public.nps_rating_dismissal CASCADE;
 
-TRUNCATE public.admin_cdb CASCADE;
-TRUNCATE public.manager CASCADE;
-TRUNCATE public.admin_structure CASCADE;
-TRUNCATE public.orientation_manager CASCADE;
-TRUNCATE public.professional CASCADE;
-TRUNCATE public.beneficiary CASCADE;
-TRUNCATE public.notebook CASCADE;
-TRUNCATE public.professional_project CASCADE;
-TRUNCATE public.deployment CASCADE;
-TRUNCATE public.orientation_system CASCADE;
 
-TRUNCATE public.account CASCADE;
 
 SET check_function_bodies = false;
 

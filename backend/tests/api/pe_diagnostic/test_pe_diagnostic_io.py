@@ -33,6 +33,7 @@ class FakeSituation(BaseModel):
 class FakeTarget(BaseModel):
     id: UUID
     target: str
+    creatorId: UUID
 
 
 class FakeTargetData(BaseModel):
@@ -45,6 +46,7 @@ class FakeFocus(BaseModel):
     notebookId: UUID
     createdAt: None | datetime = None
     targets: FakeTargetData | None = None
+    creatorId: UUID
 
     def jsonb(self) -> dict:
         return json.loads(json.dumps(self.dict(exclude_none=True), cls=CustomEncoder))
@@ -78,19 +80,23 @@ async def test_save_differences(
                         FakeTarget(
                             id=UUID("a37221df-fd67-4505-b847-d869c75656bc"),
                             target="Dépendant des transports en commun",
+                            creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                         ),
                         FakeTarget(
                             id=UUID("d2abc3b0-339d-4f6e-a02e-6b389226ead5"),
                             target="Permis et/ou code en cours",
+                            creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                         ),
                     ]
                 ),
+                creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
             ),
             FakeFocus(
                 id=UUID("156faab6-4ffd-49ad-b935-538184b02755"),
                 theme="numerique",
                 notebookId=notebook_craig_reilly.id,
                 createdAt=datetime.now(tz=timezone.utc),
+                creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
             ),
         ],
     )
@@ -121,7 +127,7 @@ async def test_save_differences(
                     TargetToAdd(
                         focusId=UUID("af13bb83-e09d-42d6-b683-38e690e78bde"),
                         target="Permis B",
-                        creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+                        creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                     )
                 ],
                 target_ids_to_cancel=[UUID("a37221df-fd67-4505-b847-d869c75656bc")],

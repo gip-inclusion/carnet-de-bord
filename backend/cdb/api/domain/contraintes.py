@@ -33,7 +33,7 @@ class FocusToAdd:
 
 class TargetToAdd(BaseModel):
     target: str
-    creator_id: UUID
+    creatorId: UUID
     focusId: UUID
     createdAt: datetime | None = None
 
@@ -116,7 +116,7 @@ def diff_objectifs(
                         target=objectif.libelle,
                         focusId=shared_focus.id,
                         createdAt=shared_contrainte.date,
-                        creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+                        creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                     )
                 )
 
