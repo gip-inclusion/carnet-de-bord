@@ -10,7 +10,7 @@ on:
   pull_request:
 
 env:
-  POETRY_VERSION: 1.3.2
+  POETRY_VERSION: 1.5.1
   PYTHON_VERSION: 3.10.6
 
 concurrency:
