@@ -17,7 +17,7 @@ from cdb.api.v1.routers import (
     structures,
     uploads,
 )
-from cdb.api.v1.routers.refresh_situations import refresh_situations_api
+from cdb.api.v1.routers.pe_diagnostic import pe_diagnostic_api
 
 api_router = APIRouter()
 api_router.include_router(uploads.router, prefix="/uploads", tags=["Uploads"])
@@ -64,7 +64,7 @@ api_router.include_router(
     notebooks_create.router, prefix="/notebooks", tags=["Notebooks"]
 )
 api_router.include_router(
-    refresh_situations_api.router, prefix="/notebooks", tags=["Notebooks"]
+    pe_diagnostic_api.router, prefix="/notebooks", tags=["Notebooks"]
 )
 api_router.include_router(
     pe_dossier_individu.router, prefix="/notebooks", tags=["Notebooks"]

@@ -35,5 +35,5 @@ class NotebookSituationInput(BaseModel):
     notebook_id: UUID = Field(alias="notebookId")
 
 
-class NotebookSituationInputPayload(HasuraActionPayload):
+class NotebookInputPayload(HasuraActionPayload):
     input: NotebookSituationInput

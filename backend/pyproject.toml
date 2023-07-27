@@ -47,7 +47,8 @@ pytest-mock = "^3.7.0"
 pytest-testmon = "2.0.6"
 pytest-watch = "^4.2.0"
 approvaltests = "^8.2.5"
-faker = "^18.13.0"
+pytest-cov = "^4.1.0"
+faker = "^19.2.0"
 
 [tool.ruff]
 select = [

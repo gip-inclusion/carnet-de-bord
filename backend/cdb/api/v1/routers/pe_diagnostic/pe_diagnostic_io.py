@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import logging
-from string import Template
 from uuid import UUID
 
 from gql import gql
@@ -10,16 +9,21 @@ from gql import gql
 from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import update_diagnostic_fetch_date_gql
 from cdb.api.db.crud.external_data import save_external_data_with_info
+from cdb.api.db.crud.notebook_focus import add_remove_notebook_focuses
 from cdb.api.db.crud.notebook_situation import (
     save_notebook_situations,
 )
 from cdb.api.db.models.external_data import ExternalSource
 from cdb.api.db.models.ref_situation import NotebookSituation
-from cdb.api.domain.situation.situations import (
+from cdb.api.domain.contraintes import FocusDifferences
+from cdb.api.domain.situations import (
     SituationDifferences,
 )
-from cdb.api.v1.payloads.socio_pro import SituationToAdd
-from cdb.api.v1.routers.refresh_situations.refresh_situations import Notebook
+from cdb.api.v1.payloads.socio_pro import SituationInsertInput
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
+    Focus,
+    Notebook,
+)
 from cdb.cdb_csv.json_encoder import CustomEncoder
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 from cdb.pe.pole_emploi_client import PoleEmploiApiClient
@@ -30,8 +34,7 @@ logger = logging.getLogger(__name__)
 async def find_notebook(session, notebook_id) -> Notebook | None:
     response = await session.execute(
         gql(
-            Template(
-                """
+            """
             query GetBeneficiaryQuery($notebook_id:uuid!) {
                 notebook_by_pk(id: $notebook_id) {
                     beneficiary {
@@ -45,11 +48,18 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
                         }
                     }
                     diagnosticFetchedAt
-                    situations $select_situation
+                    situations { id situationId createdAt deletedAt }
+                    focuses {
+                        id
+                        theme
+                        created_at: createdAt
+                        targets(where: {status: {_eq: "in_progress"}}) {
+                            id target
+                        }
+                    }
                 }
             }
             """
-            ).safe_substitute(select_situation=NotebookSituation.selection_set())
         ),
         {"notebook_id": notebook_id},
     )
@@ -67,7 +77,11 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
         nir=notebook["beneficiary"]["nir"],
         date_of_birth=notebook["beneficiary"]["dateOfBirth"],
         last_diagnostic_hash=external_data_hash,
-        situations=NotebookSituation.parse_list(notebook["situations"]),
+        situations=[
+            NotebookSituation.parse_obj(situation)
+            for situation in notebook["situations"]
+        ],
+        focuses=[Focus.parse_obj(focus) for focus in notebook["focuses"]],
     )
 
 
@@ -106,14 +120,19 @@ async def save_in_external_data(
     )
 
 
-async def save_differences(session, differences: SituationDifferences, notebook_id):
+async def save_differences(
+    session,
+    differences: SituationDifferences,
+    focus_differences: FocusDifferences,
+    notebook_id: UUID,
+):
     await save_notebook_situations(
         session,
         notebook_id,
         [
             json.loads(
                 json.dumps(
-                    SituationToAdd(
+                    SituationInsertInput(
                         notebookId=notebook_id,
                         situationId=situation.situation_id,
                         createdAt=situation.created_at,
@@ -124,4 +143,7 @@ async def save_differences(session, differences: SituationDifferences, notebook_
             for situation in differences.situations_to_add
         ],
         differences.situations_to_delete,
+    )
+    await add_remove_notebook_focuses(
+        session, notebook_id=notebook_id, focus_differences=focus_differences
     )
