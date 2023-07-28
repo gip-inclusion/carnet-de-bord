@@ -5,7 +5,6 @@ import BetaGouv.DSFR.Alert
 import Domain.PoleEmploi.ContraintePersonnelle as ContraintePersonnelle
 import Effect exposing (Effect)
 import Extra.Date
-import Extra.Http
 import GraphQL.Enum.PoleEmploiBesoinValeurEnum as PoleEmploiBesoinValeurEnum exposing (PoleEmploiBesoinValeurEnum)
 import GraphQL.Enum.PoleEmploiContrainteValeurEnum as PoleEmploiContrainteValeurEnum
 import GraphQL.Enum.PoleEmploiObjectifValeurEnum as PoleEmploiObjectifValeurEnum
@@ -93,7 +92,7 @@ update msg model =
             of
                 Err error ->
                     ( Error "Erreur lors de la récupération du diagnostic France Travail."
-                    , Effect.fromCmd <| Sentry.sendError (Extra.Http.toString error)
+                    , Effect.fromCmd <| Sentry.reportHttpError error
                     )
 
                 Ok response ->

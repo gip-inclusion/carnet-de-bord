@@ -39,7 +39,7 @@ extractCount =
 
 getOrientationHomeInfos : String -> (Result Http.Error OrientationHomeInfos -> msg) -> Cmd msg
 getOrientationHomeInfos accountId toMsg =
-    Extra.GraphQL.postOperation
+    Extra.GraphQL.send
         (OrientationHome.GetBeneficiaryDashboard.query { id = accountId })
         (Result.map
             (\data ->
