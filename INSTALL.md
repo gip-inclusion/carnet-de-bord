@@ -4,16 +4,28 @@
 
 Vous devez au préalable avoir correctement installé les logiciels suivants :
 
-- docker (version 20.10.5)
-- docker-compose (version 1.29.0)
-- node (version 18)
-- hasura-cli (latest)
-- pre-commit https://pre-commit.com
-- poetry (1.2)
+- Docker
+- Docker Compose (inclus dans Docker Desktop)
+- `pre-commit` https://pre-commit.com
+- `node` (version indiquée dans `app/package.json`)
+- `hasura-cli` (version indiquée dans `hasura/.hasura_version`)
+- `poetry` (version indiquée dans `backend/.poetry_version`)
+- `python` (version indiquée dans `backend/pyproject.toml`)
 - [make](https://www.gnu.org/software/make/)
   - Il vient souvent pré-installé et est disponible sur les gestionnaires de paquets
 
-> ℹ️️ Les versions indiquées sont celles utilisées et préconisées par l'équipe de développement. Il est possible que l'application fonctionne avec des versions différentes.
+Pour faciliter l'installation des versions requises de `node`, `hasura-cli`, `poetry` et `python`, un fichier de configuration de l'outil [asdf](http://asdf-vm.com) a été créé (`.tool-versions`). Pour utiliser celui-ci, il suffit d'installer `asdf` puis ses plugins correspondants :
+
+```bash
+asdf plugin add python
+asdf plugin add poetry
+asdf plugin add nodejs
+asdf plugin add hasura-cli
+```
+
+Les versions requises des outils peuvent ensuite être installés en lançant `asdf install` dans le répertoire du projet. À partir de là, les outils suivront automatiquement les versions indiquées dans `.tool-versions`.
+
+L'utilisation de `asdf` est facultative cependant: tout autre moyen d'activer les versions indiquées des outils permettra de faire fonctionner le projet.
 
 > ⚠️ Assurez-vous que les ports **5000** (Hasura) et **5432** (PostgreSQL) soient libres d'écoute. Le cas échéant, vous pouvez changer les ports dans les fichiers de configuration ou d'environnement de l'application.
 

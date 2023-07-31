@@ -1,2 +1,2 @@
-cp -v ../hasura/schema.graphql .
+cp -v ../hasura/schema.graphql cdb/api/
 pip install --quiet --disable-pip-version-check --progress-bar off .
