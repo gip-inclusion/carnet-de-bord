@@ -76,6 +76,20 @@ repos:
         entry: |
           bash -c 'yes Y | npm --prefix app run lint:elm-review -- --fix-all' --
 
+      - id: backend-poetry-check
+        name: poetry check (backend)
+        language: system
+        files: ^backend/(pyproject\.toml|poetry\.lock)$
+        pass_filenames: false
+        entry: |
+          bash -ec 'cd backend
+            # look for poetry version number on the first line of poetry.lock
+            if ! head -1 poetry.lock | fgrep -q "$(poetry --version|sed -E "s/[^0-9.]//g")"; then
+              echo "Poetry version mismatch!"
+              exit 1
+            fi
+            poetry lock --check'
+
       - id: e2e-prettier
         name: run prettier (e2e)
         language: system

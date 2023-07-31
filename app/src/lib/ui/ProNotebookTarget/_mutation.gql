@@ -1,5 +1,0 @@
-mutation AddNotebookTarget($focusId: uuid!, $target: String) {
-  insert_notebook_target_one(object: { focusId: $focusId, target: $target }) {
-    id
-  }
-}

@@ -32,8 +32,12 @@
 		}
 	);
 	query(focusStore);
-	const deleteFocusStore = operationStore(DeleteNotebookFocusByIdDocument);
-	const deleteFocusMutation = mutation(deleteFocusStore);
+
+	const deleteFocusMutation = mutation(
+		operationStore(DeleteNotebookFocusByIdDocument, null, {
+			additionalTypenames: ['notebook_focus'],
+		})
+	);
 
 	$: focus = $focusStore.data?.focus;
 	$: targets = focus?.targets || [];
@@ -55,8 +59,9 @@
 		});
 	}
 
-	const updateNotebookTargetStatusResult = operationStore(UpdateTargetStatusDocument);
-	const updateNotebookTargetStatus = mutation(updateNotebookTargetStatusResult);
+	const updateNotebookTargetStatus = mutation(
+		operationStore(UpdateTargetStatusDocument, null, { additionalTypenames: ['notebook_target'] })
+	);
 	let updateResult: OperationStore<UpdateTargetStatusMutation>;
 
 	let error: string;

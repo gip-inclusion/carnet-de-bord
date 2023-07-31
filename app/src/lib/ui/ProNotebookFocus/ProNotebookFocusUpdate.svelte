@@ -11,8 +11,9 @@
 
 	export let focus: Pick<NotebookFocus, 'id' | 'theme' | 'linkedTo'>;
 
-	const updateNotebookFocusStore = operationStore(UpdateNotebookFocusDocument);
-	const updateNotebookFocus = mutation(updateNotebookFocusStore);
+	const updateNotebookFocus = mutation(
+		operationStore(UpdateNotebookFocusDocument, null, { additionalTypenames: ['notebook_focus'] })
+	);
 
 	function initFormData() {
 		return {

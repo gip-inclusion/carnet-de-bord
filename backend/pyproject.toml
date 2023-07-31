@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cdb"
-version = "1.244.0"
+version = "1.245.0"
 description = ""
 authors = ["LionelB <lionel@lumographe.fr>"]
 
@@ -23,7 +23,7 @@ panda = "^0.3.1"
 pandas = "2.0.0"
 phonenumbers = "^8.12.56"
 pydantic = {extras = ["email"], version = "^1.9.1"}
-python = ">=3.10,<3.12"
+python = "3.11.3"
 python-dateutil = "^2.8.2"
 python-dotenv = "1.0.0"
 python-magic = "^0.4.26"

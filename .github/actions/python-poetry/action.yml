@@ -1,0 +1,15 @@
+name: "Setup Python and Poetry"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup python
+      uses: actions/setup-python@v4.7.0
+      with:
+        python-version-file: "./backend/pyproject.toml"
+
+    - name: Setup Poetry
+      id: poetry_version
+      shell: bash
+      run: |
+        pip install poetry==$(< ./backend/.poetry_version)
