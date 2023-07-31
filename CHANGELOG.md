@@ -1,3 +1,10 @@
+# [1.246.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.245.0...v1.246.0) (2023-07-31)
+
+
+### Features
+
+* **front:** ignore les orientation manager sans comptes pour l'assig… ([#1925](https://github.com/gip-inclusion/carnet-de-bord/issues/1925)) ([a76b9c3](https://github.com/gip-inclusion/carnet-de-bord/commit/a76b9c3ca9c89fcf239676e8e986550afcee40f5))
+
 # [1.245.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.244.2...v1.245.0) (2023-07-31)
 
 
