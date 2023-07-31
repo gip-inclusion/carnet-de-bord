@@ -1,3 +1,10 @@
+# [1.245.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.244.2...v1.245.0) (2023-07-31)
+
+
+### Features
+
+* ajout d'un nouveau type d'orientation ([#1926](https://github.com/gip-inclusion/carnet-de-bord/issues/1926)) ([00a0563](https://github.com/gip-inclusion/carnet-de-bord/commit/00a0563ba8e3467c01486f2157771410fa2e4ee6))
+
 ## [1.244.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.244.1...v1.244.2) (2023-07-31)
 
 ## [1.244.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.244.0...v1.244.1) (2023-07-27)
