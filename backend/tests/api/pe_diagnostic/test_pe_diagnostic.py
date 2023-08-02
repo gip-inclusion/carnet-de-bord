@@ -12,12 +12,17 @@ from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, TargetDifferences
 from cdb.api.domain.situations import SituationDifferences
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
-    Notebook as NotebookLocal,
-)
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
+    FRANCE_TRAVAIL_PILOT,
     update_notebook_from_pole_emploi,
 )
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus, Target
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
+    Notebook as NotebookLocal,
+)
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
+    Deployment,
+    Focus,
+    Target,
+)
 from cdb.pe.models.dossier_individu_api import (
     Contrainte,
     ContraintesIndividu,
@@ -93,6 +98,7 @@ class FakeNotebook(NotebookLocal):
         last_diagnostic_hash: str | None = fake.word(),
         situations: List[NotebookSituation] | None = None,
         focuses: List[Focus] | None = None,
+        deployment=Deployment(config={FRANCE_TRAVAIL_PILOT: True}),
     ):
         super().__init__(
             diagnostic_fetched_at=diagnostic_fetched_at,
@@ -104,6 +110,7 @@ class FakeNotebook(NotebookLocal):
             if situations is not None
             else [FakeNotebookSituation()],
             focuses=focuses if focuses is not None else [FakeNotebookFocus()],
+            deployment=deployment,
         )
 
 
@@ -201,7 +208,11 @@ class FakeIO:
         save_in_external_data=None,
         get_ref_situations=async_mock(return_value=[a_ref_situation]),
         save_differences=None,
+        is_part_of_the_france_travail_experiment=async_mock(return_value=True),
     ):
+        self.is_part_of_the_france_travail_experiment = (
+            is_part_of_the_france_travail_experiment
+        )
         self.save_differences = save_differences or AsyncMock()
         self.get_ref_situations = get_ref_situations
         self.save_in_external_data = save_in_external_data or AsyncMock()
@@ -436,6 +447,23 @@ async def test_does_not_update_cdb_when_sync_flag_is_false(
         "data_has_been_updated": False,
         "external_data_has_been_updated": True,
         "has_pe_diagnostic": True,
+    }
+
+
+async def test_does_nothing_when_the_deployment_is_not_a_france_travail_pilot():
+    io = FakeIO(
+        find_notebook=async_mock(
+            return_value=FakeNotebook(deployment=Deployment(config={}))
+        )
+    )
+
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
+
+    io.save_differences.assert_not_called()
+    assert response == {
+        "data_has_been_updated": False,
+        "external_data_has_been_updated": False,
+        "has_pe_diagnostic": False,
     }
 
 

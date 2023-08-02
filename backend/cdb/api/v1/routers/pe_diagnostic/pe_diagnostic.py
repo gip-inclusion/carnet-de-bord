@@ -42,13 +42,21 @@ class IO(BaseModel):
     ]
 
 
+FRANCE_TRAVAIL_PILOT = "france_travail_pilot"
+
+
 async def update_notebook_from_pole_emploi(io: IO, notebook_id: UUID) -> Response:
     response = Response()
     if not settings.ENABLE_PE_DIAGNOSTIC_API:
         return response
 
     notebook = await io.find_notebook(notebook_id)
-    if not notebook or not notebook.nir:
+    if (
+        not notebook
+        or not notebook.nir
+        or FRANCE_TRAVAIL_PILOT not in notebook.deployment.config
+        or not notebook.deployment.config[FRANCE_TRAVAIL_PILOT]
+    ):
         return response
 
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()

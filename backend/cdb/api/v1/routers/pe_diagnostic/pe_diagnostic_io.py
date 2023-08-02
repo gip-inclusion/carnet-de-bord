@@ -21,6 +21,7 @@ from cdb.api.domain.situations import (
 )
 from cdb.api.v1.payloads.socio_pro import SituationInsertInput
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
+    Deployment,
     Focus,
     Notebook,
 )
@@ -45,6 +46,9 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
                             limit: 1
                         ) {
                             externalData { hash }
+                        }
+                        deployment {
+                            config
                         }
                     }
                     diagnosticFetchedAt
@@ -81,6 +85,9 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
             NotebookSituation.parse_obj(situation)
             for situation in notebook["situations"]
         ],
+        deployment=Deployment(
+            config=notebook["beneficiary"]["deployment"]["config"] or {}
+        ),
         focuses=[Focus.parse_obj(focus) for focus in notebook["focuses"]],
     )
 
