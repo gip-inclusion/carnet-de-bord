@@ -10,6 +10,7 @@ import Diagnostic.SyncWithPE
 import Domain.Account
 import Extra.GraphQL
 import GraphQL.Enum.Ref_theme_enum exposing (Ref_theme_enum(..))
+import Http
 import Maybe
 import Time
 
@@ -22,9 +23,9 @@ type alias DataSyncInfo =
 -- Synchronize
 
 
-syncWithPE : String -> (Result String DataSyncInfo -> msg) -> Cmd msg
+syncWithPE : String -> (Result Http.Error DataSyncInfo -> msg) -> Cmd msg
 syncWithPE notebookId responseMsg =
-    Extra.GraphQL.postOperation
+    Extra.GraphQL.send
         (Diagnostic.SyncWithPE.mutation { notebookId = notebookId })
         (Result.map
             (.update_notebook_from_pole_emploi
@@ -39,7 +40,6 @@ syncWithPE notebookId responseMsg =
                     , has_pe_diagnostic = False
                     }
             )
-            >> Result.mapError (always "graphql error!")
             >> responseMsg
         )
 
@@ -78,9 +78,9 @@ toDomainAccount { orientation_manager, professional } =
     }
 
 
-fetchByNotebookId : String -> (Result String (List PersonalSituation) -> msg) -> Cmd msg
+fetchByNotebookId : String -> (Result Http.Error (List PersonalSituation) -> msg) -> Cmd msg
 fetchByNotebookId notebookId responseMsg =
-    Extra.GraphQL.postOperation
+    Extra.GraphQL.send
         (Diagnostic.GetSituationsByNotebookId.query { notebookId = notebookId })
         (Result.map
             (.situations
@@ -102,6 +102,5 @@ fetchByNotebookId notebookId responseMsg =
                         }
                     )
             )
-            >> Result.mapError (always "graphql error!")
             >> responseMsg
         )

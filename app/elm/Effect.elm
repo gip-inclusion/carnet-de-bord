@@ -110,6 +110,6 @@ performAtomic effect =
             Task.perform msg Time.now
 
         GetDossierIndividu { notebookId, callbackMsg } ->
-            Extra.GraphQL.postOperation
+            Extra.GraphQL.send
                 (Pages.Carnet.Diagnostic.PoleEmploi.GetDiagnosticPE.getDiagnosticPE { notebookId = notebookId })
                 callbackMsg

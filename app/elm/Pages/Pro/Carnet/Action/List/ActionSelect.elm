@@ -63,7 +63,7 @@ apiSearch theme { search, callbackMsg } =
         refTheme =
             RefTheme.fromString theme |> Maybe.withDefault RefTheme.Logement
     in
-    Extra.GraphQL.postOperation
+    Extra.GraphQL.send
         (Pages.Pro.Carnet.Action.List.SearchRefAction.query { searchString = search })
         (Result.map
             (toOptions refTheme)

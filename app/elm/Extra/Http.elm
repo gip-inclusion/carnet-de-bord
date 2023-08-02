@@ -1,10 +1,10 @@
-module Extra.Http exposing (toString)
+module Extra.Http exposing (printError)
 
 import Http
 
 
-toString : Http.Error -> String
-toString error =
+printError : Http.Error -> String
+printError error =
     case error of
         Http.BadUrl url ->
             "URL invalide : " ++ url

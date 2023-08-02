@@ -4,7 +4,6 @@ module UI.SearchSelect.SearchSelect exposing (Mode(..), Model, Msg(..), Option, 
 -}
 
 import Debouncer.Messages as Debouncer exposing (debounce, fromSeconds, provideInput, toDebouncer)
-import Extra.Http
 import Html
 import Html.Attributes as Attr
 import Html.Events as Evts
@@ -185,7 +184,7 @@ update msg model =
 
                 Err httpError ->
                     ( { model | status = Failed }
-                    , Sentry.sendError <| Extra.Http.toString httpError
+                    , Sentry.reportHttpError httpError
                     )
 
         DebouncerMsg subMsg ->

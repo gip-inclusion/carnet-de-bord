@@ -64,7 +64,7 @@ main =
 
 getLastRatingDates : Cmd Msg
 getLastRatingDates =
-    Extra.GraphQL.postOperation
+    Extra.GraphQL.send
         NPSRating.GraphQL.latestNPSAnswers
         (Result.map
             (\data ->
@@ -86,7 +86,7 @@ submitRating : Model -> Cmd Msg
 submitRating model =
     case model.nps of
         Just score ->
-            Extra.GraphQL.postOperation
+            Extra.GraphQL.send
                 (NPSRating.GraphQL.createNpsRating { score = score })
                 (Result.map (always ()) >> RatingSent)
 
@@ -96,7 +96,7 @@ submitRating model =
 
 dismiss : Cmd Msg
 dismiss =
-    Extra.GraphQL.postOperation
+    Extra.GraphQL.send
         NPSRating.GraphQL.dismissNPS
         (Result.map (always ()) >> RatingSent)
 

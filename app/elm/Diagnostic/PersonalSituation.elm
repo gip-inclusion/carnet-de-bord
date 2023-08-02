@@ -7,6 +7,7 @@ import Extra.Date
 import GraphQL.Enum.Ref_theme_enum exposing (Ref_theme_enum)
 import Html exposing (Html)
 import Html.Attributes as Attr
+import Http
 import List.Extra
 import Sentry
 import UI.Spinner
@@ -56,8 +57,8 @@ init { notebookId } =
 
 
 type Msg
-    = FetchedSituations (Result String (List PersonalSituation))
-    | SyncedWithPE (Result String DataSyncInfo)
+    = FetchedSituations (Result Http.Error (List PersonalSituation))
+    | SyncedWithPE (Result Http.Error DataSyncInfo)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -66,7 +67,7 @@ update msg model =
         FetchedSituations result ->
             case result of
                 Err message ->
-                    ( model, Sentry.sendError message )
+                    ( model, Sentry.reportHttpError message )
 
                 Ok situations ->
                     ( { model | themes = groupByTheme situations }
@@ -77,7 +78,7 @@ update msg model =
             case result of
                 Err message ->
                     ( { model | refreshState = Failed }
-                    , Sentry.sendError message
+                    , Sentry.reportHttpError message
                     )
 
                 Ok { has_pe_diagnostic, data_has_been_updated } ->
