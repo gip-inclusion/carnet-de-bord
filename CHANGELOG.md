@@ -1,3 +1,10 @@
+# [1.247.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.246.0...v1.247.0) (2023-08-02)
+
+
+### Features
+
+* **app:** améliore le format des erreurs graphql ([#1928](https://github.com/gip-inclusion/carnet-de-bord/issues/1928)) ([fd0efc8](https://github.com/gip-inclusion/carnet-de-bord/commit/fd0efc82bc015bedb84e800d2f0dcaa0ae901afe))
+
 # [1.246.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.245.0...v1.246.0) (2023-07-31)
 
 
