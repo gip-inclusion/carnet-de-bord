@@ -1,3 +1,10 @@
+# [1.248.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.247.0...v1.248.0) (2023-08-03)
+
+
+### Features
+
+* **pole-emploi:** ne pas afficher le diagnostic PE pour les déploiements non pilotes ([#1930](https://github.com/gip-inclusion/carnet-de-bord/issues/1930)) ([ee8ee6d](https://github.com/gip-inclusion/carnet-de-bord/commit/ee8ee6d0e42399e9331ddb625c3c6258b2b871d6))
+
 # [1.247.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.246.0...v1.247.0) (2023-08-02)
 
 
