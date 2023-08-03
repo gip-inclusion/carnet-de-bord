@@ -77,7 +77,7 @@ def groupBeneficiariesByAdminStructure(
                             firstname=b.firstname,
                             lastname=b.lastname,
                             date_of_birth=b.date_of_birth,
-                            orientation=b.orientation.get_label()
+                            orientation=b.orientation.name
                             if b.orientation is not None
                             else None,
                         )
