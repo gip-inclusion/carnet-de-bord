@@ -20,14 +20,14 @@ Fonctionnalité: Modification d'une structure
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd51@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Structures"
 		Alors je vois "Interlogement 51" dans le tableau "Liste des structures"
-		Alors je vois "PE (Professionnel)" sur la ligne "Interlogement 51"
-		Alors je vois "RIA (Professionnel)" sur la ligne "Interlogement 51"
+		Alors je vois "PE" sur la ligne "Interlogement 51"
+		Alors je vois "RIA" sur la ligne "Interlogement 51"
 		Quand je clique sur "Éditer la structure Interlogement 51"
 		Alors je suis sur la page "manager/structures/c0b8aee3-c061-4023-b57e-92880627d589"
-    Alors l'option "PE (Professionnel)" est sélectionnée
-    Alors l'option "RIA (Professionnel)" est sélectionnée
-    Alors je décoche "PE (Professionnel)"
-    Alors je décoche "RIA (Professionnel)"
+		Alors l'option "PE" est sélectionnée
+		Alors l'option "RIA" est sélectionnée
+		Alors je décoche "PE"
+		Alors je décoche "RIA"
 		Quand je clique sur "Enregistrer les modifications"
-		Alors je ne vois pas "PE (Professionnel)" sur la ligne "Interlogement 51"
-		Alors je ne vois pas "RIA (Professionnel)" sur la ligne "Interlogement 51"
+		Alors je ne vois pas "PE" sur la ligne "Interlogement 51"
+		Alors je ne vois pas "RIA" sur la ligne "Interlogement 51"

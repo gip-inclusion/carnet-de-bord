@@ -24,7 +24,7 @@ Fonctionnalité: Ajout et modification d'un gestionnaire de structure
 		Alors je renseigne "Mauricette" dans le champ "Prénom"
 		Alors je renseigne "Leblanc" dans le champ "Nom"
 		Quand je clique sur "Ajouter"
-  	Alors je vois "Mauricette Leblanc"
+		Alors je vois "Mauricette Leblanc"
 		Quand je clique sur "Mettre à jour" dans la tuile "Mauricette Leblanc"
 		Alors je vois "mauricette.leblanc@cd93.fr" dans le champ "Courriel"
 		Alors je vois "Mauricette" dans le champ "Prénom"
