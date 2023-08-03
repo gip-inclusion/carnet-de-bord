@@ -59,6 +59,17 @@ class FakeFocus(BaseModel):
 async def test_the_deployment_config_is_empty_in_the_notebook_when_absent(
     gql_admin_client: AsyncClientSession,
 ):
+    await gql_admin_client.execute(
+        gql(
+            """
+mutation {
+  update_deployment(where: {}, _set: {config: null}) {
+    affected_rows
+  }
+}
+    """
+        )
+    )
     notebook = await find_notebook(
         session=gql_admin_client, notebook_id="9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"
     )
