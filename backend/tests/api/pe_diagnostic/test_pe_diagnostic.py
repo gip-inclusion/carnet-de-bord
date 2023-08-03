@@ -12,7 +12,7 @@ from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, TargetDifferences
 from cdb.api.domain.situations import SituationDifferences
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
-    FRANCE_TRAVAIL_PILOT,
+    DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API,
     update_notebook_from_pole_emploi,
 )
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
@@ -109,7 +109,8 @@ class FakeNotebook(NotebookLocal):
             if situations is not None
             else [FakeNotebookSituation()],
             focuses=focuses if focuses is not None else [FakeNotebookFocus()],
-            deployment_config=deployment_config or {FRANCE_TRAVAIL_PILOT: True},
+            deployment_config=deployment_config
+            or {DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API: True},
         )
 
 
@@ -220,10 +221,10 @@ class FakeIO:
 
 @pytest.fixture(autouse=True)
 async def pe_settings():
-    settings.ENABLE_PE_DIAGNOSTIC_API = True
+    settings.DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
     yield settings
-    settings.ENABLE_PE_DIAGNOSTIC_API = True
+    settings.DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
 
 
@@ -445,7 +446,7 @@ async def test_does_not_update_cdb_when_sync_flag_is_false(
     }
 
 
-async def test_does_nothing_when_the_deployment_is_not_a_france_travail_pilot():
+async def test_does_nothing_when_the_pe_diagnostic_api_is_disabled_for_the_deployment():
     io = FakeIO(
         find_notebook=async_mock(return_value=FakeNotebook(deployment_config={}))
     )

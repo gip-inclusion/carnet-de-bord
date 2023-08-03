@@ -19,7 +19,9 @@ from cdb.api.domain.contraintes import (
     TargetToAdd,
 )
 from cdb.api.domain.situations import SituationDifferences, SituationToAdd
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import FRANCE_TRAVAIL_PILOT
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
+    DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API,
+)
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_io import (
     find_notebook,
     save_differences,
@@ -84,7 +86,7 @@ async def test_the_deployment_config_is_not_empty_in_the_notebook_when_present(
     notebook = await find_notebook(
         session=gql_admin_client, notebook_id="9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"
     )
-    assert notebook.deployment_config[FRANCE_TRAVAIL_PILOT]
+    assert notebook.deployment_config[DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API]
 
 
 @pytest.mark.graphql

@@ -41,7 +41,7 @@ INSERT INTO public.account (id, username, type, access_key, access_key_date, las
 INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('9eee9fea-bf3e-4eb8-8f43-d9b7fd6fae76');
 
 -- Deployments
-INSERT INTO public.deployment (id, label, config, department_code) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93', '{"france_travail_pilot": true}', '93');
+INSERT INTO public.deployment (id, label, config, department_code) VALUES ('4dab8036-a86e-4d5f-9bd4-6ce88c1940d0', 'expérimentation 93', '{"enable_pe_diagnostic_api": true}', '93');
 INSERT INTO public.deployment (id, label, config, department_code) VALUES ('c5c3a933-6f4a-4b2b-aa49-7a816eaef16b', 'expérimentation 51', '{"url": "http://localhost:3000/api/test", "headers": {"token":"azerty"}, "callback": "/api/marne" }', '51');
 
 -- Orientation system
