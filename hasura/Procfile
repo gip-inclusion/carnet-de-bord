@@ -1,0 +1,2 @@
+web: exec start-graphql-engine
+postdeploy: hasura-postdeploy.sh
