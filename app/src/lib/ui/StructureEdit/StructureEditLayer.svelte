@@ -8,7 +8,6 @@
 	import type { StructureFormInput } from './structure.schema';
 	import StructureCreationForm from './StructureCreationForm.svelte';
 	import type { LabelName } from '$lib/types';
-	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let structure: GetStructureByIdQuery['structure_by_pk'];
 	export let onClose: () => void;
@@ -56,7 +55,7 @@
 	function buildOrientationSystemOptions(): LabelName[] {
 		return structure.deployment.orientationSystems.map((orientationSystem) => {
 			return {
-				label: getOrientationSystemLabel(orientationSystem),
+				label: orientationSystem.name,
 				name: orientationSystem.id,
 			};
 		});

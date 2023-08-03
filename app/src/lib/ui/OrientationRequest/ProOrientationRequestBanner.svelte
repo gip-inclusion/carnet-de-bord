@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import { formatDateLocale } from '$lib/utils/date';
-	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 	import Dialog from '../Dialog.svelte';
 	import Text from '../utils/Text.svelte';
 
@@ -28,14 +27,8 @@
 
 	$: [orientationLabel, displayedOrientation] =
 		decision == 'acceptée'
-			? [
-					"Décision d'orientation",
-					getOrientationSystemLabel(reorientationRequest.decidedOrientationSystem),
-			  ]
-			: [
-					'Orientation recommandée',
-					getOrientationSystemLabel(reorientationRequest.requestedOrientationSystem),
-			  ];
+			? ["Décision d'orientation", reorientationRequest.decidedOrientationSystem?.name ?? '']
+			: ['Orientation recommandée', reorientationRequest.requestedOrientationSystem?.name ?? ''];
 </script>
 
 <div class="bg-gray-100">
@@ -64,7 +57,7 @@
 						</p>
 						<p>
 							Orientation recommandée&nbsp;: <span class="fr-badge fr-badge-sm fr-badge--grey"
-								>{getOrientationSystemLabel(reorientationRequest.requestedOrientationSystem)}
+								>{reorientationRequest.requestedOrientationSystem?.name ?? ''}
 							</span>
 						</p>
 						<h2 class="fr-h4">Motif du maintien</h2>

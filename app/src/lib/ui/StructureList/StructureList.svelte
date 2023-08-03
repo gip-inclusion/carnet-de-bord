@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { GetStructuresForDeploymentQuery } from '$lib/graphql/_gen/typed-document-nodes';
-	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 	import { createEventDispatcher } from 'svelte';
 
 	import IconButton from '../base/IconButton.svelte';
@@ -18,9 +17,7 @@
 	function getOrientationSystemLabels(
 		orientationSystems: Structure['orientationSystems']
 	): string[] {
-		const labels = orientationSystems.map(({ orientationSystem }) =>
-			getOrientationSystemLabel(orientationSystem)
-		);
+		const labels = orientationSystems.map(({ orientationSystem }) => orientationSystem.name);
 		labels.sort();
 		return labels;
 	}

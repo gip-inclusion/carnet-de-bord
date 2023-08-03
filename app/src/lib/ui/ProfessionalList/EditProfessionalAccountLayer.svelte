@@ -12,7 +12,6 @@
 	import { proAccountSchema } from '$lib/ui/ProCreationForm/pro.schema';
 	import type { LabelName } from '$lib/types';
 	import { captureException } from '$lib/utils/sentry';
-	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let professional: Professional;
 
@@ -30,7 +29,7 @@
 	): LabelName[] {
 		const options = structureOrientationSystems.map(({ orientationSystem }) => {
 			return {
-				label: getOrientationSystemLabel(orientationSystem),
+				label: orientationSystem.name,
 				name: orientationSystem.id,
 			};
 		});

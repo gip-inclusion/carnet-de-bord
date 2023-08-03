@@ -21,7 +21,6 @@
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
 	import { openComponent } from '$lib/stores';
 	import { displayFullName } from '../format';
-	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let displayError = false;
 	export let formTitle = 'Réorienter';
@@ -40,7 +39,7 @@
 		$getOrientationSystems.data?.orientation_system.map((orientationSystem) => {
 			return {
 				name: orientationSystem.id,
-				label: getOrientationSystemLabel(orientationSystem),
+				label: orientationSystem.name,
 			};
 		}) ?? [];
 
