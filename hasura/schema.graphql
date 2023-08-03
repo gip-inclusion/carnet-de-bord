@@ -2513,7 +2513,7 @@ enum beneficiary_constraint {
   beneficiary_pkey
 
   """
-  unique or primary key constraint on columns "date_of_birth", "deployment_id"
+  unique or primary key constraint on columns "deployment_id", "date_of_birth"
   """
   firstname_lastname_date_of_birth_unique_idx
 }
@@ -5296,7 +5296,7 @@ unique or primary key constraints on table "manager"
 """
 enum manager_constraint {
   """
-  unique or primary key constraint on columns "email", "deployment_id"
+  unique or primary key constraint on columns "deployment_id", "email"
   """
   manager_email_deployment_id_key
 
@@ -11507,7 +11507,7 @@ unique or primary key constraints on table "notebook_situation"
 """
 enum notebook_situation_constraint {
   """
-  unique or primary key constraint on columns "deleted_at", "notebook_id", "situation_id"
+  unique or primary key constraint on columns "situation_id", "deleted_at", "notebook_id"
   """
   notebook_situation_notebook_id_situation_id_deleted_at_key
 
@@ -11873,7 +11873,7 @@ unique or primary key constraints on table "notebook_target"
 """
 enum notebook_target_constraint {
   """
-  unique or primary key constraint on columns "target", "focus_id"
+  unique or primary key constraint on columns "focus_id", "target"
   """
   notebook_target_focus_id_target_key
 
@@ -19413,7 +19413,7 @@ unique or primary key constraints on table "structure"
 """
 enum structure_constraint {
   """
-  unique or primary key constraint on columns "name", "deployment_id"
+  unique or primary key constraint on columns "deployment_id", "name"
   """
   structure_name_deployment_id_key
 

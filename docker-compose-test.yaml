@@ -24,7 +24,7 @@ services:
       - full_page_writes=off
 
   hasura_test:
-    image: hasura/graphql-engine:v2.22.0-ce.cli-migrations-v3
+    image: hasura/graphql-engine:v2.31.0-ce.cli-migrations-v3
     extra_hosts:
       host.docker.internal: host-gateway
     volumes:
