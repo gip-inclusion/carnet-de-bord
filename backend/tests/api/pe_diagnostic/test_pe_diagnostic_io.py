@@ -19,6 +19,7 @@ from cdb.api.domain.contraintes import (
     TargetToAdd,
 )
 from cdb.api.domain.situations import SituationDifferences, SituationToAdd
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import FRANCE_TRAVAIL_PILOT
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_io import (
     find_notebook,
     save_differences,
@@ -73,7 +74,7 @@ mutation {
     notebook = await find_notebook(
         session=gql_admin_client, notebook_id="9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"
     )
-    assert notebook.deployment.config == {}
+    assert notebook.deployment_config == {}
 
 
 @pytest.mark.graphql
@@ -81,9 +82,9 @@ async def test_the_deployment_config_is_not_empty_in_the_notebook_when_present(
     gql_admin_client: AsyncClientSession,
 ):
     notebook = await find_notebook(
-        session=gql_admin_client, notebook_id="b7e43c7c-7c3e-464b-80de-f4926d4bb1e0"
+        session=gql_admin_client, notebook_id="9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"
     )
-    assert notebook.deployment.config["url"] == "http://localhost:3000/api/test"
+    assert notebook.deployment_config[FRANCE_TRAVAIL_PILOT]
 
 
 @pytest.mark.graphql

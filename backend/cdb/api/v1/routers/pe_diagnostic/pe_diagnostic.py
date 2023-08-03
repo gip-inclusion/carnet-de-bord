@@ -54,8 +54,7 @@ async def update_notebook_from_pole_emploi(io: IO, notebook_id: UUID) -> Respons
     if (
         not notebook
         or not notebook.nir
-        or FRANCE_TRAVAIL_PILOT not in notebook.deployment.config
-        or not notebook.deployment.config[FRANCE_TRAVAIL_PILOT]
+        or not notebook.deployment_config.get(FRANCE_TRAVAIL_PILOT)
     ):
         return response
 

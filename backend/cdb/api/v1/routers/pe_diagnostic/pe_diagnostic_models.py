@@ -20,10 +20,6 @@ class Focus(BaseModel):
     targets: List[Target]
 
 
-class Deployment(BaseModel):
-    config: dict[str, Any]
-
-
 class Notebook(BaseModel):
     diagnostic_fetched_at: str | None
     beneficiary_id: UUID
@@ -32,7 +28,7 @@ class Notebook(BaseModel):
     last_diagnostic_hash: str | None
     situations: List[NotebookSituation]
     focuses: List[Focus]
-    deployment: Deployment
+    deployment_config: dict[str, Any]
 
     def has_fresh_pe_data(self) -> bool:
         if not self.diagnostic_fetched_at:
