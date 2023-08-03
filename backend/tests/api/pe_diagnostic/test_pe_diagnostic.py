@@ -221,10 +221,8 @@ class FakeIO:
 
 @pytest.fixture(autouse=True)
 async def pe_settings():
-    settings.DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
     yield settings
-    settings.DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
 
 
@@ -317,21 +315,6 @@ async def test_does_nothing_when_the_diagnostic_was_called_recently():
         "external_data_has_been_updated": False,
         "has_pe_diagnostic": True,
     }
-
-
-async def test_does_nothing_when_feature_is_disabled(pe_settings: Settings):
-    pe_settings.ENABLE_PE_DIAGNOSTIC_API = False
-    io = FakeIO()
-
-    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
-
-    assert not io.get_dossier_pe.called
-    assert response == {
-        "data_has_been_updated": False,
-        "external_data_has_been_updated": False,
-        "has_pe_diagnostic": False,
-    }
-    pe_settings.ENABLE_PE_DIAGNOSTIC_API = True
 
 
 async def test_saves_the_new_pe_diagnostic_into_external_data():
