@@ -184,12 +184,13 @@ select_permissions:
         - date_of_birth
         - deployment_id
         - email
+        - external_id
         - firstname
         - id
-        - external_id
         - is_homeless
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - pe_unique_import_id
         - place_of_birth
@@ -221,6 +222,7 @@ select_permissions:
         - is_homeless
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code
@@ -266,6 +268,7 @@ select_permissions:
         - is_homeless
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - pe_unique_import_id
         - postal_code
@@ -297,6 +300,7 @@ select_permissions:
         - is_homeless
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code
@@ -329,6 +333,7 @@ select_permissions:
         - is_homeless
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code
@@ -361,6 +366,7 @@ select_permissions:
         - is_homeless
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code
@@ -392,6 +398,7 @@ update_permissions:
         - id
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code
@@ -458,6 +465,7 @@ update_permissions:
         - is_homeless
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code

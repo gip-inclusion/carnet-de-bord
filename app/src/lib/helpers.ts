@@ -22,6 +22,11 @@ export const pluck = function pluck<T>(
 	return result;
 };
 
+export function trimToNull(arg0: string): string {
+	const trimmed = arg0.trim();
+	return trimmed === '' ? null : trimmed;
+}
+
 export function filterFalsyProps(obj: Record<string, unknown>): Record<string, unknown> {
 	const result = {};
 	for (const [k, v] of Object.entries(obj)) {

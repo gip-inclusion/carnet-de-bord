@@ -3,6 +3,7 @@ import {
 	nullifyEmptyString,
 	validateCodePostal,
 	validateDateInput,
+	validateNir,
 	validatePhoneNumber,
 } from '$lib/validation';
 import * as yup from 'yup';
@@ -16,6 +17,17 @@ const beneficiaryAccountSchemaObject = {
 		.trim()
 		.test('is-date-valid', 'Le format de la date est incorrect', validateDateInput)
 		.required(),
+
+	nir: yup
+		.string()
+		.trim()
+		.test(
+			'is-nir-valid',
+			'Le NIR doit être composé de 13 chiffres',
+			(value) => !value || validateNir(value)
+		)
+		.transform(nullifyEmptyString)
+		.nullable(),
 
 	mobileNumber: yup
 		.string()
@@ -58,6 +70,7 @@ export const beneficiaryAccountPartialSchema = yup.object().shape({
 	firstname: beneficiaryAccountSchemaObject.firstname.optional(),
 	lastname: beneficiaryAccountSchemaObject.lastname.optional(),
 	dateOfBirth: beneficiaryAccountSchemaObject.dateOfBirth.optional(),
+	nir: beneficiaryAccountSchemaObject.nir.optional(),
 });
 
 export type BeneficiaryAccountInput = yup.InferType<typeof beneficiaryAccountSchema>;

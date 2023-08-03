@@ -13,6 +13,7 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
       city
       dateOfBirth
       email
+      nir
       firstname
       id
       lastname
