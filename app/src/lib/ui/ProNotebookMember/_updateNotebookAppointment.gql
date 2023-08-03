@@ -1,4 +1,4 @@
-mutation UpdateNotebookAppointment($date: timestamp, $status: String, $id: uuid!) {
+mutation UpdateNotebookAppointment($date: timestamptz, $status: String, $id: uuid!) {
   updateNotbookAppointment: update_notebook_appointment_by_pk(
     pk_columns: { id: $id }
     _set: { date: $date, status: $status }

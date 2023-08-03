@@ -1,5 +1,5 @@
 mutation AddNotebookAppointment(
-  $date: timestamp
+  $date: timestamptz
   $notebookId: uuid
   $memberAccountId: uuid
   $status: String

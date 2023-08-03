@@ -153,12 +153,6 @@ enum PoleEmploiSituationValeurEnum {
   OUI
 }
 
-type RefreshNotebookSituationsFromPoleEmploiOutput {
-  data_has_been_updated: Boolean!
-  external_data_has_been_updated: Boolean!
-  has_pe_diagnostic: Boolean!
-}
-
 type RemoveNotebookFocusOutput {
   id: uuid!
 }
@@ -216,14 +210,14 @@ input String_comparison_exp {
   _similar: String
 }
 
+type UpdateNotebookFocusLink {
+  id: uuid!
+}
+
 type UpdateNotebookFromPoleEmploiOutput {
   data_has_been_updated: Boolean!
   external_data_has_been_updated: Boolean!
   has_pe_diagnostic: Boolean!
-}
-
-type UpdateNotebookFocusLink {
-  id: uuid!
 }
 
 type UpdateNotebookTargetStatusOutput {
@@ -9112,7 +9106,7 @@ type notebook_appointment {
   """An object relationship"""
   accountByDeletedBy: account
   created_at: timestamptz
-  date: timestamp!
+  date: timestamptz!
   deleted_at: timestamptz
   deleted_by: uuid
   id: uuid!
@@ -9182,7 +9176,7 @@ input notebook_appointment_bool_exp {
   account: account_bool_exp
   accountByDeletedBy: account_bool_exp
   created_at: timestamptz_comparison_exp
-  date: timestamp_comparison_exp
+  date: timestamptz_comparison_exp
   deleted_at: timestamptz_comparison_exp
   deleted_by: uuid_comparison_exp
   id: uuid_comparison_exp
@@ -9210,7 +9204,7 @@ input notebook_appointment_insert_input {
   account: account_obj_rel_insert_input
   accountByDeletedBy: account_obj_rel_insert_input
   created_at: timestamptz
-  date: timestamp
+  date: timestamptz
   deleted_at: timestamptz
   deleted_by: uuid
   id: uuid
@@ -9224,7 +9218,7 @@ input notebook_appointment_insert_input {
 """aggregate max on columns"""
 type notebook_appointment_max_fields {
   created_at: timestamptz
-  date: timestamp
+  date: timestamptz
   deleted_at: timestamptz
   deleted_by: uuid
   id: uuid
@@ -9252,7 +9246,7 @@ input notebook_appointment_max_order_by {
 """aggregate min on columns"""
 type notebook_appointment_min_fields {
   created_at: timestamptz
-  date: timestamp
+  date: timestamptz
   deleted_at: timestamptz
   deleted_by: uuid
   id: uuid
@@ -9355,7 +9349,7 @@ input type for updating data in table "notebook_appointment"
 """
 input notebook_appointment_set_input {
   created_at: timestamptz
-  date: timestamp
+  date: timestamptz
   deleted_at: timestamptz
   deleted_by: uuid
   id: uuid
@@ -9379,7 +9373,7 @@ input notebook_appointment_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input notebook_appointment_stream_cursor_value_input {
   created_at: timestamptz
-  date: timestamp
+  date: timestamptz
   deleted_at: timestamptz
   deleted_by: uuid
   id: uuid
@@ -13946,6 +13940,9 @@ enum orientation_type_constraint {
 }
 
 enum orientation_type_enum {
+  """Autre"""
+  autre
+
   """Professionnel"""
   pro
 
@@ -22929,23 +22926,6 @@ type subscription_root {
     """filter the rows returned"""
     where: structure_bool_exp
   ): [structure!]!
-}
-
-scalar timestamp
-
-"""
-Boolean expression to compare columns of type "timestamp". All fields are combined with logical 'AND'.
-"""
-input timestamp_comparison_exp {
-  _eq: timestamp
-  _gt: timestamp
-  _gte: timestamp
-  _in: [timestamp!]
-  _is_null: Boolean
-  _lt: timestamp
-  _lte: timestamp
-  _neq: timestamp
-  _nin: [timestamp!]
 }
 
 scalar timestamptz
