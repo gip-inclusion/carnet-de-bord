@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from typing import List
+from typing import Any, List
 from uuid import UUID
 
 from dateutil.parser import isoparse
@@ -28,6 +28,7 @@ class Notebook(BaseModel):
     last_diagnostic_hash: str | None
     situations: List[NotebookSituation]
     focuses: List[Focus]
+    deployment_config: dict[str, Any]
 
     def has_fresh_pe_data(self) -> bool:
         if not self.diagnostic_fetched_at:

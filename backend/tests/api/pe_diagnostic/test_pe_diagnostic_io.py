@@ -19,7 +19,13 @@ from cdb.api.domain.contraintes import (
     TargetToAdd,
 )
 from cdb.api.domain.situations import SituationDifferences, SituationToAdd
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_io import save_differences
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
+    DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API,
+)
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_io import (
+    find_notebook,
+    save_differences,
+)
 from cdb.cdb_csv.json_encoder import CustomEncoder
 
 
@@ -50,6 +56,37 @@ class FakeFocus(BaseModel):
 
     def jsonb(self) -> dict:
         return json.loads(json.dumps(self.dict(exclude_none=True), cls=CustomEncoder))
+
+
+@pytest.mark.graphql
+async def test_the_deployment_config_is_empty_in_the_notebook_when_absent(
+    gql_admin_client: AsyncClientSession,
+):
+    await gql_admin_client.execute(
+        gql(
+            """
+mutation {
+  update_deployment(where: {}, _set: {config: null}) {
+    affected_rows
+  }
+}
+    """
+        )
+    )
+    notebook = await find_notebook(
+        session=gql_admin_client, notebook_id="9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"
+    )
+    assert notebook.deployment_config == {}
+
+
+@pytest.mark.graphql
+async def test_the_deployment_config_is_not_empty_in_the_notebook_when_present(
+    gql_admin_client: AsyncClientSession,
+):
+    notebook = await find_notebook(
+        session=gql_admin_client, notebook_id="9b07a45e-2c7c-4f92-ae6b-bc2f5a3c9a7d"
+    )
+    assert notebook.deployment_config[DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API]
 
 
 @pytest.mark.graphql

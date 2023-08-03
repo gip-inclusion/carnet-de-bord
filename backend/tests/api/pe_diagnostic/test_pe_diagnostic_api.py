@@ -3,6 +3,7 @@ from uuid import UUID
 import httpx
 import pytest
 import respx
+from gql.client import AsyncClientSession
 
 from cdb.api.core.settings import settings
 from cdb.api.db.models.beneficiary import Beneficiary
@@ -20,6 +21,7 @@ async def pe_settings():
 @pytest.mark.graphql
 @respx.mock
 async def test_produces_a_400_when_the_pe_api_returns_a_500(
+    gql_admin_client: AsyncClientSession,
     test_client: httpx.AsyncClient,
     notebook_sophie_tifour: Notebook,
     pe_settings,

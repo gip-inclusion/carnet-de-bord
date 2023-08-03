@@ -46,6 +46,9 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
                         ) {
                             externalData { hash }
                         }
+                        deployment {
+                            config
+                        }
                     }
                     diagnosticFetchedAt
                     situations { id situationId createdAt deletedAt }
@@ -81,6 +84,7 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
             NotebookSituation.parse_obj(situation)
             for situation in notebook["situations"]
         ],
+        deployment_config=notebook["beneficiary"]["deployment"]["config"] or {},
         focuses=[Focus.parse_obj(focus) for focus in notebook["focuses"]],
     )
 

@@ -42,13 +42,20 @@ class IO(BaseModel):
     ]
 
 
+DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API = "enable_pe_diagnostic_api"
+
+
 async def update_notebook_from_pole_emploi(io: IO, notebook_id: UUID) -> Response:
     response = Response()
-    if not settings.ENABLE_PE_DIAGNOSTIC_API:
-        return response
 
     notebook = await io.find_notebook(notebook_id)
-    if not notebook or not notebook.nir:
+    if (
+        not notebook
+        or not notebook.nir
+        or not notebook.deployment_config.get(
+            DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API
+        )
+    ):
         return response
 
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()

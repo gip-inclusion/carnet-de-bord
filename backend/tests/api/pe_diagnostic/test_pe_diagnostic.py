@@ -12,12 +12,16 @@ from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, TargetDifferences
 from cdb.api.domain.situations import SituationDifferences
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
-    Notebook as NotebookLocal,
-)
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
+    DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API,
     update_notebook_from_pole_emploi,
 )
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus, Target
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
+    Notebook as NotebookLocal,
+)
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
+    Focus,
+    Target,
+)
 from cdb.pe.models.dossier_individu_api import (
     Contrainte,
     ContraintesIndividu,
@@ -93,6 +97,7 @@ class FakeNotebook(NotebookLocal):
         last_diagnostic_hash: str | None = fake.word(),
         situations: List[NotebookSituation] | None = None,
         focuses: List[Focus] | None = None,
+        deployment_config: dict[str, Any] = None,
     ):
         super().__init__(
             diagnostic_fetched_at=diagnostic_fetched_at,
@@ -100,10 +105,11 @@ class FakeNotebook(NotebookLocal):
             nir=nir,
             date_of_birth=date_of_birth,
             last_diagnostic_hash=last_diagnostic_hash,
-            situations=situations
-            if situations is not None
-            else [FakeNotebookSituation()],
-            focuses=focuses if focuses is not None else [FakeNotebookFocus()],
+            situations=[FakeNotebookSituation()] if situations is None else situations,
+            focuses=[FakeNotebookFocus()] if focuses is None else focuses,
+            deployment_config={DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API: True}
+            if deployment_config is None
+            else deployment_config,
         )
 
 
@@ -214,10 +220,8 @@ class FakeIO:
 
 @pytest.fixture(autouse=True)
 async def pe_settings():
-    settings.ENABLE_PE_DIAGNOSTIC_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
     yield settings
-    settings.ENABLE_PE_DIAGNOSTIC_API = True
     settings.ENABLE_SYNC_CONTRAINTES = True
 
 
@@ -310,21 +314,6 @@ async def test_does_nothing_when_the_diagnostic_was_called_recently():
         "external_data_has_been_updated": False,
         "has_pe_diagnostic": True,
     }
-
-
-async def test_does_nothing_when_feature_is_disabled(pe_settings: Settings):
-    pe_settings.ENABLE_PE_DIAGNOSTIC_API = False
-    io = FakeIO()
-
-    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
-
-    assert not io.get_dossier_pe.called
-    assert response == {
-        "data_has_been_updated": False,
-        "external_data_has_been_updated": False,
-        "has_pe_diagnostic": False,
-    }
-    pe_settings.ENABLE_PE_DIAGNOSTIC_API = True
 
 
 async def test_saves_the_new_pe_diagnostic_into_external_data():
@@ -436,6 +425,21 @@ async def test_does_not_update_cdb_when_sync_flag_is_false(
         "data_has_been_updated": False,
         "external_data_has_been_updated": True,
         "has_pe_diagnostic": True,
+    }
+
+
+async def test_does_nothing_when_the_pe_diagnostic_api_is_disabled_for_the_deployment():
+    io = FakeIO(
+        find_notebook=async_mock(return_value=FakeNotebook(deployment_config={}))
+    )
+
+    response = await update_notebook_from_pole_emploi(io, uuid.uuid4())
+
+    # io.save_differences.assert_not_called()
+    assert response == {
+        "data_has_been_updated": False,
+        "external_data_has_been_updated": False,
+        "has_pe_diagnostic": False,
     }
 
 
