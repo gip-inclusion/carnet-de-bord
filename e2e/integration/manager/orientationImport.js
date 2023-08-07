@@ -2,7 +2,7 @@ const { I } = inject();
 const { loginStub, onBoardingSetup, rejectConsent } = require('../../step_definitions/fixtures');
 const assert = require('assert');
 
-async function importOrientationFile(filename) {
+async function importOrientationFile(filename, expectedMessage) {
 	rejectConsent();
 	await onBoardingSetup(
 		'administrateur de territoire',
@@ -18,6 +18,7 @@ async function importOrientationFile(filename) {
 	I.click('Importer une liste de réorientations');
 	I.attachFile('.dropzone input[type=file]', filename);
 	I.click('Confirmer');
+	await I.see(expectedMessage);
 }
 
 async function getResultsForBeneficiary(name) {
@@ -44,7 +45,10 @@ async function getResultsForBeneficiary(name) {
 Feature("Import fichier d'orientation");
 
 Scenario('Changement de référent', async () => {
-	await importOrientationFile('/resources/import_reorientation_change_referent.csv');
+	await importOrientationFile(
+		'/resources/import_reorientation_change_referent.csv',
+		'1 rattachement modifié sur 1 demandé.'
+	);
 	const result = await getResultsForBeneficiary('Herring');
 	assert.deepEqual(
 		[
@@ -78,7 +82,10 @@ Scenario('Changement de référent', async () => {
 });
 
 Scenario('Suppression du référent', async () => {
-	await importOrientationFile('/resources/import_reorientation_deactivate_referent.csv');
+	await importOrientationFile(
+		'/resources/import_reorientation_deactivate_referent.csv',
+		'1 rattachement modifié sur 1 demandé.'
+	);
 	const result = await getResultsForBeneficiary('Herring');
 	assert.deepEqual(
 		[{ status: 'current', structure: { name: 'Service Social Départemental' } }],
@@ -104,7 +111,10 @@ Scenario('Suppression du référent', async () => {
 });
 
 Scenario('Changement de structure', async () => {
-	await importOrientationFile('/resources/import_reorientation_change_structure.csv');
+	await importOrientationFile(
+		'/resources/import_reorientation_change_structure.csv',
+		'Aucun rattachement modifié sur 0 demandé.'
+	);
 	const result = await getResultsForBeneficiary('Herring');
 	assert.deepEqual(
 		[
@@ -133,7 +143,10 @@ Scenario('Changement de structure', async () => {
 });
 
 Scenario('Changement de référent (meme structure)', async () => {
-	await importOrientationFile('/resources/import_reorientation_change_referent_same_structure.csv');
+	await importOrientationFile(
+		'/resources/import_reorientation_change_referent_same_structure.csv',
+		'1 rattachement modifié sur 2 demandés.'
+	);
 	const result = await getResultsForBeneficiary('Jennings');
 	assert.deepEqual(
 		[{ status: 'current', structure: { name: 'Interlogement 93' } }],
