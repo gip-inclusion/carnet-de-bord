@@ -51,45 +51,8 @@ else
   exit 1
 fi
 
-CONTAINERS=( db_test hasura_test )
-
-# Clean existing containers
-for CONTAINER_NAME in "${CONTAINERS[@]}"
-do
-  if [ ! "$(docker ps -q -f name=$CONTAINER_NAME)" ]; then
-      CONTAINER=$(docker ps -aq -f status=exited -f name=$CONTAINER_NAME)
-      if [ "$CONTAINER" ]; then
-          echo "-> Cleaning already existing container $CONTAINER_NAME - $CONTAINER";
-          docker rm $CONTAINER
-      fi
-  fi
-done
-
-if [ ! "$(docker ps -q -f name=db_test)" ] && [ ! "$(docker ps -q -f name=hasura_test)" ]; then
-
-    # Clean existing volume
-    if [ "$(docker volume ls | grep cdb-pgdata-test)" ]; then
-        echo "-> Clean existing volume cdb-test_cdb-pgdata-test"
-        docker compose -f "$ROOT_DIR/docker-compose-test.yaml" down -v
-    fi
-    echo "-> Starting docker"
-    docker compose -f "$ROOT_DIR/docker-compose-test.yaml" up --build -d
-else
-    echo "Docker test env already started. Use: "
-    echo ""
-    echo "    docker compose -f docker-compose-test.yaml down -v"
-    echo ""
-fi
-
-# Wait for Hasura
-# Keep pinging Hasura until it's ready to accept commands
-until curl -s http://localhost:5001/healthz > /dev/null ; do
-  >&2 echo "-> Hasura is still unavailable - sleeping"
-  sleep 1
-done
-
->&2 echo ""
->&2 echo "-> Hasura is up and running on port 5001!"
+echo "-> Starting dockerized environment (PostgreSQL + Hasura)"
+docker compose -f "$ROOT_DIR/docker-compose-test.yaml" up --build --detach --wait
 
 docker compose -f "$ROOT_DIR/docker-compose-test.yaml" exec \
   -e HASURA_GRAPHQL_ENDPOINT=http://localhost:8080 \
