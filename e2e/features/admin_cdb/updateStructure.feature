@@ -24,14 +24,14 @@ Fonctionnalité: Modification d'une structure
 		Alors je vois "9" dans la tuile "Structures"
 		Quand je clique sur "9 structures"
 		Alors je vois "AFPA" dans le tableau "Liste des structures"
-		Alors je vois "PE (Professionnel)" sur la ligne "AFPA"
-		Alors je vois "RIA (Professionnel)" sur la ligne "AFPA"
+		Alors je vois "PE" sur la ligne "AFPA"
+		Alors je vois "RIA" sur la ligne "AFPA"
 		Quand je clique sur "Éditer la structure AFPA"
 		Alors je suis sur la page "deployment/4dab8036-a86e-4d5f-9bd4-6ce88c1940d0/structures/3b299bcb-445c-48db-bc61-e30cd52d65b6"
-		Alors l'option "PE (Professionnel)" est sélectionnée
-		Alors l'option "RIA (Professionnel)" est sélectionnée
-		Alors je décoche "PE (Professionnel)"
-		Alors je décoche "RIA (Professionnel)"
+		Alors l'option "PE" est sélectionnée
+		Alors l'option "RIA" est sélectionnée
+		Alors je décoche "PE"
+		Alors je décoche "RIA"
 		Quand je clique sur "Enregistrer les modifications"
-		Alors je ne vois pas "PE (Professionnel)" sur la ligne "AFPA"
-		Alors je ne vois pas "RIA (Professionnel)" sur la ligne "AFPA"
+		Alors je ne vois pas "PE" sur la ligne "AFPA"
+		Alors je ne vois pas "RIA" sur la ligne "AFPA"

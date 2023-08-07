@@ -14,7 +14,6 @@
 	import { createEventDispatcher } from 'svelte';
 	import Dialog from '../Dialog.svelte';
 	import Text from '../utils/Text.svelte';
-	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	type Beneficiary = GetBeneficiariesWithOrientationRequestQuery['beneficiaries'][0];
 
@@ -151,13 +150,11 @@
 							<p>
 								Nouvelle orientation :
 								<span class="fr-badge fr-badge-sm fr-badge--blue-cumulus"
-									>{getOrientationSystemLabel(orientationRequest.requestedOrientationSystem)}
+									>{orientationRequest?.requestedOrientationSystem?.name ?? ''}
 								</span>
 								{#if beneficiary.notebook?.notebookInfo?.orientationSystem}
 									(orientation actuelle <span class="fr-badge fr-badge-sm fr-badge--grey"
-										>{getOrientationSystemLabel(
-											beneficiary.notebook?.notebookInfo.orientationSystem
-										)}
+										>{beneficiary.notebook?.notebookInfo?.orientationSystem?.name}
 									</span>
 									)
 								{/if}

@@ -15,7 +15,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je ne vois pas "Diagnostic socioprofessionnel"
 		Alors je ne vois pas "Historique de parcours"
 
-  Scénario: Se rattacher au carnet
+	Scénario: Se rattacher au carnet
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Henderson"
 		Alors j'attends que le texte "Myrna Henderson" apparaisse
 		Alors je clique sur "Se rattacher"
@@ -28,7 +28,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je vois "Diagnostic socioprofessionnel"
 		Alors je vois "Historique de parcours"
 
-  Scénario: Se rattacher au carnet en tant que référent
+	Scénario: Se rattacher au carnet en tant que référent
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Henderson"
 		Alors j'attends que le texte "Myrna Henderson" apparaisse
 		Alors je clique sur "Se rattacher"

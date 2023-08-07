@@ -12,7 +12,7 @@ Fonctionnalité: Liste des demandes de réorientation
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je vois "Aucun bénéficiaire"
 
-  Scénario: Une demande de réorientation
+	Scénario: Une demande de réorientation
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand je sélectionne l'option "Avec une demande de réorientation" dans la liste "Statut"

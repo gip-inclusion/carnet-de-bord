@@ -12,7 +12,6 @@
 		InsertOrientationRequestDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import LoaderIndicator from '../utils/LoaderIndicator.svelte';
-	import { getOrientationSystemLabel } from '$lib/utils/getOrientationSystemLabel';
 
 	export let beneficiaryId: string;
 
@@ -27,7 +26,7 @@
 		(orientationSystem) => {
 			return {
 				name: orientationSystem.id,
-				label: getOrientationSystemLabel(orientationSystem),
+				label: orientationSystem.name,
 			};
 		}
 	);

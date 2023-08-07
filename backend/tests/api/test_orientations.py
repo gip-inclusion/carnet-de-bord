@@ -12,7 +12,6 @@ from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
-from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.professional import Professional
 from tests.utils.approvaltests import verify
 from tests.utils.assert_helpers import assert_member, assert_structure
@@ -470,13 +469,6 @@ async def test_unconsistent_orientation_request(
     )
 
     assert response.status_code == 400
-
-
-async def test_orientation_system_label(
-    orientation_system_pe: OrientationSystem, orientation_system_pro: OrientationSystem
-):
-    assert orientation_system_pe.get_label() == "PE (Professionnel)"
-    assert orientation_system_pro.get_label() == "Professionnel"
 
 
 @mock.patch("cdb.api.core.emails.send_mail")

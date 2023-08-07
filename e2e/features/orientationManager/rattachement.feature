@@ -26,7 +26,7 @@ Fonctionnalité: Orientation par un chargé d'orientation
 		Quand je sélectionne l'option "Bénéficiaires de mon portefeuille" dans la liste "Bénéficiaires"
 		Quand je sélectionne l'option "En attente d'un référent" dans la liste "Statut"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
- 		Alors je choisis "Sélectionner Myrna Henderson"
+		Alors je choisis "Sélectionner Myrna Henderson"
 		Alors je choisis "Sélectionner Della Lynch"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
