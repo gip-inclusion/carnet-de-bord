@@ -1,3 +1,10 @@
+## [1.248.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.248.2...v1.248.3) (2023-08-07)
+
+
+### Bug Fixes
+
+* Permettre l'orientation vers les dispositifs de type "Autre" ([#1938](https://github.com/gip-inclusion/carnet-de-bord/issues/1938)) ([e3b6454](https://github.com/gip-inclusion/carnet-de-bord/commit/e3b6454486cc4d258463f5436dd8814150b4cbe8))
+
 ## [1.248.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.248.1...v1.248.2) (2023-08-03)
 
 ## [1.248.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.248.0...v1.248.1) (2023-08-03)
