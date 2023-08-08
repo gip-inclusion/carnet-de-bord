@@ -21,27 +21,34 @@ describe('Mise à jour des données personelles', () => {
 		});
 	});
 	describe('NIR', () => {
-		it(`Met à jour le NIR`, async () => {
-			const { onSubmit } = setup();
+		describe(`Met à jour le NIR`, async () => {
+			it.each(['123452A890123', '1234567890123'])('%s', async (nir) => {
+				const { onSubmit } = setup();
 
-			const newNIR = '1234567890123';
-			await changeNir(newNIR);
-			await submit();
+				await changeNir(nir);
+				await submit();
 
-			await waitFor(() =>
-				expect(onSubmit.mock.lastCall[1]).toEqual(expect.objectContaining({ nir: newNIR }))
-			);
+				await waitFor(() =>
+					expect(onSubmit.mock.lastCall[1]).toEqual(expect.objectContaining({ nir: nir }))
+				);
+			});
 		});
 
-		it(`Rejette les valeurs incorrectes`, async () => {
-			setup();
+		describe('Rejette les valeurs incorrectes', () => {
+			it.each([
+				['Je ne suis pas un NIR', 'alphanumérique'],
+				['123456789012', 'pas assez de caractères'],
+				['12345678901234', 'trop de caractères'],
+			])('%s est invalide car : %s', async (nir, _) => {
+				setup();
 
-			await changeNir('Je ne suis pas un NIR');
-			await submit();
+				await changeNir(nir);
+				await submit();
 
-			await waitFor(() =>
-				expect(screen.getByText('Le NIR doit être composé de 13 chiffres')).toBeInTheDocument()
-			);
+				await waitFor(() =>
+					expect(screen.getByText('Le NIR doit être composé de 13 chiffres')).toBeInTheDocument()
+				);
+			});
 		});
 		it('transforme un NIR blanc en undefined', async () => {
 			const { onSubmit } = setup();

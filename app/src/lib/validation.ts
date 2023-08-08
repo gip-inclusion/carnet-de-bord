@@ -20,7 +20,7 @@ export function validatePhoneNumber(value: string): boolean {
 }
 
 export function validateNir(value: string): boolean {
-	return /^\d{13}/.test(value.trim());
+	return /^[\d\w]{13}$/.test(value.trim());
 }
 
 export function validateCodePostal(value: string): boolean {
