@@ -44,16 +44,6 @@
 />
 
 <Input
-	inputLabel="NIR"
-	placeholder="1234567890123"
-	type="text"
-	pattern={'[0-9]{13}'}
-	name="nir"
-	disabled={disabledFields.includes('nir')}
-	title={titleForField('nir')}
-/>
-
-<Input
 	class="max-w-max"
 	type="date"
 	inputLabel="Date de naissance"
@@ -63,6 +53,16 @@
 	required
 	disabled={disabledFields.includes('dateOfBirth')}
 	title={titleForField('dateOfBirth')}
+/>
+
+<Input
+	inputLabel="NIR"
+	placeholder="1234567890123"
+	type="text"
+	pattern={'[0-9]{13}'}
+	name="nir"
+	disabled={disabledFields.includes('nir')}
+	title={titleForField('nir')}
 />
 
 <Input inputLabel="Courriel" placeholder="jb@poquelin.fr" name="email" />
