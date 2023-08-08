@@ -63,8 +63,7 @@
 	export let onSubmit: (isPartialUpdate: boolean, values: BeneficiaryAccountInput) => void;
 	export let onCancel: () => void;
 	export let role: RoleEnum;
-	let isPartialUpdate: boolean;
-	$: isPartialUpdate = role !== RoleEnum.Manager;
+	const isPartialUpdate = role !== RoleEnum.Manager;
 
 	const validationSchema = isPartialUpdate
 		? beneficiaryAccountPartialSchema

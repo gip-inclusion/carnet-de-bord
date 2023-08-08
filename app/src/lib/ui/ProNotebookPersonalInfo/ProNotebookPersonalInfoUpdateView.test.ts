@@ -10,41 +10,53 @@ import ProNotebookPersonalInfoUpdateView from './ProNotebookPersonalInfoUpdateVi
 
 const user = userEvent.setup();
 describe('Mise à jour des données personelles', () => {
-	it(`Met à jour le NIR`, async () => {
-		const { onSubmit } = setup();
+	describe('Permissions', () => {
+		it('Un professionel ne peut pas éditer,prénom, nom, date de naissance et NIR', () => {
+			setup({ role: RoleEnum.Professional });
 
-		const newNIR = '1234567890123';
-		await changeNir(newNIR);
-		await submit();
-
-		await waitFor(() =>
-			expect(onSubmit.mock.lastCall[1]).toEqual(expect.objectContaining({ nir: newNIR }))
-		);
+			expect(screen.getByRole('textbox', { name: /Prénom/ })).toBeDisabled();
+			expect(screen.getByRole('textbox', { name: /Nom/ })).toBeDisabled();
+			expect(screen.getByLabelText(/Date de naissance/)).toBeDisabled();
+			expect(screen.getByRole('textbox', { name: /NIR/ })).toBeDisabled();
+		});
 	});
+	describe('NIR', () => {
+		it(`Met à jour le NIR`, async () => {
+			const { onSubmit } = setup();
 
-	it(`Rejette les valeurs incorrectes`, async () => {
-		setup();
+			const newNIR = '1234567890123';
+			await changeNir(newNIR);
+			await submit();
 
-		await changeNir('Je ne suis pas un NIR');
-		await submit();
+			await waitFor(() =>
+				expect(onSubmit.mock.lastCall[1]).toEqual(expect.objectContaining({ nir: newNIR }))
+			);
+		});
 
-		await waitFor(() =>
-			expect(screen.getByText('Le NIR doit être composé de 13 chiffres')).toBeInTheDocument()
-		);
-	});
-	it('transforme un NIR blanc en undefined', async () => {
-		const { onSubmit } = setup();
+		it(`Rejette les valeurs incorrectes`, async () => {
+			setup();
 
-		await changeNir('    ');
-		await submit();
+			await changeNir('Je ne suis pas un NIR');
+			await submit();
 
-		await waitFor(() =>
-			expect(onSubmit.mock.lastCall[1]).toEqual(expect.objectContaining({ nir: null }))
-		);
+			await waitFor(() =>
+				expect(screen.getByText('Le NIR doit être composé de 13 chiffres')).toBeInTheDocument()
+			);
+		});
+		it('transforme un NIR blanc en undefined', async () => {
+			const { onSubmit } = setup();
+
+			await changeNir('    ');
+			await submit();
+
+			await waitFor(() =>
+				expect(onSubmit.mock.lastCall[1]).toEqual(expect.objectContaining({ nir: null }))
+			);
+		});
 	});
 });
 
-const setup = () => {
+const setup = (params: { role: RoleEnum } = { role: RoleEnum.Manager }) => {
 	const onSubmit = vi.fn();
 	const onCancel = vi.fn();
 	render(ProNotebookPersonalInfoUpdateView, {
@@ -58,7 +70,7 @@ const setup = () => {
 			rightAss: false,
 			rightBonus: false,
 		},
-		role: RoleEnum.Professional,
+		role: params.role,
 		onSubmit,
 		onCancel,
 	});
