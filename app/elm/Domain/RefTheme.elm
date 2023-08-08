@@ -1,9 +1,9 @@
-module Domain.Theme exposing (Theme(..), printTheme, themeKeyStringToType, themeKeyTypeToLabel)
+module Domain.RefTheme exposing (RefTheme(..), parse, print, printTheme)
 
 import GraphQL.Enum.Ref_theme_enum as RefTheme exposing (Ref_theme_enum)
 
 
-type Theme
+type RefTheme
     = Logement
     | Emploi
     | Formation
@@ -16,8 +16,8 @@ type Theme
     | Numerique
 
 
-themeKeyStringToType : String -> Maybe Theme
-themeKeyStringToType key =
+parse : String -> Maybe RefTheme
+parse key =
     case key of
         "logement" ->
             Just Logement
@@ -105,8 +105,8 @@ printTheme key =
             "Emploi"
 
 
-themeKeyTypeToLabel : Theme -> String
-themeKeyTypeToLabel key =
+print : RefTheme -> String
+print key =
     case key of
         Logement ->
             "Logement"

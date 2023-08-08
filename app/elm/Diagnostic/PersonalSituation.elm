@@ -1,8 +1,8 @@
-module Diagnostic.PersonalSituation exposing (DisplayTheme, Model, Msg(..), RefreshState(..), Theme, init, update, view)
+module Diagnostic.PersonalSituation exposing (DisplayTheme, Model, Msg(..), RefreshState(..), Theme, groupByTheme, init, update, view)
 
 import Diagnostic.AllSituations as AllSituations exposing (DataSyncInfo, PersonalSituation)
 import Domain.Account
-import Domain.Theme
+import Domain.RefTheme
 import Extra.Date
 import GraphQL.Enum.Ref_theme_enum exposing (Ref_theme_enum)
 import Html exposing (Html)
@@ -100,7 +100,7 @@ groupByTheme situations =
         |> List.map
             (\( head, tail ) ->
                 { name = head.theme
-                , situations = head :: tail
+                , situations = head :: tail |> List.sortBy .description
                 }
             )
 
@@ -200,7 +200,7 @@ viewThemeWrapperCell index theme =
             , Attr.rowspan theme.totalSituations
             ]
             [ theme.name
-                |> Domain.Theme.printTheme
+                |> Domain.RefTheme.printTheme
                 |> Html.text
             ]
 
