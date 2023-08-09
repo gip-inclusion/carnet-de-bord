@@ -1,3 +1,10 @@
+## [1.249.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.249.0...v1.249.1) (2023-08-09)
+
+
+### Bug Fixes
+
+* **e2e:** tentative de stabilisation des résultats des tests ([#1950](https://github.com/gip-inclusion/carnet-de-bord/issues/1950)) ([ae146cc](https://github.com/gip-inclusion/carnet-de-bord/commit/ae146ccac70f8cb81850d6684982198ceddfe42d))
+
 # [1.249.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.248.5...v1.249.0) (2023-08-09)
 
 
