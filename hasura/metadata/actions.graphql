@@ -32,12 +32,6 @@ type Query {
 }
 
 type Mutation {
-  update_notebook_from_pole_emploi(
-    notebookId: uuid!
-  ): UpdateNotebookFromPoleEmploiOutput
-}
-
-type Mutation {
   remove_notebook_focus(
     id: uuid!
   ): RemoveNotebookFocusOutput
@@ -48,6 +42,12 @@ type Mutation {
     id: uuid!
     linkedTo: String!
   ): UpdateNotebookFocusLink
+}
+
+type Mutation {
+  update_notebook_from_pole_emploi(
+    notebookId: uuid!
+  ): UpdateNotebookFromPoleEmploiOutput
 }
 
 type Mutation {

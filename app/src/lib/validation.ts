@@ -19,6 +19,10 @@ export function validatePhoneNumber(value: string): boolean {
 	return /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/.test(value.trim());
 }
 
+export function validateNir(value: string): boolean {
+	return /^[\d\w]{13}$/.test(value.trim());
+}
+
 export function validateCodePostal(value: string): boolean {
 	// le code postal est composé de 5 chiffres mais
 	// ne peut pas commencer par 00 sinon il est pas valide

@@ -73,6 +73,7 @@ fragment notebookFragment on notebook {
     cafNumber
     city
     dateOfBirth
+    nir
     email
     firstname
     id

@@ -2,6 +2,7 @@
 	export type Field =
 		| 'firstname'
 		| 'lastname'
+		| 'nir'
 		| 'dateOfBirth'
 		| 'rightRsa'
 		| 'rightAre'
@@ -16,14 +17,9 @@
 	import { Checkbox, Radio } from '../forms';
 
 	export let disabledFields: Field[];
-	// We can by default edit any field
-
-	function isFieldDisabled(fieldName: Field) {
-		return disabledFields.includes(fieldName);
-	}
 
 	function titleForField(fieldName: Field) {
-		return isFieldDisabled(fieldName)
+		return disabledFields.includes(fieldName)
 			? 'Ce champ n‘est pas modifiable. Si toutefois vous devez y apporter une modification, merci de nous contacter par chat.'
 			: '';
 	}
@@ -34,7 +30,7 @@
 	placeholder="Jean-Baptiste"
 	name="firstname"
 	required
-	disabled={isFieldDisabled('firstname')}
+	disabled={disabledFields.includes('firstname')}
 	title={titleForField('firstname')}
 />
 
@@ -43,7 +39,7 @@
 	placeholder="Poquelin"
 	name="lastname"
 	required
-	disabled={isFieldDisabled('lastname')}
+	disabled={disabledFields.includes('lastname')}
 	title={titleForField('lastname')}
 />
 
@@ -55,8 +51,18 @@
 	inputHint="Format JJ/MM/AAAA"
 	name="dateOfBirth"
 	required
-	disabled={isFieldDisabled('dateOfBirth')}
+	disabled={disabledFields.includes('dateOfBirth')}
 	title={titleForField('dateOfBirth')}
+/>
+
+<Input
+	inputLabel="NIR"
+	placeholder="1234567890123"
+	type="text"
+	pattern={'[0-9]{13}'}
+	name="nir"
+	disabled={disabledFields.includes('nir')}
+	title={titleForField('nir')}
 />
 
 <Input inputLabel="Courriel" placeholder="jb@poquelin.fr" name="email" />
@@ -78,19 +84,23 @@
 		legend="Revenu de solidarité active (RSA)"
 		name="rightRsa"
 		options={rsaRightKeys.options}
-		disabled={isFieldDisabled('rightRsa')}
+		disabled={disabledFields.includes('rightRsa')}
 	/>
 </div>
 
 <div class="fr-fieldset">
 	<legend class="fr-fieldset__legend--regular fr-fieldset__legend">Autres aides</legend>
 	<div class="fr-fieldset__element">
-		<Checkbox name="rightAre" label="ARE" disabled={isFieldDisabled('rightAre')} />
+		<Checkbox name="rightAre" label="ARE" disabled={disabledFields.includes('rightAre')} />
 	</div>
 	<div class="fr-fieldset__element">
-		<Checkbox name="rightAss" label="ASS" disabled={isFieldDisabled('rightAss')} />
+		<Checkbox name="rightAss" label="ASS" disabled={disabledFields.includes('rightAss')} />
 	</div>
 	<div class="fr-fieldset__element">
-		<Checkbox name="rightBonus" label="Prime d'activité" disabled={isFieldDisabled('rightBonus')} />
+		<Checkbox
+			name="rightBonus"
+			label="Prime d'activité"
+			disabled={disabledFields.includes('rightBonus')}
+		/>
 	</div>
 </div>

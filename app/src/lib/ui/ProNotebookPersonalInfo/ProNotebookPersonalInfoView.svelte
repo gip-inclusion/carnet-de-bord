@@ -24,6 +24,7 @@
 		| 'lastname'
 		| 'mobileNumber'
 		| 'email'
+		| 'nir'
 		| 'dateOfBirth'
 		| 'address1'
 		| 'address2'
@@ -81,6 +82,7 @@
 			</h1>
 		</div>
 		<div class="-mt-2">Né le {formatDateLocale(beneficiary.dateOfBirth)}</div>
+		<div>NIR: {beneficiary.nir ?? 'Inconnu'}</div>
 	</div>
 
 	<h2 class="fr-h4 text-vert-cdb">Informations personnelles</h2>
