@@ -1,3 +1,10 @@
+# [1.249.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.248.5...v1.249.0) (2023-08-09)
+
+
+### Features
+
+* afficher le NIR dans les informations personnelles ([#1943](https://github.com/gip-inclusion/carnet-de-bord/issues/1943)) ([f48093e](https://github.com/gip-inclusion/carnet-de-bord/commit/f48093eed67443516f830e93ab8f33268b4ab8b6))
+
 ## [1.248.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.248.4...v1.248.5) (2023-08-07)
 
 ## [1.248.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.248.3...v1.248.4) (2023-08-07)
