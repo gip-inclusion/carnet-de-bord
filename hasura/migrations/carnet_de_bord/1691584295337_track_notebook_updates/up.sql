@@ -5,11 +5,8 @@ CREATE TABLE "public"."notebook_updates_track"
 	"updated_at"  time NOT NULL,
 	"type"        text NOT NULL,
 	"id"          uuid NOT NULL DEFAULT gen_random_uuid(),
-	PRIMARY KEY ("id"),
-	FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook" ("id") ON UPDATE cascade ON DELETE cascade,
-	FOREIGN KEY ("account_id") REFERENCES "public"."account" ("id") ON UPDATE cascade ON DELETE cascade
+	PRIMARY KEY ("id")
 );
-CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
 -----------------------------------------
 -- Add new triggers
