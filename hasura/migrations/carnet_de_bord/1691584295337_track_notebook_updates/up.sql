@@ -6,8 +6,8 @@ CREATE TABLE "public"."notebook_updates_track"
 	"type"        text NOT NULL,
 	"id"          uuid NOT NULL DEFAULT gen_random_uuid(),
 	PRIMARY KEY ("id"),
-	FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook" ("id") ON UPDATE restrict ON DELETE restrict,
-	FOREIGN KEY ("account_id") REFERENCES "public"."account" ("id") ON UPDATE restrict ON DELETE restrict
+	FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook" ("id") ON UPDATE cascade ON DELETE set null,
+	FOREIGN KEY ("account_id") REFERENCES "public"."account" ("id") ON UPDATE cascade ON DELETE set null
 );
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
 
@@ -29,7 +29,7 @@ BEGIN
 	IF session_variables IS NOT NULL then
 		account := session_variables ->> 'x-hasura-user-id';
 		IF account IS NOT NULL then
-		  SELECT notebook.id into notebook_id FROM notebook where notebook.beneficiary_id = NEW.id;
+			SELECT notebook.id into notebook_id FROM notebook where notebook.beneficiary_id = NEW.id;
 			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
 			VALUES (notebook_id, account, now(), 'beneficiary');
 		END IF;
@@ -39,10 +39,10 @@ END ;
 $$;
 
 CREATE TRIGGER track_notebook_beneficiary_updates
-  AFTER INSERT OR UPDATE
-  ON public.beneficiary
-  FOR EACH ROW
-  EXECUTE PROCEDURE public.notebook_beneficiary_modification_date();
+	AFTER INSERT OR UPDATE
+	ON public.beneficiary
+	FOR EACH ROW
+EXECUTE PROCEDURE public.notebook_beneficiary_modification_date();
 
 -----------------------------------------
 
@@ -68,10 +68,10 @@ END ;
 $$;
 
 CREATE TRIGGER track_notebook_appointment_updates
-  AFTER INSERT OR UPDATE
-  ON public.notebook_appointment
-  FOR EACH ROW
-  EXECUTE PROCEDURE public.notebook_appointment_modification_date();
+	AFTER INSERT OR UPDATE
+	ON public.notebook_appointment
+	FOR EACH ROW
+EXECUTE PROCEDURE public.notebook_appointment_modification_date();
 
 -----------------------------------------
 
@@ -97,10 +97,10 @@ END ;
 $$;
 
 CREATE TRIGGER track_notebook_situation_updates
-  AFTER INSERT OR UPDATE
-  ON public.notebook_situation
-  FOR EACH ROW
-  EXECUTE PROCEDURE public.notebook_situation_modification_date();
+	AFTER INSERT OR UPDATE
+	ON public.notebook_situation
+	FOR EACH ROW
+EXECUTE PROCEDURE public.notebook_situation_modification_date();
 
 -----------------------------------------
 -- Change existing triggers
