@@ -98,7 +98,7 @@ Scenario('Suppression du référent', async () => {
 				memberType: 'referent',
 			},
 		],
-		result.data.data.notebook[0]?.members,
+		result.data.data.notebook[0]?.members?.sort(),
 		'members not match'
 	);
 });
