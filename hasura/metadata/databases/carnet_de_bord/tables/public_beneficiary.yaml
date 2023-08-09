@@ -130,11 +130,12 @@ insert_permissions:
         - date_of_birth
         - deployment_id
         - email
+        - external_id
         - firstname
         - id
-        - external_id
         - lastname
         - mobile_number
+        - nir
         - pe_number
         - place_of_birth
         - postal_code
