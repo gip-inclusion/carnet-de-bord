@@ -1,12 +1,17 @@
 CREATE TABLE "public"."notebook_updates_track"
 (
-	"notebook_id" uuid NOT NULL,
-	"account_id"  uuid NOT NULL,
-	"updated_at"  time NOT NULL,
-	"type"        text NOT NULL,
-	"id"          uuid NOT NULL DEFAULT gen_random_uuid(),
-	PRIMARY KEY ("id")
+	"notebook_id" uuid                     NOT NULL,
+	"account_id"  uuid                     NOT NULL,
+	"updated_at"  timestamp with time zone NOT NULL,
+	"type"        text                     NOT NULL,
+	"id"          uuid                     NOT NULL DEFAULT gen_random_uuid(),
+	PRIMARY KEY ("id"),
+	FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook" ("id") ON UPDATE restrict ON DELETE restrict,
+	FOREIGN KEY ("account_id") REFERENCES "public"."account" ("id") ON UPDATE restrict ON DELETE restrict
 );
+
+alter table public.notebook_updates_track
+    owner to cdb;
 
 -----------------------------------------
 -- Add new triggers
