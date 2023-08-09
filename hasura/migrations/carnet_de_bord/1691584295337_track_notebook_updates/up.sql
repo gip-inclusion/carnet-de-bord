@@ -41,7 +41,7 @@ END ;
 $$;
 
 CREATE TRIGGER track_notebook_beneficiary_updates
-	AFTER INSERT OR UPDATE
+	AFTER UPDATE OF updated_at
 	ON public.beneficiary
 	FOR EACH ROW
 EXECUTE PROCEDURE public.notebook_beneficiary_modification_date();
@@ -70,7 +70,7 @@ END ;
 $$;
 
 CREATE TRIGGER track_notebook_appointment_updates
-	AFTER INSERT OR UPDATE
+	AFTER UPDATE OF updated_at
 	ON public.notebook_appointment
 	FOR EACH ROW
 EXECUTE PROCEDURE public.notebook_appointment_modification_date();
@@ -99,7 +99,7 @@ END ;
 $$;
 
 CREATE TRIGGER track_notebook_situation_updates
-	AFTER INSERT OR UPDATE
+	AFTER UPDATE
 	ON public.notebook_situation
 	FOR EACH ROW
 EXECUTE PROCEDURE public.notebook_situation_modification_date();
