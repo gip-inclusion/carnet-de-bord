@@ -48,10 +48,12 @@ Scenario('Changement de référent', async () => {
 	const result = await getResultsForBeneficiary('Herring');
 	assert.deepEqual(
 		[
-			{ status: 'outdated', structure: { name: 'Service Social Départemental' } },
 			{ status: 'current', structure: { name: 'Groupe NS' } },
+			{ status: 'outdated', structure: { name: 'Service Social Départemental' } },
 		],
-		result.data.data.notebook[0]?.beneficiary.structures,
+		result.data.data.notebook[0]?.beneficiary.structures.sort((a, b) =>
+			a.structure.name.localeCompare(b.structure.name)
+		),
 		'beneficiary_structure not match'
 	);
 	assert.deepEqual(

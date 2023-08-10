@@ -9,6 +9,7 @@ DELETE FROM public.external_data;
 DELETE FROM public.nps_rating;
 DELETE FROM public.nps_rating_dismissal;
 
+DELETE FROM notebook_updates_track;
 DELETE FROM notebook_member;
 DELETE FROM professional_project;
 DELETE FROM notebook_appointment;
