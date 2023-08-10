@@ -32,6 +32,7 @@ BEGIN
 		account := session_variables ->> 'x-hasura-user-id';
 		IF account IS NOT NULL then
 			SELECT notebook.id into notebook_id FROM notebook where notebook.beneficiary_id = NEW.id;
+			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = notebook_id AND account_id = account;
 			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
 			VALUES (notebook_id, account, now(), 'beneficiary');
 		END IF;
@@ -63,6 +64,7 @@ BEGIN
 		IF account IS NOT NULL then
 			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
 			VALUES (NEW.notebook_id, account, now(), 'appointment');
+			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = NEW.notebook_id AND account_id = account;
 		END IF;
 	END IF;
 	RETURN NEW;
@@ -92,6 +94,7 @@ BEGIN
 		IF account IS NOT NULL then
 			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
 			VALUES (NEW.notebook_id, account, now(), 'situation');
+			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = NEW.notebook_id AND account_id = account;
 		END IF;
 	END IF;
 	RETURN NEW;
