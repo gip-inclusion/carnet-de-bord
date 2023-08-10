@@ -62,7 +62,7 @@ BEGIN
 		account := session_variables ->> 'x-hasura-user-id';
 		IF account IS NOT NULL then
 			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
-			VALUES (NEW.notebook_id, account, now(), 'beneficiary');
+			VALUES (NEW.notebook_id, account, now(), 'appointment');
 		END IF;
 	END IF;
 	RETURN NEW;
