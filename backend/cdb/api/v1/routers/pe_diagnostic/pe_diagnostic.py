@@ -4,15 +4,14 @@ import logging
 from typing import Awaitable, Callable, List, Tuple
 from uuid import UUID
 
-from mypy_extensions import Arg
-from pydantic import BaseModel
-
 from cdb.api.core.settings import settings
 from cdb.api.db.models.ref_situation import RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, diff_contraintes
 from cdb.api.domain.situations import SituationDifferences, diff_situations
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Notebook
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
+from mypy_extensions import Arg
+from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
