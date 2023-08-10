@@ -5977,6 +5977,19 @@ type mutation_root {
   delete_professional_project_by_pk(id: uuid!): professional_project
 
   """
+  delete data from the table: "rdvi_notebook_creations"
+  """
+  delete_rdvi_notebook_creations(
+    """filter the rows which have to be deleted"""
+    where: rdvi_notebook_creations_bool_exp!
+  ): rdvi_notebook_creations_mutation_response
+
+  """
+  delete single row from the table: "rdvi_notebook_creations"
+  """
+  delete_rdvi_notebook_creations_by_pk(id: uuid!): rdvi_notebook_creations
+
+  """
   delete data from the table: "ref_action"
   """
   delete_ref_action(
@@ -6869,6 +6882,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: professional_project_on_conflict
   ): professional_project
+
+  """
+  insert data into the table: "rdvi_notebook_creations"
+  """
+  insert_rdvi_notebook_creations(
+    """the rows to be inserted"""
+    objects: [rdvi_notebook_creations_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: rdvi_notebook_creations_on_conflict
+  ): rdvi_notebook_creations_mutation_response
+
+  """
+  insert a single row into the table: "rdvi_notebook_creations"
+  """
+  insert_rdvi_notebook_creations_one(
+    """the row to be inserted"""
+    object: rdvi_notebook_creations_insert_input!
+
+    """upsert condition"""
+    on_conflict: rdvi_notebook_creations_on_conflict
+  ): rdvi_notebook_creations
 
   """
   insert data into the table: "ref_action"
@@ -8250,6 +8285,34 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [professional_project_updates!]!
   ): [professional_project_mutation_response]
+
+  """
+  update data of the table: "rdvi_notebook_creations"
+  """
+  update_rdvi_notebook_creations(
+    """sets the columns of the filtered rows to the given values"""
+    _set: rdvi_notebook_creations_set_input
+
+    """filter the rows which have to be updated"""
+    where: rdvi_notebook_creations_bool_exp!
+  ): rdvi_notebook_creations_mutation_response
+
+  """
+  update single row of the table: "rdvi_notebook_creations"
+  """
+  update_rdvi_notebook_creations_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: rdvi_notebook_creations_set_input
+    pk_columns: rdvi_notebook_creations_pk_columns_input!
+  ): rdvi_notebook_creations
+
+  """
+  update multiples rows of table: "rdvi_notebook_creations"
+  """
+  update_rdvi_notebook_creations_many(
+    """updates to execute, in order"""
+    updates: [rdvi_notebook_creations_updates!]!
+  ): [rdvi_notebook_creations_mutation_response]
 
   """
   update data of the table: "ref_action"
@@ -16849,6 +16912,51 @@ type query_root {
   professional_project_by_pk(id: uuid!): professional_project
 
   """
+  fetch data from the table: "rdvi_notebook_creations"
+  """
+  rdvi_notebook_creations(
+    """distinct select on columns"""
+    distinct_on: [rdvi_notebook_creations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [rdvi_notebook_creations_order_by!]
+
+    """filter the rows returned"""
+    where: rdvi_notebook_creations_bool_exp
+  ): [rdvi_notebook_creations!]!
+
+  """
+  fetch aggregated fields from the table: "rdvi_notebook_creations"
+  """
+  rdvi_notebook_creations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [rdvi_notebook_creations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [rdvi_notebook_creations_order_by!]
+
+    """filter the rows returned"""
+    where: rdvi_notebook_creations_bool_exp
+  ): rdvi_notebook_creations_aggregate!
+
+  """
+  fetch data from the table: "rdvi_notebook_creations" using primary key columns
+  """
+  rdvi_notebook_creations_by_pk(id: uuid!): rdvi_notebook_creations
+
+  """
   fetch data from the table: "ref_action"
   """
   ref_action(
@@ -17533,6 +17641,184 @@ type query_root {
   fetch data from the table: "structure_orientation_system" using primary key columns
   """
   structure_orientation_system_by_pk(id: uuid!): structure_orientation_system
+}
+
+"""tracks notebook creations from Rendez-Vous Insertion"""
+type rdvi_notebook_creations {
+  account_id: uuid!
+  created_at: timestamptz!
+  id: uuid!
+  notebook_id: uuid!
+}
+
+"""
+aggregated selection of "rdvi_notebook_creations"
+"""
+type rdvi_notebook_creations_aggregate {
+  aggregate: rdvi_notebook_creations_aggregate_fields
+  nodes: [rdvi_notebook_creations!]!
+}
+
+"""
+aggregate fields of "rdvi_notebook_creations"
+"""
+type rdvi_notebook_creations_aggregate_fields {
+  count(columns: [rdvi_notebook_creations_select_column!], distinct: Boolean): Int!
+  max: rdvi_notebook_creations_max_fields
+  min: rdvi_notebook_creations_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "rdvi_notebook_creations". All fields are combined with a logical 'AND'.
+"""
+input rdvi_notebook_creations_bool_exp {
+  _and: [rdvi_notebook_creations_bool_exp!]
+  _not: rdvi_notebook_creations_bool_exp
+  _or: [rdvi_notebook_creations_bool_exp!]
+  account_id: uuid_comparison_exp
+  created_at: timestamptz_comparison_exp
+  id: uuid_comparison_exp
+  notebook_id: uuid_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "rdvi_notebook_creations"
+"""
+enum rdvi_notebook_creations_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  rdvi_notebook_creations_pkey
+}
+
+"""
+input type for inserting data into table "rdvi_notebook_creations"
+"""
+input rdvi_notebook_creations_insert_input {
+  account_id: uuid
+  created_at: timestamptz
+  id: uuid
+  notebook_id: uuid
+}
+
+"""aggregate max on columns"""
+type rdvi_notebook_creations_max_fields {
+  account_id: uuid
+  created_at: timestamptz
+  id: uuid
+  notebook_id: uuid
+}
+
+"""aggregate min on columns"""
+type rdvi_notebook_creations_min_fields {
+  account_id: uuid
+  created_at: timestamptz
+  id: uuid
+  notebook_id: uuid
+}
+
+"""
+response of any mutation on the table "rdvi_notebook_creations"
+"""
+type rdvi_notebook_creations_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [rdvi_notebook_creations!]!
+}
+
+"""
+on_conflict condition type for table "rdvi_notebook_creations"
+"""
+input rdvi_notebook_creations_on_conflict {
+  constraint: rdvi_notebook_creations_constraint!
+  update_columns: [rdvi_notebook_creations_update_column!]! = []
+  where: rdvi_notebook_creations_bool_exp
+}
+
+"""Ordering options when selecting data from "rdvi_notebook_creations"."""
+input rdvi_notebook_creations_order_by {
+  account_id: order_by
+  created_at: order_by
+  id: order_by
+  notebook_id: order_by
+}
+
+"""primary key columns input for table: rdvi_notebook_creations"""
+input rdvi_notebook_creations_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "rdvi_notebook_creations"
+"""
+enum rdvi_notebook_creations_select_column {
+  """column name"""
+  account_id
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  notebook_id
+}
+
+"""
+input type for updating data in table "rdvi_notebook_creations"
+"""
+input rdvi_notebook_creations_set_input {
+  account_id: uuid
+  created_at: timestamptz
+  id: uuid
+  notebook_id: uuid
+}
+
+"""
+Streaming cursor of the table "rdvi_notebook_creations"
+"""
+input rdvi_notebook_creations_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: rdvi_notebook_creations_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input rdvi_notebook_creations_stream_cursor_value_input {
+  account_id: uuid
+  created_at: timestamptz
+  id: uuid
+  notebook_id: uuid
+}
+
+"""
+update columns of table "rdvi_notebook_creations"
+"""
+enum rdvi_notebook_creations_update_column {
+  """column name"""
+  account_id
+
+  """column name"""
+  created_at
+
+  """column name"""
+  id
+
+  """column name"""
+  notebook_id
+}
+
+input rdvi_notebook_creations_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: rdvi_notebook_creations_set_input
+
+  """filter the rows which have to be updated"""
+  where: rdvi_notebook_creations_bool_exp!
 }
 
 """
@@ -22100,6 +22386,65 @@ type subscription_root {
     """filter the rows returned"""
     where: professional_bool_exp
   ): [professional!]!
+
+  """
+  fetch data from the table: "rdvi_notebook_creations"
+  """
+  rdvi_notebook_creations(
+    """distinct select on columns"""
+    distinct_on: [rdvi_notebook_creations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [rdvi_notebook_creations_order_by!]
+
+    """filter the rows returned"""
+    where: rdvi_notebook_creations_bool_exp
+  ): [rdvi_notebook_creations!]!
+
+  """
+  fetch aggregated fields from the table: "rdvi_notebook_creations"
+  """
+  rdvi_notebook_creations_aggregate(
+    """distinct select on columns"""
+    distinct_on: [rdvi_notebook_creations_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [rdvi_notebook_creations_order_by!]
+
+    """filter the rows returned"""
+    where: rdvi_notebook_creations_bool_exp
+  ): rdvi_notebook_creations_aggregate!
+
+  """
+  fetch data from the table: "rdvi_notebook_creations" using primary key columns
+  """
+  rdvi_notebook_creations_by_pk(id: uuid!): rdvi_notebook_creations
+
+  """
+  fetch data from the table in a streaming manner: "rdvi_notebook_creations"
+  """
+  rdvi_notebook_creations_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [rdvi_notebook_creations_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: rdvi_notebook_creations_bool_exp
+  ): [rdvi_notebook_creations!]!
 
   """
   fetch data from the table: "ref_action"

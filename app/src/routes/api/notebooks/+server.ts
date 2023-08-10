@@ -12,6 +12,7 @@ import {
 	GetAccountByEmailDocument,
 	type GetAccountByEmailQuery,
 	RoleEnum,
+	CreateRdviNotebookCreationDocument,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { logger } from '$lib/utils/logger';
 import { createJwt } from '$lib/utils/getJwt';
@@ -45,6 +46,16 @@ type CreateResult =
 	| { type: 'success'; notebookId: string }
 	| { type: 'conflict'; error: GraphQLError }
 	| { type: 'bad-request'; message: string };
+
+export const trackCreation = async (params: { notebookId: string; accountId: string }) => {
+	await client
+		.mutation(CreateRdviNotebookCreationDocument, {
+			accountId: params.accountId,
+			notebookId: params.notebookId,
+			createdAt: new Date().toUTCString(),
+		})
+		.toPromise();
+};
 
 const createNotebook = async (jwt: string, body: BodyType): Promise<CreateResult> => {
 	const authorizedClient = createClient({
@@ -86,7 +97,7 @@ const createManagerJwt = (accountId: string, deploymentId: string) =>
 		deploymentId: deploymentId,
 	});
 
-const findAccountId = async (email: string, deploymentId: string) => {
+const findAccountId = async (email: string, deploymentId: string): Promise<string> => {
 	const accountResult = await client
 		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
 			criteria: {
@@ -144,21 +155,31 @@ const parse = async (request: Request) => {
 	return body;
 };
 
-export const POST = (async ({ request }) => {
+type IO = {
+	findAccountId: (email: string, deploymentId: string) => Promise<string>;
+	createNotebook: (jwt: string, body: BodyType) => Promise<CreateResult>;
+	trackCreation: (params: { notebookId: string; accountId: string }) => Promise<void>;
+};
+
+export const POST = (async (
+	{ request },
+	io: IO = { findAccountId, createNotebook, trackCreation }
+) => {
 	checkAuthorization(request);
 	const body: BodyType = await parse(request);
-	const accountId = await findAccountId(body.rdviUserEmail, body.deploymentId);
+	const accountId = await io.findAccountId(body.rdviUserEmail, body.deploymentId);
 	const jwt = createManagerJwt(accountId, body.deploymentId);
 
-	const result = await createNotebook(jwt, body);
+	const result = await io.createNotebook(jwt, body);
 
 	switch (result.type) {
 		case 'success':
+			await io.trackCreation({ notebookId: result.notebookId, accountId });
 			return new Response(JSON.stringify({ notebookId: result.notebookId }), {
 				status: 201,
 			});
 		case 'conflict':
-			throw error(409, result.error);
+			throw error(409, { ...result.error });
 		case 'bad-request':
 			throw error(400, { message: result.message });
 	}

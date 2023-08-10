@@ -1,0 +1,2 @@
+CREATE TABLE "public"."rdvi_notebook_creations" ("notebook_id" uuid NOT NULL, "account_id" uuid NOT NULL, "created_at" timestamptz NOT NULL, "id" uuid NOT NULL DEFAULT gen_random_uuid(), PRIMARY KEY ("id") , FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook"("id") ON UPDATE restrict ON DELETE restrict, FOREIGN KEY ("account_id") REFERENCES "public"."account"("id") ON UPDATE restrict ON DELETE restrict);COMMENT ON TABLE "public"."rdvi_notebook_creations" IS E'tracks notebook creations from Rendez-Vous Insertion';
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
