@@ -124,7 +124,7 @@ inputIsLowerThanSmic input =
 
 
 type alias Model =
-    { possibleSituationsByTheme : List Theme
+    { themes : List Theme
     , selectedSituationSet : Set String
     , professionalProjects : List ProfessionalProjectState
     , professionalProjectsMaxCountReached : Bool
@@ -203,7 +203,7 @@ hasReachedProfessionalProjectMaxCount list =
 
 init : Flags -> ( Model, Cmd msg )
 init flags =
-    ( { possibleSituationsByTheme = flags |> parseSituations |> groupByTheme
+    ( { themes = flags |> parseSituations |> groupByTheme
       , selectedSituationSet =
             flags.situations
                 |> List.map .refSituation
@@ -466,7 +466,7 @@ view model =
         , Html.h2
             [ Attr.class "text-vert-cdb pt-12" ]
             [ Html.text "Situation Personnelle" ]
-        , Html.div [] (model.possibleSituationsByTheme |> List.map (viewSituationTheme model))
+        , Html.div [] (model.themes |> List.map (viewSituationTheme model))
         ]
 
 
