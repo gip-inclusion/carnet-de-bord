@@ -72,7 +72,9 @@ Scenario('Changement de référent', async () => {
 				memberType: 'referent',
 			},
 		],
-		result.data.data.notebook[0]?.members,
+		result.data.data.notebook[0]?.members?.sort((a, b) =>
+			a.account.professional.email.localeCompare(b.account.professional.email)
+		),
 		'members not match'
 	);
 });

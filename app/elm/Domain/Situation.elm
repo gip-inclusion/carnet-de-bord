@@ -1,10 +1,10 @@
 module Domain.Situation exposing (Situation)
 
-import Domain.Theme exposing (Theme)
+import Domain.RefTheme exposing (RefTheme)
 
 
 type alias Situation =
     { id : String
     , description : String
-    , theme : Theme
+    , theme : RefTheme
     }

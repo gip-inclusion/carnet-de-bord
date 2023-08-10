@@ -1,13 +1,61 @@
-module Diagnostic.MainTests exposing (workSituationDateFormatTests)
+module Diagnostic.MainTests exposing (suite, workSituationDateFormatTests)
 
 import Date
+import Diagnostic.PersonalSituation as PersonalSituation
 import Diagnostic.SocioPro exposing (workSituationDateFormat)
 import Expect
+import GraphQL.Enum.Ref_theme_enum as Ref_theme_enum
 import Html
 import Test exposing (..)
 import Test.Html.Query as Query
 import Test.Html.Selector exposing (classes, tag, text)
 import Time exposing (Month(..))
+
+
+suite : Test
+suite =
+    describe "groupByTheme"
+        [ test "sorts the situation alphabetically" <|
+            \_ ->
+                PersonalSituation.groupByTheme
+                    [ { theme = Ref_theme_enum.Emploi
+                      , description = "B"
+                      , createdAt = Time.millisToPosix 0
+                      , creator = Nothing
+                      }
+                    , { theme = Ref_theme_enum.Emploi
+                      , description = "C"
+                      , createdAt = Time.millisToPosix 0
+                      , creator = Nothing
+                      }
+                    , { theme = Ref_theme_enum.Emploi
+                      , description = "A"
+                      , createdAt = Time.millisToPosix 0
+                      , creator = Nothing
+                      }
+                    ]
+                    |> Expect.equal
+                        [ { name = Ref_theme_enum.Emploi
+                          , situations =
+                                [ { theme = Ref_theme_enum.Emploi
+                                  , description = "A"
+                                  , createdAt = Time.millisToPosix 0
+                                  , creator = Nothing
+                                  }
+                                , { theme = Ref_theme_enum.Emploi
+                                  , description = "B"
+                                  , createdAt = Time.millisToPosix 0
+                                  , creator = Nothing
+                                  }
+                                , { theme = Ref_theme_enum.Emploi
+                                  , description = "C"
+                                  , createdAt = Time.millisToPosix 0
+                                  , creator = Nothing
+                                  }
+                                ]
+                          }
+                        ]
+        ]
 
 
 workSituationDateFormatTests : Test
