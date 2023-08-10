@@ -1,3 +1,10 @@
+# [1.250.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.249.1...v1.250.0) (2023-08-10)
+
+
+### Features
+
+* **diagnostic:** tri alphabétique des situations ([#1946](https://github.com/gip-inclusion/carnet-de-bord/issues/1946)) ([ea17990](https://github.com/gip-inclusion/carnet-de-bord/commit/ea1799040da9a3ced4d45dc9b28892c9d5a915e8))
+
 ## [1.249.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.249.0...v1.249.1) (2023-08-09)
 
 
