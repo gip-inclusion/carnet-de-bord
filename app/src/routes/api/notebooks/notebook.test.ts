@@ -232,26 +232,70 @@ describe('notebook api endpoint', () => {
 				},
 			})
 		);
-		const requestEvent = createFakeRequestEvent(
-			'POST',
-			{ authorization: 'Bearer secret_api_token' },
-			{
-				deploymentId: 'f228a518-0d93-4d94-94f9-4724b5ae8730',
-				rdviUserEmail: 'contact+cd93@carnetdebord.inclusion.beta.gouv.fr',
-				notebook: {
-					dateOfBirth: '2001-12-03',
-					nir: '12345678901234',
-					firstname: 'lionel',
-					lastname: 'breduillieard',
-					postalCode: '23234',
+		(fetch as Mock).mockResolvedValueOnce(
+			createFetchResponse(200, {
+				data: {
+					insert: {
+						id: '70666617-e276-4135-8bed-a4255d28dbd4',
+					},
 				},
-			}
+			})
 		);
+		const requestEvent = aValidRequest();
 
 		await POST(requestEvent);
-		expect(fetch).toHaveBeenCalledTimes(2);
-		const params = (fetch as Mock).mock.lastCall;
+
+		expect(fetch).toHaveBeenCalledTimes(3);
+		const params = (fetch as Mock).mock.calls[1];
 		expect(params[0]).toMatch(getGraphqlAPI());
 		expect(params[1].body).toContain('create_notebook');
 	});
+
+	describe('Track the creation', () => {
+		test('track when create was successful', async () => {
+			const findAccountId = vi.fn().mockImplementation((_) => 'account id');
+			const createNotebook = vi
+				.fn()
+				.mockImplementation((_) => ({ type: 'success', notebookId: 'notebook id' }));
+			const trackCreation = vi.fn();
+			const request = aValidRequest();
+
+			await POST(request, { findAccountId, createNotebook, trackCreation });
+
+			expect(trackCreation).toHaveBeenCalledWith({
+				notebookId: 'notebook id',
+				accountId: 'account id',
+			});
+		});
+		test('does not when create failed', async () => {
+			const findAccountId = vi.fn().mockImplementation((_) => 'account id');
+			const createNotebook = vi
+				.fn()
+				.mockImplementation((_) => ({ type: 'error', message: 'oops' }));
+			const trackCreation = vi.fn();
+			const request = aValidRequest();
+
+			await POST(request, { findAccountId, createNotebook, trackCreation });
+
+			expect(trackCreation).not.toHaveBeenCalled();
+		});
+	});
 });
+
+function aValidRequest() {
+	return createFakeRequestEvent(
+		'POST',
+		{ authorization: 'Bearer secret_api_token' },
+		{
+			deploymentId: 'f228a518-0d93-4d94-94f9-4724b5ae8730',
+			rdviUserEmail: 'contact+cd93@carnetdebord.inclusion.beta.gouv.fr',
+			notebook: {
+				dateOfBirth: '2001-12-03',
+				nir: '12345678901234',
+				firstname: 'lionel',
+				lastname: 'breduillieard',
+				postalCode: '23234',
+			},
+		}
+	);
+}
