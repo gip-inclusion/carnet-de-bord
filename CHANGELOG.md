@@ -1,3 +1,10 @@
+# [1.251.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.250.0...v1.251.0) (2023-08-10)
+
+
+### Features
+
+* **KPI:** suivre les modification d'un carnet ([#1951](https://github.com/gip-inclusion/carnet-de-bord/issues/1951)) ([c8e5617](https://github.com/gip-inclusion/carnet-de-bord/commit/c8e561734416638be6fc88cc44f66f53f07e6ef9))
+
 # [1.250.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.249.1...v1.250.0) (2023-08-10)
 
 
