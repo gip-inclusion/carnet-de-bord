@@ -41,64 +41,30 @@ type BodyType = yup.InferType<typeof bodySchema>;
 const client = createGraphqlAdminClient();
 
 export const POST = (async ({ request }) => {
-	const authorization = request.headers.get('authorization');
-
-	if (!authorization) {
-		throw error(401, { message: 'missing authorization' });
-	}
-
-	if (authorization.substring('Bearer '.length) !== getRdvISecret()) {
-		throw error(403, { message: 'wrong authorization' });
-	}
-
-	let body: BodyType;
-	try {
-		body = await request.json();
-	} catch (bodyParsingError) {
-		// do nothing the validate function will throw a more accurate error
-	}
-
-	try {
-		await bodySchema.validate(body);
-	} catch (validationError) {
-		throw error(422, { message: `${validationError.message}` });
-	}
-
-	//
-	const accountResult = await client
-		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
-			criteria: {
-				_and: [
-					{ deletedAt: { _is_null: true } },
-					{
-						manager: {
-							email: { _eq: body.rdviUserEmail },
-							deploymentId: { _eq: body.deploymentId },
-						},
-					},
-				],
-			},
-		})
-		.toPromise();
-
-	if (accountResult.error) {
-		logger.error(accountResult.error);
-		throw error(500, { message: 'Internal server error' });
-	}
-
-	if (accountResult.data.account.length === 0) {
-		logger.error(`manager account ${body.rdviUserEmail} not found`);
-		throw error(400, { message: 'manager account not found' });
-	}
-
-	const accountId = accountResult.data.account[0].id;
-
-	const jwt = createJwt({
-		id: accountId,
-		type: RoleEnum.Manager,
-		deploymentId: body.deploymentId,
+	checkAuthorization(request);
+	const body: BodyType = await parse(request);
+	const accountId = await findAccountId(body.rdviUserEmail, body.deploymentId);
+	const jwt = createManagerJwt(accountId, body.deploymentId);
+	const result = await createNotebook(jwt, body);
+	handleCreateErrors(result);
+	return new Response(JSON.stringify({ notebookId: result.data.create_notebook.notebookId }), {
+		status: 201,
 	});
+}) satisfies RequestHandler;
 
+function handleCreateErrors(createNotebookResult) {
+	if (createNotebookResult.error) {
+		if (createNotebookResult.error.graphQLErrors) {
+			const gqlError = createNotebookResult.error.graphQLErrors[0];
+			if (gqlError.extensions.error_code === 409) {
+				throw error(409, { ...gqlError });
+			}
+		}
+		throw error(400, { message: createNotebookResult.error.toString() });
+	}
+}
+
+async function createNotebook(jwt: string, body: BodyType) {
 	const authorizedClient = createClient({
 		fetch,
 		fetchOptions: {
@@ -118,18 +84,72 @@ export const POST = (async ({ request }) => {
 			notebook: body.notebook,
 		})
 		.toPromise();
+	return createNotebookResult;
+}
 
-	if (createNotebookResult.error) {
-		if (createNotebookResult.error.graphQLErrors) {
-			const gqlError = createNotebookResult.error.graphQLErrors[0];
-			if (gqlError.extensions.error_code === 409) {
-				throw error(409, { ...gqlError });
-			}
-		}
-		throw error(400, { message: createNotebookResult.error.toString() });
+function createManagerJwt(accountId: string, deploymentId: string) {
+	return createJwt({
+		id: accountId,
+		type: RoleEnum.Manager,
+		deploymentId: deploymentId,
+	});
+}
+
+async function findAccountId(email: string, deploymentId: string) {
+	const accountResult = await client
+		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
+			criteria: {
+				_and: [
+					{ deletedAt: { _is_null: true } },
+					{
+						manager: {
+							email: { _eq: email },
+							deploymentId: { _eq: deploymentId },
+						},
+					},
+				],
+			},
+		})
+		.toPromise();
+
+	if (accountResult.error) {
+		logger.error(accountResult.error);
+		throw error(500, { message: 'Internal server error' });
 	}
-	return new Response(
-		JSON.stringify({ notebookId: createNotebookResult.data.create_notebook.notebookId }),
-		{ status: 201 }
-	);
-}) satisfies RequestHandler;
+
+	if (accountResult.data.account.length === 0) {
+		logger.error(`manager account ${email} not found`);
+		throw error(400, { message: 'manager account not found' });
+	}
+
+	const accountId = accountResult.data.account[0].id;
+	return accountId;
+}
+
+function checkAuthorization(request: Request) {
+	const authorization = request.headers.get('authorization');
+
+	if (!authorization) {
+		throw error(401, { message: 'missing authorization' });
+	}
+
+	if (authorization.substring('Bearer '.length) !== getRdvISecret()) {
+		throw error(403, { message: 'wrong authorization' });
+	}
+}
+
+async function parse(request: Request) {
+	let body: BodyType;
+	try {
+		body = await request.json();
+	} catch (bodyParsingError) {
+		// do nothing the validate function will throw a more accurate error
+	}
+
+	try {
+		await bodySchema.validate(body);
+	} catch (validationError) {
+		throw error(422, { message: `${validationError.message}` });
+	}
+	return body;
+}
