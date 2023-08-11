@@ -91,8 +91,6 @@ async def update_notebook_from_pole_emploi(
         logger.info(
             "id: %s - Last diagnostic is the same than PE, skipping",
             notebook_id,
-            notebook.nir,
-            notebook.date_of_birth,
         )
         return response
 
