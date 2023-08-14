@@ -350,6 +350,31 @@ def get_insert_beneficiary_mutation_gql() -> DocumentNode:
     )
 
 
+def insert_notebook_creation_gql() -> DocumentNode:
+    return gql(
+        """
+    mutation (
+        $accountId: uuid!
+        $notebookId: uuid!
+        $createdAt: timestamptz = now
+        $source: notebook_creation_source_type_enum
+        ) {
+        insert_notebook_creation_one(
+            object: {
+            creatorAccountId: $accountId
+            notebookId: $notebookId
+            createdAt: $createdAt
+            source: $source
+            }
+        ) {
+            id
+        }
+        }
+
+"""
+    )
+
+
 def update_diagnostic_fetch_date_gql() -> DocumentNode:
     return gql(
         """
