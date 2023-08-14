@@ -245,7 +245,7 @@ describe('notebook api endpoint', () => {
 
 		await POST(requestEvent);
 
-		expect(fetch).toHaveBeenCalledTimes(3);
+		expect(fetch).toHaveBeenCalledTimes(2);
 		const params = (fetch as Mock).mock.calls[1];
 		expect(params[0]).toMatch(getGraphqlAPI());
 		expect(params[1].body).toContain('create_notebook');
