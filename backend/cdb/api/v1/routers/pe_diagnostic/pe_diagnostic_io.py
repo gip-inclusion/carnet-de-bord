@@ -10,20 +10,13 @@ from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary import update_diagnostic_fetch_date_gql
 from cdb.api.db.crud.external_data import save_external_data_with_info
 from cdb.api.db.crud.notebook_focus import add_remove_notebook_focuses
-from cdb.api.db.crud.notebook_situation import (
-    save_notebook_situations,
-)
+from cdb.api.db.crud.notebook_situation import save_notebook_situations
 from cdb.api.db.models.external_data import ExternalSource
 from cdb.api.db.models.ref_situation import NotebookSituation
 from cdb.api.domain.contraintes import FocusDifferences
-from cdb.api.domain.situations import (
-    SituationDifferences,
-)
+from cdb.api.domain.situations import SituationDifferences
 from cdb.api.v1.payloads.socio_pro import SituationInsertInput
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
-    Focus,
-    Notebook,
-)
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus, Notebook
 from cdb.cdb_csv.json_encoder import CustomEncoder
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 from cdb.pe.pole_emploi_client import PoleEmploiApiClient

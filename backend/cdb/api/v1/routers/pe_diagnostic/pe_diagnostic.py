@@ -4,14 +4,15 @@ import logging
 from typing import Awaitable, Callable, List, Tuple
 from uuid import UUID
 
+from mypy_extensions import Arg
+from pydantic import BaseModel
+
 from cdb.api.core.settings import settings
 from cdb.api.db.models.ref_situation import RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, diff_contraintes
 from cdb.api.domain.situations import SituationDifferences, diff_situations
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Notebook
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
-from mypy_extensions import Arg
-from pydantic import BaseModel
 
 logger = logging.getLogger(__name__)
 
@@ -62,6 +63,8 @@ async def update_notebook_from_pole_emploi(
         )
         return response
 
+    logger.info("couccou")
+
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()
     if notebook.has_fresh_pe_data():
         logger.info(
@@ -79,7 +82,7 @@ async def update_notebook_from_pole_emploi(
     #  on ne devrait pas supprimer ?
     if dossier is None:
         logger.error(
-            "id: %s - No PE dossier found for nir '%s' and date of birth '%s",
+            "id: %s - No PE dossier found for nir '%s' and date of birth '%s'",
             notebook_id,
             notebook.nir,
             notebook.date_of_birth,
