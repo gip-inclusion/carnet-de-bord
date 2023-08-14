@@ -10,6 +10,8 @@ DELETE FROM public.nps_rating;
 DELETE FROM public.nps_rating_dismissal;
 
 DELETE FROM notebook_update;
+DELETE FROM notebook_visit;
+DELETE FROM notebook_creation;
 DELETE FROM notebook_member;
 DELETE FROM professional_project;
 DELETE FROM notebook_appointment;

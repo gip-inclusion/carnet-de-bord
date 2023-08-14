@@ -5748,6 +5748,32 @@ type mutation_root {
   delete_notebook_by_pk(id: uuid!): notebook
 
   """
+  delete data from the table: "notebook_creation"
+  """
+  delete_notebook_creation(
+    """filter the rows which have to be deleted"""
+    where: notebook_creation_bool_exp!
+  ): notebook_creation_mutation_response
+
+  """
+  delete single row from the table: "notebook_creation"
+  """
+  delete_notebook_creation_by_pk(id: uuid!): notebook_creation
+
+  """
+  delete data from the table: "notebook_creation_source_type"
+  """
+  delete_notebook_creation_source_type(
+    """filter the rows which have to be deleted"""
+    where: notebook_creation_source_type_bool_exp!
+  ): notebook_creation_source_type_mutation_response
+
+  """
+  delete single row from the table: "notebook_creation_source_type"
+  """
+  delete_notebook_creation_source_type_by_pk(id: String!): notebook_creation_source_type
+
+  """
   delete data from the table: "notebook_event"
   """
   delete_notebook_event(
@@ -5988,19 +6014,6 @@ type mutation_root {
   delete single row from the table: "professional_project"
   """
   delete_professional_project_by_pk(id: uuid!): professional_project
-
-  """
-  delete data from the table: "rdvi_notebook_creations"
-  """
-  delete_rdvi_notebook_creations(
-    """filter the rows which have to be deleted"""
-    where: rdvi_notebook_creations_bool_exp!
-  ): rdvi_notebook_creations_mutation_response
-
-  """
-  delete single row from the table: "rdvi_notebook_creations"
-  """
-  delete_rdvi_notebook_creations_by_pk(id: uuid!): rdvi_notebook_creations
 
   """
   delete data from the table: "ref_action"
@@ -6496,6 +6509,50 @@ type mutation_root {
   ): notebook_appointment
 
   """
+  insert data into the table: "notebook_creation"
+  """
+  insert_notebook_creation(
+    """the rows to be inserted"""
+    objects: [notebook_creation_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: notebook_creation_on_conflict
+  ): notebook_creation_mutation_response
+
+  """
+  insert a single row into the table: "notebook_creation"
+  """
+  insert_notebook_creation_one(
+    """the row to be inserted"""
+    object: notebook_creation_insert_input!
+
+    """upsert condition"""
+    on_conflict: notebook_creation_on_conflict
+  ): notebook_creation
+
+  """
+  insert data into the table: "notebook_creation_source_type"
+  """
+  insert_notebook_creation_source_type(
+    """the rows to be inserted"""
+    objects: [notebook_creation_source_type_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: notebook_creation_source_type_on_conflict
+  ): notebook_creation_source_type_mutation_response
+
+  """
+  insert a single row into the table: "notebook_creation_source_type"
+  """
+  insert_notebook_creation_source_type_one(
+    """the row to be inserted"""
+    object: notebook_creation_source_type_insert_input!
+
+    """upsert condition"""
+    on_conflict: notebook_creation_source_type_on_conflict
+  ): notebook_creation_source_type
+
+  """
   insert data into the table: "notebook_event"
   """
   insert_notebook_event(
@@ -6917,28 +6974,6 @@ type mutation_root {
     """upsert condition"""
     on_conflict: professional_project_on_conflict
   ): professional_project
-
-  """
-  insert data into the table: "rdvi_notebook_creations"
-  """
-  insert_rdvi_notebook_creations(
-    """the rows to be inserted"""
-    objects: [rdvi_notebook_creations_insert_input!]!
-
-    """upsert condition"""
-    on_conflict: rdvi_notebook_creations_on_conflict
-  ): rdvi_notebook_creations_mutation_response
-
-  """
-  insert a single row into the table: "rdvi_notebook_creations"
-  """
-  insert_rdvi_notebook_creations_one(
-    """the row to be inserted"""
-    object: rdvi_notebook_creations_insert_input!
-
-    """upsert condition"""
-    on_conflict: rdvi_notebook_creations_on_conflict
-  ): rdvi_notebook_creations
 
   """
   insert data into the table: "ref_action"
@@ -7758,6 +7793,62 @@ type mutation_root {
   ): notebook
 
   """
+  update data of the table: "notebook_creation"
+  """
+  update_notebook_creation(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_creation_set_input
+
+    """filter the rows which have to be updated"""
+    where: notebook_creation_bool_exp!
+  ): notebook_creation_mutation_response
+
+  """
+  update single row of the table: "notebook_creation"
+  """
+  update_notebook_creation_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_creation_set_input
+    pk_columns: notebook_creation_pk_columns_input!
+  ): notebook_creation
+
+  """
+  update multiples rows of table: "notebook_creation"
+  """
+  update_notebook_creation_many(
+    """updates to execute, in order"""
+    updates: [notebook_creation_updates!]!
+  ): [notebook_creation_mutation_response]
+
+  """
+  update data of the table: "notebook_creation_source_type"
+  """
+  update_notebook_creation_source_type(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_creation_source_type_set_input
+
+    """filter the rows which have to be updated"""
+    where: notebook_creation_source_type_bool_exp!
+  ): notebook_creation_source_type_mutation_response
+
+  """
+  update single row of the table: "notebook_creation_source_type"
+  """
+  update_notebook_creation_source_type_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_creation_source_type_set_input
+    pk_columns: notebook_creation_source_type_pk_columns_input!
+  ): notebook_creation_source_type
+
+  """
+  update multiples rows of table: "notebook_creation_source_type"
+  """
+  update_notebook_creation_source_type_many(
+    """updates to execute, in order"""
+    updates: [notebook_creation_source_type_updates!]!
+  ): [notebook_creation_source_type_mutation_response]
+
+  """
   update data of the table: "notebook_event"
   """
   update_notebook_event(
@@ -8348,34 +8439,6 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [professional_project_updates!]!
   ): [professional_project_mutation_response]
-
-  """
-  update data of the table: "rdvi_notebook_creations"
-  """
-  update_rdvi_notebook_creations(
-    """sets the columns of the filtered rows to the given values"""
-    _set: rdvi_notebook_creations_set_input
-
-    """filter the rows which have to be updated"""
-    where: rdvi_notebook_creations_bool_exp!
-  ): rdvi_notebook_creations_mutation_response
-
-  """
-  update single row of the table: "rdvi_notebook_creations"
-  """
-  update_rdvi_notebook_creations_by_pk(
-    """sets the columns of the filtered rows to the given values"""
-    _set: rdvi_notebook_creations_set_input
-    pk_columns: rdvi_notebook_creations_pk_columns_input!
-  ): rdvi_notebook_creations
-
-  """
-  update multiples rows of table: "rdvi_notebook_creations"
-  """
-  update_rdvi_notebook_creations_many(
-    """updates to execute, in order"""
-    updates: [rdvi_notebook_creations_updates!]!
-  ): [rdvi_notebook_creations_mutation_response]
 
   """
   update data of the table: "ref_action"
@@ -9600,6 +9663,376 @@ enum notebook_constraint {
   unique or primary key constraint on columns "id"
   """
   notebook_pkey
+}
+
+"""tracks notebook creations"""
+type notebook_creation {
+  createdAt: timestamptz!
+
+  """An object relationship"""
+  creator: account!
+  creatorAccountId: uuid!
+  id: uuid!
+
+  """An object relationship"""
+  notebook: notebook!
+  notebookId: uuid!
+  source: notebook_creation_source_type_enum!
+}
+
+"""
+aggregated selection of "notebook_creation"
+"""
+type notebook_creation_aggregate {
+  aggregate: notebook_creation_aggregate_fields
+  nodes: [notebook_creation!]!
+}
+
+"""
+aggregate fields of "notebook_creation"
+"""
+type notebook_creation_aggregate_fields {
+  count(columns: [notebook_creation_select_column!], distinct: Boolean): Int!
+  max: notebook_creation_max_fields
+  min: notebook_creation_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "notebook_creation". All fields are combined with a logical 'AND'.
+"""
+input notebook_creation_bool_exp {
+  _and: [notebook_creation_bool_exp!]
+  _not: notebook_creation_bool_exp
+  _or: [notebook_creation_bool_exp!]
+  createdAt: timestamptz_comparison_exp
+  creator: account_bool_exp
+  creatorAccountId: uuid_comparison_exp
+  id: uuid_comparison_exp
+  notebook: notebook_bool_exp
+  notebookId: uuid_comparison_exp
+  source: notebook_creation_source_type_enum_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "notebook_creation"
+"""
+enum notebook_creation_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  notebook_creation_pkey
+}
+
+"""
+input type for inserting data into table "notebook_creation"
+"""
+input notebook_creation_insert_input {
+  createdAt: timestamptz
+  creator: account_obj_rel_insert_input
+  creatorAccountId: uuid
+  id: uuid
+  notebook: notebook_obj_rel_insert_input
+  notebookId: uuid
+  source: notebook_creation_source_type_enum
+}
+
+"""aggregate max on columns"""
+type notebook_creation_max_fields {
+  createdAt: timestamptz
+  creatorAccountId: uuid
+  id: uuid
+  notebookId: uuid
+}
+
+"""aggregate min on columns"""
+type notebook_creation_min_fields {
+  createdAt: timestamptz
+  creatorAccountId: uuid
+  id: uuid
+  notebookId: uuid
+}
+
+"""
+response of any mutation on the table "notebook_creation"
+"""
+type notebook_creation_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [notebook_creation!]!
+}
+
+"""
+on_conflict condition type for table "notebook_creation"
+"""
+input notebook_creation_on_conflict {
+  constraint: notebook_creation_constraint!
+  update_columns: [notebook_creation_update_column!]! = []
+  where: notebook_creation_bool_exp
+}
+
+"""Ordering options when selecting data from "notebook_creation"."""
+input notebook_creation_order_by {
+  createdAt: order_by
+  creator: account_order_by
+  creatorAccountId: order_by
+  id: order_by
+  notebook: notebook_order_by
+  notebookId: order_by
+  source: order_by
+}
+
+"""primary key columns input for table: notebook_creation"""
+input notebook_creation_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "notebook_creation"
+"""
+enum notebook_creation_select_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  creatorAccountId
+
+  """column name"""
+  id
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  source
+}
+
+"""
+input type for updating data in table "notebook_creation"
+"""
+input notebook_creation_set_input {
+  createdAt: timestamptz
+  creatorAccountId: uuid
+  id: uuid
+  notebookId: uuid
+  source: notebook_creation_source_type_enum
+}
+
+"""Enum table which contains available sources that create notebooks"""
+type notebook_creation_source_type {
+  comment: String
+  id: String!
+}
+
+"""
+aggregated selection of "notebook_creation_source_type"
+"""
+type notebook_creation_source_type_aggregate {
+  aggregate: notebook_creation_source_type_aggregate_fields
+  nodes: [notebook_creation_source_type!]!
+}
+
+"""
+aggregate fields of "notebook_creation_source_type"
+"""
+type notebook_creation_source_type_aggregate_fields {
+  count(columns: [notebook_creation_source_type_select_column!], distinct: Boolean): Int!
+  max: notebook_creation_source_type_max_fields
+  min: notebook_creation_source_type_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "notebook_creation_source_type". All fields are combined with a logical 'AND'.
+"""
+input notebook_creation_source_type_bool_exp {
+  _and: [notebook_creation_source_type_bool_exp!]
+  _not: notebook_creation_source_type_bool_exp
+  _or: [notebook_creation_source_type_bool_exp!]
+  comment: String_comparison_exp
+  id: String_comparison_exp
+}
+
+"""
+unique or primary key constraints on table "notebook_creation_source_type"
+"""
+enum notebook_creation_source_type_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  notebook_creation_source_type_pkey
+}
+
+enum notebook_creation_source_type_enum {
+  """Service Rendez-vous Insertion"""
+  rdvi
+}
+
+"""
+Boolean expression to compare columns of type "notebook_creation_source_type_enum". All fields are combined with logical 'AND'.
+"""
+input notebook_creation_source_type_enum_comparison_exp {
+  _eq: notebook_creation_source_type_enum
+  _in: [notebook_creation_source_type_enum!]
+  _is_null: Boolean
+  _neq: notebook_creation_source_type_enum
+  _nin: [notebook_creation_source_type_enum!]
+}
+
+"""
+input type for inserting data into table "notebook_creation_source_type"
+"""
+input notebook_creation_source_type_insert_input {
+  comment: String
+  id: String
+}
+
+"""aggregate max on columns"""
+type notebook_creation_source_type_max_fields {
+  comment: String
+  id: String
+}
+
+"""aggregate min on columns"""
+type notebook_creation_source_type_min_fields {
+  comment: String
+  id: String
+}
+
+"""
+response of any mutation on the table "notebook_creation_source_type"
+"""
+type notebook_creation_source_type_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [notebook_creation_source_type!]!
+}
+
+"""
+on_conflict condition type for table "notebook_creation_source_type"
+"""
+input notebook_creation_source_type_on_conflict {
+  constraint: notebook_creation_source_type_constraint!
+  update_columns: [notebook_creation_source_type_update_column!]! = []
+  where: notebook_creation_source_type_bool_exp
+}
+
+"""
+Ordering options when selecting data from "notebook_creation_source_type".
+"""
+input notebook_creation_source_type_order_by {
+  comment: order_by
+  id: order_by
+}
+
+"""primary key columns input for table: notebook_creation_source_type"""
+input notebook_creation_source_type_pk_columns_input {
+  id: String!
+}
+
+"""
+select columns of table "notebook_creation_source_type"
+"""
+enum notebook_creation_source_type_select_column {
+  """column name"""
+  comment
+
+  """column name"""
+  id
+}
+
+"""
+input type for updating data in table "notebook_creation_source_type"
+"""
+input notebook_creation_source_type_set_input {
+  comment: String
+  id: String
+}
+
+"""
+Streaming cursor of the table "notebook_creation_source_type"
+"""
+input notebook_creation_source_type_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: notebook_creation_source_type_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input notebook_creation_source_type_stream_cursor_value_input {
+  comment: String
+  id: String
+}
+
+"""
+update columns of table "notebook_creation_source_type"
+"""
+enum notebook_creation_source_type_update_column {
+  """column name"""
+  comment
+
+  """column name"""
+  id
+}
+
+input notebook_creation_source_type_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: notebook_creation_source_type_set_input
+
+  """filter the rows which have to be updated"""
+  where: notebook_creation_source_type_bool_exp!
+}
+
+"""
+Streaming cursor of the table "notebook_creation"
+"""
+input notebook_creation_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: notebook_creation_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input notebook_creation_stream_cursor_value_input {
+  createdAt: timestamptz
+  creatorAccountId: uuid
+  id: uuid
+  notebookId: uuid
+  source: notebook_creation_source_type_enum
+}
+
+"""
+update columns of table "notebook_creation"
+"""
+enum notebook_creation_update_column {
+  """column name"""
+  createdAt
+
+  """column name"""
+  creatorAccountId
+
+  """column name"""
+  id
+
+  """column name"""
+  notebookId
+
+  """column name"""
+  source
+}
+
+input notebook_creation_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: notebook_creation_set_input
+
+  """filter the rows which have to be updated"""
+  where: notebook_creation_bool_exp!
 }
 
 """
@@ -16380,6 +16813,96 @@ type query_root {
   notebook_by_pk(id: uuid!): notebook
 
   """
+  fetch data from the table: "notebook_creation"
+  """
+  notebook_creation(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_bool_exp
+  ): [notebook_creation!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_creation"
+  """
+  notebook_creation_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_bool_exp
+  ): notebook_creation_aggregate!
+
+  """
+  fetch data from the table: "notebook_creation" using primary key columns
+  """
+  notebook_creation_by_pk(id: uuid!): notebook_creation
+
+  """
+  fetch data from the table: "notebook_creation_source_type"
+  """
+  notebook_creation_source_type(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_source_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_source_type_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_source_type_bool_exp
+  ): [notebook_creation_source_type!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_creation_source_type"
+  """
+  notebook_creation_source_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_source_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_source_type_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_source_type_bool_exp
+  ): notebook_creation_source_type_aggregate!
+
+  """
+  fetch data from the table: "notebook_creation_source_type" using primary key columns
+  """
+  notebook_creation_source_type_by_pk(id: String!): notebook_creation_source_type
+
+  """
   fetch data from the table: "notebook_event"
   """
   notebook_event(
@@ -17212,51 +17735,6 @@ type query_root {
   professional_project_by_pk(id: uuid!): professional_project
 
   """
-  fetch data from the table: "rdvi_notebook_creations"
-  """
-  rdvi_notebook_creations(
-    """distinct select on columns"""
-    distinct_on: [rdvi_notebook_creations_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [rdvi_notebook_creations_order_by!]
-
-    """filter the rows returned"""
-    where: rdvi_notebook_creations_bool_exp
-  ): [rdvi_notebook_creations!]!
-
-  """
-  fetch aggregated fields from the table: "rdvi_notebook_creations"
-  """
-  rdvi_notebook_creations_aggregate(
-    """distinct select on columns"""
-    distinct_on: [rdvi_notebook_creations_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [rdvi_notebook_creations_order_by!]
-
-    """filter the rows returned"""
-    where: rdvi_notebook_creations_bool_exp
-  ): rdvi_notebook_creations_aggregate!
-
-  """
-  fetch data from the table: "rdvi_notebook_creations" using primary key columns
-  """
-  rdvi_notebook_creations_by_pk(id: uuid!): rdvi_notebook_creations
-
-  """
   fetch data from the table: "ref_action"
   """
   ref_action(
@@ -17941,184 +18419,6 @@ type query_root {
   fetch data from the table: "structure_orientation_system" using primary key columns
   """
   structure_orientation_system_by_pk(id: uuid!): structure_orientation_system
-}
-
-"""tracks notebook creations from Rendez-Vous Insertion"""
-type rdvi_notebook_creations {
-  account_id: uuid!
-  created_at: timestamptz!
-  id: uuid!
-  notebook_id: uuid!
-}
-
-"""
-aggregated selection of "rdvi_notebook_creations"
-"""
-type rdvi_notebook_creations_aggregate {
-  aggregate: rdvi_notebook_creations_aggregate_fields
-  nodes: [rdvi_notebook_creations!]!
-}
-
-"""
-aggregate fields of "rdvi_notebook_creations"
-"""
-type rdvi_notebook_creations_aggregate_fields {
-  count(columns: [rdvi_notebook_creations_select_column!], distinct: Boolean): Int!
-  max: rdvi_notebook_creations_max_fields
-  min: rdvi_notebook_creations_min_fields
-}
-
-"""
-Boolean expression to filter rows from the table "rdvi_notebook_creations". All fields are combined with a logical 'AND'.
-"""
-input rdvi_notebook_creations_bool_exp {
-  _and: [rdvi_notebook_creations_bool_exp!]
-  _not: rdvi_notebook_creations_bool_exp
-  _or: [rdvi_notebook_creations_bool_exp!]
-  account_id: uuid_comparison_exp
-  created_at: timestamptz_comparison_exp
-  id: uuid_comparison_exp
-  notebook_id: uuid_comparison_exp
-}
-
-"""
-unique or primary key constraints on table "rdvi_notebook_creations"
-"""
-enum rdvi_notebook_creations_constraint {
-  """
-  unique or primary key constraint on columns "id"
-  """
-  rdvi_notebook_creations_pkey
-}
-
-"""
-input type for inserting data into table "rdvi_notebook_creations"
-"""
-input rdvi_notebook_creations_insert_input {
-  account_id: uuid
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-}
-
-"""aggregate max on columns"""
-type rdvi_notebook_creations_max_fields {
-  account_id: uuid
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-}
-
-"""aggregate min on columns"""
-type rdvi_notebook_creations_min_fields {
-  account_id: uuid
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-}
-
-"""
-response of any mutation on the table "rdvi_notebook_creations"
-"""
-type rdvi_notebook_creations_mutation_response {
-  """number of rows affected by the mutation"""
-  affected_rows: Int!
-
-  """data from the rows affected by the mutation"""
-  returning: [rdvi_notebook_creations!]!
-}
-
-"""
-on_conflict condition type for table "rdvi_notebook_creations"
-"""
-input rdvi_notebook_creations_on_conflict {
-  constraint: rdvi_notebook_creations_constraint!
-  update_columns: [rdvi_notebook_creations_update_column!]! = []
-  where: rdvi_notebook_creations_bool_exp
-}
-
-"""Ordering options when selecting data from "rdvi_notebook_creations"."""
-input rdvi_notebook_creations_order_by {
-  account_id: order_by
-  created_at: order_by
-  id: order_by
-  notebook_id: order_by
-}
-
-"""primary key columns input for table: rdvi_notebook_creations"""
-input rdvi_notebook_creations_pk_columns_input {
-  id: uuid!
-}
-
-"""
-select columns of table "rdvi_notebook_creations"
-"""
-enum rdvi_notebook_creations_select_column {
-  """column name"""
-  account_id
-
-  """column name"""
-  created_at
-
-  """column name"""
-  id
-
-  """column name"""
-  notebook_id
-}
-
-"""
-input type for updating data in table "rdvi_notebook_creations"
-"""
-input rdvi_notebook_creations_set_input {
-  account_id: uuid
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-}
-
-"""
-Streaming cursor of the table "rdvi_notebook_creations"
-"""
-input rdvi_notebook_creations_stream_cursor_input {
-  """Stream column input with initial value"""
-  initial_value: rdvi_notebook_creations_stream_cursor_value_input!
-
-  """cursor ordering"""
-  ordering: cursor_ordering
-}
-
-"""Initial value of the column from where the streaming should start"""
-input rdvi_notebook_creations_stream_cursor_value_input {
-  account_id: uuid
-  created_at: timestamptz
-  id: uuid
-  notebook_id: uuid
-}
-
-"""
-update columns of table "rdvi_notebook_creations"
-"""
-enum rdvi_notebook_creations_update_column {
-  """column name"""
-  account_id
-
-  """column name"""
-  created_at
-
-  """column name"""
-  id
-
-  """column name"""
-  notebook_id
-}
-
-input rdvi_notebook_creations_updates {
-  """sets the columns of the filtered rows to the given values"""
-  _set: rdvi_notebook_creations_set_input
-
-  """filter the rows which have to be updated"""
-  where: rdvi_notebook_creations_bool_exp!
 }
 
 """
@@ -21633,6 +21933,124 @@ type subscription_root {
   notebook_by_pk(id: uuid!): notebook
 
   """
+  fetch data from the table: "notebook_creation"
+  """
+  notebook_creation(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_bool_exp
+  ): [notebook_creation!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_creation"
+  """
+  notebook_creation_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_bool_exp
+  ): notebook_creation_aggregate!
+
+  """
+  fetch data from the table: "notebook_creation" using primary key columns
+  """
+  notebook_creation_by_pk(id: uuid!): notebook_creation
+
+  """
+  fetch data from the table: "notebook_creation_source_type"
+  """
+  notebook_creation_source_type(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_source_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_source_type_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_source_type_bool_exp
+  ): [notebook_creation_source_type!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_creation_source_type"
+  """
+  notebook_creation_source_type_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_creation_source_type_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_creation_source_type_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_creation_source_type_bool_exp
+  ): notebook_creation_source_type_aggregate!
+
+  """
+  fetch data from the table: "notebook_creation_source_type" using primary key columns
+  """
+  notebook_creation_source_type_by_pk(id: String!): notebook_creation_source_type
+
+  """
+  fetch data from the table in a streaming manner: "notebook_creation_source_type"
+  """
+  notebook_creation_source_type_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [notebook_creation_source_type_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: notebook_creation_source_type_bool_exp
+  ): [notebook_creation_source_type!]!
+
+  """
+  fetch data from the table in a streaming manner: "notebook_creation"
+  """
+  notebook_creation_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [notebook_creation_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: notebook_creation_bool_exp
+  ): [notebook_creation!]!
+
+  """
   fetch data from the table: "notebook_event"
   """
   notebook_event(
@@ -22743,65 +23161,6 @@ type subscription_root {
     """filter the rows returned"""
     where: professional_bool_exp
   ): [professional!]!
-
-  """
-  fetch data from the table: "rdvi_notebook_creations"
-  """
-  rdvi_notebook_creations(
-    """distinct select on columns"""
-    distinct_on: [rdvi_notebook_creations_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [rdvi_notebook_creations_order_by!]
-
-    """filter the rows returned"""
-    where: rdvi_notebook_creations_bool_exp
-  ): [rdvi_notebook_creations!]!
-
-  """
-  fetch aggregated fields from the table: "rdvi_notebook_creations"
-  """
-  rdvi_notebook_creations_aggregate(
-    """distinct select on columns"""
-    distinct_on: [rdvi_notebook_creations_select_column!]
-
-    """limit the number of rows returned"""
-    limit: Int
-
-    """skip the first n rows. Use only with order_by"""
-    offset: Int
-
-    """sort the rows by one or more columns"""
-    order_by: [rdvi_notebook_creations_order_by!]
-
-    """filter the rows returned"""
-    where: rdvi_notebook_creations_bool_exp
-  ): rdvi_notebook_creations_aggregate!
-
-  """
-  fetch data from the table: "rdvi_notebook_creations" using primary key columns
-  """
-  rdvi_notebook_creations_by_pk(id: uuid!): rdvi_notebook_creations
-
-  """
-  fetch data from the table in a streaming manner: "rdvi_notebook_creations"
-  """
-  rdvi_notebook_creations_stream(
-    """maximum number of rows returned in a single batch"""
-    batch_size: Int!
-
-    """cursor to stream the results returned by the query"""
-    cursor: [rdvi_notebook_creations_stream_cursor_input]!
-
-    """filter the rows returned"""
-    where: rdvi_notebook_creations_bool_exp
-  ): [rdvi_notebook_creations!]!
 
   """
   fetch data from the table: "ref_action"
