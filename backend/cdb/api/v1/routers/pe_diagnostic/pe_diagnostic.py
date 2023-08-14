@@ -63,8 +63,6 @@ async def update_notebook_from_pole_emploi(
         )
         return response
 
-    logger.info("couccou")
-
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()
     if notebook.has_fresh_pe_data():
         logger.info(
