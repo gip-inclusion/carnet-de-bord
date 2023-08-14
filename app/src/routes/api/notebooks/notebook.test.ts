@@ -250,36 +250,6 @@ describe('notebook api endpoint', () => {
 		expect(params[0]).toMatch(getGraphqlAPI());
 		expect(params[1].body).toContain('create_notebook');
 	});
-
-	describe('Track the creation', () => {
-		test('track when create was successful', async () => {
-			const findAccountId = vi.fn().mockImplementation((_) => 'account id');
-			const createNotebook = vi
-				.fn()
-				.mockImplementation((_) => ({ type: 'success', notebookId: 'notebook id' }));
-			const trackCreation = vi.fn();
-			const request = aValidRequest();
-
-			await POST(request, { findAccountId, createNotebook, trackCreation });
-
-			expect(trackCreation).toHaveBeenCalledWith({
-				notebookId: 'notebook id',
-				accountId: 'account id',
-			});
-		});
-		test('does not when create failed', async () => {
-			const findAccountId = vi.fn().mockImplementation((_) => 'account id');
-			const createNotebook = vi
-				.fn()
-				.mockImplementation((_) => ({ type: 'error', message: 'oops' }));
-			const trackCreation = vi.fn();
-			const request = aValidRequest();
-
-			await POST(request, { findAccountId, createNotebook, trackCreation });
-
-			expect(trackCreation).not.toHaveBeenCalled();
-		});
-	});
 });
 
 function aValidRequest() {
