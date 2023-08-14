@@ -24,14 +24,14 @@ async function getResultsForBeneficiary(name) {
 	return await I.sendQuery(
 		`
 		query($name:String!) {
-			notebook(where: {beneficiary: {lastname: {_eq: $name}}}){
+			notebook(where: {beneficiary: {lastname: {_eq: $name}}} order_by: {beneficiary: {lastname: desc_nulls_first}}){
 				beneficiary {
 					structures {
 						status
 						structure {name}
 					}
 				}
-				members {
+				members(order_by: {account: {username: desc_nulls_first}}) {
 					active, memberType, account {professional {email}}
 				}
 			}
