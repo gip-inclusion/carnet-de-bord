@@ -6,7 +6,6 @@ from uuid import UUID
 from asyncpg import Record
 from asyncpg.connection import Connection
 from gql import gql
-from gql.dsl import DSLField, DSLSchema
 from graphql import DocumentNode
 
 from cdb.api.db.crud.notebook import (
@@ -22,7 +21,6 @@ from cdb.api.db.models.beneficiary import (
 )
 from cdb.api.db.models.deployment import parse_deployment_from_beneficiary_record
 from cdb.api.db.models.orientation_system import OrientationSystem
-from cdb.api.v1.payloads.notebook import NotebookInput
 
 logger = logging.getLogger(__name__)
 
@@ -293,49 +291,63 @@ ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth A
     ]
 
 
-def search_beneficiary_by_nir_query(
-    dsl_schema: DSLSchema, nir: str
-) -> dict[str, DSLField]:
-    return {
-        "beneficiaries": dsl_schema.query_root.get_beneficiaries_from_nir.args(
-            args={"search_nir": nir}
-        ).select(
-            dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id),
-            dsl_schema.beneficiary.deploymentId,
-        )
-    }
+def search_beneficiary_by_nir_query_gql() -> DocumentNode:
+    return gql(
+        """
+        query($nir: String!) {
+            beneficiaries: get_beneficiaries_from_nir(args: {search_nir: $nir}) {
+               deploymentId
+               notebook { id }
+            }
+        }
+"""
+    )
 
 
-def get_insert_beneficiary_mutation(
-    dsl_schema: DSLSchema,
-    notebook: NotebookInput,
-) -> dict[str, DSLField]:
+def get_insert_beneficiary_mutation_gql() -> DocumentNode:
     """
        Question : quid de la structure ?
     (comment la trouver et créer la beneficiary_structure associée)
     """
-
-    return {
-        "create_beneficiary_with_notebook": (
-            dsl_schema.mutation_root.insert_beneficiary_one.args(
-                object={
-                    "nir": notebook.nir,
-                    "firstname": notebook.firstname,
-                    "lastname": notebook.lastname,
-                    "dateOfBirth": notebook.date_of_birth,
-                    "externalId": notebook.external_id,
-                    "mobileNumber": notebook.mobile_number,
-                    "email": notebook.email,
-                    "address1": notebook.address1,
-                    "address2": notebook.address2,
-                    "postalCode": notebook.postal_code,
-                    "city": notebook.city,
-                    "cafNumber": notebook.caf_number,
-                    "notebook": {"data": {}},
+    return gql(
+        """
+        mutation (
+            $nir: String!,
+            $firstname: String!,
+            $lastname: String!,
+            $dateOfBirth: date!,
+            $externalId: String,
+            $mobileNumber: String,
+            $email: citext,
+            $address1: String,
+            $address2: String,
+            $postalCode: String,
+            $city: String,
+            $cafNumber: String,
+        ) {
+            insert_beneficiary_one(object: {
+               nir: $nir,
+               firstname: $firstname,
+               lastname: $lastname,
+               dateOfBirth: $dateOfBirth,
+               externalId: $externalId,
+               mobileNumber: $mobileNumber,
+               email: $email,
+               address1: $address1,
+               address2: $address2,
+               postalCode: $postalCode,
+               city: $city,
+               cafNumber: $cafNumber,
+               notebook: {data: {}}
+            }) {
+                notebook {
+                    id
                 }
-            ).select(dsl_schema.beneficiary.notebook.select(dsl_schema.notebook.id))
-        ),
-    }
+            }
+        }
+
+    """
+    )
 
 
 def update_diagnostic_fetch_date_gql() -> DocumentNode:
