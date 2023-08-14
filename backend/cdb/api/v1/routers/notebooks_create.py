@@ -5,6 +5,7 @@ from pydantic import BaseModel
 
 from cdb.api.db.crud.beneficiary import (
     get_insert_beneficiary_mutation_gql,
+    insert_notebook_creation_gql,
     search_beneficiary_by_nir_query_gql,
 )
 from cdb.api.db.graphql.get_client import gql_client_backend_only
@@ -72,7 +73,7 @@ async def create_beneficiary_notebook(
                     },
                 },
             )
-    print(payload.input.notebook.dict(by_alias=True))
+
     async with gql_client_backend_only(
         session_variables=payload.session_variables
     ) as session:
@@ -80,7 +81,14 @@ async def create_beneficiary_notebook(
             get_insert_beneficiary_mutation_gql(),
             variable_values=payload.input.notebook.dict(by_alias=True),
         )
+        notebook_id = response["insert_beneficiary_one"]["notebook"]["id"]
+        await session.execute(
+            insert_notebook_creation_gql(),
+            variable_values={
+                "accountId": payload.session_variables.get("x-hasura-user-id"),
+                "notebookId": notebook_id,
+                "source": "rdvi",
+            },
+        )
 
-    return CreatedNotebook(
-        notebookId=response["insert_beneficiary_one"]["notebook"]["id"]
-    )
+    return CreatedNotebook(notebookId=notebook_id)

@@ -126,7 +126,9 @@ async def test_creates_notebook_and_beneficiary(
             lastname="Erdaivéï",
             date_of_birth="2000-12-01",
         ),
-        headers={"secret-token": "action_secret_token"},
+        headers={
+            "secret-token": "action_secret_token",
+        },
     )
     assert response.status_code == 201
     json = response.json()
@@ -137,6 +139,11 @@ async def test_creates_notebook_and_beneficiary(
     beneficiary = await get_beneficiary_by_id(db_connection, notebook.beneficiary_id)
     assert beneficiary
     assert beneficiary.firstname == "Jay"
+    record = await db_connection.fetchrow(
+        "select * from notebook_creation where notebook_id=$1", created_notebook_id
+    )
+    assert record
+    assert record["id"]
 
 
 async def test_creates_notebook_and_beneficiary_with_15_digits_nir(
