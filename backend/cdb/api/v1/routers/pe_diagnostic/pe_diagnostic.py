@@ -43,7 +43,10 @@ DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API = "enable_pe_diagnostic_api"
 
 
 async def update_notebook_from_pole_emploi(
-    io: IO, notebook_id: UUID, dry_run: bool = False
+    io: IO,
+    notebook_id: UUID,
+    dry_run: bool = False,
+    bypass_fresh_data_check: bool = False,
 ) -> Response:
     response = Response()
 
@@ -64,15 +67,17 @@ async def update_notebook_from_pole_emploi(
         return response
 
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()
-    if notebook.has_fresh_pe_data():
+    if notebook.has_fresh_pe_data() and not bypass_fresh_data_check:
         logger.info(
-            "[id: %s] No fresh data for notebook, skipping",
+            "[id: %s] No fresh data for notebook (<1 hour), skipping",
             notebook_id,
         )
         return response
 
     # Connnect to the Pôle emploi API
-    dossier = await io.get_dossier_pe(notebook.nir, notebook.date_of_birth)
+    dossier: DossierIndividuData | None = await io.get_dossier_pe(
+        notebook.nir, notebook.date_of_birth
+    )
     await io.update_diagnostic_fetch_date(notebook_id)
 
     # TODO: Quand on a un dossier qui nous revient à None
@@ -86,6 +91,17 @@ async def update_notebook_from_pole_emploi(
             notebook.date_of_birth,
         )
         return response
+    else:
+        logger.info(
+            "[id: %s] PE dossier found for nir '%s' and date of birth '%s'",
+            notebook_id,
+            notebook.nir,
+            notebook.date_of_birth,
+        )
+        logger.info(
+            "[id: %s] PE dossier %s",
+            dossier.json(),
+        )
 
     if notebook.last_diagnostic_hash == dossier.hash():
         logger.info(

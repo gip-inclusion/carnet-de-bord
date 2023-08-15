@@ -82,7 +82,7 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
     )
 
 
-async def get_dossier_pe(nir: str, birth_date: str):
+async def get_dossier_pe(nir: str, birth_date: str) -> DossierIndividuData | None:
     pe_client = PoleEmploiApiClient(
         auth_base_url=settings.PE_AUTH_BASE_URL,
         base_url=settings.PE_BASE_URL,

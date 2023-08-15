@@ -25,7 +25,9 @@ logging.basicConfig()
 app = typer.Typer()
 
 
-async def update_pe_notebook(notebook_id: UUID, dry_run: bool):
+async def update_pe_notebook(
+    notebook_id: UUID, dry_run: bool, bypass_fresh_data_check: bool
+):
     async with gql_client_backend_only() as session:
         IO.update_forward_refs()
         deps = IO(
@@ -36,13 +38,16 @@ async def update_pe_notebook(notebook_id: UUID, dry_run: bool):
             get_ref_situations=partial(get_ref_situations, session),
             save_differences=partial(save_differences, session),
         )
-        return await update_notebook_from_pole_emploi(deps, notebook_id, dry_run)
+        return await update_notebook_from_pole_emploi(
+            deps, notebook_id, dry_run, bypass_fresh_data_check
+        )
 
 
 @app.command()
 def update_notebook_from_pe_by_id(
     notebook_id: UUID,
     dry_run: bool = True,
+    bypass_fresh_data_check: bool = False,
     verbose: int = typer.Option(0, "--verbose", "-v", count=True),
 ):
     if verbose == 1:
@@ -53,7 +58,7 @@ def update_notebook_from_pe_by_id(
 
     typer.echo(f"Updating Notebook with id {notebook_id}")
 
-    asyncio.run(update_pe_notebook(notebook_id, dry_run))
+    asyncio.run(update_pe_notebook(notebook_id, dry_run, bypass_fresh_data_check))
 
 
 if __name__ == "__main__":
