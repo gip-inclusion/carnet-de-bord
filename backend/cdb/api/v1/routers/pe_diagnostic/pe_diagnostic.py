@@ -49,16 +49,16 @@ async def update_notebook_from_pole_emploi(
 
     notebook: Notebook = await io.find_notebook(notebook_id)
     if not notebook:
-        logger.error("id: %s - No notebook found", notebook_id)
+        logger.error("[id: %s] No notebook found", notebook_id)
         return response
 
     if not notebook.nir:
-        logger.error("id: %s - No NIR for notebook", notebook_id)
+        logger.error("[id: %s] No NIR for notebook", notebook_id)
         return response
 
     if not notebook.deployment_config.get(DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API):
         logger.error(
-            "id: %s - PE diagnostic api not enabled for current notebook deployment",
+            "[id: %s] PE diagnostic api not enabled for current notebook deployment",
             notebook_id,
         )
         return response
@@ -66,7 +66,7 @@ async def update_notebook_from_pole_emploi(
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()
     if notebook.has_fresh_pe_data():
         logger.info(
-            "id: %s - No fresh data for notebook, skipping",
+            "[id: %s] No fresh data for notebook, skipping",
             notebook_id,
         )
         return response
@@ -80,7 +80,7 @@ async def update_notebook_from_pole_emploi(
     #  on ne devrait pas supprimer ?
     if dossier is None:
         logger.error(
-            "id: %s - No PE dossier found for nir '%s' and date of birth '%s'",
+            "[id: %s] No PE dossier found for nir '%s' and date of birth '%s'",
             notebook_id,
             notebook.nir,
             notebook.date_of_birth,
@@ -89,7 +89,7 @@ async def update_notebook_from_pole_emploi(
 
     if notebook.last_diagnostic_hash == dossier.hash():
         logger.info(
-            "id: %s - Last diagnostic is the same than PE, skipping",
+            "[id: %s] Last diagnostic is the same than PE, skipping",
             notebook_id,
         )
         return response
@@ -102,7 +102,7 @@ async def update_notebook_from_pole_emploi(
 
     if not settings.ENABLE_SYNC_CONTRAINTES:
         logger.info(
-            "id: %s - ENABLE_SYNC_CONTRAINTES flag to false, skipping sync",
+            "[id: %s] ENABLE_SYNC_CONTRAINTES flag to false, skipping sync",
             notebook_id,
         )
         return response
