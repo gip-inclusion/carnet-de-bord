@@ -52,16 +52,17 @@ async def update_notebook_from_pole_emploi(
 
     notebook: Notebook = await io.find_notebook(notebook_id)
     if not notebook:
-        logger.error("[id: %s] No notebook found", notebook_id)
+        logger.error("[notebook_id: %s] No notebook found", notebook_id)
         return response
 
     if not notebook.nir:
-        logger.error("[id: %s] No NIR for notebook", notebook_id)
+        logger.error("[notebook_id: %s] No NIR for notebook", notebook_id)
         return response
 
     if not notebook.deployment_config.get(DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API):
         logger.error(
-            "[id: %s] PE diagnostic api not enabled for current notebook deployment",
+            "[notebook_id: %s] PE diagnostic api not enabled for current "
+            "notebook deployment",
             notebook_id,
         )
         return response
@@ -69,7 +70,7 @@ async def update_notebook_from_pole_emploi(
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()
     if notebook.has_fresh_pe_data() and not bypass_fresh_data_check:
         logger.info(
-            "[id: %s] No fresh data for notebook (<1 hour), skipping",
+            "[notebook_id: %s] No fresh data for notebook (<1 hour), skipping",
             notebook_id,
         )
         return response
@@ -85,7 +86,7 @@ async def update_notebook_from_pole_emploi(
     #  on ne devrait pas supprimer ?
     if dossier is None:
         logger.error(
-            "[id: %s] No PE dossier found for nir '%s' and date of birth '%s'",
+            "[notebook_id: %s] No PE dossier found for nir '%s' and date of birth '%s'",
             notebook_id,
             notebook.nir,
             notebook.date_of_birth,
@@ -93,32 +94,38 @@ async def update_notebook_from_pole_emploi(
         return response
     else:
         logger.info(
-            "[id: %s] PE dossier found for nir '%s' and date of birth '%s'",
+            "[notebook_id: %s] PE dossier found for nir '%s' and date of birth '%s'",
             notebook_id,
             notebook.nir,
             notebook.date_of_birth,
         )
-        logger.info(
-            "[id: %s] PE dossier %s",
+        logger.debug(
+            "[notebook_id: %s] PE dossier %s",
+            notebook_id,
             dossier.json(),
         )
 
     if notebook.last_diagnostic_hash == dossier.hash():
         logger.info(
-            "[id: %s] Last diagnostic is the same than PE, skipping",
+            "[notebook_id: %s] Last diagnostic is the same than PE, skipping",
             notebook_id,
         )
         return response
 
     if not dry_run:
         await io.save_in_external_data(dossier, notebook.beneficiary_id)
+    else:
+        logger.info(
+            "[notebook_id: %s] Skipping saving in external data, dry-run activated",
+            notebook_id,
+        )
 
     response.has_pe_diagnostic = True
     response.external_data_has_been_updated = True
 
     if not settings.ENABLE_SYNC_CONTRAINTES:
         logger.info(
-            "[id: %s] ENABLE_SYNC_CONTRAINTES flag to false, skipping sync",
+            "[notebook_id: %s] ENABLE_SYNC_CONTRAINTES flag to false, skipping sync",
             notebook_id,
         )
         return response
@@ -141,6 +148,20 @@ async def update_notebook_from_pole_emploi(
     ) and not dry_run:
         await io.save_differences(situation_differences, focus_differences, notebook_id)
         response.data_has_been_updated = True
+
+    if dry_run:
+        logger.info(
+            "[notebook_id: %s] Skipping saving differences, dry-run activated",
+            notebook_id,
+        )
+        logger.info(
+            "[notebook_id: %s] Situation differences %s",
+            notebook_id,
+            situation_differences,
+        )
+        logger.info(
+            "[notebook_id: %s] Focus differences %s", notebook_id, focus_differences
+        )
 
     return response
 
