@@ -1,17 +1,14 @@
-CREATE TABLE "public"."notebook_updates_track"
+CREATE TABLE "public"."notebook_update"
 (
+	"id"          uuid                     NOT NULL DEFAULT gen_random_uuid(),
 	"notebook_id" uuid                     NOT NULL,
 	"account_id"  uuid                     NOT NULL,
 	"updated_at"  timestamp with time zone NOT NULL,
 	"type"        text                     NOT NULL,
-	"id"          uuid                     NOT NULL DEFAULT gen_random_uuid(),
 	PRIMARY KEY ("id"),
 	FOREIGN KEY ("notebook_id") REFERENCES "public"."notebook" ("id") ON UPDATE restrict ON DELETE restrict,
 	FOREIGN KEY ("account_id") REFERENCES "public"."account" ("id") ON UPDATE restrict ON DELETE restrict
 );
-
-alter table public.notebook_updates_track
-    owner to cdb;
 
 -----------------------------------------
 -- Add new triggers
@@ -33,7 +30,7 @@ BEGIN
 		IF account IS NOT NULL then
 			SELECT notebook.id into notebook_id FROM notebook where notebook.beneficiary_id = NEW.id;
 			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = notebook_id AND account_id = account;
-			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
+			INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
 			VALUES (notebook_id, account, now(), 'beneficiary');
 		END IF;
 	END IF;
@@ -62,7 +59,7 @@ BEGIN
 	IF session_variables IS NOT NULL then
 		account := session_variables ->> 'x-hasura-user-id';
 		IF account IS NOT NULL then
-			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
+			INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
 			VALUES (NEW.notebook_id, account, now(), 'appointment');
 			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = NEW.notebook_id AND account_id = account;
 		END IF;
@@ -92,7 +89,7 @@ BEGIN
 	IF session_variables IS NOT NULL then
 		account := session_variables ->> 'x-hasura-user-id';
 		IF account IS NOT NULL then
-			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
+			INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
 			VALUES (NEW.notebook_id, account, now(), 'situation');
 			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = NEW.notebook_id AND account_id = account;
 		END IF;
@@ -106,6 +103,42 @@ CREATE TRIGGER track_notebook_situation_updates
 	ON public.notebook_situation
 	FOR EACH ROW
 EXECUTE PROCEDURE public.notebook_situation_modification_date();
+
+-----------------------------------------
+
+CREATE OR REPLACE FUNCTION public.professional_project_modification_date()
+	RETURNS TRIGGER
+	LANGUAGE PLPGSQL
+AS
+$$
+DECLARE
+	session_variables json;
+	account           uuid;
+BEGIN
+	session_variables := current_setting('hasura.user', 't');
+	IF session_variables IS NOT NULL then
+		account := session_variables ->> 'x-hasura-user-id';
+		IF account IS NOT NULL then
+			IF (TG_OP = 'DELETE') then
+				INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
+				VALUES (OLD.notebook_id, account, now(), 'professional_project');
+				UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = OLD.notebook_id AND account_id = account;
+			ELSE
+				INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
+				VALUES (NEW.notebook_id, account, now(), 'professional_project');
+				UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = NEW.notebook_id AND account_id = account;
+			END IF;
+		END IF;
+	END IF;
+	RETURN NEW;
+END ;
+$$;
+
+CREATE TRIGGER track_professional_project_updates
+	AFTER INSERT OR UPDATE OF updated_at OR DELETE
+	ON public.professional_project
+	FOR EACH ROW
+EXECUTE PROCEDURE public.professional_project_modification_date();
 
 -----------------------------------------
 -- Change existing triggers
@@ -125,7 +158,7 @@ BEGIN
 		account := session_variables ->> 'x-hasura-user-id';
 		IF account IS NOT NULL then
 			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = NEW.id AND account_id = account;
-			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
+			INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
 			VALUES (NEW.id, account, now(), 'notebook');
 		END IF;
 	END IF;
@@ -147,7 +180,7 @@ BEGIN
 		account := session_variables ->> 'x-hasura-user-id';
 		IF account IS NOT NULL then
 			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = NEW.notebook_id AND account_id = account;
-			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
+			INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
 			VALUES (NEW.notebook_id, account, now(), 'focus');
 		END IF;
 	END IF;
@@ -171,7 +204,7 @@ BEGIN
 		IF account IS NOT NULL then
 			SELECT focus.notebook_id into notebook FROM public.notebook_focus as focus where focus.id = NEW.focus_id;
 			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = notebook AND account_id = account;
-			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
+			INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
 			VALUES (notebook, account, now(), 'target');
 		END IF;
 	END IF;
@@ -198,7 +231,7 @@ BEGIN
 			SELECT focus_id into focus FROM public.notebook_target where id = NEW.target_id;
 			SELECT notebook_id into notebook FROM public.notebook_focus where id = focus;
 			UPDATE notebook_member SET last_modified_at=now() WHERE notebook_id = notebook AND account_id = account;
-			INSERT INTO notebook_updates_track (notebook_id, account_id, updated_at, type)
+			INSERT INTO notebook_update (notebook_id, account_id, updated_at, type)
 			VALUES (notebook, account, now(), 'action');
 		END IF;
 	END IF;

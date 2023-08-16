@@ -24,7 +24,7 @@
 - "!include public_notebook_public_view.yaml"
 - "!include public_notebook_situation.yaml"
 - "!include public_notebook_target.yaml"
-- "!include public_notebook_updates_track.yaml"
+- "!include public_notebook_update.yaml"
 - "!include public_notebook_visit.yaml"
 - "!include public_nps_rating.yaml"
 - "!include public_nps_rating_dismissal.yaml"
