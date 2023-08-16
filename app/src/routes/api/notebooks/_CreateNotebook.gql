@@ -1,9 +1,5 @@
-mutation CreateNotebook (
-  $notebook: CreateNotebookInput!
-) {
-  create_notebook(
-    notebook: $notebook
-  ) {
+mutation CreateNotebook($notebook: CreateNotebookInput!, $source: String!) {
+  create_notebook(notebook: $notebook, source: $source) {
     notebookId
   }
 }

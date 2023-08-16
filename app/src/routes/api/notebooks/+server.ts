@@ -69,6 +69,7 @@ const createNotebook = async (jwt: string, body: BodyWithSourceType): Promise<Cr
 	const result = await authorizedClient
 		.mutation<CreateNotebookMutation, CreateNotebookMutationVariables>(CreateNotebookDocument, {
 			notebook: body.notebook,
+			source: body.source,
 		})
 		.toPromise();
 

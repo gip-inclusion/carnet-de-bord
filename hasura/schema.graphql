@@ -5515,7 +5515,7 @@ input manager_updates {
 """mutation root"""
 type mutation_root {
   """Notebook creation"""
-  create_notebook(notebook: CreateNotebookInput!): CreateNotebookOutput
+  create_notebook(notebook: CreateNotebookInput!, source: String!): CreateNotebookOutput
 
   """create_notebook_focus"""
   create_notebook_focus(linkedTo: String!, notebookId: uuid!, theme: String!): CreateNotebookFocusOutput
