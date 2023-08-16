@@ -1,3 +1,10 @@
+## [1.251.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.251.0...v1.251.1) (2023-08-16)
+
+
+### Bug Fixes
+
+*  rename notebook_update and add trigger ([#1968](https://github.com/gip-inclusion/carnet-de-bord/issues/1968)) ([b90780b](https://github.com/gip-inclusion/carnet-de-bord/commit/b90780b9b793812f64fa1d588c9275e66389df5d))
+
 # [1.251.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.250.0...v1.251.0) (2023-08-10)
 
 
