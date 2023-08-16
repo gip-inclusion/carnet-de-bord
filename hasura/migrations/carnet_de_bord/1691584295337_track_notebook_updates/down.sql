@@ -1,14 +1,16 @@
-DROP TABLE "public"."notebook_updates_track";
+DROP TABLE "public"."notebook_update";
 
 -- Delete new triggers
 
 DROP TRIGGER track_notebook_beneficiary_updates ON public.beneficiary;
 DROP TRIGGER track_notebook_appointment_updates ON public.notebook_appointment;
 DROP TRIGGER track_notebook_situation_updates ON public.notebook_situation;
+DROP TRIGGER track_professional_project_updates ON public.professional_project;
 
 DROP FUNCTION public.notebook_beneficiary_modification_date();
 DROP FUNCTION public.notebook_appointment_modification_date();
 DROP FUNCTION public.notebook_situation_modification_date();
+DROP FUNCTION public.professional_project_modification_date();
 
 -- Restore old triggers
 

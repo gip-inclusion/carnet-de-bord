@@ -5847,6 +5847,19 @@ type mutation_root {
   delete_notebook_target_by_pk(id: uuid!): notebook_target
 
   """
+  delete data from the table: "notebook_update"
+  """
+  delete_notebook_update(
+    """filter the rows which have to be deleted"""
+    where: notebook_update_bool_exp!
+  ): notebook_update_mutation_response
+
+  """
+  delete single row from the table: "notebook_update"
+  """
+  delete_notebook_update_by_pk(id: uuid!): notebook_update
+
+  """
   delete data from the table: "notebook_visit"
   """
   delete_notebook_visit(
@@ -6649,6 +6662,28 @@ type mutation_root {
     """upsert condition"""
     on_conflict: notebook_target_on_conflict
   ): notebook_target
+
+  """
+  insert data into the table: "notebook_update"
+  """
+  insert_notebook_update(
+    """the rows to be inserted"""
+    objects: [notebook_update_insert_input!]!
+
+    """upsert condition"""
+    on_conflict: notebook_update_on_conflict
+  ): notebook_update_mutation_response
+
+  """
+  insert a single row into the table: "notebook_update"
+  """
+  insert_notebook_update_one(
+    """the row to be inserted"""
+    object: notebook_update_insert_input!
+
+    """upsert condition"""
+    on_conflict: notebook_update_on_conflict
+  ): notebook_update
 
   """
   insert data into the table: "notebook_visit"
@@ -7958,6 +7993,34 @@ type mutation_root {
 
   """update_notebook_target_status"""
   update_notebook_target_status(id: uuid!, status: String!): UpdateNotebookTargetStatusOutput
+
+  """
+  update data of the table: "notebook_update"
+  """
+  update_notebook_update(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_update_set_input
+
+    """filter the rows which have to be updated"""
+    where: notebook_update_bool_exp!
+  ): notebook_update_mutation_response
+
+  """
+  update single row of the table: "notebook_update"
+  """
+  update_notebook_update_by_pk(
+    """sets the columns of the filtered rows to the given values"""
+    _set: notebook_update_set_input
+    pk_columns: notebook_update_pk_columns_input!
+  ): notebook_update
+
+  """
+  update multiples rows of table: "notebook_update"
+  """
+  update_notebook_update_many(
+    """updates to execute, in order"""
+    updates: [notebook_update_updates!]!
+  ): [notebook_update_mutation_response]
 
   """
   update data of the table: "notebook_visit"
@@ -12092,6 +12155,48 @@ input notebook_target_updates {
 }
 
 """
+columns and relationships of "notebook_update"
+"""
+type notebook_update {
+  account_id: uuid!
+  id: uuid!
+  notebook_id: uuid!
+  type: String!
+  updated_at: timestamptz!
+}
+
+"""
+aggregated selection of "notebook_update"
+"""
+type notebook_update_aggregate {
+  aggregate: notebook_update_aggregate_fields
+  nodes: [notebook_update!]!
+}
+
+"""
+aggregate fields of "notebook_update"
+"""
+type notebook_update_aggregate_fields {
+  count(columns: [notebook_update_select_column!], distinct: Boolean): Int!
+  max: notebook_update_max_fields
+  min: notebook_update_min_fields
+}
+
+"""
+Boolean expression to filter rows from the table "notebook_update". All fields are combined with a logical 'AND'.
+"""
+input notebook_update_bool_exp {
+  _and: [notebook_update_bool_exp!]
+  _not: notebook_update_bool_exp
+  _or: [notebook_update_bool_exp!]
+  account_id: uuid_comparison_exp
+  id: uuid_comparison_exp
+  notebook_id: uuid_comparison_exp
+  type: String_comparison_exp
+  updated_at: timestamptz_comparison_exp
+}
+
+"""
 update columns of table "notebook"
 """
 enum notebook_update_column {
@@ -12139,6 +12244,158 @@ enum notebook_update_column {
 
   """column name"""
   workSituationEndDate
+}
+
+"""
+unique or primary key constraints on table "notebook_update"
+"""
+enum notebook_update_constraint {
+  """
+  unique or primary key constraint on columns "id"
+  """
+  notebook_update_pkey
+}
+
+"""
+input type for inserting data into table "notebook_update"
+"""
+input notebook_update_insert_input {
+  account_id: uuid
+  id: uuid
+  notebook_id: uuid
+  type: String
+  updated_at: timestamptz
+}
+
+"""aggregate max on columns"""
+type notebook_update_max_fields {
+  account_id: uuid
+  id: uuid
+  notebook_id: uuid
+  type: String
+  updated_at: timestamptz
+}
+
+"""aggregate min on columns"""
+type notebook_update_min_fields {
+  account_id: uuid
+  id: uuid
+  notebook_id: uuid
+  type: String
+  updated_at: timestamptz
+}
+
+"""
+response of any mutation on the table "notebook_update"
+"""
+type notebook_update_mutation_response {
+  """number of rows affected by the mutation"""
+  affected_rows: Int!
+
+  """data from the rows affected by the mutation"""
+  returning: [notebook_update!]!
+}
+
+"""
+on_conflict condition type for table "notebook_update"
+"""
+input notebook_update_on_conflict {
+  constraint: notebook_update_constraint!
+  update_columns: [notebook_update_update_column!]! = []
+  where: notebook_update_bool_exp
+}
+
+"""Ordering options when selecting data from "notebook_update"."""
+input notebook_update_order_by {
+  account_id: order_by
+  id: order_by
+  notebook_id: order_by
+  type: order_by
+  updated_at: order_by
+}
+
+"""primary key columns input for table: notebook_update"""
+input notebook_update_pk_columns_input {
+  id: uuid!
+}
+
+"""
+select columns of table "notebook_update"
+"""
+enum notebook_update_select_column {
+  """column name"""
+  account_id
+
+  """column name"""
+  id
+
+  """column name"""
+  notebook_id
+
+  """column name"""
+  type
+
+  """column name"""
+  updated_at
+}
+
+"""
+input type for updating data in table "notebook_update"
+"""
+input notebook_update_set_input {
+  account_id: uuid
+  id: uuid
+  notebook_id: uuid
+  type: String
+  updated_at: timestamptz
+}
+
+"""
+Streaming cursor of the table "notebook_update"
+"""
+input notebook_update_stream_cursor_input {
+  """Stream column input with initial value"""
+  initial_value: notebook_update_stream_cursor_value_input!
+
+  """cursor ordering"""
+  ordering: cursor_ordering
+}
+
+"""Initial value of the column from where the streaming should start"""
+input notebook_update_stream_cursor_value_input {
+  account_id: uuid
+  id: uuid
+  notebook_id: uuid
+  type: String
+  updated_at: timestamptz
+}
+
+"""
+update columns of table "notebook_update"
+"""
+enum notebook_update_update_column {
+  """column name"""
+  account_id
+
+  """column name"""
+  id
+
+  """column name"""
+  notebook_id
+
+  """column name"""
+  type
+
+  """column name"""
+  updated_at
+}
+
+input notebook_update_updates {
+  """sets the columns of the filtered rows to the given values"""
+  _set: notebook_update_set_input
+
+  """filter the rows which have to be updated"""
+  where: notebook_update_bool_exp!
 }
 
 input notebook_updates {
@@ -16403,6 +16660,49 @@ type query_root {
 
   """fetch data from the table: "notebook_target" using primary key columns"""
   notebook_target_by_pk(id: uuid!): notebook_target
+
+  """
+  fetch data from the table: "notebook_update"
+  """
+  notebook_update(
+    """distinct select on columns"""
+    distinct_on: [notebook_update_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_update_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_update_bool_exp
+  ): [notebook_update!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_update"
+  """
+  notebook_update_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_update_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_update_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_update_bool_exp
+  ): notebook_update_aggregate!
+
+  """fetch data from the table: "notebook_update" using primary key columns"""
+  notebook_update_by_pk(id: uuid!): notebook_update
 
   """
   fetch data from the table: "notebook_visit"
@@ -21516,6 +21816,63 @@ type subscription_root {
     """filter the rows returned"""
     where: notebook_target_bool_exp
   ): [notebook_target!]!
+
+  """
+  fetch data from the table: "notebook_update"
+  """
+  notebook_update(
+    """distinct select on columns"""
+    distinct_on: [notebook_update_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_update_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_update_bool_exp
+  ): [notebook_update!]!
+
+  """
+  fetch aggregated fields from the table: "notebook_update"
+  """
+  notebook_update_aggregate(
+    """distinct select on columns"""
+    distinct_on: [notebook_update_select_column!]
+
+    """limit the number of rows returned"""
+    limit: Int
+
+    """skip the first n rows. Use only with order_by"""
+    offset: Int
+
+    """sort the rows by one or more columns"""
+    order_by: [notebook_update_order_by!]
+
+    """filter the rows returned"""
+    where: notebook_update_bool_exp
+  ): notebook_update_aggregate!
+
+  """fetch data from the table: "notebook_update" using primary key columns"""
+  notebook_update_by_pk(id: uuid!): notebook_update
+
+  """
+  fetch data from the table in a streaming manner: "notebook_update"
+  """
+  notebook_update_stream(
+    """maximum number of rows returned in a single batch"""
+    batch_size: Int!
+
+    """cursor to stream the results returned by the query"""
+    cursor: [notebook_update_stream_cursor_input]!
+
+    """filter the rows returned"""
+    where: notebook_update_bool_exp
+  ): [notebook_update!]!
 
   """
   fetch data from the table: "notebook_visit"

@@ -1,0 +1,3 @@
+table:
+  name: notebook_update
+  schema: public
