@@ -1,10 +1,14 @@
 import asyncio
 import logging
+from enum import Enum
 from functools import partial
 from uuid import UUID
 
 import typer
 
+from cdb.api.core.db import get_connection_pool
+from cdb.api.core.settings import settings
+from cdb.api.db.crud.notebook import get_notebook_ids_by_deployment_id
 from cdb.api.db.crud.notebook_situation import get_ref_situations
 from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
@@ -19,10 +23,15 @@ from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_io import (
     update_diagnostic_fetch_date,
 )
 
-logging.basicConfig()
+logging.basicConfig(level=logging.INFO, format=settings.LOG_FORMAT)
 
 
 app = typer.Typer()
+
+
+class Target(str, Enum):
+    deployment = "deployment"
+    notebook = "notebook"
 
 
 async def update_pe_notebook(
@@ -43,9 +52,28 @@ async def update_pe_notebook(
         )
 
 
+async def update_pe_notebook_for_deployment(
+    deployment_id: UUID, dry_run: bool, bypass_fresh_data_check: bool
+):
+    pool = await get_connection_pool(settings.database_url)
+
+    # Take a connection from the pool.
+    if pool:
+        async with pool.acquire() as connection:
+            notebook_ids: list[UUID] = await get_notebook_ids_by_deployment_id(
+                connection, deployment_id
+            )
+
+            for notebook_id in notebook_ids:
+                await update_pe_notebook(notebook_id, dry_run, bypass_fresh_data_check)
+    else:
+        logging.error("Unable to acquire connection from DB pool")
+
+
 @app.command()
 def update_notebook_from_pe_by_id(
-    notebook_id: UUID,
+    target_id: UUID,
+    target: Target = Target.notebook,
     dry_run: bool = True,
     bypass_fresh_data_check: bool = False,
     verbose: int = typer.Option(0, "--verbose", "-v", count=True),
@@ -56,9 +84,16 @@ def update_notebook_from_pe_by_id(
     if verbose == 2:
         logging.getLogger().setLevel(logging.DEBUG)
 
-    typer.echo(f"Updating Notebook with id {notebook_id}")
+    typer.echo(f"Updating {target} with id {target_id}")
 
-    asyncio.run(update_pe_notebook(notebook_id, dry_run, bypass_fresh_data_check))
+    if target == Target.notebook:
+        asyncio.run(update_pe_notebook(target_id, dry_run, bypass_fresh_data_check))
+    else:
+        asyncio.run(
+            update_pe_notebook_for_deployment(
+                target_id, dry_run, bypass_fresh_data_check
+            )
+        )
 
 
 if __name__ == "__main__":
