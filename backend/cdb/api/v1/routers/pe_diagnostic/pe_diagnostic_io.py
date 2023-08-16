@@ -109,7 +109,7 @@ async def get_dossier_pe(nir: str, birth_date: str):
 
 async def update_diagnostic_fetch_date(session, notebook_id):
     await session.execute(
-        update_diagnostic_fetch_date_gql(), {"notebook_id": notebook_id}
+        update_diagnostic_fetch_date_gql, {"notebook_id": notebook_id}
     )
 
 

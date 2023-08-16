@@ -39,6 +39,11 @@ const bodySchema = yup.object().shape({
 });
 type BodyType = yup.InferType<typeof bodySchema>;
 
+const bodySchemaWithSource = bodySchema.shape({
+	source: yup.string().required(),
+});
+type BodyWithSourceType = yup.InferType<typeof bodySchemaWithSource>;
+
 const client = createGraphqlAdminClient();
 
 type CreateResult =
@@ -46,7 +51,7 @@ type CreateResult =
 	| { type: 'conflict'; error: GraphQLError }
 	| { type: 'bad-request'; message: string };
 
-const createNotebook = async (jwt: string, body: BodyType): Promise<CreateResult> => {
+const createNotebook = async (jwt: string, body: BodyWithSourceType): Promise<CreateResult> => {
 	const authorizedClient = createClient({
 		fetch,
 		fetchOptions: {
@@ -146,7 +151,7 @@ const parse = async (request: Request) => {
 
 type IO = {
 	findAccountId: (email: string, deploymentId: string) => Promise<string>;
-	createNotebook: (jwt: string, body: BodyType) => Promise<CreateResult>;
+	createNotebook: (jwt: string, body: BodyWithSourceType) => Promise<CreateResult>;
 };
 
 export const POST = (async ({ request }, io: IO = { findAccountId, createNotebook }) => {
@@ -154,8 +159,7 @@ export const POST = (async ({ request }, io: IO = { findAccountId, createNoteboo
 	const body: BodyType = await parse(request);
 	const accountId = await io.findAccountId(body.rdviUserEmail, body.deploymentId);
 	const jwt = createManagerJwt(accountId, body.deploymentId);
-
-	const result = await io.createNotebook(jwt, body);
+	const result = await io.createNotebook(jwt, Object.assign(body, { source: 'rdvi' }));
 
 	switch (result.type) {
 		case 'success':

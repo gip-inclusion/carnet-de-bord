@@ -291,9 +291,8 @@ ORDER BY ads.email ASC, s.name ASC, firstname ASC, lastname ASC, date_of_birth A
     ]
 
 
-def search_beneficiary_by_nir_query_gql() -> DocumentNode:
-    return gql(
-        """
+search_beneficiary_by_nir_query_gql: DocumentNode = gql(
+    """
         query($nir: String!) {
             beneficiaries: get_beneficiaries_from_nir(args: {search_nir: $nir}) {
                deploymentId
@@ -301,16 +300,13 @@ def search_beneficiary_by_nir_query_gql() -> DocumentNode:
             }
         }
 """
-    )
+)
 
 
-def get_insert_beneficiary_mutation_gql() -> DocumentNode:
+# Question : quid de la structure ?
+# (comment la trouver et créer la beneficiary_structure associée)
+get_insert_beneficiary_mutation_gql: DocumentNode = gql(
     """
-       Question : quid de la structure ?
-    (comment la trouver et créer la beneficiary_structure associée)
-    """
-    return gql(
-        """
         mutation (
             $nir: String!,
             $firstname: String!,
@@ -347,12 +343,11 @@ def get_insert_beneficiary_mutation_gql() -> DocumentNode:
         }
 
     """
-    )
+)
 
 
-def insert_notebook_creation_gql() -> DocumentNode:
-    return gql(
-        """
+insert_notebook_creation_gql: DocumentNode = gql(
+    """
     mutation (
         $accountId: uuid!
         $notebookId: uuid!
@@ -372,12 +367,11 @@ def insert_notebook_creation_gql() -> DocumentNode:
         }
 
 """
-    )
+)
 
 
-def update_diagnostic_fetch_date_gql() -> DocumentNode:
-    return gql(
-        """
+update_diagnostic_fetch_date_gql: DocumentNode = gql(
+    """
         mutation update_notebook_by_pk($notebook_id: uuid!) {
             update_notebook_by_pk(
                 pk_columns: {id: $notebook_id}
@@ -388,4 +382,4 @@ def update_diagnostic_fetch_date_gql() -> DocumentNode:
         }
 
         """
-    )
+)

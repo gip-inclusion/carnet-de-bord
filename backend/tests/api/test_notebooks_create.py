@@ -233,6 +233,7 @@ def get_mutation(
     return {
         "action": {"name": "create_notebook"},
         "input": {
+            "source": "rdvi",
             "notebook": {
                 "nir": nir,
                 "firstname": firstname,

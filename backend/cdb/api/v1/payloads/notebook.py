@@ -19,12 +19,12 @@ class NotebookInput(BaseModel):
     postal_code: str | None = Field(alias="postalCode")
     city: str | None
     caf_number: str | None = Field(alias="cafNumber")
-
     _nir_validator = nir_validator("nir")
 
 
 class CreateNotebookInput(BaseModel):
     notebook: NotebookInput
+    source: str
 
 
 class CreateNotebookActionPayload(HasuraActionPayload):
