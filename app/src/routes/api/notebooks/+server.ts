@@ -6,15 +6,16 @@ import { createClient } from '@urql/core';
 import type { RequestHandler } from './$types';
 import { createGraphqlAdminClient } from '$lib/graphql/createAdminClient';
 import {
-	GetAccountByEmailDocument,
-	RoleEnum,
-	type GetAccountByEmailQuery,
 	CreateNotebookDocument,
 	type CreateNotebookMutation,
 	type CreateNotebookMutationVariables,
+	GetAccountByEmailDocument,
+	type GetAccountByEmailQuery,
+	RoleEnum,
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { logger } from '$lib/utils/logger';
 import { createJwt } from '$lib/utils/getJwt';
+import type { GraphQLError } from 'graphql/index';
 
 const bodySchema = yup.object().shape({
 	rdviUserEmail: yup.string().required(),
@@ -38,67 +39,19 @@ const bodySchema = yup.object().shape({
 });
 type BodyType = yup.InferType<typeof bodySchema>;
 
+const bodySchemaWithSource = bodySchema.shape({
+	source: yup.string().required(),
+});
+type BodyWithSourceType = yup.InferType<typeof bodySchemaWithSource>;
+
 const client = createGraphqlAdminClient();
 
-export const POST = (async ({ request }) => {
-	const authorization = request.headers.get('authorization');
+type CreateResult =
+	| { type: 'success'; notebookId: string }
+	| { type: 'conflict'; error: GraphQLError }
+	| { type: 'bad-request'; message: string };
 
-	if (!authorization) {
-		throw error(401, { message: 'missing authorization' });
-	}
-
-	if (authorization.substring('Bearer '.length) !== getRdvISecret()) {
-		throw error(403, { message: 'wrong authorization' });
-	}
-
-	let body: BodyType;
-	try {
-		body = await request.json();
-	} catch (bodyParsingError) {
-		// do nothing the validate function will throw a more accurate error
-	}
-
-	try {
-		await bodySchema.validate(body);
-	} catch (validationError) {
-		throw error(422, { message: `${validationError.message}` });
-	}
-
-	//
-	const accountResult = await client
-		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
-			criteria: {
-				_and: [
-					{ deletedAt: { _is_null: true } },
-					{
-						manager: {
-							email: { _eq: body.rdviUserEmail },
-							deploymentId: { _eq: body.deploymentId },
-						},
-					},
-				],
-			},
-		})
-		.toPromise();
-
-	if (accountResult.error) {
-		logger.error(accountResult.error);
-		throw error(500, { message: 'Internal server error' });
-	}
-
-	if (accountResult.data.account.length === 0) {
-		logger.error(`manager account ${body.rdviUserEmail} not found`);
-		throw error(400, { message: 'manager account not found' });
-	}
-
-	const accountId = accountResult.data.account[0].id;
-
-	const jwt = createJwt({
-		id: accountId,
-		type: RoleEnum.Manager,
-		deploymentId: body.deploymentId,
-	});
-
+const createNotebook = async (jwt: string, body: BodyWithSourceType): Promise<CreateResult> => {
 	const authorizedClient = createClient({
 		fetch,
 		fetchOptions: {
@@ -113,23 +66,110 @@ export const POST = (async ({ request }) => {
 
 	// TODO:
 	//	- Ajouter des tests et adapter le code pour gérer les erreurs retournées par la mutation
-	const createNotebookResult = await authorizedClient
+	const result = await authorizedClient
 		.mutation<CreateNotebookMutation, CreateNotebookMutationVariables>(CreateNotebookDocument, {
 			notebook: body.notebook,
+			source: body.source,
 		})
 		.toPromise();
 
-	if (createNotebookResult.error) {
-		if (createNotebookResult.error.graphQLErrors) {
-			const gqlError = createNotebookResult.error.graphQLErrors[0];
-			if (gqlError.extensions.error_code === 409) {
-				throw error(409, { ...gqlError });
-			}
-		}
-		throw error(400, { message: createNotebookResult.error.toString() });
+	if (!result.error) {
+		return { type: 'success', notebookId: result.data.create_notebook.notebookId };
 	}
-	return new Response(
-		JSON.stringify({ notebookId: createNotebookResult.data.create_notebook.notebookId }),
-		{ status: 201 }
-	);
+	if (result.error.graphQLErrors) {
+		const gqlError = result.error.graphQLErrors[0];
+		if (gqlError.extensions.error_code === 409) {
+			return { type: 'conflict', error: gqlError };
+		}
+	}
+	return { type: 'bad-request', message: result.error.toString() };
+};
+
+const createManagerJwt = (accountId: string, deploymentId: string) =>
+	createJwt({
+		id: accountId,
+		type: RoleEnum.Manager,
+		deploymentId: deploymentId,
+	});
+
+const findAccountId = async (email: string, deploymentId: string): Promise<string> => {
+	const accountResult = await client
+		.query<GetAccountByEmailQuery>(GetAccountByEmailDocument, {
+			criteria: {
+				_and: [
+					{ deletedAt: { _is_null: true } },
+					{
+						manager: {
+							email: { _eq: email },
+							deploymentId: { _eq: deploymentId },
+						},
+					},
+				],
+			},
+		})
+		.toPromise();
+
+	if (accountResult.error) {
+		logger.error(accountResult.error);
+		throw error(500, { message: 'Internal server error' });
+	}
+
+	if (accountResult.data.account.length === 0) {
+		logger.error(`manager account ${email} not found`);
+		throw error(400, { message: 'manager account not found' });
+	}
+
+	return accountResult.data.account[0].id;
+};
+
+const checkAuthorization = (request: Request) => {
+	const authorization = request.headers.get('authorization');
+
+	if (!authorization) {
+		throw error(401, { message: 'missing authorization' });
+	}
+
+	if (authorization.substring('Bearer '.length) !== getRdvISecret()) {
+		throw error(403, { message: 'wrong authorization' });
+	}
+};
+
+const parse = async (request: Request) => {
+	let body: BodyType;
+	try {
+		body = await request.json();
+	} catch (bodyParsingError) {
+		// do nothing the validate function will throw a more accurate error
+	}
+
+	try {
+		await bodySchema.validate(body);
+	} catch (validationError) {
+		throw error(422, { message: `${validationError.message}` });
+	}
+	return body;
+};
+
+type IO = {
+	findAccountId: (email: string, deploymentId: string) => Promise<string>;
+	createNotebook: (jwt: string, body: BodyWithSourceType) => Promise<CreateResult>;
+};
+
+export const POST = (async ({ request }, io: IO = { findAccountId, createNotebook }) => {
+	checkAuthorization(request);
+	const body: BodyType = await parse(request);
+	const accountId = await io.findAccountId(body.rdviUserEmail, body.deploymentId);
+	const jwt = createManagerJwt(accountId, body.deploymentId);
+	const result = await io.createNotebook(jwt, Object.assign(body, { source: 'rdvi' }));
+
+	switch (result.type) {
+		case 'success':
+			return new Response(JSON.stringify({ notebookId: result.notebookId }), {
+				status: 201,
+			});
+		case 'conflict':
+			throw error(409, { ...result.error });
+		case 'bad-request':
+			throw error(400, { message: result.message });
+	}
 }) satisfies RequestHandler;

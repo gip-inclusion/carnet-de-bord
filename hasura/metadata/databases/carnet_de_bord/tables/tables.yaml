@@ -16,6 +16,8 @@
 - "!include public_notebook.yaml"
 - "!include public_notebook_action.yaml"
 - "!include public_notebook_appointment.yaml"
+- "!include public_notebook_creation.yaml"
+- "!include public_notebook_creation_source_type.yaml"
 - "!include public_notebook_event.yaml"
 - "!include public_notebook_event_type.yaml"
 - "!include public_notebook_focus.yaml"

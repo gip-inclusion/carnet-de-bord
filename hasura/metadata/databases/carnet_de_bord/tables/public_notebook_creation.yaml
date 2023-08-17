@@ -1,0 +1,50 @@
+table:
+  name: notebook_creation
+  schema: public
+configuration:
+  column_config:
+    created_at:
+      custom_name: createdAt
+    creator_account_id:
+      custom_name: creatorAccountId
+    notebook_id:
+      custom_name: notebookId
+  custom_column_names:
+    created_at: createdAt
+    creator_account_id: creatorAccountId
+    notebook_id: notebookId
+  custom_root_fields: {}
+object_relationships:
+  - name: creator
+    using:
+      foreign_key_constraint_on: creator_account_id
+  - name: notebook
+    using:
+      foreign_key_constraint_on: notebook_id
+insert_permissions:
+  - role: manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment:
+              managers:
+                account:
+                  id:
+                    _eq: X-Hasura-User-Id
+      columns:
+        - created_at
+        - creator_account_id
+        - id
+        - notebook_id
+        - source
+    comment: ""
+select_permissions:
+  - role: manager
+    permission:
+      columns:
+        - id
+      filter:
+        creator_account_id:
+          _eq: X-Hasura-User-Id
+    comment: ""

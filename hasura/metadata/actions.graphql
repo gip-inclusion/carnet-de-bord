@@ -1,6 +1,7 @@
 type Mutation {
   create_notebook(
     notebook: CreateNotebookInput!
+    source: String!
   ): CreateNotebookOutput
 }
 
