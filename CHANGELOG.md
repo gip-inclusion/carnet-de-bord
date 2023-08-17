@@ -1,3 +1,10 @@
+# [1.252.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.251.1...v1.252.0) (2023-08-17)
+
+
+### Features
+
+* suivi creation de carnet depuis rdvi  ([#1970](https://github.com/gip-inclusion/carnet-de-bord/issues/1970)) ([8118d43](https://github.com/gip-inclusion/carnet-de-bord/commit/8118d436a87ab31557ca7553cf40c209f963b98e))
+
 ## [1.251.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.251.0...v1.251.1) (2023-08-16)
 
 
