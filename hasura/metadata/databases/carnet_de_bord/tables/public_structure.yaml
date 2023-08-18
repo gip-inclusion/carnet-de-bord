@@ -148,9 +148,8 @@ select_permissions:
         - website
         - deployment_id
       filter:
-        admins:
-          admin_structure_id:
-            _eq: X-Hasura-adminStructure-Id
+        deployment_id:
+          _eq: X-hasura-deployment-Id
       allow_aggregations: true
   - role: anonymous
     permission:
