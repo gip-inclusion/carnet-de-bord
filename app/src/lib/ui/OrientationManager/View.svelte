@@ -5,7 +5,7 @@
 	import { Text } from '$lib/ui/utils';
 
 	export let orientationManager: AccountData['orientation_manager'];
-	export let mainTitle = 'Gestionnaire de structure';
+	export let mainTitle = "Chargé d'orientaion";
 </script>
 
 <div class="w-1/2 flex flex-col gap-4">
