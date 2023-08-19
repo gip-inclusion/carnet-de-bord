@@ -124,7 +124,7 @@ async def update_notebook_from_pole_emploi(
     response.external_data_has_been_updated = True
 
     if not settings.ENABLE_SYNC_CONTRAINTES:
-        logger.info(
+        logger.debug(
             "[notebook_id: %s] ENABLE_SYNC_CONTRAINTES flag to false, skipping sync",
             notebook_id,
         )
