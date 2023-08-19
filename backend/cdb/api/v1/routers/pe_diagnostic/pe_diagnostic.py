@@ -69,7 +69,7 @@ async def update_notebook_from_pole_emploi(
 
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()
     if notebook.has_fresh_pe_data() and not bypass_fresh_data_check:
-        logger.info(
+        logger.debug(
             "[notebook_id: %s] No fresh data for notebook (<1 hour), skipping",
             notebook_id,
         )
