@@ -106,7 +106,7 @@ async def update_notebook_from_pole_emploi(
         )
 
     if notebook.last_diagnostic_hash == dossier.hash():
-        logger.info(
+        logger.debug(
             "[notebook_id: %s] Last diagnostic is the same than PE, skipping",
             notebook_id,
         )
