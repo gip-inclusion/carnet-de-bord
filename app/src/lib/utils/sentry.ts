@@ -20,6 +20,7 @@ export function initSentry(Sentry: SentryInterface) {
 		environment: env.PUBLIC_SENTRY_ENVIRONMENT || 'local-development',
 		release: `carnet-de-bord-app@${appVersion}`,
 		autoSessionTracking: false,
+		tunnel: '/api/sentry-tunnel',
 	});
 
 	sentry = Sentry;
