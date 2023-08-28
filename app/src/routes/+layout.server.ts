@@ -27,7 +27,7 @@ export const load: LayoutServerLoad = async (event) => {
 		}
 	} else if (needAuth(event.url.pathname)) {
 		logger.warn('need auth');
-		throw redirect(302, '/auth/login');
+		throw redirect(302, `/auth/login?redirect=${event.url.pathname}`);
 	}
 
 	return {
