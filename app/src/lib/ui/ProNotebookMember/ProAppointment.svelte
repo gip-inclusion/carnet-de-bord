@@ -21,7 +21,6 @@
 	import type { Member } from './ProNotebookMemberView.svelte';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { connectedUser } from '$lib/stores';
-	import { parseISO } from 'date-fns';
 	import { formatDateTimeLocale } from '$lib/utils/date';
 	export let member: Member;
 	export let notebookId: string;
@@ -70,7 +69,7 @@
 				appointments.map((appointment) => {
 					appointment.status = appointment.status.toLowerCase();
 					appointment.fullDate = appointment.date;
-					const d = parseISO(appointment.date);
+					const d = new Date(appointment.date);
 					appointment.date = appointment.date.split('T')[0];
 					appointment.hours = d.getHours().toString();
 					appointment.minutes = d.getMinutes().toString();
@@ -155,8 +154,8 @@
 
 		if (appointments[index].date && appointments[index].status) {
 			const datetime = new Date(appointments[index].date);
-			datetime.setUTCHours(parseInt(appointments[index].hours));
-			datetime.setUTCMinutes(parseInt(appointments[index].minutes));
+			datetime.setHours(parseInt(appointments[index].hours));
+			datetime.setMinutes(parseInt(appointments[index].minutes));
 
 			if (appointments[index].id) {
 				await updateAppointment(index, datetime);
