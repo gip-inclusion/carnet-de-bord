@@ -526,9 +526,6 @@ async def get_notebooks_with_query(
     connection: Connection, query: str, *args
 ) -> list[Notebook]:
     async with connection.transaction():
-        print(
-            NOTEBOOK_BASE_QUERY + query,
-        )
         records: list[Record] = await connection.fetch(
             NOTEBOOK_BASE_QUERY + query,
             *args,
