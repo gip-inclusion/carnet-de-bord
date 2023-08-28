@@ -1,3 +1,10 @@
+## [1.254.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.2...v1.254.3) (2023-08-28)
+
+
+### Bug Fixes
+
+* affiche le type de compte correct pour les co ([#1973](https://github.com/gip-inclusion/carnet-de-bord/issues/1973)) ([2f7bcf9](https://github.com/gip-inclusion/carnet-de-bord/commit/2f7bcf9c08a46d4870a2a477416639dfce3a9949))
+
 ## [1.254.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.1...v1.254.2) (2023-08-28)
 
 
