@@ -1,3 +1,17 @@
+## [1.254.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.0...v1.254.1) (2023-08-28)
+
+
+### Bug Fixes
+
+* utilise la date de rdv localisée pour l'affichage dans le formulaire ([#1975](https://github.com/gip-inclusion/carnet-de-bord/issues/1975)) ([f198ccb](https://github.com/gip-inclusion/carnet-de-bord/commit/f198ccb848623eb6f2431aedea630b196f7bb725))
+
+# [1.254.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.253.0...v1.254.0) (2023-08-28)
+
+
+### Features
+
+* Ajout d'un dry-run pour la synchronisation Pôle emploi ([#1958](https://github.com/gip-inclusion/carnet-de-bord/issues/1958)) ([f40d160](https://github.com/gip-inclusion/carnet-de-bord/commit/f40d160d32255b443bbd700d18e148404fa421a6))
+
 # [1.253.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.252.0...v1.253.0) (2023-08-28)
 
 

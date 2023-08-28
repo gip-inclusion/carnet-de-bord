@@ -560,6 +560,28 @@ async def get_notebooks_by_structure_id(
     )
 
 
+async def get_notebook_ids_by_deployment_id(
+    connection: Connection, deployment_id: UUID
+) -> list[UUID]:
+    notebook_ids: list[UUID] = []
+    async with connection.transaction():
+        records: list[Record] = await connection.fetch(
+            """
+            SELECT
+            n.id as n_id
+            FROM public.notebook n
+            LEFT JOIN beneficiary ON n.beneficiary_id = beneficiary.id
+            WHERE beneficiary.deployment_id = $1
+            """,
+            deployment_id,
+        )
+
+        for record in records:
+            notebook_ids.append(record["n_id"])
+
+    return notebook_ids
+
+
 async def get_notebook_by_id(
     connection: Connection, notebook_id: UUID
 ) -> Notebook | None:

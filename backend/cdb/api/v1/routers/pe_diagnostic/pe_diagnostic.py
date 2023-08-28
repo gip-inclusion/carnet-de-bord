@@ -10,10 +10,7 @@ from pydantic import BaseModel
 from cdb.api.core.settings import settings
 from cdb.api.db.models.ref_situation import RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, diff_contraintes
-from cdb.api.domain.situations import (
-    SituationDifferences,
-    diff_situations,
-)
+from cdb.api.domain.situations import SituationDifferences, diff_situations
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Notebook
 from cdb.pe.models.dossier_individu_api import DossierIndividuData
 
@@ -45,47 +42,103 @@ class IO(BaseModel):
 DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API = "enable_pe_diagnostic_api"
 
 
-async def update_notebook_from_pole_emploi(io: IO, notebook_id: UUID) -> Response:
+async def update_notebook_from_pole_emploi(
+    io: IO,
+    notebook_id: UUID,
+    dry_run: bool = False,
+    bypass_fresh_data_check: bool = False,
+) -> Response:
     response = Response()
 
-    notebook = await io.find_notebook(notebook_id)
-    if (
-        not notebook
-        or not notebook.nir
-        or not notebook.deployment_config.get(
-            DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API
+    notebook: Notebook = await io.find_notebook(notebook_id)
+    if not notebook:
+        logger.error("[notebook_id: %s] No notebook found", notebook_id)
+        return response
+
+    if not notebook.nir:
+        logger.error("[notebook_id: %s] No NIR for notebook", notebook_id)
+        return response
+
+    if not notebook.deployment_config.get(DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API):
+        logger.error(
+            "[notebook_id: %s] PE diagnostic api not enabled for current "
+            "notebook deployment",
+            notebook_id,
         )
-    ):
         return response
 
     response.has_pe_diagnostic = notebook.has_pe_diagnostic()
-    if notebook.has_fresh_pe_data():
+    if notebook.has_fresh_pe_data() and not bypass_fresh_data_check:
+        logger.debug(
+            "[notebook_id: %s] No fresh data for notebook (<1 hour), skipping",
+            notebook_id,
+        )
         return response
 
-    dossier = await io.get_dossier_pe(notebook.nir, notebook.date_of_birth)
+    # Connnect to the Pôle emploi API
+    dossier: DossierIndividuData | None = await io.get_dossier_pe(
+        notebook.nir, notebook.date_of_birth
+    )
     await io.update_diagnostic_fetch_date(notebook_id)
 
     # TODO: Quand on a un dossier qui nous revient à None
     #  alors qu'on avait des données on en fait rien,
     #  on ne devrait pas supprimer ?
     if dossier is None:
+        logger.error(
+            "[notebook_id: %s] No PE dossier found for nir '%s' and date of birth '%s'",
+            notebook_id,
+            notebook.nir,
+            notebook.date_of_birth,
+        )
         return response
+    else:
+        if dry_run:
+            logger.info(
+                "[notebook_id: %s] PE dossier found for nir '%s' "
+                "and date of birth '%s'",
+                notebook_id,
+                notebook.nir,
+                notebook.date_of_birth,
+            )
+            logger.debug(
+                "[notebook_id: %s] PE dossier %s",
+                notebook_id,
+                dossier.json(),
+            )
 
     if notebook.last_diagnostic_hash == dossier.hash():
+        logger.debug(
+            "[notebook_id: %s] Last diagnostic is the same than PE, skipping",
+            notebook_id,
+        )
         return response
 
-    await io.save_in_external_data(dossier, notebook.beneficiary_id)
+    if not dry_run:
+        await io.save_in_external_data(dossier, notebook.beneficiary_id)
+    else:
+        logger.info(
+            "[notebook_id: %s] Skipping saving in external data, dry-run activated",
+            notebook_id,
+        )
+
     response.has_pe_diagnostic = True
     response.external_data_has_been_updated = True
 
     if not settings.ENABLE_SYNC_CONTRAINTES:
+        logger.debug(
+            "[notebook_id: %s] ENABLE_SYNC_CONTRAINTES flag to false, skipping sync",
+            notebook_id,
+        )
         return response
 
+    # Get Cdb situation repository from Graphql
     ref_situations = await io.get_ref_situations()
 
     situation_differences, focus_differences = await compare(
         dossier, notebook, ref_situations
     )
+
     if (
         situation_differences.situations_to_add
         or situation_differences.situations_to_delete
@@ -94,9 +147,23 @@ async def update_notebook_from_pole_emploi(io: IO, notebook_id: UUID) -> Respons
         or focus_differences.target_differences.targets_to_add
         or focus_differences.target_differences.target_ids_to_end
         or focus_differences.target_differences.target_ids_to_cancel
-    ):
+    ) and not dry_run:
         await io.save_differences(situation_differences, focus_differences, notebook_id)
         response.data_has_been_updated = True
+
+    if dry_run:
+        logger.info(
+            "[notebook_id: %s] Skipping saving differences, dry-run activated",
+            notebook_id,
+        )
+        logger.info(
+            "[notebook_id: %s] Situation differences %s",
+            notebook_id,
+            situation_differences,
+        )
+        logger.info(
+            "[notebook_id: %s] Focus differences %s", notebook_id, focus_differences
+        )
 
     return response
 
@@ -104,12 +171,12 @@ async def update_notebook_from_pole_emploi(io: IO, notebook_id: UUID) -> Respons
 async def compare(
     dossier: DossierIndividuData, notebook: Notebook, ref_situations: List[RefSituation]
 ) -> Tuple[SituationDifferences, FocusDifferences]:
-    situation_differences = diff_situations(
+    situation_differences: SituationDifferences = diff_situations(
         dossier.contraintesIndividusDto.contraintes,
         ref_situations,
         notebook.situations,
     )
-    contraintes_differences = diff_contraintes(
+    contraintes_differences: FocusDifferences = diff_contraintes(
         contraintes=dossier.contraintesIndividusDto.contraintes,
         focuses=notebook.focuses,
     )
