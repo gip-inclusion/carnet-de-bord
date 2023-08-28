@@ -93,17 +93,19 @@ async def update_notebook_from_pole_emploi(
         )
         return response
     else:
-        logger.info(
-            "[notebook_id: %s] PE dossier found for nir '%s' and date of birth '%s'",
-            notebook_id,
-            notebook.nir,
-            notebook.date_of_birth,
-        )
-        logger.debug(
-            "[notebook_id: %s] PE dossier %s",
-            notebook_id,
-            dossier.json(),
-        )
+        if dry_run:
+            logger.info(
+                "[notebook_id: %s] PE dossier found for nir '%s' "
+                "and date of birth '%s'",
+                notebook_id,
+                notebook.nir,
+                notebook.date_of_birth,
+            )
+            logger.debug(
+                "[notebook_id: %s] PE dossier %s",
+                notebook_id,
+                dossier.json(),
+            )
 
     if notebook.last_diagnostic_hash == dossier.hash():
         logger.debug(
