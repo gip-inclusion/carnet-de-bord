@@ -24,14 +24,14 @@ async function getResultsForBeneficiary(name) {
 	return await I.sendQuery(
 		`
 		query($name:String!) {
-			notebook(where: {beneficiary: {lastname: {_eq: $name}}} order_by: {beneficiary: {lastname: desc_nulls_first}}){
+			notebook(where: {beneficiary: {lastname: {_eq: $name}}} order_by: {beneficiary: {lastname: asc_nulls_first}}){
 				beneficiary {
-					structures {
+					structures(order_by: {structure: {name: asc_nulls_first}}) {
 						status
 						structure {name}
 					}
 				}
-				members(order_by: {account: {username: desc_nulls_first}}) {
+				members(order_by: [{active: desc_nulls_first}, {account: {professional: {email: asc_nulls_first}}}]) {
 					active, memberType, account {professional {email}}
 				}
 			}
@@ -51,13 +51,17 @@ Scenario('Changement de référent', async () => {
 			{ status: 'current', structure: { name: 'Groupe NS' } },
 			{ status: 'outdated', structure: { name: 'Service Social Départemental' } },
 		],
-		result.data.data.notebook[0]?.beneficiary.structures.sort((a, b) =>
-			a.structure.name.localeCompare(b.structure.name)
-		),
+		result.data.data.notebook[0]?.beneficiary.structures,
 		'beneficiary_structure not match'
 	);
+	console.log(result.data.data.notebook[0]?.members);
 	assert.deepEqual(
 		[
+			{
+				account: { professional: { email: 'sanka@groupe-ns.fr' } },
+				active: true,
+				memberType: 'referent',
+			},
 			{
 				account: { professional: { email: 'pcamara@seinesaintdenis.fr' } },
 				active: false,
@@ -68,15 +72,8 @@ Scenario('Changement de référent', async () => {
 				active: false,
 				memberType: 'no_referent',
 			},
-			{
-				account: { professional: { email: 'sanka@groupe-ns.fr' } },
-				active: true,
-				memberType: 'referent',
-			},
 		],
-		result.data.data.notebook[0]?.members?.sort((a, b) =>
-			a.account.professional.email.localeCompare(b.account.professional.email)
-		),
+		result.data.data.notebook[0]?.members,
 		'members not match'
 	);
 });
@@ -102,7 +99,7 @@ Scenario('Suppression du référent', async () => {
 				memberType: 'referent',
 			},
 		],
-		result.data.data.notebook[0]?.members?.sort(),
+		result.data.data.notebook[0]?.members,
 		'members not match'
 	);
 });
@@ -112,8 +109,8 @@ Scenario('Changement de structure', async () => {
 	const result = await getResultsForBeneficiary('Herring');
 	assert.deepEqual(
 		[
-			{ status: 'outdated', structure: { name: 'Service Social Départemental' } },
 			{ status: 'current', structure: { name: 'Groupe NS' } },
+			{ status: 'outdated', structure: { name: 'Service Social Départemental' } },
 		],
 		result.data.data.notebook[0]?.beneficiary.structures,
 		'beneficiary_structure not match'
@@ -147,13 +144,13 @@ Scenario('Changement de référent (meme structure)', async () => {
 	assert.deepEqual(
 		[
 			{
-				account: { professional: { email: 'edith.orial@interlogement93.fr' } },
-				active: false,
+				account: { professional: { email: 'bienvenu.lejeune@mission-locale.fr' } },
+				active: true,
 				memberType: 'referent',
 			},
 			{
-				account: { professional: { email: 'bienvenu.lejeune@mission-locale.fr' } },
-				active: true,
+				account: { professional: { email: 'edith.orial@interlogement93.fr' } },
+				active: false,
 				memberType: 'referent',
 			},
 		],
