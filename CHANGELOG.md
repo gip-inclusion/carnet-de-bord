@@ -1,3 +1,10 @@
+## [1.254.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.1...v1.254.2) (2023-08-28)
+
+
+### Bug Fixes
+
+* permet aux admin de structure de voir les structures du déploiement ([#1972](https://github.com/gip-inclusion/carnet-de-bord/issues/1972)) ([56c60d0](https://github.com/gip-inclusion/carnet-de-bord/commit/56c60d004f385bb6e3af4d5fa353defcd46e0ef6))
+
 ## [1.254.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.0...v1.254.1) (2023-08-28)
 
 
