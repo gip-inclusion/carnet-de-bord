@@ -1,3 +1,10 @@
+# [1.253.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.252.0...v1.253.0) (2023-08-28)
+
+
+### Features
+
+* redirect after login ([#1971](https://github.com/gip-inclusion/carnet-de-bord/issues/1971)) ([4888c0d](https://github.com/gip-inclusion/carnet-de-bord/commit/4888c0d3ef3c9f5d419551b8427a056e72a5a2f7))
+
 # [1.252.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.251.1...v1.252.0) (2023-08-17)
 
 
