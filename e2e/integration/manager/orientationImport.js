@@ -54,7 +54,6 @@ Scenario('Changement de référent', async () => {
 		result.data.data.notebook[0]?.beneficiary.structures,
 		'beneficiary_structure not match'
 	);
-	console.log(result.data.data.notebook[0]?.members);
 	assert.deepEqual(
 		[
 			{
