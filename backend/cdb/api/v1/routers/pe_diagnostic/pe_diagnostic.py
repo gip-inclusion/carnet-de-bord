@@ -56,11 +56,11 @@ async def update_notebook_from_pole_emploi(
         return response
 
     if not notebook.nir:
-        logger.error("[notebook_id: %s] No NIR for notebook", notebook_id)
+        logger.debug("[notebook_id: %s] No NIR for notebook", notebook_id)
         return response
 
     if not notebook.deployment_config.get(DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API):
-        logger.error(
+        logger.debug(
             "[notebook_id: %s] PE diagnostic api not enabled for current "
             "notebook deployment",
             notebook_id,
