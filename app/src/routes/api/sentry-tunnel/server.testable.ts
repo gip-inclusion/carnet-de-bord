@@ -1,3 +1,5 @@
+import { error } from '@sveltejs/kit';
+
 export type Params = {
 	dsn: URL;
 	body: string;
@@ -10,7 +12,7 @@ export async function forwardToSentry({ dsn, body, fetchFn }: Params) {
 	const projectId = dsn.pathname.replaceAll('/', '');
 
 	if (dsn.toString() !== requestDsn.toString()) {
-		throw new Error(`${requestDsn} is not the sentry dsn we use, rejecting the request`);
+		throw error(400, `${requestDsn} is not the sentry dsn we use, rejecting the request`);
 	}
 
 	return await fetchFn(`https://${dsn.hostname}/api/${projectId}/envelope/`, {
