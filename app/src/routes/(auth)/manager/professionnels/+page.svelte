@@ -85,10 +85,14 @@
 		} else if (emails[id] === 'ToConfirm') {
 			if (confirm) {
 				emails[id] = 'Sending';
-				const response = await post(`/manager/sendConnectionEmail`, { id });
-				if (response.ok) {
-					emails[id] = 'Sent';
-				} else {
+				try {
+					const response = await post(`/manager/sendConnectionEmail`, { id });
+					if (response.ok) {
+						emails[id] = 'Sent';
+					} else {
+						emails[id] = 'Failed';
+					}
+				} catch {
 					emails[id] = 'Failed';
 				}
 			} else {
@@ -172,7 +176,7 @@
 							{/if}
 						</td>
 						<td class="text-center">
-							{#if account.confirmed}
+							{#if account.confirmed && !account.deletedAt}
 								{#if typeof emails[account.id] === 'undefined'}
 									<IconButton
 										icon="fr-icon-mail-line"

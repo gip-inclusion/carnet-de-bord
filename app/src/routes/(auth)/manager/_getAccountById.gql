@@ -4,6 +4,7 @@ query GetAccountById($id: uuid!) {
     username
     confirmed
     type
+    deletedAt
     orientation_manager {
       firstname
       lastname
