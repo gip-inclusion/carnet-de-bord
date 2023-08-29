@@ -45,7 +45,6 @@
 			<th class="text-left">Date de naissance</th>
 			<th class="text-left">Structure</th>
 			<th class="text-left">Référent unique</th>
-			<th class="text-left">Orientation</th>
 			<th class="text-left">Depuis le</th>
 			<th class="!text-center">Voir le carnet</th>
 		</tr>
@@ -106,7 +105,6 @@
 						</button>
 					{/if}
 				</td>
-				<td>{beneficiary.notebook.notebookInfo?.needOrientation ? 'à orienter' : 'orienté'}</td>
 				<td>
 					{#if beneficiary.notebook.members.length > 0}
 						{formatDateLocale(beneficiary.notebook?.members[0].createdAt)}
