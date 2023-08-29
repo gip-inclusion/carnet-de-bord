@@ -1,3 +1,10 @@
+## [1.254.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.3...v1.254.4) (2023-08-29)
+
+
+### Bug Fixes
+
+* log level ([#1977](https://github.com/gip-inclusion/carnet-de-bord/issues/1977)) ([2561a57](https://github.com/gip-inclusion/carnet-de-bord/commit/2561a5739089dc9369d39d04804271079863e501))
+
 ## [1.254.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.2...v1.254.3) (2023-08-28)
 
 
