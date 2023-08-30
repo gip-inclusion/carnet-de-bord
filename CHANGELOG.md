@@ -1,3 +1,10 @@
+## [1.254.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.4...v1.254.5) (2023-08-30)
+
+
+### Bug Fixes
+
+* bloquer la connection des comptes supprimés ([#1988](https://github.com/gip-inclusion/carnet-de-bord/issues/1988)) ([293987a](https://github.com/gip-inclusion/carnet-de-bord/commit/293987a57ef5db3f9afd759f4401b078cdf8e06e))
+
 ## [1.254.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.3...v1.254.4) (2023-08-29)
 
 
