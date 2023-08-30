@@ -19,6 +19,7 @@ def parse_orientation_info_from_gql(orientation_info_response, with_new_referent
         new_referent=orientation_info_response.get("newReferent")[0]
         if with_new_referent and len(orientation_info_response.get("newReferent")) > 0
         else None,
+        notebook=notebook.get("notebook"),
     )
 
 
@@ -38,6 +39,7 @@ async def get_orientation_info(
             "with_new_referent": with_new_referent,
         },
     )
+    print(orientation_info_response)
     return parse_orientation_info_from_gql(orientation_info_response, with_new_referent)
 
 
@@ -51,6 +53,9 @@ query orientationInfos(
   $new_referent_account_id: uuid
 ) {
   notebook: notebook_public_view(where: { id: { _eq: $notebook_id } }) {
+    notebook {
+      notebookInfo { orientationSystem { name }}
+    }
     beneficiary {
       id
       orientation_request: orientationRequest(
@@ -67,6 +72,7 @@ query orientationInfos(
       cafNumber
       structures(where: { status: { _eq: "current" } }) {
         structureId
+        structure { name }
       }
     }
     former_referents: members(

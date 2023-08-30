@@ -42,6 +42,42 @@ insert_permissions:
         - id
         - notebook_id
         - creator_id
+  - role: manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      set:
+        creator_id: x-hasura-User-Id
+      columns:
+        - creation_date
+        - creator_id
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+    comment: ""
+  - role: orientation_manager
+    permission:
+      check:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      set:
+        creator_id: x-hasura-User-Id
+      columns:
+        - creation_date
+        - creator_id
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+    comment: ""
   - role: professional
     permission:
       check:
@@ -72,6 +108,23 @@ select_permissions:
         - creator_id
       filter: {}
       allow_aggregations: true
+  - role: manager
+    permission:
+      columns:
+        - creation_date
+        - creator_id
+        - event
+        - event_date
+        - event_type
+        - id
+        - notebook_id
+      filter:
+        notebook:
+          beneficiary:
+            deployment_id:
+              _eq: X-Hasura-Deployment-Id
+      allow_aggregations: true
+    comment: ""
   - role: orientation_manager
     permission:
       columns:

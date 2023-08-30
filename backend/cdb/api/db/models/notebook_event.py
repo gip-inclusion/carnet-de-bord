@@ -21,6 +21,7 @@ class EventStatus(StrEnum):
 class EventType(StrEnum):
     action = "action"
     target = "target"
+    orientation = "orientation"
 
 
 class NotebookEventInsert(BaseModel):

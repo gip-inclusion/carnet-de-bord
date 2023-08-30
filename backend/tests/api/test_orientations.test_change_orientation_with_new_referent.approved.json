@@ -1,0 +1,13 @@
+{
+    "creatorId": "2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f",
+    "event": {
+        "orientation": "Social",
+        "previousOrientation": "Professionnel",
+        "previousReferent": "Pierre Chevalier",
+        "previousStructure": "Centre Communal d'action social Livry-Gargan",
+        "referent": "Paul Camara",
+        "structure": "Service Social D\u00e9partemental"
+    },
+    "eventDate": "<date0>",
+    "eventType": "orientation"
+}

@@ -9,6 +9,7 @@ class OrientationInfo(BaseModel):
     former_referents: List[dict]
     new_structure: dict
     new_referent: dict | None
+    notebook: dict
 
     @property
     def former_referent_account_id(self) -> UUID | None:
