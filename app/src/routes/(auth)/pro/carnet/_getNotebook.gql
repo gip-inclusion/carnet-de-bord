@@ -225,32 +225,3 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
     }
   }
 }
-
-query GetNotebookEvents(
-  $eventsStart: timestamptz = "-infinity"
-  $eventsEnd: timestamptz = "infinity"
-  $notebookId: uuid!
-) {
-  notebook_event(
-    order_by: { eventDate: desc_nulls_last }
-    where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd }, notebookId: { _eq: $notebookId } }
-  ) {
-    ...eventFields
-  }
-}
-
-fragment eventFields on notebook_event {
-  id
-  eventDate
-  event
-  eventType
-  creatorId
-  creator {
-    professional {
-      structureId
-      structure {
-        name
-      }
-    }
-  }
-}
