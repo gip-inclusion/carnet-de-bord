@@ -23,7 +23,13 @@
 		openComponent.open({
 			component: ChangeOrientationForm,
 			props: {
-				notebooks: [{ id: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				notebooks: [
+					{
+						id: beneficiary.notebook.id,
+						beneficiaryId: beneficiary.id,
+						beneficiaryStructures: beneficiary.structures,
+					},
+				],
 				onBeneficiaryOrientationChanged,
 			},
 		});

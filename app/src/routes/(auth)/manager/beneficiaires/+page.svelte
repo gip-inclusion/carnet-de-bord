@@ -132,6 +132,7 @@
 			id: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
 			members: beneficiary.notebook.members,
+			beneficaryStructures: beneficiary.structures,
 		}));
 
 		const props = {

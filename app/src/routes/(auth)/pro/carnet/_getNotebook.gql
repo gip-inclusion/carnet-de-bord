@@ -27,6 +27,7 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
       rsaClosureDate
       rsaSuspensionReason
       rsaClosureReason
+      structures {id}
       peInfos: externalDataInfos(where: { externalData: { source: { _eq: pe } } }, limit: 1) {
         external_data_id
         externalData {
@@ -122,8 +123,10 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
       contractStartDate
       contractEndDate
       lastJobEndedAt
+      beneficiary {
+        structures { id }
+      }
       notebookInfo {
-        needOrientation
         orientationReason
       }
       professionalProjects {

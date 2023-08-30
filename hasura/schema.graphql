@@ -10942,7 +10942,6 @@ input notebook_focus_updates {
 """notebook orientation infos"""
 type notebook_info {
   createdAt: timestamptz!
-  needOrientation: Boolean!
 
   """An object relationship"""
   notebook: notebook!
@@ -10982,7 +10981,6 @@ input notebook_info_bool_exp {
   _not: notebook_info_bool_exp
   _or: [notebook_info_bool_exp!]
   createdAt: timestamptz_comparison_exp
-  needOrientation: Boolean_comparison_exp
   notebook: notebook_bool_exp
   notebookId: uuid_comparison_exp
   orientationReason: String_comparison_exp
@@ -11006,7 +11004,6 @@ input type for inserting data into table "notebook_info"
 """
 input notebook_info_insert_input {
   createdAt: timestamptz
-  needOrientation: Boolean
   notebook: notebook_obj_rel_insert_input
   notebookId: uuid
 
@@ -11072,7 +11069,6 @@ input notebook_info_on_conflict {
 """Ordering options when selecting data from "notebook_info"."""
 input notebook_info_order_by {
   createdAt: order_by
-  needOrientation: order_by
   notebook: notebook_order_by
   notebookId: order_by
   orientationReason: order_by
@@ -11094,9 +11090,6 @@ enum notebook_info_select_column {
   createdAt
 
   """column name"""
-  needOrientation
-
-  """column name"""
   notebookId
 
   """column name"""
@@ -11114,7 +11107,6 @@ input type for updating data in table "notebook_info"
 """
 input notebook_info_set_input {
   createdAt: timestamptz
-  needOrientation: Boolean
   notebookId: uuid
 
   """motif de l'orientation, saisi par le chargé d'orientation"""
@@ -11137,7 +11129,6 @@ input notebook_info_stream_cursor_input {
 """Initial value of the column from where the streaming should start"""
 input notebook_info_stream_cursor_value_input {
   createdAt: timestamptz
-  needOrientation: Boolean
   notebookId: uuid
 
   """motif de l'orientation, saisi par le chargé d'orientation"""
@@ -11152,9 +11143,6 @@ update columns of table "notebook_info"
 enum notebook_info_update_column {
   """column name"""
   createdAt
-
-  """column name"""
-  needOrientation
 
   """column name"""
   notebookId

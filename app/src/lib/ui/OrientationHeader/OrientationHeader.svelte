@@ -12,7 +12,7 @@
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
 		| GetNotebookQuery['notebook_public_view'][0]['notebook'];
-	$: buttonTitle = notebook.notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
+	$: buttonTitle = notebook.beneficiary.structures.length === 0 ? 'Orienter' : 'Réorienter';
 
 	const dispatch = createEventDispatcher();
 
@@ -23,7 +23,10 @@
 	function openChangeOrientationForm() {
 		openComponent.open({
 			component: ChangeOrientationForm,
-			props: { notebooks: [notebook], onBeneficiaryOrientationChanged },
+			props: {
+				notebooks: [{ ...notebook, beneficiaryStructures: notebook.beneficiary.structures }],
+				onBeneficiaryOrientationChanged,
+			},
 		});
 	}
 </script>

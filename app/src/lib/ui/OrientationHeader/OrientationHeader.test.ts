@@ -104,6 +104,7 @@ const beneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['benefici
 	rightBonus: false,
 	rightAss: false,
 	externalDataInfos: [],
+	structures: [],
 };
 
 const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
@@ -113,7 +114,6 @@ const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
 	members,
 	professionalProjects: [],
 	focuses: [],
-	notebookInfo: { needOrientation: false },
 	rightRqth: false,
 	situations: [],
 	appointments: [],
@@ -134,7 +134,6 @@ test('do not show "Réorienter" button for admin_structure', () => {
 describe('when beneficiary needs orientation', () => {
 	const notebookNeedingOrientation = {
 		...notebook,
-		notebookInfo: { needOrientation: true },
 	};
 	test('show "Orienter" button for orientation_manager', () => {
 		accountData.set(orientationManagerAccount);

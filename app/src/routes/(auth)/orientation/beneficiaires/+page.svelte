@@ -172,6 +172,7 @@
 			id: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
 			members: beneficiary.notebook.referent,
+			beneficaryStructures: beneficiary.structures,
 		}));
 
 		const props = {

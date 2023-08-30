@@ -59,14 +59,12 @@ def get_insert_notebook_info_mutation(
             object={
                 "notebookId": str(notebook_id),
                 "orientationSystemId": str(orientation_system_id),
-                "needOrientation": False,
                 "orientationReason": orientation_reason,
             },
             on_conflict={
                 "constraint": "notebook_info_pkey",
                 "update_columns": [
                     "orientationSystemId",
-                    "needOrientation",
                     "orientationReason",
                 ],
             },
