@@ -62,4 +62,4 @@ Fonctionnalité: Import de bénéficiaires
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
 		Alors je recherche "fon"
 		Quand je clique sur "Rechercher"
-		Alors je vois "à orienter" sur la ligne "Fondue"
+		Alors je ne vois pas "à orienter" sur la ligne "Fondue"
