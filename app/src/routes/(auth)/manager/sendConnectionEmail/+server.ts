@@ -81,6 +81,16 @@ export const POST: RequestHandler = async ({ request }) => {
 		throw error(500, 'sendConnectionEmail: unconfirmed account');
 	}
 
+	if (data.account.deletedAt) {
+		logger.error({
+			message: 'Did not send email to deleted account',
+			email,
+			lastname,
+			firstname,
+		});
+		throw error(500, 'sendConnectionEmail: deleted account');
+	}
+
 	const result = await updateAccessKey(client, id);
 	if (result.error) {
 		logger.error(result.error, 'Could not update access key');

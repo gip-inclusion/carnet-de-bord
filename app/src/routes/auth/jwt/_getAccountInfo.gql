@@ -1,5 +1,5 @@
 query GetAccountInfo($accessKey: String!) {
-  account(where: { accessKey: { _eq: $accessKey } }) {
+  account(where: { accessKey: { _eq: $accessKey }, deletedAt: { _is_null: true } }) {
     id
     type
     username
