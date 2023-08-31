@@ -145,7 +145,6 @@
 
 	async function handleSubmit(beneficiaries: BeneficiaryCsvResponse[]) {
 		const payload = JSON.stringify({
-			need_orientation: mode === 'unoriented',
 			beneficiaries: beneficiaries.flatMap(({ uuid, data }) =>
 				beneficiariesToImport.includes(uuid) ? data : []
 			),

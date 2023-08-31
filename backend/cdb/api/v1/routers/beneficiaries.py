@@ -21,7 +21,7 @@ from cdb.api.db.crud.notebook import (
     insert_notebook_member,
     update_notebook,
 )
-from cdb.api.db.crud.notebook_info import insert_or_update_need_orientation
+from cdb.api.db.crud.notebook_info import insert_or_update_orientation
 from cdb.api.db.crud.professional import get_professional_by_email
 from cdb.api.db.crud.professional_project import insert_professional_projects
 from cdb.api.db.crud.structure import get_structure_by_name
@@ -69,7 +69,6 @@ class BeneficiariesImportResult(BaseModel):
 
 
 class BeneficiariesImportInput(BaseModel):
-    need_orientation: bool = False
     beneficiaries: list[BeneficiaryImport]
 
 
@@ -93,7 +92,6 @@ async def import_caf_msa_xml(
 class LineImport(BaseModel):
     beneficiary: BeneficiaryImport
     deployment_id: UUID
-    need_orientation: bool
 
 
 class IO(BaseModel):
@@ -106,11 +104,10 @@ class IO(BaseModel):
     insert_notebook: Callable[
         [Arg(UUID, "notebook_id"), BeneficiaryImport], Awaitable[UUID | None]
     ]
-    insert_or_update_need_orientation: Callable[
+    insert_or_update_orientation: Callable[
         [
             Arg(UUID, "notebook_id"),
             Arg(UUID, "orientation_system_id") | None,
-            Arg(bool, "need_orientation"),
         ],
         Awaitable[None],
     ]
@@ -144,7 +141,7 @@ async def import_beneficiaries(
 ) -> list[BeneficiaryCsvRowResponse]:
     deployment_id: UUID = UUID(request.state.deployment_id)
     io = create_io(db)
-    create_line_import = partial(to_line_import, data.need_orientation, deployment_id)
+    create_line_import = partial(to_line_import, deployment_id)
     responses = [
         await import_beneficiary(db, create_line_import(beneficiary), io)
         for beneficiary in data.beneficiaries
@@ -157,13 +154,10 @@ async def import_beneficiaries(
     return responses
 
 
-def to_line_import(
-    need_orientation: bool, deployment_id: UUID, beneficiary: BeneficiaryImport
-):
+def to_line_import(deployment_id: UUID, beneficiary: BeneficiaryImport):
     return LineImport(
         beneficiary=beneficiary,
         deployment_id=deployment_id,
-        need_orientation=need_orientation,
     )
 
 
@@ -172,9 +166,7 @@ def create_io(db):
         get_beneficiaries_like=partial(get_beneficiaries_like, db),
         insert_beneficiary=partial(insert_beneficiary, db),
         insert_notebook=partial(insert_notebook, db),
-        insert_or_update_need_orientation=partial(
-            insert_or_update_need_orientation, db
-        ),
+        insert_or_update_orientation=partial(insert_or_update_orientation, db),
         insert_professional_projects=partial(insert_professional_projects, db),
         get_structure_by_name=partial(get_structure_by_name, db),
         get_professional_by_email=partial(get_professional_by_email, db),
@@ -222,9 +214,7 @@ async def try_to_import_one(line: LineImport, io: IO):
     if eq_personal_data(line.beneficiary, match) and eq_si_id(
         line.beneficiary, line.deployment_id, match
     ):
-        return await try_to_update_one(
-            line.beneficiary, line.need_orientation, match.id, io
-        )
+        return await try_to_update_one(line.beneficiary, match.id, io)
 
     if eq_si_id(line.beneficiary, line.deployment_id, match):
         return await fail_for_conflicting_si_id(line)
@@ -286,9 +276,7 @@ async def create_beneficiary_with_notebook_and_referent(
     if not new_notebook_id:
         raise ImportFailError("insert notebook failed")
 
-    await io.insert_or_update_need_orientation(
-        new_notebook_id, None, line.need_orientation
-    )
+    await io.insert_or_update_orientation(new_notebook_id, None)
 
     await io.insert_professional_projects(new_notebook_id, line.beneficiary)
     await add_referent_and_structure_to_beneficiary(
@@ -354,13 +342,13 @@ def to_error_response(beneficiary, error):
     )
 
 
-async def try_to_update_one(beneficiary, need_orientation, target_id, io):
+async def try_to_update_one(beneficiary, target_id, io: IO):
     beneficiary_id = await io.update_beneficiary(beneficiary, target_id)
     if not beneficiary_id:
         raise ImportFailError(f"failed to update beneficiary {target_id}")
     notebook_id: UUID | None = await io.update_notebook(beneficiary, beneficiary_id)
     if notebook_id:
-        await io.insert_or_update_need_orientation(notebook_id, None, need_orientation)
+        await io.insert_or_update_orientation(notebook_id, None)
         await io.insert_professional_projects(notebook_id, beneficiary)
     return BeneficiaryCsvRowResponse(valid=True, update=True, data=beneficiary)
 
