@@ -95,6 +95,17 @@ const members = [
 	},
 ];
 
+const orientedBeneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['beneficiary'] = {
+	id: 'beneficiary-id',
+	firstname: 'Béné',
+	lastname: 'Ficiaire',
+	dateOfBirth: '1998-07-12',
+	rightAre: false,
+	rightBonus: false,
+	rightAss: false,
+	externalDataInfos: [],
+	structures: [{ id: 'structure-id' }],
+};
 const beneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['beneficiary'] = {
 	id: 'beneficiary-id',
 	firstname: 'Béné',
@@ -166,7 +177,7 @@ describe('when beneficiary does not need orientation', () => {
 
 		render(OrientationHeader, {
 			props: {
-				notebook,
+				notebook: { ...notebook, beneficiary: orientedBeneficiary },
 			},
 		});
 		expect(screen.getByText('Réorienter')).toBeInTheDocument();
@@ -178,7 +189,7 @@ describe('when beneficiary does not need orientation', () => {
 
 		render(OrientationHeader, {
 			props: {
-				notebook,
+				notebook: { ...notebook, beneficiary: orientedBeneficiary },
 			},
 		});
 		expect(screen.getByText('Réorienter')).toBeInTheDocument();

@@ -24,6 +24,7 @@
 	import { pluralize } from '$lib/helpers';
 	import Button from '$lib/ui/base/Button.svelte';
 	import type { OrientedFilter } from '$lib/ui/BeneficiaryList/OrientationFilter';
+	import { isOriented } from '$lib/models/Orientation';
 
 	export let data: PageData;
 
@@ -132,7 +133,7 @@
 			id: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
 			members: beneficiary.notebook.members,
-			beneficaryStructures: beneficiary.structures,
+			isOriented: isOriented(beneficiary),
 		}));
 
 		const props = {

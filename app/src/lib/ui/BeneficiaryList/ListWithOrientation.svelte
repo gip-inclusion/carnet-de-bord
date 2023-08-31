@@ -14,6 +14,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Dialog from '../Dialog.svelte';
 	import Text from '../utils/Text.svelte';
+	import { isOriented } from '$lib/models/Orientation';
 
 	type Beneficiary = GetBeneficiariesWithOrientationRequestQuery['beneficiaries'][0];
 
@@ -33,7 +34,7 @@
 					{
 						id: beneficiary.notebook.id,
 						beneficiaryId: beneficiary.id,
-						beneficiaryStructures: beneficiary.structures,
+						isOriented: isOriented(beneficiary),
 					},
 				],
 				onBeneficiaryOrientationChanged,

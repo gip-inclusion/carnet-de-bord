@@ -8,11 +8,12 @@
 	import { accountData, openComponent } from '$lib/stores';
 	import ChangeOrientationForm from '../OrientationRequest/ChangeOrientationForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { isOriented } from '$lib/models/Orientation';
 
 	export let notebook:
 		| GetNotebookByBeneficiaryIdQuery['notebook'][0]
 		| GetNotebookQuery['notebook_public_view'][0]['notebook'];
-	$: buttonTitle = notebook.beneficiary.structures.length === 0 ? 'Orienter' : 'Réorienter';
+	$: buttonTitle = isOriented(notebook.beneficiary) ? 'Réorienter' : 'Orienter';
 
 	const dispatch = createEventDispatcher();
 
@@ -24,7 +25,7 @@
 		openComponent.open({
 			component: ChangeOrientationForm,
 			props: {
-				notebooks: [{ ...notebook, beneficiaryStructures: notebook.beneficiary.structures }],
+				notebooks: [{ ...notebook, isOriented: isOriented(notebook.beneficiary) }],
 				onBeneficiaryOrientationChanged,
 			},
 		});

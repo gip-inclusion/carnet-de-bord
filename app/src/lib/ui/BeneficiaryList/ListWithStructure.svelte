@@ -8,6 +8,7 @@
 	import { type SelectionStore, selectionContextKey } from './MultipageSelectionStore';
 	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { isOriented } from '$lib/models/Orientation';
 
 	type Beneficiary = GetBeneficiariesQuery['beneficiaries'][0];
 
@@ -27,7 +28,7 @@
 					{
 						id: beneficiary.notebook.id,
 						beneficiaryId: beneficiary.id,
-						beneficiaryStructures: beneficiary.structures,
+						isOriented: isOriented(beneficiary),
 					},
 				],
 				onBeneficiaryOrientationChanged,
