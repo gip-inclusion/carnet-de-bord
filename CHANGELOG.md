@@ -1,3 +1,10 @@
+# [1.255.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.5...v1.255.0) (2023-08-31)
+
+
+### Features
+
+* **app:** supprimer les colonnes orientation ([#1987](https://github.com/gip-inclusion/carnet-de-bord/issues/1987)) ([8345a9a](https://github.com/gip-inclusion/carnet-de-bord/commit/8345a9aa2b4d1042007def3289d644e155d070e1))
+
 ## [1.254.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.4...v1.254.5) (2023-08-30)
 
 
