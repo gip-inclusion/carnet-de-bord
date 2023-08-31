@@ -1,3 +1,10 @@
+# [1.256.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.255.0...v1.256.0) (2023-08-31)
+
+
+### Features
+
+* **sentry:** utiliser un proxy pour outrepasser les interdictions d'url ([#1981](https://github.com/gip-inclusion/carnet-de-bord/issues/1981)) ([22a4bf0](https://github.com/gip-inclusion/carnet-de-bord/commit/22a4bf038f43ec4d587a6c606b8e8743894c99c8))
+
 # [1.255.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.254.5...v1.255.0) (2023-08-31)
 
 
