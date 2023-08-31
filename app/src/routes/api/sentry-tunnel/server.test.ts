@@ -10,7 +10,7 @@ describe('Sentry tunnel', () => {
 		await forwardToSentry({
 			dsn: new URL('https://1793e2fe81b04f5aad6e75e0372c9a12@sentry.fabrique.social.gouv.fr/63'),
 			body,
-			fetchFn: fakeFetch,
+			fetch: fakeFetch,
 		});
 		expect(fakeFetch).toHaveBeenCalledWith(
 			'https://sentry.fabrique.social.gouv.fr/api/63/envelope/',
@@ -30,7 +30,7 @@ describe('Sentry tunnel', () => {
 			await forwardToSentry({
 				dsn: new URL('http://lol.com'),
 				body,
-				fetchFn: fakeFetch,
+				fetch: fakeFetch,
 			});
 		} catch {
 			// nothing to do

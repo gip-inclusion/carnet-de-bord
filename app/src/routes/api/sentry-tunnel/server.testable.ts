@@ -3,9 +3,9 @@ import { error } from '@sveltejs/kit';
 export type Params = {
 	dsn: URL;
 	body: string;
-	fetchFn: typeof fetch;
+	fetch: typeof fetch;
 };
-export async function forwardToSentry({ dsn, body, fetchFn }: Params) {
+export async function forwardToSentry({ dsn, body, fetch }: Params) {
 	const parts = body.split('\n');
 	const first = JSON.parse(parts[0]);
 	const requestDsn = new URL(first.dsn);
@@ -15,7 +15,7 @@ export async function forwardToSentry({ dsn, body, fetchFn }: Params) {
 		throw error(400, `${requestDsn} is not the sentry dsn we use, rejecting the request`);
 	}
 
-	return await fetchFn(`https://${dsn.hostname}/api/${projectId}/envelope/`, {
+	return await fetch(`https://${dsn.hostname}/api/${projectId}/envelope/`, {
 		method: 'POST',
 		body,
 		headers: { 'Content-type': 'application/x-sentry-envelope' },
