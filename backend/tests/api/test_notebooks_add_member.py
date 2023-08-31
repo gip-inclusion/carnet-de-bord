@@ -177,7 +177,6 @@ async def test_add_notebook_member_as_referent(
         db_connection,
         notebook_sophie_tifour.id,
     )
-    assert notebook_info.need_orientation is False
     assert notebook_info.orientation_system_id == orientation_system_id
     assert notebook_info.orientation_reason is None
 

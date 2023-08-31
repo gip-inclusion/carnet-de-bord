@@ -9,7 +9,7 @@
 	type Notebook = {
 		id: string;
 		beneficiaryId: string;
-		notebookInfo: { needOrientation: boolean } | undefined;
+		isOriented: boolean;
 	};
 
 	export let notebooks: Notebook[];
@@ -18,8 +18,7 @@
 	export let structureId: string = null;
 
 	let displayError = false;
-	const formTitle =
-		notebooks.length == 1 && notebooks[0].notebookInfo?.needOrientation ? 'Orienter' : 'Réorienter';
+	const formTitle = notebooks.length !== 1 || notebooks[0].isOriented ? 'Réorienter' : 'Orienter';
 
 	async function handleSubmit(values: OrientationValidationSchema) {
 		for (const notebook of notebooks) {

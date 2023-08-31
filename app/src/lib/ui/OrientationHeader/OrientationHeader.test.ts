@@ -95,6 +95,17 @@ const members = [
 	},
 ];
 
+const orientedBeneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['beneficiary'] = {
+	id: 'beneficiary-id',
+	firstname: 'Béné',
+	lastname: 'Ficiaire',
+	dateOfBirth: '1998-07-12',
+	rightAre: false,
+	rightBonus: false,
+	rightAss: false,
+	externalDataInfos: [],
+	structures: [{ id: 'structure-id' }],
+};
 const beneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['beneficiary'] = {
 	id: 'beneficiary-id',
 	firstname: 'Béné',
@@ -104,6 +115,7 @@ const beneficiary: GetNotebookByBeneficiaryIdQuery['notebook'][number]['benefici
 	rightBonus: false,
 	rightAss: false,
 	externalDataInfos: [],
+	structures: [],
 };
 
 const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
@@ -113,7 +125,6 @@ const notebook: GetNotebookByBeneficiaryIdQuery['notebook'][number] = {
 	members,
 	professionalProjects: [],
 	focuses: [],
-	notebookInfo: { needOrientation: false },
 	rightRqth: false,
 	situations: [],
 	appointments: [],
@@ -134,7 +145,6 @@ test('do not show "Réorienter" button for admin_structure', () => {
 describe('when beneficiary needs orientation', () => {
 	const notebookNeedingOrientation = {
 		...notebook,
-		notebookInfo: { needOrientation: true },
 	};
 	test('show "Orienter" button for orientation_manager', () => {
 		accountData.set(orientationManagerAccount);
@@ -167,7 +177,7 @@ describe('when beneficiary does not need orientation', () => {
 
 		render(OrientationHeader, {
 			props: {
-				notebook,
+				notebook: { ...notebook, beneficiary: orientedBeneficiary },
 			},
 		});
 		expect(screen.getByText('Réorienter')).toBeInTheDocument();
@@ -179,7 +189,7 @@ describe('when beneficiary does not need orientation', () => {
 
 		render(OrientationHeader, {
 			props: {
-				notebook,
+				notebook: { ...notebook, beneficiary: orientedBeneficiary },
 			},
 		});
 		expect(screen.getByText('Réorienter')).toBeInTheDocument();

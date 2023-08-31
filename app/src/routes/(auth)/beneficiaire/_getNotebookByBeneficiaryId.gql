@@ -64,7 +64,6 @@ fragment notebookFragment on notebook {
     }
   }
   notebookInfo {
-    needOrientation
     orientationReason
   }
   beneficiary {
@@ -85,6 +84,7 @@ fragment notebookFragment on notebook {
     rightAss
     rightBonus
     rightRsa
+    structures {id}
     externalDataInfos {
       external_data_id
       externalData {

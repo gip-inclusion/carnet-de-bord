@@ -122,8 +122,12 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
       contractStartDate
       contractEndDate
       lastJobEndedAt
+      beneficiary {
+        structures {
+          id
+        }
+      }
       notebookInfo {
-        needOrientation
         orientationReason
       }
       professionalProjects {

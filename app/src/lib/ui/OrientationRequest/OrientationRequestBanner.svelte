@@ -9,6 +9,7 @@
 	import DenyOrientationRequestConfirmation from './DenyOrientationRequestConfirmation.svelte';
 	import ChangeOrientationForm from './ChangeOrientationForm.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { isOriented } from '$lib/models/Orientation';
 
 	export let orientationRequest: GetNotebookByBeneficiaryIdQuery['notebook'][0]['beneficiary']['orientationRequest'][0];
 	export let notebook:
@@ -25,7 +26,7 @@
 		openComponent.open({
 			component: ChangeOrientationForm,
 			props: {
-				notebooks: [notebook],
+				notebooks: [{ ...notebook, isOriented: isOriented(notebook.beneficiary) }],
 				orientationRequestId: orientationRequest.id,
 				onBeneficiaryOrientationChanged,
 			},

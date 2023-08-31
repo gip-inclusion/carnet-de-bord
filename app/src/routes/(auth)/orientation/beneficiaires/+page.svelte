@@ -27,6 +27,7 @@
 	import Button from '$lib/ui/base/Button.svelte';
 	import ChangeOrientationForm from '$lib/ui/OrientationRequest/ChangeOrientationForm.svelte';
 	import { OrientationManagerFilterUrlParameters as filterParams } from './url_params';
+	import { isOriented } from '$lib/models/Orientation';
 
 	export let data: PageData;
 
@@ -172,6 +173,7 @@
 			id: beneficiary.notebook.id,
 			beneficiaryId: beneficiary.id,
 			members: beneficiary.notebook.referent,
+			isOriented: isOriented(beneficiary),
 		}));
 
 		const props = {

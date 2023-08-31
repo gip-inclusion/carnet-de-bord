@@ -34,7 +34,6 @@ async def import_beneficiaries(
         headers={"Authorization": "Bearer " + token},
         content=json.dumps(
             {
-                "need_orientation": True,
                 "beneficiaries": [benef.dict() for benef in beneficiaries],
             },
             default=str,
@@ -121,7 +120,6 @@ async def test_import_beneficiaries_must_be_done_by_a_manager(
         content=json.dumps(
             {
                 "beneficiaries": [],
-                "need_orientation": True,
             },
             default=str,
         ),
@@ -599,7 +597,7 @@ def fake_io():
         get_beneficiaries_like=AsyncMock(return_value=value),
         insert_beneficiary=AsyncMock(return_value=uuid.uuid4()),
         insert_notebook=AsyncMock(return_value=uuid.uuid4()),
-        insert_or_update_need_orientation=AsyncMock(return_value=None),
+        insert_or_update_orientation=AsyncMock(return_value=None),
         insert_professional_projects=AsyncMock(return_value=None),
         get_structure_by_name=AsyncMock(return_value=None),
         get_professional_by_email=AsyncMock(return_value=None),
@@ -842,7 +840,6 @@ def fake_line():
     return LineImport(
         beneficiary=(FakeBeneficiaryImport()),
         deployment_id=uuid.uuid4(),
-        need_orientation=False,
     )
 
 

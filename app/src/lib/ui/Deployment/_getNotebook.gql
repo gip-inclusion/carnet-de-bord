@@ -6,7 +6,6 @@ query GetDeploymentNotebooks($deploymentId: uuid!) {
   notebooks: notebook(where: { beneficiary: { deploymentId: { _eq: $deploymentId } } }) {
     id
     notebookInfo {
-      needOrientation
       orientationReason
     }
     beneficiary {

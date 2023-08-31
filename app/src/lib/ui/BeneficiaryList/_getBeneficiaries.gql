@@ -26,7 +26,6 @@ query GetBeneficiaries(
           name
           orientationType
         }
-        needOrientation
       }
     }
     structures(where: { status: { _neq: "outdated" } }) {

@@ -90,6 +90,20 @@ select_permissions:
             admin_structure_id:
               _eq: X-Hasura-AdminStructure-Id
       allow_aggregations: true
+  - role: beneficiary
+    permission:
+      columns:
+        - status
+        - data
+        - created_at
+        - updated_at
+        - beneficiary_id
+        - id
+        - structure_id
+      filter:
+        beneficiary_id:
+          _eq: X-Hasura-User-Id
+    comment: ""
   - role: manager
     permission:
       columns:

@@ -14,6 +14,7 @@
 	import { createEventDispatcher } from 'svelte';
 	import Dialog from '../Dialog.svelte';
 	import Text from '../utils/Text.svelte';
+	import { isOriented } from '$lib/models/Orientation';
 
 	type Beneficiary = GetBeneficiariesWithOrientationRequestQuery['beneficiaries'][0];
 
@@ -29,7 +30,13 @@
 		openComponent.open({
 			component: ChangeOrientationForm,
 			props: {
-				notebooks: [{ id: beneficiary.notebook.id, beneficiaryId: beneficiary.id }],
+				notebooks: [
+					{
+						id: beneficiary.notebook.id,
+						beneficiaryId: beneficiary.id,
+						isOriented: isOriented(beneficiary),
+					},
+				],
 				onBeneficiaryOrientationChanged,
 			},
 		});
