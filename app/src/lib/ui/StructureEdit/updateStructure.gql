@@ -10,6 +10,7 @@ mutation updateStructure(
   $phone: String
   $name: citext
   $email: String
+  $sensitive: Boolean
   $orientationSystemsToAdd: [structure_orientation_system_insert_input!]!
   $orientationSystemsToDelete: [uuid!]
 ) {
@@ -26,6 +27,7 @@ mutation updateStructure(
       shortDesc: $shortDesc
       siret: $siret
       website: $website
+      sensitive: $sensitive
     }
   ) {
     id

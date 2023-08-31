@@ -8,6 +8,7 @@ describe('structureSchema model', () => {
 				id: '939364c2-d825-4e42-8dac-e7126fdb2f1c',
 				siret: '',
 				name: 'test lionel',
+				sensible: true,
 				shortDesc: 'testée',
 				phone: '',
 				email: '',
@@ -30,6 +31,7 @@ describe('structureSchema model', () => {
 			  "shortDesc": "testée",
 			  "siret": null,
 			  "website": null,
+				"sensible": true,
 			}
 		`);
 	});
