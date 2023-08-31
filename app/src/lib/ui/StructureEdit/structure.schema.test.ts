@@ -28,10 +28,10 @@ describe('structureSchema model', () => {
 			  "name": "test lionel",
 			  "phone": null,
 			  "postalCode": "08000",
+			  "sensible": true,
 			  "shortDesc": "testée",
 			  "siret": null,
 			  "website": null,
-				"sensible": true,
 			}
 		`);
 	});
