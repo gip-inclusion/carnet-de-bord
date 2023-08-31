@@ -1,4 +1,1 @@
--- Could not auto-generate a down migration.
--- Please write an appropriate down migration for the SQL below:
--- alter table "public"."structure" add column "sensitive" boolean
---  not null default 'false';
+alter table "public"."structure" drop column "sensitive";
