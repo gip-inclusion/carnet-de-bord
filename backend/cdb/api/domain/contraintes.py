@@ -41,9 +41,14 @@ class TargetToAdd(BaseModel):
         return json.loads(json.dumps(self.dict(exclude_none=True), cls=CustomEncoder))
 
 
+class TargetToDelete(TargetToAdd):
+    pass
+
+
 @dataclass
 class TargetDifferences:
     targets_to_add: List[TargetToAdd]
+    targets_to_delete: List[TargetToDelete]
     target_ids_to_cancel: List[UUID]
     target_ids_to_end: List[UUID]
 
@@ -51,7 +56,7 @@ class TargetDifferences:
 @dataclass
 class FocusDifferences:
     focuses_to_add: List[FocusToAdd]
-    focus_ids_to_delete: List[UUID]
+    focuses_to_delete: List[Focus]
     target_differences: TargetDifferences
 
 
@@ -143,6 +148,7 @@ def diff_objectifs(
         targets_to_add=targets_to_add,
         target_ids_to_cancel=target_ids_to_cancel,
         target_ids_to_end=target_ids_to_end,
+        targets_to_delete=[],
     )
 
 
@@ -166,8 +172,8 @@ def diff_contraintes(
             and contrainte.valeur == ContrainteValeurEnum.OUI
             and getThemeFromContrainteId(contrainte.code)
         ],
-        focus_ids_to_delete=[
-            focus.id
+        focuses_to_delete=[
+            focus
             for focus in focuses
             if getContrainteIdFromTheme(focus.theme)
             not in [

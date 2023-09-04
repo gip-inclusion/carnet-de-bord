@@ -158,7 +158,15 @@ async def test_save_differences(
                     creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                 )
             ],
-            focus_ids_to_delete=[UUID("156faab6-4ffd-49ad-b935-538184b02755")],
+            focuses_to_delete=[
+                FakeFocus(
+                    id=UUID("156faab6-4ffd-49ad-b935-538184b02755"),
+                    theme="numerique",
+                    notebookId=notebook_craig_reilly.id,
+                    createdAt=datetime.now(tz=timezone.utc),
+                    creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
+                )
+            ],
             target_differences=TargetDifferences(
                 targets_to_add=[
                     TargetToAdd(
