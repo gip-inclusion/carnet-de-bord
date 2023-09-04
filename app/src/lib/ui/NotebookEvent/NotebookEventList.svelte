@@ -95,10 +95,7 @@
 
 	function eventStatus(event: NotebookEvent): string {
 		if (event.eventType == NotebookEventTypeEnum.Orientation) {
-			if (event.id === $getNotebookEvents.data?.lastOrientationEvent[0]?.id) {
-				return 'En cours';
-			}
-			return 'Clos';
+			return 'En cours';
 		}
 		return constantToString(
 			event.event.status,
@@ -219,6 +216,20 @@
 							<td>{eventStructure(event)}</td>
 							<td>{eventStatus(event)}</td>
 						</tr>
+						{#if event.eventType == NotebookEventTypeEnum.Orientation && event.event.previousStructure}
+							<tr>
+								<td>{formatDateLocale(event.eventDate)} </td>
+								<td>{eventCategory(event)}</td>
+								<td>{eventLabel(event)}</td>
+								<td>
+									{event.event.previousStructure}
+									{#if event.event.previousOrientation}
+										(Dispositif: {event.event.previousOrientation})
+									{/if}
+								</td>
+								<td>Clos</td>
+							</tr>
+						{/if}
 					{:else}
 						<tr class="shadow-sm">
 							<td class="!text-center" colspan="5">
