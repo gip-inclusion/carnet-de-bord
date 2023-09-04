@@ -117,36 +117,38 @@ select_permissions:
         - address1
         - address2
         - city
+        - created_at
+        - deployment_id
         - email
+        - id
         - name
         - phone
         - postal_code
-        - siret
-        - website
+        - sensitive
         - short_desc
-        - created_at
+        - siret
         - updated_at
-        - deployment_id
-        - id
+        - website
       filter: {}
       allow_aggregations: true
   - role: admin_structure
     permission:
       columns:
-        - id
-        - siret
-        - name
-        - short_desc
-        - phone
-        - email
-        - postal_code
-        - city
         - address1
         - address2
+        - city
         - created_at
+        - deployment_id
+        - email
+        - id
+        - name
+        - phone
+        - postal_code
+        - sensitive
+        - short_desc
+        - siret
         - updated_at
         - website
-        - deployment_id
       filter:
         deployment_id:
           _eq: X-hasura-deployment-Id
@@ -206,6 +208,7 @@ select_permissions:
         - name
         - phone
         - postal_code
+        - sensitive
         - short_desc
         - siret
         - updated_at
@@ -265,6 +268,7 @@ update_permissions:
         - name
         - phone
         - postal_code
+        - sensitive
         - short_desc
         - siret
         - website
@@ -280,6 +284,7 @@ update_permissions:
         - name
         - phone
         - postal_code
+        - sensitive
         - short_desc
         - siret
         - website

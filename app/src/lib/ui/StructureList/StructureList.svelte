@@ -32,6 +32,7 @@
 				<th class="text-right">Code postal</th>
 				<th>Ville</th>
 				<th class="">Dispositifs d'accompagnement</th>
+				<th class="">Structure sensible</th>
 				<th class="text-center w-20">Éditer</th>
 			</tr>
 		</thead>
@@ -48,6 +49,9 @@
 							{/each}
 						</ul>
 					</td>
+					<td
+						>{#if structure.sensitive}Oui{:else}Non{/if}</td
+					>
 					<td class="text-center">
 						<IconButton
 							icon="fr-icon-edit-line"

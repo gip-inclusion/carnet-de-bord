@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { Button, Checkboxes } from '$lib/ui/base';
-	import { Form, Input } from '$lib/ui/forms';
+	import { Form, Input, Checkbox } from '$lib/ui/forms';
 	import type { GetStructureByIdQuery } from '$lib/graphql/_gen/typed-document-nodes';
 	import type { LabelName } from '$lib/types';
 
@@ -11,6 +11,7 @@
 	export let orientationSystemOptions: LabelName[];
 	export let onSubmit: (values: StructureFormInput, orientationSystems: string[]) => void;
 	export let onCancel: () => void = null;
+
 	function submitHandler(values: StructureFormInput) {
 		onSubmit(structureSchema.cast(values), orientationSystems);
 	}
@@ -34,6 +35,15 @@
 		<h2 class="text-vert-cdb fr-h4">Informations générales</h2>
 
 		<Input placeholder="Pole insertion" inputLabel="Nom" name="name" />
+
+		<div class="mb-4">
+			<Checkbox
+				additionalLabel="Une structure sensible est une structure dont l'objet ou la dénomination fait référence, ou permet de déduire, des informations personnelles sensibles concernant un usager (suivi judiciaire, médical, opinion politique, religieuse, …)"
+				name="sensitive"
+				label="Structure sensible"
+			/>
+		</div>
+
 		<Input placeholder="service d'insertion" inputLabel="Description" name="shortDesc" />
 		<Input placeholder="agence@cd08.fr" inputLabel="Courriel" name="email" />
 		<Input

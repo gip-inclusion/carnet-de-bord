@@ -40,6 +40,7 @@
 			address2: values.address2,
 			postalCode: values.postalCode,
 			city: values.city,
+			sensitive: values.sensitive,
 			website: values.website,
 			orientationSystemsToAdd,
 			orientationSystemsToDelete,

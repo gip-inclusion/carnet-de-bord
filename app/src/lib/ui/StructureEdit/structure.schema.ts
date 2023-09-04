@@ -20,6 +20,7 @@ export const structureSchema = yup.object().shape({
 		.transform(nullifyEmptyString)
 		.nullable(),
 	name: yup.string().trim().required(),
+	sensitive: yup.boolean(),
 	shortDesc: yup.string().trim().nullable(),
 	phone: yup
 		.string()

@@ -20197,6 +20197,7 @@ type structure {
     """filter the rows returned"""
     where: professional_bool_exp
   ): professional_aggregate!
+  sensitive: Boolean!
   shortDesc: String
   siret: String
   updatedAt: timestamptz
@@ -20212,7 +20213,23 @@ type structure_aggregate {
 }
 
 input structure_aggregate_bool_exp {
+  bool_and: structure_aggregate_bool_exp_bool_and
+  bool_or: structure_aggregate_bool_exp_bool_or
   count: structure_aggregate_bool_exp_count
+}
+
+input structure_aggregate_bool_exp_bool_and {
+  arguments: structure_select_column_structure_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: structure_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input structure_aggregate_bool_exp_bool_or {
+  arguments: structure_select_column_structure_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: structure_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input structure_aggregate_bool_exp_count {
@@ -20276,6 +20293,7 @@ input structure_bool_exp {
   postalCode: String_comparison_exp
   professionals: professional_bool_exp
   professionals_aggregate: professional_aggregate_bool_exp
+  sensitive: Boolean_comparison_exp
   shortDesc: String_comparison_exp
   siret: String_comparison_exp
   updatedAt: timestamptz_comparison_exp
@@ -20316,6 +20334,7 @@ input structure_insert_input {
   phone: String
   postalCode: String
   professionals: professional_arr_rel_insert_input
+  sensitive: Boolean
   shortDesc: String
   siret: String
   updatedAt: timestamptz
@@ -20445,6 +20464,7 @@ input structure_order_by {
   phone: order_by
   postalCode: order_by
   professionals_aggregate: professional_aggregate_order_by
+  sensitive: order_by
   shortDesc: order_by
   siret: order_by
   updatedAt: order_by
@@ -20740,6 +20760,9 @@ enum structure_select_column {
   postalCode
 
   """column name"""
+  sensitive
+
+  """column name"""
   shortDesc
 
   """column name"""
@@ -20750,6 +20773,22 @@ enum structure_select_column {
 
   """column name"""
   website
+}
+
+"""
+select "structure_aggregate_bool_exp_bool_and_arguments_columns" columns of table "structure"
+"""
+enum structure_select_column_structure_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  sensitive
+}
+
+"""
+select "structure_aggregate_bool_exp_bool_or_arguments_columns" columns of table "structure"
+"""
+enum structure_select_column_structure_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  sensitive
 }
 
 """
@@ -20766,6 +20805,7 @@ input structure_set_input {
   name: citext
   phone: String
   postalCode: String
+  sensitive: Boolean
   shortDesc: String
   siret: String
   updatedAt: timestamptz
@@ -20795,6 +20835,7 @@ input structure_stream_cursor_value_input {
   name: citext
   phone: String
   postalCode: String
+  sensitive: Boolean
   shortDesc: String
   siret: String
   updatedAt: timestamptz
@@ -20834,6 +20875,9 @@ enum structure_update_column {
 
   """column name"""
   postalCode
+
+  """column name"""
+  sensitive
 
   """column name"""
   shortDesc
