@@ -54,12 +54,6 @@
 		if (event.eventType == NotebookEventTypeEnum.Orientation) {
 			return 'Accompagnement';
 		}
-		console.log(
-			event,
-			event.eventType,
-			NotebookEventTypeEnum.Orientation,
-			event.enventType == NotebookEventTypeEnum.Orientation
-		);
 		if (
 			(event.eventType != NotebookEventTypeEnum.Action &&
 				event.eventType != NotebookEventTypeEnum.Target) ||
