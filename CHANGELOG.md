@@ -1,3 +1,10 @@
+# [1.257.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.256.0...v1.257.0) (2023-09-04)
+
+
+### Features
+
+* possibilité de marquer une structure comme sensible ([#1991](https://github.com/gip-inclusion/carnet-de-bord/issues/1991)) ([53f4437](https://github.com/gip-inclusion/carnet-de-bord/commit/53f4437362d096ab4bafa8fad0ec2a949f7c0f97))
+
 # [1.256.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.255.0...v1.256.0) (2023-08-31)
 
 
