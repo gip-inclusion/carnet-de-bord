@@ -24,6 +24,7 @@ def test_diff_empty_contraintes_and_empty_focus():
     assert result.focuses_to_add == []
     assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == []
+    assert result.target_differences.targets_to_delete == []
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
 
@@ -34,6 +35,7 @@ def test_diff_empty_contraintes_and_existing_focus(notebook_focuses: List[Focus]
     assert result.focuses_to_add == []
     assert result.focuses_to_delete == notebook_focuses
     assert result.target_differences.targets_to_add == []
+    assert result.target_differences.targets_to_delete == []
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
 
@@ -56,6 +58,7 @@ def test_diff_existing_contraintes_and_empty_focus(contraintes: List[Contrainte]
     ]
     assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == []
+    assert result.target_differences.targets_to_delete == []
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
 
@@ -88,6 +91,13 @@ def test_diff_existing_contraintes_and_existing_focus(
     ]
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
+    [targets] = [
+        focus.targets for focus in notebook_focuses if focus.theme == "mobilite"
+    ]
+
+    assert result.target_differences.targets_to_delete == [
+        target for target in targets if target.target == "Objectif de test"
+    ]
 
 
 def test_shared_contrainte_with_no_objectif_and_no_target(
@@ -102,6 +112,7 @@ def test_shared_contrainte_with_no_objectif_and_no_target(
     assert result.target_differences.targets_to_add == []
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_delete == []
 
 
 def test_shared_contrainte_with_objectif_and_no_target(
@@ -129,6 +140,7 @@ def test_shared_contrainte_with_objectif_and_no_target(
     ]
     assert result.target_differences.target_ids_to_cancel == []
     assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_delete == []
 
 
 def test_shared_contrainte_with_no_objectif_and_target(
@@ -203,7 +215,12 @@ def notebook_focuses() -> List[Focus]:
     return [
         Focus(
             id=uuid4(),
-            targets=[],
+            targets=[
+                Target(
+                    id=uuid4(),
+                    target="Objectif de test",
+                )
+            ],
             created_at=str(fake.date_time(tzinfo=timezone.utc)),
             theme="mobilite",
         ),
