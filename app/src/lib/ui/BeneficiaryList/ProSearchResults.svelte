@@ -33,8 +33,9 @@
 	const isLastVititedNotebook = (union: PublicNotebook): union is LastVititedNotebook =>
 		'notebookInfo' in union;
 	const getOrientationSystem = (notebook: PublicNotebook): string | null => {
-		if (isSearchNotebook(notebook)) return notebook.notebook.notebookInfo?.orientationSystem?.name;
-		if (isLastVititedNotebook(notebook)) return notebook.notebookInfo?.orientationSystem?.name;
+		if (isSearchNotebook(notebook))
+			return notebook?.notebook?.notebookInfo?.orientationSystem?.name;
+		if (isLastVititedNotebook(notebook)) return notebook?.notebookInfo?.orientationSystem?.name;
 		return null;
 	};
 </script>
