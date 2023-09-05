@@ -48,6 +48,7 @@
 		<MainSection title="Groupe de suivi">
 			<ProNotebookMembersView
 				members={notebook.members}
+				orientationSystem={notebook.notebook.notebookInfo?.orientationSystem?.name}
 				notebookId={notebook.id}
 				beneficiaryFirstname={notebook.beneficiary.firstname}
 				beneficiaryLastname={notebook.beneficiary.lastname}

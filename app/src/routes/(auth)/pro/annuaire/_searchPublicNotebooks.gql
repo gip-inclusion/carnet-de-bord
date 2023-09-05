@@ -30,5 +30,12 @@ query SearchPublicNotebooks($filter: String) {
         }
       }
     }
+    notebook {
+      notebookInfo {
+        orientationSystem {
+          name
+        }
+      }
+    }
   }
 }

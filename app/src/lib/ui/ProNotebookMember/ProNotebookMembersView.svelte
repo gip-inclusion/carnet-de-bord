@@ -15,12 +15,14 @@
 	import { displayFullName } from '../format';
 	import { accountData } from '$lib/stores';
 	import { mutation, operationStore } from '@urql/svelte';
+	import { referentLabelInParens } from '$lib/models/Member';
 
 	type Member = GetNotebookQuery['notebook_public_view'][number]['members'][number];
 	type Appointment =
 		GetNotebookQuery['notebook_public_view'][number]['notebook']['appointments'][number];
 
 	export let notebookId: string;
+	export let orientationSystem: string | null;
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
 	export let members: Member[];
@@ -144,9 +146,7 @@
 					<td>
 						<span class="inline-flex gap-2" class:font-bold={member.memberType === 'referent'}>
 							<Text value={member.fullname} />
-							{#if member.memberType === 'referent'}
-								(référent)
-							{/if}
+							{referentLabelInParens(member, orientationSystem)}
 						</span>
 						{#if member.structureName}<Text value={member.structureName} />{/if}
 					</td>

@@ -9,11 +9,13 @@
 	import { displayFullName } from '../format';
 	import JoinNotebookMembers from './JoinNotebookMembers.svelte';
 	import { createEventDispatcher } from 'svelte';
+	import { referentLabelInParens } from '$lib/models/Member';
 
 	type Notebook = GetNotebookByBeneficiaryIdQuery['notebook'][number];
 	type Member = Notebook['members'][number];
 	export let members: Member[];
 	export let notebookId: Notebook['id'];
+	export let orientationSystem: string;
 
 	const dispatch = createEventDispatcher();
 
@@ -72,9 +74,7 @@
 					<td>
 						<div class="flex flex-row gap-2">
 							<Text value={member.fullname} />
-							{#if member.memberType === 'referent'}
-								(référent)
-							{/if}
+							{referentLabelInParens(member, orientationSystem)}
 						</div>
 					</td>
 					<td>

@@ -7,22 +7,36 @@
 	import { displayFullName } from '$lib/ui/format';
 	import { baseUrlForRole } from '$lib/routes';
 	import { accountData } from '$lib/stores';
+	import { referentLabelInParens } from '$lib/models/Member';
 
-	type PublicNotebook =
-		| SearchPublicNotebooksQuery['notebooks'][0]
-		| GetLastVisitedOrUpdatedQuery['notebook'][0];
+	type SearchNotebook = SearchPublicNotebooksQuery['notebooks'][0];
+	type LastVititedNotebook = GetLastVisitedOrUpdatedQuery['notebook'][0];
+
+	type PublicNotebook = SearchNotebook | LastVititedNotebook;
 
 	export let notebooks: PublicNotebook[];
 	export let accountId: string;
 
-	function displayMemberType(members: PublicNotebook['members']): string {
+	function displayMemberType(
+		members: PublicNotebook['members'],
+		orientationSystem: string
+	): string {
 		const member = members.find((member) => member.accountId === accountId && member.active);
 		if (!member) {
 			return 'Non';
 		}
 
-		return member.memberType === 'referent' ? 'Oui (Référent)' : 'Oui';
+		return `Oui ${referentLabelInParens(member, orientationSystem)}`;
 	}
+
+	const isSearchNotebook = (union: PublicNotebook): union is SearchNotebook => 'notebook' in union;
+	const isLastVititedNotebook = (union: PublicNotebook): union is LastVititedNotebook =>
+		'notebookInfo' in union;
+	const getOrientationSystem = (notebook: PublicNotebook): string | null => {
+		if (isSearchNotebook(notebook)) return notebook.notebook.notebookInfo?.orientationSystem?.name;
+		if (isLastVititedNotebook(notebook)) return notebook.notebookInfo?.orientationSystem?.name;
+		return null;
+	};
 </script>
 
 <table class="w-full fr-table fr-table--layout-fixed">
@@ -43,7 +57,7 @@
 				<td>{notebook.beneficiary.firstname}</td>
 				<td>{formatDateLocale(notebook.beneficiary.dateOfBirth)}</td>
 				<td>
-					{displayMemberType(notebook.members)}
+					{displayMemberType(notebook.members, getOrientationSystem(notebook))}
 				</td>
 				<td class="!text-center">
 					<a

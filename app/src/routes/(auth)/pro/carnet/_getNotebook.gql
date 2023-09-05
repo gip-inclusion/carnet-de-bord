@@ -129,6 +129,9 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
       }
       notebookInfo {
         orientationReason
+        orientationSystem {
+          name
+        }
       }
       professionalProjects {
         id

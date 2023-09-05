@@ -39,7 +39,7 @@
 		goto(`/pro/annuaire?search=${search}`);
 	}
 
-	function carnetUrl({ id }: { id: string }) {
+	function carnetUrl({ id }: Notebook) {
 		return `/pro/carnet/${id}`;
 	}
 </script>

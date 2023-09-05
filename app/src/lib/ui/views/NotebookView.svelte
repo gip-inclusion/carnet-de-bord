@@ -65,6 +65,7 @@
 			{#if $accountData.type === RoleEnum.AdminStructure}
 				<ProNotebookMembersView
 					{members}
+					orientationSystem={notebook.notebookInfo?.orientationSystem?.name}
 					notebookId={notebook.id}
 					beneficiaryFirstname={beneficiary.firstname}
 					beneficiaryLastname={beneficiary.lastname}
@@ -72,7 +73,11 @@
 					displayMemberManagementButtons={false}
 				/>
 			{:else}
-				<NotebookMembers members={notebook.members} notebookId={notebook.id} />
+				<NotebookMembers
+					members={notebook.members}
+					orientationSystem={notebook.notebookInfo?.orientationSystem?.name}
+					notebookId={notebook.id}
+				/>
 			{/if}
 		</MainSection>
 		<MainSection title="Diagnostic socioprofessionnel">

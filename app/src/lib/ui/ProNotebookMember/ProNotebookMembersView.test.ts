@@ -85,6 +85,7 @@ test('do not show remove button for referent', () => {
 			appointments: [],
 			displayMemberManagementButtons: true,
 			members: notebookMembers,
+			orientationSystem: null,
 		},
 	});
 	expect(screen.getByText('Inviter un accompagnateur')).toBeInTheDocument();
@@ -102,6 +103,7 @@ test('show remove button for no referent', () => {
 			appointments: [],
 			displayMemberManagementButtons: true,
 			members: notebookMembers,
+			orientationSystem: null,
 		},
 	});
 	expect(screen.getByText('Inviter un accompagnateur')).toBeInTheDocument();
@@ -119,6 +121,7 @@ test('do not show remove button for orientation managers', () => {
 			appointments: [],
 			displayMemberManagementButtons: true,
 			members: notebookMembers,
+			orientationSystem: null,
 		},
 	});
 	expect(screen.getByText('Inviter un accompagnateur')).toBeInTheDocument();

@@ -50,6 +50,7 @@
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
 			<th class="text-left">Date de naissance</th>
+			<th class="text-left">Dispositif</th>
 			<th class="text-left">Structure</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
@@ -79,6 +80,7 @@
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
 				<td>{formatDateLocale(beneficiary.dateOfBirth)}</td>
+				<td>{beneficiary.notebook.notebookInfo?.orientationSystem?.name ?? ''}</td>
 				<td>
 					{#if beneficiary.structures.length > 0}
 						{beneficiary.structures[0].structure.name}
