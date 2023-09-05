@@ -5,7 +5,7 @@ exports[`creating email > accountCreatedByAdmin email > renders email template a
   <div>
     <p>
       Bonjour 
-      Prénom Nom
+      Prénom NOM
       ,
     </p>
     <!--&lt;Greeting&gt;-->
@@ -59,7 +59,7 @@ exports[`creating email > accountRequest email > renders email template as html 
      
     <p>
       Une demande de création d'un compte pour 
-      Prénom Nom
+      Prénom NOM
        a été reçue.
     </p>
      
@@ -74,13 +74,8 @@ exports[`creating email > accountRequest email > renders email template as html 
       </li>
        
       <li>
-        Prénom : 
-        Prénom
-      </li>
-       
-      <li>
-        Nom : 
-        Nom
+        NOM Prénom: 
+        NOM Prénom
       </li>
        
       <li>
@@ -100,7 +95,7 @@ exports[`creating email > accountRequest email > renders email template as html 
        
       <p>
         Cette demande a été soumise par 
-        Prénom du demandeur Nom du demandeur
+        Prénom du demandeur NOM DU DEMANDEUR
         .
       </p>
        
@@ -143,7 +138,7 @@ exports[`creating email > accountRequestValidate email > renders email template 
   <div>
     <p>
       Bonjour 
-      Prénom Nom
+      Prénom NOM
       ,
     </p>
     <!--&lt;Greeting&gt;-->
@@ -185,7 +180,7 @@ exports[`creating email > forgotLogin email > renders email template as html str
   <div>
     <p>
       Bonjour 
-      Prénom Nom
+      Prénom NOM
       ,
     </p>
     <!--&lt;Greeting&gt;-->
@@ -230,7 +225,7 @@ exports[`creating email > login email > render email template as html string 1`]
   <div>
     <p>
       Bonjour 
-      Prénom Nom
+      Prénom NOM
       ,
     </p>
     <!--&lt;Greeting&gt;-->
@@ -311,7 +306,7 @@ exports[`creating email > notebookInvitation email > renders email template as h
   <div>
     <p>
       Bonjour 
-      Prénom Nom
+      Prénom NOM
       ,
     </p>
     <!--&lt;Greeting&gt;-->
@@ -320,7 +315,7 @@ exports[`creating email > notebookInvitation email > renders email template as h
       Vous avez été invité(e) à rejoindre un carnet de bord par
 			
       <b>
-        Prénom du créateur Nom du créateur
+        Prénom du créateur NOM DU CRÉATEUR
       </b>
       .
     </p>
@@ -358,7 +353,7 @@ exports[`creating email > notebookInvitation email > renders email template as h
   <div>
     <p>
       Bonjour 
-      Prénom Nom
+      Prénom NOM
       ,
     </p>
     <!--&lt;Greeting&gt;-->

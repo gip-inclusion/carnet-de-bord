@@ -7,13 +7,13 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import type { ManagerAccountInput } from './manager.schema';
 	import { accountData } from '$lib/stores/account';
+	import { formatNames } from '../format';
 
 	const { id, email, firstname, lastname } = $accountData.manager;
 
 	const initialValues = {
 		email,
-		firstname,
-		lastname,
+		...formatNames({ firstname, lastname }),
 	};
 
 	const updateProfileResult = operationStore(UpdateManagerProfileDocument);

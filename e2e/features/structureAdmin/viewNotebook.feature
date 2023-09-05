@@ -9,7 +9,7 @@ Fonctionnalité: Consultation d'un carnet par un gestionnaire de structure
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
-		Quand je clique sur "Voir le carnet de Lindsay Aguilar"
+		Quand je clique sur "Voir le carnet de Lindsay AGUILAR"
 		Quand je vais sur l'onglet suivant
-		Alors j'attends que le texte "Lindsay Aguilar" apparaisse
-		Alors je vois "lindsay.aguilar@nisi.fr"
+		Alors j'attends que le texte "Lindsay AGUILAR" apparaisse
+		Alors je vois "lindsay.AGUILAR@nisi.fr"

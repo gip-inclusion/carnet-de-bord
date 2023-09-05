@@ -22,8 +22,7 @@
 	<b>Informations personnelles :</b>
 	<ul>
 		{#if structureName}<li>Structure : {structureName}</li>{/if}
-		{#if pro.firstname}<li>Prénom : {pro.firstname}</li>{/if}
-		{#if pro.lastname}<li>Nom : {pro.lastname}</li>{/if}
+		{#if pro}<li>NOM Prénom: {displayFullName(pro, 'lastname first')}</li>{/if}
 		{#if pro.email}<li>Courriel : {pro.email}</li>{/if}
 		{#if pro.mobileNumber}<li>téléphone : {pro.mobileNumber}</li>{/if}
 		{#if pro.position}<li>position : {pro.position}</li>{/if}

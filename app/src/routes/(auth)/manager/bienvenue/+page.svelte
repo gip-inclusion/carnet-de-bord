@@ -1,16 +1,17 @@
 <script lang="ts">
-	import { accountData } from '$lib/stores/account';
 	import {
 		RoleEnum,
 		UpdateManagerProfileDocument,
 		type UpdateManagerProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
-	import { Alert } from '$lib/ui/base';
+	import { accountData } from '$lib/stores/account';
 	import ManagerCreationForm from '$lib/ui/Manager/CreationForm.svelte';
+	import { Alert } from '$lib/ui/base';
+	import { mutation, operationStore, type OperationStore } from '@urql/svelte';
 
 	import type { ProAccountInput } from '$lib/ui/ProCreationForm/pro.schema';
+	import { formatNames } from '$lib/ui/format';
 
 	const updateProfileResult = operationStore(UpdateManagerProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
@@ -22,8 +23,7 @@
 
 	const initialValues = {
 		email,
-		firstname,
-		lastname,
+		...formatNames({ firstname, lastname }),
 	};
 
 	async function handleSubmit(values: ProAccountInput) {

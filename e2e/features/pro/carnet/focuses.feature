@@ -29,7 +29,7 @@ Scénario: Je peux consulter un axe de travail existant
 	Alors je vois "Sarah Vigote" sur la ligne "Intervention face à une procédure expulsion"
 
 Scénario: Ajout d'un objectif  par un pro
-	Soit le pro membre "sanka@groupe-ns.fr" sur le carnet de "Aguilar"
+	Soit le pro membre "sanka@groupe-ns.fr" sur le carnet de "AGUILAR"
 	Alors je clique sur "Formation" dans la tuile "Formation"
 	Alors j'attends que le texte "Trouver sa formation" apparaisse
 	Quand je clique sur "Ajouter un objectif"

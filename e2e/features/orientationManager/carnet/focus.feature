@@ -5,7 +5,7 @@ Fonctionnalité: Information sur les axes de travail depuis un carnet
 	Je veux avoir des informations sur les axes de travail du carnet
 
 Scénario: Ajout d'un axe de travail
-	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "AGUILAR"
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
 	Quand je sélectionne l'option "Emploi" dans la liste "Thème"
@@ -14,7 +14,7 @@ Scénario: Ajout d'un axe de travail
 	Alors je vois "Aucune action" dans la tuile "Emploi"
 
 Scénario: Ajout d'un objectif
-	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "AGUILAR"
 	Alors je clique sur "Formation" dans la tuile "Formation"
 	Alors j'attends que le texte "Trouver sa formation" apparaisse
 	Quand je clique sur "Ajouter un objectif"
@@ -25,7 +25,7 @@ Scénario: Ajout d'un objectif
 	Alors je vois "Monter son dossier de formation" sous le titre "Objectifs"
 
 Scénario: Ajout d'une action
-	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "AGUILAR"
 	Alors je clique sur "Formation" dans la tuile "Formation"
 	Alors j'attends que le texte "Trouver sa formation" apparaisse
 	Quand je clique sur "Trouver sa formation"
@@ -42,7 +42,7 @@ Scénario: Ajout d'une action
 
 
 Scénario: Ajout d'une action en double
-	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
+	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "AGUILAR"
 	Alors je clique sur "Formation" dans la tuile "Formation"
 	Alors j'attends que le texte "Trouver sa formation" apparaisse
 	Quand je clique sur "Trouver sa formation"

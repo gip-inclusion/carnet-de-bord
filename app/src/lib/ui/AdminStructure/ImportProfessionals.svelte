@@ -7,6 +7,8 @@
 	import { pluralize } from '$lib/helpers';
 	import { parseEntities } from '$lib/utils/importFileParser';
 
+	import { displayFullName } from '../format';
+
 	type ProImport = ProAccountInput & {
 		valid: boolean;
 		uid: string;
@@ -88,8 +90,7 @@
 					<thead class="px-2 py-2">
 						<th />
 						<th>Courriel*</th>
-						<th>Prénom*</th>
-						<th>Nom*</th>
+						<th>Prénom NOM*</th>
 						<th>Téléphone</th>
 						<th>Fonction</th>
 					</thead>
@@ -119,10 +120,7 @@
 									<Text value={pro.email} />
 								</td>
 								<td class="px-2 py-2">
-									<Text value={pro.firstname} />
-								</td>
-								<td class="px-2 py-2">
-									<Text value={pro.lastname} />
+									<Text value={displayFullName(pro)} />
 								</td>
 								<td class="px-2 py-2">
 									<Text value={pro.mobileNumber} defaultValue="" />
@@ -195,7 +193,7 @@
 					<table class="w-full divide-y divide-gray-300">
 						<thead class="px-2 py-2">
 							<th>Courriel</th>
-							<th>Prénom</th>
+							<th>Prénom NOM</th>
 							<th>Nom</th>
 						</thead>
 						<tbody class="bg-white divide-y divide-gray-300">
@@ -205,10 +203,7 @@
 										<Text value={insertResult.pro.email} />
 									</td>
 									<td class="px-2 py-2">
-										<Text value={insertResult.pro.firstname} />
-									</td>
-									<td class="px-2 py-2">
-										<Text value={insertResult.pro.lastname} />
+										<Text value={displayFullName(insertResult.pro)} />
 									</td>
 									<td class="px-2 py-2">
 										{#if insertResult.error}

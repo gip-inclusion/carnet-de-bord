@@ -71,7 +71,7 @@
 	<thead>
 		<tr>
 			<th />
-			<th class="text-left">Nom Prénom</th>
+			<th class="text-left">NOM Prénom</th>
 			<th class="text-left">Ville</th>
 			<th class="text-left">Chargé d'orientation</th>
 			<th class="text-left">Référent unique</th>
@@ -100,7 +100,7 @@
 						</label>
 					</div>
 				</td>
-				<td>{beneficiary.lastname} {beneficiary.firstname}</td>
+				<td>{displayFullName(beneficiary, 'lastname first')}</td>
 				<td>{beneficiary.city}</td>
 				<td>
 					{#if orientationManager}
@@ -188,7 +188,7 @@
 					<a
 						href={getNotebookUrl(beneficiary)}
 						class="fr-link"
-						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
+						title={`Voir le carnet de ${displayFullName(beneficiary)}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />
 					</a>

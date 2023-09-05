@@ -1,18 +1,20 @@
 module Domain.Account exposing (Account, OrientationManager, Professional, print)
 
+import Domain.Name
 import Domain.Structure exposing (Structure)
+import Extra.String
 
 
 type alias Professional =
-    { firstname : String
-    , lastname : String
+    { firstName : String
+    , lastName : String
     , structure : Maybe Structure
     }
 
 
 type alias OrientationManager =
-    { firstname : String
-    , lastname : String
+    { firstName : String
+    , lastName : String
     }
 
 
@@ -29,7 +31,7 @@ print creator =
             printPro p
 
         ( _, Just o ) ->
-            o.firstname ++ " " ++ o.lastname
+            Extra.String.capitalize o.firstName ++ " " ++ String.toUpper o.lastName
 
         _ ->
             ""
@@ -37,9 +39,8 @@ print creator =
 
 printPro : Professional -> String
 printPro pro =
-    "$first $second ($structureName)"
-        |> String.replace "$first" pro.firstname
-        |> String.replace "$second" pro.lastname
+    "$name($structureName)"
+        |> String.replace "$name" (Domain.Name.printFullName pro)
         |> String.replace "$structureName"
             (pro.structure
                 |> Maybe.map .name

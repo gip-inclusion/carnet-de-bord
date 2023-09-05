@@ -62,16 +62,16 @@ toDomainAccount { orientation_manager, professional } =
         orientation_manager
             |> Maybe.map
                 (\om ->
-                    { firstname = Maybe.withDefault "" om.firstname
-                    , lastname = Maybe.withDefault "" om.lastname
+                    { firstName = Maybe.withDefault "" om.firstname
+                    , lastName = Maybe.withDefault "" om.lastname
                     }
                 )
     , professional =
         professional
             |> Maybe.map
                 (\pro ->
-                    { firstname = pro.firstname
-                    , lastname = pro.lastname
+                    { firstName = pro.firstname
+                    , lastName = pro.lastname
                     , structure = Just { name = pro.structure.name }
                     }
                 )

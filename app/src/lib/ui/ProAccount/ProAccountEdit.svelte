@@ -7,12 +7,13 @@
 	import { Alert, Button } from '$lib/ui/base';
 	import type { ProAccountInput } from '$lib/ui/ProCreationForm/pro.schema';
 
+	import { formatNames } from '../format';
+
 	const { id, email, firstname, lastname, position, mobileNumber } = $accountData.professional;
 
 	const initialValues = {
 		email,
-		firstname,
-		lastname,
+		...formatNames({ firstname, lastname }),
 		position,
 		mobileNumber,
 	};

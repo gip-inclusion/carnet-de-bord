@@ -52,8 +52,7 @@
 	<thead>
 		<tr>
 			<th />
-			<th class="text-left">Nom</th>
-			<th class="text-left">Prénom</th>
+			<th class="text-left">NOM Prénom</th>
 			<th class="text-left">Dispositif</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
@@ -80,8 +79,7 @@
 						</label>
 					</div>
 				</td>
-				<td>{beneficiary.lastname}</td>
-				<td>{beneficiary.firstname}</td>
+				<td>{displayFullName(beneficiary, 'lastname first')}</td>
 				<td>{beneficiary.notebook.notebookInfo?.orientationSystem?.name ?? ''}</td>
 				<td>
 					{#if referents.length > 0}
@@ -121,7 +119,7 @@
 						rel="noreferrer"
 						class="fr-link"
 						target="_blank"
-						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
+						title={`Voir le carnet de ${displayFullName(beneficiary)}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />
 					</a>

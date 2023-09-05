@@ -338,7 +338,7 @@
 										{:else}
 											<Text
 												value={advisorEmailToPros(proValue ?? '')
-													.map(displayFullName)
+													.map((it) => displayFullName(it))
 													.join(', ')}
 												defaultValue=""
 											/>

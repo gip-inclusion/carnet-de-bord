@@ -37,13 +37,14 @@
 
 	import { RoleEnum } from '$lib/graphql/_gen/typed-document-nodes';
 
+	import { formatNames } from '../format';
+
 	export let beneficiary: FormBeneficiary;
 
 	export let canEditDetailedInfo = false;
 
 	const initialValues = {
-		firstname: beneficiary.firstname,
-		lastname: beneficiary.lastname,
+		...formatNames(beneficiary),
 		dateOfBirth: beneficiary.dateOfBirth,
 		nir: beneficiary.nir,
 		mobileNumber: beneficiary.mobileNumber,

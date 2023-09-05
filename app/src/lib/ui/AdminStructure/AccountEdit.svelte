@@ -6,13 +6,13 @@
 	import { accountData, openComponent } from '$lib/stores';
 	import { Alert, Button } from '$lib/ui/base';
 	import type { AdminStructureAccountInput } from './adminStructure.schema';
+	import { formatNames } from '../format';
 
 	const { id, email, firstname, lastname, phoneNumbers } = $accountData.admin_structure;
 
 	const initialValues = {
 		email,
-		firstname,
-		lastname,
+		...formatNames({ firstname, lastname }),
 		phoneNumbers,
 	};
 

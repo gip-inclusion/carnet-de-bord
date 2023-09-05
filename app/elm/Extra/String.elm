@@ -1,4 +1,14 @@
-module Extra.String exposing (nonBreakableSpace)
+module Extra.String exposing (capitalize, nonBreakableSpace)
+
+
+capitalize : String -> String
+capitalize lower =
+    case String.uncons lower of
+        Just ( first, rest ) ->
+            String.cons (first |> Char.toUpper) (String.toLower rest)
+
+        Nothing ->
+            lower
 
 
 nonBreakableSpace : String

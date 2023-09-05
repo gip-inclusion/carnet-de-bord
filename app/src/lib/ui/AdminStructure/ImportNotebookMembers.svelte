@@ -18,6 +18,8 @@
 	import { parseEntities } from '$lib/utils/importFileParser';
 	import { formatDateLocale } from '$lib/utils/date';
 
+	import { displayFullName } from '../format';
+
 	type NotebookMemberInput = {
 		notebookId: string;
 		firstname?: string;
@@ -249,7 +251,7 @@
 					<table class="w-full divide-y divide-gray-300">
 						<thead class="px-2 py-2">
 							<th>Identifiant</th>
-							<th>Prénom</th>
+							<th>Prénom NOM</th>
 							<th>Nom</th>
 							<th>Date de naissance</th>
 							<th>Accompagnateurs</th>
@@ -261,10 +263,7 @@
 										<Text value={member.input_.notebookId} />
 									</td>
 									<td class="px-2 py-2">
-										<Text value={member.input_.firstname} />
-									</td>
-									<td class="px-2 py-2">
-										<Text value={member.input_.lastname} />
+										<Text value={displayFullName(member.input_)} />
 									</td>
 									<td class="px-2 py-2">
 										<Text value={formatDateLocale(member.input_.dateOfBirth)} />

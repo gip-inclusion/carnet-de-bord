@@ -3,6 +3,7 @@
 
 	import { Button } from '$lib/ui/base';
 	import { Form, Input } from '$lib/ui/forms';
+
 	import {
 		type AdminStructureAccountInput,
 		adminStructureAccountSchema,
@@ -10,6 +11,8 @@
 </script>
 
 <script lang="ts">
+	import { formatNames } from '../format';
+
 	export let submitLabel = 'Je valide mon inscription';
 	export let initialValues: Partial<AccountRequest> & { phoneNumbers?: string } = {};
 	export let onSubmit: (values: AdminStructureAccountInput) => void;
@@ -25,8 +28,7 @@
 
 <Form
 	initialValues={{
-		firstname: initialValues.firstname,
-		lastname: initialValues.lastname,
+		...formatNames(initialValues),
 		email: initialValues.email,
 		phoneNumbers: initialValues.phoneNumbers,
 	}}

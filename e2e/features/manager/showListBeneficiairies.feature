@@ -25,7 +25,7 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 		Quand je clique sur "liste des bénéficiaires de Pierre Chevalier"
 		Quand je clique sur "Supprimer le filtre"
 		Alors je ne vois pas "Supprimer le filtre"
-		Alors je vois "Aguilar" dans le tableau "Liste des bénéficiaires"
+		Alors je vois "AGUILAR" dans le tableau "Liste des bénéficiaires"
 
 	Scénario: rechercher un bénéficiaire par préfixe
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"

@@ -5,6 +5,8 @@
 	import Alert from '../base/Alert.svelte';
 	import Text from '../utils/Text.svelte';
 	import { postApiFormData } from '$lib/utils/post';
+
+	import { displayFullName } from '../format';
 	let resultPromise;
 
 	function handleFilesSelect(event: CustomEvent<{ acceptedFiles: FileList }>): void {
@@ -67,8 +69,7 @@
 				<caption class="sr-only">Récapitulatif des imports</caption>
 				<thead class="px-2 py-2">
 					<th class="text-left px-2 py-2">Courriel*</th>
-					<th class="text-left px-2 py-2">Prénom</th>
-					<th class="text-left px-2 py-2">Nom</th>
+					<th class="text-left px-2 py-2">Prénom NOM</th>
 					<th />
 				</thead>
 				<tbody class="bg-white divide-y divide-gray-300">
@@ -78,10 +79,7 @@
 								<Text value={orientation_manager.email} />
 							</td>
 							<td class="px-2 py-2">
-								<Text value={orientation_manager.lastname} defaultValue="" />
-							</td>
-							<td class="px-2 py-2">
-								<Text value={orientation_manager.firstname} defaultValue="" />
+								<Text value={displayFullName(orientation_manager)} defaultValue="" />
 							</td>
 
 							<td class="px-2 py-2">
