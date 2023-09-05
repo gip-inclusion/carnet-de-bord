@@ -15,3 +15,4 @@ class Target(BaseModel):
     updated_at: datetime
     status: str
     actions: list[Action] | None = None
+    linked_to: str | None

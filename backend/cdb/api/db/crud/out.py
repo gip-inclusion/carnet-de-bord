@@ -50,13 +50,13 @@ async def notebook_to_out(
                     theme=f.theme,
                     created_at=f.created_at,
                     updated_at=f.updated_at,
-                    linked_to=f.linked_to,
                     targets=[
                         TargetOut(
                             target=t.target,
                             created_at=t.created_at,
                             updated_at=t.updated_at,
                             status=t.status,
+                            linked_to=t.linked_to,
                             actions=[
                                 ActionOut(
                                     action=a.action,

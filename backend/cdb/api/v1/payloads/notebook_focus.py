@@ -8,7 +8,6 @@ from cdb.api.v1.payloads.hasura_action import HasuraActionPayload
 class CreateNotebookFocusInput(BaseModel):
     notebook_id: UUID = Field(alias="notebookId")
     theme: str | None
-    linked_to: str | None = Field(alias="linkedTo")
 
 
 class CreateNotebookFocusActionPayload(HasuraActionPayload):
@@ -28,17 +27,4 @@ class DeleteNotebookFocusActionPayload(HasuraActionPayload):
 
 
 class DeletedNotebookFocus(BaseModel):
-    id: UUID
-
-
-class UpdateNotebookFocusInput(BaseModel):
-    id: UUID
-    linked_to: str | None = Field(alias="linkedTo")
-
-
-class UpdateNotebookFocusActionPayload(HasuraActionPayload):
-    input: UpdateNotebookFocusInput
-
-
-class UpdatedNotebookFocus(BaseModel):
     id: UUID

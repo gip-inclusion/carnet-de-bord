@@ -43,7 +43,6 @@ nf.theme as nf_theme,
 nf.creator_id as nf_creator_id,
 nf.notebook_id as nf_notebook_id,
 nf.created_at as nf_created_at,
-nf.linked_to as nf_linked_to,
 nf.updated_at as nf_updated_at,
 nt.id as nt_id,
 nt.focus_id as nt_focus_id,
@@ -51,6 +50,7 @@ nt.target as nt_target,
 nt.created_at as nt_created_at,
 nt.creator_id as nt_creator_id,
 nt.updated_at as nt_updated_at,
+nt.linked_to as nt_linked_to,
 nt.status as nt_status,
 na.id as na_id,
 na.action as na_action,
@@ -263,6 +263,7 @@ async def add_target_to_focus(
                             created_at=record[record_prefix + "created_at"],
                             updated_at=record[record_prefix + "updated_at"],
                             status=record[record_prefix + "status"],
+                            linked_to=record[record_prefix + "linked_to"],
                         )
                     )
 
@@ -291,7 +292,6 @@ async def add_focus_to_notebook(
                     notebook_id=record[record_prefix + "notebook_id"],
                     created_at=record[record_prefix + "created_at"],
                     updated_at=record[record_prefix + "updated_at"],
-                    linked_to=record[record_prefix + "linked_to"],
                 )
             )
 

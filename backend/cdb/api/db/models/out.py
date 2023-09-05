@@ -59,6 +59,7 @@ class TargetOut(BaseModel):
     created_at: datetime
     updated_at: datetime
     status: str
+    linked_to: str | None
     actions: list[ActionOut] | None = None
 
 
@@ -66,7 +67,6 @@ class FocusOut(BaseModel):
     theme: str
     created_at: datetime
     updated_at: datetime
-    linked_to: str | None
     targets: list[TargetOut] | None = None
 
 

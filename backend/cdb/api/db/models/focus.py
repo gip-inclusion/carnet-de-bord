@@ -13,5 +13,4 @@ class Focus(BaseModel):
     notebook_id: UUID
     created_at: datetime
     updated_at: datetime
-    linked_to: str | None
     targets: list[Target] | None = None
