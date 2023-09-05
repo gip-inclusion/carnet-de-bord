@@ -8,7 +8,6 @@ Scénario: Ajout d'un axe de travail
 	Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Aguilar"
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
-	Quand je choisis "Aucun"
 	Quand je sélectionne l'option "Emploi" dans la liste "Thème"
 	Quand je clique sur "Valider"
 	Quand je clique sur "J'ai compris"
@@ -21,6 +20,7 @@ Scénario: Ajout d'un objectif
 	Quand je clique sur "Ajouter un objectif"
 	Alors j'attends que le texte "Objectif" apparaisse
 	Quand je sélectionne l'option "Monter son dossier de formation" dans la liste "Objectif"
+	Quand je choisis "Aucun"
 	Quand je clique sur "Ajouter"
 	Alors je vois "Monter son dossier de formation" sous le titre "Objectifs"
 

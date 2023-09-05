@@ -14,7 +14,6 @@ Scénario: Ajout d'un axe de travail par un pro
 	Soit le pro "sanka@groupe-ns.fr" sur le carnet de "Gallegos"
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
-	Quand je choisis "Aucun"
 	Quand je sélectionne l'option "Numérique" dans la liste "Thème"
 	Quand je clique sur "Valider"
 	Quand je clique sur "J'ai compris"
@@ -28,3 +27,14 @@ Scénario: Je peux consulter un axe de travail existant
 	Quand je clique sur "Changer de logement"
 	Alors j'attends que le texte "Action" apparaisse
 	Alors je vois "Sarah Vigote" sur la ligne "Intervention face à une procédure expulsion"
+
+Scénario: Ajout d'un objectif  par un pro
+	Soit le pro membre "sanka@groupe-ns.fr" sur le carnet de "Aguilar"
+	Alors je clique sur "Formation" dans la tuile "Formation"
+	Alors j'attends que le texte "Trouver sa formation" apparaisse
+	Quand je clique sur "Ajouter un objectif"
+	Alors j'attends que le texte "Objectif" apparaisse
+	Quand je sélectionne l'option "Monter son dossier de formation" dans la liste "Objectif"
+	Quand je choisis "Aucun"
+	Quand je clique sur "Ajouter"
+	Alors je vois "Monter son dossier de formation" sous le titre "Objectifs"

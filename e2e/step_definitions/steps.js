@@ -81,6 +81,17 @@ Soit(
 	}
 );
 
+Soit('le pro membre {string} sur le carnet de {string}', async (email, lastname) => {
+	rejectConsent();
+
+	await onBoardingSetup('pro', email, true);
+	const uuid = await loginStub('pro', email);
+	const notebookId = await goToNotebookForLastName(lastname);
+	await addMember(email, notebookId);
+	await plainGoto(`/auth/jwt/${uuid}?url=/pro/carnet/${notebookId}`);
+	I.click('Continuer sur Carnet de bord');
+});
+
 Soit("le chargé d'orientation {string} sur le carnet de {string}", async (email, lastname) => {
 	rejectConsent();
 

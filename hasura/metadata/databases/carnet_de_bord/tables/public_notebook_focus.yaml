@@ -7,8 +7,6 @@ configuration:
       custom_name: createdAt
     creator_id:
       custom_name: creatorId
-    linked_to:
-      custom_name: linkedTo
     notebook_id:
       custom_name: notebookId
     updated_at:
@@ -16,7 +14,6 @@ configuration:
   custom_column_names:
     created_at: createdAt
     creator_id: creatorId
-    linked_to: linkedTo
     notebook_id: notebookId
     updated_at: updatedAt
   custom_root_fields: {}
@@ -45,7 +42,6 @@ insert_permissions:
         - creator_id
         - notebook_id
         - created_at
-        - linked_to
       backend_only: true
   - role: orientation_manager
     permission:
@@ -62,7 +58,6 @@ insert_permissions:
       columns:
         - creator_id
         - id
-        - linked_to
         - notebook_id
         - theme
       backend_only: true
@@ -81,7 +76,6 @@ insert_permissions:
       columns:
         - creator_id
         - id
-        - linked_to
         - notebook_id
         - theme
       backend_only: true
@@ -92,7 +86,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - linked_to
         - notebook_id
         - theme
         - updated_at
@@ -104,7 +97,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - linked_to
         - notebook_id
         - theme
         - updated_at
@@ -131,7 +123,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - linked_to
         - notebook_id
         - theme
         - updated_at
@@ -147,7 +138,6 @@ select_permissions:
         - creator_id
         - notebook_id
         - created_at
-        - linked_to
         - updated_at
       filter:
         notebook:
@@ -163,7 +153,6 @@ select_permissions:
         - creator_id
         - notebook_id
         - created_at
-        - linked_to
         - updated_at
       filter:
         notebook:
@@ -176,7 +165,6 @@ select_permissions:
         - created_at
         - creator_id
         - id
-        - linked_to
         - notebook_id
         - theme
         - updated_at
@@ -193,7 +181,6 @@ update_permissions:
   - role: admin_cdb
     permission:
       columns:
-        - linked_to
         - theme
         - created_at
         - creator_id
@@ -205,7 +192,6 @@ update_permissions:
   - role: orientation_manager
     permission:
       columns:
-        - linked_to
         - theme
       filter:
         notebook:
@@ -220,7 +206,6 @@ update_permissions:
   - role: professional
     permission:
       columns:
-        - linked_to
         - theme
       filter:
         notebook:
