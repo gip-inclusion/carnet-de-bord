@@ -1,6 +1,7 @@
 {
     "creatorId": "2addd10f-9bd3-4d37-b3c9-10a6e2c4be4f",
     "event": {
+        "event_label": "(R\u00e9)Orientation",
         "orientation": "Social",
         "previousOrientation": "Professionnel",
         "previousReferent": "Pierre Chevalier",

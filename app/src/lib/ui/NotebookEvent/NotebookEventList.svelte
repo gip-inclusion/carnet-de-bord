@@ -52,7 +52,7 @@
 
 	function eventCategory(event): string {
 		if (event.eventType == NotebookEventTypeEnum.Orientation) {
-			return 'Accompagnement';
+			return constantToString(event.eventType, eventTypes);
 		}
 		if (
 			(event.eventType != NotebookEventTypeEnum.Action &&
@@ -70,8 +70,7 @@
 	}
 
 	function eventLabel(notebookEvent: NotebookEvent): string {
-		if (notebookEvent.eventType === NotebookEventTypeEnum.Orientation) return '(Ré)orientation';
-		else return notebookEvent.event.event_label;
+		return notebookEvent.event.event_label;
 	}
 
 	function eventStructure(notebookEvent: NotebookEvent): string {

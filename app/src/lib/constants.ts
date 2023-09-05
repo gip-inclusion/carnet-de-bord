@@ -51,7 +51,7 @@ export const eventTypes: { label: string; name: string }[] = [
 		name: NotebookEventTypeEnum.Target,
 	},
 	{
-		label: 'Réorientation',
+		label: 'Accompagnement',
 		name: NotebookEventTypeEnum.Orientation,
 	},
 ];

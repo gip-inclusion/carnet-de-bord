@@ -150,6 +150,7 @@ async def change_beneficiary_orientation(
                 dsl_schema, data.orientation_request_id, data.orientation_system_id
             )
         orientation_event = {
+            "event_label": "(Ré)Orientation",
             "orientation": orientation_system.name,
             "structure": orientation_info.new_structure.get("name"),
             "referent": get_referent_name(orientation_info.new_referent)

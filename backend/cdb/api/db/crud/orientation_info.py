@@ -39,7 +39,6 @@ async def get_orientation_info(
             "with_new_referent": with_new_referent,
         },
     )
-    print(orientation_info_response)
     return parse_orientation_info_from_gql(orientation_info_response, with_new_referent)
 
 
