@@ -15,13 +15,8 @@ from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
     DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API,
     update_notebook_from_pole_emploi,
 )
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
-    Notebook as NotebookLocal,
-)
-from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import (
-    Focus,
-    Target,
-)
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import Notebook as NotebookLocal
+from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic_models import Focus, Target
 from cdb.pe.models.dossier_individu_api import (
     Contrainte,
     ContraintesIndividu,
@@ -398,9 +393,12 @@ async def test_update_situation_when_received_situation_are_an_empty_array():
         ),
         FocusDifferences(
             focuses_to_add=[],
-            focus_ids_to_delete=[],
+            focuses_to_delete=[],
             target_differences=TargetDifferences(
-                targets_to_add=[], target_ids_to_cancel=[], target_ids_to_end=[]
+                targets_to_add=[],
+                target_ids_to_cancel=[],
+                target_ids_to_end=[],
+                targets_to_delete=[],
             ),
         ),
         notebook_id,

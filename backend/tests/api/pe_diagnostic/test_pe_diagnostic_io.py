@@ -175,6 +175,7 @@ async def test_save_differences(
                         creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
                     )
                 ],
+                targets_to_delete=[],
                 target_ids_to_cancel=[UUID("a37221df-fd67-4505-b847-d869c75656bc")],
                 target_ids_to_end=[UUID("d2abc3b0-339d-4f6e-a02e-6b389226ead5")],
             ),

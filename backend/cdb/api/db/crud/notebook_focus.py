@@ -98,7 +98,9 @@ async def add_remove_notebook_focuses(
             "focuses_to_add": to_focuses_insert_input(
                 notebook_id, focus_differences.focuses_to_add
             ),
-            "focuses_ids_to_delete": focus_differences.focus_ids_to_delete,
+            "focuses_ids_to_delete": [
+                focus.id for focus in focus_differences.focuses_to_delete
+            ],
             "targets_to_add": [
                 target.jsonb()
                 for target in focus_differences.target_differences.targets_to_add
