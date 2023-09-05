@@ -168,7 +168,7 @@
 				{:else}
 					<NotebookMembers
 						{members}
-						orientationSystem={publicNotebook.notebook.notebookInfo?.orientationSystem?.name}
+						orientationSystem={null}
 						notebookId={publicNotebook.id}
 						on:joined-notebook={onJoinedNotebook}
 					/>
