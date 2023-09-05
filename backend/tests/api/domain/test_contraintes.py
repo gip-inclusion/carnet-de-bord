@@ -153,6 +153,11 @@ def test_shared_contrainte_with_no_objectif_and_target(
         for target in shared_focus_with_targets.targets
         if target.target == "Entretenir ou réparer son véhicule"
     ]
+    assert result.target_differences.targets_to_delete == [
+        target
+        for target in shared_focus_with_targets.targets
+        if target.target == "Travailler la mobilité psychologique"
+    ]
 
 
 def test_shared_contraintes_with_objectifs_and_targets(
@@ -179,6 +184,7 @@ def test_shared_contraintes_with_objectifs_and_targets(
             creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         )
     ]
+    assert result.target_differences.targets_to_delete == []
     assert result.target_differences.target_ids_to_cancel == target_ids_to_cancel
 
 

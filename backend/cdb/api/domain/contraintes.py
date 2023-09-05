@@ -105,6 +105,7 @@ def diff_objectifs(
         and getContrainteIdFromTheme(focus.theme) == contrainte.code
     ]
     targets_to_add = []
+    targets_to_delete = []
     target_ids_to_cancel = []
     target_ids_to_end = []
     for shared_focus, shared_contrainte in shared_contraintes_focuses:
@@ -141,14 +142,15 @@ def diff_objectifs(
             ]:
                 target_ids_to_end.append(target.id)
 
-    # TODO @lionelb 17/07/23
-    # handle case where the cdb target is not found in PE
+        for target in targets:
+            if target.target not in [objectif.libelle for objectif in objectifs]:
+                targets_to_delete.append(target)
 
     return TargetDifferences(
         targets_to_add=targets_to_add,
         target_ids_to_cancel=target_ids_to_cancel,
         target_ids_to_end=target_ids_to_end,
-        targets_to_delete=[],
+        targets_to_delete=targets_to_delete,
     )
 
 
