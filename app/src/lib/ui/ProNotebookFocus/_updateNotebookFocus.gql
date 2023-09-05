@@ -1,5 +1,0 @@
-mutation UpdateNotebookFocus($id: uuid!, $linkedTo: String!) {
-  update_notebook_focus_link(id: $id, linkedTo: $linkedTo) {
-    id
-  }
-}

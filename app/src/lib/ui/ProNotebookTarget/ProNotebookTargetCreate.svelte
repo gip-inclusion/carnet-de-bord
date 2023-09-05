@@ -6,9 +6,10 @@
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { Button, Select } from '$lib/ui/base';
+	import { Button, Radio, Select } from '$lib/ui/base';
 	import { mutation, operationStore, query } from '@urql/svelte';
 	import { LoaderIndicator } from '$lib/ui/utils';
+	import { contractTypeFullKeys } from '$lib/constants/keys';
 
 	export let focusId: string;
 	export let focusTheme: RefThemeEnum;
@@ -46,6 +47,7 @@
 	function initFormData() {
 		return {
 			target: null,
+			linkedTo: null,
 		};
 	}
 
@@ -56,6 +58,7 @@
 		await addNotebookTarget({
 			focusId,
 			target: formData.target,
+			linkedTo: formData.linkedTo,
 		});
 
 		openComponent.close();
@@ -68,7 +71,7 @@
 			group: refTheme.label,
 		})) || [];
 
-	$: disabled = !formData.target;
+	$: disabled = !formData.target || !formData.linkedTo;
 </script>
 
 <section class="flex flex-col gap-4">
@@ -85,6 +88,11 @@
 				groupOption
 			/>
 		</div>
+		<Radio
+			caption={'Veuillez sélectionner le type de contrat lié à cet objectif.'}
+			bind:selected={formData.linkedTo}
+			options={contractTypeFullKeys.options}
+		/>
 		<div class="flex flex-row gap-6 pt-4 pb-12">
 			<Button {disabled} on:click={createTarget}>Ajouter</Button>
 			<Button outline={true} on:click={close}>Annuler</Button>

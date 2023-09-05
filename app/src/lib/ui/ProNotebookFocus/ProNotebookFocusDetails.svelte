@@ -5,9 +5,12 @@
 		GetNotebookFocusByIdDocument,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 
-	import { UpdateTargetStatusDocument } from '$lib/graphql/_gen/typed-document-nodes';
+	import { UpdateTargetStatusActionDocument } from '$lib/graphql/_gen/typed-document-nodes';
 
-	import type { UpdateTargetStatusMutation } from '$lib/graphql/_gen/typed-document-nodes';
+	import type {
+		GetNotebookFocusByIdQuery,
+		UpdateTargetStatusActionMutation,
+	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
 	import { Accordion, Accordions, Button, Card, Select } from '$lib/ui/base';
@@ -18,9 +21,11 @@
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
 	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
-	import ProNotebookFocusUpdate from './ProNotebookFocusUpdate.svelte';
 	import { targetStatusValues } from '$lib/constants';
 	import { LoaderIndicator } from '$lib/ui/utils';
+	import Alert from '$lib/ui/base/Alert.svelte';
+
+	type Target = GetNotebookFocusByIdQuery['focus']['targets'][number];
 
 	export let focusId: string;
 
@@ -60,16 +65,24 @@
 	}
 
 	const updateNotebookTargetStatus = mutation(
-		operationStore(UpdateTargetStatusDocument, null, { additionalTypenames: ['notebook_target'] })
+		operationStore(UpdateTargetStatusActionDocument, null, {
+			additionalTypenames: ['notebook_target', 'notebook_event'],
+		})
 	);
-	let updateResult: OperationStore<UpdateTargetStatusMutation>;
+	let updateResult: OperationStore<UpdateTargetStatusActionMutation>;
 
 	let error: string;
 
-	async function onChangeTargetStatus(event: CustomEvent<{ selected: string }>, target_id: string) {
+	async function onChangeTarget(
+		event: CustomEvent<{ selected: string; name: string }>,
+		target: Target
+	) {
+		target[event.detail.name] = event.detail.selected;
+
 		updateResult = await updateNotebookTargetStatus({
-			id: target_id,
-			status: event.detail.selected,
+			id: target.id,
+			status: target.status,
+			linkedTo: target.linkedTo,
 		});
 
 		if (updateResult.error) {
@@ -88,22 +101,6 @@
 	<div class="flex flex-col gap-6">
 		<div>
 			<h1 class="mb-0">{focusThemeKeys.byKey[focus?.theme]}</h1>
-			<div class="flex justify-between items-center">
-				{#if focus?.linkedTo}
-					<p class="mb-0">
-						{focus.linkedTo === 'no'
-							? 'Axe de travail non rattaché à un contrat'
-							: contractTypeFullKeys.byKey[focus.linkedTo]}
-					</p>
-				{/if}
-				<Button
-					classNames="self-end"
-					outline={true}
-					on:click={() =>
-						openComponent.open({ component: ProNotebookFocusUpdate, props: { focus } })}
-					>Mettre à jour</Button
-				>
-			</div>
 		</div>
 		<div class="flex flex-col gap-4">
 			<h2 class="fr-h4 text-vert-cdb">Objectifs</h2>
@@ -117,12 +114,27 @@
 								targetStatusValues.find((value) => value.name == target.status)?.label +
 								'</em></span>'}
 						>
-							<Select
-								selectLabel={"Statut global de l'objectif"}
-								options={targetStatusValues}
-								selected={target.status}
-								on:select={(event) => onChangeTargetStatus(event, target.id)}
-							/>
+							<div class="flex justify-between gap-8">
+								<Select
+									name="linkedTo"
+									selectLabel={'Objectif lié à un contrat'}
+									options={contractTypeFullKeys.options}
+									selected={target.linkedTo}
+									classNames="shrink"
+									on:select={(event) => onChangeTarget(event, target)}
+								/>
+								<Select
+									name="status"
+									selectLabel={"Statut global de l'objectif"}
+									options={targetStatusValues}
+									selected={target.status}
+									classNames="shrink-0"
+									on:select={(event) => onChangeTarget(event, target)}
+								/>
+							</div>
+							{#if error}
+								<Alert type="error" title={error} size="sm" />
+							{/if}
 							<ProNotebookActionList {target} theme={focus.theme} />
 						</Accordion>
 					{:else}

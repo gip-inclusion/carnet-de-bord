@@ -33,7 +33,6 @@ describe('lastModified trigger', () => {
 		const addFocusPayload = await graphqlPro(addFocusMutation, {
 			notebookId: sofieTifourNotebookId,
 			theme: 'logement',
-			linkedTo: '',
 		});
 
 		const payload = await graphqlPro(lastModifiedQuery);
