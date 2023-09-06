@@ -2,13 +2,11 @@ export const referentLabelInParens = (
 	member: { memberType: 'referent' | string },
 	orientationSystem: string | null
 ) => {
-	if (member.memberType === 'referent') {
-		let label = '(Référent';
-		if (orientationSystem) {
-			label += ` ${orientationSystem}`;
-		}
-		label += ')';
-		return label;
+	if (member.memberType !== 'referent') {
+		return '';
 	}
-	return '';
+	if (orientationSystem) {
+		return `(Référent ${orientationSystem})`;
+	}
+	return '(Référent)';
 };

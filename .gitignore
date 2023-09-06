@@ -22,3 +22,5 @@ e2e/.eslintcache
 # Node
 /app/src/lib/graphql/_gen/
 node_modules
+
+app/vite.config.ts.timestamp*
