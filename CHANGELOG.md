@@ -1,3 +1,10 @@
+# [1.259.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.258.0...v1.259.0) (2023-09-06)
+
+
+### Features
+
+* historise les changements d'orientation ([#1990](https://github.com/gip-inclusion/carnet-de-bord/issues/1990)) ([3cf35cf](https://github.com/gip-inclusion/carnet-de-bord/commit/3cf35cfb25dffc9b42cf8753f09f040745b8d041))
+
 # [1.258.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.257.1...v1.258.0) (2023-09-06)
 
 
