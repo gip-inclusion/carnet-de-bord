@@ -59,7 +59,6 @@
 </script>
 
 <div
-	{id}
 	class={`fr-select-group ${error ? 'fr-select-group--error' : ''} ${
 		valid ? 'fr-select-group--valid' : ''
 	} ${twWidthClass} ${classNames}`}
