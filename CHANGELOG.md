@@ -1,3 +1,10 @@
+# [1.258.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.257.1...v1.258.0) (2023-09-06)
+
+
+### Features
+
+* attache des objectifs à un contrat ([#2007](https://github.com/gip-inclusion/carnet-de-bord/issues/2007)) ([08ddb46](https://github.com/gip-inclusion/carnet-de-bord/commit/08ddb46e22875ade0016ccb287a4fd43c796a657))
+
 ## [1.257.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.257.0...v1.257.1) (2023-09-04)
 
 # [1.257.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.256.0...v1.257.0) (2023-09-04)
