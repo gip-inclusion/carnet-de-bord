@@ -50,4 +50,8 @@ export const eventTypes: { label: string; name: string }[] = [
 		label: 'Objectif',
 		name: NotebookEventTypeEnum.Target,
 	},
+	{
+		label: 'Accompagnement',
+		name: NotebookEventTypeEnum.Orientation,
+	},
 ];

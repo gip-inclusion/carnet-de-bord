@@ -10404,6 +10404,9 @@ enum notebook_event_type_enum {
   """Action d'un objectif"""
   action
 
+  """Orientation ou réorientation"""
+  orientation
+
   """Objectif d'un parcours"""
   target
 }

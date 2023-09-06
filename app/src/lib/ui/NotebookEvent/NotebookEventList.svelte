@@ -3,6 +3,7 @@
 	import type {
 		GetNotebookQuery,
 		GetNotebookEventsQueryStore,
+		GetNotebookEventsQuery,
 	} from '$lib/graphql/_gen/typed-document-nodes';
 	import { stringsMatch } from '$lib/helpers';
 	import { addMonths } from 'date-fns';
@@ -32,6 +33,8 @@
 		| typeof twelveMonths
 		| null;
 
+	type NotebookEvent = GetNotebookEventsQuery['notebook_event'][number];
+
 	let search = '';
 	const allValues = targetStatusValues.concat(actionStatusValues);
 	let selected: Period = threeMonths;
@@ -48,6 +51,9 @@
 	$: filteredEvents = events;
 
 	function eventCategory(event): string {
+		if (event.eventType == NotebookEventTypeEnum.Orientation) {
+			return constantToString(event.eventType, eventTypes);
+		}
 		if (
 			(event.eventType != NotebookEventTypeEnum.Action &&
 				event.eventType != NotebookEventTypeEnum.Target) ||
@@ -63,14 +69,38 @@
 		);
 	}
 
+	function eventLabel(notebookEvent: NotebookEvent): string {
+		return notebookEvent.event.event_label;
+	}
+
+	function eventStructure(notebookEvent: NotebookEvent): string {
+		if (notebookEvent.eventType === NotebookEventTypeEnum.Orientation) {
+			let str = notebookEvent.event?.structure ?? '-';
+			str += ` (Dispositif: ${notebookEvent.event.orientation})`;
+			return str;
+		}
+		if (!notebookEvent.creator && notebookEvent.event.from == 'pole_emploi') {
+			return 'Pôle emploi';
+		} else {
+			return notebookEvent.creator?.professional?.structure.name ?? '-';
+		}
+	}
+
+	function eventStatus(event: NotebookEvent): string {
+		if (event.eventType == NotebookEventTypeEnum.Orientation) {
+			return 'En cours';
+		}
+		return constantToString(
+			event.event.status,
+			event.eventType == NotebookEventTypeEnum.Action ? actionStatusValues : targetStatusValues
+		);
+	}
+
 	function constantToString(
 		status: string,
 		statusValues: { label: string; name: string }[]
 	): string {
-		const status_string: { label: string; name: string } = statusValues.find(
-			(v) => v.name == status
-		);
-
+		const status_string = statusValues.find((v) => v.name == status);
 		return status_string ? status_string.label : 'Inconnu';
 	}
 
@@ -175,23 +205,24 @@
 						<tr>
 							<td>{formatDateLocale(event.eventDate)} </td>
 							<td>{eventCategory(event)}</td>
-							<td>{event.event.event_label}</td>
-							<td
-								>{#if !event.creator && event.event.from == 'pole_emploi'}
-									Pôle emploi
-								{:else}
-									{event.creator?.professional?.structure.name ?? '-'}
-								{/if}</td
-							>
-							<td
-								>{constantToString(
-									event.event.status,
-									event.eventType == NotebookEventTypeEnum.Action
-										? actionStatusValues
-										: targetStatusValues
-								)}</td
-							>
+							<td>{eventLabel(event)}</td>
+							<td>{eventStructure(event)}</td>
+							<td>{eventStatus(event)}</td>
 						</tr>
+						{#if event.eventType == NotebookEventTypeEnum.Orientation && event.event.previousStructure}
+							<tr>
+								<td>{formatDateLocale(event.eventDate)} </td>
+								<td>{eventCategory(event)}</td>
+								<td>{eventLabel(event)}</td>
+								<td>
+									{event.event.previousStructure}
+									{#if event.event.previousOrientation}
+										(Dispositif: {event.event.previousOrientation})
+									{/if}
+								</td>
+								<td>Clos</td>
+							</tr>
+						{/if}
 					{:else}
 						<tr class="shadow-sm">
 							<td class="!text-center" colspan="5">

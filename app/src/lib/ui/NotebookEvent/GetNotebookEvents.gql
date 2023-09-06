@@ -1,0 +1,31 @@
+query GetNotebookEvents(
+  $eventsStart: timestamptz = "-infinity"
+  $eventsEnd: timestamptz = "infinity"
+  $notebookId: uuid!
+) {
+  lastOrientationEvent: notebook_event(
+    where: { notebookId: { _eq: $notebookId }, eventType: { _eq: orientation } }
+    limit: 1
+    order_by: { eventDate: desc_nulls_last }
+  ) {
+    id
+  }
+  notebook_event(
+    order_by: { eventDate: desc_nulls_last }
+    where: { eventDate: { _gte: $eventsStart, _lte: $eventsEnd }, notebookId: { _eq: $notebookId } }
+  ) {
+    id
+    eventDate
+    event
+    eventType
+    creatorId
+    creator {
+      professional {
+        structureId
+        structure {
+          name
+        }
+      }
+    }
+  }
+}

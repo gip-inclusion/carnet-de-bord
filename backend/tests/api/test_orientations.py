@@ -3,17 +3,19 @@ from uuid import UUID
 
 import pytest
 from asyncpg.connection import Connection
+from gql.client import AsyncClientSession
 from httpx import AsyncClient
 
 from cdb.api.db.crud.beneficiary import get_structures_for_beneficiary
 from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
+from cdb.api.db.crud.notebook_event import notebook_events_by_notebook_id
 from cdb.api.db.crud.notebook_info import get_notebook_info
 from cdb.api.db.crud.orientation_request import get_orientation_request_by_id
 from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.professional import Professional
-from tests.utils.approvaltests import verify
+from tests.utils.approvaltests import verify, verify_as_json
 from tests.utils.assert_helpers import assert_member, assert_structure
 
 pytestmark = pytest.mark.graphql
@@ -126,6 +128,7 @@ async def test_change_orientation_while_keeping_same_referent(
     # Check that no new member row was added since referent doesn't change
     assert_member(members, professional_pierre_chevalier)
     notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    assert notebook_info
     assert notebook_info.orientation_reason == orientation_reason
 
 
@@ -187,6 +190,7 @@ async def test_change_orientation_assign_to_structure_not_referent(
         structure_name="Service Social Départemental",
     )
     notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    assert notebook_info
     assert notebook_info.orientation_reason == orientation_reason
 
 
@@ -200,6 +204,7 @@ async def test_change_orientation_with_new_referent(
     notebook_sophie_tifour: Notebook,
     giulia_diaby_jwt: str,
     db_connection: Connection,
+    gql_admin_client: AsyncClientSession,
     orientation_system_social_id: UUID,
 ):
     orientation_reason = "Motif de l’orientation."
@@ -253,7 +258,20 @@ async def test_change_orientation_with_new_referent(
         structure_name="Service Social Départemental",
     )
     notebook_info = await get_notebook_info(db_connection, notebook_sophie_tifour.id)
+    assert notebook_info
     assert notebook_info.orientation_reason == orientation_reason
+
+    result = await gql_admin_client.execute(
+        notebook_events_by_notebook_id,
+        variable_values={"notebook_id": notebook_sophie_tifour.id},
+    )
+    assert result["notebook_event"]
+    [orientation_event] = [
+        event
+        for event in result["notebook_event"]
+        if event["eventType"] == "orientation"
+    ]
+    verify_as_json(orientation_event)
 
 
 @mock.patch("cdb.api.core.emails.send_mail")

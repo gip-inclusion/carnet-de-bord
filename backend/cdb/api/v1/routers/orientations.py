@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from uuid import UUID
 
 from fastapi import APIRouter, BackgroundTasks, Depends, Header
@@ -15,6 +16,7 @@ from cdb.api.db.crud.beneficiary_structure import (
     get_deactivate_beneficiary_structure_mutation,
     get_insert_beneficiary_structure_mutation,
 )
+from cdb.api.db.crud.notebook_event import get_insert_notebook_event_gql
 from cdb.api.db.crud.notebook_info import get_insert_notebook_info_mutation
 from cdb.api.db.crud.notebook_member import (
     get_deactivate_notebook_members_mutation,
@@ -25,6 +27,7 @@ from cdb.api.db.crud.orientation_info import get_orientation_info
 from cdb.api.db.crud.orientation_request import get_accept_orientation_request_mutation
 from cdb.api.db.crud.orientation_system import get_orientation_system_by_id
 from cdb.api.db.models.member_type import MemberTypeEnum
+from cdb.api.db.models.notebook_event import EventType
 from cdb.api.db.models.orientation_info import OrientationInfo
 from cdb.api.db.models.orientation_system import OrientationSystem
 from cdb.api.db.models.role import RoleEnum
@@ -118,7 +121,6 @@ async def change_beneficiary_orientation(
         mutations: dict[str, DSLField] = {}
 
         if data.orientation_request_id:
-
             try:
                 raise_if_orientation_request_not_match_notebook(
                     data.orientation_request_id,
@@ -147,7 +149,30 @@ async def change_beneficiary_orientation(
             mutations = mutations | get_accept_orientation_request_mutation(
                 dsl_schema, data.orientation_request_id, data.orientation_system_id
             )
-
+        orientation_event = {
+            "event_label": "(Ré)Orientation",
+            "orientation": orientation_system.name,
+            "structure": orientation_info.new_structure.get("name"),
+            "referent": get_referent_name(orientation_info.new_referent)
+            if orientation_info.new_referent
+            else None,
+            "previousOrientation": orientation_info.notebook["notebookInfo"][
+                "orientationSystem"
+            ]["name"]
+            if orientation_info.notebook["notebookInfo"]
+            and orientation_info.notebook["notebookInfo"]["orientationSystem"]
+            else None,
+            "previousReferent": get_referent_name(
+                orientation_info.former_referents[0]["account"]["professional"]
+            )
+            if orientation_info.former_referent_account_id
+            else None,
+            "previousStructure": get_structure_name(
+                orientation_info.beneficiary["structures"][0]["structure"]
+            )
+            if orientation_info.former_structure_ids
+            else None,
+        }
         mutations = mutations | get_insert_notebook_info_mutation(
             dsl_schema,
             data.notebook_id,
@@ -199,6 +224,14 @@ async def change_beneficiary_orientation(
                     MemberTypeEnum.referent,
                 )
 
+        mutations = mutations | get_insert_notebook_event_gql(
+            dsl_schema,
+            data.notebook_id,
+            EventType.orientation,
+            datetime.now(),
+            orientation_event,
+        )
+
         response = await session.execute(dsl_gql(DSLMutation(**mutations)))
 
         former_referents = [
@@ -239,9 +272,16 @@ async def change_beneficiary_orientation(
 def raise_if_orientation_request_not_match_notebook(
     orientation_request_id: UUID, beneficiary_request_id: UUID | None
 ) -> None:
-
     if orientation_request_id != beneficiary_request_id:
         raise Exception(
             f"orientation_request_id {orientation_request_id} does not match "
             f"beneficiary_request_id {beneficiary_request_id}"
         )
+
+
+def get_referent_name(referent: dict[str, str]) -> str:
+    return f'{referent.get("firstname")} {referent.get("lastname")}'
+
+
+def get_structure_name(structure: dict[str, str]) -> str:
+    return f'{structure.get("name")}'

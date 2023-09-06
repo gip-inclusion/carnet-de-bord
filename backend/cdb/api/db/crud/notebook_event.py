@@ -4,10 +4,13 @@ from uuid import UUID
 
 from asyncpg import Record
 from asyncpg.connection import Connection
+from gql import gql
+from gql.dsl import DSLField, DSLSchema
 
 from cdb.api.db.models.notebook_event import (
     EventFrom,
     EventStatus,
+    EventType,
     NotebookEvent,
     NotebookEventInsert,
 )
@@ -39,7 +42,6 @@ def create_notebook_event_payload(
 async def get_notebook_event_pe(
     connection: Connection, notebook_id: UUID, label: str, date: datetime
 ) -> NotebookEvent | None:
-
     record = await connection.fetchrow(
         """
         SELECT * from public.notebook_event WHERE notebook_id=$1
@@ -89,3 +91,36 @@ async def get_notebook_event_by_id(
 
     if record:
         return parse_notebook_event(record)
+
+
+def get_insert_notebook_event_gql(
+    dsl_schema: DSLSchema,
+    notebook_id: UUID,
+    event_type: EventType,
+    event_date: datetime,
+    event: dict,
+) -> dict[str, DSLField]:
+    return {
+        "notebook_event": dsl_schema.mutation_root.insert_notebook_event_one.args(
+            object={
+                "notebookId": str(notebook_id),
+                "eventType": event_type,
+                "eventDate": event_date.isoformat(),
+                "event": event,
+            }
+        ).select(dsl_schema.notebook_event.id)
+    }
+
+
+notebook_events_by_notebook_id = gql(
+    """
+        query($notebook_id:uuid!) {
+            notebook_event(where: {notebookId: {_eq: $notebook_id}}) {
+                event,
+                eventDate
+                eventType
+                creatorId
+            }
+        }
+    """
+)
