@@ -210,10 +210,6 @@ input String_comparison_exp {
   _similar: String
 }
 
-type UpdateNotebookFocusLink {
-  id: uuid!
-}
-
 type UpdateNotebookFromPoleEmploiOutput {
   data_has_been_updated: Boolean!
   external_data_has_been_updated: Boolean!
@@ -5518,10 +5514,10 @@ type mutation_root {
   create_notebook(notebook: CreateNotebookInput!, source: String!): CreateNotebookOutput
 
   """create_notebook_focus"""
-  create_notebook_focus(linkedTo: String!, notebookId: uuid!, theme: String!): CreateNotebookFocusOutput
+  create_notebook_focus(notebookId: uuid!, theme: String!): CreateNotebookFocusOutput
 
   """create a notebook target"""
-  create_notebook_target(focusId: uuid!, target: String!): CreateNotebookTargetOutput
+  create_notebook_target(focusId: uuid!, linkedTo: String!, target: String!): CreateNotebookTargetOutput
 
   """Create NPS Rating"""
   create_nps_rating(score: Int!): NPSRatingOutput
@@ -7966,9 +7962,6 @@ type mutation_root {
     pk_columns: notebook_focus_pk_columns_input!
   ): notebook_focus
 
-  """Update a notebook focus link"""
-  update_notebook_focus_link(id: uuid!, linkedTo: String!): UpdateNotebookFocusLink
-
   """
   update multiples rows of table: "notebook_focus"
   """
@@ -8100,6 +8093,9 @@ type mutation_root {
     where: notebook_target_bool_exp!
   ): notebook_target_mutation_response
 
+  """update_notebook_target_action"""
+  update_notebook_target_action(id: uuid!, linkedTo: String!, status: String!): UpdateNotebookTargetStatusOutput
+
   """
   update single row of the table: "notebook_target"
   """
@@ -8116,9 +8112,6 @@ type mutation_root {
     """updates to execute, in order"""
     updates: [notebook_target_updates!]!
   ): [notebook_target_mutation_response]
-
-  """update_notebook_target_status"""
-  update_notebook_target_status(id: uuid!, status: String!): UpdateNotebookTargetStatusOutput
 
   """
   update data of the table: "notebook_update"
@@ -10609,7 +10602,6 @@ type notebook_focus {
   creator: account!
   creatorId: uuid!
   id: uuid!
-  linkedTo: String
 
   """An object relationship"""
   notebook: notebook!
@@ -10712,7 +10704,6 @@ input notebook_focus_bool_exp {
   creator: account_bool_exp
   creatorId: uuid_comparison_exp
   id: uuid_comparison_exp
-  linkedTo: String_comparison_exp
   notebook: notebook_bool_exp
   notebookId: uuid_comparison_exp
   targets: notebook_target_bool_exp
@@ -10739,7 +10730,6 @@ input notebook_focus_insert_input {
   creator: account_obj_rel_insert_input
   creatorId: uuid
   id: uuid
-  linkedTo: String
   notebook: notebook_obj_rel_insert_input
   notebookId: uuid
   targets: notebook_target_arr_rel_insert_input
@@ -10752,7 +10742,6 @@ type notebook_focus_max_fields {
   createdAt: timestamptz
   creatorId: uuid
   id: uuid
-  linkedTo: String
   notebookId: uuid
   theme: String
   updatedAt: timestamptz
@@ -10765,7 +10754,6 @@ input notebook_focus_max_order_by {
   createdAt: order_by
   creatorId: order_by
   id: order_by
-  linkedTo: order_by
   notebookId: order_by
   theme: order_by
   updatedAt: order_by
@@ -10776,7 +10764,6 @@ type notebook_focus_min_fields {
   createdAt: timestamptz
   creatorId: uuid
   id: uuid
-  linkedTo: String
   notebookId: uuid
   theme: String
   updatedAt: timestamptz
@@ -10789,7 +10776,6 @@ input notebook_focus_min_order_by {
   createdAt: order_by
   creatorId: order_by
   id: order_by
-  linkedTo: order_by
   notebookId: order_by
   theme: order_by
   updatedAt: order_by
@@ -10831,7 +10817,6 @@ input notebook_focus_order_by {
   creator: account_order_by
   creatorId: order_by
   id: order_by
-  linkedTo: order_by
   notebook: notebook_order_by
   notebookId: order_by
   targets_aggregate: notebook_target_aggregate_order_by
@@ -10858,9 +10843,6 @@ enum notebook_focus_select_column {
   id
 
   """column name"""
-  linkedTo
-
-  """column name"""
   notebookId
 
   """column name"""
@@ -10877,7 +10859,6 @@ input notebook_focus_set_input {
   createdAt: timestamptz
   creatorId: uuid
   id: uuid
-  linkedTo: String
   notebookId: uuid
   theme: String
   updatedAt: timestamptz
@@ -10899,7 +10880,6 @@ input notebook_focus_stream_cursor_value_input {
   createdAt: timestamptz
   creatorId: uuid
   id: uuid
-  linkedTo: String
   notebookId: uuid
   theme: String
   updatedAt: timestamptz
@@ -10917,9 +10897,6 @@ enum notebook_focus_update_column {
 
   """column name"""
   id
-
-  """column name"""
-  linkedTo
 
   """column name"""
   notebookId
@@ -12343,6 +12320,7 @@ type notebook_target {
   focus: notebook_focus!
   focusId: uuid!
   id: uuid!
+  linkedTo: String
   status: String!
   target: String!
   updatedAt: timestamptz!
@@ -12410,6 +12388,7 @@ input notebook_target_bool_exp {
   focus: notebook_focus_bool_exp
   focusId: uuid_comparison_exp
   id: uuid_comparison_exp
+  linkedTo: String_comparison_exp
   status: String_comparison_exp
   target: String_comparison_exp
   updatedAt: timestamptz_comparison_exp
@@ -12441,6 +12420,7 @@ input notebook_target_insert_input {
   focus: notebook_focus_obj_rel_insert_input
   focusId: uuid
   id: uuid
+  linkedTo: String
   status: String
   target: String
   updatedAt: timestamptz
@@ -12452,6 +12432,7 @@ type notebook_target_max_fields {
   creatorId: uuid
   focusId: uuid
   id: uuid
+  linkedTo: String
   status: String
   target: String
   updatedAt: timestamptz
@@ -12465,6 +12446,7 @@ input notebook_target_max_order_by {
   creatorId: order_by
   focusId: order_by
   id: order_by
+  linkedTo: order_by
   status: order_by
   target: order_by
   updatedAt: order_by
@@ -12476,6 +12458,7 @@ type notebook_target_min_fields {
   creatorId: uuid
   focusId: uuid
   id: uuid
+  linkedTo: String
   status: String
   target: String
   updatedAt: timestamptz
@@ -12489,6 +12472,7 @@ input notebook_target_min_order_by {
   creatorId: order_by
   focusId: order_by
   id: order_by
+  linkedTo: order_by
   status: order_by
   target: order_by
   updatedAt: order_by
@@ -12533,6 +12517,7 @@ input notebook_target_order_by {
   focus: notebook_focus_order_by
   focusId: order_by
   id: order_by
+  linkedTo: order_by
   status: order_by
   target: order_by
   updatedAt: order_by
@@ -12560,6 +12545,9 @@ enum notebook_target_select_column {
   id
 
   """column name"""
+  linkedTo
+
+  """column name"""
   status
 
   """column name"""
@@ -12577,6 +12565,7 @@ input notebook_target_set_input {
   creatorId: uuid
   focusId: uuid
   id: uuid
+  linkedTo: String
   status: String
   target: String
   updatedAt: timestamptz
@@ -12599,6 +12588,7 @@ input notebook_target_stream_cursor_value_input {
   creatorId: uuid
   focusId: uuid
   id: uuid
+  linkedTo: String
   status: String
   target: String
   updatedAt: timestamptz
@@ -12619,6 +12609,9 @@ enum notebook_target_update_column {
 
   """column name"""
   id
+
+  """column name"""
+  linkedTo
 
   """column name"""
   status

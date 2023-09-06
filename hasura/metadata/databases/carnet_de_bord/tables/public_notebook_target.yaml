@@ -11,11 +11,14 @@ configuration:
       custom_name: focusId
     updated_at:
       custom_name: updatedAt
+    linked_to:
+      custom_name: linkedTo
   custom_column_names:
     created_at: createdAt
     creator_id: creatorId
     focus_id: focusId
     updated_at: updatedAt
+    linked_to: linkedTo
   custom_root_fields: {}
 object_relationships:
   - name: creator
@@ -60,6 +63,7 @@ insert_permissions:
         - focus_id
         - status
         - target
+        - linked_to
       backend_only: true
   - role: professional
     permission:
@@ -79,6 +83,7 @@ insert_permissions:
         - focus_id
         - status
         - target
+        - linked_to
       backend_only: true
 select_permissions:
   - role: admin_cdb
@@ -91,6 +96,7 @@ select_permissions:
         - status
         - target
         - updated_at
+        - linked_to
       filter: {}
       allow_aggregations: true
   - role: admin_structure
@@ -103,6 +109,7 @@ select_permissions:
         - creator_id
         - updated_at
         - status
+        - linked_to
       filter:
         focus:
           notebook:
@@ -131,6 +138,7 @@ select_permissions:
         - status
         - target
         - updated_at
+        - linked_to
       filter:
         focus:
           notebook:
@@ -146,6 +154,7 @@ select_permissions:
         - creator_id
         - updated_at
         - status
+        - linked_to
       filter:
         focus:
           notebook:
@@ -163,6 +172,7 @@ select_permissions:
         - creator_id
         - updated_at
         - status
+        - linked_to
       filter:
         focus:
           notebook:
@@ -179,6 +189,7 @@ select_permissions:
         - status
         - target
         - updated_at
+        - linked_to
       filter:
         focus:
           notebook:
@@ -201,6 +212,7 @@ update_permissions:
     permission:
       columns:
         - status
+        - linked_to
       filter:
         focus:
           notebook:
@@ -216,6 +228,7 @@ update_permissions:
     permission:
       columns:
         - status
+        - linked_to
       filter:
         focus:
           notebook:

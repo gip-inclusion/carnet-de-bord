@@ -1,5 +1,5 @@
-mutation UpdateTargetStatus($status: String!, $id: uuid!) {
-  update_notebook_target_status(status: $status, id: $id) {
+mutation UpdateTargetStatusAction($status: String!, $id: uuid!, $linkedTo: String!) {
+  update_notebook_target_action(status: $status, id: $id, linkedTo: $linkedTo) {
     id
   }
 }

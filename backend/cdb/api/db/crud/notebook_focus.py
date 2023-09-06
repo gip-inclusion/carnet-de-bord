@@ -14,8 +14,6 @@ from cdb.api.v1.payloads.notebook_focus import (
     CreateNotebookFocusInput,
     DeletedNotebookFocus,
     DeleteNotebookFocusInput,
-    UpdatedNotebookFocus,
-    UpdateNotebookFocusInput,
 )
 
 logger = logging.getLogger(__name__)
@@ -118,18 +116,16 @@ async def insert_notebook_focus(
     result = await client.execute(
         gql(
             """
-        mutation($notebookId: uuid!, $theme: String!, $linkedTo: String!){
+        mutation($notebookId: uuid!, $theme: String!){
             notebook_focus: insert_notebook_focus_one(object: {
                 notebookId: $notebookId,
-                theme: $theme,
-                linkedTo: $linkedTo
+                theme: $theme
             }) {id}
         }"""
         ),
         variable_values={
             "notebookId": notebook_focus.notebook_id,
             "theme": notebook_focus.theme,
-            "linkedTo": notebook_focus.linked_to,
         },
     )
     return CreatedNotebookFocus(id=result["notebook_focus"]["id"])
@@ -153,26 +149,3 @@ async def delete_notebook_focus(
         },
     )
     return DeletedNotebookFocus(id=result["notebook_focus"]["id"])
-
-
-async def update_notebook_focus(
-    client: AsyncClientSession,
-    notebook_focus: UpdateNotebookFocusInput,
-) -> UpdatedNotebookFocus:
-    result = await client.execute(
-        gql(
-            """
-        mutation($id: uuid!, $linkedTo: String!) {
-          notebook_focus: update_notebook_focus_by_pk(
-                pk_columns: { id: $id },
-                _set: { linkedTo: $linkedTo }) {
-            id
-          }
-        }"""
-        ),
-        variable_values={
-            "id": notebook_focus.id,
-            "linkedTo": notebook_focus.linked_to,
-        },
-    )
-    return UpdatedNotebookFocus(id=result["notebook_focus"]["id"])

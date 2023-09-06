@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { contractTypeFullKeys, contractTypeKeys, focusThemeKeys } from '$lib/constants/keys';
+	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
 	import type { NotebookFocus } from '$lib/graphql/_gen/typed-document-nodes';
 	import { pluralize } from '$lib/helpers';
 	import { openComponent } from '$lib/stores';
@@ -12,7 +12,7 @@
 	import type { GetNotebookQuery } from '$lib/graphql/_gen/typed-document-nodes';
 
 	export let notebook: GetNotebookQuery['notebook_public_view'][0]['notebook'];
-	export let focuses: (Pick<NotebookFocus, 'id' | 'theme' | 'linkedTo'> & {
+	export let focuses: (Pick<NotebookFocus, 'id' | 'theme'> & {
 		targets: { actions_aggregate: { aggregate?: { count: number } } }[];
 	})[] = [];
 
@@ -79,7 +79,6 @@
 				<Card hideArrow={false} onClick={() => showFocus(focus)}>
 					<span slot="title">{focusThemeKeys.byKey[focus.theme]}</span>
 					<span slot="description">
-						<Text value={contractTypeKeys.byKey[focus.linkedTo]} />
 						<Text
 							value={nbActions > 0
 								? `${nbActions} ${pluralize('action', nbActions)}`

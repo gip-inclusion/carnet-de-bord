@@ -9,7 +9,6 @@ type Mutation {
   create_notebook_focus(
     notebookId: uuid!
     theme: String!
-    linkedTo: String!
   ): CreateNotebookFocusOutput
 }
 
@@ -17,6 +16,7 @@ type Mutation {
   create_notebook_target(
     focusId: uuid!
     target: String!
+    linkedTo: String!
   ): CreateNotebookTargetOutput
 }
 
@@ -38,12 +38,6 @@ type Mutation {
   ): RemoveNotebookFocusOutput
 }
 
-type Mutation {
-  update_notebook_focus_link(
-    id: uuid!
-    linkedTo: String!
-  ): UpdateNotebookFocusLink
-}
 
 type Mutation {
   update_notebook_from_pole_emploi(
@@ -52,9 +46,10 @@ type Mutation {
 }
 
 type Mutation {
-  update_notebook_target_status(
+  update_notebook_target_action(
     status: String!
     id: uuid!
+    linkedTo: String!
   ): UpdateNotebookTargetStatusOutput
 }
 
@@ -236,9 +231,5 @@ type UpdateNotebookTargetStatusOutput {
 }
 
 type RemoveNotebookFocusOutput {
-  id: uuid!
-}
-
-type UpdateNotebookFocusLink {
   id: uuid!
 }

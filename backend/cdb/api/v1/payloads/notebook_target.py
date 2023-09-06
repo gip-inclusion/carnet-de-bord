@@ -8,15 +8,17 @@ from cdb.api.v1.payloads.hasura_action import HasuraActionPayload
 class CreateNotebookTargetInput(BaseModel):
     focus_id: UUID = Field(alias="focusId")
     target: str
+    linked_to: str | None = Field(alias="linkedTo")
 
 
 class CreateNotebookTargetActionPayload(HasuraActionPayload):
     input: CreateNotebookTargetInput
 
 
-class UpdateNotebookTargetStatusInput(BaseModel):
+class UpdateNotebookTargetActionInput(BaseModel):
     id: UUID
     status: str
+    linked_to: str | None = Field(alias="linkedTo")
 
 
 class CreatedNotebookTarget(BaseModel):
@@ -24,7 +26,7 @@ class CreatedNotebookTarget(BaseModel):
 
 
 class UpdateNotebookTargetStatusActionPayload(HasuraActionPayload):
-    input: UpdateNotebookTargetStatusInput
+    input: UpdateNotebookTargetActionInput
 
 
 class UpdatedNotebookTarget(BaseModel):

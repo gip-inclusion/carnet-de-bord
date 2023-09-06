@@ -1,11 +1,11 @@
 query GetNotebookFocusById($id: uuid!) {
   focus: notebook_focus_by_pk(id: $id) {
     id
-    linkedTo
     targets(order_by: { createdAt: desc }) {
       target
       status
       id
+      linkedTo
       actions(order_by: { createdAt: desc }) {
         id
         createdAt

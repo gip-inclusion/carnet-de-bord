@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, Request
 
 from cdb.api.db.crud.notebook_target import (
     insert_notebook_target,
-    update_notebook_target_status,
+    update_notebook_target,
 )
 from cdb.api.db.graphql.get_client import gql_client_backend_only
 from cdb.api.v1.dependencies import verify_secret_token
@@ -31,8 +31,8 @@ async def create_notebook_target(
         return await insert_notebook_target(session, payload.input)
 
 
-@router.post("/status", status_code=201, response_model=UpdatedNotebookTarget)
-async def update_notebook_target_status_route(
+@router.post("/update", status_code=201, response_model=UpdatedNotebookTarget)
+async def update_notebook_target_route(
     _: Request,
     payload: UpdateNotebookTargetStatusActionPayload,
 ):
@@ -43,4 +43,4 @@ async def update_notebook_target_status_route(
     async with gql_client_backend_only(
         session_variables=payload.session_variables
     ) as session:
-        return await update_notebook_target_status(session, payload.input)
+        return await update_notebook_target(session, payload.input)

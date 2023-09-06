@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { connectedUser } from '$lib/stores';
-	import { contractTypeFullKeys, focusThemeKeys } from '$lib/constants/keys';
+	import { focusThemeKeys } from '$lib/constants/keys';
 	import { AddNotebookFocusDocument } from '$lib/graphql/_gen/typed-document-nodes';
 	import { openComponent } from '$lib/stores';
 	import { trackEvent } from '$lib/tracking/matomo';
-	import { Button, Radio, Select } from '$lib/ui/base';
+	import { Button, Select } from '$lib/ui/base';
 	import { mutation, operationStore } from '@urql/svelte';
 	import ProNotebookFocusConfirmation from './ProNotebookFocusConfirmation.svelte';
 
@@ -21,20 +21,18 @@
 	function initFormData() {
 		return {
 			theme: null,
-			linkedTo: null,
 		};
 	}
 
 	const formData = initFormData();
 
-	$: disabled = !formData.theme && !formData.linkedTo;
+	$: disabled = !formData.theme;
 
 	async function createFocus() {
 		trackEvent('pro', 'notebook', `add focus ${formData.theme}`);
 		const store = await addNotebookFocus({
 			notebookId,
 			theme: formData.theme,
-			linkedTo: formData.linkedTo,
 		});
 		if (store.error) {
 			console.error('createFocus error', {
@@ -56,11 +54,6 @@
 	</div>
 	<div>
 		<h2 class="fr-h4 text-vert-cdb">Axe de travail</h2>
-		<Radio
-			caption={"Veuillez sélectionner le type de contrat intégrant l'axe de travail."}
-			bind:selected={formData.linkedTo}
-			options={contractTypeFullKeys.options}
-		/>
 		<Select selectLabel={'Thème'} options={focusThemeKeys.options} bind:selected={formData.theme} />
 	</div>
 	<div class="py-4 flex flex-row gap-6">

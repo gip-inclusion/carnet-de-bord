@@ -187,7 +187,6 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
       focuses(order_by: { theme: asc_nulls_last }) {
         id
         theme
-        linkedTo
         createdAt
         creator {
           id
@@ -207,6 +206,7 @@ query GetNotebook($id: uuid!, $withOrientationRequests: Boolean = true) {
         targets {
           id
           target
+          linkedTo
           actions_aggregate(where: { status: { _eq: in_progress } }) {
             aggregate {
               count

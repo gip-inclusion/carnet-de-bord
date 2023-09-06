@@ -1,5 +1,5 @@
-mutation AddNotebookFocus($notebookId: uuid!, $theme: String!, $linkedTo: String!) {
-  create_notebook_focus(notebookId: $notebookId, theme: $theme, linkedTo: $linkedTo) {
+mutation AddNotebookFocus($notebookId: uuid!, $theme: String!) {
+  create_notebook_focus(notebookId: $notebookId, theme: $theme) {
     id
   }
 }
