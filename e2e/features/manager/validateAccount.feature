@@ -19,4 +19,4 @@ Fonctionnalité: Gestion de professionnels d'un déploiement
 		Quand j'attends que le tableau "Liste des professionnels" apparaisse
 		Quand je clique sur "Valider"
 		Quand j'attends 1 secondes
-		Alors je vois "VALIDÉ" sur la ligne "Lejeune Bienvenu"
+		Alors je vois "VALIDÉ" sur la ligne "Lejeune BIENVENU"

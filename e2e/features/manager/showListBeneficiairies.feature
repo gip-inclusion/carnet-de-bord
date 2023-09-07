@@ -33,7 +33,7 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 		Quand je recherche "gon"
 		Quand je clique sur "Rechercher"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
-		Alors je vois "Gônzalez" sur la ligne "Bolton"
+		Alors je vois "GÔNZALEZ" sur la ligne "Bolton"
 
 	Scénario: rechercher un bénéficiaire par suffixe
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
@@ -41,4 +41,4 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 		Quand je recherche "alez"
 		Quand je clique sur "Rechercher"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
-		Alors je vois "Gônzalez" sur la ligne "Bolton"
+		Alors je vois "GÔNZALEZ" sur la ligne "Bolton"

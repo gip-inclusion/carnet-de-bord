@@ -11,10 +11,10 @@ Fonctionnalité: Voir les infos de ma structure
 		Alors je vois "Portefeuille de la structure"
 		Alors je vois "4" dans la tuile "Bénéficiaires accompagnés"
 		Quand je clique sur "Bénéficiaires accompagnés"
-		Alors je vois "ORIAL Edith" sur la ligne "BULLOCK"
-		Alors je vois "ORIAL Edith" sur la ligne "JENNINGS"
-		Alors je vois "ORIAL Edith" sur la ligne "Lindsay"
-		Alors je vois "ORIAL Edith" sur la ligne "Valenzuela"
+		Alors je vois "Orial EDITH" sur la ligne "BULLOCK Etta"
+		Alors je vois "Orial EDITH" sur la ligne "JENNINGS Dee"
+		Alors je vois "Orial EDITH" sur la ligne "AGUILAR Lindsay"
+		Alors je vois "Orial EDITH" sur la ligne "VALENZUELA Maricela"
 
 	Scénario: Bénéficiaires non accompagnés
 		Soit un "administrateur de structures" authentifié avec l'email "lara.pafromage@cd93.fr"

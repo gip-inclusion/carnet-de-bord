@@ -26,7 +26,7 @@ Fonctionnalité: Rattachement pro
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
-		Alors je choisis "Sélectionner Corinne Cash"
+		Alors je choisis "Sélectionner Corinne CASH"
 		Alors je choisis "Sélectionner Alexandria Cobb"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
@@ -35,7 +35,7 @@ Fonctionnalité: Rattachement pro
 		Alors je sélectionne l'option "Socio-professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Service Social Départemental (2)" dans la liste "Nom de la structure"
 		Quand je clique sur "Valider" dans le volet "Réorienter"
-		Alors je vois "Non rattaché" sur la ligne "Cash"
-		Alors je vois "Service Social Départemental" sur la ligne "Cash"
+		Alors je vois "Non rattaché" sur la ligne "CASH"
+		Alors je vois "Service Social Départemental" sur la ligne "CASH"
 		Alors je vois "Non rattaché" sur la ligne "Cobb"
 		Alors je vois "Service Social Départemental" sur la ligne "Cobb"

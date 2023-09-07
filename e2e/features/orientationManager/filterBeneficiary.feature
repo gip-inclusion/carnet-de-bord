@@ -13,7 +13,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois "Giulia DIABY" sur la ligne "BENJAMIN Whitley"
 		Quand je sélectionne l'option "Accompagné" dans la liste "Statut"
 		Alors je vois 2 lignes dans le tableau "Liste des bénéficiaires"
-		Alors je vois "ORIAL Edith" sur la ligne "BULLOCK Etta"
+		Alors je vois "Orial EDITH" sur la ligne "BULLOCK Etta"
 		Alors je vois "Pierre CHEVALIER" sur la ligne "TIFOUR Sophie"
 		Quand je sélectionne l'option "En attente d'un référent" dans la liste "Statut"
 		Alors je vois 8 lignes dans le tableau "Liste des bénéficiaires"
@@ -22,7 +22,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois "Non rattaché" sur la ligne "Hoffman Buckley"
 		Quand je sélectionne l'option "Avec une demande de réorientation" dans la liste "Statut"
 		Alors je vois 1 lignes dans le tableau "Liste des bénéficiaires"
-		Alors je vois "ORIAL Edith" sur la ligne "BULLOCK Etta"
+		Alors je vois "Orial EDITH" sur la ligne "BULLOCK Etta"
 
 	Scénario: Filtrer la liste des autres bénéficiaires du territoire
 		Soit un "chargé d'orientation" authentifié avec l'email "samy.rouate@cd93.fr"
@@ -31,7 +31,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois "Non assigné" sur la ligne "AGUILAR Lindsay"
 		Quand je sélectionne l'option "Accompagné" dans la liste "Statut"
 		Alors je vois 7 lignes dans le tableau "Liste des bénéficiaires"
-		Alors je vois "ORIAL Edith" sur la ligne "BULLOCK Etta"
+		Alors je vois "Orial EDITH" sur la ligne "BULLOCK Etta"
 		Alors je vois "Pierre CHEVALIER" sur la ligne "TIFOUR Sophie"
 		Quand je sélectionne l'option "En attente d'un référent" dans la liste "Statut"
 		Alors je vois "Centre Communal d'action social Livry-Gargan" sur la ligne "AGUILAR Lindsay"
@@ -54,4 +54,4 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Quand je sélectionne l'option "En attente d'un référent" dans la liste "Statut"
 		Quand je clique sur "Rechercher"
 		Alors je vois "Non assigné" sur la ligne "CARLSON Oconnor"
-		Alors je vois "Non assigné" sur la ligne "Cash Corinne"
+		Alors je vois "Non assigné" sur la ligne "CASH Corinne"

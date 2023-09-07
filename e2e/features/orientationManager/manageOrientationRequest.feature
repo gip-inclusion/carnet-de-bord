@@ -45,8 +45,8 @@ Fonctionnalité: Gestion d'une demande de réorientation
 		Soit le chargé d'orientation "giulia.diaby@cd93.fr" sur le carnet de "JENNINGS"
 		Alors je vois "Demande de réorientation envoyée le 01/09/2022"
 		Alors je vois "Orientation recommandée : Social"
-		Alors je vois "ORIAL"
-		Alors je vois "Edith"
+		Alors je vois "Orial"
+		Alors je vois "EDITH"
 		Quand je clique sur "Réorienter"
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet
