@@ -22,5 +22,5 @@ Fonctionnalité: Voir les infos de ma structure
 		Alors je vois "Portefeuille de la structure"
 		Alors je vois "2" dans la tuile "Bénéficiaires non accompagnés"
 		Quand je clique sur "Bénéficiaires non accompagnés"
-		Alors je vois "Non rattaché" sur la ligne "Gallegos"
-		Alors je vois "Non rattaché" sur la ligne "Carlson"
+		Alors je vois "Non rattaché" sur la ligne "GALLEGOS Winnie"
+		Alors je vois "Non rattaché" sur la ligne "CARLSON Oconnor"
