@@ -36,7 +36,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Quand je sélectionne l'option "Professionnel" dans la liste "Dispositif d’accompagnement"
 		Alors je clique sur "Se rattacher" dans la modale
 		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
-		Alors je vois "Référent (sdafsdfg)"
+		Alors je vois "Référent Professionnel"
 		Alors je vois "Plan d'action"
 		Alors je vois "Diagnostic socioprofessionnel"
 		Alors je vois "Historique de parcours"
