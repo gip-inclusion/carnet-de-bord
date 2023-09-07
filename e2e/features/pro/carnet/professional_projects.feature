@@ -5,7 +5,7 @@ Fonctionnalité: Ajout de projet professionnel dans le carnet d'un bénéficiair
 	Je veux pouvoir modifier le code ROME d'un carnet
 
 Scénario: Recherche de métier même avec des trous
-	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
+	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "BEACH"
 	Quand je clique sur "Mettre à jour le diagnostic socioprofessionnel"
 	Quand je clique sur "Ajouter un projet professionnel"
 	Quand je clique sur "Projet en construction"
@@ -17,7 +17,7 @@ Scénario: Recherche de métier même avec des trous
 	Alors je vois "Développeur / Développeuse informatique (M1805)"
 
 Scénario: Ajout de plusieurs projet pro
-	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Beach"
+	Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "BEACH"
 	Quand je clique sur "Mettre à jour le diagnostic socioprofessionnel"
 	Quand je renseigne "15" dans le champ "Zone de mobilité (km)" après le texte "Formateur / Formatrice (K2111)"
 	Quand je clique sur "Ajouter un projet professionnel"

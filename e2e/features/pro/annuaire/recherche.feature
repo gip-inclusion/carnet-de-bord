@@ -22,7 +22,7 @@ Scénario: Recherche de carnet hors groupe de suivi
 	Quand je clique sur "Annuaire des bénéficiaires"
 	Quand je renseigne "Connor" dans le champ "Rechercher un bénéficiaire"
 	Quand je clique sur "Rechercher"
-	Alors je vois "Carlson" dans le tableau "Liste des bénéficiaires"
+	Alors je vois "CARLSON" dans le tableau "Liste des bénéficiaires"
 
 Scénario: Recherche d'un bénéficiaire hors déploiement
 	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion

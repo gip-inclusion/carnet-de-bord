@@ -18,7 +18,7 @@ Scénario: Inviter un membre dans le groupe de suivi
 	Quand je choisis "Service Social Départemental"
 	Quand je clique sur "Envoyer"
 	Quand je clique sur "J'ai compris"
-	Alors je vois "Camara" dans le tableau "Liste des membres du groupe de suivi"
+	Alors je vois "CAMARA" dans le tableau "Liste des membres du groupe de suivi"
 
 Scénario: Se retirer du groupe de suivi et de la structure
 	Soit le pro "sanka@groupe-ns.fr" sur le carnet de "TIFOUR"

@@ -27,8 +27,8 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je sélectionne l'option "Tous" dans la liste "Rattachement"
-		Alors je choisis "Sélectionner Katrina Beach"
-		Alors je choisis "Sélectionner Whitley Benjamin"
+		Alors je choisis "Sélectionner Katrina BEACH"
+		Alors je choisis "Sélectionner Whitley BENJAMIN"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher"
@@ -46,7 +46,7 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je sélectionne l'option "Tous" dans la liste "Rattachement"
-		Quand je recherche "Beach"
+		Quand je recherche "BEACH"
 		Quand je clique sur "Rechercher"
 		Alors je vois "Non rattaché" sur la ligne "BEACH Katrina"
 		Quand je clique sur "Non rattaché"
