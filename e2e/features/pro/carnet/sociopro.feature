@@ -58,8 +58,8 @@ Fonctionnalité: Informations sur le bénéficaire
 
 
 	Scénario: Informations Pôle emploi
-		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Dorsey"
-		Alors j'attends que le texte "Hendrix Dorsey" apparaisse
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "DORSEY"
+		Alors j'attends que le texte "Hendrix DORSEY" apparaisse
 		Alors je clique sur "Se rattacher"
 		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 		Alors je clique sur "Oui"
