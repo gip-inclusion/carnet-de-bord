@@ -11,16 +11,16 @@ Fonctionnalité: Rattachement pro
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je recherche "tif"
 		Quand je clique sur "Rechercher"
-		Alors je vois "Pierre Chevalier" sur la ligne "Tifour"
-		Quand je clique sur "Pierre Chevalier"
+		Alors je vois "Pierre CHEVALIER" sur la ligne "TIFOUR"
+		Quand je clique sur "Pierre CHEVALIER"
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet
 		Alors je sélectionne l'option "Professionnel" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Groupe NS (0)" dans la liste "Nom de la structure"
-		Alors je sélectionne l'option "Simon Anka (0)" dans la liste "Nom du référent"
+		Alors je sélectionne l'option "Simon ANKA (0)" dans la liste "Nom du référent"
 		Quand je clique sur "Valider" dans le volet "Réorienter"
-		Alors je vois "Simon Anka" sur la ligne "Tifour"
-		Alors je vois "Groupe NS" sur la ligne "Tifour"
+		Alors je vois "Simon ANKA" sur la ligne "TIFOUR"
+		Alors je vois "Groupe NS" sur la ligne "TIFOUR"
 
 	Scénario: Ré-orienter des bénéficiaires
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"

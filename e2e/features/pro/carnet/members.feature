@@ -5,12 +5,12 @@ Fonctionnalité: Groupe de suivi
 	Je veux voir le groupe de suivi du bénéficiaire
 
 Scénario: Consulter le groupe de suivi
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Quand j'attends que le tableau "Liste des membres du groupe de suivi" apparaisse
-	Alors je vois "Référent" sur la ligne "Pierre Chevalier"
+	Alors je vois "Référent" sur la ligne "Pierre CHEVALIER"
 
 Scénario: Inviter un membre dans le groupe de suivi
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Quand j'attends que le tableau "Liste des membres du groupe de suivi" apparaisse
 	Alors je clique sur "Inviter un accompagnateur"
 	Alors je renseigne "social" dans le champ "Rechercher un accompagnateur"
@@ -21,13 +21,13 @@ Scénario: Inviter un membre dans le groupe de suivi
 	Alors je vois "Camara" dans le tableau "Liste des membres du groupe de suivi"
 
 Scénario: Se retirer du groupe de suivi et de la structure
-	Soit le pro "sanka@groupe-ns.fr" sur le carnet de "Tifour"
+	Soit le pro "sanka@groupe-ns.fr" sur le carnet de "TIFOUR"
 	Quand j'attends que le tableau "Liste des membres du groupe de suivi" apparaisse
 	Quand je clique sur "Se détacher"
 	Alors je vois "Souhaitez-vous être détaché du carnet de bord et ne plus accéder en écriture à celui-ci ?"
 	Quand je clique sur "Oui"
-	Alors je vois "Sophie Tifour"
+	Alors je vois "Sophie TIFOUR"
 	Alors je vois "Informations personnelles"
 	Alors je vois "Groupe de suivi"
-	Alors je ne vois pas "Simon Anka"
+	Alors je ne vois pas "Simon ANKA"
 	Alors je ne vois pas "Informations socioprofessionnelles"

@@ -20,7 +20,7 @@ Fonctionnalité: Changer le dispositif d'accompagnement d'un bénéficiaire
 		Alors je vois "Pole Emploi Agence Livry-Gargnan" sur la ligne "Thierry Dunord"
 
 	Scénario: Réorienter un bénéficiaire
-		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Tifour"
+		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "TIFOUR"
 		Quand je clique sur "Réorienter"
 		Alors je vois "Réorienter" dans le volet
 		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet

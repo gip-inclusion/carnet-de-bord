@@ -5,7 +5,7 @@ Fonctionnalité: Mise à jour du carnet par un chargé d'orientation
 	Je veux voir et mettre à jour les informations de sociopro du bénéficiaire
 
 	Scénario: Saisie des informations personnelles par le chargé d'orientation
-		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Tifour"
+		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "TIFOUR"
 		Quand je clique sur "Mettre à jour les informations personnelles"
 		Alors je vois "Informations personnelles"
 		Quand je renseigne "0601234567" dans le champ "Téléphone"
@@ -19,7 +19,7 @@ Fonctionnalité: Mise à jour du carnet par un chargé d'orientation
 		Alors je vois "ARE, Prime d'activité"
 
 	Scénario: Saisie des informations socio pro par le chargé d'orientation
-		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Tifour"
+		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "TIFOUR"
 		Quand je clique sur "Mettre à jour le diagnostic socioprofessionnel"
 		Alors je vois "Situation actuelle"
 		Quand je renseigne la date "15/05/2020" dans le champ "Depuis le"

@@ -9,7 +9,7 @@ Fonctionnalité: Gestion de professionnels d'un déploiement
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Professionnels"
 		Quand j'attends que le tableau "Liste des professionnels" apparaisse
-		Alors je vois "1" sur la ligne "Giulia Diaby"
+		Alors je vois "1" sur la ligne "Giulia DIABY"
 		Alors je vois "0" sur la ligne "Blaise Alaise"
 		Alors je vois "DÉSACTIVÉ" sur la ligne "Sarah Vigote"
 

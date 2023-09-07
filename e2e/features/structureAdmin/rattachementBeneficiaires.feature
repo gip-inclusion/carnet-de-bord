@@ -33,10 +33,10 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Quand je clique sur "Rattacher"
 		Alors je vois "Rattacher"
 		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique des bénéficiaires." apparaisse
-		Alors je sélectionne l'option "Simon Anka" dans la liste "Nom du référent"
+		Alors je sélectionne l'option "Simon ANKA" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet "Rattacher des bénéficiaires"
-		Alors je vois "Simon Anka" sur la ligne "Beach"
-		Alors je vois "Simon Anka" sur la ligne "Benjamin"
+		Alors je vois "Simon ANKA" sur la ligne "Beach"
+		Alors je vois "Simon ANKA" sur la ligne "Benjamin"
 
 	Scénario: Définir le référent d'un bénéficiaire
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
@@ -52,6 +52,6 @@ Fonctionnalité: Rattachement liste de bénéficiaires
 		Quand je clique sur "Non rattaché"
 		Alors je vois "Rattacher"
 		Alors j'attends que le texte "Veuillez sélectionner le nouveau référent unique du bénéficiaire." apparaisse
-		Alors je sélectionne l'option "Simon Anka" dans la liste "Nom du référent"
+		Alors je sélectionne l'option "Simon ANKA" dans la liste "Nom du référent"
 		Quand je clique sur "Rattacher" dans le volet "Rattacher des bénéficiaires"
-		Alors je vois "Simon Anka" sur la ligne "Beach"
+		Alors je vois "Simon ANKA" sur la ligne "Beach"

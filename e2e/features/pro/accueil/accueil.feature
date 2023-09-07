@@ -10,12 +10,12 @@ Scénario: Accueil pro
 
 Scénario: Affichage des derniers carnet consultés
 	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
-	Alors je vois "Sophie Tifour"
+	Alors je vois "Sophie TIFOUR"
 
 Scénario: Affichage de la liste de mes bénéficiaires
 	Soit le pro "sanka@groupe-ns.fr" qui a cliqué sur le lien de connexion
 	Alors je vois 3 lignes dans le tableau "Liste des bénéficiaires"
-	Alors je vois "Tifour" dans le tableau "Liste des bénéficiaires"
+	Alors je vois "TIFOUR" dans le tableau "Liste des bénéficiaires"
 	Alors je vois "Herring" dans le tableau "Liste des bénéficiaires"
 	Alors je vois "Gallegos" dans le tableau "Liste des bénéficiaires"
 

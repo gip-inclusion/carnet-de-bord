@@ -13,9 +13,9 @@ Scénario: Annuaire des bénéficiaires
 Scénario: Recherche d'un carnet existant depuis l'annuaire
 	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion
 	Quand je clique sur "Annuaire des bénéficiaires"
-	Quand je renseigne "Tifour" dans le champ "Rechercher un bénéficiaire"
+	Quand je renseigne "TIFOUR" dans le champ "Rechercher un bénéficiaire"
 	Quand je clique sur "Rechercher"
-	Alors je vois "Tifour" dans le tableau "Liste des bénéficiaires"
+	Alors je vois "TIFOUR" dans le tableau "Liste des bénéficiaires"
 
 Scénario: Recherche de carnet hors groupe de suivi
 	Soit le pro "pierre.chevalier@livry-gargan.fr" qui a cliqué sur le lien de connexion

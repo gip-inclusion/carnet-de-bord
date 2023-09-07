@@ -5,7 +5,7 @@ Fonctionnalité: Information sur le contrat du bénéficiaire
 	Je veux voir et mettre à jour les informations du contrat du bénéficiaire
 
 Scénario: Saisie des informations du contrat
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Quand je clique sur le texte "Rattacher un contrat au carnet de bord"
 	Quand je clique sur le texte "Contrat d'Engagement Réciproque (CER)"
 	Alors je vois "Date de signature"
@@ -16,7 +16,7 @@ Scénario: Saisie des informations du contrat
 	Alors je vois "Depuis le 20/05/2020 jusqu'au 20/05/2021 - (environ 1 an)"
 
 Scénario: Saisie des informations du contrat 2 ans
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Quand je clique sur le texte "Rattacher un contrat au carnet de bord"
 	Quand je clique sur le texte "Contrat d'Engagement Réciproque (CER)"
 	Alors je vois "Date de signature"
@@ -27,7 +27,7 @@ Scénario: Saisie des informations du contrat 2 ans
 	Alors je vois "Depuis le 20/05/2020 jusqu'au 20/05/2022 - (environ 2 ans)"
 
 Scénario: Saisie des informations du contrat (durée indéterminée)
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Quand je clique sur le texte "Rattacher un contrat au carnet de bord"
 	Quand je clique sur le texte "Contrat d'Engagement Réciproque (CER)"
 	Alors je vois "Date de signature"

@@ -13,7 +13,7 @@ Fonctionnalité: Assignation d'un chargé d'orientation
 		Quand je clique sur "Non assigné" dans la ligne de "Conley"
 		Alors je vois "Assigner un chargé d'orientation"
 		Alors j'attends que le texte "Veuillez sélectionner le chargé d'orientation" apparaisse
-		Alors je sélectionne l'option "Giulia Diaby" dans la liste "Nom du chargé d’orientation"
+		Alors je sélectionne l'option "Giulia DIABY" dans la liste "Nom du chargé d’orientation"
 		Quand je clique sur "Assigner"
 		Quand je sélectionne l'option "Bénéficiaires de mon portefeuille" dans la liste "Bénéficiaires"
-		Alors je vois "Giulia Diaby" sur la ligne "Conley"
+		Alors je vois "Giulia DIABY" sur la ligne "Conley"

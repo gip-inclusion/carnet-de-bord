@@ -8,10 +8,10 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
-		Quand je clique sur "Voir le carnet de Lindsay AGUILAR"
+		Quand je clique sur "Voir le carnet de lindsay.aguilar"
 		Quand je vais sur l'onglet suivant
-		Alors j'attends que le texte "Lindsay AGUILAR" apparaisse
-		Alors je vois "Lindsay.AGUILAR@nisi.fr"
+		Alors j'attends que le texte "lindsay.aguilar" apparaisse
+		Alors je vois "lindsay.aguilar@nisi.fr"
 
 	Scénario: voir l'information RQTH
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"

@@ -14,15 +14,15 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 	Scénario: Voir la liste des bénéficiaires d'un professionnel
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Professionnels"
-		Quand je clique sur "liste des bénéficiaires de Pierre Chevalier"
+		Quand je clique sur "liste des bénéficiaires de Pierre CHEVALIER"
 		Alors je vois "pierre.chevalier@livry-gargan.fr"
 		Alors je vois "Supprimer le filtre"
-		Alors je vois "Tifour" dans le tableau "Liste des bénéficiaires"
+		Alors je vois "TIFOUR" dans le tableau "Liste des bénéficiaires"
 
 	Scénario: Supprimer le filtre professionnel
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Professionnels"
-		Quand je clique sur "liste des bénéficiaires de Pierre Chevalier"
+		Quand je clique sur "liste des bénéficiaires de Pierre CHEVALIER"
 		Quand je clique sur "Supprimer le filtre"
 		Alors je ne vois pas "Supprimer le filtre"
 		Alors je vois "AGUILAR" dans le tableau "Liste des bénéficiaires"

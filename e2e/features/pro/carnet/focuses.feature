@@ -5,7 +5,7 @@ Fonctionnalité: Information sur les axes de travail depuis un carnet
 	Je veux avoir des informations sur les axes de travail du carnet
 
 Scénario: Visibilité du nombre d'actions en cours pour chaque axe de travail
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Alors je vois "1 action" dans la tuile "Difficultés administratives"
 	Alors je vois "4 actions" dans la tuile "Emploi"
 	Alors je vois "3 actions" dans la tuile "Logement"
@@ -21,7 +21,7 @@ Scénario: Ajout d'un axe de travail par un pro
 	Alors je ne vois pas "J'ai compris"
 
 Scénario: Je peux consulter un axe de travail existant
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Quand je clique sur "Logement" dans la tuile "Logement"
 	Alors j'attends que le texte "Hébergé chez un tiers" apparaisse
 	Quand je clique sur "Changer de logement"

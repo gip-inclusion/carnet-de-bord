@@ -10,15 +10,15 @@ Fonctionnalité: Orientation par un chargé d'orientation
 		Quand je clique sur "Bénéficiaires"
 		Quand je sélectionne l'option "Accompagné" dans la liste "Statut"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
-		Alors je vois "Pierre Chevalier" sur la ligne "Tifour Sophie"
-		Quand je clique sur "Pierre Chevalier" dans la ligne de "Tifour Sophie"
+		Alors je vois "Pierre CHEVALIER" sur la ligne "TIFOUR Sophie"
+		Quand je clique sur "Pierre CHEVALIER" dans la ligne de "TIFOUR Sophie"
 		Alors je vois "Réorienter"
 		Alors j'attends que le texte "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent" apparaisse
 		Alors je sélectionne l'option "Social" dans la liste "Dispositif d'accompagnement"
 		Alors je sélectionne l'option "Groupe NS (0)" dans la liste "Nom de la structure"
-		Alors je sélectionne l'option "Simon Anka (0)" dans la liste "Nom du référent unique"
+		Alors je sélectionne l'option "Simon ANKA (0)" dans la liste "Nom du référent unique"
 		Quand je clique sur "Valider"
-		Alors je vois "Groupe NS - Simon Anka" sur la ligne "Tifour Sophie"
+		Alors je vois "Groupe NS - Simon ANKA" sur la ligne "TIFOUR Sophie"
 
 	Scénario: Ré-orienter des bénéficiaires
 		Soit un "chargé d'orientation" authentifié avec l'email "giulia.diaby@cd93.fr"
