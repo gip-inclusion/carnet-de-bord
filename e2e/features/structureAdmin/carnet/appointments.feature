@@ -9,9 +9,9 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
-		Quand je clique sur "Voir le carnet de Myrna Henderson"
+		Quand je clique sur "Voir le carnet de Myrna HENDERSON"
 		Quand je vais sur l'onglet suivant
-		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Alors j'attends que le texte "Myrna HENDERSON" apparaisse
 		Quand je clique sur la ligne du tableau contenant le texte "Giulia DIABY"
 		Alors je vois "Aucun rendez-vous n'a été pris avec cet accompagnateur." dans le tableau "Liste des rendez-vous"
 
@@ -22,9 +22,9 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
-		Quand je clique sur "Voir le carnet de Myrna Henderson"
+		Quand je clique sur "Voir le carnet de Myrna HENDERSON"
 		Quand je vais sur l'onglet suivant
-		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Alors j'attends que le texte "Myrna HENDERSON" apparaisse
 		Quand je clique sur la ligne du tableau contenant le texte "Giulia DIABY"
 		Quand je clique sur "Ajouter un rendez-vous"
 		Quand je renseigne "15/05/2020" dans le champ "Date de rendez-vous"
@@ -42,9 +42,9 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
-		Quand je clique sur "Voir le carnet de Myrna Henderson"
+		Quand je clique sur "Voir le carnet de Myrna HENDERSON"
 		Quand je vais sur l'onglet suivant
-		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Alors j'attends que le texte "Myrna HENDERSON" apparaisse
 		Quand je clique sur la ligne du tableau contenant le texte "Giulia DIABY"
 		Quand je clique sur "Ajouter un rendez-vous"
 		Quand je renseigne "15/05/2020" dans le champ "Date de rendez-vous"
@@ -62,9 +62,9 @@ Fonctionnalité: Gestion des RDV bénéficiaires
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Alors je clique sur "Bénéficiaires non accompagnés"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
-		Quand je clique sur "Voir le carnet de Myrna Henderson"
+		Quand je clique sur "Voir le carnet de Myrna HENDERSON"
 		Quand je vais sur l'onglet suivant
-		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Alors j'attends que le texte "Myrna HENDERSON" apparaisse
 		Quand je clique sur la ligne du tableau contenant le texte "Giulia DIABY"
 		Quand je clique sur "Ajouter un rendez-vous"
 		Quand je renseigne "15/05/2020" dans le champ "Date de rendez-vous"

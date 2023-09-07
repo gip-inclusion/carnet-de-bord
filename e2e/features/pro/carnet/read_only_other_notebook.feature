@@ -9,14 +9,14 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je vois "Rechercher un bénéficiaire"
 		Quand je renseigne "myrna" dans le champ "Rechercher un bénéficiaire"
 		Quand je clique sur "Rechercher"
-		Alors je clique sur "Voir le carnet de Myrna Henderson"
-		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Alors je clique sur "Voir le carnet de Myrna HENDERSON"
+		Alors j'attends que le texte "Myrna HENDERSON" apparaisse
 		Alors je ne vois pas "Plan d'action"
 		Alors je ne vois pas "Diagnostic socioprofessionnel"
 
 	Scénario: Se rattacher au carnet
-		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Henderson"
-		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "HENDERSON"
+		Alors j'attends que le texte "Myrna HENDERSON" apparaisse
 		Alors je clique sur "Se rattacher"
 		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 		Alors je clique sur "Non"
@@ -28,8 +28,8 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je vois "Historique de parcours"
 
 	Scénario: Se rattacher au carnet en tant que référent
-		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Henderson"
-		Alors j'attends que le texte "Myrna Henderson" apparaisse
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "HENDERSON"
+		Alors j'attends que le texte "Myrna HENDERSON" apparaisse
 		Alors je clique sur "Se rattacher"
 		Alors je vois "Bénéficiez-vous d'un mandat d'orientation en la qualité de référent ?"
 		Alors je clique sur "Oui"
