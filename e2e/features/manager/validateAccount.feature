@@ -10,7 +10,7 @@ Fonctionnalité: Gestion de professionnels d'un déploiement
 		Quand je clique sur "Professionnels"
 		Quand j'attends que le tableau "Liste des professionnels" apparaisse
 		Alors je vois "1" sur la ligne "Giulia DIABY"
-		Alors je vois "0" sur la ligne "Blaise Alaise"
+		Alors je vois "0" sur la ligne "Blaise ALAISE"
 		Alors je vois "DÉSACTIVÉ" sur la ligne "Sarah Vigote"
 
 	Scénario: Validation d'un professionnel

@@ -9,7 +9,7 @@ Fonctionnalité: Modification d'un professionnel
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Quand je clique sur "Professionnels"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Blaise Alaise"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Blaise ALAISE"
 		Alors je renseigne "0612345678" dans le champ "Numéro de téléphone"
 		Quand je clique sur "Enregistrer les modifications"
 		Alors je vois "0612345678"
@@ -18,10 +18,10 @@ Fonctionnalité: Modification d'un professionnel
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
 		Quand je clique sur "Professionnels"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Blaise Alaise"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Blaise ALAISE"
 		Quand je coche "RIA"
 		Quand je clique sur "Enregistrer les modifications"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Blaise Alaise"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Blaise ALAISE"
 		Alors l'option "RIA" est sélectionnée
 
 	Scénario: Modification des dispositifs d'accompagnement existants d'un professionnel
