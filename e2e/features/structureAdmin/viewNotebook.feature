@@ -12,4 +12,4 @@ Fonctionnalité: Consultation d'un carnet par un gestionnaire de structure
 		Quand je clique sur "Voir le carnet de Lindsay AGUILAR"
 		Quand je vais sur l'onglet suivant
 		Alors j'attends que le texte "Lindsay AGUILAR" apparaisse
-		Alors je vois "lindsay.AGUILAR@nisi.fr"
+		Alors je vois "Lindsay.AGUILAR@nisi.fr"

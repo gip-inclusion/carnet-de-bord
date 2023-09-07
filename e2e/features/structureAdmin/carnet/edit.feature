@@ -13,7 +13,7 @@ Fonctionnalité: Mise à jour du carnet par un administrateur de structure
 		Quand je vais sur l'onglet suivant
 		Alors j'attends que le texte "Lindsay AGUILAR" apparaisse
 		Alors je vois "Informations personnelles"
-		Alors je vois "lindsay.AGUILAR@nisi.fr"
+		Alors je vois "Lindsay.AGUILAR@nisi.fr"
 		Quand je clique sur "Mettre à jour les informations personnelles"
 		Alors je vois que le champ de formulaire "Revenu de solidarité active (RSA)" est désactivé
 		Alors je vois que le champ de formulaire "Autres aides" est désactivé
