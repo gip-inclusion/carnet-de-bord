@@ -8,7 +8,7 @@ Fonctionnalité: Ajout et modification d'un gestionnaire de structure
 	Scénario: Ajout d'un gestionnaire de structure
 		Soit un "administrateur de structures" authentifié avec l'email "jacques.celaire@livry-gargan.fr"
 		Quand je clique sur "Centre Communal d'action social Livry-Gargan"
-		Alors je vois "Jacques Célaire"
+		Alors je vois "Jacques CÉLAIRE"
 		Quand je clique sur "Ajouter un gestionnaire"
 		Alors je renseigne "mauricette.leblanc@cd93.fr" dans le champ "Courriel"
 		Alors je renseigne "Mauricette" dans le champ "Prénom"
