@@ -1,3 +1,10 @@
+# [1.260.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.259.0...v1.260.0) (2023-09-07)
+
+
+### Features
+
+* **app:** afficher les dispositifs des bénéficiaires ([#1996](https://github.com/gip-inclusion/carnet-de-bord/issues/1996)) ([dffe105](https://github.com/gip-inclusion/carnet-de-bord/commit/dffe1052e110d818334276054fa5d034f6bb8c9c))
+
 # [1.259.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.258.0...v1.259.0) (2023-09-06)
 
 
