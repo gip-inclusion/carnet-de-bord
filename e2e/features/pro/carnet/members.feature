@@ -7,7 +7,7 @@ Fonctionnalité: Groupe de suivi
 Scénario: Consulter le groupe de suivi
 	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
 	Quand j'attends que le tableau "Liste des membres du groupe de suivi" apparaisse
-	Alors je vois "référent" sur la ligne "Pierre Chevalier"
+	Alors je vois "Référent" sur la ligne "Pierre Chevalier"
 
 Scénario: Inviter un membre dans le groupe de suivi
 	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"

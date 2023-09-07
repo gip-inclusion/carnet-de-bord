@@ -18,6 +18,7 @@
 				'professional_project',
 				'notebook_appointment',
 				'notebook_focus',
+				'notebook_info',
 				'notebook_action',
 				'orientation_request',
 			],

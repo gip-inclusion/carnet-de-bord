@@ -54,6 +54,7 @@
 			<th />
 			<th class="text-left">Nom</th>
 			<th class="text-left">Prénom</th>
+			<th class="text-left">Dispositif</th>
 			<th class="text-left">Référent unique</th>
 			<th class="text-left">Depuis le</th>
 			<th class="!text-center">Voir le carnet</th>
@@ -81,6 +82,7 @@
 				</td>
 				<td>{beneficiary.lastname}</td>
 				<td>{beneficiary.firstname}</td>
+				<td>{beneficiary.notebook.notebookInfo?.orientationSystem?.name ?? ''}</td>
 				<td>
 					{#if referents.length > 0}
 						<button

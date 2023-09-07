@@ -69,6 +69,13 @@ select_permissions:
           structure:
             deployment_id:
               _eq: X-Hasura-Deployment-Id
+  - role: beneficiary
+    permission:
+      columns:
+        - id
+        - name
+      filter: {}
+    comment: ""
   - role: manager
     permission:
       columns:

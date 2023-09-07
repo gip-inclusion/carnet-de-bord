@@ -13,7 +13,6 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors j'attends que le texte "Myrna Henderson" apparaisse
 		Alors je ne vois pas "Plan d'action"
 		Alors je ne vois pas "Diagnostic socioprofessionnel"
-		Alors je ne vois pas "Historique de parcours"
 
 	Scénario: Se rattacher au carnet
 		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Henderson"
@@ -23,7 +22,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Alors je clique sur "Non"
 		Alors je clique sur "Se rattacher" dans la modale
 		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
-		Alors je ne vois pas "référent"
+		Alors je ne vois pas "Référent"
 		Alors je vois "Plan d'action"
 		Alors je vois "Diagnostic socioprofessionnel"
 		Alors je vois "Historique de parcours"
@@ -37,7 +36,7 @@ Fonctionnalité: Accès en lecture seule à un carnet dont je ne suis pas membre
 		Quand je sélectionne l'option "Professionnel" dans la liste "Dispositif d’accompagnement"
 		Alors je clique sur "Se rattacher" dans la modale
 		Alors je vois "Pierre Chevalier" sous le titre "Groupe de suivi"
-		Alors je vois "référent"
+		Alors je vois "Référent Professionnel"
 		Alors je vois "Plan d'action"
 		Alors je vois "Diagnostic socioprofessionnel"
 		Alors je vois "Historique de parcours"

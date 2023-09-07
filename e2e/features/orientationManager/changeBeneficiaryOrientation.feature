@@ -16,7 +16,7 @@ Fonctionnalité: Changer le dispositif d'accompagnement d'un bénéficiaire
 		Quand je clique sur "Valider" dans le volet "Orienter"
 		Alors je ne vois pas "Orienter"
 		Alors je vois "Réorienter"
-		Alors je vois "référent" sur la ligne "Thierry Dunord"
+		Alors je vois "Référent Professionnel" sur la ligne "Thierry Dunord"
 		Alors je vois "Pole Emploi Agence Livry-Gargnan" sur la ligne "Thierry Dunord"
 
 	Scénario: Réorienter un bénéficiaire
@@ -31,5 +31,5 @@ Fonctionnalité: Changer le dispositif d'accompagnement d'un bénéficiaire
 		Alors je ne vois pas "Orienter"
 		Alors je vois "Réorienter"
 		Alors je vois "Thierry Dunord"
-		Alors je vois "référent" sur la ligne "Thierry Dunord"
+		Alors je vois "Référent Professionnel" sur la ligne "Thierry Dunord"
 		Alors je vois "Pole Emploi Agence Livry-Gargnan" sur la ligne "Thierry Dunord"

@@ -158,6 +158,7 @@
 				{#if notebook}
 					<ProNotebookMembersView
 						{members}
+						orientationSystem={publicNotebook.notebook.notebookInfo?.orientationSystem?.name}
 						notebookId={publicNotebook.id}
 						beneficiaryFirstname={beneficiary.firstname}
 						beneficiaryLastname={beneficiary.lastname}
@@ -167,6 +168,7 @@
 				{:else}
 					<NotebookMembers
 						{members}
+						orientationSystem={null}
 						notebookId={publicNotebook.id}
 						on:joined-notebook={onJoinedNotebook}
 					/>
