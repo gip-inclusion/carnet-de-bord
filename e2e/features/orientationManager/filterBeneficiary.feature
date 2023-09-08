@@ -19,7 +19,7 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois 8 lignes dans le tableau "Liste des bénéficiaires"
 		Quand je sélectionne l'option "Non accompagné" dans la liste "Statut"
 		Alors je vois 1 lignes dans le tableau "Liste des bénéficiaires"
-		Alors je vois "Non rattaché" sur la ligne "Hoffman Buckley"
+		Alors je vois "Non rattaché" sur la ligne "HOFFMAN Buckley"
 		Quand je sélectionne l'option "Avec une demande de réorientation" dans la liste "Statut"
 		Alors je vois 1 lignes dans le tableau "Liste des bénéficiaires"
 		Alors je vois "Orial EDITH" sur la ligne "BULLOCK Etta"
@@ -38,12 +38,12 @@ Fonctionnalité: Fitrer la liste des bénéficiaires
 		Alors je vois "Groupe NS" sur la ligne "BENJAMIN Whitley"
 		Quand je sélectionne l'option "Non accompagné" dans la liste "Statut"
 		Alors je vois 2 lignes dans le tableau "Liste des bénéficiaires"
-		Alors je vois "Non rattaché" sur la ligne "Craig Reilly"
-		Alors je vois "Non rattaché" sur la ligne "Hoffman Buckley"
+		Alors je vois "Non rattaché" sur la ligne "CRAIG Reilly"
+		Alors je vois "Non rattaché" sur la ligne "HOFFMAN Buckley"
 		Quand je sélectionne l'option "tous" dans la liste "Statut"
 		Quand je sélectionne l'option "tous" dans la liste "Bénéficiaires"
 		Quand je coche "Bénéficiaires tenus aux obligations « droits et devoirs RSA »"
-		Alors je vois "Groupe NS" sur la ligne "Keller Noel"
+		Alors je vois "Groupe NS" sur la ligne "KELLER Noel"
 
 
 	Scénario: Rechercher un bénéficiaire sans chargé d'orientation dans la liste des autres bénéficiaires accompagnés

@@ -27,7 +27,7 @@ Fonctionnalité: Rattachement pro
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Alors je choisis "Sélectionner Corinne CASH"
-		Alors je choisis "Sélectionner Alexandria Cobb"
+		Alors je choisis "Sélectionner Alexandria COBB"
 		Alors je vois "2 sélectionnés"
 		Quand je clique sur "Rattacher"
 		Alors je vois "Réorienter" dans le volet
@@ -37,5 +37,5 @@ Fonctionnalité: Rattachement pro
 		Quand je clique sur "Valider" dans le volet "Réorienter"
 		Alors je vois "Non rattaché" sur la ligne "CASH"
 		Alors je vois "Service Social Départemental" sur la ligne "CASH"
-		Alors je vois "Non rattaché" sur la ligne "Cobb"
-		Alors je vois "Service Social Départemental" sur la ligne "Cobb"
+		Alors je vois "Non rattaché" sur la ligne "COBB"
+		Alors je vois "Service Social Départemental" sur la ligne "COBB"

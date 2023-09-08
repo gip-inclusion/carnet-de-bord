@@ -6,7 +6,7 @@ Fonctionnalité: Changer le dispositif d'accompagnement d'un bénéficiaire
 	Je veux pouvoir changer le dispositif d'accompagnement et le rattachement d'un bénéficiaire
 
 	Scénario: Orienter un bénéficiaire
-		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "Hoffman"
+		Soit le chargé d'orientation assigné "giulia.diaby@cd93.fr" sur le carnet de "HOFFMAN"
 		Quand je clique sur "Orienter"
 		Alors je vois "Orienter" dans le volet
 		Alors je vois "Veuillez sélectionner le dispositif d'accompagnement ainsi que la nouvelle structure et le nouveau référent." dans le volet

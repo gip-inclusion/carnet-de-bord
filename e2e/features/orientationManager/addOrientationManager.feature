@@ -10,10 +10,10 @@ Fonctionnalité: Assignation d'un chargé d'orientation
 		Quand je clique sur "Bénéficiaires"
 		Quand j'attends que le titre de page "Bénéficiaires" apparaisse
 		Quand je sélectionne l'option "Autres bénéficiaires du territoire" dans la liste "Bénéficiaires"
-		Quand je clique sur "Non assigné" dans la ligne de "Conley"
+		Quand je clique sur "Non assigné" dans la ligne de "CONLEY"
 		Alors je vois "Assigner un chargé d'orientation"
 		Alors j'attends que le texte "Veuillez sélectionner le chargé d'orientation" apparaisse
 		Alors je sélectionne l'option "Giulia DIABY" dans la liste "Nom du chargé d’orientation"
 		Quand je clique sur "Assigner"
 		Quand je sélectionne l'option "Bénéficiaires de mon portefeuille" dans la liste "Bénéficiaires"
-		Alors je vois "Giulia DIABY" sur la ligne "Conley"
+		Alors je vois "Giulia DIABY" sur la ligne "CONLEY"

@@ -27,9 +27,9 @@ Fonctionnalité: Consultation d'un carnet par un manager
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Bénéficiaires"
 		Alors j'attends que le titre de page "Bénéficiaires" apparaisse
-		Quand je clique sur "Voir le carnet de Payne BENNET"
+		Quand je clique sur "Voir le carnet de Payne BENNETT"
 		Quand je vais sur l'onglet suivant
-		Alors j'attends que le texte "Payne BENNET" apparaisse
+		Alors j'attends que le texte "Payne BENNETT" apparaisse
 		Quand je clique sur "Mettre à jour les informations personnelles"
 		Quand je renseigne "Bennaytte" dans le champ "Prénom"
 		Alors je vois "Informations personnelles"
