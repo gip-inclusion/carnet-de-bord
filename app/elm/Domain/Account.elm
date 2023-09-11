@@ -6,15 +6,15 @@ import Extra.String
 
 
 type alias Professional =
-    { firstName : String
-    , lastName : String
+    { firstname : String
+    , lastname : String
     , structure : Maybe Structure
     }
 
 
 type alias OrientationManager =
-    { firstName : String
-    , lastName : String
+    { firstname : String
+    , lastname : String
     }
 
 
@@ -31,7 +31,7 @@ print creator =
             printPro p
 
         ( _, Just o ) ->
-            Extra.String.capitalize o.firstName ++ " " ++ String.toUpper o.lastName
+            Extra.String.capitalize o.firstname ++ " " ++ String.toUpper o.lastname
 
         _ ->
             ""
