@@ -13,7 +13,7 @@ Fonctionnalité: Voir les infos de ma structure
 		Quand je clique sur "Bénéficiaires accompagnés"
 		Alors je vois "Orial EDITH" sur la ligne "BULLOCK Etta"
 		Alors je vois "Orial EDITH" sur la ligne "JENNINGS Dee"
-		Alors je vois "Orial EDITH" sur la ligne "AGUILAR Lindsay"
+		Alors je vois "Orial EDITH" sur la ligne "LINDSAY Laura"
 		Alors je vois "Orial EDITH" sur la ligne "VALENZUELA Maricela"
 
 	Scénario: Bénéficiaires non accompagnés
