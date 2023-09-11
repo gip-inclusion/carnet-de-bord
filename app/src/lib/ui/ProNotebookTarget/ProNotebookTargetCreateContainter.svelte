@@ -10,9 +10,11 @@
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import ProNotebookTargetCreate from './ProNotebookTargetCreate.svelte';
 	import type { AddTargetPayload } from '.';
+	import { Alert } from '../base';
 
 	export let focusId: string;
 	export let focusTheme: RefThemeEnum;
+	let error: string;
 
 	function close() {
 		openComponent.close();
@@ -48,13 +50,22 @@
 
 	async function createTarget(event: CustomEvent<AddTargetPayload>) {
 		trackEvent('pro', 'notebook', `add target ${event.detail.target}`);
-		await addNotebookTarget({
+		const result = await addNotebookTarget({
 			focusId,
 			target: event.detail.target,
 			linkedTo: event.detail.linkedTo,
+			userConsent: event.detail.consent,
 		});
-
-		openComponent.close();
+		if (result.error) {
+			console.error(result.error.message);
+			if (/uniqueness violation/i.test(result.error.message)) {
+				error = "Impossible d'ajouter l'objectif; cet objectif existe déjà";
+			} else {
+				error = "Impossible d'ajouter l'objectif";
+			}
+		} else {
+			openComponent.close();
+		}
 	}
 </script>
 
@@ -63,6 +74,9 @@
 		<h1>Ajouter un objectif</h1>
 		<p class="my-6">Veuillez sélectionner un objectif</p>
 	</div>
+	{#if error}
+		<Alert type="error" size="sm" title={error} />
+	{/if}
 	<LoaderIndicator result={refTargetStore}>
 		<ProNotebookTargetCreate
 			targets={$refTargetStore.data?.refTargets}

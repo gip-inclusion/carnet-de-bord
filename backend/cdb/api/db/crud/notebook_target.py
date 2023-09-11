@@ -29,6 +29,7 @@ async def insert_notebook_target(
                 "focusId": notebook_target.focus_id,
                 "target": notebook_target.target,
                 "linkedTo": notebook_target.linked_to,
+                "userConsent": notebook_target.user_consent,
             }
         },
     )

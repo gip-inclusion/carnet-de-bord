@@ -5517,7 +5517,7 @@ type mutation_root {
   create_notebook_focus(notebookId: uuid!, theme: String!): CreateNotebookFocusOutput
 
   """create a notebook target"""
-  create_notebook_target(focusId: uuid!, linkedTo: String!, target: String!): CreateNotebookTargetOutput
+  create_notebook_target(focusId: uuid!, linkedTo: String!, target: String!, userConsent: Boolean!): CreateNotebookTargetOutput
 
   """Create NPS Rating"""
   create_nps_rating(score: Int!): NPSRatingOutput
@@ -12327,6 +12327,7 @@ type notebook_target {
   status: String!
   target: String!
   updatedAt: timestamptz!
+  userConsent: Boolean!
 }
 
 """
@@ -12338,7 +12339,23 @@ type notebook_target_aggregate {
 }
 
 input notebook_target_aggregate_bool_exp {
+  bool_and: notebook_target_aggregate_bool_exp_bool_and
+  bool_or: notebook_target_aggregate_bool_exp_bool_or
   count: notebook_target_aggregate_bool_exp_count
+}
+
+input notebook_target_aggregate_bool_exp_bool_and {
+  arguments: notebook_target_select_column_notebook_target_aggregate_bool_exp_bool_and_arguments_columns!
+  distinct: Boolean
+  filter: notebook_target_bool_exp
+  predicate: Boolean_comparison_exp!
+}
+
+input notebook_target_aggregate_bool_exp_bool_or {
+  arguments: notebook_target_select_column_notebook_target_aggregate_bool_exp_bool_or_arguments_columns!
+  distinct: Boolean
+  filter: notebook_target_bool_exp
+  predicate: Boolean_comparison_exp!
 }
 
 input notebook_target_aggregate_bool_exp_count {
@@ -12395,6 +12412,7 @@ input notebook_target_bool_exp {
   status: String_comparison_exp
   target: String_comparison_exp
   updatedAt: timestamptz_comparison_exp
+  userConsent: Boolean_comparison_exp
 }
 
 """
@@ -12427,6 +12445,7 @@ input notebook_target_insert_input {
   status: String
   target: String
   updatedAt: timestamptz
+  userConsent: Boolean
 }
 
 """aggregate max on columns"""
@@ -12524,6 +12543,7 @@ input notebook_target_order_by {
   status: order_by
   target: order_by
   updatedAt: order_by
+  userConsent: order_by
 }
 
 """primary key columns input for table: notebook_target"""
@@ -12558,6 +12578,25 @@ enum notebook_target_select_column {
 
   """column name"""
   updatedAt
+
+  """column name"""
+  userConsent
+}
+
+"""
+select "notebook_target_aggregate_bool_exp_bool_and_arguments_columns" columns of table "notebook_target"
+"""
+enum notebook_target_select_column_notebook_target_aggregate_bool_exp_bool_and_arguments_columns {
+  """column name"""
+  userConsent
+}
+
+"""
+select "notebook_target_aggregate_bool_exp_bool_or_arguments_columns" columns of table "notebook_target"
+"""
+enum notebook_target_select_column_notebook_target_aggregate_bool_exp_bool_or_arguments_columns {
+  """column name"""
+  userConsent
 }
 
 """
@@ -12572,6 +12611,7 @@ input notebook_target_set_input {
   status: String
   target: String
   updatedAt: timestamptz
+  userConsent: Boolean
 }
 
 """
@@ -12595,6 +12635,7 @@ input notebook_target_stream_cursor_value_input {
   status: String
   target: String
   updatedAt: timestamptz
+  userConsent: Boolean
 }
 
 """
@@ -12624,6 +12665,9 @@ enum notebook_target_update_column {
 
   """column name"""
   updatedAt
+
+  """column name"""
+  userConsent
 }
 
 input notebook_target_updates {

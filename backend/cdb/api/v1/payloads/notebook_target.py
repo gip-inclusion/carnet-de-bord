@@ -9,6 +9,7 @@ class CreateNotebookTargetInput(BaseModel):
     focus_id: UUID = Field(alias="focusId")
     target: str
     linked_to: str | None = Field(alias="linkedTo")
+    user_consent: bool = Field(alias="userConsent")
 
 
 class CreateNotebookTargetActionPayload(HasuraActionPayload):

@@ -2,7 +2,7 @@ actions:
   - name: create_notebook
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/notebooks"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebooks'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -12,7 +12,7 @@ actions:
   - name: create_notebook_focus
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/notebook_focus"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_focus'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -24,7 +24,7 @@ actions:
   - name: create_notebook_target
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/notebook_target"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_target'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -36,7 +36,7 @@ actions:
   - name: create_nps_rating
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/nps-rating"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/nps-rating'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -50,7 +50,7 @@ actions:
   - name: diagnostic_pole_emploi
     definition:
       kind: ""
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/notebooks/dossier-individu-pole-emploi"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebooks/dossier-individu-pole-emploi'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -63,7 +63,7 @@ actions:
   - name: remove_notebook_focus
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/notebook_focus/delete"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_focus/delete'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -75,7 +75,7 @@ actions:
   - name: update_notebook_from_pole_emploi
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/notebooks/update-notebook-from-pole-emploi"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebooks/update-notebook-from-pole-emploi'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -87,7 +87,7 @@ actions:
   - name: update_notebook_target_action
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/notebook_target/update"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/notebook_target/update'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET
@@ -99,7 +99,7 @@ actions:
   - name: update_socio_pro
     definition:
       kind: synchronous
-      handler: "{{BACKEND_API_ACTION_URL}}/v1/socio_pro/update"
+      handler: '{{BACKEND_API_ACTION_URL}}/v1/socio_pro/update'
       headers:
         - name: secret-token
           value_from_env: ACTION_SECRET

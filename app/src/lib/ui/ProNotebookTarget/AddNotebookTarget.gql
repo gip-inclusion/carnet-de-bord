@@ -1,5 +1,15 @@
-mutation AddNotebookTarget($focusId: uuid!, $target: String!, $linkedTo: String!) {
-  create_notebook_target(focusId: $focusId, target: $target, linkedTo: $linkedTo) {
+mutation AddNotebookTarget(
+  $focusId: uuid!
+  $target: String!
+  $linkedTo: String!
+  $userConsent: Boolean!
+) {
+  create_notebook_target(
+    focusId: $focusId
+    target: $target
+    linkedTo: $linkedTo
+    userConsent: $userConsent
+  ) {
     id
   }
 }

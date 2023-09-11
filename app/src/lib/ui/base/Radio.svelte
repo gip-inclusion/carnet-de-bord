@@ -11,6 +11,7 @@
 	export let caption: string | null = null;
 	export let ariaControls: string | null = null;
 	export let legendClass = '';
+	export let error: string | null = '';
 
 	const dispatch = createEventDispatcher();
 
@@ -23,11 +24,21 @@
 	export let name = `radio-group`;
 
 	$: groupId = `${name}-${counter}`;
+
+	$: roleProp = error ? { role: 'group' } : {};
 </script>
 
 <div class="fr-form-group">
-	<fieldset class="fr-fieldset">
-		<legend class="fr-fieldset__legend fr-text--regular" id="radio-legend">
+	<fieldset
+		class="fr-fieldset"
+		class:fr-fieldset--error={error}
+		{...roleProp}
+		aria-labelledby={`${groupId}-radio-legend`}
+	>
+		<legend
+			class="fr-fieldset__legend fr-text--regular"
+			id={`${groupId}-radio-legend ${error ? `${groupId}-error-messages` : ''}`}
+		>
 			{#if caption}
 				<span class={legendClass}>
 					{caption}
@@ -50,5 +61,10 @@
 				</div>
 			{/each}
 		</div>
+		{#if error}
+			<div class="fr-messages-group" id={`${groupId}-error-messages`} aria-live="assertive">
+				<p class="fr-message fr-message--error" id={`${groupId}-error-message-error`}>{error}</p>
+			</div>
+		{/if}
 	</fieldset>
 </div>
