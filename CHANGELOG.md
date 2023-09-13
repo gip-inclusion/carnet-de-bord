@@ -1,3 +1,10 @@
+# [1.261.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.260.0...v1.261.0) (2023-09-13)
+
+
+### Features
+
+* **app:** casse des noms prénoms ([#2008](https://github.com/gip-inclusion/carnet-de-bord/issues/2008)) ([5532c0e](https://github.com/gip-inclusion/carnet-de-bord/commit/5532c0ed4717b233232d95b3e70af92110ef898c))
+
 # [1.260.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.259.0...v1.260.0) (2023-09-07)
 
 
