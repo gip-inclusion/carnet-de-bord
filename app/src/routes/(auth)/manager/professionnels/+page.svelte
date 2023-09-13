@@ -1,14 +1,13 @@
 <script lang="ts">
-	import { post } from '$lib/utils/post';
 	import {
+		GetAccountsSummaryDocument,
+		RoleEnum,
 		type GetAccountsSummaryQuery,
 		type Professional,
-		RoleEnum,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { GetAccountsSummaryDocument } from '$lib/graphql/_gen/typed-document-nodes';
-	import { query } from '@urql/svelte';
-	import { operationStore } from '@urql/svelte';
 	import LoaderIndicator from '$lib/ui/utils/LoaderIndicator.svelte';
+	import { post } from '$lib/utils/post';
+	import { operationStore, query } from '@urql/svelte';
 
 	import { baseUrlForRole } from '$lib/routes';
 	import { Button, IconButton } from '$lib/ui/base';
@@ -157,7 +156,7 @@
 						<td class="text-right">
 							<a
 								href={`${baseUrlForRole(RoleEnum.Manager)}/beneficiaires?member=${account.email}`}
-								title={`liste des bénéficiaires de ${account.firstname} ${account.lastname}`}
+								title={`liste des bénéficiaires de ${displayFullName(account)}`}
 								class="fr-tag fr-tag-sm"
 								class:fr-tag--purple-glycine={hasNoBeneficiary}
 							>

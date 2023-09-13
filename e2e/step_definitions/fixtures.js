@@ -97,7 +97,7 @@ const goToNotebookForLastName = async (lastname) => {
 	const result = await I.sendQuery(
 		`
 			query GetNotebook($lastname: String!) {
-				notebook(where: { beneficiary: { lastname: { _eq: $lastname } } }) {
+				notebook(where: { beneficiary: { lastname: { _ilike: $lastname } } }) {
 					id
 				}
 			}

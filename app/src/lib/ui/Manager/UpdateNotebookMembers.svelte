@@ -520,8 +520,7 @@
 				<div class="border-b border-gray-200 shadow">
 					<table class="w-full divide-y divide-gray-300">
 						<thead class="px-2 py-2">
-							<th>Prénom</th>
-							<th>Nom</th>
+							<th>Prénom NOM</th>
 							<th>Date de naissance</th>
 							<th>Ajouts</th>
 							<th>Suppressions</th>
@@ -530,10 +529,7 @@
 							{#each Object.values(insertSummary) as result}
 								<tr>
 									<td class="px-2 py-2">
-										<Text value={result.beneficiary.firstname} />
-									</td>
-									<td class="px-2 py-2">
-										<Text value={result.beneficiary.lastname} />
+										<Text value={displayFullName(result.beneficiary)} />
 									</td>
 									<td class="px-2 py-2">
 										<Text value={result.beneficiary.dateOfBirth} />

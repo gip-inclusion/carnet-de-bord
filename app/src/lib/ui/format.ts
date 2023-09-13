@@ -1,12 +1,28 @@
+import { capitalize } from '$lib/utils/string';
+
 export const notNullish = (data: unknown): boolean => !!data;
 
-export const displayFullName = ({
-	firstname = '',
-	lastname = '',
-}: {
+type Person = {
 	firstname?: string;
 	lastname?: string;
-} = {}): string => [firstname, lastname].filter((field) => notNullish(field)).join(' ');
+};
+
+export const formatNames = (person: Person): Person => {
+	return {
+		firstname: capitalize(person.firstname) ?? '',
+		lastname: person.lastname?.toUpperCase() ?? '',
+	};
+};
+
+export const displayFullName = (
+	person: Person = {},
+	mode: 'firstname first' | 'lastname first' = 'firstname first'
+): string => {
+	const formatted = formatNames(person);
+	let parts = [formatted.firstname, formatted.lastname];
+	if (mode === 'lastname first') parts = parts.reverse();
+	return parts.join(' ').trim();
+};
 
 export const displayMobileNumber = ({ mobileNumber }: { mobileNumber?: string }): string | null => {
 	if (!mobileNumber) {

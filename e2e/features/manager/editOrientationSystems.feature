@@ -9,10 +9,10 @@ Fonctionnalité: Modification des dispositifs d'accompagnement d'une structure
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je clique sur "Groupe NS"
 		Quand je clique sur "Professionnel"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Simon ANKA"
 		Quand je coche "Social"
 		Quand je clique sur "Enregistrer les modifications"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Simon ANKA"
 		Alors l'option "Social" est sélectionnée
 		Quand un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Structures"
@@ -23,17 +23,17 @@ Fonctionnalité: Modification des dispositifs d'accompagnement d'une structure
 		Quand un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je clique sur "Groupe NS"
 		Quand je clique sur "Professionnel"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Simon ANKA"
 		Alors je ne vois pas "Social"
 
 	Scénario: La mise à jour des dispositifs d'accompagnement d'une structure n'impacte pas les autres structures
 		Soit un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je clique sur "Groupe NS"
 		Quand je clique sur "Professionnel"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Simon ANKA"
 		Quand je coche "Social"
 		Quand je clique sur "Enregistrer les modifications"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Simon ANKA"
 		Alors l'option "Social" est sélectionnée
 		Quand un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Structures"
@@ -44,5 +44,5 @@ Fonctionnalité: Modification des dispositifs d'accompagnement d'une structure
 		Quand un "administrateur de structures" authentifié avec l'email "vincent.timaitre@groupe-ns.fr"
 		Quand je clique sur "Groupe NS"
 		Quand je clique sur "Professionnel"
-		Quand je clique sur "Mettre à jour" dans la ligne de "Simon Anka"
+		Quand je clique sur "Mettre à jour" dans la ligne de "Simon ANKA"
 		Alors l'option "Social" est sélectionnée

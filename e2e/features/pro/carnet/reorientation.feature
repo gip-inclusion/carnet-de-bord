@@ -6,7 +6,7 @@ Fonctionnalité: Demande de réorientation
 	Je veux pouvoir demander la réorientation d'un bénéficiaire
 
 	Scénario: demande de réorientation
-		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 		Quand je clique sur "Demander une réorientation"
 		Quand je renseigne "Réorientation requise" dans le champ "Motif de demande de réorientation"
 		Quand je sélectionne l'option "Social" dans la liste "Orientation recommandée"
@@ -22,22 +22,22 @@ Fonctionnalité: Demande de réorientation
 		Alors je vois "Orientation recommandée : Social"
 
 	Scénario: Affichage d'un bénéficiaire pour lequel la demande de réorientation a été acceptée
-		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "Herring"
+		Soit le pro "pcamara@seinesaintdenis.fr" sur le carnet de "HERRING"
 		Alors je vois "Demande de réorientation acceptée"
 		Alors je vois "Décision d'orientation : Social"
 
 	Scénario: Affichage d'un bénéficiaire pour le précédent référent
-		Soit le pro "sanka@groupe-ns.fr" sur le carnet de "Herring"
+		Soit le pro "sanka@groupe-ns.fr" sur le carnet de "HERRING"
 		Alors je vois "Demande de réorientation acceptée"
 		Alors je vois "Décision d'orientation : Social"
 
 	Scénario: Non affichage du motif de l'orientation quand une demande est en cours
-		Soit le pro "edith.orial@interlogement93.fr" sur le carnet de "Jennings"
+		Soit le pro "EDITH.orial@interlogement93.fr" sur le carnet de "JENNINGS"
 		Alors je vois "Demande de réorientation envoyée le"
 		Alors je ne vois pas "Voir le motif d‘orientation"
 
 	Scénario: Affichage du motif de l'orientation
-		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+		Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 		Quand je clique sur "Voir le motif de l‘orientation"
 		Alors je vois "Pierre Chevalier est sans aucun doute le meilleur référent pour ce bénéficiaire."
 

@@ -1,15 +1,16 @@
 <script lang="ts">
-	import OrientationManagerCreationForm from '$lib/ui/OrientationManager/CreationForm.svelte';
 	import {
 		RoleEnum,
 		UpdateOrientationManagerProfileDocument,
 		type UpdateOrientationManagerProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
-	import { Alert } from '$lib/ui/base';
-	import type { OrientationManagerAccountInput } from '$lib/ui/OrientationManager/orientationManager.schema';
 	import { accountData } from '$lib/stores';
+	import OrientationManagerCreationForm from '$lib/ui/OrientationManager/CreationForm.svelte';
+	import type { OrientationManagerAccountInput } from '$lib/ui/OrientationManager/orientationManager.schema';
+	import { Alert } from '$lib/ui/base';
+	import { formatNames } from '$lib/ui/format';
+	import { mutation, operationStore, type OperationStore } from '@urql/svelte';
 
 	const updateProfileResult = operationStore(UpdateOrientationManagerProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
@@ -21,8 +22,7 @@
 
 	const initialValues = {
 		email,
-		firstname,
-		lastname,
+		...formatNames({ firstname, lastname }),
 		phoneNumbers,
 	};
 

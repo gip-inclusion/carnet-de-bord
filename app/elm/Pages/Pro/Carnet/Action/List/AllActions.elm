@@ -17,7 +17,7 @@ type alias Action =
 
 
 type alias Creator =
-    { firstName : String, lastName : String }
+    { firstname : String, lastname : String }
 
 
 fetchAllByTargetId : { id : String, responseMsg : Result Http.Error (List Action) -> msg } -> Cmd msg
@@ -44,18 +44,18 @@ toActions =
                 , creator =
                     case ( action.creator.orientation_manager, action.creator.professional ) of
                         ( Just om, _ ) ->
-                            { firstName = Maybe.withDefault "" om.firstname
-                            , lastName = Maybe.withDefault "" om.lastname
+                            { firstname = Maybe.withDefault "" om.firstname
+                            , lastname = Maybe.withDefault "" om.lastname
                             }
 
                         ( _, Just pro ) ->
-                            { firstName = pro.firstname
-                            , lastName = pro.lastname
+                            { firstname = pro.firstname
+                            , lastname = pro.lastname
                             }
 
                         _ ->
-                            { firstName = ""
-                            , lastName = ""
+                            { firstname = ""
+                            , lastname = ""
                             }
                 }
             )

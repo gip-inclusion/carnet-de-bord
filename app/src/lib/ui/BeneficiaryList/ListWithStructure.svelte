@@ -47,8 +47,7 @@
 	<thead>
 		<tr>
 			<th />
-			<th class="text-left">Nom</th>
-			<th class="text-left">Prénom</th>
+			<th class="text-left">NOM Prénom</th>
 			<th class="text-left">Date de naissance</th>
 			<th class="text-left">Dispositif</th>
 			<th class="text-left">Structure</th>
@@ -77,8 +76,7 @@
 						</label>
 					</div>
 				</td>
-				<td>{beneficiary.lastname}</td>
-				<td>{beneficiary.firstname}</td>
+				<td>{displayFullName(beneficiary, 'lastname first')}</td>
 				<td>{formatDateLocale(beneficiary.dateOfBirth)}</td>
 				<td>{beneficiary.notebook.notebookInfo?.orientationSystem?.name ?? ''}</td>
 				<td>
@@ -127,7 +125,7 @@
 						class="fr-link"
 						target="_blank"
 						rel="noreferrer"
-						title={`Voir le carnet de ${beneficiary.firstname} ${beneficiary.lastname}`}
+						title={`Voir le carnet de ${displayFullName(beneficiary)}`}
 					>
 						<span class="fr-icon-file-line" aria-hidden />
 					</a>

@@ -14,18 +14,18 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 	Scénario: Voir la liste des bénéficiaires d'un professionnel
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Professionnels"
-		Quand je clique sur "liste des bénéficiaires de Pierre Chevalier"
+		Quand je clique sur "liste des bénéficiaires de Pierre CHEVALIER"
 		Alors je vois "pierre.chevalier@livry-gargan.fr"
 		Alors je vois "Supprimer le filtre"
-		Alors je vois "Tifour" dans le tableau "Liste des bénéficiaires"
+		Alors je vois "TIFOUR" dans le tableau "Liste des bénéficiaires"
 
 	Scénario: Supprimer le filtre professionnel
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
 		Quand je clique sur "Professionnels"
-		Quand je clique sur "liste des bénéficiaires de Pierre Chevalier"
+		Quand je clique sur "liste des bénéficiaires de Pierre CHEVALIER"
 		Quand je clique sur "Supprimer le filtre"
 		Alors je ne vois pas "Supprimer le filtre"
-		Alors je vois "Aguilar" dans le tableau "Liste des bénéficiaires"
+		Alors je vois "AGUILAR" dans le tableau "Liste des bénéficiaires"
 
 	Scénario: rechercher un bénéficiaire par préfixe
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
@@ -33,7 +33,7 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 		Quand je recherche "gon"
 		Quand je clique sur "Rechercher"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
-		Alors je vois "Gônzalez" sur la ligne "Bolton"
+		Alors je vois "GÔNZALEZ" sur la ligne "Bolton"
 
 	Scénario: rechercher un bénéficiaire par suffixe
 		Soit un "administrateur de territoire" authentifié avec l'email "contact+cd93@carnetdebord.inclusion.beta.gouv.fr"
@@ -41,4 +41,4 @@ Fonctionnalité: Consultation de la liste des bénéficiaires par un manager
 		Quand je recherche "alez"
 		Quand je clique sur "Rechercher"
 		Quand j'attends que le tableau "Liste des bénéficiaires" apparaisse
-		Alors je vois "Gônzalez" sur la ligne "Bolton"
+		Alors je vois "GÔNZALEZ" sur la ligne "Bolton"

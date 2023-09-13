@@ -10,8 +10,8 @@ action1 =
     { id = "1"
     , description = "Première action"
     , creator =
-        { lastName = "MICHEL"
-        , firstName = "Daniel"
+        { lastname = "MICHEL"
+        , firstname = "Daniel"
         }
     , status =
         GraphQL.Enum.Action_status_enum.Done
@@ -24,8 +24,8 @@ action2 =
     { id = "2"
     , description = "Deuxième action"
     , creator =
-        { lastName = "DUPONT"
-        , firstName = "Françoise"
+        { lastname = "DUPONT"
+        , firstname = "Françoise"
         }
     , status =
         GraphQL.Enum.Action_status_enum.Abandonned

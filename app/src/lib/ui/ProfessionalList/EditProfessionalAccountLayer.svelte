@@ -13,6 +13,8 @@
 	import type { LabelName } from '$lib/types';
 	import { captureException } from '$lib/utils/sentry';
 
+	import { formatNames } from '../format';
+
 	export let professional: Professional;
 
 	let errorMessage = '';
@@ -79,8 +81,7 @@
 
 	<Form
 		initialValues={{
-			firstname: professional.firstname,
-			lastname: professional.lastname,
+			...formatNames(professional),
 			email: professional.email,
 			mobileNumber: professional.mobileNumber,
 			position: professional.position,

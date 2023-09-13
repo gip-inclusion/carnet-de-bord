@@ -52,7 +52,7 @@
 				<td class="flex justify-end">
 					<a
 						href={`beneficiaires?member=${professional.email}`}
-						title={`liste des bénéficiaires de ${professional.firstname} ${professional.lastname}`}
+						title={`liste des bénéficiaires de ${displayFullName(professional)}`}
 						class="fr-tag fr-tag-sm"
 						class:fr-tag--purple-glycine={hasNoBeneficiaries}
 					>

@@ -10,7 +10,7 @@ Fonctionnalité: Onboarding manager
 		Quand je vois "Création de mon compte Admin de territoire"
 
 		Alors je vois "Agathe" dans le champ "Prénom"
-		Alors je vois "DeBlouze" dans le champ "Nom"
+		Alors je vois "DEBLOUZE" dans le champ "Nom"
 		Alors je vois "contact+cd93@carnetdebord.inclusion.beta.gouv.fr" dans le champ "Courriel"
 		Quand je clique sur "Créer mon compte"
 		Alors je vois "Votre compte a été créé avec succès"

@@ -1,15 +1,16 @@
 <script lang="ts">
-	import { accountData } from '$lib/stores/account';
 	import {
 		RoleEnum,
 		UpdateProfessionalProfileDocument,
 		type UpdateProfessionalProfileMutation,
 	} from '$lib/graphql/_gen/typed-document-nodes';
-	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
-	import { type OperationStore, mutation, operationStore } from '@urql/svelte';
 	import { homeForRole } from '$lib/routes';
-	import { Alert } from '$lib/ui/base';
+	import { accountData } from '$lib/stores/account';
+	import ProCreationForm from '$lib/ui/ProCreationForm/index.svelte';
 	import type { ProAccountInput } from '$lib/ui/ProCreationForm/pro.schema';
+	import { Alert } from '$lib/ui/base';
+	import { formatNames } from '$lib/ui/format';
+	import { mutation, operationStore, type OperationStore } from '@urql/svelte';
 
 	const updateProfileResult = operationStore(UpdateProfessionalProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
@@ -21,8 +22,7 @@
 
 	const initialValues = {
 		email,
-		firstname,
-		lastname,
+		...formatNames({ firstname, lastname }),
 		mobileNumber,
 		position,
 	};

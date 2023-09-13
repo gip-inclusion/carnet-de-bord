@@ -11,10 +11,10 @@ Fonctionnalité: Voir les infos de ma structure
 		Alors je vois "Portefeuille de la structure"
 		Alors je vois "4" dans la tuile "Bénéficiaires accompagnés"
 		Quand je clique sur "Bénéficiaires accompagnés"
-		Alors je vois "Orial Edith" sur la ligne "Bullock"
-		Alors je vois "Orial Edith" sur la ligne "Jennings"
-		Alors je vois "Orial Edith" sur la ligne "Lindsay"
-		Alors je vois "Orial Edith" sur la ligne "Valenzuela"
+		Alors je vois "Orial EDITH" sur la ligne "BULLOCK Etta"
+		Alors je vois "Orial EDITH" sur la ligne "JENNINGS Dee"
+		Alors je vois "Orial EDITH" sur la ligne "LINDSAY Laura"
+		Alors je vois "Orial EDITH" sur la ligne "VALENZUELA Maricela"
 
 	Scénario: Bénéficiaires non accompagnés
 		Soit un "administrateur de structures" authentifié avec l'email "lara.pafromage@cd93.fr"
@@ -22,5 +22,5 @@ Fonctionnalité: Voir les infos de ma structure
 		Alors je vois "Portefeuille de la structure"
 		Alors je vois "2" dans la tuile "Bénéficiaires non accompagnés"
 		Quand je clique sur "Bénéficiaires non accompagnés"
-		Alors je vois "Non rattaché" sur la ligne "Gallegos"
-		Alors je vois "Non rattaché" sur la ligne "Carlson"
+		Alors je vois "Non rattaché" sur la ligne "GALLEGOS Winnie"
+		Alors je vois "Non rattaché" sur la ligne "CARLSON Oconnor"

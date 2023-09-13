@@ -13,6 +13,6 @@ Fonctionnalité: Ajout d'un manager
 		Quand je clique sur "Ajouter un administrateur de territoire"
 		Alors je renseigne "juste.leblanc@cd93.fr" dans le champ "Courriel"
 		Alors je renseigne "Juste" dans le champ "Prénom"
-		Alors je renseigne "Leblanc" dans le champ "Nom"
+		Alors je renseigne "LEBLANC" dans le champ "Nom"
 		Quand je clique sur "Ajouter l'admin"
-		Alors je vois "Juste Leblanc" dans le tableau "Liste des managers"
+		Alors je vois "Juste LEBLANC" dans le tableau "Liste des managers"

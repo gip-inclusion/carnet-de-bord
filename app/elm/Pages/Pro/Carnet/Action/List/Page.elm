@@ -1,6 +1,7 @@
 port module Pages.Pro.Carnet.Action.List.Page exposing (Model, Msg(..), init, subscriptions, update, view)
 
 import BetaGouv.DSFR.Alert
+import Domain.Name exposing (printFullName)
 import Effect
 import Extra.Date
 import GraphQL.Enum.Action_status_enum
@@ -215,7 +216,10 @@ viewAction action =
         [ Html.td [ Attr.class "break-words" ]
             [ Html.text action.description ]
         , Html.td []
-            [ Html.text <| action.creator.firstName ++ " " ++ action.creator.lastName ]
+            [ action.creator
+                |> printFullName
+                |> Html.text
+            ]
         , Html.td []
             [ Pages.Pro.Carnet.Action.List.ActionStatusSelect.select
                 { onSelect = UpdateStatus action.id

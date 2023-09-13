@@ -5,13 +5,13 @@ Fonctionnalité: Information sur les axes de travail depuis un carnet
 	Je veux avoir des informations sur les axes de travail du carnet
 
 Scénario: Visibilité du nombre d'actions en cours pour chaque axe de travail
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Alors je vois "1 action" dans la tuile "Difficultés administratives"
 	Alors je vois "4 actions" dans la tuile "Emploi"
 	Alors je vois "3 actions" dans la tuile "Logement"
 
 Scénario: Ajout d'un axe de travail par un pro
-	Soit le pro "sanka@groupe-ns.fr" sur le carnet de "Gallegos"
+	Soit le pro "sanka@groupe-ns.fr" sur le carnet de "GALLEGOS"
 	Quand je clique sur "Ajouter un axe de travail"
 	Alors j'attends que le texte "Axe de travail" apparaisse
 	Quand je sélectionne l'option "Numérique" dans la liste "Thème"
@@ -21,15 +21,15 @@ Scénario: Ajout d'un axe de travail par un pro
 	Alors je ne vois pas "J'ai compris"
 
 Scénario: Je peux consulter un axe de travail existant
-	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "Tifour"
+	Soit le pro "pierre.chevalier@livry-gargan.fr" sur le carnet de "TIFOUR"
 	Quand je clique sur "Logement" dans la tuile "Logement"
 	Alors j'attends que le texte "Hébergé chez un tiers" apparaisse
 	Quand je clique sur "Changer de logement"
 	Alors j'attends que le texte "Action" apparaisse
-	Alors je vois "Sarah Vigote" sur la ligne "Intervention face à une procédure expulsion"
+	Alors je vois "Sarah VIGOTE" sur la ligne "Intervention face à une procédure expulsion"
 
 Scénario: Ajout d'un objectif  par un pro
-	Soit le pro membre "sanka@groupe-ns.fr" sur le carnet de "Aguilar"
+	Soit le pro membre "sanka@groupe-ns.fr" sur le carnet de "AGUILAR"
 	Alors je clique sur "Formation" dans la tuile "Formation"
 	Alors j'attends que le texte "Trouver sa formation" apparaisse
 	Quand je clique sur "Ajouter un objectif"

@@ -44,8 +44,7 @@
 	<caption class="sr-only">Liste des bénéficiaires</caption>
 	<thead>
 		<tr>
-			<th class="text-left">Nom</th>
-			<th class="text-left">Prénom</th>
+			<th class="text-left">NOM Prénom</th>
 			<th class="text-left">Date de naissance</th>
 			<th class="text-left">Membre du groupe de suivi</th>
 			<th class="!text-center">Voir le carnet</th>
@@ -54,8 +53,7 @@
 	<tbody>
 		{#each notebooks as notebook}
 			<tr>
-				<td>{notebook.beneficiary.lastname}</td>
-				<td>{notebook.beneficiary.firstname}</td>
+				<td>{displayFullName(notebook.beneficiary, 'lastname first')}</td>
 				<td>{formatDateLocale(notebook.beneficiary.dateOfBirth)}</td>
 				<td>
 					{displayMemberType(notebook.members, getOrientationSystem(notebook))}

@@ -13,6 +13,8 @@
 	import ProAddedConfirmation from '$lib/ui/ProNotebookMember/ProAddedConfirmation.svelte';
 	import { trackEvent, trackSiteSearch } from '$lib/tracking/matomo';
 
+	import { displayFullName } from '../format';
+
 	export let beneficiaryFirstname: string;
 	export let beneficiaryLastname: string;
 	export let notebookId: string;
@@ -75,7 +77,9 @@
 		<div class="py-12">
 			<h1>Inviter un accompagnateur</h1>
 			<div>
-				{`Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de ${beneficiaryFirstname} ${beneficiaryLastname}.`}
+				{`Recherchez un accompagnateur et envoyez une invitation à rejoindre le groupe de suivi de ${displayFullName(
+					{ firstname: beneficiaryFirstname, lastname: beneficiaryLastname }
+				)}.`}
 			</div>
 		</div>
 
@@ -113,7 +117,7 @@
 						class="flex flex-row justify-between items-center py-4"
 					>
 						<div class="w-2/6">{professional.structure.name}</div>
-						<div class="w-2/6">{professional.firstname} {professional.lastname}</div>
+						<div class="w-2/6">{displayFullName(professional)}</div>
 						<div class="w-1/6">{professional.structure.phone || ''}</div>
 						<div class="w-1/6">{professional.structure.postalCode || ''}</div>
 					</label>

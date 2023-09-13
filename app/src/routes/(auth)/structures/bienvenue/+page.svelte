@@ -10,6 +10,7 @@
 	import { homeForRole } from '$lib/routes';
 	import { Alert } from '$lib/ui/base';
 	import type { AdminStructureAccountInput } from '$lib/ui/AdminStructure/adminStructure.schema';
+	import { formatNames } from '$lib/ui/format';
 
 	const updateProfileResult = operationStore(UpdateAdminStructureProfileDocument);
 	const updateProfile = mutation(updateProfileResult);
@@ -21,8 +22,7 @@
 
 	const initialValues = {
 		email,
-		firstname,
-		lastname,
+		...formatNames({ firstname, lastname }),
 		phoneNumbers,
 	};
 

@@ -9,7 +9,7 @@ Fonctionnalité: Onboarding chargé d'orientation
 		Soit un "chargé d'orientation" authentifié pour la première fois avec l'email "giulia.diaby@cd93.fr"
 		Quand je vois "Création de mon compte Chargé d'orientation"
 		Alors je vois "Giulia" dans le champ "Prénom"
-		Alors je vois "Diaby" dans le champ "Nom"
+		Alors je vois "DIABY" dans le champ "Nom"
 		Alors je vois "giulia.diaby@cd93" dans le champ "Courriel"
 		Alors je vois "0912345678, 0612345678" dans le champ "Numéros de téléphone"
 		Quand je clique sur "Créer mon compte"
