@@ -59,7 +59,6 @@
 </script>
 
 <div
-	{id}
 	class={`fr-select-group ${error ? 'fr-select-group--error' : ''} ${
 		valid ? 'fr-select-group--valid' : ''
 	} ${twWidthClass} ${classNames}`}
@@ -106,12 +105,12 @@
 	</select>
 
 	{#if error}
-		<p id={`select-error-desc-error-${id}`} class="fr-error-text" role="status">
+		<p id={`select-error-desc-error-${id}`} class="fr-error-text" aria-live="assertive">
 			{error}
 		</p>
 	{/if}
 	{#if valid}
-		<p id={`select-valid-desc-valid-${id}`} class="fr-valid-text" role="status">
+		<p id={`select-valid-desc-valid-${id}`} class="fr-valid-text" aria-live="assertive">
 			{valid}
 		</p>
 	{/if}

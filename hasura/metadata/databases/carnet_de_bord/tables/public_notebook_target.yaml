@@ -9,16 +9,19 @@ configuration:
       custom_name: creatorId
     focus_id:
       custom_name: focusId
-    updated_at:
-      custom_name: updatedAt
     linked_to:
       custom_name: linkedTo
+    updated_at:
+      custom_name: updatedAt
+    user_consent:
+      custom_name: userConsent
   custom_column_names:
     created_at: createdAt
     creator_id: creatorId
     focus_id: focusId
-    updated_at: updatedAt
     linked_to: linkedTo
+    updated_at: updatedAt
+    user_consent: userConsent
   custom_root_fields: {}
 object_relationships:
   - name: creator
@@ -40,10 +43,13 @@ insert_permissions:
     permission:
       check: {}
       columns:
-        - id
-        - focus_id
-        - target
         - created_at
+        - focus_id
+        - id
+        - linked_to
+        - status
+        - target
+        - user_consent
       backend_only: true
   - role: orientation_manager
     permission:
@@ -61,9 +67,10 @@ insert_permissions:
       columns:
         - creator_id
         - focus_id
+        - linked_to
         - status
         - target
-        - linked_to
+        - user_consent
       backend_only: true
   - role: professional
     permission:
@@ -81,9 +88,10 @@ insert_permissions:
       columns:
         - creator_id
         - focus_id
+        - linked_to
         - status
         - target
-        - linked_to
+        - user_consent
       backend_only: true
 select_permissions:
   - role: admin_cdb

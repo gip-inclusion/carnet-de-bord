@@ -17,6 +17,7 @@ type Mutation {
     focusId: uuid!
     target: String!
     linkedTo: String!
+    userConsent: Boolean!
   ): CreateNotebookTargetOutput
 }
 
@@ -37,7 +38,6 @@ type Mutation {
     id: uuid!
   ): RemoveNotebookFocusOutput
 }
-
 
 type Mutation {
   update_notebook_from_pole_emploi(

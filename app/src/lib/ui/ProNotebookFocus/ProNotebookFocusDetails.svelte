@@ -20,7 +20,7 @@
 	import { type OperationStore, mutation, operationStore, query } from '@urql/svelte';
 	import { ProNotebookActionList } from '../ProNotebookAction';
 	import ProNotebookCreatorView from '../ProNotebookCreator/ProNotebookCreatorView.svelte';
-	import ProNotebookTargetCreate from '../ProNotebookTarget/ProNotebookTargetCreate.svelte';
+	import ProNotebookTargetCreate from '../ProNotebookTarget';
 	import { targetStatusValues } from '$lib/constants';
 	import { LoaderIndicator } from '$lib/ui/utils';
 	import Alert from '$lib/ui/base/Alert.svelte';
