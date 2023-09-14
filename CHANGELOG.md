@@ -1,3 +1,10 @@
+# [1.262.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.261.0...v1.262.0) (2023-09-14)
+
+
+### Features
+
+* demande le consentement lors de l'ajout d'un objectif([#2010](https://github.com/gip-inclusion/carnet-de-bord/issues/2010)) ([bade5c9](https://github.com/gip-inclusion/carnet-de-bord/commit/bade5c92464c1b806387fd9630e9959b0265be49))
+
 # [1.261.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.260.0...v1.261.0) (2023-09-13)
 
 
