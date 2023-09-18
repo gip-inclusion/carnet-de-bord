@@ -23,6 +23,8 @@ class Focus(BaseModel):
 class Notebook(BaseModel):
     diagnostic_fetched_at: str | None
     beneficiary_id: UUID
+    beneficiary_firstname: str
+    beneficiary_lastname: str
     nir: str | None
     date_of_birth: str
     last_diagnostic_hash: str | None

@@ -4,10 +4,7 @@ from uuid import UUID
 
 from cdb.api.db.models.ref_situation import NotebookSituation as SituationCdb
 from cdb.api.db.models.ref_situation import RefSituation
-from cdb.api.domain.situations import (
-    SituationToAdd,
-    diff_situations,
-)
+from cdb.api.domain.situations import SituationToAdd, SituationToDelete, diff_situations
 from cdb.pe.models.dossier_individu_api import Contrainte, Situation
 
 
@@ -81,7 +78,7 @@ def test_merge_contraintes_to_situations_returns_one_situation_to_add(
 
     assert result.situations_to_add == [
         SituationToAdd(
-            situation_id=ref_situation_aucun_moyen_transport.id,
+            situation=ref_situation_aucun_moyen_transport,
             created_at=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
         )
     ]
@@ -151,7 +148,7 @@ def test_merge_contraintes_to_situations_returns_only_validated_situations(
 
     assert result.situations_to_add == [
         SituationToAdd(
-            situation_id=ref_situation_aucun_moyen_transport.id,
+            situation=ref_situation_aucun_moyen_transport,
             created_at=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
         )
     ]
@@ -239,8 +236,17 @@ def test_merge_contraintes_to_situations_return_situation_to_delete(
 
     assert result.situations_to_add == [
         SituationToAdd(
-            situation_id=ref_situation_aucun_moyen_transport.id,
+            situation=ref_situation_aucun_moyen_transport,
             created_at=datetime.fromisoformat("2023-05-12T12:54:39.000+00:00"),
         )
     ]
-    assert result.situations_to_delete == [UUID("f9a9c869-460d-4190-942c-3c31b588d547")]
+    assert result.situations_to_delete == [
+        SituationToDelete(
+            situation=SituationCdb(
+                id=UUID("f9a9c869-460d-4190-942c-3c31b588d547"),
+                situationId=UUID("d57327f7-e2f9-44e5-96bc-943ae1c1459a"),
+                createdAt=datetime.fromisoformat("2023-05-11"),
+                deleteAt=None,
+            )
+        )
+    ]

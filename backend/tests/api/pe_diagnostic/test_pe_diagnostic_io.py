@@ -17,8 +17,14 @@ from cdb.api.domain.contraintes import (
     TargetDifferences,
     TargetPayload,
     TargetToAdd,
+    TargetToCancel,
+    TargetToEnd,
 )
-from cdb.api.domain.situations import SituationDifferences, SituationToAdd
+from cdb.api.domain.situations import (
+    SituationDifferences,
+    SituationToAdd,
+    SituationToDelete,
+)
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
     DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API,
 )
@@ -144,10 +150,19 @@ async def test_save_differences(
         differences=SituationDifferences(
             situations_to_add=[
                 SituationToAdd(
-                    ref_situation_dependant_des_transports.id, datetime(2022, 2, 2)
+                    situation=ref_situation_dependant_des_transports,
+                    created_at=datetime(2022, 2, 2),
                 )
             ],
-            situations_to_delete=[UUID("42cfb92a-adf5-4ee9-abe8-fba1eb5b4f0b")],
+            situations_to_delete=[
+                SituationToDelete(
+                    situation=RefSituation(
+                        id=UUID("42cfb92a-adf5-4ee9-abe8-fba1eb5b4f0b"),
+                        description="test description",
+                        theme="test theme",
+                    )
+                )
+            ],
         ),
         focus_differences=FocusDifferences(
             focuses_to_add=[
@@ -176,8 +191,22 @@ async def test_save_differences(
                     )
                 ],
                 targets_to_delete=[],
-                target_ids_to_cancel=[UUID("a37221df-fd67-4505-b847-d869c75656bc")],
-                target_ids_to_end=[UUID("d2abc3b0-339d-4f6e-a02e-6b389226ead5")],
+                targets_to_cancel=[
+                    TargetToCancel(
+                        id=UUID("a37221df-fd67-4505-b847-d869c75656bc"),
+                        target="test",
+                        focusId=UUID("a37221df-fd67-4505-b847-d869c75656bc"),
+                        creatorId=UUID("a37221df-fd67-4505-b847-d869c75656bc"),
+                    )
+                ],
+                targets_to_end=[
+                    TargetToEnd(
+                        id=UUID("d2abc3b0-339d-4f6e-a02e-6b389226ead5"),
+                        target="test",
+                        focusId=UUID("d2abc3b0-339d-4f6e-a02e-6b389226ead5"),
+                        creatorId=UUID("d2abc3b0-339d-4f6e-a02e-6b389226ead5"),
+                    )
+                ],
             ),
         ),
     )

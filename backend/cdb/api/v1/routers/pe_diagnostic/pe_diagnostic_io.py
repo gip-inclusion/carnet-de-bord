@@ -31,7 +31,7 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
             query GetBeneficiaryQuery($notebook_id:uuid!) {
                 notebook_by_pk(id: $notebook_id) {
                     beneficiary {
-                        id nir dateOfBirth
+                        id nir dateOfBirth firstname lastname
                         externalDataInfos(where: {
                             externalData: { source: { _eq: peio } } }
                             order_by: { created_at: desc }
@@ -70,6 +70,8 @@ async def find_notebook(session, notebook_id) -> Notebook | None:
     return Notebook(
         diagnostic_fetched_at=notebook["diagnosticFetchedAt"],
         beneficiary_id=notebook["beneficiary"]["id"],
+        beneficiary_firstname=notebook["beneficiary"]["firstname"],
+        beneficiary_lastname=notebook["beneficiary"]["lastname"],
         nir=notebook["beneficiary"]["nir"],
         date_of_birth=notebook["beneficiary"]["dateOfBirth"],
         last_diagnostic_hash=external_data_hash,
@@ -123,6 +125,7 @@ async def save_differences(
     focus_differences: FocusDifferences,
     notebook_id: UUID,
 ):
+    print(differences.situations_to_add)
     await save_notebook_situations(
         session,
         notebook_id,
@@ -131,7 +134,7 @@ async def save_differences(
                 json.dumps(
                     SituationInsertInput(
                         notebookId=notebook_id,
-                        situationId=situation.situation_id,
+                        situationId=situation.situation.id,
                         createdAt=situation.created_at,
                     ).dict(),
                     cls=CustomEncoder,
@@ -139,7 +142,7 @@ async def save_differences(
             )
             for situation in differences.situations_to_add
         ],
-        differences.situations_to_delete,
+        [situation.situation.id for situation in differences.situations_to_delete],
     )
     await add_remove_notebook_focuses(
         session, notebook_id=notebook_id, focus_differences=focus_differences

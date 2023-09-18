@@ -144,25 +144,34 @@ async def update_notebook_from_pole_emploi(
         or situation_differences.situations_to_delete
         or focus_differences.focuses_to_add
         or focus_differences.focuses_to_delete
+        or focus_differences.target_differences.targets_to_delete
         or focus_differences.target_differences.targets_to_add
-        or focus_differences.target_differences.target_ids_to_end
-        or focus_differences.target_differences.target_ids_to_cancel
+        or focus_differences.target_differences.targets_to_end
+        or focus_differences.target_differences.targets_to_cancel
     ) and not dry_run:
         await io.save_differences(situation_differences, focus_differences, notebook_id)
         response.data_has_been_updated = True
 
     if dry_run:
-        logger.info(
+        logger.debug(
             "[notebook_id: %s] Skipping saving differences, dry-run activated",
             notebook_id,
         )
         logger.info(
-            "[notebook_id: %s] Situation differences %s",
+            "[notebook_id: %s, %s %s, %s] Situation differences %s",
             notebook_id,
-            situation_differences,
+            notebook.beneficiary_firstname,
+            notebook.beneficiary_lastname,
+            notebook.nir,
+            situation_differences.to_human_readable(),
         )
         logger.info(
-            "[notebook_id: %s] Focus differences %s", notebook_id, focus_differences
+            "[notebook_id: %s, %s %s, %s] Focus differences %s",
+            notebook_id,
+            notebook.beneficiary_firstname,
+            notebook.beneficiary_lastname,
+            notebook.nir,
+            focus_differences.to_human_readable(),
         )
 
     return response

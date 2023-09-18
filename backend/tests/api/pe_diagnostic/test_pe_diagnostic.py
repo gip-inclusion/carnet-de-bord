@@ -10,7 +10,7 @@ from faker import Faker
 from cdb.api.core.settings import Settings, settings
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.api.domain.contraintes import FocusDifferences, TargetDifferences
-from cdb.api.domain.situations import SituationDifferences
+from cdb.api.domain.situations import SituationDifferences, SituationToDelete
 from cdb.api.v1.routers.pe_diagnostic.pe_diagnostic import (
     DEPLOYMENT_CONFIG_ENABLE_PE_DIAGNOSTIC_API,
     update_notebook_from_pole_emploi,
@@ -87,6 +87,8 @@ class FakeNotebook(NotebookLocal):
         self,
         diagnostic_fetched_at: str | None = str(fake.date_time(tzinfo=timezone.utc)),
         beneficiary_id: UUID = uuid.uuid4(),
+        beneficiary_firstname: str = fake.word(),
+        beneficiary_lastname: str = fake.word(),
         nir: str | None = fake.ean(),
         date_of_birth: str = str(fake.date_time(tzinfo=timezone.utc)),
         last_diagnostic_hash: str | None = fake.word(),
@@ -97,6 +99,8 @@ class FakeNotebook(NotebookLocal):
         super().__init__(
             diagnostic_fetched_at=diagnostic_fetched_at,
             beneficiary_id=beneficiary_id,
+            beneficiary_firstname=beneficiary_firstname,
+            beneficiary_lastname=beneficiary_lastname,
             nir=nir,
             date_of_birth=date_of_birth,
             last_diagnostic_hash=last_diagnostic_hash,
@@ -376,8 +380,8 @@ async def test_update_situation_when_received_situation_are_an_empty_array():
         contraintes_individus_dto=FakeContraintesIndividu(contraintes=[]),
         besoins_par_diagnostic_individu_dtos=[],
     )
-    to_delete = FakeNotebookSituation()
-    notebook = FakeNotebook(situations=[to_delete], focuses=[])
+    to_delete = SituationToDelete(situation=FakeNotebookSituation())
+    notebook = FakeNotebook(situations=[to_delete.situation], focuses=[])
     io = FakeIO(
         get_dossier_pe=async_mock(return_value=dossier),
         find_notebook=async_mock(return_value=notebook),
@@ -389,15 +393,15 @@ async def test_update_situation_when_received_situation_are_an_empty_array():
     io.save_differences.assert_called_with(
         SituationDifferences(
             [],
-            [to_delete.id],
+            [to_delete],
         ),
         FocusDifferences(
             focuses_to_add=[],
             focuses_to_delete=[],
             target_differences=TargetDifferences(
                 targets_to_add=[],
-                target_ids_to_cancel=[],
-                target_ids_to_end=[],
+                targets_to_cancel=[],
+                targets_to_end=[],
                 targets_to_delete=[],
             ),
         ),

@@ -42,6 +42,14 @@ class TargetToAdd(BaseModel):
 
 
 class TargetToDelete(TargetToAdd):
+    id: UUID
+
+
+class TargetToCancel(TargetToDelete):
+    pass
+
+
+class TargetToEnd(TargetToDelete):
     pass
 
 
@@ -49,8 +57,8 @@ class TargetToDelete(TargetToAdd):
 class TargetDifferences:
     targets_to_add: List[TargetToAdd]
     targets_to_delete: List[TargetToDelete]
-    target_ids_to_cancel: List[UUID]
-    target_ids_to_end: List[UUID]
+    targets_to_cancel: List[TargetToCancel]
+    targets_to_end: List[TargetToEnd]
 
 
 @dataclass
@@ -58,6 +66,93 @@ class FocusDifferences:
     focuses_to_add: List[FocusToAdd]
     focuses_to_delete: List[Focus]
     target_differences: TargetDifferences
+
+    def to_human_readable(self):
+        focuses_to_add_str = "\n"
+        total_targets_to_add = 0
+        for focus_to_add in self.focuses_to_add:
+            focuses_to_add_str += focus_to_add.theme + "\n"
+            for target in focus_to_add.targets:
+                focuses_to_add_str += "\t" + target.target + "\n"
+                total_targets_to_add += 1
+
+        focuses_to_delete_str = "\n"
+        total_targets_to_delete = 0
+        for focus_to_delete in self.focuses_to_delete:
+            focuses_to_delete_str += (
+                focus_to_delete.theme + " (" + str(focus_to_delete.id) + ")\n"
+            )
+            for target in focus_to_delete.targets:
+                focuses_to_delete_str += (
+                    "\t" + target.target + " (" + str(target.id) + ")\n"
+                )
+                total_targets_to_delete += 1
+        focuses_to_add_header_str = (
+            "\n[New focuses to add: "
+            + str(len(self.focuses_to_add))
+            + ", total targets to add: "
+            + str(total_targets_to_add)
+            + "]\n"
+        )
+
+        focuses_to_delete_header_str = (
+            "\n[New focuses to delete: "
+            + str(len(self.focuses_to_delete))
+            + ", total targets to delete: "
+            + str(total_targets_to_delete)
+            + "]\n"
+        )
+
+        targets_to_add_str = (
+            "\n[Other targets to add "
+            + str(len(self.target_differences.targets_to_add))
+            + " (common focus)]\n"
+        )
+
+        for target in self.target_differences.targets_to_add:
+            targets_to_add_str += "\t" + target.target + "\n"
+
+        targets_to_delete_str = (
+            "\n[Other targets to delete "
+            + str(len(self.target_differences.targets_to_delete))
+            + " (common focus)]\n"
+        )
+
+        for target in self.target_differences.targets_to_delete:
+            targets_to_delete_str += (
+                "\t" + target.target + " (" + str(target.id) + ")\n"
+            )
+
+        targets_to_cancel_str = (
+            "\n[Other targets to cancel "
+            + str(len(self.target_differences.targets_to_cancel))
+            + " (common focus)]\n"
+        )
+
+        for target in self.target_differences.targets_to_cancel:
+            targets_to_cancel_str += (
+                "\t" + target.target + " (" + str(target.id) + ")\n"
+            )
+
+        targets_to_end_str = (
+            "\n[Other targets to end "
+            + str(len(self.target_differences.targets_to_end))
+            + " (common focus)]\n"
+        )
+
+        for target in self.target_differences.targets_to_end:
+            targets_to_end_str += "\t" + target.target + " (" + str(target.id) + ")\n"
+
+        return (
+            focuses_to_add_header_str
+            + focuses_to_add_str
+            + focuses_to_delete_header_str
+            + focuses_to_delete_str
+            + targets_to_add_str
+            + targets_to_delete_str
+            + targets_to_cancel_str
+            + targets_to_end_str
+        )
 
 
 def getThemeFromContrainteId(id: str) -> str | None:
@@ -106,8 +201,8 @@ def diff_objectifs(
     ]
     targets_to_add = []
     targets_to_delete = []
-    target_ids_to_cancel = []
-    target_ids_to_end = []
+    targets_to_cancel = []
+    targets_to_end = []
     for shared_focus, shared_contrainte in shared_contraintes_focuses:
         targets = shared_focus.targets or []
         objectifs = shared_contrainte.objectifs
@@ -132,7 +227,7 @@ def diff_objectifs(
                 for objectif in objectifs
                 if objectif.valeur == ObjectifValeurEnum.ABANDONNE
             ]:
-                target_ids_to_cancel.append(target.id)
+                targets_to_cancel.append(target)
 
         for target in targets:
             if target.target in [
@@ -140,7 +235,7 @@ def diff_objectifs(
                 for objectif in objectifs
                 if objectif.valeur == ObjectifValeurEnum.REALISE
             ]:
-                target_ids_to_end.append(target.id)
+                targets_to_end.append(target)
 
         for target in targets:
             if target.target not in [objectif.libelle for objectif in objectifs]:
@@ -148,8 +243,8 @@ def diff_objectifs(
 
     return TargetDifferences(
         targets_to_add=targets_to_add,
-        target_ids_to_cancel=target_ids_to_cancel,
-        target_ids_to_end=target_ids_to_end,
+        targets_to_cancel=targets_to_cancel,
+        targets_to_end=targets_to_end,
         targets_to_delete=targets_to_delete,
     )
 

@@ -2,7 +2,6 @@ import logging
 from dataclasses import dataclass
 from datetime import datetime
 from typing import List, Tuple
-from uuid import UUID
 
 from cdb.api.db.models.ref_situation import NotebookSituation, RefSituation
 from cdb.pe.models.dossier_individu_api import Contrainte
@@ -12,14 +11,44 @@ logger = logging.getLogger(__name__)
 
 @dataclass
 class SituationToAdd:
-    situation_id: UUID
+    situation: RefSituation
     created_at: datetime | None = None
+
+
+@dataclass
+class SituationToDelete:
+    situation: RefSituation
 
 
 @dataclass
 class SituationDifferences:
     situations_to_add: List[SituationToAdd]
-    situations_to_delete: List[UUID]
+    situations_to_delete: List[SituationToDelete]
+
+    def to_human_readable(self):
+        situations_to_add_str = (
+            "\n[Situations to add " + str(len(self.situations_to_add)) + "]\n"
+        )
+
+        for situation in self.situations_to_add:
+            situations_to_add_str += (
+                "\t"
+                + situation.situation.description
+                + " ("
+                + str(situation.situation.id)
+                + ")\n"
+            )
+
+        situations_to_delete_str = (
+            "\n[Notebook situations to delete "
+            + str(len(self.situations_to_delete))
+            + "]\n"
+        )
+
+        for situation in self.situations_to_delete:
+            situations_to_delete_str += str(situation.situation.id) + "\n"
+
+        return situations_to_add_str + situations_to_delete_str
 
 
 def diff_situations(
@@ -27,7 +56,7 @@ def diff_situations(
     ref_situations: List[RefSituation],
     notebook_situations: List[NotebookSituation],
 ) -> SituationDifferences:
-    pe_situations: List[Tuple[UUID | None, datetime | None]] = [
+    pe_situations: List[Tuple[RefSituation | None, datetime | None]] = [
         (find_ref_situation(ref_situations, situation.libelle), contrainte.date)
         for contrainte in contraintes
         if contrainte.valeur == "OUI"
@@ -36,23 +65,23 @@ def diff_situations(
     ]
 
     valid_pe_situations = [
-        (ref_situation_id, date)
-        for (ref_situation_id, date) in pe_situations
-        if ref_situation_id is not None
+        (ref_situation, date)
+        for (ref_situation, date) in pe_situations
+        if ref_situation is not None and ref_situation.id is not None
     ]
 
     return SituationDifferences(
         situations_to_add=[
-            SituationToAdd(situation_id=ref_situation_id, created_at=date)
-            for (ref_situation_id, date) in valid_pe_situations
-            if ref_situation_id
+            SituationToAdd(situation=ref_situation, created_at=date)
+            for (ref_situation, date) in valid_pe_situations
+            if ref_situation.id
             not in [situation.situationId for situation in notebook_situations]
         ],
         situations_to_delete=[
-            situation.id
+            SituationToDelete(situation=situation)
             for situation in notebook_situations
             if situation.situationId
-            not in [ref_situation_id for (ref_situation_id, _) in valid_pe_situations]
+            not in [ref_situation.id for (ref_situation, _) in valid_pe_situations]
         ],
     )
 
@@ -60,14 +89,14 @@ def diff_situations(
 def find_ref_situation(
     ref_situations: List[RefSituation],
     description: str,
-) -> None | UUID:
+) -> None | RefSituation:
     matching_ref_situations = [
         ref_situation
         for ref_situation in ref_situations
         if ref_situation.description == description
     ]
     ref_situation = (
-        matching_ref_situations[0].id if len(matching_ref_situations) == 1 else None
+        matching_ref_situations[0] if len(matching_ref_situations) == 1 else None
     )
     if ref_situation is None:
         logger.warning(f"No ref_situation with description='{description}' found.")
