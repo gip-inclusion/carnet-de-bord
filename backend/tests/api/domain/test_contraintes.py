@@ -22,20 +22,22 @@ def test_diff_empty_contraintes_and_empty_focus():
     result = diff_contraintes([], [])
 
     assert result.focuses_to_add == []
-    assert result.focus_ids_to_delete == []
+    assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_cancel == []
-    assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_delete == []
+    assert result.target_differences.targets_to_cancel == []
+    assert result.target_differences.targets_to_end == []
 
 
 def test_diff_empty_contraintes_and_existing_focus(notebook_focuses: List[Focus]):
     result = diff_contraintes(notebook_focuses, [])
 
     assert result.focuses_to_add == []
-    assert result.focus_ids_to_delete == [focus.id for focus in notebook_focuses]
+    assert result.focuses_to_delete == notebook_focuses
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_cancel == []
-    assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_delete == []
+    assert result.target_differences.targets_to_cancel == []
+    assert result.target_differences.targets_to_end == []
 
 
 def test_diff_existing_contraintes_and_empty_focus(contraintes: List[Contrainte]):
@@ -54,10 +56,11 @@ def test_diff_existing_contraintes_and_empty_focus(contraintes: List[Contrainte]
             theme="difficulte_administrative", creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID
         ),
     ]
-    assert result.focus_ids_to_delete == []
+    assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_cancel == []
-    assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_delete == []
+    assert result.target_differences.targets_to_cancel == []
+    assert result.target_differences.targets_to_end == []
 
 
 def test_diff_existing_contraintes_and_existing_focus(
@@ -70,8 +73,8 @@ def test_diff_existing_contraintes_and_existing_focus(
             theme="difficulte_administrative", creator_id=POLE_EMPLOI_SERVICE_ACCOUNT_ID
         ),
     ]
-    assert result.focus_ids_to_delete == [
-        focus.id for focus in notebook_focuses if focus.theme == "logement"
+    assert result.focuses_to_delete == [
+        focus for focus in notebook_focuses if focus.theme == "logement"
     ]
     [focus_id] = [focus.id for focus in notebook_focuses if focus.theme == "mobilite"]
     assert result.target_differences.targets_to_add == [
@@ -86,8 +89,15 @@ def test_diff_existing_contraintes_and_existing_focus(
             creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
     ]
-    assert result.target_differences.target_ids_to_cancel == []
-    assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_cancel == []
+    assert result.target_differences.targets_to_end == []
+    [targets] = [
+        focus.targets for focus in notebook_focuses if focus.theme == "mobilite"
+    ]
+
+    assert result.target_differences.targets_to_delete == [
+        target for target in targets if target.target == "Objectif de test"
+    ]
 
 
 def test_shared_contrainte_with_no_objectif_and_no_target(
@@ -98,10 +108,11 @@ def test_shared_contrainte_with_no_objectif_and_no_target(
     )
 
     assert result.focuses_to_add == []
-    assert result.focus_ids_to_delete == []
+    assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_cancel == []
-    assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_cancel == []
+    assert result.target_differences.targets_to_end == []
+    assert result.target_differences.targets_to_delete == []
 
 
 def test_shared_contrainte_with_objectif_and_no_target(
@@ -114,7 +125,7 @@ def test_shared_contrainte_with_objectif_and_no_target(
     )
 
     assert result.focuses_to_add == []
-    assert result.focus_ids_to_delete == []
+    assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == [
         TargetToAdd(
             focusId=shared_focus_with_no_target.id,
@@ -127,8 +138,9 @@ def test_shared_contrainte_with_objectif_and_no_target(
             creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         ),
     ]
-    assert result.target_differences.target_ids_to_cancel == []
-    assert result.target_differences.target_ids_to_end == []
+    assert result.target_differences.targets_to_cancel == []
+    assert result.target_differences.targets_to_end == []
+    assert result.target_differences.targets_to_delete == []
 
 
 def test_shared_contrainte_with_no_objectif_and_target(
@@ -141,17 +153,22 @@ def test_shared_contrainte_with_no_objectif_and_target(
     )
 
     assert result.focuses_to_add == []
-    assert result.focus_ids_to_delete == []
+    assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == []
-    assert result.target_differences.target_ids_to_end == [
-        target.id
+    assert result.target_differences.targets_to_end == [
+        target
         for target in shared_focus_with_targets.targets
         if target.target == "Faire un point complet sur sa mobilité"
     ]
-    assert result.target_differences.target_ids_to_cancel == [
-        target.id
+    assert result.target_differences.targets_to_cancel == [
+        target
         for target in shared_focus_with_targets.targets
         if target.target == "Entretenir ou réparer son véhicule"
+    ]
+    assert result.target_differences.targets_to_delete == [
+        target
+        for target in shared_focus_with_targets.targets
+        if target.target == "Travailler la mobilité psychologique"
     ]
 
 
@@ -164,14 +181,14 @@ def test_shared_contraintes_with_objectifs_and_targets(
         contraintes=[shared_contrainte_with_objectifs],
     )
 
-    target_ids_to_cancel = [
-        target.id
+    targets_to_cancel = [
+        target
         for target in (shared_focus_with_targets.targets or [])
         if target.target in ["Travailler la mobilité psychologique"]
     ]
 
     assert result.focuses_to_add == []
-    assert result.focus_ids_to_delete == []
+    assert result.focuses_to_delete == []
     assert result.target_differences.targets_to_add == [
         TargetToAdd(
             focusId=shared_focus_with_targets.id,
@@ -179,7 +196,8 @@ def test_shared_contraintes_with_objectifs_and_targets(
             creatorId=POLE_EMPLOI_SERVICE_ACCOUNT_ID,
         )
     ]
-    assert result.target_differences.target_ids_to_cancel == target_ids_to_cancel
+    assert result.target_differences.targets_to_delete == []
+    assert result.target_differences.targets_to_cancel == targets_to_cancel
 
 
 @pytest.fixture(scope="session")
@@ -197,7 +215,12 @@ def notebook_focuses() -> List[Focus]:
     return [
         Focus(
             id=uuid4(),
-            targets=[],
+            targets=[
+                Target(
+                    id=uuid4(),
+                    target="Objectif de test",
+                )
+            ],
             created_at=str(fake.date_time(tzinfo=timezone.utc)),
             theme="mobilite",
         ),
