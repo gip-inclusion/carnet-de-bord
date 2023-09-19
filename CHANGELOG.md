@@ -1,3 +1,10 @@
+# [1.263.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.262.0...v1.263.0) (2023-09-19)
+
+
+### Features
+
+* afficher les objectifs à supprimer de CDB par rapport à PE ([#1995](https://github.com/gip-inclusion/carnet-de-bord/issues/1995)) ([a9b9282](https://github.com/gip-inclusion/carnet-de-bord/commit/a9b92827f7bcd66cc196d5674cf25d8edd5a916c))
+
 # [1.262.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.261.0...v1.262.0) (2023-09-14)
 
 
