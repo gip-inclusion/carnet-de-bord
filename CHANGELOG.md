@@ -1,3 +1,10 @@
+## [1.263.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.263.0...v1.263.1) (2023-09-26)
+
+
+### Bug Fixes
+
+* **app:** autorise la syncro pe pour tous les rôles ([#2020](https://github.com/gip-inclusion/carnet-de-bord/issues/2020)) ([091d105](https://github.com/gip-inclusion/carnet-de-bord/commit/091d105d717bd553634923e2ad431ba0095a6734))
+
 # [1.263.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.262.0...v1.263.0) (2023-09-19)
 
 
