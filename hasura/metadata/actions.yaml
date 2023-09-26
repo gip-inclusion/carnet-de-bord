@@ -80,6 +80,8 @@ actions:
         - name: secret-token
           value_from_env: ACTION_SECRET
     permissions:
+      - role: beneficiary
+      - role: admin_cdb
       - role: admin_structure
       - role: professional
       - role: orientation_manager
