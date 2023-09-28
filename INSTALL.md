@@ -14,6 +14,8 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 - [make](https://www.gnu.org/software/make/)
   - Il vient souvent pré-installé et est disponible sur les gestionnaires de paquets
 
+
+### ASDF (alternative facultative)
 Pour faciliter l'installation des versions requises de `node`, `hasura-cli`, `poetry` et `python`, un fichier de configuration de l'outil [asdf](http://asdf-vm.com) a été créé (`.tool-versions`). Pour utiliser celui-ci, il suffit d'installer `asdf` puis ses plugins correspondants :
 
 ```bash
@@ -28,30 +30,6 @@ Les versions requises des outils peuvent ensuite être installés en lançant `a
 L'utilisation de `asdf` est facultative cependant: tout autre moyen d'activer les versions indiquées des outils permettra de faire fonctionner le projet.
 
 > ⚠️ Assurez-vous que les ports **5000** (Hasura) et **5432** (PostgreSQL) soient libres d'écoute. Le cas échéant, vous pouvez changer les ports dans les fichiers de configuration ou d'environnement de l'application.
-
-### ❄️ Nix et direnv (facultatif)
-
-Une configuration nix est disponible via le fichier flake.nix.
-
-En conjonction avec [direnv](https://direnv.net/), cette configuration vous permet d'installer les dépendances du projet de manière isolée. Les outils du projet ne seront disponibles que dans le dossier du projet, dans la bonne version.
-
-Pour utiliser cette configuration :
-
-1. Installer [nix](https://nixos.org/download.html) et [direnv](https://direnv.net/).
-2. Aller dans le dossier racine du projet (avec un terminal)
-3. Autoriser direnv à fonctionner dans le dossier
-
-```bash
-direnv allow
-```
-
-Pour vérifier l'installation
-
-```bash
-pre-commit --version # pre-commit X.X.X
-poetry --version # Poetry (version X.X.X)
-node --version # v18.X.X
-```
 
 ## Étapes
 

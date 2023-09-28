@@ -1,0 +1,4794 @@
+{
+  "tables": [
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_action_log",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "hdb_catalog.gen_hasura_uuid()"
+        },
+        {
+          "name": "action_name",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "input_payload",
+          "type": "jsonb",
+          "columns": []
+        },
+        {
+          "name": "request_headers",
+          "type": "jsonb",
+          "columns": []
+        },
+        {
+          "name": "session_variables",
+          "type": "jsonb",
+          "columns": []
+        },
+        {
+          "name": "response_payload",
+          "type": "jsonb",
+          "nullable": true,
+          "columns": []
+        },
+        {
+          "name": "errors",
+          "type": "jsonb",
+          "nullable": true,
+          "columns": []
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "response_received_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_action_log_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "checks": [
+        {
+          "name": "hdb_action_log_status_check",
+          "columns": [
+            "status"
+          ],
+          "predicate": "(status = ANY (ARRAY['created'::text, 'processing'::text, 'completed'::text, 'error'::text]))"
+        }
+      ]
+    },
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_cron_event_invocation_logs",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": "hdb_catalog.gen_hasura_uuid()"
+        },
+        {
+          "name": "event_id",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "request",
+          "type": "json",
+          "nullable": true
+        },
+        {
+          "name": "response",
+          "type": "json",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_cron_event_invocation_logs_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "indexes": [
+        {
+          "name": "hdb_cron_event_invocation_event_id",
+          "columns": [
+            "event_id"
+          ],
+          "definition": "btree (event_id)"
+        }
+      ]
+    },
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_cron_events",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": "hdb_catalog.gen_hasura_uuid()"
+        },
+        {
+          "name": "trigger_name",
+          "type": "text"
+        },
+        {
+          "name": "scheduled_time",
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'scheduled'::text"
+        },
+        {
+          "name": "tries",
+          "type": "integer",
+          "default": "0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "next_retry_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_cron_events_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "hdb_cron_events_unique_scheduled",
+          "columns": [
+            "trigger_name",
+            "scheduled_time"
+          ],
+          "definition": "btree (trigger_name, scheduled_time) WHERE status = 'scheduled'::text"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "hdb_cron_event_status",
+          "columns": [
+            "status"
+          ],
+          "definition": "btree (status)"
+        }
+      ],
+      "checks": [
+        {
+          "name": "valid_status",
+          "columns": [
+            "status"
+          ],
+          "predicate": "(status = ANY (ARRAY['scheduled'::text, 'locked'::text, 'delivered'::text, 'error'::text, 'dead'::text]))"
+        }
+      ]
+    },
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_metadata",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer"
+        },
+        {
+          "name": "metadata",
+          "type": "json"
+        },
+        {
+          "name": "resource_version",
+          "type": "integer",
+          "default": "1"
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_metadata_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "hdb_metadata_resource_version_key",
+          "columns": [
+            "resource_version"
+          ],
+          "definition": "btree (resource_version)"
+        }
+      ]
+    },
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_scheduled_event_invocation_logs",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": "hdb_catalog.gen_hasura_uuid()"
+        },
+        {
+          "name": "event_id",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "request",
+          "type": "json",
+          "nullable": true
+        },
+        {
+          "name": "response",
+          "type": "json",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_scheduled_event_invocation_logs_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_scheduled_events",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text",
+          "default": "hdb_catalog.gen_hasura_uuid()"
+        },
+        {
+          "name": "webhook_conf",
+          "type": "json"
+        },
+        {
+          "name": "scheduled_time",
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "retry_conf",
+          "type": "json",
+          "nullable": true
+        },
+        {
+          "name": "payload",
+          "type": "json",
+          "nullable": true
+        },
+        {
+          "name": "header_conf",
+          "type": "json",
+          "nullable": true
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "default": "'scheduled'::text"
+        },
+        {
+          "name": "tries",
+          "type": "integer",
+          "default": "0"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "next_retry_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "comment",
+          "type": "text",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_scheduled_events_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "indexes": [
+        {
+          "name": "hdb_scheduled_event_status",
+          "columns": [
+            "status"
+          ],
+          "definition": "btree (status)"
+        }
+      ],
+      "checks": [
+        {
+          "name": "valid_status",
+          "columns": [
+            "status"
+          ],
+          "predicate": "(status = ANY (ARRAY['scheduled'::text, 'locked'::text, 'delivered'::text, 'error'::text, 'dead'::text]))"
+        }
+      ]
+    },
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_schema_notifications",
+      "columns": [
+        {
+          "name": "id",
+          "type": "integer"
+        },
+        {
+          "name": "notification",
+          "type": "json"
+        },
+        {
+          "name": "resource_version",
+          "type": "integer",
+          "default": "1"
+        },
+        {
+          "name": "instance_id",
+          "type": "uuid"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_schema_notifications_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "checks": [
+        {
+          "name": "hdb_schema_notifications_id_check",
+          "columns": [
+            "id"
+          ],
+          "predicate": "(id = 1)"
+        }
+      ]
+    },
+    {
+      "schema": "hdb_catalog",
+      "table": "hdb_version",
+      "columns": [
+        {
+          "name": "hasura_uuid",
+          "type": "uuid",
+          "default": "hdb_catalog.gen_hasura_uuid()"
+        },
+        {
+          "name": "version",
+          "type": "text"
+        },
+        {
+          "name": "upgraded_on",
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "cli_state",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "columns": [
+            {
+              "name": "settings",
+              "type": "Object",
+              "columns": [
+                {
+                  "name": "migration_mode",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "migrations",
+              "type": "Object",
+              "columns": [
+                {
+                  "name": "carnet_de_bord",
+                  "type": "Object",
+                  "columns": [
+                    {
+                      "name": "1627477968727",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1629385138451",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1630489662804",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1630657910465",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631030441995",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631103338959",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631522881439",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631523269288",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631609342756",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631628415953",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631628461201",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1631791942658",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1632141402215",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1632250782346",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1632475175410",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1632475184221",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1632909951670",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1635157124822",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1635180194757",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1635250408042",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1636014187087",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1636061553772",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1636473368023",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1636972069991",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1637072464419",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1637228317847",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1638198107961",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1638200411278",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1638284490463",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1639487749105",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1641897839853",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1642686957723",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1642687324219",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1643276813108",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1643639454989",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1643721328820",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1643879407459",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1644337776226",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1645032690130",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1645388112574",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1645522376586",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1645632361083",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1645784287613",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1645787372124",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1646041002160",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1646132441749",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1646932547523",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1646947685577",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1647357936182",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1647540707476",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1648464159795",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1648464159796",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1649937760372",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1650979648159",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1652363016560",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1652719748589",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1653319594182",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1653398280578",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1653399022983",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1653842432201",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1655396477440",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1655740534831",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1655901967843",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1656341597628",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1656508674703",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1656508700081",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1656924228182",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1656938801649",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1657183288078",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1661774060280",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1661932837319",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1662401213060",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1662997881814",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1662997905742",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1662998098847",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1663750758041",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1664461915466",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1664790703990",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1664917252319",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1665481676818",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1666421645398",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1666803142735",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1666902217239",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1668634031211",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1669048458209",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1669222003536",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1669322112555",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1669650568906",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1670403426683",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1670839941366",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1670841382499",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1670942301458",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1671012020468",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1671553444065",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1672741051729",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1672749193531",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1672828442980",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1672870195818",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1672908864766",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1673345447763",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1673430035903",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1674050275074",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1674589230652",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1674770534898",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1675255129484",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1675784882824",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1675941150892",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1676995035581",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1677098994655",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1677140195658",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1677152492575",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1677530150445",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1677550512224",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1677766016033",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678120606346",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678134062555",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678283834781",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678785541856",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678982297641",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678982351351",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678985287261",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1678998383915",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1679604766429",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1680096458370",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1680096458377",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1680782163315",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1681305548513",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1682543337664",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1683096909827",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1683211299655",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1683801154520",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1684311013795",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1684333811675",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1684334642154",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1684334846968",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1684934249002",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1685617220624",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1685647584426",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1685994546326",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1686148392370",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1686565344352",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1686581427531",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1686819160057",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1687180495589",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1688421552435",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1688569331521",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1688570757839",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1688627437320",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1690201898828",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1690290906168",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1690291318350",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1690291389487",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1690467448554",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1691064712005",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1691584295337",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1691672216031",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1693386612650",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1693388929776",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1693401046986",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1693895458197",
+                      "type": "boolean"
+                    },
+                    {
+                      "name": "1694023456180",
+                      "type": "boolean"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "isStateCopyCompleted",
+              "type": "boolean"
+            }
+          ]
+        },
+        {
+          "name": "console_state",
+          "type": "jsonb",
+          "default": "'{}'::jsonb",
+          "columns": []
+        },
+        {
+          "name": "ee_client_id",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "ee_client_secret",
+          "type": "text",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "hdb_version_pkey",
+        "columns": [
+          "hasura_uuid"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "hdb_version_one_row",
+          "columns": [
+            "unknown"
+          ],
+          "definition": "btree ((version IS NOT NULL))"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "account",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "username",
+          "type": "character varying(255)",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "type",
+          "type": "character varying(255)"
+        },
+        {
+          "name": "access_key",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "access_key_date",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "last_login",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "beneficiary_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "professional_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "admin_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "confirmed",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "onboarding_done",
+          "type": "boolean",
+          "nullable": true,
+          "default": "false"
+        },
+        {
+          "name": "manager_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "admin_structure_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "orientation_manager_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "account_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "account_admin_id_key",
+          "columns": [
+            "admin_id"
+          ],
+          "definition": "btree (admin_id)"
+        },
+        {
+          "name": "account_admin_structure_id_key",
+          "columns": [
+            "admin_structure_id"
+          ],
+          "definition": "btree (admin_structure_id)"
+        },
+        {
+          "name": "account_beneficiary_id_key",
+          "columns": [
+            "beneficiary_id"
+          ],
+          "definition": "btree (beneficiary_id)"
+        },
+        {
+          "name": "account_manager_id_key",
+          "columns": [
+            "manager_id"
+          ],
+          "definition": "btree (manager_id)"
+        },
+        {
+          "name": "account_professional_id_key",
+          "columns": [
+            "professional_id"
+          ],
+          "definition": "btree (professional_id)"
+        },
+        {
+          "name": "account_username_unique",
+          "columns": [
+            "username"
+          ],
+          "definition": "btree (username)"
+        }
+      ],
+      "checks": [
+        {
+          "name": "Account must be linked to a profile of the right type",
+          "columns": [
+            "type",
+            "manager_id",
+            "beneficiary_id",
+            "professional_id",
+            "admin_id",
+            "admin_structure_id",
+            "orientation_manager_id"
+          ],
+          "predicate": "(type::text = 'manager'::text AND manager_id IS NOT NULL OR type::text = 'beneficiary'::text AND beneficiary_id IS NOT NULL OR type::text = 'professional'::text AND professional_id IS NOT NULL OR type::text = 'admin_cdb'::text AND admin_id IS NOT NULL OR type::text = 'admin_structure'::text AND admin_structure_id IS NOT NULL OR type::text = 'orientation_manager'::text AND orientation_manager_id IS NOT NULL OR type::text = 'service'::text)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "account_info",
+      "columns": [
+        {
+          "name": "account_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "firstname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "lastname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "email",
+          "type": "citext",
+          "nullable": true
+        }
+      ],
+      "view": true
+    },
+    {
+      "schema": "public",
+      "table": "action_status",
+      "columns": [
+        {
+          "name": "status",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "action_status_pkey",
+        "columns": [
+          "status"
+        ]
+      },
+      "comment": "available actions status"
+    },
+    {
+      "schema": "public",
+      "table": "admin_cdb",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "email",
+          "type": "citext"
+        },
+        {
+          "name": "firstname",
+          "type": "character varying"
+        },
+        {
+          "name": "lastname",
+          "type": "character varying"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "admin_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "admin_email_unique",
+          "columns": [
+            "email"
+          ],
+          "definition": "btree (email)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "admin_structure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "firstname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "lastname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "email",
+          "type": "citext"
+        },
+        {
+          "name": "phone_numbers",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "position",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "deployment_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "admin_structure_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "admin_structure_email_key",
+          "columns": [
+            "email"
+          ],
+          "definition": "btree (email)"
+        }
+      ],
+      "comment": "Table of structure manager, handle pro and brsa attachment"
+    },
+    {
+      "schema": "public",
+      "table": "admin_structure_structure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "admin_structure_id",
+          "type": "uuid"
+        },
+        {
+          "name": "structure_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "admin_structure_structure_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "admin_structure_structure_admin_structure_id_structure_id_key",
+          "columns": [
+            "admin_structure_id",
+            "structure_id"
+          ],
+          "definition": "btree (admin_structure_id, structure_id)"
+        }
+      ],
+      "comment": "associative table between admin_structure and structure (many ot many)"
+    },
+    {
+      "schema": "public",
+      "table": "beneficiary",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "email",
+          "type": "citext",
+          "nullable": true
+        },
+        {
+          "name": "lastname",
+          "type": "character varying(255)"
+        },
+        {
+          "name": "firstname",
+          "type": "character varying(255)"
+        },
+        {
+          "name": "caf_number",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "pe_number",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "postal_code",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "city",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "address1",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "address2",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "mobile_number",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "date_of_birth",
+          "type": "date"
+        },
+        {
+          "name": "deployment_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "external_id",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "place_of_birth",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "nir",
+          "type": "character varying(13)",
+          "nullable": true
+        },
+        {
+          "name": "pe_unique_import_id",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "right_rsa",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "right_are",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "right_ass",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "right_bonus",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "is_homeless",
+          "type": "boolean",
+          "nullable": true
+        },
+        {
+          "name": "subject_to_right_and_duty",
+          "type": "boolean",
+          "nullable": true
+        },
+        {
+          "name": "rsa_suspension_reason",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "rsa_closure_reason",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "rsa_closure_date",
+          "type": "date",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "beneficiary_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "beneficiary_deployment_id_external_id_key",
+          "columns": [
+            "deployment_id",
+            "external_id"
+          ],
+          "definition": "btree (deployment_id, external_id)"
+        },
+        {
+          "name": "beneficiary_nir_key",
+          "columns": [
+            "nir"
+          ],
+          "definition": "btree (nir)"
+        },
+        {
+          "name": "firstname_lastname_date_of_birth_unique_idx",
+          "columns": [
+            "unknown",
+            "unknown",
+            "date_of_birth",
+            "deployment_id"
+          ],
+          "definition": "btree (lower(btrim(firstname::text)), lower(btrim(lastname::text)), date_of_birth, deployment_id)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "beneficiary_structure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "beneficiary_id",
+          "type": "uuid"
+        },
+        {
+          "name": "structure_id",
+          "type": "uuid"
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "default": "'current'::character varying"
+        },
+        {
+          "name": "data",
+          "type": "jsonb",
+          "default": "jsonb_build_object()",
+          "columns": []
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "beneficiary_structure_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "comment": "associative table between beneficiary and structure (many ot many)"
+    },
+    {
+      "schema": "public",
+      "table": "contract_type",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "contract_type_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "deployment",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "label",
+          "type": "character varying"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "config",
+          "type": "jsonb",
+          "nullable": true,
+          "columns": [
+            {
+              "name": "enable_pe_diagnostic_api",
+              "type": "boolean"
+            },
+            {
+              "name": "url",
+              "type": "string"
+            },
+            {
+              "name": "headers",
+              "type": "Object",
+              "columns": [
+                {
+                  "name": "token",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "callback",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "department_code",
+          "type": "character varying",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "deployment_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "comment": "list of carnet-de-bord deployments"
+    },
+    {
+      "schema": "public",
+      "table": "employment_type",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "employment_type_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "external_data",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "source",
+          "type": "text"
+        },
+        {
+          "name": "data",
+          "type": "jsonb",
+          "columns": [
+            {
+              "name": "contraintesIndividusDto",
+              "type": "Object",
+              "columns": [
+                {
+                  "name": "code",
+                  "type": "string"
+                },
+                {
+                  "name": "libelle",
+                  "type": "string"
+                },
+                {
+                  "name": "conseiller",
+                  "type": "string"
+                },
+                {
+                  "name": "contraintes",
+                  "type": "Object[]",
+                  "columns": [
+                    {
+                      "name": "code",
+                      "type": "string"
+                    },
+                    {
+                      "name": "date",
+                      "type": "string",
+                      "nullable": true
+                    },
+                    {
+                      "name": "valeur",
+                      "type": "string"
+                    },
+                    {
+                      "name": "libelle",
+                      "type": "string"
+                    },
+                    {
+                      "name": "objectifs",
+                      "type": "Object[]",
+                      "columns": [
+                        {
+                          "name": "code",
+                          "type": "string"
+                        },
+                        {
+                          "name": "valeur",
+                          "type": "string"
+                        },
+                        {
+                          "name": "libelle",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "situations",
+                      "type": "Object[]",
+                      "columns": [
+                        {
+                          "name": "code",
+                          "type": "string"
+                        },
+                        {
+                          "name": "valeur",
+                          "type": "string"
+                        },
+                        {
+                          "name": "libelle",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "dateDeModification",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "besoinsParDiagnosticIndividuDtos",
+              "type": "Object[]",
+              "columns": [
+                {
+                  "name": "statut",
+                  "type": "string"
+                },
+                {
+                  "name": "besoins",
+                  "type": "Object[]",
+                  "columns": [
+                    {
+                      "name": "code",
+                      "type": "string"
+                    },
+                    {
+                      "name": "valeur",
+                      "type": "string"
+                    },
+                    {
+                      "name": "libelle",
+                      "type": "string"
+                    }
+                  ]
+                },
+                {
+                  "name": "nomMetier",
+                  "type": "string"
+                },
+                {
+                  "name": "typologie",
+                  "type": "string"
+                },
+                {
+                  "name": "estPrioritaire",
+                  "type": "boolean"
+                },
+                {
+                  "name": "idMetierChiffre",
+                  "type": "string"
+                },
+                {
+                  "name": "dateMiseAJour",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "parsed",
+              "type": "Object"
+            },
+            {
+              "name": "source",
+              "type": "Object",
+              "columns": [
+                {
+                  "name": "dr",
+                  "type": "string"
+                },
+                {
+                  "name": "nom",
+                  "type": "string"
+                },
+                {
+                  "name": "brsa",
+                  "type": "boolean"
+                },
+                {
+                  "name": "prenom",
+                  "type": "string"
+                },
+                {
+                  "name": "rome_1",
+                  "type": "string"
+                },
+                {
+                  "name": "rome_2",
+                  "type": "string"
+                },
+                {
+                  "name": "civilite",
+                  "type": "string"
+                },
+                {
+                  "name": "dif_sante",
+                  "type": "boolean"
+                },
+                {
+                  "name": "departement",
+                  "type": "string"
+                },
+                {
+                  "name": "inscription",
+                  "type": "string"
+                },
+                {
+                  "name": "suivi_debut",
+                  "type": "null",
+                  "nullable": true
+                },
+                {
+                  "name": "dif_logement",
+                  "type": "boolean"
+                },
+                {
+                  "name": "referent_nom",
+                  "type": "string"
+                },
+                {
+                  "name": "struct_suivi",
+                  "type": "string"
+                },
+                {
+                  "name": "der_entretien",
+                  "type": "string"
+                },
+                {
+                  "name": "dif_admin_jur",
+                  "type": "boolean"
+                },
+                {
+                  "name": "dif_familiale",
+                  "type": "boolean"
+                },
+                {
+                  "name": "dif_inser_com",
+                  "type": "boolean"
+                },
+                {
+                  "name": "dif_transport",
+                  "type": "boolean"
+                },
+                {
+                  "name": "referent_mail",
+                  "type": "string"
+                },
+                {
+                  "name": "adresse_ligne2",
+                  "type": "string"
+                },
+                {
+                  "name": "adresse_ligne3",
+                  "type": "string"
+                },
+                {
+                  "name": "adresse_ligne4",
+                  "type": "string"
+                },
+                {
+                  "name": "adresse_ligne5",
+                  "type": "string"
+                },
+                {
+                  "name": "adresse_ligne6",
+                  "type": "string"
+                },
+                {
+                  "name": "date_naissance",
+                  "type": "string"
+                },
+                {
+                  "name": "dif_financiere",
+                  "type": "boolean"
+                },
+                {
+                  "name": "lieu_naissance",
+                  "type": "string"
+                },
+                {
+                  "name": "suivi_fin_prev",
+                  "type": "null",
+                  "nullable": true
+                },
+                {
+                  "name": "referent_prenom",
+                  "type": "string"
+                },
+                {
+                  "name": "appelation_rome_1",
+                  "type": "string"
+                },
+                {
+                  "name": "appelation_rome_2",
+                  "type": "string"
+                },
+                {
+                  "name": "motif_inscription",
+                  "type": "string"
+                },
+                {
+                  "name": "referent_civilite",
+                  "type": "string"
+                },
+                {
+                  "name": "struct_principale",
+                  "type": "string"
+                },
+                {
+                  "name": "der_entretien_ppae",
+                  "type": "string"
+                },
+                {
+                  "name": "code_lieu_naissance",
+                  "type": "string"
+                },
+                {
+                  "name": "categorie_inscription",
+                  "type": "string"
+                },
+                {
+                  "name": "identifiant_unique_de",
+                  "type": "string"
+                },
+                {
+                  "name": "code_motif_inscription",
+                  "type": "string"
+                },
+                {
+                  "name": "modalite_accompagnement",
+                  "type": "string"
+                },
+                {
+                  "name": "mrech_axetravailprincipal",
+                  "type": "string"
+                },
+                {
+                  "name": "mrech_axetravailsecondaire",
+                  "type": "string"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "hash",
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "external_data_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "external_data_info",
+      "columns": [
+        {
+          "name": "external_data_id",
+          "type": "uuid"
+        },
+        {
+          "name": "beneficiary_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "professional_id",
+          "type": "uuid",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "external_data_info_pkey",
+        "columns": [
+          "external_data_id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "external_source",
+      "columns": [
+        {
+          "name": "value",
+          "type": "text"
+        },
+        {
+          "name": "comment",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "external_source_pkey",
+        "columns": [
+          "value"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "manager",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "email",
+          "type": "email"
+        },
+        {
+          "name": "firstname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "lastname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "deployment_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "manager_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "manager_email_deployment_id_key",
+          "columns": [
+            "email",
+            "deployment_id"
+          ],
+          "definition": "btree (email, deployment_id)"
+        }
+      ],
+      "comment": "A manager handle structure and professional for a given deployment"
+    },
+    {
+      "schema": "public",
+      "table": "notebook",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "beneficiary_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "right_rqth",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "education_level",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "work_situation_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "contract_type",
+          "type": "character varying",
+          "nullable": true,
+          "values": [
+            "cer"
+          ]
+        },
+        {
+          "name": "contract_sign_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "work_situation",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "work_situation_end_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "contract_start_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "contract_end_date",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "last_job_ended_at",
+          "type": "date",
+          "nullable": true
+        },
+        {
+          "name": "diagnostic_fetched_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "notebook_beneficiary_id_key",
+          "columns": [
+            "beneficiary_id"
+          ],
+          "definition": "btree (beneficiary_id)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "notebook_action",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "action",
+          "type": "character varying"
+        },
+        {
+          "name": "target_id",
+          "type": "uuid"
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "default": "'in_progress'::character varying"
+        },
+        {
+          "name": "creator_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "starting_at",
+          "type": "timestamp with time zone"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_action_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "notebook_appointment",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "date",
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "status",
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "deleted_by",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_appointment_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "notebook_creation",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "creator_account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "source",
+          "type": "text"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_creation_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "comment": "tracks notebook creations"
+    },
+    {
+      "schema": "public",
+      "table": "notebook_creation_source_type",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "name": "comment",
+          "type": "text",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_creation_source_type_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "comment": "Enum table which contains available sources that create notebooks"
+    },
+    {
+      "schema": "public",
+      "table": "notebook_event",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "creation_date",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "event_date",
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "creator_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "event",
+          "type": "jsonb",
+          "columns": [
+            {
+              "name": "status",
+              "type": "string"
+            },
+            {
+              "name": "category",
+              "type": "string"
+            },
+            {
+              "name": "event_label",
+              "type": "string"
+            }
+          ]
+        },
+        {
+          "name": "event_type",
+          "type": "text",
+          "values": [
+            "action",
+            "target"
+          ]
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_event_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "notebook_event_type",
+      "columns": [
+        {
+          "name": "value",
+          "type": "text"
+        },
+        {
+          "name": "comment",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_event_type_pkey",
+        "columns": [
+          "value"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "notebook_focus",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "theme",
+          "type": "character varying"
+        },
+        {
+          "name": "creator_id",
+          "type": "uuid"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_focus_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "notebook_info",
+      "columns": [
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "orientation_system_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "orientation_reason",
+          "type": "text",
+          "nullable": true,
+          "comment": "motif de l'orientation, saisi par le chargé d'orientation"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_info_pkey",
+        "columns": [
+          "notebook_id"
+        ]
+      },
+      "comment": "notebook orientation infos"
+    },
+    {
+      "schema": "public",
+      "table": "notebook_member",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "last_visited_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "member_type",
+          "type": "character varying",
+          "values": [
+            "no_referent",
+            "orientation_manager",
+            "referent"
+          ]
+        },
+        {
+          "name": "last_modified_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "creator_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "invitation_sent_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "active",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "membership_ended_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_member_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "notebook_member_notebook_id_account_id_if_active",
+          "columns": [
+            "notebook_id",
+            "account_id"
+          ],
+          "definition": "btree (notebook_id, account_id) WHERE active"
+        },
+        {
+          "name": "notebook_member_unique_referent",
+          "columns": [
+            "notebook_id"
+          ],
+          "definition": "btree (notebook_id) WHERE active AND member_type::text = 'referent'::text"
+        }
+      ],
+      "indexes": [
+        {
+          "name": "notebook_member_notebook_id",
+          "columns": [
+            "notebook_id"
+          ],
+          "definition": "btree (notebook_id)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "notebook_public_view",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "beneficiary_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        }
+      ],
+      "view": true
+    },
+    {
+      "schema": "public",
+      "table": "notebook_situation",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "situation_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "created_by",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "deleted_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "deleted_by",
+          "type": "uuid",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_situation_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "notebook_situation_notebook_id_situation_id_deleted_at_key",
+          "columns": [
+            "notebook_id",
+            "situation_id",
+            "deleted_at"
+          ],
+          "definition": "btree (notebook_id, situation_id, deleted_at)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "notebook_target",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "focus_id",
+          "type": "uuid"
+        },
+        {
+          "name": "target",
+          "type": "character varying"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "creator_id",
+          "type": "uuid"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "status",
+          "type": "character varying",
+          "default": "'in_progress'::character varying"
+        },
+        {
+          "name": "linked_to",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "user_consent",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_target_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "notebook_target_focus_id_target_key",
+          "columns": [
+            "focus_id",
+            "target"
+          ],
+          "definition": "btree (focus_id, target)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "notebook_update",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone"
+        },
+        {
+          "name": "type",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_update_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "notebook_visit",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "visited_at",
+          "type": "timestamp with time zone"
+        }
+      ],
+      "primaryKey": {
+        "name": "notebook_visit_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "indexes": [
+        {
+          "name": "notebook_visit_visited_at_account_key",
+          "columns": [
+            "visited_at",
+            "account_id"
+          ],
+          "definition": "btree (visited_at, account_id)"
+        }
+      ],
+      "comment": "store notebook visit on a given notebook"
+    },
+    {
+      "schema": "public",
+      "table": "nps_rating",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "score",
+          "type": "integer"
+        }
+      ],
+      "primaryKey": {
+        "name": "nps_rating_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "checks": [
+        {
+          "name": "score_between_0_and_10",
+          "columns": [
+            "score"
+          ],
+          "predicate": "(score >= 0 AND score <= 10)"
+        }
+      ],
+      "comment": "NPS ratings from users"
+    },
+    {
+      "schema": "public",
+      "table": "nps_rating_dismissal",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "dismissed_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "nps_rating_dismissal_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "comment": "Store when a user dismisses an NPS rating"
+    },
+    {
+      "schema": "public",
+      "table": "orientation_manager",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "firstname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "lastname",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "email",
+          "type": "citext"
+        },
+        {
+          "name": "phone_numbers",
+          "type": "character varying",
+          "nullable": true,
+          "comment": "liste des numéros de téléphones séparés par des virgules"
+        },
+        {
+          "name": "deployment_id",
+          "type": "uuid"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "orientation_manager_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "orientation_manager_email_key",
+          "columns": [
+            "email"
+          ],
+          "definition": "btree (email)"
+        }
+      ],
+      "comment": "Table des chargés d’orientation"
+    },
+    {
+      "schema": "public",
+      "table": "orientation_request",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "beneficiary_id",
+          "type": "uuid"
+        },
+        {
+          "name": "requestor_account_id",
+          "type": "uuid"
+        },
+        {
+          "name": "status",
+          "type": "text",
+          "nullable": true,
+          "default": "'pending'::text"
+        },
+        {
+          "name": "decided_at",
+          "type": "timestamp with time zone",
+          "nullable": true
+        },
+        {
+          "name": "reason",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "requested_orientation_system_id",
+          "type": "uuid"
+        },
+        {
+          "name": "decided_orientation_system_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "decision_reason",
+          "type": "text",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "orientation_request_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "orientation_system",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "name": "orientation_type",
+          "type": "text",
+          "values": [
+            "autre",
+            "pro",
+            "social",
+            "sociopro"
+          ]
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "deployment_id",
+          "type": "uuid"
+        }
+      ],
+      "primaryKey": {
+        "name": "orientation_system_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "name_deployment_id_unique_idx",
+          "columns": [
+            "unknown",
+            "deployment_id"
+          ],
+          "definition": "btree (lower(btrim(name)), deployment_id)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "orientation_type",
+      "columns": [
+        {
+          "name": "id",
+          "type": "text"
+        },
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "orientation_type_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "comment": "table contenant les différents types d’orientation"
+    },
+    {
+      "schema": "public",
+      "table": "professional",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "structure_id",
+          "type": "uuid"
+        },
+        {
+          "name": "email",
+          "type": "citext"
+        },
+        {
+          "name": "lastname",
+          "type": "character varying(255)"
+        },
+        {
+          "name": "firstname",
+          "type": "character varying(255)"
+        },
+        {
+          "name": "position",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "mobile_number",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        }
+      ],
+      "primaryKey": {
+        "name": "professional_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "professional_email_unique",
+          "columns": [
+            "email"
+          ],
+          "definition": "btree (email)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "professional_orientation_system",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "professional_id",
+          "type": "uuid"
+        },
+        {
+          "name": "orientation_system_id",
+          "type": "uuid"
+        }
+      ],
+      "primaryKey": {
+        "name": "professional_orientation_system_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "professional_orientation_system_professional_id_orientation_sys",
+          "columns": [
+            "professional_id",
+            "orientation_system_id"
+          ],
+          "definition": "btree (professional_id, orientation_system_id)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "professional_project",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "notebook_id",
+          "type": "uuid"
+        },
+        {
+          "name": "rome_code_id",
+          "type": "uuid",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "mobility_radius",
+          "type": "integer",
+          "nullable": true
+        },
+        {
+          "name": "hourly_rate",
+          "type": "integer",
+          "nullable": true,
+          "comment": "in cents (divide by 100 for the EUR value)"
+        },
+        {
+          "name": "contract_type_id",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "employment_type_id",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "updated_by",
+          "type": "uuid",
+          "nullable": true
+        }
+      ],
+      "primaryKey": {
+        "name": "professional_project_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "notebook_id_rome_code_id_null_idx",
+          "columns": [
+            "notebook_id",
+            "unknown"
+          ],
+          "definition": "btree (notebook_id, COALESCE(rome_code_id, '00000000-0000-0000-0000-000000000000'::uuid))"
+        }
+      ],
+      "checks": [
+        {
+          "name": "hourly-rate-gt-zero",
+          "columns": [
+            "hourly_rate"
+          ],
+          "predicate": "(hourly_rate > 0)"
+        },
+        {
+          "name": "mobility-radius-ge-zero",
+          "columns": [
+            "mobility_radius"
+          ],
+          "predicate": "(mobility_radius >= 0)"
+        }
+      ],
+      "comment": "Stores the jobs wanted for a notebook beneficiary"
+    },
+    {
+      "schema": "public",
+      "table": "ref_action",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "description",
+          "type": "character varying"
+        },
+        {
+          "name": "theme",
+          "type": "text",
+          "default": "'none'::character varying"
+        }
+      ],
+      "primaryKey": {
+        "name": "ref_action_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "ref_situation",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "description",
+          "type": "character varying"
+        },
+        {
+          "name": "theme",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "ref_situation_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "ref_target",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "description",
+          "type": "character varying"
+        },
+        {
+          "name": "theme",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "ref_target_pkey",
+        "columns": [
+          "id"
+        ]
+      }
+    },
+    {
+      "schema": "public",
+      "table": "ref_theme",
+      "columns": [
+        {
+          "name": "name",
+          "type": "text"
+        },
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "ref_theme_pkey",
+        "columns": [
+          "name"
+        ]
+      },
+      "comment": "contains the availables themes for focus, sitations, targets, actions"
+    },
+    {
+      "schema": "public",
+      "table": "role",
+      "columns": [
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "role_pkey",
+        "columns": [
+          "label"
+        ]
+      },
+      "comment": "liste des roles"
+    },
+    {
+      "schema": "public",
+      "table": "rome_code",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "code",
+          "type": "text"
+        },
+        {
+          "name": "description",
+          "type": "text"
+        },
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "rome_codes_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "rome_codes_label_key",
+          "columns": [
+            "label"
+          ],
+          "definition": "btree (label)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "rsa_closure_reason",
+      "columns": [
+        {
+          "name": "code",
+          "type": "text"
+        },
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "rsa_closure_reason_pkey",
+        "columns": [
+          "code"
+        ]
+      },
+      "comment": "code and reason for rsa closure reason"
+    },
+    {
+      "schema": "public",
+      "table": "rsa_suspension_reason",
+      "columns": [
+        {
+          "name": "code",
+          "type": "text"
+        },
+        {
+          "name": "label",
+          "type": "text"
+        }
+      ],
+      "primaryKey": {
+        "name": "rsa_suspension_reason_pkey",
+        "columns": [
+          "code"
+        ]
+      },
+      "comment": "rsa suspension code and reason for enum"
+    },
+    {
+      "schema": "public",
+      "table": "structure",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "public.gen_random_uuid()"
+        },
+        {
+          "name": "siret",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "name",
+          "type": "citext"
+        },
+        {
+          "name": "short_desc",
+          "type": "text",
+          "nullable": true
+        },
+        {
+          "name": "phone",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "email",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "postal_code",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "city",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "address1",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "address2",
+          "type": "character varying(255)",
+          "nullable": true
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "updated_at",
+          "type": "timestamp with time zone",
+          "nullable": true,
+          "default": "now()"
+        },
+        {
+          "name": "website",
+          "type": "character varying",
+          "nullable": true
+        },
+        {
+          "name": "deployment_id",
+          "type": "uuid"
+        },
+        {
+          "name": "sensitive",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "primaryKey": {
+        "name": "structure_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "structure_name_deployment_id_key",
+          "columns": [
+            "name",
+            "deployment_id"
+          ],
+          "definition": "btree (name, deployment_id)"
+        }
+      ]
+    },
+    {
+      "schema": "public",
+      "table": "structure_orientation_system",
+      "columns": [
+        {
+          "name": "id",
+          "type": "uuid",
+          "default": "gen_random_uuid()"
+        },
+        {
+          "name": "created_at",
+          "type": "timestamp with time zone",
+          "default": "now()"
+        },
+        {
+          "name": "structure_id",
+          "type": "uuid"
+        },
+        {
+          "name": "orientation_system_id",
+          "type": "uuid"
+        }
+      ],
+      "primaryKey": {
+        "name": "structure_orientation_system_pkey",
+        "columns": [
+          "id"
+        ]
+      },
+      "uniques": [
+        {
+          "name": "structure_orientation_system_structure_id_orientation_system_id",
+          "columns": [
+            "structure_id",
+            "orientation_system_id"
+          ],
+          "definition": "btree (structure_id, orientation_system_id)"
+        }
+      ]
+    }
+  ],
+  "relations": [
+    {
+      "name": "hdb_cron_event_invocation_logs_event_id_fkey",
+      "src": {
+        "schema": "hdb_catalog",
+        "table": "hdb_cron_event_invocation_logs",
+        "column": "event_id"
+      },
+      "ref": {
+        "schema": "hdb_catalog",
+        "table": "hdb_cron_events",
+        "column": "id"
+      }
+    },
+    {
+      "name": "hdb_scheduled_event_invocation_logs_event_id_fkey",
+      "src": {
+        "schema": "hdb_catalog",
+        "table": "hdb_scheduled_event_invocation_logs",
+        "column": "event_id"
+      },
+      "ref": {
+        "schema": "hdb_catalog",
+        "table": "hdb_scheduled_events",
+        "column": "id"
+      }
+    },
+    {
+      "name": "account_admin_id_foreign",
+      "src": {
+        "schema": "public",
+        "table": "account",
+        "column": "admin_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "admin_cdb",
+        "column": "id"
+      }
+    },
+    {
+      "name": "account_admin_structure_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "account",
+        "column": "admin_structure_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "admin_structure",
+        "column": "id"
+      }
+    },
+    {
+      "name": "account_beneficiary_id_foreign",
+      "src": {
+        "schema": "public",
+        "table": "account",
+        "column": "beneficiary_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "id"
+      }
+    },
+    {
+      "name": "account_manager_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "account",
+        "column": "manager_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "manager",
+        "column": "id"
+      }
+    },
+    {
+      "name": "account_orientation_manager_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "account",
+        "column": "orientation_manager_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "orientation_manager",
+        "column": "id"
+      }
+    },
+    {
+      "name": "account_professional_id_foreign",
+      "src": {
+        "schema": "public",
+        "table": "account",
+        "column": "professional_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "professional",
+        "column": "id"
+      }
+    },
+    {
+      "name": "account_type_fkey",
+      "src": {
+        "schema": "public",
+        "table": "account",
+        "column": "type"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "role",
+        "column": "label"
+      }
+    },
+    {
+      "name": "admin_structure_deployment_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "admin_structure",
+        "column": "deployment_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "deployment",
+        "column": "id"
+      }
+    },
+    {
+      "name": "admin_structure_structure_admin_structure_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "admin_structure_structure",
+        "column": "admin_structure_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "admin_structure",
+        "column": "id"
+      }
+    },
+    {
+      "name": "admin_structure_structure_structure_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "admin_structure_structure",
+        "column": "structure_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "structure",
+        "column": "id"
+      }
+    },
+    {
+      "name": "beneficiary_deployment_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "deployment_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "deployment",
+        "column": "id"
+      }
+    },
+    {
+      "name": "beneficiary_rsa_closure_reason_fkey",
+      "src": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "rsa_closure_reason"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "rsa_closure_reason",
+        "column": "code"
+      }
+    },
+    {
+      "name": "beneficiary_rsa_suspension_reason_fkey",
+      "src": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "rsa_suspension_reason"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "rsa_suspension_reason",
+        "column": "code"
+      }
+    },
+    {
+      "name": "beneficiary_structure_beneficiary_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "beneficiary_structure",
+        "column": "beneficiary_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "id"
+      }
+    },
+    {
+      "name": "beneficiary_structure_structure_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "beneficiary_structure",
+        "column": "structure_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "structure",
+        "column": "id"
+      }
+    },
+    {
+      "name": "external_data_source_fkey",
+      "src": {
+        "schema": "public",
+        "table": "external_data",
+        "column": "source"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "external_source",
+        "column": "value"
+      }
+    },
+    {
+      "name": "external_data_info_beneficiary_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "external_data_info",
+        "column": "beneficiary_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "id"
+      }
+    },
+    {
+      "name": "external_data_info_external_data_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "external_data_info",
+        "column": "external_data_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "external_data",
+        "column": "id"
+      }
+    },
+    {
+      "name": "external_data_info_professional_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "external_data_info",
+        "column": "professional_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "professional",
+        "column": "id"
+      }
+    },
+    {
+      "name": "manager_deployment_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "manager",
+        "column": "deployment_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "deployment",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_beneficiary_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "beneficiary_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_action_creator_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_action",
+        "column": "creator_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_action_status_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_action",
+        "column": "status"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "action_status",
+        "column": "status"
+      }
+    },
+    {
+      "name": "notebook_action_target_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_action",
+        "column": "target_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook_target",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_appointment_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_appointment",
+        "column": "account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_appointment_deleted_by_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_appointment",
+        "column": "deleted_by"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_appointment_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_appointment",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_creation_creator_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_creation",
+        "column": "creator_account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_creation_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_creation",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_creation_source_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_creation",
+        "column": "source"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook_creation_source_type",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_event_creator_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_event",
+        "column": "creator_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_event_event_type_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_event",
+        "column": "event_type"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook_event_type",
+        "column": "value"
+      }
+    },
+    {
+      "name": "notebook_event_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_event",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_focus_creator_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_focus",
+        "column": "creator_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_focus_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_focus",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_info_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_info",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_info_orientation_system_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_info",
+        "column": "orientation_system_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "orientation_system",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_member_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_member",
+        "column": "account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_member_creator_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_member",
+        "column": "creator_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_member_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_member",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_situation_created_by_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_situation",
+        "column": "created_by"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_situation_deleted_by_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_situation",
+        "column": "deleted_by"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_situation_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_situation",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_situation_situation_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_situation",
+        "column": "situation_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "ref_situation",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_target_creator_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_target",
+        "column": "creator_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_target_focus_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_target",
+        "column": "focus_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook_focus",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_update_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_update",
+        "column": "account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_update_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_update",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_visit_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_visit",
+        "column": "account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "notebook_visit_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "notebook_visit",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "nps_rating_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "nps_rating",
+        "column": "account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "nps_rating_dismissal_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "nps_rating_dismissal",
+        "column": "account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "orientation_manager_deployment_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "orientation_manager",
+        "column": "deployment_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "deployment",
+        "column": "id"
+      }
+    },
+    {
+      "name": "orientation_request_beneficiary_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "orientation_request",
+        "column": "beneficiary_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "beneficiary",
+        "column": "id"
+      }
+    },
+    {
+      "name": "orientation_request_decided_orientation_system_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "orientation_request",
+        "column": "decided_orientation_system_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "orientation_system",
+        "column": "id"
+      }
+    },
+    {
+      "name": "orientation_request_requested_orientation_system_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "orientation_request",
+        "column": "requested_orientation_system_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "orientation_system",
+        "column": "id"
+      }
+    },
+    {
+      "name": "orientation_request_requestor_account_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "orientation_request",
+        "column": "requestor_account_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "account",
+        "column": "id"
+      }
+    },
+    {
+      "name": "orientation_system_deployment_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "orientation_system",
+        "column": "deployment_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "deployment",
+        "column": "id"
+      }
+    },
+    {
+      "name": "orientation_system_orientation_type_fkey",
+      "src": {
+        "schema": "public",
+        "table": "orientation_system",
+        "column": "orientation_type"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "orientation_type",
+        "column": "id"
+      }
+    },
+    {
+      "name": "professional_structure_id_foreign",
+      "src": {
+        "schema": "public",
+        "table": "professional",
+        "column": "structure_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "structure",
+        "column": "id"
+      }
+    },
+    {
+      "name": "professional_orientation_system_orientation_system_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "professional_orientation_system",
+        "column": "orientation_system_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "orientation_system",
+        "column": "id"
+      }
+    },
+    {
+      "name": "professional_orientation_system_professional_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "professional_orientation_system",
+        "column": "professional_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "professional",
+        "column": "id"
+      }
+    },
+    {
+      "name": "professional_project_contract_type_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "professional_project",
+        "column": "contract_type_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "contract_type",
+        "column": "id"
+      }
+    },
+    {
+      "name": "professional_project_employment_type_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "professional_project",
+        "column": "employment_type_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "employment_type",
+        "column": "id"
+      }
+    },
+    {
+      "name": "professional_project_notebook_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "professional_project",
+        "column": "notebook_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "notebook",
+        "column": "id"
+      }
+    },
+    {
+      "name": "professional_project_rome_code_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "professional_project",
+        "column": "rome_code_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "rome_code",
+        "column": "id"
+      }
+    },
+    {
+      "name": "ref_action_theme_fkey",
+      "src": {
+        "schema": "public",
+        "table": "ref_action",
+        "column": "theme"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "ref_theme",
+        "column": "name"
+      }
+    },
+    {
+      "name": "ref_situation_theme_fkey",
+      "src": {
+        "schema": "public",
+        "table": "ref_situation",
+        "column": "theme"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "ref_theme",
+        "column": "name"
+      }
+    },
+    {
+      "name": "ref_target_theme_fkey",
+      "src": {
+        "schema": "public",
+        "table": "ref_target",
+        "column": "theme"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "ref_theme",
+        "column": "name"
+      }
+    },
+    {
+      "name": "structure_deployment_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "structure",
+        "column": "deployment_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "deployment",
+        "column": "id"
+      }
+    },
+    {
+      "name": "structure_orientation_system_orientation_system_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "structure_orientation_system",
+        "column": "orientation_system_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "orientation_system",
+        "column": "id"
+      }
+    },
+    {
+      "name": "structure_orientation_system_structure_id_fkey",
+      "src": {
+        "schema": "public",
+        "table": "structure_orientation_system",
+        "column": "structure_id"
+      },
+      "ref": {
+        "schema": "public",
+        "table": "structure",
+        "column": "id"
+      }
+    }
+  ],
+  "types": [
+    {
+      "schema": "public",
+      "name": "citext",
+      "definition": ""
+    },
+    {
+      "schema": "public",
+      "name": "email",
+      "definition": ""
+    },
+    {
+      "schema": "public",
+      "name": "gtrgm",
+      "definition": ""
+    }
+  ]
+}

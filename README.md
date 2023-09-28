@@ -19,9 +19,9 @@ La plateforme est développée, maintenue et supervisée par l'équipe "Carnet d
 
 La plateforme est hébergée et opérée en production par les équipes sur Scalingo (https://scalingo.com).
 
-## Architecture
+## 🏗️ Architecture
 
-![Architecture applicative du projet](./docs/cdb-architecture.png)
+![Architecture cible](./docs/adr/images/CDB_internal_architecture_target.png)
 
 La plateforme Carnet de bord est constituée des briques applicatives suivantes :
 - une application cliente SSR en TypeScript / **SvelteKit** et en **Elm** (front-end)
@@ -29,15 +29,18 @@ La plateforme Carnet de bord est constituée des briques applicatives suivantes 
 - une base de données **PostgreSQL**
 - une API métier en Python / **FastAPI** (back-end)
 
+### Schéma de la base de données
+![Scéma de la base](docs/database-schema.png)
+
 ## Installation
 
 Le guide d'installation de la plateforme peut être consulté depuis le fichier [INSTALL.md](./INSTALL.md).
 
-## Développement
+## 🛠️ Développement
 
 Le guide de développement de la plateforme peut être consulté depuis le fichier [DEVELOPING.md](./DEVELOPING.md).
 
-## Déploiement
+## 🚀 Déploiement
 
 Le guide de déploiement en production de la plateforme peut être consulté depuis le fichier [DEPLOY.md](./DEPLOY.md).
 
@@ -47,13 +50,13 @@ En complément du présent fichier README, ce dépôt de code inclut d'autres RE
 - [backend/README.md](./backend/README.md)
 - [e2e/README.md](./e2e/README.md)
 
-## Code de conduite
+## ❤️ Code de conduite
 
 L'équipe respecte et applique un code de conduite adapté du [_Contributor Covenant_](https://www.contributor-covenant.org/), version 2.0.
 
 Le code de conduite de l'équipe en charge du projet peut être consulté depuis le fichier [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
 
-## Licence
+## 📄 Licence
 
 Ce logiciel et son code source sont distribués sous licence Apache-2.0.
 
