@@ -1,3 +1,10 @@
+# [1.264.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.263.2...v1.264.0) (2023-10-19)
+
+
+### Features
+
+* modification de la politique de confidentialité ([#2014](https://github.com/gip-inclusion/carnet-de-bord/issues/2014)) ([8c54ede](https://github.com/gip-inclusion/carnet-de-bord/commit/8c54ede4eb36050721b937664005e51de6fbe2c0))
+
 ## [1.263.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.263.1...v1.263.2) (2023-10-18)
 
 ## [1.263.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.263.0...v1.263.1) (2023-09-26)
