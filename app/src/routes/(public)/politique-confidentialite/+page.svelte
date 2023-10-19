@@ -16,9 +16,10 @@
 		d’insertion professionnelle.
 	</p>
 	<p>
-		Elle est à l’initiative du Groupement de l’inclusion. En droit, c’est le responsable de
-		traitement des données à caractère personnel collectées par la plateforme, c’est-à-dire la
-		personne juridiquement responsable.
+		Elle est à l’initiative de la Délégation générale à l’emploi et à la formation professionnelle
+		(DGEFP). En droit, c’est le responsable de traitement des données à caractère personnel
+		collectées par la plateforme, c’est-à-dire la personne juridiquement responsable. Carnet de bord
+		est mis en œuvre par le Groupement d’intérêt public Plateforme de l’inclusion.
 	</p>
 	<h2 id="pourquoi-traitons-nous-des-données-">Pourquoi traitons-nous des données ?</h2>
 	<p>
@@ -29,40 +30,40 @@
 	<ol>
 		<li>
 			<p>
-				La mise à disposition et l’actualisation des informations relatives à la situation des
-				personnes et aux actions engagées ou à engager pendant leur parcours d’insertion auprès des
-				acteurs du parcours en vue de fournir un accompagnement personnalisé ;
+				La mise à disposition, au moyen de services numériques, des informations et des données
+				nécessaires à l’identification des personnes en insertion, à l'évaluation de leur situation,
+				au suivi de leur parcours d'insertion, ainsi que, le cas échéant, à la réalisation des
+				actions d’accompagnement social, socio-professionnel ou professionnel ;
 			</p>
 		</li>
 		<li>
 			<p>
-				La mise à disposition d’un outil à des fins de recensement des informations relatives à la
-				situation des personnes et aux actions engagées ou à engager pendant le parcours d’insertion
-				en co-construction avec la personne ;
+				Le partage et l’enrichissement, entre les acteurs de l’insertion, des données nécessaires à
+				leur périmètre d’intervention ;
 			</p>
 		</li>
 		<li>
 			<p>
-				Le partage et l’enrichissement, entre les acteurs du parcours, des données nécessaires à
-				leur périmètre d’intervention ;
+				L’accès des personnes en insertion aux informations relatives à leur parcours afin de
+				favoriser leur mobilisation et leur participation à la définition du parcours ;
 			</p>
 		</li>
 		<li>
 			<p>
-				La restitution aux personnes des informations relatives à leur parcours afin de favoriser
-				leur mobilisation [et de faciliter la co-contruction du parcours] ;
+				L’amélioration de la qualité du service rendu aux utilisateurs, notamment en leur évitant de
+				communiquer ou de saisir plusieurs fois les mêmes informations ;
 			</p>
 		</li>
 		<li>
 			<p>
-				L’amélioration de la qualité du service rendu aux usagers, notamment en leur évitant de
-				fournir plusieurs fois les mêmes informations ;
+				La communication aux personnes en insertion d’informations ou leur sollicitation à des fins
+				d’enquête ou d’évaluation ;
 			</p>
 		</li>
 		<li>
 			<p>
-				Le recensement des actions déployées par les organismes partenaires sélectionnés par les
-				acteurs publics de l’insertion et les acteurs délégués de l’insertion.
+				La production de statistiques, nationales et locales, à des fins d’évaluation des politiques
+				publiques.
 			</p>
 		</li>
 	</ol>
@@ -107,7 +108,7 @@
 					ouvert et suspendu, droit ouvert et versable, droit ouvert mais versement suspendu ,aah,
 					ata, rqth , are, ass, prime d’activité).
 				</li>
-				<li>l’inscription et sa durée.</li>
+				<li>L’inscription et sa durée.</li>
 				<li>Les numéros d’allocataire (caf,msa).</li>
 			</ul>
 			<p>
@@ -115,20 +116,20 @@
 				socio-professionnel :
 			</p>
 			<ul>
-				<li>besoin : date, type de la demande, agent ayant réalisé la demande.</li>
+				<li>Besoin : date, type de la demande, agent ayant réalisé la demande.</li>
 				<li>
-					identification du besoin : type de frein, intitule de la formation. rome de l’emploi
+					Identification du besoin : type de frein, intitule de la formation. rome de l’emploi
 					recherche.
 				</li>
 			</ul>
 			<p>Ainsi que les informations relatives au parcours :</p>
 			<ul>
-				<li>thème de l’action.</li>
-				<li>libelle de l’action.</li>
-				<li>date de création, de réalisation et état de l’action.</li>
-				<li>organisme sollicite</li>
-				<li>réfèrent mobilise</li>
-				<li>date et motif de fin de parcours</li>
+				<li>Thème de l’action.</li>
+				<li>Libellé de l’action.</li>
+				<li>Date de création, de réalisation et état de l’action.</li>
+				<li>Organisme sollicité</li>
+				<li>Réfèrent mobilisé</li>
+				<li>Date et motif de fin de parcours</li>
 			</ul>
 		</li>
 		<li>
@@ -156,28 +157,27 @@
 					Handicap (statut) : Maîtrise de la langue française, Retrouver un rythme de travail, Suivi
 					SPIP.
 				</li>
-				<li>Données de santé.</li>
+				<li>
+					Organismes partenaires sélectionnés par les acteurs publics de l’insertion et les acteurs
+					délégués de l’insertion pour lever un frein par une action spécifique ;
+				</li>
+				<li>Prise en compte des questions de santé</li>
 			</ul>
 		</li>
 	</ol>
-	<h2 id="est-on-autorisé-à-traiter-des-données-">Est-on autorisé à traiter des données ?</h2>
+	<h2 id="est-on-autorisé-à-traiter-des-données-">Est-on autorisé à traiter ces données ?</h2>
 	<p>
 		Le traitement est nécessaire à l’exécution d’une mission d’intérêt public ou relevant de
 		l’exercice de l’autorité publique dont est investi le responsable de traitement au sens de
-		l’article 6-e du règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016
-		relatif à la protection des personnes physiques à l’égard du traitement des données à caractère
-		personnel et à la libre circulation de ces données.
+		l’article 6-1 e) du RGPD.
 	</p>
 	<p>
-		Cette mission d’intérêt public est précisée par l’article L.263-4-1 du code de l’action sociale
-		et des familles.
+		Cette mission d’intérêt public est précisée par l’article R. 263-4-1 du code de l’action sociale
+		et des familles et notamment par le décret n° 2023-188 du 17 mars 2023.
 	</p>
 	<p>
 		Par ailleurs, cette mission d’intérêt public constitue des motifs d’intérêt public important
-		permettant le traitement de données sensibles, conformément à l’article 9 du règlement (UE)
-		2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des
-		personnes physiques à l’égard du traitement des données à caractère personnel et à la libre
-		circulation de ces données.
+		permettant le traitement de données sensibles, conformément à l’article 9 du RGPD.
 	</p>
 	<h2 id="combien-de-temps-conservons-nous-vos-données-">
 		Combien de temps conservons-nous vos données ?
@@ -231,10 +231,9 @@
 	</table>
 	<h2 id="quels-sont-vos-droits-">Quels sont vos droits ?</h2>
 	<p>
-		Conformément aux dispositions du règlement n°2016/679, dit règlement général sur la protection
-		des données (RGPD), vous disposez des droits suivants sur vos données
+		Conformément aux dispositions du RGPD, vous disposez des droits suivants sur vos données à
+		caractère personnel :
 	</p>
-	<p>à caractère personnel :</p>
 	<ul>
 		<li><strong>Droit à l’information et droit d’accès ;</strong></li>
 		<li><strong>Droit à la rectification</strong> ;</li>
@@ -251,10 +250,17 @@
 		communication d’une preuve d’identité.
 	</p>
 	<p>
+		Pour vous aider dans votre démarche, vous trouverez un modèle de courrier élaboré par la CNIL
+		ici :
+		<a href="https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces">
+			https://www.cnil.fr/fr/modele/courrier/exercer-son-droit-dacces
+		</a>
+	</p>
+	<p>
 		Nous nous engageons à répondre dans un délai raisonnable qui ne saurait dépasser 1 mois à
 		compter de la réception de votre demande.
 	</p>
-	<h3 id="comment-exercer-vos-droit-">Comment exercer vos droit ?</h3>
+	<h3 id="comment-exercer-vos-droit-">Comment exercer vos droits ?</h3>
 	<p>Pour les exercer, faites-nous parvenir une demande :</p>
 	<p>
 		Par voie numérique :
@@ -403,6 +409,20 @@
 					></td
 				>
 			</tr>
+			<tr>
+				<td>Matomo</td>
+				<td>France</td>
+				<td>Mesure d'audience</td>
+				<td>
+					<a
+						href="https://fr.matomo.org/privacy-policy/"
+						title="Politique vie privée matomo"
+						lang="fr"
+					>
+						https://fr.matomo.org/privacy-policy/
+					</a>
+				</td>
+			</tr>
 		</tbody>
 	</table>
 	<h2 id="cookies">Cookies</h2>
@@ -440,29 +460,22 @@
 		ne permettent pas de suivre la navigation de l’internaute sur d’autres sites.
 	</p>
 	<p>
-		<strong>Nous utilisons pour cela Matomo,</strong> un outil de mesure d’audience web libre, paramétré
-		pour être en conformité avec la recommandation « Cookies » de la CNIL. Cela signifie que votre adresse
-		IP, par exemple, est anonymisée avant d’être enregistrée. Il est donc impossible d’associer vos visites
-		sur ce site à votre personne.
+		Nous utilisons pour cela Matomo, un outil de mesure d’audience web libre, paramétré pour être en
+		conformité avec la recommandation « Cookies » de la CNIL. Nous n’utilisons pas Matomo en mode
+		exempté, d’où le bandeau cookies et le panneau de gestion de cookies vous permettant à tout
+		moment de revenir sur votre décision d’accepter ou non le dépôt de cookies.
 	</p>
-	<p>Il convient d’indiquer que :</p>
-	<ul>
-		<li>Les données collectées ne sont pas recoupées avec d’autres traitements</li>
-		<li>
-			Les cookies ne permettent pas de suivre la navigation de l’internaute sur d’autres sites
-		</li>
-	</ul>
+	<p>
+		À tout moment, vous pouvez refuser l’utilisation des cookies et désactiver le dépôt sur votre
+		ordinateur en utilisant la fonction dédiée de votre navigateur (fonction disponible notamment
+		sur Microsoft Internet Explorer 11, Google Chrome, Mozilla Firefox, Apple Safari et Opera).
+	</p>
 	<iframe
 		title="matomo optout"
 		class="w-full border-0"
 		src={`${getMatomoUrl()}/index.php?module=CoreAdminHome&action=optOut&language=fr&backgroundColor=&fontColor=2f3b6c&fontSize=16px&fontFamily=sans-serif`}
 	/>
 
-	<p>
-		À tout moment, vous pouvez refuser l’utilisation des cookies et désactiver le dépôt sur votre
-		ordinateur en utilisant la fonction dédiée de votre navigateur (fonction disponible notamment
-		sur Microsoft Internet Explorer 11, Google Chrome, Mozilla Firefox, Apple Safari et Opera).
-	</p>
 	<p>
 		Pour aller plus loin, vous pouvez consulter les fiches proposées par la Commission Nationale de
 		l’Informatique et des Libertés (CNIL) :
