@@ -5,6 +5,8 @@ const { v4: uuid4 } = require('uuid');
 async function loginStub(userType, email) {
 	const uuid = uuid4();
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
+	const now = new Date().toISOString();
+
 	if (type.code === 'beneficiary') {
 		const result = await I.sendQuery(
 			`
@@ -18,7 +20,7 @@ async function loginStub(userType, email) {
 		await I.sendMutation(
 			`
 		mutation createAccount($id: uuid!) {
-			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
+			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true, cguValidatedAt: "${now}"}) { id}
 		}`,
 			{ id: result.data.data.beneficiary[0].id }
 		);
@@ -79,7 +81,7 @@ async function onBoardingSetup(userType, email, onBoardingDone) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	return await I.sendMutation(
 		`mutation SetupOnboardingFlag {
-		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onBoardingDone}}) {
+		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onBoardingDone}) {
 		    affected_rows
 		  }
 		}`
