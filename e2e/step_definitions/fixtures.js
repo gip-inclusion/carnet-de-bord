@@ -81,7 +81,7 @@ async function onBoardingSetup(userType, email, onBoardingDone) {
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
 	return await I.sendMutation(
 		`mutation SetupOnboardingFlag {
-		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onBoardingDone}) {
+		  update_account(where: {${type.code}: {email: {_eq: "${email}"}}}, _set: {onboardingDone: ${onBoardingDone}}) {
 		    affected_rows
 		  }
 		}`
