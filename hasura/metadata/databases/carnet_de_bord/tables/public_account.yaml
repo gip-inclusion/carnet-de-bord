@@ -367,18 +367,19 @@ update_permissions:
   - role: admin_cdb
     permission:
       columns:
-        - confirmed
-        - onboarding_done
         - access_key
-        - type
-        - username
         - access_key_date
-        - last_login
         - admin_id
         - beneficiary_id
+        - cgu_validated_at
+        - confirmed
         - id
+        - last_login
         - manager_id
+        - onboarding_done
         - professional_id
+        - type
+        - username
       filter: {}
       check: {}
   - role: admin_structure
@@ -386,6 +387,7 @@ update_permissions:
       columns:
         - access_key
         - access_key_date
+        - cgu_validated_at
         - deleted_at
         - onboarding_done
       filter:
@@ -401,6 +403,7 @@ update_permissions:
   - role: beneficiary
     permission:
       columns:
+        - cgu_validated_at
         - last_login
         - username
       filter:
@@ -412,6 +415,7 @@ update_permissions:
       columns:
         - access_key
         - access_key_date
+        - cgu_validated_at
         - onboarding_done
         - username
       filter:
@@ -429,6 +433,7 @@ update_permissions:
   - role: orientation_manager
     permission:
       columns:
+        - cgu_validated_at
         - last_login
         - onboarding_done
       filter:
@@ -438,6 +443,7 @@ update_permissions:
   - role: professional
     permission:
       columns:
+        - cgu_validated_at
         - confirmed
         - onboarding_done
       filter:
