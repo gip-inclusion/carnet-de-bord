@@ -13,6 +13,8 @@ configuration:
       custom_name: adminStructureId
     beneficiary_id:
       custom_name: beneficiaryId
+    cgu_validated_at:
+      custom_name: cguValidatedAt
     created_at:
       custom_name: createdAt
     deleted_at:
@@ -35,6 +37,7 @@ configuration:
     admin_id: adminId
     admin_structure_id: adminStructureId
     beneficiary_id: beneficiaryId
+    cgu_validated_at: cguValidatedAt
     created_at: createdAt
     deleted_at: deletedAt
     last_login: lastLogin
@@ -186,6 +189,7 @@ select_permissions:
         - admin_id
         - admin_structure_id
         - beneficiary_id
+        - cgu_validated_at
         - confirmed
         - created_at
         - deleted_at
@@ -208,6 +212,7 @@ select_permissions:
         - admin_id
         - admin_structure_id
         - beneficiary_id
+        - cgu_validated_at
         - confirmed
         - created_at
         - deleted_at
@@ -241,6 +246,7 @@ select_permissions:
         - access_key_date
         - admin_id
         - beneficiary_id
+        - cgu_validated_at
         - confirmed
         - id
         - last_login
@@ -266,6 +272,7 @@ select_permissions:
         - admin_id
         - admin_structure_id
         - beneficiary_id
+        - cgu_validated_at
         - confirmed
         - created_at
         - deleted_at
@@ -304,6 +311,7 @@ select_permissions:
         - admin_id
         - admin_structure_id
         - beneficiary_id
+        - cgu_validated_at
         - confirmed
         - created_at
         - deleted_at
@@ -334,6 +342,7 @@ select_permissions:
       columns:
         - admin_structure_id
         - beneficiary_id
+        - cgu_validated_at
         - confirmed
         - created_at
         - deleted_at

@@ -300,6 +300,7 @@ type account {
   """An object relationship"""
   beneficiary: beneficiary
   beneficiaryId: uuid
+  cguValidatedAt: timestamptz
   confirmed: Boolean!
   createdAt: timestamptz!
   deletedAt: timestamptz
@@ -620,6 +621,7 @@ input account_bool_exp {
   admin_structure: admin_structure_bool_exp
   beneficiary: beneficiary_bool_exp
   beneficiaryId: uuid_comparison_exp
+  cguValidatedAt: timestamptz_comparison_exp
   confirmed: Boolean_comparison_exp
   createdAt: timestamptz_comparison_exp
   deletedAt: timestamptz_comparison_exp
@@ -802,6 +804,7 @@ input account_insert_input {
   admin_structure: admin_structure_obj_rel_insert_input
   beneficiary: beneficiary_obj_rel_insert_input
   beneficiaryId: uuid
+  cguValidatedAt: timestamptz
   confirmed: Boolean
   createdAt: timestamptz
   deletedAt: timestamptz
@@ -833,6 +836,7 @@ type account_max_fields {
   adminId: uuid
   adminStructureId: uuid
   beneficiaryId: uuid
+  cguValidatedAt: timestamptz
   createdAt: timestamptz
   deletedAt: timestamptz
   id: uuid
@@ -853,6 +857,7 @@ input account_max_order_by {
   adminId: order_by
   adminStructureId: order_by
   beneficiaryId: order_by
+  cguValidatedAt: order_by
   createdAt: order_by
   deletedAt: order_by
   id: order_by
@@ -871,6 +876,7 @@ type account_min_fields {
   adminId: uuid
   adminStructureId: uuid
   beneficiaryId: uuid
+  cguValidatedAt: timestamptz
   createdAt: timestamptz
   deletedAt: timestamptz
   id: uuid
@@ -891,6 +897,7 @@ input account_min_order_by {
   adminId: order_by
   adminStructureId: order_by
   beneficiaryId: order_by
+  cguValidatedAt: order_by
   createdAt: order_by
   deletedAt: order_by
   id: order_by
@@ -942,6 +949,7 @@ input account_order_by {
   admin_structure: admin_structure_order_by
   beneficiary: beneficiary_order_by
   beneficiaryId: order_by
+  cguValidatedAt: order_by
   confirmed: order_by
   createdAt: order_by
   deletedAt: order_by
@@ -989,6 +997,9 @@ enum account_select_column {
 
   """column name"""
   beneficiaryId
+
+  """column name"""
+  cguValidatedAt
 
   """column name"""
   confirmed
@@ -1058,6 +1069,7 @@ input account_set_input {
   adminId: uuid
   adminStructureId: uuid
   beneficiaryId: uuid
+  cguValidatedAt: timestamptz
   confirmed: Boolean
   createdAt: timestamptz
   deletedAt: timestamptz
@@ -1090,6 +1102,7 @@ input account_stream_cursor_value_input {
   adminId: uuid
   adminStructureId: uuid
   beneficiaryId: uuid
+  cguValidatedAt: timestamptz
   confirmed: Boolean
   createdAt: timestamptz
   deletedAt: timestamptz
@@ -1122,6 +1135,9 @@ enum account_update_column {
 
   """column name"""
   beneficiaryId
+
+  """column name"""
+  cguValidatedAt
 
   """column name"""
   confirmed
