@@ -195,7 +195,7 @@ INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('2c53c66b-09a3-4e44
 
 -- Hélène Arbol
 INSERT INTO public.professional (id, structure_id, email, lastname, firstname, "position") VALUES ('1540e75d-75da-4048-b442-0d1d4e65f104', '3b299bcb-445c-48db-bc61-e30cd52d65b6', 'helene.arbol@afpa.fr', 'Arbol', 'Hélène', 'Conseillere pro');
-INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done, cgu_validated_at) VALUES ('fd325e20-35a7-40e7-a03e-97c1792f89eb', 'helene.arbol', 'professional', '1540e75d-75da-4048-b442-0d1d4e65f104', true, true, '2021-09-21 12:25:55.822+00');
+INSERT INTO public.account (id, username, type, professional_id, confirmed, onboarding_done) VALUES ('fd325e20-35a7-40e7-a03e-97c1792f89eb', 'helene.arbol', 'professional', '1540e75d-75da-4048-b442-0d1d4e65f104', true, true);
 INSERT INTO public.nps_rating_dismissal (account_id) VALUES ('fd325e20-35a7-40e7-a03e-97c1792f89eb');
 
 
