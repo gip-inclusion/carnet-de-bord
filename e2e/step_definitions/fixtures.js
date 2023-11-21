@@ -5,7 +5,6 @@ const { v4: uuid4 } = require('uuid');
 async function loginStub(userType, email) {
 	const uuid = uuid4();
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
-	const now = new Date().toISOString();
 
 	if (type.code === 'beneficiary') {
 		const result = await I.sendQuery(
