@@ -20,7 +20,7 @@ async function loginStub(userType, email) {
 		await I.sendMutation(
 			`
 		mutation createAccount($id: uuid!) {
-			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true, cguValidatedAt: "${now}"}) { id}
+			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true, cguValidatedAt: "2023-01-01T00:00:00Z"}) { id}
 		}`,
 			{ id: result.data.data.beneficiary[0].id }
 		);
