@@ -19,8 +19,30 @@
 	--border-plain-blue-france: var(--vert-cdb);
 }
 
-
 /* Remove chrome clear icon */
 input[type='search']::-webkit-search-cancel-button {
 	-webkit-appearance: none;
+}
+
+div.cgu {
+	counter-reset: my-awesome-counter;
+}
+div.cgu ol {
+	list-style: none;
+	padding-left: 0px;
+}
+div.cgu ol li {
+	counter-increment: my-awesome-counter;
+	padding-bottom: 1rem;
+}
+
+div.cgu ol li::before {
+	content: counter(my-awesome-counter) '. ';
+	font-weight: bold;
+	font-weight: 700;
+}
+
+div.cgu ol > li::marker {
+	content: none;
+	font-size: var(--xl-size);
 }
