@@ -5,6 +5,7 @@ const { v4: uuid4 } = require('uuid');
 async function loginStub(userType, email) {
 	const uuid = uuid4();
 	const type = USER_TYPES.filter((t) => t.value === userType)[0];
+
 	if (type.code === 'beneficiary') {
 		const result = await I.sendQuery(
 			`
@@ -18,7 +19,7 @@ async function loginStub(userType, email) {
 		await I.sendMutation(
 			`
 		mutation createAccount($id: uuid!) {
-			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true}) { id}
+			insert_account_one(object: {beneficiaryId: $id, accessKey: "${uuid}", type: beneficiary, username: "stifour", onboardingDone: true, confirmed: true, cguValidatedAt: "2023-01-01T00:00:00Z"}) { id}
 		}`,
 			{ id: result.data.data.beneficiary[0].id }
 		);

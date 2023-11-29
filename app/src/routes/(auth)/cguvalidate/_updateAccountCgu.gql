@@ -1,0 +1,8 @@
+mutation UpdateAccountCgu($cguValidatedAt: timestamptz!, $id: uuid!) {
+  updateCgu: update_account_by_pk(
+    _set: { cguValidatedAt: $cguValidatedAt }
+    pk_columns: { id: $id }
+  ) {
+    id
+  }
+}

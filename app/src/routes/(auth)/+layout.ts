@@ -5,6 +5,7 @@ import {
 } from '$lib/graphql/_gen/typed-document-nodes';
 import { accountData } from '$lib/stores';
 import { error } from '@sveltejs/kit';
+import { redirect } from '@sveltejs/kit';
 
 import { createClient, type Client } from '@urql/core';
 import type { LayoutLoad } from './$types';
@@ -12,9 +13,18 @@ import type { LayoutLoad } from './$types';
 export const load: LayoutLoad = async (event) => {
 	const data = await event.parent();
 	const accountInfo = await getAccount(event.fetch, data.user.id);
+
 	if (!accountInfo) {
 		throw error(400, 'récupération du compte impossible');
 	}
+
+	if (!accountInfo.cguValidatedAt) {
+		// If cgu are not validated, we should alway redirect to the CGU validation page
+		if (event.url.pathname !== `/cguvalidate`) {
+			throw redirect(302, `/cguvalidate`);
+		}
+	}
+
 	accountData.set(accountInfo);
 	return {
 		account: accountInfo,

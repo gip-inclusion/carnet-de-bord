@@ -5,6 +5,7 @@ query GetAccountByPk($accountId: uuid!) {
     confirmed
     username
     type
+    cguValidatedAt
     beneficiary {
       id
       firstname
