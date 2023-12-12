@@ -27,7 +27,9 @@
 		const month = dateObj.getUTCMonth() + 1;
 		const day = dateObj.getUTCDate();
 		const year = dateObj.getUTCFullYear();
-		const suffix = '.deleted' + day + month + year;
+		const hours = dateObj.getHours();
+		const minutes = dateObj.getMinutes();
+		const suffix = '.deleted' + day + month + year + hours + minutes;
 		const newEmail = professional.email + suffix;
 		const newUsername = professional.account.username + suffix;
 
