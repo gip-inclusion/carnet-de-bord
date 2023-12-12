@@ -1,3 +1,10 @@
+# [1.266.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.265.0...v1.266.0) (2023-12-12)
+
+
+### Features
+
+* ajout de la déclaration d'accessibilité ([#2056](https://github.com/gip-inclusion/carnet-de-bord/issues/2056)) ([fc9e675](https://github.com/gip-inclusion/carnet-de-bord/commit/fc9e6757ecaefade121056bb4919bc631449486b))
+
 # [1.265.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.264.0...v1.265.0) (2023-11-29)
 
 
