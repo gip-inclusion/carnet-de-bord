@@ -58,7 +58,10 @@
 				</li>
 				<li class="fr-footer__bottom-item">
 					<!-- svelte-ignore a11y-missing-attribute -->
-					<a class="fr-footer__bottom-link">Accessibilité : non conforme</a>
+					<a class="fr-footer__bottom-link"
+						><a class="fr-footer__bottom-link" href="/declaration-accessibilite">Accessibilité</a> :
+						non conforme</a
+					>
 				</li>
 				<li class="fr-footer__bottom-item">
 					<a class="fr-footer__bottom-link" href="/mentions-legales">Mentions légales</a>
