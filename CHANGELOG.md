@@ -1,3 +1,10 @@
+## [1.266.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.0...v1.266.1) (2023-12-12)
+
+
+### Bug Fixes
+
+* correction des CGU du footer ([#2058](https://github.com/gip-inclusion/carnet-de-bord/issues/2058)) ([70925c0](https://github.com/gip-inclusion/carnet-de-bord/commit/70925c0ea62929d3fe01850dc17ac88bc80a5fbf))
+
 # [1.266.0](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.265.0...v1.266.0) (2023-12-12)
 
 
