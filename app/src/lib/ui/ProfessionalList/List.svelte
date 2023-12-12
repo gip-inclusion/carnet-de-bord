@@ -23,7 +23,20 @@
 	const deleteAccount = mutation(deleteAccountMutation);
 
 	async function removeProfessional(professional: Professional) {
-		await deleteAccount({ accountId: professional.account.id });
+		const dateObj = new Date();
+		const month = dateObj.getUTCMonth() + 1;
+		const day = dateObj.getUTCDate();
+		const year = dateObj.getUTCFullYear();
+		const suffix = '.deleted' + day + month + year;
+		const newEmail = professional.email + suffix;
+		const newUsername = professional.account.username + suffix;
+
+		await deleteAccount({
+			accountId: professional.account.id,
+			professionalId: professional.id,
+			newEmail: newEmail,
+			newUsername: newUsername,
+		});
 	}
 </script>
 

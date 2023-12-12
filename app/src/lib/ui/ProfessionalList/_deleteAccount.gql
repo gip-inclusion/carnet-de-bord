@@ -1,5 +1,16 @@
-mutation DeleteAccount($accountId: uuid!) {
-  update_account_by_pk(pk_columns: { id: $accountId }, _set: { deletedAt: now }) {
+mutation DeleteAccount(
+  $accountId: uuid!
+  $professionalId: uuid!
+  $newEmail: citext!
+  $newUsername: String!
+) {
+  update_account_by_pk(
+    pk_columns: { id: $accountId }
+    _set: { deletedAt: now, username: $newUsername }
+  ) {
+    id
+  }
+  update_professional_by_pk(pk_columns: { id: $professionalId }, _set: { email: $newEmail }) {
     id
   }
   update_notebook_member(
