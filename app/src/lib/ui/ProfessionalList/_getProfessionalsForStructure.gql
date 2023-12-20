@@ -11,6 +11,7 @@ query GetProfessionalsForStructure($structureId: uuid!) {
     position
     account {
       id
+      username
       onboardingDone
       notebooksWhereMember_aggregate(
         where: { active: { _eq: true }, memberType: { _eq: "referent" } }

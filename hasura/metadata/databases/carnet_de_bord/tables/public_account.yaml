@@ -390,6 +390,7 @@ update_permissions:
         - cgu_validated_at
         - deleted_at
         - onboarding_done
+        - username
       filter:
         _or:
           - id:
