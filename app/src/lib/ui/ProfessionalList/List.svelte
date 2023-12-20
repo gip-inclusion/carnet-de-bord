@@ -23,13 +23,8 @@
 	const deleteAccount = mutation(deleteAccountMutation);
 
 	async function removeProfessional(professional: Professional) {
-		const dateObj = new Date();
-		const month = dateObj.getUTCMonth() + 1;
-		const day = dateObj.getUTCDate();
-		const year = dateObj.getUTCFullYear();
-		const hours = dateObj.getHours();
-		const minutes = dateObj.getMinutes();
-		const suffix = '.deleted' + day + month + year + hours + minutes;
+		const nowDate = new Date();
+		const suffix = '.deleted' + nowDate.toISOString();
 		const newEmail = professional.email + suffix;
 		const newUsername = professional.account.username + suffix;
 
