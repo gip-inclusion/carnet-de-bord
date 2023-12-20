@@ -1,3 +1,10 @@
+## [1.266.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.1...v1.266.2) (2023-12-20)
+
+
+### Bug Fixes
+
+* reimport d'utilisateurs supprimés ([#2061](https://github.com/gip-inclusion/carnet-de-bord/issues/2061)) ([d18f85d](https://github.com/gip-inclusion/carnet-de-bord/commit/d18f85dd97e3e3534489899348b48fdc4f473d2f))
+
 ## [1.266.1](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.0...v1.266.1) (2023-12-12)
 
 
