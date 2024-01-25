@@ -49,10 +49,7 @@
 						</div>
 					</div>
 					<div class="fr-header__service pl-0">
-						<a
-							href="/"
-							title="Accueil - Carnet de bord - Ministère du Travail, de l'Emploi et de l'Insertion"
-						>
+						<a href="/" title="Accueil - Carnet de bord - Ministère de l'emploi">
 							<p class="fr-header__service-title">Carnet de bord</p>
 						</a>
 						<p class="fr-header__service-tagline">Plateforme de l'inclusion</p>
