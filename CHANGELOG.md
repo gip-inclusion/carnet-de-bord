@@ -1,3 +1,10 @@
+## [1.266.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.2...v1.266.3) (2024-01-25)
+
+
+### Bug Fixes
+
+* remove NIR ([#2070](https://github.com/gip-inclusion/carnet-de-bord/issues/2070)) ([92c56d6](https://github.com/gip-inclusion/carnet-de-bord/commit/92c56d67460ebc8c800928cd8030f41d4b9f5593))
+
 ## [1.266.2](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.1...v1.266.2) (2023-12-20)
 
 
