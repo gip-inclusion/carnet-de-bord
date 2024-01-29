@@ -15,7 +15,7 @@ Développé dans le cadre du volet numérique du projet de [Service Public de l�
 
 ## Gouvernance
 
-La plateforme est développée, maintenue et supervisée par l'équipe "Carnet de bord" issue de l'incubateur d'état [BetaGouv](https://beta.gouv.fr), au sein du [GIP de la Plateforme de l'inclusion](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045614680), dont les principaux membres sont le Ministère de l'emploi et Pôle emploi.
+La plateforme est développée, maintenue et supervisée par l'équipe "Carnet de bord" issue de l'incubateur d'état [BetaGouv](https://beta.gouv.fr), au sein du [GIP de la Plateforme de l'inclusion](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045614680), dont les principaux membres sont le Ministère chargé de l'emploi et Pôle emploi.
 
 La plateforme est hébergée et opérée en production par les équipes sur Scalingo (https://scalingo.com).
 

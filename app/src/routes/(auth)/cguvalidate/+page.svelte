@@ -99,7 +99,7 @@
 				de structures habilités.
 			</li>
 			<li>
-				« <strong>Ministère</strong> » : Ministère de l'emploi.
+				« <strong>Ministère</strong> » : Ministère chargé de l'emploi.
 			</li>
 			<li>
 				« <strong>GIP Plateforme de l’inclusion</strong> » ou « <strong>GIP</strong> » : Groupement d’intérêt
