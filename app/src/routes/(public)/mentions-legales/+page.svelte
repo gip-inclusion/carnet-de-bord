@@ -17,7 +17,7 @@
 
 		<h2>Directeur de la publication</h2>
 
-		<p>Bruno Lucas, Délégué général à l’Emploi et à la Formation Professionnelle</p>
+		<p>Jérôme MARCHAND-ARVIER, Délégué général à l’Emploi et à la Formation Professionnelle</p>
 
 		<h2>Hébergement du site</h2>
 
