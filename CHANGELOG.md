@@ -1,3 +1,10 @@
+## [1.266.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.3...v1.266.4) (2024-01-30)
+
+
+### Bug Fixes
+
+* changement de nom du ministère ([#2074](https://github.com/gip-inclusion/carnet-de-bord/issues/2074)) ([3ad32b8](https://github.com/gip-inclusion/carnet-de-bord/commit/3ad32b8695d6c9877e89453c7fc605c038098686))
+
 ## [1.266.3](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.2...v1.266.3) (2024-01-25)
 
 
