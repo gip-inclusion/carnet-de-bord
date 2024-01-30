@@ -95,11 +95,11 @@
 			<li>« <strong>CARNET DE BORD</strong> » : Application du dit Service</li>
 			<li>
 				« <strong>Salariés</strong> » et/ou « <strong>Agents</strong> » : Utilisateurs rattachés au ministère
-				du travail, du plein emploi et de l’insertion, des conseils départementaux, des centres communaux
-				d’actions sociale et des salariés de structures habilités.
+				de l'emploi, des conseils départementaux, des centres communaux d’actions sociale et des salariés
+				de structures habilités.
 			</li>
 			<li>
-				« <strong>Ministère</strong> » : Ministère du Travail, du plein Emploi et de l’Insertion.
+				« <strong>Ministère</strong> » : Ministère chargé de l'emploi.
 			</li>
 			<li>
 				« <strong>GIP Plateforme de l’inclusion</strong> » ou « <strong>GIP</strong> » : Groupement d’intérêt

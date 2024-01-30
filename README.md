@@ -15,7 +15,7 @@ Développé dans le cadre du volet numérique du projet de [Service Public de l�
 
 ## Gouvernance
 
-La plateforme est développée, maintenue et supervisée par l'équipe "Carnet de bord" issue de l'incubateur d'état [BetaGouv](https://beta.gouv.fr), au sein du [GIP de la Plateforme de l'inclusion](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045614680), dont les principaux membres sont le Ministère du Travail, du Plein emploi et de l'Insertion et Pôle emploi.
+La plateforme est développée, maintenue et supervisée par l'équipe "Carnet de bord" issue de l'incubateur d'état [BetaGouv](https://beta.gouv.fr), au sein du [GIP de la Plateforme de l'inclusion](https://www.legifrance.gouv.fr/jorf/id/JORFTEXT000045614680), dont les principaux membres sont le Ministère chargé de l'emploi et Pôle emploi.
 
 La plateforme est hébergée et opérée en production par les équipes sur Scalingo (https://scalingo.com).
 
@@ -24,12 +24,14 @@ La plateforme est hébergée et opérée en production par les équipes sur Scal
 ![Architecture cible](./docs/adr/images/CDB_internal_architecture_target.png)
 
 La plateforme Carnet de bord est constituée des briques applicatives suivantes :
+
 - une application cliente SSR en TypeScript / **SvelteKit** et en **Elm** (front-end)
 - une instance **Hasura** permettant au client de requêter la base en lecture + écriture (avec gestion des droits et scopes) via GraphQL (back-for-front)
 - une base de données **PostgreSQL**
 - une API métier en Python / **FastAPI** (back-end)
 
 ### Schéma de la base de données
+
 ![Scéma de la base](docs/database-schema.png)
 
 ## Installation
@@ -47,6 +49,7 @@ Le guide de déploiement en production de la plateforme peut être consulté dep
 ## READMEs
 
 En complément du présent fichier README, ce dépôt de code inclut d'autres READMEs détaillant les sous-répertoires qui les contiennent :
+
 - [backend/README.md](./backend/README.md)
 - [e2e/README.md](./e2e/README.md)
 
