@@ -1,3 +1,10 @@
+## [1.266.6](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.5...v1.266.6) (2024-02-01)
+
+
+### Bug Fixes
+
+* suspension de l'envoi des emails d'orientation/réorientation ([#2075](https://github.com/gip-inclusion/carnet-de-bord/issues/2075)) ([0aef761](https://github.com/gip-inclusion/carnet-de-bord/commit/0aef7615f824cf754c1e682a94f7d74af4d19095))
+
 ## [1.266.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.4...v1.266.5) (2024-02-01)
 
 
