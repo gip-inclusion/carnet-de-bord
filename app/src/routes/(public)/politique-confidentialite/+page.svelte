@@ -265,12 +265,12 @@
 	<p>
 		Par voie numérique :
 
-		<a href="mailto:protectiondesdonneesDGEFP@emploi.gouv.fr"
-			>protectiondesdonneesDGEFP@emploi.gouv.fr</a
+		<a href="mailto:dgefp.protectiondesdonnees@emploi.gouv.fr"
+			>dgefp.protectiondesdonnees@emploi.gouv.fr</a
 		>
 	</p>
 	<p>ou</p>
-	<p>Par voie postale : Groupement de l’inclusion / 127 rue de Grenelle, 75007 Paris</p>
+	<p>Par voie postale : DGEFP – FIMOD Pôle RGPD / 14 avenue Duquesne 75007 Paris</p>
 	<h2 id="avec-qui-sommes-nous-susceptibles-de-partager-vos-données-">
 		Avec qui sommes-nous susceptibles de partager vos données ?
 	</h2>
