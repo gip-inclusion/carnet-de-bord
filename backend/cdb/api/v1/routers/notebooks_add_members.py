@@ -14,7 +14,6 @@ from fastapi import (
 from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from pydantic import BaseModel
 
-from cdb.api.core.emails import Member, Person, send_notebook_member_email
 from cdb.api.db.crud.beneficiary_structure import (
     get_deactivate_beneficiary_structure_mutation,
     get_insert_beneficiary_structure_mutation,
@@ -34,10 +33,7 @@ from cdb.api.db.models.member_type import MemberTypeEnum
 from cdb.api.db.models.orientation_info import OrientationInfo
 from cdb.api.db.models.role import RoleEnum
 from cdb.api.schema_gql import schema
-from cdb.api.v1.dependencies import (
-    allowed_jwt_roles,
-    extract_authentified_account,
-)
+from cdb.api.v1.dependencies import allowed_jwt_roles, extract_authentified_account
 
 logger = logging.getLogger(__name__)
 router = APIRouter(
@@ -143,33 +139,4 @@ async def add_notebook_members(
 
         await session.execute(dsl_gql(DSLMutation(**mutations)))
 
-        if (
-            data.member_type is MemberTypeEnum.referent
-            and orientation_info.former_referent_account_id
-        ):
-            notify_former_referents(background_tasks, orientation_info)
-
         return Response(status_code=204)
-
-
-def notify_former_referents(
-    background_tasks: BackgroundTasks, orientation_info: OrientationInfo
-) -> None:
-    beneficiary = Person.parse_from_gql(orientation_info.beneficiary)
-
-    former_referents = [
-        Member.parse_from_gql(member["account"]["professional"])
-        for member in orientation_info.former_referents
-    ]
-    for referent in former_referents:
-        background_tasks.add_task(
-            send_notebook_member_email,
-            to_email=referent.email,
-            beneficiary=beneficiary,
-            orientation_system=None,
-            former_referents=former_referents,
-            new_structure=orientation_info.new_structure["name"],
-            new_referent=Member.parse_from_gql(orientation_info.new_referent)
-            if orientation_info.new_referent is not None
-            else None,
-        )

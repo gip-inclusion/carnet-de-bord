@@ -9,7 +9,6 @@ from gql.dsl import DSLField, DSLMutation, DSLSchema, dsl_gql
 from gql.transport.aiohttp import AIOHTTPTransport
 from pydantic import BaseModel
 
-from cdb.api.core.emails import Member, Person, send_notebook_member_email
 from cdb.api.core.init import connection
 from cdb.api.core.settings import settings
 from cdb.api.db.crud.beneficiary_structure import (
@@ -233,38 +232,6 @@ async def change_beneficiary_orientation(
         )
 
         response = await session.execute(dsl_gql(DSLMutation(**mutations)))
-
-        former_referents = [
-            Member.parse_from_gql(member.get("account", {}).get("professional", {}))
-            for member in orientation_info.former_referents
-        ]
-        beneficiary = Person.parse_from_gql(orientation_info.beneficiary)
-
-        for referent in former_referents:
-            background_tasks.add_task(
-                send_notebook_member_email,
-                to_email=referent.email,
-                beneficiary=beneficiary,
-                orientation_system=orientation_system,
-                former_referents=former_referents,
-                new_structure=orientation_info.new_structure.get("name"),
-                new_referent=Member.parse_from_gql(orientation_info.new_referent)
-                if orientation_info.new_referent is not None
-                else None,
-            )
-
-        if orientation_info.new_referent is not None:
-            new_referent = Member.parse_from_gql(orientation_info.new_referent)
-
-            background_tasks.add_task(
-                send_notebook_member_email,
-                to_email=new_referent.email,
-                new_referent=new_referent,
-                beneficiary=beneficiary,
-                former_referents=former_referents,
-                orientation_system=orientation_system,
-                new_structure=orientation_info.new_structure["name"],
-            )
 
         return response
 

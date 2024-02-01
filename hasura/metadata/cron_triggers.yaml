@@ -7,17 +7,3 @@
     - name: secret_token
       value_from_env: ACTION_SECRET
   comment: dahsboard report to matomo
-- name: notify_admin_structures
-  webhook: '{{BACKEND_API_URL}}/v1/admin_structures/notify'
-  schedule: 0 22 * * 0-4
-  include_in_metadata: true
-  payload: {}
-  retry_conf:
-    num_retries: 3
-    retry_interval_seconds: 10
-    timeout_seconds: 60
-    tolerance_seconds: 21600
-  headers:
-    - name: secret-token
-      value_from_env: ACTION_SECRET
-  comment: Periodic notification to send unfollowed beneficiaries to admin structures (by email)

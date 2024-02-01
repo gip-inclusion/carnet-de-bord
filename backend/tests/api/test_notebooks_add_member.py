@@ -9,7 +9,6 @@ from cdb.api.db.crud.notebook import get_notebook_members_by_notebook_id
 from cdb.api.db.crud.notebook_info import get_notebook_info
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.professional import Professional
-from tests.utils.approvaltests import verify, verify_as_json
 from tests.utils.assert_helpers import assert_member, assert_structure
 
 pytestmark = pytest.mark.graphql
@@ -112,9 +111,7 @@ async def test_add_notebook_member_as_no_referent(
     assert notebook_info.orientation_reason == former_notebook_info.orientation_reason
 
 
-@mock.patch("cdb.api.core.emails.send_mail")
 async def test_add_notebook_member_as_referent(
-    mock_send_email: mock.Mock,
     test_client: AsyncClient,
     notebook_sophie_tifour: Notebook,
     get_professional_paul_camara_jwt: str,
@@ -147,12 +144,6 @@ async def test_add_notebook_member_as_referent(
     assert_member(members, professional_pierre_chevalier, "referent", False)
     # Check that former referent is still an active member
     assert_member(members, professional_pierre_chevalier, "no_referent", True)
-    # Check that an email is sent to former referent
-    email_former_referent = mock_send_email.call_args_list[0][1]
-    verify(email_former_referent["message"], extension=".html")
-    verify_as_json(
-        {"subject": email_former_referent["subject"], "to": email_former_referent["to"]}
-    )
 
     structures = await get_structures_for_beneficiary(
         db_connection,
