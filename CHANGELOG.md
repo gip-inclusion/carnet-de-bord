@@ -1,3 +1,10 @@
+## [1.266.5](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.4...v1.266.5) (2024-02-01)
+
+
+### Bug Fixes
+
+* mise à jour des mentions légales et de la politique confidentialité ([#2076](https://github.com/gip-inclusion/carnet-de-bord/issues/2076)) ([77a4bed](https://github.com/gip-inclusion/carnet-de-bord/commit/77a4bed2c47e80038802a99c3116214a8915f0e4))
+
 ## [1.266.4](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.3...v1.266.4) (2024-01-30)
 
 
