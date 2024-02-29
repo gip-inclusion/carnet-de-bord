@@ -15,7 +15,7 @@ from cdb.api.db.models.beneficiary import Beneficiary
 from cdb.api.db.models.notebook import Notebook
 from cdb.api.db.models.orientation_request import OrientationRequest
 from cdb.api.db.models.professional import Professional
-from tests.utils.approvaltests import verify_as_json
+from tests.utils.approvaltests import verify, verify_as_json
 from tests.utils.assert_helpers import assert_member, assert_structure
 
 pytestmark = pytest.mark.graphql
@@ -380,7 +380,22 @@ async def test_send_email_to_members_with_orientation_request(
         headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
-    assert mock_send_email.call_count == 0
+    assert mock_send_email.call_count == 2
+
+    former_email_referent = mock_send_email.call_args_list[0]
+    assert former_email_referent.kwargs["to"] == professional_edith_orial.email
+    assert former_email_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
+
+    email_new_referent = mock_send_email.call_args_list[1]
+    assert email_new_referent.kwargs["to"] == professional_paul_camara.email
+    assert email_new_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
+
+    verify(
+        {
+            "former_email_referent": former_email_referent.kwargs["message"],
+            "email_new_referent": email_new_referent.kwargs["message"],
+        }
+    )
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -404,7 +419,22 @@ async def test_send_email_to_members_without_orientation_request(
         headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
-    assert mock_send_email.call_count == 0
+    assert mock_send_email.call_count == 2
+
+    former_email_referent = mock_send_email.call_args_list[0]
+    assert former_email_referent.kwargs["to"] == professional_pierre_chevalier.email
+    assert former_email_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
+
+    email_new_referent = mock_send_email.call_args_list[1]
+    assert email_new_referent.kwargs["to"] == professional_paul_camara.email
+    assert email_new_referent.kwargs["subject"] == "Réorientation d’un bénéficiaire"
+
+    verify(
+        {
+            "former_email_referent": former_email_referent.kwargs["message"],
+            "email_new_referent": email_new_referent.kwargs["message"],
+        }
+    )
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
@@ -427,7 +457,12 @@ async def test_send_email_to_members_first_orientation(
         headers={"Authorization": "Bearer " + giulia_diaby_jwt},
     )
     assert response.status_code == 200
-    assert mock_send_email.call_count == 0
+    assert mock_send_email.call_count == 1
+
+    email_new_referent = mock_send_email.call_args_list[0]
+    assert email_new_referent.kwargs["to"] == professional_paul_camara.email
+    assert email_new_referent.kwargs["subject"] == "Orientation d’un bénéficiaire"
+    verify(email_new_referent.kwargs["message"], extension=".html")
 
 
 @mock.patch("cdb.api.core.emails.send_mail")
