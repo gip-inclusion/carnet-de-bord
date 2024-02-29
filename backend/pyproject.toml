@@ -12,7 +12,7 @@ asyncpg = "0.27.0"
 chardet = "^5.0.0"
 colorama = "^0.4.4"
 dask = "2023.4.0"
-fastapi = "0.95.1"
+fastapi = "0.109.1"
 fastapi-asyncpg = "^1.0.1"
 gql = {extras = ["aiohttp"], version = "^3.4.0"}
 httpx = "0.24.0"
