@@ -136,7 +136,7 @@
 		"jsonwebtoken": "^9.0.0",
 		"jwt-decode": "^3.1.2",
 		"matomo-tracker": "^2.2.4",
-		"nodemailer": "^6.7.2",
+		"nodemailer": "^6.9.9",
 		"pino": "8.11.0",
 		"rasha": "^1.2.5",
 		"svelte-accessible-dialog": "^2.1.3",
