@@ -14,8 +14,8 @@ Vous devez au préalable avoir correctement installé les logiciels suivants :
 - [make](https://www.gnu.org/software/make/)
   - Il vient souvent pré-installé et est disponible sur les gestionnaires de paquets
 
-
 ### ASDF (alternative facultative)
+
 Pour faciliter l'installation des versions requises de `node`, `hasura-cli`, `poetry` et `python`, un fichier de configuration de l'outil [asdf](http://asdf-vm.com) a été créé (`.tool-versions`). Pour utiliser celui-ci, il suffit d'installer `asdf` puis ses plugins correspondants :
 
 ```bash
@@ -75,7 +75,7 @@ hasura --project ./hasura console
 Dans un troisième terminal :
 
 ```sh
-make start:app # démarrer le serveur de développement SvelteKit
+make start-app # démarrer le serveur de développement SvelteKit
 ```
 
 **6/** Configurer et démarrer l'API back-end métier
@@ -83,7 +83,7 @@ make start:app # démarrer le serveur de développement SvelteKit
 Dans un quatrième et dernier terminal
 
 ```sh
-make start:backend # démarre l'instance de serveur FastAPI
+make start-backend # démarre l'instance de serveur FastAPI
 ```
 
 **7/** Accéder aux applications & outils (cf. captures ci-dessous)
