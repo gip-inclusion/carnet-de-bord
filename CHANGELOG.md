@@ -1,3 +1,10 @@
+## [1.266.8](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.7...v1.266.8) (2024-04-16)
+
+
+### Bug Fixes
+
+* correction de typos dans la documentation d'installation ([#2097](https://github.com/gip-inclusion/carnet-de-bord/issues/2097)) ([7890628](https://github.com/gip-inclusion/carnet-de-bord/commit/7890628cec8f7a6f299880a81b5a63d5f2afb604))
+
 ## [1.266.7](https://github.com/gip-inclusion/carnet-de-bord/compare/v1.266.6...v1.266.7) (2024-02-29)
 
 
