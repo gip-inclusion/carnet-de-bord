@@ -5,7 +5,7 @@ description = ""
 authors = ["LionelB <lionel@lumographe.fr>"]
 
 [tool.poetry.dependencies]
-Jinja2 = "^3.1.2"
+Jinja2 = "^3.1.4"
 PyJWT = "^2.4.0"
 StrEnum = "^0.4.7"
 asyncpg = "0.27.0"
