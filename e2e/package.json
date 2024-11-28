@@ -24,7 +24,7 @@
 	},
 	"dependencies": {
 		"@codeceptjs/helper": "^2.0.1",
-		"@codeceptjs/ui": "^0.4.7",
+		"@codeceptjs/ui": "^0.7.7",
 		"@socialgouv/eslint-config-recommended": "^1.129.0",
 		"codeceptjs": "^3.4.1",
 		"eslint": "^7.32.0",
